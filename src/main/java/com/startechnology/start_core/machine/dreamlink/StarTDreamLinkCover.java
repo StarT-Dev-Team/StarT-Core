@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.cover.IUICover;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.common.cover.PumpCover;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -39,7 +40,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
 
     @Persisted
     private String network;
-    
+    private TickableSubscription addTickSubscription;
 
     public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier, int amperage) {
         super(definition, coverHolder, attachedSide);
@@ -55,17 +56,37 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.addDevice(this);;
+        addTickSubscription = this.coverHolder.subscribeServerTick(addTickSubscription, this::addToTreeSubscription);
+    }
+
+    protected void addToTreeSubscription() {
+        if (this.coverHolder.getOffsetTimer() % 5 == 0) {
+            var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
+
+            if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
+                if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
+                    UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
+                    StarTDreamLinkManager.addDevice(this, ownerUUID);
+                }
+            }
+        }
     }
 
     @Override
-    public void onRemoved() {
-        super.onRemoved();
+    public void onUnload() {
+        super.onUnload();
 
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.removeDevice(this);;
+        var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
+
+        if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
+            if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
+                UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
+                StarTDreamLinkManager.removeDevice(this, ownerUUID);
+            }
+        }
     }
 
     protected IEnergyContainer getEnergyContainer() {
