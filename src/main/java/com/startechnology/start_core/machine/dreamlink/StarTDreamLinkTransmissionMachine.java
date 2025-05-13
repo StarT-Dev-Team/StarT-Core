@@ -77,6 +77,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.range = range;
         this.checkDimension = checkDimension;
+        this.recieverCount = 0;
     }
 
     @Override
@@ -158,11 +159,13 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
             Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> machines;
 
+            UUID thisUUID = this.getHolder().getOwner().getUUID();
+
             // Get dream-link hatches
             if (this.range != -1)
-                machines = StarTDreamLinkManager.getDevices(x + range, z + range, x - range, z - range);
+                machines = StarTDreamLinkManager.getDevices(x + range, z + range, x - range, z - range, thisUUID);
             else
-                machines = StarTDreamLinkManager.getAllDevices();
+                machines = StarTDreamLinkManager.getAllDevices(thisUUID);
 
             machines = machines.filter(machine -> {
                     return machine.value().canRecieve(this, this.checkDimension);
