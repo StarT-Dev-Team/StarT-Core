@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -32,6 +33,7 @@ import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
@@ -53,6 +55,13 @@ import net.minecraft.world.phys.Vec3;
 import rx.Observable;
 
 public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
+
+/*
+     * As far as i can understand, the Managed Field Holder allows this class
+     * to persist/save data onto the world using NBT with the @Persisted field annotation
+     */
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkTransmissionMachine.class,
+        WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private EnergyContainerList inputHatches;
     protected ConditionalSubscriptionHandler tickSubscription;
@@ -386,5 +395,10 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Override
     public boolean isDreaming() {
         return this.inputHatches.getOutputPerSec() > 0;
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 }
