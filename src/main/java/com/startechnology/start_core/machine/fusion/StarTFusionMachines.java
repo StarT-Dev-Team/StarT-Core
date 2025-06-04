@@ -143,7 +143,7 @@ public class StarTFusionMachines {
                     .where('n', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.NORTH)
                     .where('U', GTMachines.FLUID_IMPORT_HATCH[tier], Direction.UP)
                     .where('X', GTMachines.FLUID_IMPORT_HATCH[tier], Direction.DOWN)
-                    .where('@', AuxiliaryBoostedFusionReactor.getParallelHatch(tier))
+                    .where('@', AuxiliaryBoostedFusionReactor.getParallelHatch(tier), Direction.SOUTH)
                     .where('B', AuxiliaryBoostedFusionReactor.getAuxiliaryCoilState(tier));
 
                 shapeInfos.add(baseBuilder.shallowCopy()

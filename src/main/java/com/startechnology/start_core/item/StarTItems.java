@@ -7,6 +7,7 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 import com.google.common.base.Preconditions;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;
@@ -17,6 +18,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.item.component.ThermalFluidStats;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -66,5 +68,6 @@ public class StarTItems {
 
     public static void init() {
         StarTBacteriaItems.init();
+        StarTDreamLinkCovers.init();
     }
 }

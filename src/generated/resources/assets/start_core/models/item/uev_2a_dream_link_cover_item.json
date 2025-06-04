@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "start_core:item/uev_2a_dream_link_cover_item"
+  }
+}

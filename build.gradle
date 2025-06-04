@@ -3,6 +3,8 @@ plugins {
     id "maven-publish"
 }
 
+
+
 base {
     archivesName = project.archives_base_name
 }
@@ -81,10 +83,11 @@ repositories {
         url = 'https://maven.parchmentmc.org'
     }
     maven {
-        // saps.dev Maven (KubeJS and Rhino)
-        url = "https://maven.saps.dev/minecraft"
+        // latvian Maven (KubeJS and Rhino)
+        url = "https://maven.latvian.dev/releases"
         content {
             includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
         }
     }
     maven { // Registrate
@@ -122,9 +125,27 @@ repositories {
             includeGroup "appeng"
         }
     }
+
+    maven {
+        url "https://maven.ftb.dev/releases"
+    }
+
+    maven { url "https://maven.covers1624.net" }
 }
 
 dependencies {
+    implementation('io.reactivex:rxjava:1.3.8')
+	forgeRuntimeLibrary('io.reactivex:rxjava:1.3.8')
+    include('io.reactivex:rxjava:1.3.8')
+
+    implementation('com.github.davidmoten:rtree:0.12')
+    forgeRuntimeLibrary('com.github.davidmoten:rtree:0.12')
+    include('com.github.davidmoten:rtree:0.12')
+
+    implementation('com.github.davidmoten:guava-mini:0.1.7')
+    forgeRuntimeLibrary('com.github.davidmoten:guava-mini:0.1.7')
+    include('com.github.davidmoten:guava-mini:0.1.7')
+
     minecraft "com.mojang:minecraft:$project.minecraft_version"
     forge "net.minecraftforge:forge:$project.minecraft_version-$project.forge_version"
     // layered mappings - Mojmap names, parchment and QM docs and parameters
@@ -137,17 +158,28 @@ dependencies {
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
 
+    modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
+    modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
     modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("appeng:appliedenergistics2-forge:15.3.3")
+    modImplementation("curse.maven:jade-324717:6106101")
+
+    modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
+    modRuntimeOnly("com.teamcofh:thermal_core:1.20.1-11.0.7+")
+    modRuntimeOnly("curse.maven:thermal-foundation-222880:5443583")
+    modRuntimeOnly("curse.maven:thermal-cultivation-271835:5372746")
+    modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
+    modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
+    modRuntimeOnly("curse.maven:cofh-core-69162:5374122")
+
 
     modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
-    
+    modRuntimeOnly("curse.maven:spark-361579:4738952")
     modRuntimeOnly ("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
-    modRuntimeOnly("curse.maven:jade-324717:6106101")
 
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))

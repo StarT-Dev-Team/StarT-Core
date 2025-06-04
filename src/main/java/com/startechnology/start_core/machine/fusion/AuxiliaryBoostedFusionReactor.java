@@ -2,7 +2,9 @@ package com.startechnology.start_core.machine.fusion;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.IFusionCasingType;
+import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -36,10 +38,10 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
         };
     }
 
-    public static Block getParallelHatch(int tier) {
+    public static MachineDefinition getParallelHatch(int tier) {
         return switch (tier) {
-            case GTValues.UHV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV].getBlock();
-            default -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV].getBlock();
+            case GTValues.UHV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV];
+            default -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV];
         };
     }
 
