@@ -33,15 +33,15 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-                List<NotifiableItemStackHandler> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .collect(Collectors.toList());
-    
+        List<NotifiableItemStackHandler> handlers = Objects
+            .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP),
+                    Collections::emptyList)
+            .stream()
+            .filter(NotifiableItemStackHandler.class::isInstance)
+            .map(NotifiableItemStackHandler.class::cast)
+            .filter(i -> i.getSlots() >= 1)
+            .collect(Collectors.toList());
+
         if (handlers.isEmpty()) return null;
 
         // Return for the first recipe found

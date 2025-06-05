@@ -68,6 +68,5 @@ public class StarTItems {
 
     public static void init() {
         StarTBacteriaItems.init();
-        StarTDreamLinkCovers.init();
     }
 }

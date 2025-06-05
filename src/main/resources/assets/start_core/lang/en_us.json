@@ -239,5 +239,15 @@
     "block.start_core.oneiric_relay": "Oneiric Relay",
     "block.start_core.daydream_spire": "Daydream Spire",
     "block.start_core.beacon_of_lucidity": "Beacon of Lucidity",
-    "block.start_core.paragon_of_the_veil": "§eParagon of the Veil"
+    "block.start_core.paragon_of_the_veil": "§eParagon of the Veil",
+
+    "start_core.recipe.temperature": "Temp: 🔥 %sMK",
+    "start_core.recipe.heating_fluid": "Fluid: §6{0}",
+
+    "material.start_core.emberheart_nectar": "§6Emberheart Nectar",
+    "material.start_core.flamewake_solvent": "§6Flamewake Solvent",
+    "material.start_core.igniferous_elixir": "§6Igniferous Elixir",
+    "material.start_core.blazing_phlogiston": "§6Blazing Phlogiston",
+    "behaviour.start_core.hellforge.input_heat": "§fAdds §l%sMK§r§f to the Hell Forge",
+    "behaviour.start_core.hellforge.max_heat": "§cMaximum temperature of this heating fluid is §l%sMK"
 }   

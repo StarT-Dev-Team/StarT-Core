@@ -1,14 +1,25 @@
 package com.startechnology.start_core.recipe;
 
+import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.GTSoundEntries;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
+import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.recipe.logic.BacteriaVatLogic;
 import com.startechnology.start_core.recipe.logic.BacterialDormantAwakeningLogic;
 import com.startechnology.start_core.recipe.logic.BacterialHydrocarbonHarvesterLogic;
 import com.startechnology.start_core.recipe.logic.BacterialRunicMutatorLogic;
+import com.startechnology.start_core.recipe.logic.HellForgeHeatingLogic;
+
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 
 public class StarTRecipeTypes {
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
@@ -29,6 +40,33 @@ public class StarTRecipeTypes {
         .setEUIO(IO.IN)
         .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType HELL_FORGE_RECIPES = GTRecipeTypes.register("hellforge", GTRecipeTypes.MULTIBLOCK)
+        .setMaxIOSize(0, 0, 8, 1)
+        .setEUIO(IO.IN)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .addCustomRecipeLogic(new HellForgeHeatingLogic())
+        .addDataInfo(data -> {
+            int temp = data.getInt("ebf_temp");
+
+            if (temp > 0) {
+                return LocalizationUtils.format("start_core.recipe.temperature", FormattingUtil.formatNumbers(temp));
+            }
+
+            return "";
+        })
+        .addDataInfo(data -> {
+            int temp = data.getInt("ebf_temp");
+            Material requiredFluid = StarTHellForgeMachine.getHellforgeHeatingLiquid(temp);
+
+            if (temp > 0) {
+                return Component.translatable("start_core.recipe.heating_fluid", requiredFluid.getLocalizedName().getString()).getString();
+            }
+
+            return "";
+        }).setUiBuilder((recipe, widgetGroup) -> {
+        })
+        .setSound(GTSoundEntries.FURNACE);
 
     public static final void init() {
         
