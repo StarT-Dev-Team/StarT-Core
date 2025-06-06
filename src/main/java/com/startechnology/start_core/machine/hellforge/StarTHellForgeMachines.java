@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.machine.bacteria.BacterialRunicMutator;
+import com.startechnology.start_core.recipe.StarTRecipeModifiers;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
@@ -26,6 +27,7 @@ public class StarTHellForgeMachines {
     
     public static final MultiblockMachineDefinition HELL_FORGE = START_REGISTRATE
         .multiblock("hellforge", StarTHellForgeMachine::new)
+        .appearanceBlock(() -> ForgeRegistries.BLOCKS.getValue(KubeJS.id("extreme_temperature_smelting_casing")))
         .langValue("Hell Forge")
         .tooltips(
             Component.translatable("block.start_core.hellforge_multiblock_line"),
@@ -37,9 +39,14 @@ public class StarTHellForgeMachines {
             Component.translatable("block.start_core.hellforge_d2"),
             Component.literal(""),
             Component.translatable("block.start_core.hellforge_d3"),
+            Component.literal(""),
+            Component.translatable("block.start_core.hellforge_d4"),
+            Component.literal(""),
+            Component.translatable("block.start_core.hellforge_d5"),
+            Component.translatable("block.start_core.hellforge_d6"),
             Component.translatable("block.start_core.breaker_line")
         )
-        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
+        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC)
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
         .pattern(definition -> FactoryBlockPattern.start()

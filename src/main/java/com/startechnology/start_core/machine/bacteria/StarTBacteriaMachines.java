@@ -23,6 +23,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class StarTBacteriaMachines {
         public static final MultiblockMachineDefinition BACTERIAL_BREEDING_VAT = START_REGISTRATE
         .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
+        .appearanceBlock(() -> ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
         .langValue("Bacterial Breeding Vat")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -70,6 +71,7 @@ public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
         .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
+        .appearanceBlock(() -> ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
         .langValue("Bacterial Runic Mutator")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -120,6 +122,7 @@ public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
         .multiblock("bacterial_hydrocarbon_harvester", WorkableElectricMultiblockMachine::new)
+        .appearanceBlock(() -> ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
         .langValue("Bacterial Hydrocarbon Harvester")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),

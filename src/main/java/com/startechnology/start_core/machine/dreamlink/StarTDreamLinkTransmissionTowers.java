@@ -36,6 +36,7 @@ public class StarTDreamLinkTransmissionTowers {
                 Component.literal(""),
                 Component.translatable("start_core.machine.dream_link_tower.node_info")
             )
+            .appearanceBlock(() -> ForgeRegistries.BLOCKS.getValue(KubeJS.id("superalloy_casing")))
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .workableCasingRenderer(KubeJS.id("block/casings/superalloy_casing"),
                 StarTCore.resourceLocation("block/dreamlink/" + name), false)    

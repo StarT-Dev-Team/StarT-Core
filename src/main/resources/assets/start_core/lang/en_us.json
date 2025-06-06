@@ -259,5 +259,9 @@
     "block.start_core.hellforge_d0": "§6Hadean Crucible:",
     "block.start_core.hellforge_d1": "§7The hell forge utilises the crucible to alloy materials together at an extreme temperature, but the Heart of the Flame cannot heat the crucible itself.",
     "block.start_core.hellforge_d2": "§7Provide different §cHeating Fluids §7to the hell forge to heat up the crucible. Each fluid has a maximum temperature that it can heat the crucible to.",
-    "block.start_core.hellforge_d3": "§7The hell forge loses §920MK §7of its heat every second."
+    "block.start_core.hellforge_d3": "§7The hell forge will always lose §91MK §7of its heat every second.",
+    "block.start_core.hellforge_d4": "§7When dormant the hell forge loses an additional §910MK§7 per second.",
+    "block.start_core.hellforge_d5": "§6Infernal Parallelisation:",
+    "block.start_core.hellforge_d6": "§7For every n §c900MK§7 over the recipe requirement, the hell forge gains 4^n parallels.",
+    "ui.start_core.hellforge_crucible": "§6Crucible Temp: §c{0}MK"
 }   
