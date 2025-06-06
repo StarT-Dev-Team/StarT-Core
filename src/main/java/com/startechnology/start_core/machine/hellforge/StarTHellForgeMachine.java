@@ -8,6 +8,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
 public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
+    // Holder
+    
+
     public StarTHellForgeMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }

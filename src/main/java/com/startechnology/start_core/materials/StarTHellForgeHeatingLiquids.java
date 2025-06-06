@@ -14,7 +14,8 @@ public class StarTHellForgeHeatingLiquids {
     public static Material IgniferousElixir;
     public static Material EmberheartNectar;
     public static Material FlamewakeSolvent;
-    
+    public static Material InfernalTar;
+
     public static void register() {
         BlazingPhlogiston = new Material.Builder(StarTCore.resourceLocation("blazing_phlogiston"))
             .liquid(new FluidBuilder().temperature(125_000_000))
@@ -40,6 +41,13 @@ public class StarTHellForgeHeatingLiquids {
         FlamewakeSolvent = new Material.Builder(StarTCore.resourceLocation("flamewake_solvent"))
             .liquid(new FluidBuilder().temperature(50_000_000))
             .color(0xFF9933)
+            .formula("🔥")
+            .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+            .buildAndRegister();
+
+        InfernalTar = new Material.Builder(StarTCore.resourceLocation("infernal_tar"))
+            .liquid(new FluidBuilder().temperature(50_000))
+            .color(0x3e0000)
             .formula("🔥")
             .flags(MaterialFlags.DISABLE_DECOMPOSITION)
             .buildAndRegister();

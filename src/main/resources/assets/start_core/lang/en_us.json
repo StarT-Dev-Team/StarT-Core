@@ -245,9 +245,19 @@
     "start_core.recipe.heating_fluid": "Fluid: §6{0}",
 
     "material.start_core.emberheart_nectar": "§6Emberheart Nectar",
+    "material.start_core.infernal_tar": "§8Infernal Tar",
     "material.start_core.flamewake_solvent": "§6Flamewake Solvent",
     "material.start_core.igniferous_elixir": "§6Igniferous Elixir",
     "material.start_core.blazing_phlogiston": "§6Blazing Phlogiston",
-    "behaviour.start_core.hellforge.input_heat": "§fAdds §l%sMK§r§f to the Hell Forge",
-    "behaviour.start_core.hellforge.max_heat": "§cMaximum temperature of this heating fluid is §l%sMK"
+    "behaviour.start_core.hellforge.input_heat": "§fAdds §l%sMK§r§f to the Hadean Crucible",
+    "behaviour.start_core.hellforge.max_heat": "§cMaximum temperature of this heating fluid is §l%sMK",
+    "gtceu.recipe.category.hellforge_heating": "§6Hadean Crucible Heating",
+    "gtceu.hellforge": "§6Infernal Forging",
+    "block.start_core.hellforge": "§6Hell Forge",
+    "block.start_core.hellforge_multiblock_line": "§c§lDomain of Infernal Reckoning",
+    "block.start_core.hellforge_description": "§7A towering infernal crucible that harnesses the Heart of the Flame to fuel its relentless fires, demanding fluid offerings to awaken its molten fury.",
+    "block.start_core.hellforge_d0": "§6Hadean Crucible:",
+    "block.start_core.hellforge_d1": "§7The hell forge utilises the crucible to alloy materials together at an extreme temperature, but the Heart of the Flame cannot heat the crucible itself.",
+    "block.start_core.hellforge_d2": "§7Provide different §cHeating Fluids §7to the hell forge to heat up the crucible. Each fluid has a maximum temperature that it can heat the crucible to.",
+    "block.start_core.hellforge_d3": "§7The hell forge loses §920MK §7of its heat every second."
 }   

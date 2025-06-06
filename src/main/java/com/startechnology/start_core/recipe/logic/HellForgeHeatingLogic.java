@@ -56,6 +56,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                     GTRecipe heatingRecipe = StarTRecipeTypes.HELL_FORGE_RECIPES
                         .recipeBuilder(material.getName() + "_hellforge_heating")
                         .inputFluids(heatingFluidInput)
+                        .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(1))
                         .duration(60)
                         .EUt(GTValues.V[GTValues.UEV])
                         .buildRawRecipe();
@@ -104,6 +105,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                     return StarTRecipeTypes.HELL_FORGE_RECIPES
                         .recipeBuilder("heating")
                         .inputFluids(fluidInput)
+                        .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(1))
                         .duration(60)
                         .EUt(GTValues.V[GTValues.UEV])
                         .buildRawRecipe();
