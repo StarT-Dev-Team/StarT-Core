@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
@@ -41,7 +42,8 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    private Integer temperature;
+    protected Integer temperature;
+
     protected TickableSubscription tryTickSub;
     private boolean startHeatLoss;
 
@@ -107,7 +109,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
 
         return selectedFluid; // May be null if no suitable fluid is found
     }
-
+    
     public static ManagedFieldHolder getManagedFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
