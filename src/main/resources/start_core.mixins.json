@@ -7,7 +7,8 @@
     "ResearchManagerDataItemMixin",
     "CustomStackTooltipsHandlerMixin",
     "FusionEnergyPowerMixin",
-    "ConverterRendererMixin"
+    "ConverterRendererMixin",
+    "ParallelHatchPartMachineMixin"
   ],
   "client": [
   ],
