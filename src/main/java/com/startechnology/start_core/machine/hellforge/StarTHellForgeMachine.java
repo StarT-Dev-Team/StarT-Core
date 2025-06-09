@@ -110,7 +110,8 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         return selectedFluid; // May be null if no suitable fluid is found
     }
     
-    public static ManagedFieldHolder getManagedFieldHolder() {
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
 
