@@ -104,11 +104,7 @@ public class WireRecipeHandlerMixin {
             if (voltageTier >= LuV) {
                 builder.inputItems(foil, PolyphenyleneSulfide, insulationAmount);
             }
-
-            // Apply Polyamide Foil if UHV or above.
-            if (voltageTier >= UHV) {
-                builder.inputItems(foil, get("polyimide"), insulationAmount);
-            }
+            
             builder.inputFluids(SiliconeRubber.getFluid(L * insulationAmount / 2))
                     .save(provider);
         }
