@@ -1,8 +1,5 @@
 package com.startechnology.start_core.recipe;
 
-import java.util.Optional;
-
-import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -10,7 +7,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.llamalad7.mixinextras.lib.apache.commons.ObjectUtils.Null;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 
 public class StarTRecipeModifiers {
@@ -32,4 +29,6 @@ public class StarTRecipeModifiers {
         }
         return ModifierFunction.IDENTITY;
     }
+
+    public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
 }
