@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.bacteria.BacterialRunicMutator;
 import com.startechnology.start_core.recipe.StarTRecipeModifiers;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -71,7 +72,8 @@ public class StarTHellForgeMachines {
                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(0))
                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(0))
                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(0))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                .or(Predicates.abilities(StarTPartAbility.REDSTONE_OUTPUT_INTERFACE).setExactLimit(1)))
             .where("F", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
             .where("G", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
             .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("hydronalium_casing"))))

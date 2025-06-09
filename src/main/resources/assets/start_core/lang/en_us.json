@@ -264,5 +264,10 @@
     "block.start_core.hellforge_d5": "§6Infernal Parallelisation:",
     "block.start_core.hellforge_d6": "§7For every n §c900MK§7 over the recipe requirement, the hell forge gains 4^n parallels.",
     "ui.start_core.hellforge_crucible": "§6Crucible Temp: §c{0}MK",
-    "config.jade.plugin_start_core.hellforge_heat_info": "[Star Technology] Hell Forge Crucible Temp"
+    "config.jade.plugin_start_core.hellforge_heat_info": "[Star Technology] Hell Forge Crucible Temp",
+
+    "block.start_core.redstone_out_hatch": "§cRedstone §rOutput Interface",
+    "block.start_core.redstone_in_hatch": "§cRedstone §rInput Interface",
+    "start_core.redstone_hatch.d0": "Provides redstone interfacing capabilities with the multiblock",
+    "start_core.redstone_hatch.d1": "§6Functionality depends on the multiblock to interface with"
 }   

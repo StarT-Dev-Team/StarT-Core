@@ -3,6 +3,8 @@ package com.startechnology.start_core.machine.hellforge;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -27,6 +29,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
@@ -48,12 +51,16 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
     private boolean startHeatLoss;
 
     private boolean isWorking;
+    protected StarTRedstoneInterfacePartMachine redstoneOutputHatch;
+    private Integer previousTemp;
 
     public StarTHellForgeMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.temperature = 0;
+        this.previousTemp = 0;
         this.startHeatLoss = false;
         this.isWorking = false;
+        this.redstoneOutputHatch = null;
     }
 
     /* A map of fluids to their maximum heat cap for the Hell Forge */
@@ -69,6 +76,10 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
         this.isWorking = false;
         this.startHeatLoss = true;
+
+        // Find output redstone if it exists
+        Optional<IMultiPart> redstoneOutput = this.getParts().stream().filter(StarTRedstoneInterfacePartMachine.class::isInstance).findFirst();
+        redstoneOutput.ifPresent(part -> this.redstoneOutputHatch = (StarTRedstoneInterfacePartMachine)part);
     }
 
     @Override
@@ -146,6 +157,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
                 this.temperature = Math.max(this.temperature - 10, 0);
 
             this.temperature = Math.max(this.temperature - 1, 0);
+            this.temperatureChanged();
         }
     }
 
@@ -158,6 +170,27 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         }
 
         return isWorking;
+    }
+
+    private void temperatureChanged() {
+        // Prevent unnecessary updates from yoinkrt tps
+        if (this.temperature == this.previousTemp) return;
+        this.previousTemp = temperature;
+
+        if (Objects.isNull(this.redstoneOutputHatch)) return;
+
+        // Find next maximum
+        Integer nextCap = fluidsMap.get(getHellforgeHeatingLiquid(this.temperature));
+
+        // % of maximum
+        double percentNext = (( this.temperature - nextCap ) + 900) / 900.0;
+
+        // Redstone max signal strength is 15
+        percentNext *= 15;
+
+        // Floor
+        Integer signalStrength = (int)Math.floor(percentNext);
+        this.redstoneOutputHatch.setCurrentSignal(signalStrength);
     }
 
     @Override
@@ -181,6 +214,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
 
                 Integer amountToAdd = (int) Math.floor(ingredientFluid.getAmount() / 1000);
                 this.temperature = Math.min(temperature + addTemperature * amountToAdd, maxHeat);
+                this.temperatureChanged();
             }
         }
     }

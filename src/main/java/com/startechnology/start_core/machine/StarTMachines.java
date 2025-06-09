@@ -8,6 +8,7 @@ import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 
 public class StarTMachines {
 
@@ -21,5 +22,6 @@ public class StarTMachines {
         StarTDreamLinkHatches.init();
         StarTDreamLinkTransmissionTowers.init();
         StarTHellForgeMachines.init();
+        StarTRedstoneInterfaces.init();
     }
 }
