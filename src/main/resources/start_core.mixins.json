@@ -8,7 +8,8 @@
     "CustomStackTooltipsHandlerMixin",
     "FusionEnergyPowerMixin",
     "ConverterRendererMixin",
-    "ParallelHatchPartMachineMixin"
+    "ParallelHatchPartMachineMixin",
+    "WireRecipeHandlerMixin"
   ],
   "client": [
   ],
