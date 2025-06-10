@@ -9,7 +9,8 @@
     "FusionEnergyPowerMixin",
     "ConverterRendererMixin",
     "ParallelHatchPartMachineMixin",
-    "WireRecipeHandlerMixin"
+    "WireRecipeHandlerMixin",
+    "MaterialRecipeHandlerMixin"
   ],
   "client": [
   ],
