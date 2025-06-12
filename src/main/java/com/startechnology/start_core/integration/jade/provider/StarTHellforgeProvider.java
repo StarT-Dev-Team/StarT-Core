@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,43 +25,37 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<IStarTDreamLinkNetworkMachine> {
+public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellForgeMachine> {
 
-    public StarTDreamLinkNetworkBlockProvider() {
-        super(StarTCore.resourceLocation("dream_link_network_info"));
+    public StarTHellforgeProvider() {
+        super(StarTCore.resourceLocation("hellforge_heat_info"));
     }
 
     @Override
-    protected @Nullable IStarTDreamLinkNetworkMachine getCapability(Level level, BlockPos pos,
+    protected @Nullable StarTHellForgeMachine getCapability(Level level, BlockPos pos,
             @Nullable Direction side) {
-        var capability = StarTCapabilityHelper.getDreamLinkNetworkMachine(level, pos, side);
+        var capability = StarTCapabilityHelper.getHellforgeMachine(level, pos, side);
 
         if (capability != null)
             return capability;
-
+            
         return null;
     }
 
     /* Used for storing data for the addTooltip method ? */
     @Override
-    protected void write(CompoundTag data, IStarTDreamLinkNetworkMachine capability) {
-        data.putString("network", capability.getNetwork());
-        data.putBoolean("dreaming", capability.isDreaming());
+    protected void write(CompoundTag data, StarTHellForgeMachine capability) {
+        data.putInt("temperature", capability.getCrucibleTemperature());
     }
 
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
             BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("network") && capData.contains("dreaming"))
+        if (capData.contains("temperature"))
         {
-            String network = capData.getString("network");
-            Boolean dreaming = capData.getBoolean("dreaming");
-
-            if (dreaming)
-                tooltip.add(Component.translatable("start_core.machine.dream_link.active_network", network));
-            else
-                tooltip.add(Component.translatable("start_core.machine.dream_link.inactive_network", network));
+            Integer temperature = capData.getInt("temperature");
+            tooltip.add(Component.translatable("ui.start_core.hellforge_crucible", temperature));
         }
     }
     

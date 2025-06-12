@@ -1,10 +1,10 @@
 package com.startechnology.start_core.recipe;
 import java.util.function.Consumer;
 
-import com.startechnology.start_core.recipe.categories.AkreyriumLine;
-import com.startechnology.start_core.recipe.categories.DrumRecipes;
-import com.startechnology.start_core.recipe.categories.FluidCellRecipes;
-import com.startechnology.start_core.recipe.categories.ResetNBT;
+import com.startechnology.start_core.recipe.recipes.AkreyriumLine;
+import com.startechnology.start_core.recipe.recipes.DrumRecipes;
+import com.startechnology.start_core.recipe.recipes.FluidCellRecipes;
+import com.startechnology.start_core.recipe.recipes.ResetNBT;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 

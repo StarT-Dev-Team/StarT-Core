@@ -1,4 +1,4 @@
-package com.startechnology.start_core.recipe.categories;
+package com.startechnology.start_core.recipe.recipes;
 
 import java.util.function.Consumer;
 

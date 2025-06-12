@@ -5,11 +5,14 @@ import java.util.Arrays;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
+import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import mezz.jei.api.IModPlugin;
@@ -38,6 +41,11 @@ public class StarTJeiPlugin implements IModPlugin {
 
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_RUNIC_MUTATOR.asStack(), 
             GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.getCategory())
+        );
+
+        registration.addRecipeCatalyst(StarTHellForgeMachines.HELL_FORGE.asStack(), 
+            GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
+            GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
         );
 
         Arrays.asList(StarTFusionMachines.AUXILIARY_BOOSTED_FUSION_REACTOR).forEach(

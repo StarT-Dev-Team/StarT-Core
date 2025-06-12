@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +20,18 @@ public class StarTCapabilityHelper {
         if (capability == StarTCapability.CAPABILITY_DREAM_LINK_NETWORK_MACHINE) {
             if (machine instanceof IStarTDreamLinkNetworkMachine dreamLinkNetworkMachine) {
                 return StarTCapability.CAPABILITY_DREAM_LINK_NETWORK_MACHINE.orEmpty(capability, LazyOptional.of(() -> dreamLinkNetworkMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_HELL_FORGE_MACHINE) {
+            if (machine instanceof StarTHellForgeMachine hellforgeMachine) {
+                return StarTCapability.CAPABILITY_HELL_FORGE_MACHINE.orEmpty(capability, LazyOptional.of(() -> hellforgeMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_REDSTONE_INTERFACE) {
+            if (machine instanceof StarTRedstoneInterfacePartMachine redstoneMachine) {
+                return StarTCapability.CAPABILITY_REDSTONE_INTERFACE.orEmpty(capability, LazyOptional.of(() -> redstoneMachine));
             }
         }
 
@@ -40,5 +54,15 @@ public class StarTCapabilityHelper {
     @Nullable
     public static IStarTDreamLinkNetworkMachine getDreamLinkNetworkMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_DREAM_LINK_NETWORK_MACHINE, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTRedstoneInterfacePartMachine getRedstoneInterfacePartMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_REDSTONE_INTERFACE, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTHellForgeMachine getHellforgeMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_HELL_FORGE_MACHINE, level, pos, side);
     }
 }

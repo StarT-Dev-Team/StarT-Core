@@ -14,6 +14,10 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 
+import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.registries.ForgeRegistries;
+
 public class StarTMachineUtils {
     
     public static MultiblockMachineDefinition[] registerTieredMultis(String name,
@@ -44,5 +48,9 @@ public class StarTMachineUtils {
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;
+    }
+
+    public static Block getKjsBlock(String block) {
+        return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
     }
 }

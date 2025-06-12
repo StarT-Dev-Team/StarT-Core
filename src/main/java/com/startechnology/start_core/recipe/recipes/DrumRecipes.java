@@ -1,4 +1,4 @@
-package com.startechnology.start_core.recipe.categories;
+package com.startechnology.start_core.recipe.recipes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;

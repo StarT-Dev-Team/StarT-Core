@@ -12,6 +12,8 @@ import com.gregtechceu.gtceu.client.renderer.machine.ConverterRenderer;
 
 @Mixin(ConverterRenderer.class)
 public abstract class ConverterRendererMixin {
+
+    
     @Inject(method = "<init>", at = @At("TAIL"))
     private void injectConstructor(int tier, int baseAmp, CallbackInfo ci) {
         if (baseAmp == 64) {

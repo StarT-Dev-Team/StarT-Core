@@ -5,8 +5,10 @@ import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatches;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionTowers;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 
 public class StarTMachines {
 
@@ -19,5 +21,7 @@ public class StarTMachines {
         StarTDrumMachines.init();
         StarTDreamLinkHatches.init();
         StarTDreamLinkTransmissionTowers.init();
+        StarTHellForgeMachines.init();
+        StarTRedstoneInterfaces.init();
     }
 }

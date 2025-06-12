@@ -13,7 +13,9 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 import dev.latvian.mods.kubejs.KubeJS;
@@ -23,6 +25,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class StarTBacteriaMachines {
         public static final MultiblockMachineDefinition BACTERIAL_BREEDING_VAT = START_REGISTRATE
         .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
+        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
         .langValue("Bacterial Breeding Vat")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -51,7 +54,7 @@ public class StarTBacteriaMachines {
             .aisle(" FFKKKFF ", " T KKK T ", " T KKK T ", " TTKKKTT ", "   KKK   ", "   KCK   ", "   KKK   ", "   KKK   "," KK   KK ")
             .aisle("  FFFFF  ", "    T    ", "    T    ", "  TTTTT  ", "         ", "         ", "         ", "         ","  KKKKK  ")
             .where("C", Predicates.controller(Predicates.blocks(definition.get())))
-            .where("K", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
+            .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock(("peek_casing")))
                 .setMinGlobalLimited(172)
                 .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
@@ -70,6 +73,7 @@ public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
         .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
+        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
         .langValue("Bacterial Runic Mutator")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -99,7 +103,7 @@ public class StarTBacteriaMachines {
             .aisle("   KKKKK   ","   KK#KK   ","           ","           ","           ","           ","           ","           ","           ","           ","           ","           ","           ")
 
             .where("#", Predicates.controller(Predicates.blocks(definition.get())))
-            .where("K", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
+            .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock(("peek_casing")))
                 .setMinGlobalLimited(96)
                 .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
@@ -120,6 +124,7 @@ public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
         .multiblock("bacterial_hydrocarbon_harvester", WorkableElectricMultiblockMachine::new)
+        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
         .langValue("Bacterial Hydrocarbon Harvester")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -145,7 +150,7 @@ public class StarTBacteriaMachines {
             .aisle("HKKKH", "K   K", " KKK ", " KMK ", " KKK ", "K P K", "XSSSX")
             .aisle("THHHT", "TKCKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
             .where("C", Predicates.controller(Predicates.blocks(definition.get())))
-            .where("K", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("peek_casing")))
+            .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock(("peek_casing")))
                 .setMinGlobalLimited(38)
                 .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))

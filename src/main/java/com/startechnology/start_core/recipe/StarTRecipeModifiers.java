@@ -1,13 +1,21 @@
 package com.startechnology.start_core.recipe;
 
+import java.util.Optional;
+
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 
 public class StarTRecipeModifiers {
@@ -28,6 +36,37 @@ public class StarTRecipeModifiers {
                 .build();
         }
         return ModifierFunction.IDENTITY;
+    }
+
+    public static final RecipeModifier HELL_FORGE_OC = StarTRecipeModifiers::hellforgeOverclock;
+
+    public static ModifierFunction hellforgeOverclock(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof StarTHellForgeMachine coilMachine)) {
+            return RecipeModifier.nullWrongType(StarTHellForgeMachine.class, machine);
+        }
+
+        int hellforgeTemp = coilMachine.getCrucibleTemperature();
+
+        int recipeTemp = recipe.data.getInt("ebf_temp");
+        if (!recipe.data.contains("ebf_temp")) {
+            return ModifierFunction.IDENTITY;
+        }
+
+        if (recipeTemp > hellforgeTemp) {
+            return ModifierFunction.NULL;
+        }
+
+        if (RecipeHelper.getRecipeEUtTier(recipe) > coilMachine.getTier()) {
+            return ModifierFunction.NULL;
+        }
+
+        var diffOverAmount =  Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900)));
+
+        var discount = ModifierFunction.builder()
+                .parallels((int)diffOverAmount)
+                .build();
+
+        return discount;
     }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;

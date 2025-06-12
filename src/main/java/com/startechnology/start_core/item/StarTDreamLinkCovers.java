@@ -51,9 +51,7 @@ public class StarTDreamLinkCovers {
         );
 
         /* Unfreeze to allow adding */
-        GTRegistries.COVERS.unfreeze();
         GTRegistries.COVERS.register(coverDefResLocation, definition);
-        GTRegistries.COVERS.freeze();
 
         return START_REGISTRATE.item(GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_dream_link_cover_item", ComponentItem::create)
             .lang(GTValues.VNF[tier] + "§r " + FormattingUtil.formatNumbers(amperage) + "§eA§r Dream-Link Energy Cover")

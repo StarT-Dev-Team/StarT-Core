@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.fusion.AuxiliaryBoostedFusionReactor;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
@@ -36,6 +37,7 @@ public class StarTDreamLinkTransmissionTowers {
                 Component.literal(""),
                 Component.translatable("start_core.machine.dream_link_tower.node_info")
             )
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("superalloy_casing")))
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .workableCasingRenderer(KubeJS.id("block/casings/superalloy_casing"),
                 StarTCore.resourceLocation("block/dreamlink/" + name), false)    
@@ -73,9 +75,9 @@ public class StarTDreamLinkTransmissionTowers {
                 .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####D#####") 
                 .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
                 .where("#", Predicates.any())
-                .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("superalloy_casing")))
+                .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                     .or(Predicates.abilities(PartAbility.INPUT_LASER)))
-                .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("enriched_naquadah_machine_casing"))))
+                .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock(("enriched_naquadah_machine_casing"))))
                 .where("D", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:hsla_steel"))))
                 .where("E", Predicates.blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                 .where("F", Predicates.blocks(GTBlocks.FUSION_COIL.get()))
@@ -100,9 +102,9 @@ public class StarTDreamLinkTransmissionTowers {
                 .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####F#####", "#####E#####", "#####D#####", "###########", "###########") 
                 .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
                 .where("#", Predicates.any())
-                .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("superalloy_casing")))
+                .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                         .or(Predicates.abilities(PartAbility.INPUT_LASER)))
-                .where("C", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("enriched_naquadah_machine_casing"))))
+                .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock(("enriched_naquadah_machine_casing"))))
                 .where("D", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:hsla_steel"))))
                 .where("E", Predicates.blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                 .where("F", Predicates.blocks(GTBlocks.FUSION_COIL.get()))
@@ -129,12 +131,12 @@ public class StarTDreamLinkTransmissionTowers {
                 .aisle("##BBFFFBB##", "###########", "#####C#####", "#####D#####", "#####C#####", "###########", "###########", "###########", "#####C#####", "#####D#####", "#C###E###C#", "#D#######D#", "#E#######E#", "#D#######D#", "#C#######C#") 
                 .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "#####C#####", "#####D#####", "#####E#####", "#####D#####", "#####C#####") 
                 .where("#", Predicates.any())
-                .where("B", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("superalloy_casing")))
+                .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                         .or(Predicates.abilities(PartAbility.INPUT_LASER)))
                 .where("C", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:hsla_steel"))))
                 .where("D", Predicates.blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                 .where("E", Predicates.blocks(GTBlocks.FUSION_COIL.get()))
-                .where("F", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(KubeJS.id("enriched_naquadah_machine_casing"))))
+                .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock(("enriched_naquadah_machine_casing"))))
                 .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
                 .where("H", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.of("thermal:lumium_glass", ':')))) // replace with gtceu/kubejs block if needed
                 .where("I", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.of("thermal:signalum_glass", ':')))) // replace with gtceu/kubejs block if needed

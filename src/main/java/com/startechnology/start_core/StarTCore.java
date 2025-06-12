@@ -11,12 +11,15 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProp
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
+import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import net.minecraft.resources.ResourceLocation;
@@ -53,6 +56,7 @@ public class StarTCore {
         modEventBus.addListener(this::modifyMaterials);
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        modEventBus.addGenericListener(GTRecipeCategory.class, this::registerRecipeCategories);
         START_REGISTRATE.registerRegistrate();
 
         // Most other events are fired on Forge's bus.
@@ -75,7 +79,7 @@ public class StarTCore {
 
     // As well as this.
     private void addMaterials(MaterialEvent event) {
-        //CustomMaterials.init();
+        StarTMaterials.register();
     }
 
     // This is optional, though.
@@ -92,6 +96,10 @@ public class StarTCore {
         // Modify Electric blast furnace to have two outputs
         GTRecipeTypes.BLAST_RECIPES.setMaxIOSize(3, 3, 3, 3);
         StarTRecipeTypes.init();
+    }
+
+    private void registerRecipeCategories(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeCategory> event) {
+        StarTRecipeCategories.init();
     }
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
