@@ -38,14 +38,7 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
 
         if (capability != null)
             return capability;
-
-        if (MetaMachine.getMachine(level, pos) instanceof IMultiController controller) {
-            for (var part : controller.getParts()) {
-                if (part instanceof StarTHellForgeMachine hellForgeMachine) {
-                    return hellForgeMachine;
-                }
-            }
-        }
+            
         return null;
     }
 

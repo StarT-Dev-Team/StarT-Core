@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
 
 public class StarTRedstoneInterfaces {
 
-    public static final Integer REDSTONE_INTERFACE_TIER = GTValues.UEV;
+    public static final Integer REDSTONE_INTERFACE_TIER = GTValues.LuV;
 
     public static Function<IMachineBlockEntity, MetaMachine> getHolder(
         IO io
@@ -43,15 +43,9 @@ public class StarTRedstoneInterfaces {
             .tier(REDSTONE_INTERFACE_TIER);
     }
 
-    public static final MachineDefinition REDSTONE_IN_HATCH = buildRedstoneHatch("redstone_in_hatch", IO.IN)
-        .abilities(StarTPartAbility.REDSTONE_INPUT_INTERFACE)
-        .workableTieredHullRenderer(StarTCore.resourceLocation("block/redstone/redstone_in"))
-        .register();
-
-    public static final MachineDefinition REDSTONE_OUT_HATCH = buildRedstoneHatch("redstone_out_hatch", IO.OUT)
-        .abilities(StarTPartAbility.REDSTONE_OUTPUT_INTERFACE)
+    public static final MachineDefinition REDSTONE_VARIADIC_INTERFACE = buildRedstoneHatch("redstone_variadic_interface", IO.IN)
         .workableTieredHullRenderer(StarTCore.resourceLocation("block/redstone/redstone_out"))
         .register();
-
+        
     public static void init() {}
 }

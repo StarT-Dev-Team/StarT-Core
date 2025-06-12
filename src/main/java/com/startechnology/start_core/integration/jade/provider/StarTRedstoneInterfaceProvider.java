@@ -10,6 +10,8 @@ import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,16 +26,16 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<IStarTDreamLinkNetworkMachine> {
+public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<StarTRedstoneInterfacePartMachine> {
 
-    public StarTDreamLinkNetworkBlockProvider() {
-        super(StarTCore.resourceLocation("dream_link_network_info"));
+    public StarTRedstoneInterfaceProvider() {
+        super(StarTCore.resourceLocation("variadic_redstone_info"));
     }
 
     @Override
-    protected @Nullable IStarTDreamLinkNetworkMachine getCapability(Level level, BlockPos pos,
+    protected @Nullable StarTRedstoneInterfacePartMachine getCapability(Level level, BlockPos pos,
             @Nullable Direction side) {
-        var capability = StarTCapabilityHelper.getDreamLinkNetworkMachine(level, pos, side);
+        var capability = StarTCapabilityHelper.getRedstoneInterfacePartMachine(level, pos, side);
 
         if (capability != null)
             return capability;
@@ -43,24 +45,24 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
 
     /* Used for storing data for the addTooltip method ? */
     @Override
-    protected void write(CompoundTag data, IStarTDreamLinkNetworkMachine capability) {
-        data.putString("network", capability.getNetwork());
-        data.putBoolean("dreaming", capability.isDreaming());
+    protected void write(CompoundTag data, StarTRedstoneInterfacePartMachine capability) {
+        data.putInt("signal_level", capability.getCurrentSignal());
+        data.putString("indicator", capability.getCurrentIndicator());
     }
 
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
             BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("network") && capData.contains("dreaming"))
+        if (capData.contains("signal_level") && capData.contains("indicator"))
         {
-            String network = capData.getString("network");
-            Boolean dreaming = capData.getBoolean("dreaming");
+            Integer signal_level = capData.getInt("signal_level");
+            String indicator = capData.getString("indicator");
+            tooltip.add(Component.translatable("ui.start_core.redstone_signal", signal_level));
 
-            if (dreaming)
-                tooltip.add(Component.translatable("start_core.machine.dream_link.active_network", network));
-            else
-                tooltip.add(Component.translatable("start_core.machine.dream_link.inactive_network", network));
+            if (indicator != StarTRedstoneInterfacePartMachine.DEFAULT_INDICATOR) {
+                tooltip.add(Component.translatable("ui.start_core.indicator", indicator));
+            }
         }
     }
     

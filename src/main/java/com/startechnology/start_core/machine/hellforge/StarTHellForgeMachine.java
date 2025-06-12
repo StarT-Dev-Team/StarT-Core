@@ -29,15 +29,17 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
+import com.startechnology.start_core.machine.redstone.IStarTRedstoneInterfacableMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
+public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneInterfacableMachine {
     /*
      * persist/save data onto the world using NBT with the @Persisted field annotation
      */
@@ -51,16 +53,14 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
     private boolean startHeatLoss;
 
     private boolean isWorking;
-    protected StarTRedstoneInterfacePartMachine redstoneOutputHatch;
-    private Integer previousTemp;
+    public ArrayList<StarTRedstoneInterfacePartMachine> redstoneOutputHatches;
 
     public StarTHellForgeMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.temperature = 0;
-        this.previousTemp = 0;
         this.startHeatLoss = false;
         this.isWorking = false;
-        this.redstoneOutputHatch = null;
+        this.redstoneOutputHatches = new ArrayList<>();
     }
 
     /* A map of fluids to their maximum heat cap for the Hell Forge */
@@ -78,8 +78,16 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         this.startHeatLoss = true;
 
         // Find output redstone if it exists
-        Optional<IMultiPart> redstoneOutput = this.getParts().stream().filter(StarTRedstoneInterfacePartMachine.class::isInstance).findFirst();
-        redstoneOutput.ifPresent(part -> this.redstoneOutputHatch = (StarTRedstoneInterfacePartMachine)part);
+        this.getParts()
+            .stream()
+            .filter(StarTRedstoneInterfacePartMachine.class::isInstance)
+            .forEach(part -> {
+                this.redstoneOutputHatches.add((StarTRedstoneInterfacePartMachine)part);
+            });
+
+
+        this.temperatureChanged();
+
     }
 
     @Override
@@ -173,24 +181,20 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
     }
 
     private void temperatureChanged() {
-        // Prevent unnecessary updates from yoinkrt tps
-        if (this.temperature == this.previousTemp) return;
-        this.previousTemp = temperature;
+        if (this.redstoneOutputHatches.isEmpty()) return;
 
-        if (Objects.isNull(this.redstoneOutputHatch)) return;
+        fluidsMap.entrySet().stream().forEach(
+            entry -> {
+                final double percentageOfTier = (this.temperature / ((double)entry.getValue())) * 15.0;
 
-        // Find next maximum
-        Integer nextCap = fluidsMap.get(getHellforgeHeatingLiquid(this.temperature));
-
-        // % of maximum
-        double percentNext = (( this.temperature - nextCap ) + 900) / 900.0;
-
-        // Redstone max signal strength is 15
-        percentNext *= 15;
-
-        // Floor
-        Integer signalStrength = (int)Math.floor(percentNext);
-        this.redstoneOutputHatch.setCurrentSignal(signalStrength);
+                this.redstoneOutputHatches.forEach(hatch -> {
+                    hatch.setIndicatorSignal(
+                    "Percentage to " +  entry.getValue().toString() + "MK", 
+                    (int)Math.floor(percentageOfTier)
+                    );
+                });
+            }
+        );
     }
 
     @Override
@@ -221,5 +225,12 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
 
     public Integer getCrucibleTemperature() {
         return this.temperature;
+    }
+
+    @Override
+    public List<String> getIndicators() {
+        return fluidsMap.values().stream().sorted().map(
+            temperature -> "Percentage to " +  temperature.toString() + "MK"
+        ).toList();
     }
 }

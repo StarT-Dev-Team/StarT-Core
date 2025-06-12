@@ -1,6 +1,7 @@
 package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -11,5 +12,8 @@ public class StarTCapability {
         .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTHellForgeMachine> CAPABILITY_HELL_FORGE_MACHINE = CapabilityManager
+        .get(new CapabilityToken<>() {});
+
+    public static final Capability<StarTRedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
         .get(new CapabilityToken<>() {});
 }
