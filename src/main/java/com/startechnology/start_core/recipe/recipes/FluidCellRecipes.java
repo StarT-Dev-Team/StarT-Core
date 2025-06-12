@@ -20,16 +20,16 @@ public class FluidCellRecipes {
     public static void customDrumRecipes(Consumer<FinishedRecipe> provider) {
 
         ASSEMBLER_RECIPES.recipeBuilder("fluid_cell_large_enriched_naquadah")
-                .inputItems(plateDouble, NaquadahEnriched, 3)
-                .inputItems(ring, Osmiridium, 3)
+                .inputItems(plateDouble, NaquadahEnriched, 6)
+                .inputItems(ring, Osmiridium, 6)
                 .outputItems(FLUID_CELL_LARGE_ENRICHED_NAQUADAH)
                 .duration(200)
                 .EUt(1024)
                 .save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder("fluid_cell_large_neutronium")
-                .inputItems(plateDouble, Neutronium, 3)
-                .inputItems(ring, NaquadahAlloy, 3)
+                .inputItems(plateDouble, Neutronium, 8)
+                .inputItems(ring, NaquadahAlloy, 8)
                 .outputItems(FLUID_CELL_LARGE_NEUTRONIUM)
                 .duration(200)
                 .EUt(VA[EV])

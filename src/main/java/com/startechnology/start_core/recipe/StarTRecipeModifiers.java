@@ -14,7 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.llamalad7.mixinextras.lib.apache.commons.ObjectUtils.Null;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 
@@ -68,4 +68,6 @@ public class StarTRecipeModifiers {
 
         return discount;
     }
+
+    public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
 }
