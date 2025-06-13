@@ -81,6 +81,21 @@ public class StarTRecipeTypes {
         })
         .setSound(GTSoundEntries.FURNACE);
 
+    public static final GTRecipeType ABYSSAL_HARVESTER_RECIPES = GTRecipeTypes.register("abyssal_harvester", GTRecipeTypes.MULTIBLOCK)
+        .setMaxIOSize(0, 0, 0, 1)
+        .setEUIO(IO.IN)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .addDataInfo(data -> {
+            int entropy = data.getInt("entropy");
+
+            if (entropy > 0) {
+                return LocalizationUtils.format("start_core.recipe.entropy", FormattingUtil.formatNumbers(entropy));
+            }
+
+            return "";
+        })
+        .setSound(GTSoundEntries.FURNACE);
+
     public static final void init() {
         
     }
