@@ -35,11 +35,11 @@ public class AbyssalHarvesterRecipes {
         //     StarTAbyssalHarvesterVoidFluids.AbsoluteAbyssalVoid, 12000
         // ); 
 
-        ABYSSAL_HARVESTER_RECIPES
-            .recipeBuilder("abyssal_harvester_void")
-            .outputFluids(StarTAbyssalHarvesterVoidFluids.CorruptAbyssalVoid.getFluid(1000))
-            .duration(100)
-            .addData("entropy", 1000)
-            .save(provider);
+        // ABYSSAL_HARVESTER_RECIPES
+        //     .recipeBuilder("abyssal_harvester_void")
+        //     .outputFluids(StarTAbyssalHarvesterVoidFluids.CorruptAbyssalVoid.getFluid(1000))
+        //     .duration(100)
+        //     .addData("entropy", 1000)
+        //     .save(provider);
     }
 }

@@ -274,5 +274,8 @@
     "start_core.redstone_interface.select": "Select Redstone Indicator",
     "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] Variadic Redstone Information",
     "ui.start_core.redstone_signal": "§6Redstone Level: §c{0}",
-    "ui.start_core.indicator": "§dIndicator: §f{0}"
+    "ui.start_core.indicator": "§dIndicator: §f{0}",
+
+    "ui.start_core.abyssal_harvester": "Entropy: ",
+    "start_core.recipe.entropy": "Entropy: "
 }   

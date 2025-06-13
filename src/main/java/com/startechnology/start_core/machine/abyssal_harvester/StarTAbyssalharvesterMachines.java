@@ -19,6 +19,7 @@ public class StarTAbyssalharvesterMachines {
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("extreme_temperature_smelting_casing")))
         .langValue("Abyssal Harvseter")
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
+        .recipeModifier(StarTAbyssalHarvesterMachine::recipeModifier)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("@O")
             .where('@', Predicates.controller(Predicates.blocks(definition.get())))
