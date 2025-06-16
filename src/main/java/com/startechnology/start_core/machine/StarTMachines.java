@@ -1,4 +1,5 @@
 package com.startechnology.start_core.machine;
+import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatches;
@@ -23,5 +24,6 @@ public class StarTMachines {
         StarTDreamLinkTransmissionTowers.init();
         StarTHellForgeMachines.init();
         StarTRedstoneInterfaces.init();
+        StarTAbyssalharvesterMachines.init();
     }
 }
