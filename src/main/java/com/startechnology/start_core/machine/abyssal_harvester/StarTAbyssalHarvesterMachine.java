@@ -46,13 +46,18 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (!(machine instanceof StarTAbyssalHarvesterMachine abyssalHarvesterMachine)) {
             return RecipeModifier.nullWrongType(StarTAbyssalHarvesterMachine.class, machine);
         }
-        if (!recipe.data.contains("entropy") || recipe.data.getDouble("entropy") > abyssalHarvesterMachine.getEntropy()) {
-            return ModifierFunction.NULL;
-        }
-        if (recipe.data.getDouble("entropy") < abyssalHarvesterMachine.getEntropy()) {
-            abyssalHarvesterMachine.isWorking = true;
+        
+        if (!recipe.data.contains("entropy")) {
             return ModifierFunction.IDENTITY;
         }
+        int machineEntropy = abyssalHarvesterMachine.getEntropy();
+        int recipeEntropy = recipe.data.getInt("entropy");
+        if (recipeEntropy > machineEntropy) {
+            return ModifierFunction.NULL;
+        }
+        // if (recipeEntropy <= machineEntropy) {
+        //     return ModifierFunction.IDENTITY;
+        // }
         return ModifierFunction.IDENTITY;
     }
  
@@ -83,7 +88,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.entropy = 10000; // Reset entropy when structure is formed
         this.isWorking = false;
         this.startEntropyLoss = true;
     }
@@ -115,6 +119,17 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
                 this.entropy = Math.max(this.entropy - 10, 0);
 
         }
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        boolean isWorking = super.beforeWorking(recipe);
+
+        if (isWorking) {
+            this.isWorking = true;
+        }
+
+        return isWorking;
     }
 
     @Override

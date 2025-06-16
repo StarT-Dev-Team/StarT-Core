@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 
 import dev.latvian.mods.kubejs.KubeJS;
 
@@ -17,9 +18,9 @@ public class StarTAbyssalharvesterMachines {
     public static MultiblockMachineDefinition ABYSSAL_HARVESTER = START_REGISTRATE
         .multiblock("abyssal_harvester", StarTAbyssalHarvesterMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("extreme_temperature_smelting_casing")))
-        .langValue("Abyssal Harvseter")
+        .langValue("Abyssal Harvester")
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
-        .recipeModifier(StarTAbyssalHarvesterMachine::recipeModifier)
+        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTAbyssalHarvesterMachine::recipeModifier)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("@O")
             .where('@', Predicates.controller(Predicates.blocks(definition.get())))
