@@ -82,7 +82,7 @@ public class StarTRecipeTypes {
         .setSound(GTSoundEntries.FURNACE);
 
     public static final GTRecipeType ABYSSAL_HARVESTER_RECIPES = GTRecipeTypes.register("abyssal_harvester", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(0, 0, 0, 1)
+        .setMaxIOSize(1, 1, 0, 1)
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addDataInfo(data -> {

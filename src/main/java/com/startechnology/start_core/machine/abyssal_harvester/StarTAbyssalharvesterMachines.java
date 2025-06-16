@@ -22,9 +22,11 @@ public class StarTAbyssalharvesterMachines {
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTAbyssalHarvesterMachine::recipeModifier)
         .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("@O")
+            .aisle("II@O")
             .where('@', Predicates.controller(Predicates.blocks(definition.get())))
             .where('O', Predicates.abilities(PartAbility.EXPORT_FLUIDS))
+            .where('I', Predicates.abilities(PartAbility.IMPORT_FLUIDS)
+                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS)))
             .build()
         )
         .workableCasingRenderer(KubeJS.id("block/casings/ultimate_multis/extreme_temperature_smelting_casing"),
