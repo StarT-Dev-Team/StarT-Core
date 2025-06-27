@@ -111,13 +111,14 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                 WeightedRandomList<Integer> productionOutputs = getStatWeightedList(stats.getProduction(), weights);
                 WeightedRandomList<Integer> metabolismOutputs = getStatWeightedList(stats.getMetabolism(), weights);
                 WeightedRandomList<Integer> mutabilityOutputs = getStatWeightedList(stats.getMutability(), weights);
-                Fluid affinity = stats.getAffinity();
 
                 StarTBacteriaStats newStats = new StarTBacteriaStats(
                     productionOutputs.getRandom(),
                     metabolismOutputs.getRandom(),
                     mutabilityOutputs.getRandom(),
-                    affinity
+                    stats.getPrimary(),
+                    stats.getSecondary(),
+                    stats.getTertiary()
                 );
 
                 StarTBacteriaManager.writeBacteriaStatsToItem(outputMutatedBacteria.getOrCreateTag(), newStats);

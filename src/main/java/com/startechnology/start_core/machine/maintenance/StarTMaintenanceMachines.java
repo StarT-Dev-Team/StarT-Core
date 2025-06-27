@@ -25,7 +25,7 @@ public class StarTMaintenanceMachines {
             tooltips.add(Component.literal("  ").append(Component
                     .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
         })
-        .renderer(() -> new MaintenanceHatchPartRenderer(10, StarTCore.resourceLocation("block/maintenance.sterile")))
+        .renderer(() -> new MaintenanceHatchPartRenderer(3, StarTCore.resourceLocation("block/maintenance.sterile")))
         .register();
 
     public static void init() {}

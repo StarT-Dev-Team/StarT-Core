@@ -102,12 +102,13 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
 
                 ItemStack output = new ItemStack(nextType.get());
                 List<Fluid> possibleNewAffinities = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getBehaviourAffinityFluids();
+                Collections.shuffle(possibleNewAffinities);
 
-                Fluid newAffinity = possibleNewAffinities.get(
-                    StarTCore.RNG.nextIntBetweenInclusive(0, possibleNewAffinities.size() - 1)
+                StarTBacteriaStats newStats = new StarTBacteriaStats(
+                    production, metabolism, mutability, 
+                    possibleNewAffinities.get(0), possibleNewAffinities.get(1), possibleNewAffinities.get(2)
                 );
-
-                StarTBacteriaStats newStats = new StarTBacteriaStats(production, metabolism, mutability, newAffinity);
+                
                 StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
                 ItemStack runic = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_engraved_plating")));
