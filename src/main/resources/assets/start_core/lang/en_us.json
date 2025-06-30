@@ -5,12 +5,12 @@
 
     "item.start_core.bacteria_dormant.tooltip": "§7Reawaken this colony and discover its secrets",
     "item.start_core.bacteria_dormant": "§3Dormant Bacteria Colony",
-    "item.start_core.bacteria_bituminimonas_combustilis": "§3Bituminimonas combustilis Bacteria Culture",
-    "item.start_core.bacteria_carbanogasibacter_volatilis": "§3Carbanogasibacter volatilis Bacteria Culture",
-    "item.start_core.bacteria_fermentibacter_solvatis": "§3Fermentibacter solvatis Bacteria Culture",
-    "item.start_core.bacteria_octanivorax_sorbitolens": "§3Octanivorax sorbitolens Bacteria Culture",
-    "item.start_core.bacteria_petrospirillum_solvans": "§3Petrospirillum solvans Bacteria Culture",
-    "item.start_core.bacteria_xylotoxibacter_aromatica": "§3Xylopseudomonas creosotica Bacteria Culture",
+    "item.start_core.bacteria_bituminimonas_combustilis": "§3Bituminimonas Combustilis Bacteria Culture",
+    "item.start_core.bacteria_carbanogasibacter_volatilis": "§3Carbanogasibacter Volatilis Bacteria Culture",
+    "item.start_core.bacteria_fermentibacter_solvatis": "§3Fermentibacter Solvatis Bacteria Culture",
+    "item.start_core.bacteria_octanivorax_sorbitolens": "§3Octanivorax Sorbitolens Bacteria Culture",
+    "item.start_core.bacteria_petrospirillum_solvans": "§3Petrospirillum Solvans Bacteria Culture",
+    "item.start_core.bacteria_xylotoxibacter_aromatica": "§3Xylopseudomonas Creosotica Bacteria Culture",
     
     "gtceu.bacterial_breeding_vat": "Bacterial Breeding",
     "block.start_core.bacterial_breeding_vat": "Bacterial Breeding Vat",
@@ -47,7 +47,7 @@
     "behaviour.start_core.bacteria.stat_mutability": "§7Mutability: {0}",
    
     "behaviour.start_core.bacteria.stat_affinity": "§dHas affinity with %1$s",
-    "behaviour.start_core.bacteria.possible_affinities": "§dPossible Affinities: %1$s§5, %2$s§5, %3$s",
+    "behaviour.start_core.bacteria.possible_affinities": "§dCulture Affinities: %1$s§5, %2$s§5, %3$s",
     "behaviour.start_core.bacteria.affinity_none": "None",
     "behaviour.start_core.bacteria.input": "§7A Bacteria with any stats & affinity can be inputted",
     "behaviour.start_core.bacteria.vat_same_output": "§7Replicated bacteria with same stats & affinity as input",
