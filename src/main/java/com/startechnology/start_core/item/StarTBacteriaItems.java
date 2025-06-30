@@ -24,7 +24,7 @@ public class StarTBacteriaItems {
     }
 
     public static final ItemEntry<ComponentItem> BACTERIA_DORMANT = START_REGISTRATE.item("bacteria_dormant", ComponentItem::create)
-        .lang("Dormant Bacteria Culture")
+        .lang("Dormant Bacteria Colony")
         .properties(prop -> prop.stacksTo(16))
         .onRegister(attach(new StarTNBTTooltipsBehaviour()))
         .onRegister(attach(new TooltipBehavior(lines -> {
@@ -33,7 +33,7 @@ public class StarTBacteriaItems {
         .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_FERMENTIBACTER_SOLVATIS = START_REGISTRATE.item("bacteria_fermentibacter_solvatis", ComponentItem::create)
-        .lang("Fermentibacter Solvatis Bacteria Culture")
+        .lang("Fermentibacter Solvatis Bacteria Colony")
         .properties(prop -> prop.stacksTo(16))
         .onRegister(attach(new StarTBacteriaBehaviour(
             GTMaterials.Ethanol,
@@ -43,7 +43,7 @@ public class StarTBacteriaItems {
         .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_XYLOTOXIBACTER_AROMATICA = START_REGISTRATE.item("bacteria_xylotoxibacter_aromatica", ComponentItem::create)
-            .lang("Xylopseudomonas Creosotica Bacteria Culture")
+            .lang("Xylopseudomonas Creosotica Bacteria Colony")
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Creosote,
@@ -53,7 +53,7 @@ public class StarTBacteriaItems {
             .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_PETROSPIRILLUM_SOLVANS = START_REGISTRATE.item("bacteria_petrospirillum_solvans", ComponentItem::create)
-            .lang("Petrospirillum Solvans Bacteria Culture")
+            .lang("Petrospirillum Solvans Bacteria Colony")
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Benzene,
@@ -63,7 +63,7 @@ public class StarTBacteriaItems {
             .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_OCTANIVORAX_SORBITOLENS = START_REGISTRATE.item("bacteria_octanivorax_sorbitolens", ComponentItem::create)
-            .lang("Octanivorax Sorbitolens Bacteria Culture")
+            .lang("Octanivorax Sorbitolens Bacteria Colony")
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Octane,
@@ -73,7 +73,7 @@ public class StarTBacteriaItems {
             .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_BITUMINIMONAS_COMBUSTILIS = START_REGISTRATE.item("bacteria_bituminimonas_combustilis", ComponentItem::create)
-            .lang("Bituminimonas Combustilis Bacteria Culture")
+            .lang("Bituminimonas Combustilis Bacteria Colony")
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Toluene,
@@ -83,7 +83,7 @@ public class StarTBacteriaItems {
             .register();
 
     public static final ItemEntry<ComponentItem> BACTERIA_CARBANOGASIBACTER_VOLATILIS = START_REGISTRATE.item("bacteria_carbanogasibacter_volatilis", ComponentItem::create)
-            .lang("Carbanogasibacter Volatilis Bacteria Culture")
+            .lang("Carbanogasibacter Volatilis Bacteria Colony")
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Methane,
