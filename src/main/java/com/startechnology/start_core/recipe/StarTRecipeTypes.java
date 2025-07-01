@@ -104,10 +104,19 @@ public class StarTRecipeTypes {
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addDataInfo(data -> {
-            int entropy = data.getInt("entropy");
+            int min_entropy = data.getInt("min_entropy");
 
-            if (entropy > 0) {
-                return LocalizationUtils.format("start_core.recipe.entropy", FormattingUtil.formatNumbers(entropy));
+            if (min_entropy > 0) {
+                return LocalizationUtils.format("start_core.recipe.min_entropy", min_entropy);
+            }
+
+            return "";
+        })
+        .addDataInfo(data -> {
+            int max_entropy = data.getInt("max_entropy");
+
+            if (max_entropy > 0) {
+                return LocalizationUtils.format("start_core.recipe.max_entropy", max_entropy);
             }
 
             return "";

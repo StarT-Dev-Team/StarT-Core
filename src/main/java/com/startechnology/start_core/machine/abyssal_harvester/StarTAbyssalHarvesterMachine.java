@@ -47,12 +47,13 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
             return RecipeModifier.nullWrongType(StarTAbyssalHarvesterMachine.class, machine);
         }
         
-        if (!recipe.data.contains("entropy")) {
+        if (!recipe.data.contains("min_entropy") || !recipe.data.contains("max_entropy")) {
             return ModifierFunction.IDENTITY;
         }
         int machineEntropy = abyssalHarvesterMachine.getEntropy();
-        int recipeEntropy = recipe.data.getInt("entropy");
-        if (recipeEntropy > machineEntropy) {
+        int recipeEntropy = recipe.data.getInt("min_entropy");
+        int maxRecipeEntropy = recipe.data.getInt("max_entropy");
+        if (recipeEntropy > machineEntropy || maxRecipeEntropy < machineEntropy) {
             return ModifierFunction.NULL;
         }
         // if (recipeEntropy <= machineEntropy) {
@@ -116,7 +117,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (getOffsetTimer() % 20 == 0 && this.startEntropyLoss) {
 
             if (!this.isWorking)
-                this.entropy = Math.max(this.entropy - 10, 0);
+                this.entropy = Math.max(this.entropy - 50, 0);
 
         }
     }
@@ -136,7 +137,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public void afterWorking() {
         super.afterWorking();
         this.isWorking = false;
-        this.entropy += 1000;
+        tryIncreaseEntropy();
     }
 
+    private void tryIncreaseEntropy() {
+        this.entropy = Math.min(this.entropy + 1000, 500000);
+    }
 }

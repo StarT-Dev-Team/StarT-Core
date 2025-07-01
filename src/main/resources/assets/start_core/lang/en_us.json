@@ -277,5 +277,6 @@
     "ui.start_core.indicator": "§dIndicator: §f{0}",
 
     "ui.start_core.abyssal_harvester": "Entropy: {0}",
-    "start_core.recipe.entropy": "Entropy: %s"
+    "start_core.recipe.min_entropy": "Minimum Entropy: %s",
+    "start_core.recipe.max_entropy": "Maximum Entropy: %s"
 }   
