@@ -11,6 +11,8 @@ import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 
+import src.main.java.com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
+
 public class StarTMachines {
 
     public static void init() {
@@ -25,5 +27,6 @@ public class StarTMachines {
         StarTHellForgeMachines.init();
         StarTRedstoneInterfaces.init();
         StarTAbyssalharvesterMachines.init();
+        StarTFurnaceMachines.init();
     }
 }
