@@ -29,7 +29,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
-import com.startechnology.start_core.machine.redstone.IStarTRedstoneInterfacableMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
@@ -39,7 +38,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneInterfacableMachine {
+public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
     /*
      * persist/save data onto the world using NBT with the @Persisted field annotation
      */
@@ -225,12 +224,5 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     public Integer getCrucibleTemperature() {
         return this.temperature;
-    }
-
-    @Override
-    public List<String> getIndicators() {
-        return fluidsMap.values().stream().sorted().map(
-            temperature -> "Percentage to " +  temperature.toString() + "MK"
-        ).toList();
     }
 }
