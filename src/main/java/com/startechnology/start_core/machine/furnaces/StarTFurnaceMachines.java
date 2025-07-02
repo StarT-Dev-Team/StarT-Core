@@ -6,10 +6,10 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 public class StarTFurnaceMachines {
     
-    public static final MachineDefinition[] ELECTRIC_BLAST_FURNACE = GTMachineUtils.registerSimpleMachines("electric_blast_furnace",
+    public static final MachineDefinition[] ELECTRIC_BLAST_FURNACES = GTMachineUtils.registerSimpleMachines("electric_blast_furnace",
             StarTRecipeTypes.BLAST_FURNACE_RECIPES);
 
-    public static final MachineDefinition[] ELECTRIC_SMOKER = GTMachineUtils.registerSimpleMachines("electric_smoker",
+    public static final MachineDefinition[] ELECTRIC_SMOKERS = GTMachineUtils.registerSimpleMachines("electric_smoker",
             StarTRecipeTypes.SMOKER_RECIPES);
 
     public static void init() {
