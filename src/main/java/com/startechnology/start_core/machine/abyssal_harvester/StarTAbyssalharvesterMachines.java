@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.block.casings.StarTCasingBlocks;
 
 import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.network.chat.Component;
 
 public class StarTAbyssalharvesterMachines {
     
@@ -20,6 +21,21 @@ public class StarTAbyssalharvesterMachines {
         .multiblock("abyssal_harvester", StarTAbyssalHarvesterMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("draneko_casing")))
         .langValue("Abyssal Harvester")
+        .tooltips(
+            Component.translatable("start_core.machine.abyssal_harvester.line"),
+            Component.translatable("start_core.machine.abyssal_harvester.description"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah0"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah1"),
+            Component.translatable("block.start_core.gap"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah2"),
+            Component.translatable("block.start_core.gap"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah3"),
+            Component.translatable("block.start_core.gap"),
+            Component.translatable("machine.start_core.redstone_interfacing"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah4"),
+            Component.translatable("block.start_core.breaker_line")
+        )
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTAbyssalHarvesterMachine::recipeModifier)
         .pattern(definition -> FactoryBlockPattern.start()

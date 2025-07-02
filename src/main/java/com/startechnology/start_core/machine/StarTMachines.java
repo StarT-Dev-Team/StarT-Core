@@ -19,9 +19,9 @@ import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
-import com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
 
 public class StarTMachines {
 

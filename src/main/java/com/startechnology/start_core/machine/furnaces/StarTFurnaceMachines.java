@@ -1,4 +1,4 @@
-package src.main.java.com.startechnology.start_core.machine.furnaces;
+package com.startechnology.start_core.machine.furnaces;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
