@@ -23,7 +23,6 @@ import net.minecraft.world.level.material.Fluid;
 public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
 
     private List<Material> possibleBacteriaAffinities;
-    private Material mainBacteriaOutput;
 
     public List<Material> getPossibleBacteriaAffinities() {
         return possibleBacteriaAffinities;
@@ -37,13 +36,7 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
             .collect(Collectors.toList());
     }
 
-    public Fluid getBehaviourMainFluid() {
-        if (!mainBacteriaOutput.hasFluid()) return null;
-        return mainBacteriaOutput.getFluid();
-    }
-
-    public StarTBacteriaBehaviour(Material mainMaterial, Material... materials) {
-        this.mainBacteriaOutput = mainMaterial;
+    public StarTBacteriaBehaviour(Material... materials) {
         this.possibleBacteriaAffinities = Arrays.asList(materials);
     }
 
@@ -83,12 +76,15 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.literal(""));
             tooltipComponents.add(this.prettyPossibleBacteriaAffinities());
         } else {
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinities_header"));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_primary", stats.getFluidPretty(stats.getPrimary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", stats.getFluidPretty(stats.getSecondary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", stats.getFluidPretty(stats.getTertiary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
+            tooltipComponents.add(Component.translatable(""));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", stats.getProductionPretty()));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", stats.getMetabolismPretty()));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_mutability", stats.getMutabilityPretty()));
-            tooltipComponents.add(Component.literal(""));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_affinity", stats.getAffinityPretty().withStyle(ChatFormatting.DARK_PURPLE)));
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

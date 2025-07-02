@@ -15,13 +15,17 @@ public class StarTBacteriaStats {
     public static final String BACTERIA_PRODUCTION_NBT_TAG = "bacteria_production";
     public static final String BACTERIA_METABOLISM_NBT_TAG = "bacteria_metabolism";
     public static final String BACTERIA_MUTABILITY_NBT_TAG = "bacteria_mutability";
-    public static final String BACTERIA_AFFINITY_NBT_TAG = "bacteria_affinity";
+    public static final String BACTERIA_PRIMARY_NBT_TAG = "bacteria_primary";
+    public static final String BACTERIA_SECONDARY_NBT_TAG = "bacteria_secondary";
+    public static final String BACTERIA_TERTIARY_NBT_TAG = "bacteria_tertiary";
     public static final Integer MAX_STAT_VALUE = 5;
 
     private Integer production;
     private Integer metabolism;
     private Integer mutability;
-    private Fluid affinity;
+    private Fluid primary;
+    private Fluid secondary;
+    private Fluid tertiary;
 
     public Integer getProduction() {
         return production;
@@ -35,8 +39,16 @@ public class StarTBacteriaStats {
         return mutability;
     }
 
-    public Fluid getAffinity() {
-        return affinity;
+    public Fluid getPrimary() {
+        return primary;
+    }
+
+    public Fluid getSecondary() {
+        return secondary;
+    }
+
+    public Fluid getTertiary() {
+        return tertiary;
     }
 
     public String getProductionPretty() {
@@ -47,11 +59,11 @@ public class StarTBacteriaStats {
         return StarTBacteriaStats.getPrettyStatLowBias(metabolism);
     }
 
-    public MutableComponent getAffinityPretty() {
-        if (affinity == null) {
+    public MutableComponent getFluidPretty(Fluid fluid) {
+        if (fluid == null) {
             return Component.translatable("behaviour.start_core.bacteria.affinity_none");
         }
-        return Component.translatable(affinity.getFluidType().getDescriptionId());
+        return Component.translatable(fluid.getFluidType().getDescriptionId());
     }
 
     public String getMutabilityPretty() {
@@ -89,11 +101,13 @@ public class StarTBacteriaStats {
         return StringUtils.repeat('■', stat) + StringUtils.repeat('□', MAX_STAT_VALUE - stat);
     }
 
-    public StarTBacteriaStats(Integer production, Integer metabolism, Integer mutability, Fluid affinity) {
+    public StarTBacteriaStats(Integer production, Integer metabolism, Integer mutability, Fluid primary, Fluid secondary, Fluid tertiary) {
         this.production = production;
         this.metabolism = metabolism;
         this.mutability = mutability;
-        this.affinity = affinity;
+        this.primary = primary;
+        this.secondary = secondary;
+        this.tertiary = tertiary;
     }
 
     public StarTBacteriaStats(CompoundTag bacteriaStatsCompound) {
@@ -101,11 +115,28 @@ public class StarTBacteriaStats {
         this.metabolism = bacteriaStatsCompound.getInt(BACTERIA_METABOLISM_NBT_TAG);
         this.mutability = bacteriaStatsCompound.getInt(BACTERIA_MUTABILITY_NBT_TAG);
         
-        String bacteriaFluidAffinityString = bacteriaStatsCompound.getString(BACTERIA_AFFINITY_NBT_TAG);
-        ResourceLocation bacteriaAffinityLocation = new ResourceLocation(GTCEu.MOD_ID, bacteriaFluidAffinityString);
+        String affinityString = bacteriaStatsCompound.getString(BACTERIA_PRIMARY_NBT_TAG);
+        String[] resourceSplit = affinityString.split(":");
+        ResourceLocation bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
         
         if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
-            this.affinity = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
+            this.primary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
+        }
+
+        affinityString = bacteriaStatsCompound.getString(BACTERIA_SECONDARY_NBT_TAG);
+        resourceSplit = affinityString.split(":");
+        bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
+        
+        if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
+            this.secondary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
+        }
+
+        affinityString = bacteriaStatsCompound.getString(BACTERIA_TERTIARY_NBT_TAG);
+        resourceSplit = affinityString.split(":");
+        bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
+        
+        if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
+            this.tertiary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
         }
     }
 
@@ -116,10 +147,24 @@ public class StarTBacteriaStats {
         bacteriaStatsCompound.putInt(BACTERIA_METABOLISM_NBT_TAG, this.metabolism);
         bacteriaStatsCompound.putInt(BACTERIA_MUTABILITY_NBT_TAG, this.mutability);
 
-        if (affinity != null) {
+        if (primary != null) {
             bacteriaStatsCompound.putString(
-                BACTERIA_AFFINITY_NBT_TAG, 
-                ForgeRegistries.FLUIDS.getKey(affinity).getPath().toString()
+                BACTERIA_PRIMARY_NBT_TAG, 
+                ForgeRegistries.FLUIDS.getKey(primary).toString()
+            );
+        }
+
+        if (secondary != null) {
+            bacteriaStatsCompound.putString(
+                BACTERIA_SECONDARY_NBT_TAG, 
+                ForgeRegistries.FLUIDS.getKey(secondary).toString()
+            );
+        }
+
+        if (tertiary != null) {
+            bacteriaStatsCompound.putString(
+                BACTERIA_TERTIARY_NBT_TAG, 
+                ForgeRegistries.FLUIDS.getKey(tertiary).toString()
             );
         }
 

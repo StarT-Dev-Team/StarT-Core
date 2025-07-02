@@ -77,7 +77,7 @@ public class StarTHellForgeMachines {
                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(0))
                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setExactLimit(4)))
+                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(4).setPreviewCount(0)))
             .where("F", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
             .where("G", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_pipe_casing")))
             .where("H", Predicates.blocks(StarTMachineUtils.getKjsBlock("reinforced_brimstone_casing")))
