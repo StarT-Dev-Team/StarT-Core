@@ -110,11 +110,11 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
             Integer mutability = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
 
             List<Fluid> possibleAffinityFluids = bacteriaBehaviour.getBehaviourAffinityFluids();
-            Fluid affinity = possibleAffinityFluids.get(
-                StarTCore.RNG.nextIntBetweenInclusive(0, possibleAffinityFluids.size() - 1)
-            );
+            Collections.shuffle(possibleAffinityFluids);
 
-            StarTBacteriaStats mutatedStats = new StarTBacteriaStats(production, metabolism, mutability, affinity);
+            StarTBacteriaStats mutatedStats = new StarTBacteriaStats(production, metabolism, mutability, 
+                possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2)
+            );
 
             if (existingRunic.is(
                 ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_pathway_engraved_plating"))
@@ -142,12 +142,11 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
 
             ItemStack output = new ItemStack(nextType.get());
             List<Fluid> possibleNewAffinities = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getBehaviourAffinityFluids();
+            Collections.shuffle(possibleNewAffinities);
 
-            Fluid newAffinity = possibleNewAffinities.get(
-                StarTCore.RNG.nextIntBetweenInclusive(0, possibleNewAffinities.size() - 1)
+            StarTBacteriaStats newStats = new StarTBacteriaStats(production, metabolism, mutability, 
+                possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2)
             );
-
-            StarTBacteriaStats newStats = new StarTBacteriaStats(production, metabolism, mutability, newAffinity);
             StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
             return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
