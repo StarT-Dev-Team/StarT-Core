@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.managed.ManagedField;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.materials.StarTAbyssalHarvesterVoidFluids;
 
 import net.minecraft.network.chat.Component;
@@ -34,12 +36,15 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private boolean startEntropyLoss;
 
     private boolean isWorking;
+    public ArrayList<StarTRedstoneInterfacePartMachine> redstoneOutputHatches;
+
 
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.entropy = 10000;
         this.startEntropyLoss = false;
         this.isWorking = false;
+        this.redstoneOutputHatches = new ArrayList<>();
     }
 
     public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
@@ -91,6 +96,40 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         super.onStructureFormed();
         this.isWorking = false;
         this.startEntropyLoss = true;
+
+        // Find output redstone if it exists
+        this.getParts()
+            .stream()
+            .filter(StarTRedstoneInterfacePartMachine.class::isInstance)
+            .forEach(part -> {
+                this.redstoneOutputHatches.add((StarTRedstoneInterfacePartMachine)part);
+            });
+
+
+        this.entropyChanged();
+    }
+
+    private static final List<Integer> redstoneEntropyMarkers = List.of(
+        150000,
+        300000,
+        500000
+    );
+
+    private void entropyChanged() {
+        if (this.redstoneOutputHatches.isEmpty()) return;
+
+        redstoneEntropyMarkers.stream().forEach(
+            entry -> {
+                final double percentageOfEntropy = (this.entropy / ((double)entry)) * 15.0;
+
+                this.redstoneOutputHatches.forEach(hatch -> {
+                    hatch.setIndicatorSignal(
+                    "Percentage to " +  entry.toString() + " §5Entropy", 
+                    (int)Math.floor(percentageOfEntropy)
+                    );
+                });
+            }
+        );
     }
 
     @Override
@@ -118,6 +157,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
             if (!this.isWorking)
                 this.entropy = Math.max(this.entropy - 50, 0);
+                this.entropyChanged();
 
         }
     }
@@ -142,5 +182,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
     private void tryIncreaseEntropy() {
         this.entropy = Math.min(this.entropy + 1000, 500000);
+        this.entropyChanged();
     }
 }

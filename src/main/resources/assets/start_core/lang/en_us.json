@@ -281,9 +281,10 @@
     "start_core.machine.abyssal_harvester.ah2": "§7While recipes are not running, the current entropy will decay by §d50/s§7.",
     "start_core.machine.abyssal_harvester.ah3": "§7Running recipes in the harvester will increase the current entropy by §d1000§7 up to a maximum of §d500,000.",
     "start_core.machine.abyssal_harvester.ah4": "§7Provides §fPercentage to n entropy §7indicators for certain n.",
-    "ui.start_core.abyssal_harvester": "Entropy: {0}",
+    "ui.start_core.abyssal_harvester": "Entropy: §d{0}",
     "start_core.recipe.min_entropy": "Minimum Entropy: %s",
     "start_core.recipe.max_entropy": "Maximum Entropy: %s",
+    "gtceu.abyssal_harvester": "Entropic Harvesting",
 
     "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
     "block.start_core.sterile_cleaning_maintenance_hatch": "Biosecure Sterilisation Maintenance Hatch"

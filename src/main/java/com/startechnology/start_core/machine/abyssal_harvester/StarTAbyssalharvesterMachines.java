@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.block.casings.StarTCasingBlocks;
@@ -62,6 +63,7 @@ public class StarTAbyssalharvesterMachines {
             .where('O', Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing"))
                 .setMinGlobalLimited(80)
                 .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(4).setPreviewCount(0))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
             .where(' ', Predicates.any())
             // .where('O', Predicates.abilities(PartAbility.EXPORT_FLUIDS))
