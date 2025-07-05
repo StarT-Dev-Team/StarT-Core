@@ -1,4 +1,5 @@
 package com.startechnology.start_core.machine;
+import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -18,9 +19,9 @@ import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
 
 public class StarTMachines {
 
@@ -35,6 +36,8 @@ public class StarTMachines {
         StarTDreamLinkTransmissionTowers.init();
         StarTHellForgeMachines.init();
         StarTRedstoneInterfaces.init();
+        StarTAbyssalharvesterMachines.init();
+        StarTFurnaceMachines.init();
         StarTMaintenanceMachines.init();
     }
 }

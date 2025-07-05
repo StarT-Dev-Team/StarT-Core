@@ -26,7 +26,25 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
+
 public class StarTRecipeTypes {
+
+    public final static GTRecipeType BLAST_FURNACE_RECIPES = GTRecipeTypes.register("electric_vanilla_blast_furnace", GTRecipeTypes.ELECTRIC, RecipeType.BLASTING)
+        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
+        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
+        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .setSound(GTSoundEntries.FURNACE);
+
+    public final static GTRecipeType SMOKER_RECIPES = GTRecipeTypes.register("electric_smoker", GTRecipeTypes.ELECTRIC, RecipeType.SMOKING)
+        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
+        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
+        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .setSound(GTSoundEntries.FURNACE);
+
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(1, 2, 2, 0)
         .setEUIO(IO.IN)
@@ -78,6 +96,30 @@ public class StarTRecipeTypes {
 
             return "";
         }).setUiBuilder((recipe, widgetGroup) -> {
+        })
+        .setSound(GTSoundEntries.FURNACE);
+
+    public static final GTRecipeType ABYSSAL_HARVESTER_RECIPES = GTRecipeTypes.register("abyssal_harvester", GTRecipeTypes.MULTIBLOCK)
+        .setMaxIOSize(1, 1, 0, 1)
+        .setEUIO(IO.IN)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+        .addDataInfo(data -> {
+            int min_entropy = data.getInt("min_entropy");
+
+            if (min_entropy > 0) {
+                return LocalizationUtils.format("start_core.recipe.min_entropy", min_entropy);
+            }
+
+            return "";
+        })
+        .addDataInfo(data -> {
+            int max_entropy = data.getInt("max_entropy");
+
+            if (max_entropy > 0) {
+                return LocalizationUtils.format("start_core.recipe.max_entropy", max_entropy);
+            }
+
+            return "";
         })
         .setSound(GTSoundEntries.FURNACE);
 

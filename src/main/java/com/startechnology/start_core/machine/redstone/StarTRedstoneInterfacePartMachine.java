@@ -28,11 +28,13 @@ import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 
 public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
@@ -43,7 +45,9 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
 
     @Persisted
     protected String indicator;
-    protected HashMap<String, Integer> indicatorMap;
+
+    @DescSynced
+    protected CompoundTag indicatorMap;
     
     @Persisted
     Integer currentSignal;
@@ -64,12 +68,17 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     }
 
     public void setIndicatorSignal(String indicator, int currentSignal) {
-        indicatorMap.put(indicator, currentSignal);
+        indicatorMap.putInt(indicator, currentSignal);
         this.updateCurrentSignal();
     }
 
     public void updateCurrentSignal() {
-        int newSignal = this.indicatorMap.getOrDefault(indicator, 0);
+        int newSignal = currentSignal;
+
+        if (this.indicatorMap.contains(indicator)) {
+            newSignal = this.indicatorMap.getInt(indicator);
+        }
+
         if (newSignal == this.currentSignal) return;
         this.currentSignal = newSignal;
         notifyBlockUpdate();
@@ -78,7 +87,7 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     public StarTRedstoneInterfacePartMachine(IMachineBlockEntity holder, int tier, IO io) {
         super(holder, tier, io);
         this.indicator = DEFAULT_INDICATOR;
-        this.indicatorMap = new HashMap<>();
+        this.indicatorMap = new CompoundTag();
         this.currentSignal = 0;
     }
     
@@ -103,11 +112,7 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
         // Sanity checking..
         if ((this.controllers.size()) < 1) return List.of();
 
-        if ((this.controllers.first() instanceof IStarTRedstoneInterfacableMachine redstoneMachine)) {
-            return redstoneMachine.getIndicators();
-        }
-
-        return List.of();
+        return List.copyOf(this.indicatorMap.getAllKeys());
     }
 
     @Override

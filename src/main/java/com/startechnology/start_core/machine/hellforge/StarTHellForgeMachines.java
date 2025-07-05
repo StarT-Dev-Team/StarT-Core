@@ -47,7 +47,7 @@ public class StarTHellForgeMachines {
             Component.translatable("block.start_core.hellforge_d5"),
             Component.translatable("block.start_core.hellforge_d6"),
             Component.literal(""),
-            Component.translatable("block.start_core.hellforge_d7"),
+            Component.translatable("machine.start_core.redstone_interfacing"),
             Component.translatable("block.start_core.hellforge_d8"),
             Component.translatable("block.start_core.breaker_line")
         )
