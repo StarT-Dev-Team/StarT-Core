@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
@@ -13,9 +14,11 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
+import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
+import com.startechnology.start_core.data.StarTDimensionMarkers;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.materials.StarTMaterials;
@@ -57,6 +60,7 @@ public class StarTCore {
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(GTRecipeCategory.class, this::registerRecipeCategories);
+        modEventBus.addGenericListener(DimensionMarker.class, this::registerDimensionalMarkers);
         START_REGISTRATE.registerRegistrate();
 
         // Most other events are fired on Forge's bus.
@@ -91,6 +95,9 @@ public class StarTCore {
         }
     }
 
+    private void registerDimensionalMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
+        StarTDimensionMarkers.init();
+    }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
         // Modify Electric blast furnace to have two outputs

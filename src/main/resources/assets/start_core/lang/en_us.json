@@ -271,6 +271,7 @@
     "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] Variadic Redstone Information",
     "ui.start_core.redstone_signal": "§6Redstone Level: §c{0}",
     "ui.start_core.indicator": "§dIndicator: §f{0}",
+    "block.start_core.abydos_marker": "Abydos",
     "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
     "block.start_core.sterile_cleaning_maintenance_hatch": "Biosecure Sterilisation Maintenance Hatch"
 }   
