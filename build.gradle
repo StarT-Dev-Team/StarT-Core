@@ -167,6 +167,7 @@ dependencies {
     modImplementation("appeng:appliedenergistics2-forge:15.3.3")
     modImplementation("curse.maven:jade-324717:6106101")
 
+    modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
     modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
     modRuntimeOnly("com.teamcofh:thermal_core:1.20.1-11.0.7+")
     modRuntimeOnly("curse.maven:thermal-foundation-222880:5443583")

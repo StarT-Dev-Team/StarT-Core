@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "gui_light": "front",
+  "textures": {
+    "down": "start_core:block/dim_markers/abydos/down",
+    "east": "start_core:block/dim_markers/abydos/east",
+    "north": "start_core:block/dim_markers/abydos/north",
+    "particle": "#north",
+    "south": "start_core:block/dim_markers/abydos/south",
+    "up": "start_core:block/dim_markers/abydos/up",
+    "west": "start_core:block/dim_markers/abydos/west"
+  }
+}
