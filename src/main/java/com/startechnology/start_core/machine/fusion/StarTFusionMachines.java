@@ -2,6 +2,7 @@ package com.startechnology.start_core.machine.fusion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeModifiers;
@@ -156,6 +158,98 @@ public class StarTFusionMachines {
                 GTCEu.id("block/multiblock/fusion_reactor"), false)
             .register(),
         GTValues.UHV);
+
+
+    public static final MultiblockMachineDefinition[] FUSION_REACTOR_MK4 = StarTMachineUtils.registerTieredMultis(
+        "fusion_reactor", FusionReactorMachine::new, 
+        (tier, builder) ->
+            builder
+            .rotationState(RotationState.ALL)
+            .langValue("Fusion Reactor MK %s".formatted(fusionTierString(tier)))
+            .recipeType(GTRecipeTypes.FUSION_RECIPES)
+            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT)
+            .tooltips(
+                Component.translatable("gtceu.machine.fusion_reactor.capacity",
+                FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
+                Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
+                Component.translatable("start_core.multiblock.%s_fusion_reactor.description"
+                    .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))
+            )
+            .appearanceBlock(() -> StarTFusionBlocks.FUSION_CASING_MK4.get())
+            .pattern((definition) -> { 
+                var casing = Predicates.blocks(StarTFusionBlocks.FUSION_CASING_MK4.get());
+                return FactoryBlockPattern.start()
+                        .aisle("                 ", "      BCCCB      ", "                 ") 
+                        .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
+                        .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
+                        .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
+                        .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
+                        .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
+                        .aisle(" D             D ", "B#B           B#B", " D             D ") 
+                        .aisle(" E             E ", "C#C           C#C", " E             E ") 
+                        .aisle(" E             E ", "C#C           C#C", " E             E ") 
+                        .aisle(" E             E ", "C#C           C#C", " E             E ") 
+                        .aisle(" D             D ", "B#B           B#B", " D             D ") 
+                        .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
+                        .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
+                        .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
+                        .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
+                        .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
+                        .aisle("                 ", "      BC@CB      ", "                 ")
+                        .where(' ', Predicates.any())
+                        .where('#', Predicates.air())
+                        .where('B', casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS)).setMinGlobalLimited(1))
+                        .where('C', Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")).or(casing))
+                        .where('D', casing.or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)).setMinGlobalLimited(2))
+                        .where('E', casing)
+                        .where('F', casing.or(Predicates.blocks(PartAbility.INPUT_ENERGY.getBlockRange(tier, GTValues.UEV).toArray(Block[]::new))
+                                .setMinGlobalLimited(1).setPreviewCount(16)))
+                        .where('G', Predicates.blocks(StarTFusionBlocks.ADVANCED_FUSION_COIL.get()).or(casing))
+                        .where('@', Predicates.controller(Predicates.blocks(definition.get())))
+                    .build();
+            })
+            // .shapeInfos((controller) -> {
+            //     List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+
+            //     MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
+            //         .aisle("                 ", "      BCCCB      ", "                 ") 
+            //         .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
+            //         .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
+            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
+            //         .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
+            //         .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
+            //         .aisle(" D             D ", "B#B           B#B", " D             D ") 
+            //         .aisle(" E             E ", "C#C           C#C", " E             E ") 
+            //         .aisle(" E             E ", "C#C           C#C", " E             E ") 
+            //         .aisle(" E             E ", "C#C           C#C", " E             E ") 
+            //         .aisle(" D             D ", "B#B           B#B", " D             D ") 
+            //         .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
+            //         .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
+            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
+            //         .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
+            //         .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
+            //         .aisle("                 ", "      BC@CB      ", "                 ")
+            //         .where(' ', Predicates.any())
+            //         .where('#', Predicates.air())
+            //         .where('B', casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS)).setMinGlobalLimited(1))
+            //         .where('C', Predicates.blocks(StarTMachineUtils.getKjsBlock("kubejs:draco_resilient_fusion_glass")).or(casing))
+            //         .where('D', casing.or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)).setMinGlobalLimited(2))
+            //         .where('E', casing)
+            //         .where('F', casing.or(Predicates.blocks(PartAbility.INPUT_ENERGY.getBlockRange(tier, GTValues.UEV).toArray(Block[]::new))
+            //             .setMinGlobalLimited(1).setPreviewCount(16)))
+            //         .where('G', Predicates.blocks(StarTFusionBlocks.ADVANCED_FUSION_COIL.get()).or(casing))
+            //         .where('@', controller, Direction.NORTH);
+
+            //     shapeInfos.add(baseBuilder.shallowCopy()
+            //         .where('A', AuxiliaryBoostedFusionReactor.getCasingState(tier))
+            //         .build());
+            //     shapeInfos.add(baseBuilder.build());
+            //     return shapeInfos;
+            // })
+            .workableCasingRenderer(StarTFusionCasings.FUSION_CASING_MK4.getTexture(),
+                GTCEu.id("block/multiblock/fusion_reactor"), false)
+            .register(),
+        GTValues.UEV);
 
     public static void init() {
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (AUXI)");

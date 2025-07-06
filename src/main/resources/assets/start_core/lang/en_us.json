@@ -90,6 +90,11 @@
     "start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info_1": "§7Any Absolute Parallel Mastery Hatches can be used enabling high rates of production.",
     "block.start_core.auxiliary_fusion_coil_mk1": "Auxiliary Fusion Coil MK I",
 
+    "block.start_core.uev_fusion_reactor": "Fusion Reactor MK IV",
+    "block.start_core.fusion_casing_mk4": "Fusion Casing MK IV",
+    "block.start_core.advanced_fusion_coil": "Advanced Fusion Coil",
+    "start_core.multiblock.uev_fusion_reactor.description": "The Fusion Reactor MK 4 is a large multiblock structure used for fusing elements into heavier ones. It can only use UEV Energy Hatches. For every Hatch it has, its buffer increases by 80M EU, and has a maximum of 1280M.",
+
     "block.start_core.ev_64a_energy_converter":  "§5EV§r 64§eA§r Energy Converter",
     "block.start_core.iv_64a_energy_converter":  "§9IV§r 64§eA§r Energy Converter",
     "block.start_core.luv_64a_energy_converter": "§dLuV§r 64§eA§r Energy Converter",

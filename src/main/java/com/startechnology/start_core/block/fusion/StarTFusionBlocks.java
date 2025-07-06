@@ -59,5 +59,11 @@ public class StarTFusionBlocks {
     public static final BlockEntry<FusionCasingBlock> AUXILIARY_FUSION_COIL_MK1 = createFusionCasing(
         StarTFusionCasings.AUXILIARY_FUSION_COIL_MK1);
 
+    public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK4 = createFusionCasing(
+        StarTFusionCasings.FUSION_CASING_MK4);
+
+    public static final BlockEntry<FusionCasingBlock> ADVANCED_FUSION_COIL = createFusionCasing(
+        StarTFusionCasings.ADVANCED_FUSION_COIL);
+
     public static void init() {}
 }
