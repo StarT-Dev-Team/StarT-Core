@@ -1,0 +1,7 @@
+{
+  "parent": "start_core:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "start_core:block/casings/fusion/advanced_fusion_coil",
+    "top_all": "start_core:block/casings/fusion/advanced_fusion_coil_bloom"
+  }
+}
