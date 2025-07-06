@@ -167,7 +167,8 @@ public class StarTFusionMachines {
             .rotationState(RotationState.ALL)
             .langValue("Fusion Reactor MK %s".formatted(fusionTierString(tier)))
             .recipeType(GTRecipeTypes.FUSION_RECIPES)
-            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT)
+            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
+                FusionReactorMachine::recipeModifier)
             .tooltips(
                 Component.translatable("gtceu.machine.fusion_reactor.capacity",
                 FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
