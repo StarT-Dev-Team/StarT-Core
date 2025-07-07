@@ -1,5 +1,6 @@
 package com.startechnology.start_core.api.capability;
 
+import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
@@ -15,5 +16,8 @@ public class StarTCapability {
         .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTRedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
+        .get(new CapabilityToken<>() {});
+
+    public static final Capability<StarTAbyssalHarvesterMachine> CAPABILITY_ABYSSAL_HARVESTER = CapabilityManager
         .get(new CapabilityToken<>() {});
 }

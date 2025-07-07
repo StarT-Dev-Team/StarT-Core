@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
@@ -32,6 +33,12 @@ public class StarTCapabilityHelper {
         else if (capability == StarTCapability.CAPABILITY_REDSTONE_INTERFACE) {
             if (machine instanceof StarTRedstoneInterfacePartMachine redstoneMachine) {
                 return StarTCapability.CAPABILITY_REDSTONE_INTERFACE.orEmpty(capability, LazyOptional.of(() -> redstoneMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_ABYSSAL_HARVESTER) {
+            if (machine instanceof StarTAbyssalHarvesterMachine harvesterMachine) {
+                return StarTCapability.CAPABILITY_ABYSSAL_HARVESTER.orEmpty(capability, LazyOptional.of(() -> harvesterMachine));
             }
         }
 
@@ -64,5 +71,10 @@ public class StarTCapabilityHelper {
     @Nullable
     public static StarTHellForgeMachine getHellforgeMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_HELL_FORGE_MACHINE, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTAbyssalHarvesterMachine getAbyssalHarvesterMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_ABYSSAL_HARVESTER, level, pos, side);
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.integration.jade.provider.MaintenanceBlockProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTAbyssalHarvesterProvider;
 import com.startechnology.start_core.integration.jade.provider.StarTDreamLinkNetworkBlockProvider;
 import com.startechnology.start_core.integration.jade.provider.StarTHellforgeProvider;
 import com.startechnology.start_core.integration.jade.provider.StarTRedstoneInterfaceProvider;
@@ -22,6 +23,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new StarTDreamLinkNetworkBlockProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTHellforgeProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTRedstoneInterfaceProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTAbyssalHarvesterProvider(), BlockEntity.class);
     }
 
     @Override
@@ -29,5 +31,6 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTDreamLinkNetworkBlockProvider(), Block.class);
         registration.registerBlockComponent(new StarTHellforgeProvider(), Block.class);
         registration.registerBlockComponent(new StarTRedstoneInterfaceProvider(), Block.class);
+        registration.registerBlockComponent(new StarTAbyssalHarvesterProvider(), Block.class);
     }
 }

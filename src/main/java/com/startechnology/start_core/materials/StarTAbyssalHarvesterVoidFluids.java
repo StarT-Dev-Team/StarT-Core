@@ -21,12 +21,12 @@ public class StarTAbyssalHarvesterVoidFluids {
     public static Material AbsoluteAbyssalVoid;
 
     public static void register() {
-        CorruptAbyssalVoid = new Material.Builder(StarTCore.resourceLocation("corrupt_abyssal_void"))
-            .liquid()
-            .color(0x2D1B14)
-            .formula("?")
-            .flags(MaterialFlags.DISABLE_DECOMPOSITION)
-            .buildAndRegister();
+        // CorruptAbyssalVoid = new Material.Builder(StarTCore.resourceLocation("corrupt_abyssal_void"))
+        //     .liquid()
+        //     .color(0x2D1B14)
+        //     .formula("?")
+        //     .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+        //     .buildAndRegister();
 
         // TaintedAbyssalVoid = new Material.Builder(StarTCore.resourceLocation("blazing_phlogiston"))
         //     .liquid()
