@@ -17,10 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 public class StarTDimensionMarkers {
-
-    static {
-        START_REGISTRATE.creativeModeTab(() -> null);
-    }
     
     public static final BlockEntry<Block> ABYDOS_MARKER = createMarker("abydos");
 

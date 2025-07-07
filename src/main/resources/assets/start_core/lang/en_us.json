@@ -290,7 +290,6 @@
     "start_core.recipe.min_entropy": "Minimum Entropy: %s",
     "start_core.recipe.max_entropy": "Maximum Entropy: %s",
     "gtceu.abyssal_harvester": "Entropic Harvesting",
-
     "block.start_core.abydos_marker": "Abydos",
     "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
     "block.start_core.sterile_cleaning_maintenance_hatch": "Biosecure Sterilisation Maintenance Hatch"
