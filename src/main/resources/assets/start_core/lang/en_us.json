@@ -24,8 +24,8 @@
     "behaviour.start_core.bacteria.primary_output": "§5Primary output",
     "behaviour.start_core.bacteria.any_affinity": "§dCan be any one of the affinities",
     "behaviour.start_core.bacteria.maximum_shown_input": "§7Maximum amount consumed shown",
-    "behaviour.start_core.bacteria.harvester_sludge_input": "§7Actual sludge consumption is §625 * (2 ^ Metabolism)",
-    "behaviour.start_core.bacteria.harvester_sugar_input": "§7Actual sugar consumption is §62 ^ Metabolism",
+    "behaviour.start_core.bacteria.harvester_sludge_input": "§7Actual sludge consumption is §625 * (2 << Metabolism)",
+    "behaviour.start_core.bacteria.harvester_sugar_input": "§7Actual sugar consumption is §62 << Metabolism",
     "behaviour.start_core.bacteria.maximum_shown_output": "§7Maximum amount outputted shown",
     "behaviour.start_core.bacteria.harvester_primary_output": "§7Actual primary fluid output amount is §62000mB * Production",
 
