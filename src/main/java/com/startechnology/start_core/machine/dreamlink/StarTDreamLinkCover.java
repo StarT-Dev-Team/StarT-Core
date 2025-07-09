@@ -138,6 +138,21 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     }
 
     @Override
+    public void onRemoved() {
+        if (this.coverHolder.getLevel().isClientSide)
+            return;
+
+        var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
+
+        if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
+            if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
+                UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
+                StarTDreamLinkManager.removeDevice(this, ownerUUID);
+            }
+        }
+    }
+
+    @Override
     public long recieveEnergy(long recieved) {
         IEnergyContainer container = this.getEnergyContainer();
 

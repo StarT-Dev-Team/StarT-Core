@@ -39,6 +39,8 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReciev
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -73,6 +75,9 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     /* Store the network of the tower */
     @Persisted
     protected String network;
+
+    @Getter @Setter
+    protected String tempNetwork;
 
     private Integer range;
     private Integer recieverCount;
@@ -317,16 +322,16 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                 .addWidget(new LabelWidget(4, 5, "Dream-link Transmission Node"))
                 .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
                 .addWidget(
-                    new TextFieldWidget(4, 32, 182 - 8, 12, this::getNetwork, this::setNetwork)
+                    new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
                         .setMaxStringLength(64)
                         .setValidator(input -> {
-                            if (input == null || input.isBlank()) return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK + "";
+                            if (input == null) return "";
                             return input;
                         })
                         .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
                 ).addWidget(new ComponentPanelWidget(4, 52, this::addDisplayText))
         );
-        
+
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
@@ -336,9 +341,17 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         return true;
     }
 
+    private void closeUI() {
+        this.network = this.tempNetwork;
+        if (this.tempNetwork.isBlank()) this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
+    }
+
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+        this.tempNetwork = network;
+        ModularUI ui = new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+        ui.registerCloseListener(this::closeUI);
+        return ui;
         
     }
 
