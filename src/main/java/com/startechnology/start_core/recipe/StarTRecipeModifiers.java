@@ -56,10 +56,6 @@ public class StarTRecipeModifiers {
             return ModifierFunction.NULL;
         }
 
-        if (RecipeHelper.getRecipeEUtTier(recipe) > coilMachine.getTier()) {
-            return ModifierFunction.NULL;
-        }
-
         var diffOverAmount =  Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900)));
 
         var discount = ModifierFunction.builder()

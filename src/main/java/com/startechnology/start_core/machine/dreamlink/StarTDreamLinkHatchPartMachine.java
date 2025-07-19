@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.dreamlink;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.lowdragmc.lowdraglib.gui.editor.configurator.IConfigurableWidget;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
@@ -70,6 +72,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
                 GTValues.V[tier], amperage);
             
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
+        this.tempNetwork = network;
     }
 
     @Override
@@ -123,7 +126,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
     @Override
     public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
+        this.tempNetwork = network;
+        StarTDreamWidgetGroup group = new StarTDreamWidgetGroup(0, 0, 182 + 8, 117 + 8, this::closeUI);
         group.addWidget(
             new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
                 .addWidget(new LabelWidget(4, 5, "Dream-Link Hatch"))
@@ -143,7 +147,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
-
+    
     private void closeUI() {
         this.network = this.tempNetwork;
         if (this.tempNetwork.isBlank()) this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
@@ -151,9 +155,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        this.tempNetwork = network;
         ModularUI ui = new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
-        ui.registerCloseListener(this::closeUI);
         return ui;
     }
 
