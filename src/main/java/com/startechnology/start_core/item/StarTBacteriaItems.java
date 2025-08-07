@@ -87,7 +87,7 @@ public class StarTBacteriaItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Methane,
-                GTMaterials.Butane,
+                GTMaterials.Butene,
                 GTMaterials.Ethylene
             )))
             .register();
