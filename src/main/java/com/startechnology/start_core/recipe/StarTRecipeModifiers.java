@@ -56,7 +56,7 @@ public class StarTRecipeModifiers {
             return ModifierFunction.NULL;
         }
 
-        var diffOverAmount =  Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900)));
+        var diffOverAmount = Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900.0)));
 
         var discount = ModifierFunction.builder()
                 .parallels((int)diffOverAmount)
