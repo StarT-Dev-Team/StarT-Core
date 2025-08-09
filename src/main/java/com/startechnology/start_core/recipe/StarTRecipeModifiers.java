@@ -59,10 +59,6 @@ public class StarTRecipeModifiers {
 
         double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
         int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
-
-        if (hellforgeParallels <= 1) {
-            return ModifierFunction.IDENTITY;
-        }
         
         return ModifierFunction.builder()
             .modifyAllContents(ContentModifier.multiplier(hellforgeParallels))
