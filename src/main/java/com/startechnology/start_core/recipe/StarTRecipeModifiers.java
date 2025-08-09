@@ -47,18 +47,18 @@ public class StarTRecipeModifiers {
 
         int hellforgeTemp = coilMachine.getCrucibleTemperature();
 
+        int recipeTemp = recipe.data.getInt("ebf_temp");
+
         if (!recipe.data.contains("ebf_temp")) {
             return ModifierFunction.IDENTITY;
         }
-
-        int recipeTemp = recipe.data.getInt("ebf_temp");
-
+        
         if (recipeTemp > hellforgeTemp) {
             return ModifierFunction.NULL;
         }
 
-        double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 900.0));
-        int hellforgeParallels = (int) Math.pow(4.0, timesScaled);
+        double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
+        int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
 
         if (hellforgeParallels <= 1) {
             return ModifierFunction.IDENTITY;
