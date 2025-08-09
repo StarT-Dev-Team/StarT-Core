@@ -56,13 +56,18 @@ public class StarTRecipeModifiers {
             return ModifierFunction.NULL;
         }
 
-        var diffOverAmount = Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900.0)));
+        double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 900.0));
+        int hellforgeParallels = (int) Math.pow(4.0, timesScaled);
 
-        var discount = ModifierFunction.builder()
-                .parallels((int)diffOverAmount)
+        if (hellforgeParallels <= 1) {
+            return ModifierFunction.IDENTITY;
+        }
+        
+        return = ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(hellforgeParallels))
+                .parallels(hellforgeParallels)
                 .build();
 
-        return discount;
     }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
