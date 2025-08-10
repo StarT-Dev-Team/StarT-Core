@@ -157,13 +157,16 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
     }
 
     protected void tryRemoveHeat() {
-        if (getOffsetTimer() % 20 == 0 && this.startHeatLoss) {
-            // Remove 10 MK every second
+        if (getOffsetTimer() % 200 == 0 && this.startHeatLoss) {
 
-            if (!this.isWorking)
-                this.temperature = Math.max(this.temperature - 10, 0);
+            boolean machineActive = getRecipeLogic().isWorking();
 
-            this.temperature = Math.max(this.temperature - 1, 0);
+            if (machineActive) {
+                this.temperature = Math.max(this.temperature - 5, 0);
+            } else {
+                this.temperature = Math.max(this.temperature - 125, 0); 
+            }
+
             this.temperatureChanged();
         }
     }

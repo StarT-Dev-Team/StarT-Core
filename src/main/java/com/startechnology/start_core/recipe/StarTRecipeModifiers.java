@@ -48,22 +48,27 @@ public class StarTRecipeModifiers {
         int hellforgeTemp = coilMachine.getCrucibleTemperature();
 
         int recipeTemp = recipe.data.getInt("ebf_temp");
+
         if (!recipe.data.contains("ebf_temp")) {
             return ModifierFunction.IDENTITY;
         }
-
+        
         if (recipeTemp > hellforgeTemp) {
             return ModifierFunction.NULL;
         }
 
-        var diffOverAmount =  Math.pow(4, Math.floor(Math.max(0, (hellforgeTemp - recipeTemp) / 900)));
+        double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
+        int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
 
-        var discount = ModifierFunction.builder()
-                .parallels((int)diffOverAmount)
-                .build();
+        int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, hellforgeParallels);
 
-        return discount;
-    }
+        // Runs largest 2^n parallels that it can. 1,2,4,8,16,etc.
+        return ModifierFunction.builder()
+            .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+            .parallels(maxPossibleParallels)
+            .build();
+
+        }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
 }
