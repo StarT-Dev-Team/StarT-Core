@@ -59,13 +59,16 @@ public class StarTRecipeModifiers {
 
         double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
         int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
-        
+
+        int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, hellforgeParallels);
+
+        // Runs largest 2^n parallels that it can. 1,2,4,8,16,etc.
         return ModifierFunction.builder()
-            .modifyAllContents(ContentModifier.multiplier(hellforgeParallels))
-            .parallels(hellforgeParallels)
+            .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+            .parallels(maxPossibleParallels)
             .build();
 
-    }
+        }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
 }
