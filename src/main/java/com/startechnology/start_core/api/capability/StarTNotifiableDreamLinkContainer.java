@@ -42,13 +42,11 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
 
     protected void addToTreeSubscription() {
         if (machine.getOffsetTimer() % 5 == 0) {
-            if (machine.getHolder().getOwner() != null && machine.getHolder().getOwner().getUUID() != null) {
-                UUID ownerUUID = machine.getHolder().getOwner().getUUID();
-                StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
+            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
+            StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
 
-                this.addTickSubscription.unsubscribe();
-                this.addTickSubscription = null;
-            }
+            this.addTickSubscription.unsubscribe();
+            this.addTickSubscription = null;
         }
     }
 
@@ -59,10 +57,8 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
         if (getMachine().getLevel().isClientSide)
             return;
 
-        if (machine.getHolder().getOwner() != null && machine.getHolder().getOwner().getUUID() != null) {
-            UUID ownerUUID = machine.getHolder().getOwner().getUUID();
-            StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
-        }
+        UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
+        StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
     }
 
     /* Disable input from all sides */

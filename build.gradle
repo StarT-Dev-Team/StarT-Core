@@ -182,6 +182,11 @@ dependencies {
     modRuntimeOnly("curse.maven:spark-361579:4738952")
     modRuntimeOnly ("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
 
+
+
+    // building gadgets -> bug checking
+    modRuntimeOnly("curse.maven:building-gadgets-298187:6850495")
+
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     implementation(include("io.github.llamalad7:mixinextras-forge:$project.mixinextras_version"))
