@@ -36,6 +36,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
@@ -173,7 +174,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
             Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> machines;
 
-            UUID thisUUID = this.getHolder().getOwner().getUUID();
+            UUID thisUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
 
             // Get dream-link hatches
             if (this.range != -1)

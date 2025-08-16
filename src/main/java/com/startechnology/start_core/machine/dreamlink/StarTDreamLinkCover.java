@@ -25,6 +25,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,10 +65,8 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
             var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
             if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-                if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
-                    UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
-                    StarTDreamLinkManager.addDevice(this, ownerUUID);
-                }
+                UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
+                StarTDreamLinkManager.addDevice(this, ownerUUID);
             }
         }
     }
@@ -82,10 +81,8 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-            if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
-                UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
-                StarTDreamLinkManager.removeDevice(this, ownerUUID);
-            }
+            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
+            StarTDreamLinkManager.removeDevice(this, ownerUUID);
         }
     }
 
@@ -145,10 +142,8 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-            if (metaMachineBlockEntity.getOwner() != null && metaMachineBlockEntity.getOwner().getUUID() != null) {
-                UUID ownerUUID = metaMachineBlockEntity.getOwner().getUUID();
-                StarTDreamLinkManager.removeDevice(this, ownerUUID);
-            }
+            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
+            StarTDreamLinkManager.removeDevice(this, ownerUUID);
         }
     }
 
@@ -184,7 +179,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (entity instanceof MetaMachineBlockEntity machine) {
-            if (!Objects.equals(machine.getOwner().getUUID(), tower.getHolder().getOwner().getUUID()))
+            if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine), IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
                 return false;            
         } else {
             return false;
