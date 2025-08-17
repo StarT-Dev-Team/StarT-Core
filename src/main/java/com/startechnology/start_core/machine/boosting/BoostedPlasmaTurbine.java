@@ -73,9 +73,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private double getBoostingBonus() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return isActiveBoosting ? 2 : 1.5;
+                return isActiveBoosting ? 2.5 : 1.5;
             case NYINSANE_TURBINE_TIER:
-                return isActiveBoosting ? 3 : 2;
+                return isActiveBoosting ? 4 : 2;
             default: 
                 return 1;
         }
