@@ -49,7 +49,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private int runningTimer = 0;
 
     public BoostedPlasmaTurbine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier);
+        super(holder, GTValues.IV);
         this.tier = tier;
     }
     
