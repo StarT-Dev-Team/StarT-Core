@@ -298,5 +298,6 @@
   "start_core.multiblock.boosted_plasma_turbine.ws2_boosting": "Tungsten Disulfide Boosted",
   "start_core.multiblock.boosted_plasma_turbine.no_ws2_boosting": "Not Tungsten Disulfide Boosted",
   "start_core.multiblock.supreme_turbine.ss_h32_boosting": "Superstate Helium 3 Boosted",
-  "start_core.multiblock.nyinsane_turbine.bec_og_boosting": "Oganesson Stabilised Bose-Einstein Condensate Boosted"
+  "start_core.multiblock.nyinsane_turbine.bec_og_boosting": "Oganesson Stabilised Bose-Einstein Condensate Boosted",
+  "start_core:abyssal_containment_room.display_name": "§5True Abyss"
 }

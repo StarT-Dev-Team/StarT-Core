@@ -22,9 +22,9 @@ import net.minecraft.network.chat.Component;
 public class StarTAbyssalContainmentMachines {
     
     public static MultiblockMachineDefinition ABYSSAL_CONTAINMENT_ROOM = StarTCore.START_REGISTRATE
-        .multiblock("abyssal_containment_room", WorkableElectricMultiblockMachine::new)
+        .multiblock("abyssal_containment_room", StarTAbyssalContainmentMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("draco_ware_casing")))
-        .recipeType(GTRecipeTypes.FURNACE_RECIPES)
+        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .langValue("Abyssal Containment Room")
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A", "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA#############AA", "A###############A", "A###############A", "A###############A", "A###############A", "A###############A", "AA#############AA", "A#A###########A#A", "A#A###########A#A", "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A", "AAAAAAAAAAAAAAAAA") 
@@ -49,8 +49,7 @@ public class StarTAbyssalContainmentMachines {
             .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing")))
             .where("C", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
             .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_ware_casing"))
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS))
-                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS))
+                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
             .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("abyssal_inductor_hull")))
