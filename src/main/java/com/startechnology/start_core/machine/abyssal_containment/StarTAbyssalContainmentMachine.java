@@ -84,6 +84,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -107,6 +108,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
     public static final CleanroomType ABYSSAL_CONTAINMENT_ROOM = new CleanroomType("abyssal_containment_room",
             "start_core:abyssal_containment_room.display_name");
 
+    private ItemStack talismanStack = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("end_talisman")));
     private CleanroomType cleanroomType;
     private MobEffect abyssalDrain;
 
@@ -201,6 +203,10 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             .buildRawRecipe();
     }
 
+    private static final String endArmourId(String pieceName) {
+        return KubeJS.id("end_" + pieceName).toString();
+    }
+
     @Override
     public boolean onWorking() {
         boolean value = super.onWorking();
@@ -215,12 +221,33 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             List<Player> playersInside =  this.getLevel().getEntitiesOfClass(Player.class, this.cleanroomBoundingBox);
 
             // Give all players inside the abyssal drain effect
-            // playersInside.stream().forEach(player -> {
-            //         ItemStack helmet        = player.k
+            playersInside.forEach(player -> {
+                // KJS methods to match kjs better.. ULTRA YOU BETTER NOT CHANGE THIS OR I WILL
+                // violence...
+                String headId = player.kjs$getHeadArmorItem().kjs$getId();
+                String chestId = player.kjs$getChestArmorItem().kjs$getId();
+                String legsId = player.kjs$getLegsArmorItem().kjs$getId();
+                String feetId = player.kjs$getFeetArmorItem().kjs$getId();
 
-            //         player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30))
-            //     }
-            // );
+                // Armour check.
+                if  (
+                    endArmourId("helmet").equals(headId) && 
+                    endArmourId("chestplate").equals(chestId) && 
+                    endArmourId("leggings").equals(legsId) &&
+                    endArmourId("boots").equals(feetId)  
+                ) {
+                    player.removeEffect(abyssalDrain);
+                    return;
+                }
+
+                // Talisman check
+                if (player.getInventory().contains(talismanStack)) {
+                    player.removeEffect(abyssalDrain);
+                    return;
+                }
+
+                player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30));
+            });
         }
 
         runningTimer++;
