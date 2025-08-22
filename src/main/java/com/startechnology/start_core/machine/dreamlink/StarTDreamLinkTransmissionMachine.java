@@ -68,10 +68,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
     private ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
     private boolean isReadyToTransmit;
-    private int cacheUpdateTicker = 0;
-
-     // Update cache every 5 seconds 
-    private static final int CACHE_UPDATE_INTERVAL = 100;
 
     @Persisted
     protected String network;
@@ -122,8 +118,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
         this.inputHatches = new EnergyContainerList(inputs);
         this.isReadyToTransmit = true;
-        // Force cache update on structure formation
-        this.cacheUpdateTicker = CACHE_UPDATE_INTERVAL;
     }
 
     @Override
@@ -156,16 +150,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     protected void tryTransferEnergy() {
-        // OPTIMIZATION: Reduce frequency and separate cache updates from transfers
-        cacheUpdateTicker++;
-        
-        if (cacheUpdateTicker >= CACHE_UPDATE_INTERVAL && this.isReadyToTransmit) {
+        // Transfer energy tick only every 3 seconds, should keep up fine just averaged over 3 seconds instead of every tick/second
+        // and help save TPS a bit due to GTM update handlers on recipe logic
+        // from hatches recieving power very often?
+        if (getOffsetTimer() % 60 == 0 && this.isReadyToTransmit) {
             updateTransferCache();
-            cacheUpdateTicker = 0;
-        }
-        
-        // Transfer energy more frequently than cache updates for responsiveness
-        if (getOffsetTimer() % 20 == 0 && this.isReadyToTransmit) {
             transferEnergyTick();
         }
     }
@@ -393,8 +382,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Override
     public void setNetwork(String network) {
         this.network = network;
-        // Force cache update when network changes
-        this.cacheUpdateTicker = CACHE_UPDATE_INTERVAL;
     }
 
     @Override
