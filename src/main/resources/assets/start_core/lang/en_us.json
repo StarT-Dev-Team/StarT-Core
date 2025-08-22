@@ -294,7 +294,7 @@
   "block.start_core.abydos_marker": "Abydos",
   "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
   "block.start_core.sterile_cleaning_maintenance_hatch": "Biosecure Sterilisation Maintenance Hatch",
-  "start_core.uuid_safe.fail_nearest_player": "No nearest player found, please replace Dream-Link placed.",
+  "start_core.uuid_safe.fail_nearest_player": "Issue regarding UUID's occured, Please visit Dream-Link at %s and consider replacing if Owner is not correct.",
   "start_core.multiblock.boosted_plasma_turbine.ws2_boosting": "Tungsten Disulfide Boosted",
   "start_core.multiblock.boosted_plasma_turbine.no_ws2_boosting": "Not Tungsten Disulfide Boosted",
   "start_core.multiblock.supreme_turbine.ss_h32_boosting": "Superstate Helium 3 Boosted",

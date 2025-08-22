@@ -215,12 +215,12 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             List<Player> playersInside =  this.getLevel().getEntitiesOfClass(Player.class, this.cleanroomBoundingBox);
 
             // Give all players inside the abyssal drain effect
-            playersInside.stream().forEach(player -> {
-                    ItemStack helmet        = player.k
+            // playersInside.stream().forEach(player -> {
+            //         ItemStack helmet        = player.k
 
-                    player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30))
-                }
-            );
+            //         player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30))
+            //     }
+            // );
         }
 
         runningTimer++;
