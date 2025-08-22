@@ -299,5 +299,14 @@
   "start_core.multiblock.boosted_plasma_turbine.no_ws2_boosting": "Not Tungsten Disulfide Boosted",
   "start_core.multiblock.supreme_turbine.ss_h32_boosting": "Superstate Helium 3 Boosted",
   "start_core.multiblock.nyinsane_turbine.bec_og_boosting": "Oganesson Stabilised Bose-Einstein Condensate Boosted",
-  "start_core:abyssal_containment_room.display_name": "§5True Abyss"
+  "start_core:abyssal_containment_room.display_name": "§5True Abyss",
+  "block.start_core.abyssal_containment_room": "Abyssal Isolation Chamber",
+  "block.start_core.abyssal_containment_room_line": "§5§lThe True Abyss",
+  "start_core.abyssal_containment_room.acr0": "§7You think you peer into its silence... but silence is the tongue of eternity, and §keternity§r§7 has already spoken your name.",
+  "start_core.abyssal_containment_room.acr1": "§dAbyssal Containment",
+  "start_core.abyssal_containment_room.acr2": "§7Provides a simulation of the §5True Abyss §7for all machines placed inside much like a Cleanroom. Due to the nature of the abyss, §fprotection as utilised in the end is advised§7. ",
+  "start_core.abyssal_containment_room.acr3": "§6Isolation Maintenance",
+  "start_core.abyssal_containment_room.acr4":  "§7In order to maintain the abyssal containment, §e100000B of End Air§7 and §d50B Dragon Breath§7 per hour must be supplied to the room. ",
+  "start_core.abyssal_containment_room.not_provided_fluids": "Isolation fluids not provided",
+  "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids"
 }

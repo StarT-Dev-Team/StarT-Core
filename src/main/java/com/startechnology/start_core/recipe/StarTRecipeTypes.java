@@ -51,6 +51,10 @@ public class StarTRecipeTypes {
         .addCustomRecipeLogic(new BacteriaVatLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
     
+    public static final GTRecipeType ABYSSAL_CONTAINMENT_RECIPE_TYPE = GTRecipeTypes.register("abyssal_containment", GTRecipeTypes.MULTIBLOCK)
+        .setMaxIOSize(0, 0, 2, 0)
+        .setEUIO(IO.IN);
+
     public static final GTRecipeType BACTERIAL_RUNIC_MUTATOR_RECIPES = GTRecipeTypes.register("bacterial_runic_mutator", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(2, 1, 2, 0)
         .setEUIO(IO.IN)

@@ -46,6 +46,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -65,6 +66,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.primitive.PrimitivePumpMa
 import com.gregtechceu.gtceu.common.machine.trait.CleanroomLogic;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -263,5 +265,21 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    
+    // gui stuff
+        @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+
+            if (!this.isSuppliedFluids) {
+                textList.add(Component.translatable("start_core.abyssal_containment_room.not_provided_fluids").withStyle(ChatFormatting.RED));
+            } else {
+                 textList.add(Component.translatable("start_core.abyssal_containment_room.provided_fluids").withStyle(ChatFormatting.GREEN));
+            }
+        }
     }
 }

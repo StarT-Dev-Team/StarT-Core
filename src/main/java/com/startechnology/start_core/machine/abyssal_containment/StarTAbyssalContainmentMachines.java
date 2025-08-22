@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.network.chat.Component;
@@ -24,8 +25,19 @@ public class StarTAbyssalContainmentMachines {
     public static MultiblockMachineDefinition ABYSSAL_CONTAINMENT_ROOM = StarTCore.START_REGISTRATE
         .multiblock("abyssal_containment_room", StarTAbyssalContainmentMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("draco_ware_casing")))
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .langValue("Abyssal Containment Room")
+        .recipeType(StarTRecipeTypes.ABYSSAL_CONTAINMENT_RECIPE_TYPE)
+        .langValue("Abyssal Isolation Chamber")
+        .tooltips(
+            Component.translatable("block.start_core.abyssal_containment_room_line"),
+            Component.translatable("start_core.abyssal_containment_room.acr0"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("start_core.abyssal_containment_room.acr1"),
+            Component.translatable("start_core.abyssal_containment_room.acr2"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("start_core.abyssal_containment_room.acr3"),
+            Component.translatable("start_core.abyssal_containment_room.acr4"),
+            Component.translatable("block.start_core.breaker_line")
+        )
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A", "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA#############AA", "A###############A", "A###############A", "A###############A", "A###############A", "A###############A", "AA#############AA", "A#A###########A#A", "A#A###########A#A", "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A", "AAAAAAAAAAAAAAAAA") 
             .aisle("A######A#A######A", "#BBBBBBCDCBBBBBB#", "#BBBBCCCDCCCBBBB#", "#BBBCCCCDCCCCBBB#", "#BBCCCCEEECCCCBB#", "#BCCCEEEEEEECCCB#", "#BCCCEEFFFEECCCB#", "ACCCEEFFDFFEECCCA", "#CCCEEFFFFFEECCC#", "#CCEEFFFDFFFEECC#", "#DDEEFDFDFDFEEDD#", "#CCEEFFFDFFFEECC#", "#CCCEEFFFFFEECCC#", "ACCCEEFFDFFEECCCA", "#BCCCEEFFFEECCCB#", "#BCCCEEEEEEECCCB#", "#BBCCCCEEECCCCBB#", "#BBBCCCCDCCCCBBB#", "#BBBBCCCDCCCBBBB#", "#BBBBBBCDCBBBBBB#", "A######A#A######A") 
