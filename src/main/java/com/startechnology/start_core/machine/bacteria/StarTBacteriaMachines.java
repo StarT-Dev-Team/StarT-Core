@@ -81,7 +81,7 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("block.start_core.rm0"),
             Component.translatable("block.start_core.rm1"),
-            Component.translatable("block.start_core.gap"),
+            Component.translatable("block.start_core.breaker_line"),
             Component.translatable("block.start_core.rm3"),
             Component.translatable("block.start_core.rm4"),
             Component.translatable("block.start_core.breaker_line")

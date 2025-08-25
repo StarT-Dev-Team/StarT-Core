@@ -151,6 +151,10 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     public long recieveEnergy(long recieved) {
         IEnergyContainer container = this.getEnergyContainer();
 
+        if (Objects.isNull(container)) {
+            return 0;
+        }
+
         if (container.getInputVoltage() < GTValues.V[this.tier] && recieved > container.getInputVoltage()) {
             var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 

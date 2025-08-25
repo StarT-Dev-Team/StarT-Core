@@ -59,10 +59,6 @@ import rx.Observable;
 
 public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
 
-/*
-     * As far as i can understand, the Managed Field Holder allows this class
-     * to persist/save data onto the world using NBT with the @Persisted field annotation
-     */
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkTransmissionMachine.class,
         WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
@@ -70,10 +66,9 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected ConditionalSubscriptionHandler tickSubscription;
     protected TickableSubscription tryTickSub;
 
-    private Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> recieverCache;
+    private ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
     private boolean isReadyToTransmit;
 
-    /* Store the network of the tower */
     @Persisted
     protected String network;
 
@@ -81,7 +76,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected String tempNetwork;
 
     private Integer range;
-    private Integer recieverCount;
+    private Integer receiverCount;
     private Boolean checkDimension;
 
     public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Boolean checkDimension) {
@@ -92,7 +87,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.range = range;
         this.checkDimension = checkDimension;
-        this.recieverCount = 0;
+        this.receiverCount = 0;
     }
 
     @Override
@@ -101,7 +96,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
         List<IEnergyContainer> inputs = new ArrayList<>();
         Map<Long, IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
-        
+
         // Add update subscription to EUCap trait
         // TODO: Changed in gt 1.7
         for (IMultiPart part : getParts()) {
@@ -149,12 +144,15 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             tickSubscription.unsubscribe();
             tickSubscription = null;
         }
+
+        // Clear cache on unload
+        receiverCache.clear();
     }
 
     protected void tryTransferEnergy() {
-        // Lower frequency every second try transfer.
-        // This is so that if we have all our buffers full
-        // we can still transfer out/attempt after etc.
+        // Transfer energy tick only every 3 seconds, should keep up fine just averaged over 3 seconds instead of every tick/second
+        // and help save TPS a bit due to GTM update handlers on recipe logic
+        // from hatches recieving power very often?
         if (getOffsetTimer() % 60 == 0 && this.isReadyToTransmit) {
             updateTransferCache();
             transferEnergyTick();
@@ -162,67 +160,83 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     private void updateTransferCache() {
-        if (getLevel().isClientSide)
+        if (getLevel().isClientSide || !this.isReadyToTransmit || !isWorkingEnabled())
             return;
        
-        if (this.isReadyToTransmit && isWorkingEnabled()) {
-            // Centre of this transmission machine
-            BlockPos centre = getPos();
+        BlockPos centre = getPos();
+        int x = centre.getX();
+        int z = centre.getZ();
+        UUID thisUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
 
-            int x = centre.getX();
-            int z = centre.getZ();
+        Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> machines;
 
-            Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> machines;
-
-            UUID thisUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
-
-            // Get dream-link hatches
-            if (this.range != -1)
-                machines = StarTDreamLinkManager.getDevices(x + range, z + range, x - range, z - range, thisUUID);
-            else
-                machines = StarTDreamLinkManager.getAllDevices(thisUUID);
-
-            machines = machines.filter(machine -> {
-                    return machine.value().canRecieve(this, this.checkDimension);
-                }).sorted((machinea, machineb) -> {
-                    IStarTDreamLinkNetworkRecieveEnergy parta = machinea.value();
-                    IStarTDreamLinkNetworkRecieveEnergy partb = machineb.value();
-
-                    // Manhatten distnace of each
-                    BlockPos aPos = parta.devicePos();
-                    BlockPos bPos = partb.devicePos();
-                    
-                    return this.getSquaredDistanceToThis(aPos).compareTo(this.getSquaredDistanceToThis(bPos));
-                });
-            
-            recieverCount = machines.count().toBlocking().first();
-            recieverCache = machines;
+        // Get dream-link hatches
+        if (this.range != -1) {
+            machines = StarTDreamLinkManager.getDevices(x + range, z + range, x - range, z - range, thisUUID);
+        } else {
+            machines = StarTDreamLinkManager.getAllDevices(thisUUID);
         }
+
+        // Convert Observable to List once and cache it
+        List<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> deviceEntries = machines
+            .filter(machine -> machine.value().canRecieve(this, this.checkDimension))
+            .toList()
+            .toBlocking()
+            .single();
+
+        // Sort by distance (squared distance for performance)
+        deviceEntries.sort((entryA, entryB) -> {
+            BlockPos posA = entryA.value().devicePos();
+            BlockPos posB = entryB.value().devicePos();
+            return Double.compare(getSquaredDistanceToThis(posA), getSquaredDistanceToThis(posB));
+        });
+
+        // Extract just the devices we need
+        receiverCache.clear();
+        receiverCache.ensureCapacity(deviceEntries.size()); // Pre-allocate capacity
+        for (Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry> entry : deviceEntries) {
+            receiverCache.add(entry.value());
+        }
+
+        receiverCount = receiverCache.size();
     }
 
     private Double getSquaredDistanceToThis(BlockPos otherPos) {
-        return otherPos.getCenter().distanceToSqr(this.getPos().getCenter());
+        Vec3 thisCenter = this.getPos().getCenter();
+        Vec3 otherCenter = otherPos.getCenter();
+        return thisCenter.distanceToSqr(otherCenter);
     }
 
     protected void transferEnergyTick() {
-        // Here we will transfer energy while we are formed.
-        if (getLevel().isClientSide)
+        if (getLevel().isClientSide || !this.isReadyToTransmit || !isWorkingEnabled())
             return;
 
-        if (this.isReadyToTransmit && isWorkingEnabled()) {
-            if (recieverCache == null) {
-                updateTransferCache();
+        final int receiverCount = receiverCache.size();
+        if (receiverCount == 0) return;
+
+        long energyStored = inputHatches.getEnergyStored();
+        if (energyStored <= 0) return;
+
+        //  Batch energy removal to reduce method calls over iteration 
+        long totalEnergyTransferred = 0;
+        
+        // Cache the array reference for fastest possible access
+        final Object[] receivers = receiverCache.toArray();
+        
+        // Use array access with type casting
+        for (int i = 0; i < receiverCount && energyStored > 0; i++) {
+            IStarTDreamLinkNetworkRecieveEnergy device = (IStarTDreamLinkNetworkRecieveEnergy) receivers[i];
+            
+            long energyToTransfer = device.recieveEnergy(energyStored);
+            if (energyToTransfer > 0) {
+                totalEnergyTransferred += energyToTransfer;
+                energyStored -= energyToTransfer;
             }
-
-            recieverCache.forEach((entry) -> {
-                IStarTDreamLinkNetworkRecieveEnergy device = entry.value();
-
-                long energyStored = inputHatches.getEnergyStored();
-
-                long hatchEnergyChange = device.recieveEnergy(energyStored);
-
-                inputHatches.removeEnergy(hatchEnergyChange);
-            });
+        }
+        
+        // Single batch energy removal at the end
+        if (totalEnergyTransferred > 0) {
+            inputHatches.removeEnergy(totalEnergyTransferred);
         }
     }
 
@@ -236,7 +250,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             else
                 textList.add(Component.translatable("start_core.machine.dream_link.not_active"));
 
-            // Stats display
             addTowerStatsDisplay(textList); 
         }
 
@@ -244,7 +257,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     private void addTowerStatsDisplay(List<Component> textList) {
-        /* Owner display */
         MutableComponent ownerComponent = Component.literal(this.getHolder().getOwner().getName());
         
         textList.add(Component
@@ -305,14 +317,13 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             }
         }
 
-        MutableComponent totalHatchesComponent = Component.literal(FormattingUtil.formatNumbers(this.recieverCount))
+        MutableComponent totalHatchesComponent = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
             .setStyle(Style.EMPTY.withColor(ChatFormatting.LIGHT_PURPLE));
 
         textList.add(Component
             .translatable("start_core.machine.dream_link.total_hatches", totalHatchesComponent)
             .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                     Component.translatable("start_core.machine.dream_link.tower.total_hatches_hover")))));
-
     }
 
     @Override
@@ -353,7 +364,6 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         ModularUI ui = new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
         ui.registerCloseListener(this::closeUI);
         return ui;
-        
     }
 
     @Override

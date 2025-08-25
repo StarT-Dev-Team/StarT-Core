@@ -57,7 +57,7 @@ public class StarTFusionMachines {
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.specific", 
                     GTValues.VN[tier], AuxiliaryBoostedFusionReactor.calculateEnergyStorageFactor(tier, 1) / 1000000L
                 ),
-                Component.literal(""),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info"),
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info_1"),
                 Component.translatable("block.start_core.breaker_line")
