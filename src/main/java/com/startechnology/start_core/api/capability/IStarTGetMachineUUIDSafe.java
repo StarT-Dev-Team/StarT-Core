@@ -50,9 +50,16 @@ public class IStarTGetMachineUUIDSafe {
             OwnerSetter ownerSetter) {
         
         // Safe case: get from the machine's owner since it exists
-        if (!Objects.isNull(currentOwner) && !Objects.isNull(currentOwner.getUUID())) {
-            return currentOwner.getUUID();
+        try {
+            if (!Objects.isNull(currentOwner) && !Objects.isNull(currentOwner.getUUID())) {
+                return currentOwner.getUUID();
+            }
+        } catch (NullPointerException e) {
+            if (!e.getMessage().contains("dev.ftb.mods.ftbteams.api.Team.getId()")) {
+                throw new RuntimeException("Blame stellaurora or GTM for this one: " + e.getMessage());
+            } 
         }
+        
 
         // OOoOOHOOHOHOH Spooky territory: Try to find nearest player
 
@@ -66,14 +73,14 @@ public class IStarTGetMachineUUIDSafe {
             machinePos.getX(), 
             machinePos.getY(), 
             machinePos.getZ(), 
-            100, 
+            10, 
             (_player) -> true
         );
         
         if (Objects.isNull(nearestPlayer)) {
             if (!level.isClientSide()) {
                 level.getServer().getPlayerList().broadcastSystemMessage(
-                    Component.translatable("start_core.uuid_safe.fail_nearest_player"), 
+                    Component.translatable("start_core.uuid_safe.fail_nearest_player", "x: " + machinePos.getX() + " y: " + machinePos.getY() + " z: "  + machinePos.getZ()), 
                     false
                 );
             }

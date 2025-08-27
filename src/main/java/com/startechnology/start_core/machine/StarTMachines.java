@@ -1,4 +1,5 @@
 package com.startechnology.start_core.machine;
+import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -39,5 +40,6 @@ public class StarTMachines {
         StarTAbyssalharvesterMachines.init();
         StarTFurnaceMachines.init();
         StarTMaintenanceMachines.init();
+        StarTAbyssalContainmentMachines.init();
     }
 }

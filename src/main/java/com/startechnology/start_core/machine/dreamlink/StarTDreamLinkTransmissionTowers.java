@@ -34,7 +34,7 @@ public class StarTDreamLinkTransmissionTowers {
                 Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("start_core.machine.dream_link_tower.beam_info"),
                 Component.translatable("start_core.machine.dream_link_tower.beam_description"),
-                Component.literal(""),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("start_core.machine.dream_link_tower.node_info")
             )
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("superalloy_casing")))
