@@ -7,7 +7,7 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+// import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -19,7 +19,9 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.managed.ManagedField;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
-import com.startechnology.start_core.materials.StarTAbyssalHarvesterVoidFluids;
+// import com.startechnology.start_core.materials.StarTAbyssalHarvesterVoidFluids;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Recipe;
@@ -30,10 +32,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    protected Integer entropy;
+    protected Integer saturation;
 
     protected TickableSubscription tryTickSub;
-    private boolean startEntropyLoss;
+    private boolean startSaturationGain;
 
     private boolean isWorking;
     public ArrayList<StarTRedstoneInterfacePartMachine> redstoneOutputHatches;
@@ -41,8 +43,8 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        this.entropy = 10000;
-        this.startEntropyLoss = false;
+        this.saturation = 0;
+        this.startSaturationGain = false;
         this.isWorking = false;
         this.redstoneOutputHatches = new ArrayList<>();
     }
@@ -52,25 +54,34 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
             return RecipeModifier.nullWrongType(StarTAbyssalHarvesterMachine.class, machine);
         }
         
-        if (!recipe.data.contains("min_entropy") || !recipe.data.contains("max_entropy")) {
+        if (!recipe.data.contains("min_saturation") || !recipe.data.contains("max_saturation")) {
             return ModifierFunction.IDENTITY;
         }
-        int machineEntropy = abyssalHarvesterMachine.getEntropy();
-        int recipeEntropy = recipe.data.getInt("min_entropy");
-        int maxRecipeEntropy = recipe.data.getInt("max_entropy");
-        if (recipeEntropy > machineEntropy || maxRecipeEntropy < machineEntropy) {
+        int machineSaturation = abyssalHarvesterMachine.getSaturation();
+        int minRecipeSaturation = recipe.data.getInt("min_saturation");
+        int maxRecipeSaturation = recipe.data.getInt("max_saturation");
+        if (minRecipeSaturation > machineSaturation || maxRecipeSaturation < machineSaturation) {
             return ModifierFunction.NULL;
         }
-        // if (recipeEntropy <= machineEntropy) {
-        //     return ModifierFunction.IDENTITY;
-        // }
+       
+        if ((1750 <= machineSaturation && machineSaturation <= 2750) ||
+         (5250 <= machineSaturation && machineSaturation <= 6250) ||
+         (8750 <= machineSaturation && machineSaturation <= 9750)) {
+        int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, 2);
+        return ModifierFunction.builder()
+            .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+            .parallels(maxPossibleParallels)
+            .build();
+        }
+
         return ModifierFunction.IDENTITY;
     }
  
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        textList.add(Component.translatable("ui.start_core.abyssal_harvester", this.getEntropy()));
+        textList.add(Component.translatable("ui.start_core.abyssal_harvester", 
+        String.format("%.2f", this.getSaturation() / 100.0)));
     }
 
     @Override
@@ -95,7 +106,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public void onStructureFormed() {
         super.onStructureFormed();
         this.isWorking = false;
-        this.startEntropyLoss = true;
+        this.startSaturationGain = true;
 
         // Find output redstone if it exists
         this.getParts()
@@ -106,36 +117,40 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
             });
 
 
-        this.entropyChanged();
+        this.saturationChanged();
     }
 
-    private static final List<Integer> redstoneEntropyMarkers = List.of(
-        150000,
-        300000,
-        500000
+    private static final List<Integer> redstoneSaturationMarkers = List.of(
+        12000, // 120.00%
+        9000,  // 90.00%
+        6000,  // 60.00%
+        3000   // 30.00%
     );
 
-    private void entropyChanged() {
+    private void saturationChanged() {
         if (this.redstoneOutputHatches.isEmpty()) return;
 
-        redstoneEntropyMarkers.stream().forEach(
-            entry -> {
-                final double percentageOfEntropy = (this.entropy / ((double)entry)) * 15.0;
+        for (Integer marker : redstoneSaturationMarkers) {
 
-                this.redstoneOutputHatches.forEach(hatch -> {
-                    hatch.setIndicatorSignal(
-                    "Percentage to " +  entry.toString() + " §5Entropy", 
-                    (int)Math.floor(percentageOfEntropy)
-                    );
-                });
+        String markerLabel = String.format("%.2f%%", marker / 100.0);
+        double percentOfMarker = (this.saturation / (double) marker) * 100.0;
+        int clampedPercent = (int) Math.min(100, Math.max(0, Math.floor(percentOfMarker)));
+
+        String label = "Percent out of §d" + markerLabel + " §fSaturation";
+
+            for (StarTRedstoneInterfacePartMachine hatch : this.redstoneOutputHatches) {
+                
+                hatch.setIndicatorSignal(label, clampedPercent);
+
             }
-        );
+        }
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         this.isWorking = false;
+        this.startSaturationGain = false;
     }
     
     @Override
@@ -145,19 +160,18 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (getLevel().isClientSide)
             return;
 
-        tryTickSub = subscribeServerTick(tryTickSub, this::tryRemoveEntropy);
+        tryTickSub = subscribeServerTick(tryTickSub, this::tryGainSaturation);
     }
     
-    public Integer getEntropy() {
-        return this.entropy;
+    public Integer getSaturation() {
+        return this.saturation;
     }
 
-    protected void tryRemoveEntropy() {
-        if (getOffsetTimer() % 20 == 0 && this.startEntropyLoss) {
+    protected void tryGainSaturation() {
+        if (getOffsetTimer() % 100 == 0 && this.startSaturationGain) {
 
-            if (!this.isWorking)
-                this.entropy = Math.max(this.entropy - 50, 0);
-                this.entropyChanged();
+            this.saturation = Math.min(this.saturation + 55, 12000);
+            this.saturationChanged();
 
         }
     }
@@ -177,11 +191,11 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public void afterWorking() {
         super.afterWorking();
         this.isWorking = false;
-        tryIncreaseEntropy();
+        tryAbsorbSaturation();
     }
 
-    private void tryIncreaseEntropy() {
-        this.entropy = Math.min(this.entropy + 1000, 500000);
-        this.entropyChanged();
+    private void tryAbsorbSaturation() {
+        this.saturation = Math.max(this.saturation - 500, 0);
+        this.saturationChanged();
     }
 }

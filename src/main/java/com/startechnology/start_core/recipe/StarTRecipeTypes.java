@@ -77,7 +77,7 @@ public class StarTRecipeTypes {
     }
 
     public static final GTRecipeType HELL_FORGE_RECIPES = registerStarTPrioritiseCustomLogic("hellforge", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(0, 0, 8, 1)
+        .setMaxIOSize(0, 0, 7, 1)
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addCustomRecipeLogic(new HellForgeHeatingLogic())
@@ -104,28 +104,26 @@ public class StarTRecipeTypes {
         .setSound(GTSoundEntries.FURNACE);
 
     public static final GTRecipeType ABYSSAL_HARVESTER_RECIPES = GTRecipeTypes.register("abyssal_harvester", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(1, 1, 0, 1)
+        .setMaxIOSize(1, 0, 1, 4)
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addDataInfo(data -> {
-            int min_entropy = data.getInt("min_entropy");
-
-            if (min_entropy > 0) {
-                return LocalizationUtils.format("start_core.recipe.min_entropy", min_entropy);
+            int min_saturation = data.getInt("min_saturation");
+            if (min_saturation > 0) {
+                return LocalizationUtils.format("start_core.recipe.min_saturation",
+                    String.format("%.2f", min_saturation / 100.0));
             }
-
             return "";
         })
         .addDataInfo(data -> {
-            int max_entropy = data.getInt("max_entropy");
-
-            if (max_entropy > 0) {
-                return LocalizationUtils.format("start_core.recipe.max_entropy", max_entropy);
+            int max_saturation = data.getInt("max_saturation");
+            if (max_saturation > 0) {
+                return LocalizationUtils.format("start_core.recipe.max_saturation",
+                    String.format("%.2f", max_saturation / 100.0));
             }
-
             return "";
         })
-        .setSound(GTSoundEntries.FURNACE);
+        .setSound(GTSoundEntries.CENTRIFUGE);
 
     public static final void init() {
         

@@ -31,17 +31,19 @@ public class StarTAbyssalharvesterMachines {
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("start_core.machine.abyssal_harvester.ah0"),
             Component.translatable("start_core.machine.abyssal_harvester.ah1"),
-            Component.translatable("block.start_core.gap"),
             Component.translatable("start_core.machine.abyssal_harvester.ah2"),
-            Component.translatable("block.start_core.gap"),
             Component.translatable("start_core.machine.abyssal_harvester.ah3"),
-            Component.translatable("block.start_core.gap"),
-            Component.translatable("machine.start_core.redstone_interfacing"),
+            Component.translatable("block.start_core.breaker_line"),
             Component.translatable("start_core.machine.abyssal_harvester.ah4"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("start_core.machine.abyssal_harvester.ah5"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("machine.start_core.redstone_interfacing"),
+            Component.translatable("start_core.machine.abyssal_harvester.ah6"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.parallels")
         )
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
-        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTAbyssalHarvesterMachine::recipeModifier)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK, StarTAbyssalHarvesterMachine::recipeModifier)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("             ", "             ", "             ", "       D     ", "      DD     ", "     DD      ", "     D       ", "       D     ", "      DD     ", "     DD      ", "     D       ", "       D     ", "      DD     ", "     DD      ", "             ", "             ", "             ")
             .aisle("             ", "             ", "     DDD     ", "   DD   D    ", "   D         ", "         D   ", "    D   DD   ", "   DD   D    ", "   D         ", "         D   ", "    D   DD   ", "   DD   D    ", "   D         ", "         D   ", "     DDD     ", "             ", "             ")
@@ -68,7 +70,8 @@ public class StarTAbyssalharvesterMachines {
                 .setMinGlobalLimited(80)
                 .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                 .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(4).setPreviewCount(0))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
             .where(' ', Predicates.any())
             // .where('O', Predicates.abilities(PartAbility.EXPORT_FLUIDS))
             // .where('I', Predicates.abilities(PartAbility.IMPORT_FLUIDS)

@@ -36,20 +36,23 @@ public class StarTAbyssalHarvesterProvider extends CapabilityBlockProvider<StarT
         return null;
     }
 
-    /* Used for storing data for the addTooltip method ? */
     @Override
     protected void write(CompoundTag data, StarTAbyssalHarvesterMachine capability) {
-        data.putInt("entropy", capability.getEntropy());
+        data.putInt("saturation", capability.getSaturation());
     }
 
-    /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
             BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("entropy"))
+        if (capData.contains("saturation"))
         {
-            Integer entropy = capData.getInt("entropy");
-            tooltip.add(Component.translatable("ui.start_core.abyssal_harvester", entropy));
+
+            int saturation = capData.getInt("saturation");
+            double percent = saturation / 100.0;
+
+            tooltip.add(Component.translatable("ui.start_core.abyssal_harvester", 
+            String.format("%.2f", percent)));
+
         }
     }
     
