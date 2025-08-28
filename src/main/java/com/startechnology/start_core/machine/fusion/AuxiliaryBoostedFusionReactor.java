@@ -27,6 +27,7 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
     public static Block getCasingState(int tier) {
         return switch (tier) {
             case GTValues.UHV -> StarTFusionBlocks.AUXILIARY_BOOSTED_FUSION_CASING_MK1.get();
+            case GTValues.UIV -> StarTFusionBlocks.AUXILIARY_BOOSTED_FUSION_CASING_MK2.get();
             default -> FusionReactorMachine.getCasingState(tier);
         };
     }
@@ -34,6 +35,7 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
     public static int getParallelCount(int tier) {
         return switch (tier) {
             case GTValues.UHV -> 4;
+            case GTValues.UIV -> 16;
             default -> 4;
         };
     }
@@ -41,6 +43,7 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
     public static MachineDefinition getParallelHatch(int tier) {
         return switch (tier) {
             case GTValues.UHV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV];
+            case GTValues.UIV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UIV];
             default -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV];
         };
     }
@@ -48,6 +51,7 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
     public static Block getAuxiliaryCoilState(int tier) {
         return switch (tier) {
             case GTValues.UHV -> StarTFusionBlocks.AUXILIARY_FUSION_COIL_MK1.get();
+            case GTValues.UIV -> StarTFusionBlocks.AUXILIARY_FUSION_COIL_MK2.get();
             default -> StarTFusionBlocks.AUXILIARY_FUSION_COIL_MK1.get();
         };
     }
@@ -55,6 +59,7 @@ public class AuxiliaryBoostedFusionReactor extends FusionReactorMachine {
     public static IFusionCasingType getCasingType(int tier) {
         return switch (tier) {
             case GTValues.UHV -> StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK1;
+            case GTValues.UIV -> StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK2;
             default -> FusionReactorMachine.getCasingType(tier);
         };
     }

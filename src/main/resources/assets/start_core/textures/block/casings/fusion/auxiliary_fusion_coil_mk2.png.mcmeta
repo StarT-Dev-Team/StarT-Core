@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "start_core:block/casings/fusion/auxiliary_fusion_coil_mk2_ctm"
+    }
+}

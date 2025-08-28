@@ -48,12 +48,18 @@ public class StarTJeiPlugin implements IModPlugin {
             GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
         );
 
-        Arrays.asList(StarTFusionMachines.AUXILIARY_BOOSTED_FUSION_REACTOR).forEach(
-            fusion_reactor -> {
-                registration.addRecipeCatalyst(fusion_reactor.asStack(), 
-                GTRecipeJEICategory.TYPES.apply(GTRecipeTypes.FUSION_RECIPES.getCategory()));
-            }
-        );
+        Arrays.asList(
+                StarTFusionMachines.AUXILIARY_BOOSTED_FUSION_REACTOR_MK1,
+                StarTFusionMachines.AUXILIARY_BOOSTED_FUSION_REACTOR_MK2
+        ).forEach(reactors -> {
+            Arrays.asList(reactors).forEach(fusion_reactor -> {
+                registration.addRecipeCatalyst(
+                    fusion_reactor.asStack(),
+                    GTRecipeJEICategory.TYPES.apply(GTRecipeTypes.FUSION_RECIPES.getCategory())
+                );
+            });
+        });
+        
     }
     
 }
