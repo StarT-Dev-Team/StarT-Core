@@ -108,18 +108,18 @@ public class StarTRecipeTypes {
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addDataInfo(data -> {
-            int min_saturation = data.getInt("min_saturation");
-            if (min_saturation > 0) {
-                return LocalizationUtils.format("start_core.recipe.min_saturation",
-                    String.format("%.2f", min_saturation / 100.0));
+            int minSaturation = data.getInt("min_saturation");
+            if (minSaturation > 0) {
+                String minSaturationPercent = String.format("%.2f%%", minSaturation / 100.0);
+                return LocalizationUtils.format("start_core.recipe.min_saturation", minSaturationPercent);
             }
             return "";
         })
         .addDataInfo(data -> {
-            int max_saturation = data.getInt("max_saturation");
-            if (max_saturation > 0) {
-                return LocalizationUtils.format("start_core.recipe.max_saturation",
-                    String.format("%.2f", max_saturation / 100.0));
+            int maxSaturation = data.getInt("max_saturation");
+            if (maxSaturation > 0) {
+                String maxSaturationPercent = String.format("%.2f%%", maxSaturation / 100.0);
+                return LocalizationUtils.format("start_core.recipe.max_saturation", maxSaturationPercent);
             }
             return "";
         })

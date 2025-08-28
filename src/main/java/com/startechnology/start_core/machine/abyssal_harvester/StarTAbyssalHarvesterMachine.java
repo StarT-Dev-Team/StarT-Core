@@ -130,20 +130,17 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private void saturationChanged() {
         if (this.redstoneOutputHatches.isEmpty()) return;
 
-        for (Integer marker : redstoneSaturationMarkers) {
+        redstoneSaturationMarkers.stream().forEach(marker -> {
+            double strength = (this.saturation / (double) marker) * 15.0;
 
-        String markerLabel = String.format("%.2f%%", marker / 100.0);
-        double percentOfMarker = (this.saturation / (double) marker) * 100.0;
-        int clampedPercent = (int) Math.min(100, Math.max(0, Math.floor(percentOfMarker)));
-
-        String label = "Percent out of §d" + markerLabel + " §fSaturation";
-
-            for (StarTRedstoneInterfacePartMachine hatch : this.redstoneOutputHatches) {
-                
-                hatch.setIndicatorSignal(label, clampedPercent);
-
-            }
-        }
+            this.redstoneOutputHatches.forEach(hatch -> {
+                hatch.setIndicatorSignal(
+                    Component.translatable("ui.start_core.abyssal_harvester.redstone", 
+                    String.format("%.2f", (double) marker / 100)).getString(),
+                    (int) Math.min(15, Math.max(0, Math.floor(strength)))
+                );
+            });
+        });
     }
 
     @Override
