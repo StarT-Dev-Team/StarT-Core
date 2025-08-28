@@ -80,15 +80,18 @@
   "tab.start_core.creative": "Star Technology Core",
 
   "block.start_core.uhv_auxiliary_boosted_fusion_reactor": "Auxiliary Boosted Fusion Reactor MK I",
+  "block.start_core.uiv_auxiliary_boosted_fusion_reactor": "Auxiliary Boosted Fusion Reactor MK II",
   "start_core.machine.auxiliary_boosted_fusion_reactor.description": "§7A high-efficiency fusion reactor that utilises auxiliary fusion coils to enhance fusion reactions, enabling for higher density of fusion reactions taking place within the chamber at once",
   "start_core.machine.auxiliary_boosted_fusion_reactor.line": "§c§lParallel Fusion",
   "start_core.machine.auxiliary_boosted_fusion_reactor.fusion_info": "§6Fusion Information:",
   "start_core.machine.auxiliary_boosted_fusion_reactor.specific": "§7The reactor only takes {0} energy hatches, Each hatch increases the buffer of the reactor by {1}M EU",
   "block.start_core.auxiliary_boosted_fusion_casing_mk1": "Auxiliary Boosted Fusion Casing MK I",
+  "block.start_core.auxiliary_boosted_fusion_casing_mk2": "Auxiliary Boosted Fusion Casing MK II",
   "start_core.machine.fusion_reactor.overclocking": "§7Overclocks double energy and halve duration.",
   "start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info": "§eAuxiliary Parallelisation:",
   "start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info_1": "§7Any Absolute Parallel Mastery Hatches can be used enabling high rates of production.",
   "block.start_core.auxiliary_fusion_coil_mk1": "Auxiliary Fusion Coil MK I",
+  "block.start_core.auxiliary_fusion_coil_mk2": "Auxiliary Fusion Coil MK II",
 
   "block.start_core.uev_fusion_reactor": "Fusion Reactor MK IV",
   "block.start_core.fusion_casing_mk4": "Fusion Casing MK IV",
