@@ -1,5 +1,8 @@
 package com.startechnology.start_core.recipe;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -110,20 +113,19 @@ public class StarTRecipeTypes {
         .addDataInfo(data -> {
             int minSaturation = data.getInt("min_saturation");
             if (minSaturation > 0) {
-                String minSaturationPercent = String.format("%.2f%%", minSaturation / 100.0);
-                return LocalizationUtils.format("start_core.recipe.min_saturation", minSaturationPercent);
+                return LocalizationUtils.format("start_core.recipe.min_saturation", FormattingUtil.formatNumbers(minSaturation/100.0));
             }
-            return "";
+            return LocalizationUtils.format("start_core.recipe.min_saturation.0");
         })
         .addDataInfo(data -> {
             int maxSaturation = data.getInt("max_saturation");
             if (maxSaturation > 0) {
-                String maxSaturationPercent = String.format("%.2f%%", maxSaturation / 100.0);
-                return LocalizationUtils.format("start_core.recipe.max_saturation", maxSaturationPercent);
+                return LocalizationUtils.format("start_core.recipe.max_saturation", FormattingUtil.formatNumbers(maxSaturation/100.0));
             }
-            return "";
+            return LocalizationUtils.format("start_core.recipe.max_saturation.0");
         })
         .setSound(GTSoundEntries.CENTRIFUGE);
+
 
     public static final void init() {
         

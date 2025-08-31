@@ -3,6 +3,8 @@ package com.startechnology.start_core.machine.abyssal_harvester;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -130,14 +132,15 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private void saturationChanged() {
         if (this.redstoneOutputHatches.isEmpty()) return;
 
-        redstoneSaturationMarkers.stream().forEach(marker -> {
-            double strength = (this.saturation / (double) marker) * 15.0;
+        redstoneSaturationMarkers.forEach(marker -> {
+            final double percentSaturation = (this.saturation / (double) marker) * 15.0;
 
             this.redstoneOutputHatches.forEach(hatch -> {
+                BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
                 hatch.setIndicatorSignal(
-                    Component.translatable("ui.start_core.abyssal_harvester.redstone", 
-                    String.format("%.2f", (double) marker / 100)).getString(),
-                    (int) Math.min(15, Math.max(0, Math.floor(strength)))
+                    "Ratio of §5" + label.toString() + "%% §fAbyssal Saturation",
+                    (int) Math.floor(percentSaturation)
                 );
             });
         });
