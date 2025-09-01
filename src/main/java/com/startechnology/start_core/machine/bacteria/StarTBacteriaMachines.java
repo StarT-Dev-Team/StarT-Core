@@ -37,7 +37,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.vat3"),
             Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.vat4"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
@@ -140,7 +141,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.hv5"),
             Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.hv6"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
