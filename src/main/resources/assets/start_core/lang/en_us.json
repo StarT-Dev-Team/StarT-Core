@@ -291,9 +291,9 @@
   "start_core.machine.abyssal_harvester.ah5": "§7When the Saturation is within a §f+5.00% or -5.00%§7 range of §f22.50%, 57.50%, or 92.50%§7 it gets a free 2x parallel.",
   "start_core.machine.abyssal_harvester.ah6": "§7Provides §fPercentage to n saturation percent §7indicators for certain n.",
   "ui.start_core.abyssal_harvester": "Abyssal Saturation:§5 %s%%",
-  "start_core.recipe.min_saturation": "mn sat:§5 %s%%",
+  "start_core.recipe.min_saturation": "mn sat:§5 %s",
   "start_core.recipe.min_saturation.0": "No Minimum Saturation",
-  "start_core.recipe.max_saturation": "mx sat:§5 %s%%",
+  "start_core.recipe.max_saturation": "mx sat:§5 %s",
   "start_core.recipe.max_saturation.0": "No Maximum Saturation",
   "gtceu.abyssal_harvester": "Abyssal Harvesting",
 

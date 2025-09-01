@@ -113,14 +113,14 @@ public class StarTRecipeTypes {
         .addDataInfo(data -> {
             int minSaturation = data.getInt("min_saturation");
             if (minSaturation > 0) {
-                return LocalizationUtils.format("start_core.recipe.min_saturation", FormattingUtil.formatNumbers(minSaturation/100.0));
+                return LocalizationUtils.format("start_core.recipe.min_saturation", FormattingUtil.formatPercent(minSaturation/100.0));
             }
             return LocalizationUtils.format("start_core.recipe.min_saturation.0");
         })
         .addDataInfo(data -> {
             int maxSaturation = data.getInt("max_saturation");
             if (maxSaturation > 0) {
-                return LocalizationUtils.format("start_core.recipe.max_saturation", FormattingUtil.formatNumbers(maxSaturation/100.0));
+                return LocalizationUtils.format("start_core.recipe.max_saturation", FormattingUtil.formatPercent(maxSaturation/100.0));
             }
             return LocalizationUtils.format("start_core.recipe.max_saturation.0");
         })
