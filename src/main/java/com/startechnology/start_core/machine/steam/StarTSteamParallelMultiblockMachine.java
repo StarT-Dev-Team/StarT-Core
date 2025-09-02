@@ -1,4 +1,4 @@
-package com.startechnology.start_core.machine.steam_hatches;
+package com.startechnology.start_core.machine.steam;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -40,7 +40,6 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.startechnology.start_core.machine.steam_hatches.SteamFluidHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine;
 
 @ParametersAreNonnullByDefault
@@ -101,15 +100,13 @@ public class StarTSteamParallelMultiblockMachine extends WorkableMultiblockMachi
         }
         if (RecipeHelper.getRecipeEUtTier(recipe) > GTValues.LV) return ModifierFunction.NULL;
 
-        // Duration = 1.5x base duration
-        // EUt (not steam) = (4/3) * (2/3) * parallels * base EUt, up to a max of 32 EUt
         long eut = RecipeHelper.getInputEUt(recipe);
         int parallelAmount = ParallelLogic.getParallelAmount(machine, recipe, steamMachine.maxParallels);
         double eutMultiplier = (eut * 0.8888 * parallelAmount <= 32) ? (0.8888 * parallelAmount) : (32.0 / eut);
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallelAmount))
                 .outputModifier(ContentModifier.multiplier(parallelAmount))
-                .durationMultiplier(1.5)
+                .durationMultiplier(1.05)
                 .eutMultiplier(eutMultiplier)
                 .parallels(parallelAmount)
                 .build();

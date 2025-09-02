@@ -19,7 +19,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMac
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
-import com.startechnology.start_core.machine.steam_hatches.StarTSteamParallelMultiblockMachine;
+import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;

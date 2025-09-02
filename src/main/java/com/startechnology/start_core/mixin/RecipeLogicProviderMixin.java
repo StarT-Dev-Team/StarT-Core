@@ -17,7 +17,7 @@ import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.startechnology.start_core.machine.steam_hatches.StarTSteamParallelMultiblockMachine;
+import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
