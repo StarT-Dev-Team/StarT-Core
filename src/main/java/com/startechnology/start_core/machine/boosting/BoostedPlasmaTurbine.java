@@ -61,9 +61,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private Integer getParallelBonus() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return 4;
+                return 6;
             case NYINSANE_TURBINE_TIER:
-                return 8;
+                return 12;
             default: 
                 return 1;
         }

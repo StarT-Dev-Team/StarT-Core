@@ -10,7 +10,8 @@
     "ConverterRendererMixin",
     "ParallelHatchPartMachineMixin",
     "WireRecipeHandlerMixin",
-    "MaterialRecipeHandlerMixin"
+    "MaterialRecipeHandlerMixin",
+    "RecipeLogicProviderMixin"
   ],
   "client": [
   ],
