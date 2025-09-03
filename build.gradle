@@ -71,9 +71,9 @@ repositories {
         }
     }
     maven {
-        name 'FirstDarkDev'
-        url "https://maven.firstdarkdev.xyz/#/snapshots/"
-    }    
+        name "firstdarkMavenSnapshots"
+        url "https://maven.firstdarkdev.xyz/snapshots"
+    }
     maven {
         name 'Quilt'
         url 'https://maven.quiltmc.org/repository/release/'
