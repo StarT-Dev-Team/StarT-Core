@@ -42,6 +42,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     @Persisted
     private String network;
     private TickableSubscription addTickSubscription;
+    private UUID ownerUUID;
 
     public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier, int amperage) {
         super(definition, coverHolder, attachedSide);
@@ -66,6 +67,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
 
             if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
                 UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
+                this.ownerUUID = ownerUUID;
                 StarTDreamLinkManager.addDevice(this, ownerUUID);
             }
         }
@@ -78,11 +80,10 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
-
-        if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
-            StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        StarTDreamLinkManager.removeDevice(this, ownerUUID);
+    
+        if (Objects.nonNull(this.addTickSubscription)) {
+            this.addTickSubscription.unsubscribe();
         }
     }
 
@@ -139,11 +140,10 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
+        StarTDreamLinkManager.removeDevice(this, ownerUUID);
 
-        if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
-            StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        if (Objects.nonNull(this.addTickSubscription)) {
+            this.addTickSubscription.unsubscribe();
         }
     }
 
