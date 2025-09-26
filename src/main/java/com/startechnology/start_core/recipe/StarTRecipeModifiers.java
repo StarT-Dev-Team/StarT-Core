@@ -62,7 +62,7 @@ public class StarTRecipeModifiers {
 
         double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
         int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
-
+        
         int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, hellforgeParallels);
 
         // Runs largest 2^n parallels that it can. 1,2,4,8,16,etc.
@@ -70,8 +70,34 @@ public class StarTRecipeModifiers {
             .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
             .parallels(maxPossibleParallels)
             .build();
+        }
+
+    public static final RecipeModifier BULK_PROCESSING = StarTRecipeModifiers::bulkThroughputProcessing;
+
+    public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
+        // Bulks at 4n:3n up to bulkLimit = 4n
+        int bulkLimit = 64;
+
+        int maxBulking = ParallelLogic.getParallelAmountFast(machine, recipe, bulkLimit);
+
+        double timesBulkingApplied = Math.floor(Math.max(0.0, (maxBulking / 4)));
+
+        int thoughputBulkingApplied = (int) timesBulkingApplied * 4;
+        int durationBulkingApplied = (int) timesBulkingApplied * 3;
+
+        if (timesBulkingApplied >= 1) {
+       
+        return ModifierFunction.builder()
+            .modifyAllContents(ContentModifier.multiplier(thoughputBulkingApplied)) 
+            .durationMultiplier(durationBulkingApplied)
+            .parallels(thoughputBulkingApplied)    
+            .build();
 
         }
+        
+        return ModifierFunction.IDENTITY;
+  
+    }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
 

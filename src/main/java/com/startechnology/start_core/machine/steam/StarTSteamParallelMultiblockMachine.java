@@ -48,8 +48,8 @@ public class StarTSteamParallelMultiblockMachine extends WorkableMultiblockMachi
 
     public int maxParallels = 6;
 
-    // if in millibuckets, this is 4.0, Meaning 4mb of steam -> 1 EU
-    public static final double CONVERSION_RATE = 4.0;
+    // if in millibuckets, this is 3.0, Meaning 3mb of steam -> 1 EU
+    public static final double CONVERSION_RATE = 3.0;
 
     public StarTSteamParallelMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder);

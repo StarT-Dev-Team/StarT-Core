@@ -40,7 +40,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             BoostedPlasmaTurbine.class, LargeTurbineMachine.MANAGED_FIELD_HOLDER);
 
-    private static final int SUPREME_TURBINE_TIER = GTValues.IV;
+    private static final int SUPREME_TURBINE_TIER = GTValues.UHV;
     private static final int NYINSANE_TURBINE_TIER = GTValues.UIV;
 
     private Integer tier;
@@ -73,9 +73,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private double getBoostingBonus() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return isActiveBoosting ? 2.5 : 1.5;
+                return isActiveBoosting ? 2 : 1.25;
             case NYINSANE_TURBINE_TIER:
-                return isActiveBoosting ? 4 : 2;
+                return isActiveBoosting ? 3 : 1.5;
             default: 
                 return 1;
         }
@@ -85,9 +85,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private double getNonBoostingBonus() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return 0.75;
+                return 0.9;
             case NYINSANE_TURBINE_TIER:
-                return 0.5;
+                return 0.8;
             default: 
                 return 1;
         }
@@ -97,9 +97,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private GTRecipe getPassiveBoostingRecipe() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(5000)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(2000)).buildRawRecipe();
             case NYINSANE_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(9600)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(5000)).buildRawRecipe();
             default: 
                 return GTRecipeBuilder.ofRaw().buildRawRecipe();
         }
@@ -109,9 +109,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private GTRecipe getActiveBoostingRecipe() {
         switch(this.tier) {
             case SUPREME_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(1000)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(2500)).buildRawRecipe();
             case NYINSANE_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(1800)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(800)).buildRawRecipe();
             default: 
                 return GTRecipeBuilder.ofRaw().buildRawRecipe();
         }
