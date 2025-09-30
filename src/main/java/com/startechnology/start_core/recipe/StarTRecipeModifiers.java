@@ -87,11 +87,35 @@ public class StarTRecipeModifiers {
 
         if (timesBulkingApplied >= 1) {
        
-        return ModifierFunction.builder()
-            .modifyAllContents(ContentModifier.multiplier(thoughputBulkingApplied)) 
-            .durationMultiplier(durationBulkingApplied)
-            .parallels(thoughputBulkingApplied)    
-            .build();
+            return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(thoughputBulkingApplied)) 
+                .durationMultiplier(durationBulkingApplied)
+                .parallels(thoughputBulkingApplied)    
+                .build();
+
+        }
+        
+        return ModifierFunction.IDENTITY;
+  
+    }
+
+    public static final RecipeModifier THOUGHPUT_BOOSTING = StarTRecipeModifiers::thoughputBoosting;
+
+    public static ModifierFunction thoughputBoosting(MetaMachine machine, GTRecipe recipe) {
+        int thoughputModifier = 4;
+        double durationModifier = 1.4;
+        double eutModifier = 0.9;
+
+        int maxThoughputModifier = Math.max(1, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
+
+        if (maxThoughputModifier > 1) {
+
+            return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(maxThoughputModifier)) 
+                .durationMultiplier(durationModifier)
+                .eutMultiplier(eutModifier)
+                .parallels(thoughputModifier)    
+                .build();
 
         }
         
@@ -100,6 +124,7 @@ public class StarTRecipeModifiers {
     }
 
     public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
+    public static final RecipeModifier MS_COIL_PARALLELS = GTRecipeModifiers::multiSmelterParallel;
 
     public static final RecipeModifier LARGE_TURBINE = LargeTurbineMachine::recipeModifier;
     public static final RecipeModifier BOOSTED_PLASMA_TURBINE = BoostedPlasmaTurbine::recipeModifier;
