@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -40,6 +41,14 @@ public class StarTItems {
         .onRegister(attach(new DataItemBehavior(true)))
         .onRegister(attach(new TooltipBehavior(lines -> {
             lines.add(Component.translatable("item.start_core.data_dna_disk.tooltip"));
+        })))
+        .register();
+
+    public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
+        .lang("Lucinducer")
+        .onRegister(attach(new StarTDreamCopyBehaviour()))
+        .onRegister(attach(new TooltipBehavior(lines -> {
+            lines.add(Component.translatable("item.start_core.lucinducer..toolip"));
         })))
         .register();
 

@@ -1,8 +1,8 @@
 package com.startechnology.start_core.api.capability;
 
-import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
+import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 
-public interface IStarTDreamLinkNetworkMachine extends IDataStickInteractable {
+public interface IStarTDreamLinkNetworkMachine extends IStarTDreamCopyInteractable {
     String DEFAULT_NETWORK = "Untitled Network";
 
     /* Set the dream link network of this machine */
