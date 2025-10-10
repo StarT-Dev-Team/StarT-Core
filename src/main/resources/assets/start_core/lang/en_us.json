@@ -215,9 +215,9 @@
   "start_core.machine.dream_link.tower.total_hatches_hover": "Amount of hatches this tower will transmit to.",
   "start_core.machine.dream_link.tower.range_hover": "The range of this tower in a square radius around (Any height allowed).",
   "start_core.machine.dream_link.hatch.owned_hover": "The team/player that owns this hatch.",
-  "start_core.machine.dream_link.data_stick.name": "§oDream-Link Network §6{0}",
-  "start_core.machine.dream_link.copy_network": "Saved network to Data Stick",
-  "start_core.machine.dream_link.set_network": "Applied network from Data Stick",
+  "start_core.machine.dream_link.lucinducer.name": "Lucinducer§o Copied Network §6{0}",
+  "start_core.machine.dream_link.copy_network": "Saved network to Lucinducer",
+  "start_core.machine.dream_link.set_network": "Applied network from Lucinducer",
   "config.jade.plugin_start_core.dream_link_network_info": "[Star Technology] Dream-Link Network Info",
   "start_core.dream_link.cover.tooltip": "§7Supplies §f2§eA §f%d (%s§f) §7from the Dream-Network as a cover",
   "item.start_core.max_2a_dream_link_cover_item": "§c§lMAX§r 2§eA§r Dream-Link Energy Cover",
@@ -318,5 +318,8 @@
   "start_core.abyssal_containment_room.acr3": "§6Isolation Maintenance",
   "start_core.abyssal_containment_room.acr4":  "§7In order to maintain the abyssal containment, §e100000B of End Air§7 and §d50B Dragon Breath§7 per hour must be supplied to the room. ",
   "start_core.abyssal_containment_room.not_provided_fluids": "Isolation fluids not provided",
-  "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids"
+  "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids",
+
+  "item.start_core.lucinducer..toolip": "§7Copies Dream-Link Network information",
+  "item.start_core.lucinducer": "Lucinducer"
 }

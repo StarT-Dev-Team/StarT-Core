@@ -26,12 +26,19 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IUICover {
+public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
     
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
         CoverBehavior.MANAGED_FIELD_HOLDER);
@@ -200,6 +207,34 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
+        if (!isRemote()) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("dream_network", this.getNetwork());
+            copyItem.setTag(tag);
+            copyItem.setHoverName(Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
+            player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+
+    @Override
+    public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
+        CompoundTag tag = copyItem.getTag();
+        if (tag == null || !tag.contains("dream_network")) {
+            return InteractionResult.PASS;
+        }
+
+        if (!isRemote()) {
+            String network = tag.getString("dream_network");
+            this.setNetwork(network);
+            player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.set_network"));
+        }
+        return InteractionResult.sidedSuccess(isRemote());
     }
 
     @Override

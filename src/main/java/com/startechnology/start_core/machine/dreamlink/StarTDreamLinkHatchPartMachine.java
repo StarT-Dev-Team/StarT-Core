@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
@@ -171,20 +170,21 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public final InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
+    public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
-            dataStick.setTag(tag);
-            dataStick.setHoverName(Component.translatable("start_core.machine.dream_link.data_stick.name", this.getNetwork()));
+            copyItem.setTag(tag);
+            copyItem.setHoverName(Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
             player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
         }
         return InteractionResult.SUCCESS;
     }
 
+
     @Override
-    public final InteractionResult onDataStickUse(Player player, ItemStack dataStick) {
-        CompoundTag tag = dataStick.getTag();
+    public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
+        CompoundTag tag = copyItem.getTag();
         if (tag == null || !tag.contains("dream_network")) {
             return InteractionResult.PASS;
         }
