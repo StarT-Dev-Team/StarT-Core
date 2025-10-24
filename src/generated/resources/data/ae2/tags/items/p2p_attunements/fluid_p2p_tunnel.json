@@ -1,9 +1,13 @@
 {
   "values": [
     "start_core:blazing_phlogiston_bucket",
+    "start_core:hellfire_essence_bucket",
     "start_core:igniferous_elixir_bucket",
+    "start_core:infernum_elixir_bucket",
     "start_core:emberheart_nectar_bucket",
+    "start_core:corefire_nectar_bucket",
     "start_core:flamewake_solvent_bucket",
+    "start_core:cinderbrew_solvent_bucket",
     "start_core:infernal_tar_bucket"
   ]
 }
