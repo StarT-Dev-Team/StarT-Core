@@ -80,7 +80,7 @@ public class StarTRecipeTypes {
     }
 
     public static final GTRecipeType HELL_FORGE_RECIPES = registerStarTPrioritiseCustomLogic("hellforge", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(0, 0, 7, 1)
+        .setMaxIOSize(2, 0, 7, 1)
         .setEUIO(IO.IN)
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
         .addCustomRecipeLogic(new HellForgeHeatingLogic())
