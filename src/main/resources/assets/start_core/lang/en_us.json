@@ -2,6 +2,8 @@
   "block.start_core.hpca_nanofluidic_heat_sink_component": "HPCA Nanofluidic Heat Sink Component",
   "item.start_core.data_dna_disk.tooltip": "§7Storing Information in Life",
   "item.start_core.data_dna_disk": "§dData DNA Disk",
+  "item.start_core.component_data_core.tooltip": "§7Data Beyond Transcendance",
+  "item.start_core.component_data_core": "§dComponent Data Core",
 
   "item.start_core.bacteria_dormant.tooltip": "§7Reawaken this colony and discover its secrets",
   "item.start_core.bacteria_dormant": "§3Dormant Bacteria Colony",
@@ -212,9 +214,10 @@
   "start_core.machine.dream_link.paragon_range": "§dParagon §7Tower Range",
   "start_core.machine.dream_link.range": "§7Tower Range: %s §7Blocks",
   "start_core.machine.dream_link.total_hatches": "§7Transmitting to %s §7Dream-Links.",
-  "start_core.machine.dream_link.tower.total_hatches_hover": "Amount of hatches this tower will transmit to.",
   "start_core.machine.dream_link.tower.range_hover": "The range of this tower in a square radius around (Any height allowed).",
   "start_core.machine.dream_link.hatch.owned_hover": "The team/player that owns this hatch.",
+  "start_core.machine.dream_link.connections_display": "Connections %s",
+  "start_core.machine.dream_link.tower.connections_display_hover": "How many Dream-Link receivers are currently connected out of the maximum allowed.",
   "start_core.machine.dream_link.lucinducer.name": "Lucinducer§o Copied Network §6{0}",
   "start_core.machine.dream_link.copy_network": "Saved network to Lucinducer",
   "start_core.machine.dream_link.set_network": "Applied network from Lucinducer",
@@ -232,7 +235,9 @@
   "start_core.machine.dream_link_tower.beam_description": "§7The node focuses it's beam on a single device until it is full before continuing with the next. Allocation priority is determined based on the proximity of the device to the tower, with closer devices receiving energy first.",
   "start_core.machine.dream_link_tower.node_info": "§eNode Information:",
   "start_core.machine.dream_link_tower.range_description": "§7The node has a maximum square-radius of §d{0} §7blocks around it",
-  "start_core.machine.dream_link_tower.copy_description": "§7The dream-network of this node can be copied using a §fData Stick",
+  "start_core.machine.dream_link_tower.connections_description": "§7The node has a maximum connections of §d{0}",
+  "start_core.machine.dream_link_tower.infinite_connections_description": "§7The node has a §dinfinite§7 connections",
+  "start_core.machine.dream_link_tower.copy_description": "§7The dream-network of this node can be copied using a §fLucinducer",
   "start_core.machine.dream_link_node.description": "§7Focuses a beam of energy through the dreamscape enabling lossless wireless transfer of energy to compatible dream-link devices.",
   "start_core.machine.oneiric_relay.description": "§7Refines and amplifies dream-energy pathways, enabling a greater distance for beams to travel through the dreamscape.",
   "start_core.machine.daydream_spire.description": "§7Manipulates semi-lucid thought currents for extended dreamscape energy transmission.",
@@ -320,6 +325,6 @@
   "start_core.abyssal_containment_room.not_provided_fluids": "Isolation fluids not provided",
   "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids",
 
-  "item.start_core.lucinducer..toolip": "§7Copies Dream-Link Network information",
+  "item.start_core.lucinducer.tooltip": "§7Copies Dream-Link Network information",
   "item.start_core.lucinducer": "Lucinducer"
 }

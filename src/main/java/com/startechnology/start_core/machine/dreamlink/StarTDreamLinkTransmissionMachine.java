@@ -76,10 +76,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected String tempNetwork;
 
     private Integer range;
+    private Integer connections;
     private Integer receiverCount;
     private Boolean checkDimension;
 
-    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Boolean checkDimension) {
+    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Integer connections, Boolean checkDimension) {
         super(holder);
         this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferEnergyTick, this::isFormed);
         this.isReadyToTransmit = false;
@@ -88,6 +89,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         this.range = range;
         this.checkDimension = checkDimension;
         this.receiverCount = 0;
+        this.connections = connections;
     }
 
     @Override
@@ -190,6 +192,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             BlockPos posB = entryB.value().devicePos();
             return Double.compare(getSquaredDistanceToThis(posA), getSquaredDistanceToThis(posB));
         });
+
+        // Limit the number of connections if not infinite (-1)
+        if (this.connections != -1 && deviceEntries.size() > this.connections) {
+            deviceEntries = deviceEntries.subList(0, this.connections);
+        }
 
         // Extract just the devices we need
         receiverCache.clear();
@@ -317,13 +324,24 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             }
         }
 
-        MutableComponent totalHatchesComponent = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
+        MutableComponent currentConnections = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
             .setStyle(Style.EMPTY.withColor(ChatFormatting.LIGHT_PURPLE));
 
+        MutableComponent maxConnections = Component.literal(
+                this.connections == -1 ? "∞" : FormattingUtil.formatNumbers(this.connections))
+            .setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
+
+        MutableComponent connectionsDisplay = Component.literal("")
+            .append(currentConnections)
+            .append(Component.literal(" / ").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
+            .append(maxConnections);
+
         textList.add(Component
-            .translatable("start_core.machine.dream_link.total_hatches", totalHatchesComponent)
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.total_hatches_hover")))));
+            .translatable("start_core.machine.dream_link.connections_display", connectionsDisplay)
+            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(
+                HoverEvent.Action.SHOW_TEXT,
+                Component.translatable("start_core.machine.dream_link.tower.connections_display_hover")))));
+
     }
 
     @Override
@@ -341,7 +359,8 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                             return input;
                         })
                         .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
-                ).addWidget(new ComponentPanelWidget(4, 52, this::addDisplayText))
+                )
+                .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText))
         );
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
