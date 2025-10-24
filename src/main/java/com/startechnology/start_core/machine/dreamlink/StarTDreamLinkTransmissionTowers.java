@@ -25,9 +25,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StarTDreamLinkTransmissionTowers {
-    public static MultiblockMachineBuilder makeDreamlinkNode(String name, Integer range, Boolean checkDimension) {
+    public static MultiblockMachineBuilder makeDreamlinkNode(String name, Integer range, Integer connections, Boolean checkDimension) {
         var multiBuilder = START_REGISTRATE
-            .multiblock(name, (holder) -> new StarTDreamLinkTransmissionMachine(holder, range, checkDimension))
+            .multiblock(name, (holder) -> new StarTDreamLinkTransmissionMachine(holder, range, connections, checkDimension))
             .tooltips(
                 Component.translatable("start_core.machine.dream_link_tower.line"),
                 Component.translatable("start_core.machine." + name + ".description"),
@@ -52,6 +52,15 @@ public class StarTDreamLinkTransmissionTowers {
                 Component.translatable("start_core.machine.dream_link_tower." + name + ".range_description")
             );
 
+        if (connections != -1)
+            multiBuilder.tooltips(
+                Component.translatable("start_core.machine.dream_link_tower.connections_description", connections)
+            );
+        else
+            multiBuilder.tooltips(
+                Component.translatable("start_core.machine.dream_link_tower.infinite_connections_description")
+            );    
+
         multiBuilder.tooltips(
             Component.literal(""),
             Component.translatable("start_core.machine.dream_link_tower.copy_description"),
@@ -61,20 +70,20 @@ public class StarTDreamLinkTransmissionTowers {
         return multiBuilder;
     }
 
-        public static final MultiblockMachineDefinition DREAM_LINK_NODE = makeDreamlinkNode("dream_link_node", 24, true)
+        public static final MultiblockMachineDefinition DREAM_LINK_NODE = makeDreamlinkNode("dream_link_node", 16, 16, true)
             .pattern(definition -> FactoryBlockPattern.start()
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####D#####") 
-                .aisle("#BCCCFCCCB#", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##", "#####G#####", "###########", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##") 
-                .aisle("#BCFCCCFCB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####HHH####", "###G###G###", "###########", "###########", "###########") 
-                .aisle("BCCCCCCCCCB", "###########", "###########", "###########", "###########", "###########", "###H###H###", "###########", "###########", "###########", "###########") 
-                .aisle("BCFCCBCCFCB", "##G##B##G##", "#D###B###D#", "#E###@###E#", "#D#######D#", "##G#####G##", "###H#I#H###", "##G#####G##", "#D#######D#", "#E###I###E#", "#D#######D#") 
-                .aisle("BCCCCCCCCCB", "###########", "###########", "###########", "###########", "###########", "###H###H###", "###########", "###########", "###########", "###########") 
-                .aisle("#BCFCCCFCB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####HHH####", "###G###G###", "###########", "###########", "###########") 
-                .aisle("#BCCCFCCCB#", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##", "#####G#####", "###########", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##") 
-                .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####D#####") 
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .where("#", Predicates.any())
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle("  BBCCCBB  ", "           ", "     D     ", "     E     ", "     D     ", "           ", "           ", "           ", "     D     ", "     E     ", "     D     ") 
+                .aisle(" BCCCFCCCB ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ", "     G     ", "           ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ") 
+                .aisle(" BCFCCCFCB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    HHH    ", "   G   G   ", "           ", "           ", "           ") 
+                .aisle("BCCCCCCCCCB", "           ", "           ", "           ", "           ", "           ", "   H   H   ", "           ", "           ", "           ", "           ") 
+                .aisle("BCFCCBCCFCB", "  G  B  G  ", " D   B   D ", " E   @   E ", " D       D ", "  G     G  ", "   H I H   ", "  G     G  ", " D       D ", " E   I   E ", " D       D ") 
+                .aisle("BCCCCCCCCCB", "           ", "           ", "           ", "           ", "           ", "   H   H   ", "           ", "           ", "           ", "           ") 
+                .aisle(" BCFCCCFCB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    HHH    ", "   G   G   ", "           ", "           ", "           ") 
+                .aisle(" BCCCFCCCB ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ", "     G     ", "           ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ") 
+                .aisle("  BBCCCBB  ", "           ", "     D     ", "     E     ", "     D     ", "           ", "           ", "           ", "     D     ", "     E     ", "     D     ") 
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .where(" ", Predicates.any())
                 .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                     .or(Predicates.abilities(PartAbility.INPUT_LASER)))
                 .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock(("enriched_naquadah_machine_casing"))))
@@ -88,20 +97,20 @@ public class StarTDreamLinkTransmissionTowers {
                 .build())
             .register();
 
-        public static final MultiblockMachineDefinition ONEIRIC_RELAY = makeDreamlinkNode("oneiric_relay", 48, true)
+        public static final MultiblockMachineDefinition ONEIRIC_RELAY = makeDreamlinkNode("oneiric_relay", 32, 64, true)
             .pattern(definition -> FactoryBlockPattern.start()
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####F#####", "#####E#####", "#####D#####", "###########", "###########") 
-                .aisle("#BCCCFCCCB#", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##", "#####G#####", "###########", "#####G#####", "##D#####D##", "##E#####E##", "##F#####F##", "##E#####E##", "##D#####D##", "#####G#####", "###########") 
-                .aisle("#BCFCCCFCB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####HHH####", "###G###G###", "###########", "###########", "###########", "###########", "###########", "###G###G###", "###########") 
-                .aisle("BCCCCCCCCCB", "###########", "###########", "###########", "###########", "###########", "###H###H###", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("BCFCCBCCFCB", "##G##B##G##", "#D###B###D#", "#E###@###E#", "#D#######D#", "##G#####G##", "###H#I#H###", "##G#####G##", "#D#######D#", "#E###J###E#", "#F###F###F#", "#E###J###E#", "#D#######D#", "##G#####G##", "#####I#####") 
-                .aisle("BCCCCCCCCCB", "###########", "###########", "###########", "###########", "###########", "###H###H###", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("#BCFCCCFCB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####HHH####", "###G###G###", "###########", "###########", "###########", "###########", "###########", "###G###G###", "###########") 
-                .aisle("#BCCCFCCCB#", "#####G#####", "##D#####D##", "##E#####E##", "##D#####D##", "#####G#####", "###########", "#####G#####", "##D#####D##", "##E#####E##", "##F#####F##", "##E#####E##", "##D#####D##", "#####G#####", "###########") 
-                .aisle("##BBCCCBB##", "###########", "#####D#####", "#####E#####", "#####D#####", "###########", "###########", "###########", "#####D#####", "#####E#####", "#####F#####", "#####E#####", "#####D#####", "###########", "###########") 
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .where("#", Predicates.any())
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle("  BBCCCBB  ", "           ", "     D     ", "     E     ", "     D     ", "           ", "           ", "           ", "     D     ", "     E     ", "     F     ", "     E     ", "     D     ", "           ", "           ") 
+                .aisle(" BCCCFCCCB ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ", "     G     ", "           ", "     G     ", "  D     D  ", "  E     E  ", "  F     F  ", "  E     E  ", "  D     D  ", "     G     ", "           ") 
+                .aisle(" BCFCCCFCB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    HHH    ", "   G   G   ", "           ", "           ", "           ", "           ", "           ", "   G   G   ", "           ") 
+                .aisle("BCCCCCCCCCB", "           ", "           ", "           ", "           ", "           ", "   H   H   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle("BCFCCBCCFCB", "  G  B  G  ", " D   B   D ", " E   @   E ", " D       D ", "  G     G  ", "   H I H   ", "  G     G  ", " D       D ", " E   J   E ", " F   F   F ", " E   J   E ", " D       D ", "  G     G  ", "     I     ") 
+                .aisle("BCCCCCCCCCB", "           ", "           ", "           ", "           ", "           ", "   H   H   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle(" BCFCCCFCB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    HHH    ", "   G   G   ", "           ", "           ", "           ", "           ", "           ", "   G   G   ", "           ") 
+                .aisle(" BCCCFCCCB ", "     G     ", "  D     D  ", "  E     E  ", "  D     D  ", "     G     ", "           ", "     G     ", "  D     D  ", "  E     E  ", "  F     F  ", "  E     E  ", "  D     D  ", "     G     ", "           ") 
+                .aisle("  BBCCCBB  ", "           ", "     D     ", "     E     ", "     D     ", "           ", "           ", "           ", "     D     ", "     E     ", "     F     ", "     E     ", "     D     ", "           ", "           ") 
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .where(" ", Predicates.any())
                 .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                         .or(Predicates.abilities(PartAbility.INPUT_LASER)))
                 .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock(("enriched_naquadah_machine_casing"))))
@@ -117,20 +126,20 @@ public class StarTDreamLinkTransmissionTowers {
             )
             .register();
 
-        public static final MultiblockMachineDefinition DAYDREAM_SPIRE = makeDreamlinkNode("daydream_spire", 96, true)
+        public static final MultiblockMachineDefinition DAYDREAM_SPIRE = makeDreamlinkNode("daydream_spire", 64, -1, true)
             .pattern(definition -> FactoryBlockPattern.start()
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "#####C#####", "#####D#####", "#####E#####", "#####D#####", "#####C#####") 
-                .aisle("##BBFFFBB##", "###########", "#####C#####", "#####D#####", "#####C#####", "###########", "###########", "###########", "#####C#####", "#####D#####", "#C###E###C#", "#D#######D#", "#E#######E#", "#D#######D#", "#C#######C#") 
-                .aisle("#BFFFEFFFB#", "#####G#####", "##C#####C##", "##D#####D##", "##C#####C##", "#####G#####", "###########", "#####G#####", "##C#####C##", "##D#####D##", "##E#####E##", "###########", "#####H#####", "#####E#####", "#####H#####") 
-                .aisle("#BFEFFFEFB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####III####", "###G###G###", "###########", "###########", "###########", "###########", "###H###H###", "###E###E###", "###H###H###") 
-                .aisle("BFFFFFFFFFB", "###########", "###########", "###########", "###########", "###########", "###I###I###", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("BFEFFBFFEFB", "##G##B##G##", "#C###B###C#", "#D###@###D#", "#C#######C#", "##G#####G##", "###I#J#I###", "##G#####G##", "#C#######C#", "#D###K###D#", "CE###E###EC", "D####K####D", "E#H#####H#E", "D#E##J##E#D", "C#H#####H#C") 
-                .aisle("BFFFFFFFFFB", "###########", "###########", "###########", "###########", "###########", "###I###I###", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########") 
-                .aisle("#BFEFFFEFB#", "###G###G###", "###########", "###########", "###########", "###G###G###", "####III####", "###G###G###", "###########", "###########", "###########", "###########", "###H###H###", "###E###E###", "###H###H###") 
-                .aisle("#BFFFEFFFB#", "#####G#####", "##C#####C##", "##D#####D##", "##C#####C##", "#####G#####", "###########", "#####G#####", "##C#####C##", "##D#####D##", "##E#####E##", "###########", "#####H#####", "#####E#####", "#####H#####") 
-                .aisle("##BBFFFBB##", "###########", "#####C#####", "#####D#####", "#####C#####", "###########", "###########", "###########", "#####C#####", "#####D#####", "#C###E###C#", "#D#######D#", "#E#######E#", "#D#######D#", "#C#######C#") 
-                .aisle("####BBB####", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "###########", "#####C#####", "#####D#####", "#####E#####", "#####D#####", "#####C#####") 
-                .where("#", Predicates.any())
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "     C     ", "     D     ", "     E     ", "     D     ", "     C     ") 
+                .aisle("  BBFFFBB  ", "           ", "     C     ", "     D     ", "     C     ", "           ", "           ", "           ", "     C     ", "     D     ", " C   E   C ", " D       D ", " E       E ", " D       D ", " C       C ") 
+                .aisle(" BFFFEFFFB ", "     G     ", "  C     C  ", "  D     D  ", "  C     C  ", "     G     ", "           ", "     G     ", "  C     C  ", "  D     D  ", "  E     E  ", "           ", "     H     ", "     E     ", "     H     ") 
+                .aisle(" BFEFFFEFB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    III    ", "   G   G   ", "           ", "           ", "           ", "           ", "   H   H   ", "   E   E   ", "   H   H   ") 
+                .aisle("BFFFFFFFFFB", "           ", "           ", "           ", "           ", "           ", "   I   I   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle("BFEFFBFFEFB", "  G  B  G  ", " C   B   C ", " D   @   D ", " C       C ", "  G     G  ", "   I J I   ", "  G     G  ", " C       C ", " D   K   D ", "CE   E   EC", "D    K    D", "E H     H E", "D E  J  E D", "C H     H C") 
+                .aisle("BFFFFFFFFFB", "           ", "           ", "           ", "           ", "           ", "   I   I   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ") 
+                .aisle(" BFEFFFEFB ", "   G   G   ", "           ", "           ", "           ", "   G   G   ", "    III    ", "   G   G   ", "           ", "           ", "           ", "           ", "   H   H   ", "   E   E   ", "   H   H   ") 
+                .aisle(" BFFFEFFFB ", "     G     ", "  C     C  ", "  D     D  ", "  C     C  ", "     G     ", "           ", "     G     ", "  C     C  ", "  D     D  ", "  E     E  ", "           ", "     H     ", "     E     ", "     H     ") 
+                .aisle("  BBFFFBB  ", "           ", "     C     ", "     D     ", "     C     ", "           ", "           ", "           ", "     C     ", "     D     ", " C   E   C ", " D       D ", " E       E ", " D       D ", " C       C ") 
+                .aisle("    BBB    ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "     C     ", "     D     ", "     E     ", "     D     ", "     C     ") 
+                .where(" ", Predicates.any())
                 .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
                         .or(Predicates.abilities(PartAbility.INPUT_LASER)))
                 .where("C", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:hsla_steel"))))
@@ -147,7 +156,7 @@ public class StarTDreamLinkTransmissionTowers {
             )
             .register();
 
-        public static final MultiblockMachineDefinition BEACON_OF_LUCIDITY = makeDreamlinkNode("beacon_of_lucidity", -1, true)
+        public static final MultiblockMachineDefinition BEACON_OF_LUCIDITY = makeDreamlinkNode("beacon_of_lucidity", -1, -1, true)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("CA")
                 .where("C", Predicates.controller(Predicates.blocks(definition.get())))
@@ -156,7 +165,7 @@ public class StarTDreamLinkTransmissionTowers {
             )
             .register();
                     
-        public static final MultiblockMachineDefinition PARAGON_OF_THE_VEIL = makeDreamlinkNode("paragon_of_the_veil", -1, false)
+        public static final MultiblockMachineDefinition PARAGON_OF_THE_VEIL = makeDreamlinkNode("paragon_of_the_veil", -1, -1, false)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("CA")
                 .where("C", Predicates.controller(Predicates.blocks(definition.get())))

@@ -44,11 +44,19 @@ public class StarTItems {
         })))
         .register();
 
+    public static final ItemEntry<ComponentItem> TOOL_COMPONENT_DATA_CORE = START_REGISTRATE.item("component_data_core", ComponentItem::create)
+        .lang("Component Data Core")
+        .onRegister(attach(new DataItemBehavior(true)))
+        .onRegister(attach(new TooltipBehavior(lines -> {
+            lines.add(Component.translatable("item.start_core.component_data_core.tooltip"));
+        })))
+        .register();
+
     public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
         .lang("Lucinducer")
         .onRegister(attach(new StarTDreamCopyBehaviour()))
         .onRegister(attach(new TooltipBehavior(lines -> {
-            lines.add(Component.translatable("item.start_core.lucinducer..toolip"));
+            lines.add(Component.translatable("item.start_core.lucinducer.tooltip"));
         })))
         .register();
 
