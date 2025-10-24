@@ -67,7 +67,11 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
         StarTHellForgeHeatingLiquids.FlamewakeSolvent, 900,
         StarTHellForgeHeatingLiquids.EmberheartNectar, 1800,
         StarTHellForgeHeatingLiquids.IgniferousElixir, 2700,
-        StarTHellForgeHeatingLiquids.BlazingPhlogiston, 3600
+        StarTHellForgeHeatingLiquids.BlazingPhlogiston, 3600,
+        StarTHellForgeHeatingLiquids.CinderbrewSolvent, 1350,
+        StarTHellForgeHeatingLiquids.CorefireNectar, 2250,
+        StarTHellForgeHeatingLiquids.InfernumElixir, 3150,
+        StarTHellForgeHeatingLiquids.HellfireEssence, 4050
     );
 
     @Override
