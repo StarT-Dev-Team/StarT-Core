@@ -1,4 +1,4 @@
-package src.main.java.com.startechnology.start_core.materials;
+package com.startechnology.start_core.materials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;

@@ -1,4 +1,4 @@
-package src.main.java.com.startechnology.start_core.materials;
+package com.startechnology.start_core.materials;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
@@ -144,5 +144,3 @@ public class StarTMaterialFlags {
     public static void init() {}
 
 }
-
-// Gear Shift
