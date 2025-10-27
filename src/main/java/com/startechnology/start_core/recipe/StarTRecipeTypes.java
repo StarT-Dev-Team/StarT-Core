@@ -71,13 +71,13 @@ public class StarTRecipeTypes {
         .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
-    public static final GTRecipeType TITAN_FORGE = GTRecipeTypes.register("titan_forge", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(6, 1, 2, 0)
-        // .category("ultimate")
-        .setMaxTooltips(4)
-        .setSound(GTSoundEntries.FORGE_HAMMER)
-        .setEUIO(IO.IN)
-        .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+    // public static final GTRecipeType TITAN_FORGE = GTRecipeTypes.register("titan_forge", GTRecipeTypes.MULTIBLOCK)
+    //     .setMaxIOSize(6, 1, 2, 0)
+    //     // .category("ultimate")
+    //     .setMaxTooltips(4)
+    //     .setSound(GTSoundEntries.FORGE_HAMMER)
+    //     .setEUIO(IO.IN)
+    //     .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static GTRecipeType registerStarTPrioritiseCustomLogic(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new StarTPrioritiseCustomLogicRecipeType(GTCEu.id(name), group, proxyRecipes);
