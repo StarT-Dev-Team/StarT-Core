@@ -215,6 +215,8 @@
   "start_core.machine.dream_link.range": "§7Tower Range: %s §7Blocks",
   "start_core.machine.dream_link.total_hatches": "§7Transmitting to %s §7Dream-Links.",
   "start_core.machine.dream_link.tower.range_hover": "The range of this tower in a square radius around (Any height allowed).",
+  "start_core.machine.dream_link.tower.range_button_hover": "Display a render showing the range of the tower",
+  "start_core.machine.dream_link.tower.range_show": "§e[Show Range]",
   "start_core.machine.dream_link.hatch.owned_hover": "The team/player that owns this hatch.",
   "start_core.machine.dream_link.connections_display": "§7Connections: %s",
   "start_core.machine.dream_link.tower.connections_display_hover": "How many Dream-Link receivers are currently connected out of the maximum allowed.",
