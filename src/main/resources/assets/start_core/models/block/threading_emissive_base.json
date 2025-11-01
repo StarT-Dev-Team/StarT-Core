@@ -1,0 +1,34 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "#base"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": {"texture": "#base", "cullface": "down"},
+        "up": {"texture": "#base", "cullface": "up"},
+        "north": {"texture": "#base", "cullface": "north"},
+        "south": {"texture": "#base", "cullface": "south"},
+        "west": {"texture": "#base", "cullface": "west"},
+        "east": {"texture": "#base", "cullface": "east"}
+      }
+    },
+    {
+      "from": [-0.004, -0.004, -0.004],
+      "to": [16.004, 16.004, 16.004],
+      "forge_data": { "block_light": 15, "sky_light": 15 },
+      "shade": false,
+      "faces": {
+        "down": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "down", "tintindex": -101},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "up", "tintindex": -101},
+        "north": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "north", "tintindex": -101},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "south", "tintindex": -101},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "west", "tintindex": -101},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#emissive", "cullface": "east", "tintindex": -101}
+      }
+    }
+  ]
+}

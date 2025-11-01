@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "start_core:block/threading/sigil_of_universality/overlay"
+  }
+}
