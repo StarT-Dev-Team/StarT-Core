@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
 import com.startechnology.start_core.machine.StarTMachines;
+import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
@@ -70,6 +71,7 @@ public class StarTCore {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        StarTAbyssalContainmentMachine.init();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
