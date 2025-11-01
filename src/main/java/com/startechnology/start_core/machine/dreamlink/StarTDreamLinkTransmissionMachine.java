@@ -26,6 +26,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -306,10 +308,16 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         if (this.range != -1) {
             MutableComponent rangeComponent = Component.literal(FormattingUtil.formatNumbers(this.range))
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
+
             textList.add(Component
                     .translatable("start_core.machine.dream_link.range", rangeComponent)
                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
+
+            /* Button for showing the range of the dream-link, no need on unlimited range stuff. */
+            textList.add(ComponentPanelWidget.withButton(Component.translatable("start_core.machine.dream_link.tower.range_show").withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.tower.range_button_hover")))
+            ), "range"));
         } else {
             if (this.checkDimension) {
                 textList.add(Component
@@ -344,6 +352,15 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
     }
 
+    /* Triggered by clicking on anything that is a button in the component panel. */
+    public void onDreamLinkComponentPanelClicked(String componentData, ClickData clickData) {
+        if (clickData.isRemote) {
+            if (Objects.equals(componentData, "range")) {
+                StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range);
+            }
+        }
+    }
+
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
@@ -360,7 +377,9 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                         })
                         .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
                 )
-                .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText))
+                .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText)
+                    .clickHandler(this::onDreamLinkComponentPanelClicked)
+                )
         );
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
