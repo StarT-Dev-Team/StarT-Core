@@ -74,8 +74,11 @@ public class StarTThreadingStatBlocks {
     public static final BlockEntry<Block> SIGIL_OF_UNIVERSIALITY = createThreadingStatBlock(
             new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("sigil_of_universality", 4, 0, 0, 0, 0));
 
-    public static void init() {
+    public static final BlockEntry<Block> silly = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("silly", 0, 10, 10, 10, 10));
 
+
+    public static void init() {
     }
 
 }

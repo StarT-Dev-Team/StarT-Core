@@ -332,5 +332,34 @@
   "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids",
 
   "item.start_core.lucinducer.tooltip": "§7Copies Dream-Link Network information",
-  "item.start_core.lucinducer": "Lucinducer"
+  "item.start_core.lucinducer": "Lucinducer",
+
+  "block.start_core.threading_controller": "Prismatic Threading Convergence Hatch",
+  "start_core.machine.threading_controller.list_components": "§6Threading Components:",
+  "start_core.machine.threading_controller.list_components.hover": "The current amount of each threading component block in this machine",
+  "start_core.machine.threading_controller.component_format": "  §7%s: §b%s",
+  "start_core.machine.threading_controller.stat.display_general_remaining": "%s §e%s §7Remaining",
+  "start_core.machine.threading_controller.stat.general_hover": "These points can be assigned to any others",
+  "start_core.machine.threading_controller.stat.display_assign": "%s §e%s §7Assigned §e%s §7Total",
+  "start_core.machine.threading_controller.stat.display": "§6Specialisation:",
+  "start_core.machine.threading_controller.stat.display.hover": "View different points and their current assignments, along with assigning points from Generalis to others",
+  "start_core.machine.threading_controller.speed.pretty_format": "§a%s%% §7Duration Reduction",
+  "start_core.machine.threading_controller.efficiency.pretty_format": "§d%s%% §7EU/t Reduction",
+  "start_core.machine.threading_controller.parallels.pretty_format": "§c%s §7Absolute Parallel",
+  "start_core.machine.threading_controller.threading.pretty_format": "§9%s §7Threads",
+  "start_core.machine.threading_controller.stat.speed.hover": "1% Duration Reduction per Point",
+  "start_core.machine.threading_controller.stat.efficiency.hover": "1% EU/t reduction per Point",
+  "start_core.machine.threading_controller.stat.parallels.hover": "1 Absolute Parallel per 5 Points",
+  "start_core.machine.threading_controller.stat.threading.hover": "1 Threading per 5 Points",
+  "start_core.machine.threading_controller.stat.assign": "§e[+]",
+  "start_core.machine.threading_controller.stat.assign.hover": "Assign 1 Generalis to this",
+  "start_core.machine.threading_controller.stat.remove": "§e[-]",
+  "start_core.machine.threading_controller.stat.remove.hover": "Unassign 1 Generalis from this",
+  "start_core.machine.threading.stat.general": "Generalis",
+  "start_core.machine.threading.stat.speed": "Velocitas",
+  "start_core.machine.threading.stat.efficiency": "Efficienta",
+  "start_core.machine.threading.stat.parallels": "Parallelismus",
+  "start_core.machine.threading.stat.threading": "Filum",
+
+  "block.start_core.sigil_of_universality": "Sigil of Universality"
 }
