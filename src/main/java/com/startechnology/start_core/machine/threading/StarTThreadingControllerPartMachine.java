@@ -52,6 +52,10 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         this.machine = controller;
     }
 
+    public void clearController() {
+        this.machine = null;
+    }
+
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         return true;
@@ -153,13 +157,23 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         }
         
         if (!clickData.isRemote) {
+			int amount = 1;
+            
+            if (clickData.isShiftClick && !clickData.isCtrlClick) {
+                amount = 5;
+            } else if (clickData.isCtrlClick && !clickData.isShiftClick) {
+                amount = 10;
+            } else if (clickData.isCtrlClick && clickData.isShiftClick) {
+                amount = Integer.MAX_VALUE;
+            }
+
             /* Handle addition/removal on server side. */
             if (componentData.startsWith("add_")) {
                 String stat = componentData.replace("add_", "");
-                machine.assignStat(stat);
+                machine.assignStat(stat, amount);
             } else if (componentData.startsWith("remove_")) {
                 String stat = componentData.replace("remove_", "");
-                machine.unassignStat(stat);
+                machine.unassignStat(stat, amount);
             }
         }
     }
