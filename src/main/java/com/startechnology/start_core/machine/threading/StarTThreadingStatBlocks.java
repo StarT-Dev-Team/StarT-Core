@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.api.machine.multiblock.IBatteryData;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
@@ -57,7 +58,7 @@ public class StarTThreadingStatBlocks {
 
                     prov.simpleBlock(ctx.get(), model);
                 })
-                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE, CustomTags.TOOL_TIERS[4])
                 .item(BlockItem::new)
                 .model((ctx, prov) -> {
                     String basePath = "block/threading/" + name + "/overlay";
@@ -71,11 +72,44 @@ public class StarTThreadingStatBlocks {
         return block;
     }
 
-    public static final BlockEntry<Block> SIGIL_OF_UNIVERSIALITY = createThreadingStatBlock(
-            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("sigil_of_universality", 4, 0, 0, 0, 0));
+    public static final BlockEntry<Block> TEST_HELIX = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("test", 4, 0, 0, 0, 0));
 
-    public static final BlockEntry<Block> silly = createThreadingStatBlock(
-            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("silly", 0, 10, 10, 10, 10));
+    public static final BlockEntry<Block> OVERDRIVE_HELIX_1 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uhv_overdrive_thread_helix", 5, 4, 15, 0, 0));
+
+    public static final BlockEntry<Block> OVERDRIVE_HELIX_2 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uxv_overdrive_thread_helix", 10, 8, 25, 1, 0));
+
+    public static final BlockEntry<Block> OVERDRIVE_HELIX_3 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("max_overdrive_thread_helix", 15, 12, 40, 1, 1));
+
+    public static final BlockEntry<Block> COPROCESSOR_HELIX_1 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uhv_coprocessor_thread_helix", 5, 6, 4, 5, 0));
+
+    public static final BlockEntry<Block> COPROCESSOR_HELIX_2 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uiv_coprocessor_thread_helix", 10, 12, 8, 10, 0));
+
+    public static final BlockEntry<Block> COPROCESSOR_HELIX_3 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("opv_coprocessor_thread_helix", 15, 18, 12, 16, 0));
+
+    public static final BlockEntry<Block> WEAVER_HELIX_1 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uhv_weaving_thread_helix", 5, 8, 2, 2, 5));
+
+    public static final BlockEntry<Block> WEAVER_HELIX_2 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uiv_weaving_thread_helix", 10, 12, 4, 3, 8));
+
+    public static final BlockEntry<Block> WEAVER_HELIX_3 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("opv_weaving_thread_helix", 15, 16, 6, 4, 12));
+
+    public static final BlockEntry<Block> SUPREME_HELIX_1 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uev_supreme_thread_helix", 30, 0, 0, 0, 0));
+
+    public static final BlockEntry<Block> SUPREME_HELIX_2 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uxv_supreme_thread_helix", 50, 0, 0, 0, 0));
+
+    public static final BlockEntry<Block> SUPREME_HELIX_3 = createThreadingStatBlock(
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("max_supreme_thread_helix", 80, 0, 0, 0, 0));
 
 
     public static void init() {

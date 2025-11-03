@@ -340,7 +340,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     private double calculateEnergyMultiplier() {
         int efficiencyPoints = getEffectivePowerReduction();
-        return Math.pow(0.9995, efficiencyPoints);
+        return Math.max(Math.pow(0.9975, efficiencyPoints), 0.015625); //2 underclocks (1/64th) as EU/recipe floor, machines cant get >mid 50 threads
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {

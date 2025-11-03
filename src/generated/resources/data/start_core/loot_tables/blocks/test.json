@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "start_core:sigil_of_universality"
+          "name": "start_core:test"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "start_core:blocks/sigil_of_universality"
+  "random_sequence": "start_core:blocks/test"
 }
