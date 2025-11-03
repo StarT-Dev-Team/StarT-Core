@@ -420,9 +420,14 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         }
     }
 
-    private List<GTRecipe> findThreadedRecipes() {
+private List<GTRecipe> findThreadedRecipes() {
         int maxThreads = getEffectiveThreads();
         if (maxThreads < 1 || recipeLogic == null) {
+            return List.of();
+        }
+
+        int availableThreads = maxThreads - (activeThreads != null ? activeThreads.size() : 0);
+        if (availableThreads <= 0) {
             return List.of();
         }
 
@@ -452,7 +457,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             return List.of();
         }
 
-        List<GTRecipe> result = new ArrayList<>(Math.min(maxThreads, allMatches.size()));
+        List<GTRecipe> result = new ArrayList<>(Math.min(availableThreads, allMatches.size()));
         for (GTRecipe candidate : allMatches) {
             if (candidate == null) continue;
             ResourceLocation id = candidate.getId();
@@ -460,7 +465,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
             if (canConsumeRecipeInputs(candidate)) {
                 result.add(candidate);
-                if (result.size() >= maxThreads) break;
+                if (result.size() >= availableThreads) break;
             }
         }
 
