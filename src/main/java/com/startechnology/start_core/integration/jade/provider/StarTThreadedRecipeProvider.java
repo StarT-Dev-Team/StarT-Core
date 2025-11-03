@@ -139,6 +139,17 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                     data.put(threadPrefix + "OutputFluids", fluidTags);
                 }
 
+                var EUt = RecipeHelper.getInputEUt(recipe);
+                var isInput = true;
+                if (EUt == 0) {
+                    isInput = false;
+                    EUt = RecipeHelper.getOutputEUt(recipe);
+                }
+
+                data.putLong(threadPrefix + "EUt", EUt);
+                data.putBoolean(threadPrefix + "isInput", isInput);
+                data.putBoolean(threadPrefix + "isWorking", threadExecutionContext.isWorking);
+
                 data.putInt(threadPrefix + "Progress",
                         threadExecutionContext.totalDuration - threadExecutionContext.ticksRemaining);
                 data.putInt(threadPrefix + "MaxProgress", threadExecutionContext.totalDuration);
@@ -163,7 +174,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             // WORKABLE PROVIDER
             int currentProgress = capData.getInt(threadPrefix + "Progress");
             int maxProgress = capData.getInt(threadPrefix + "MaxProgress");
-            Component text;
+            MutableComponent text;
 
             if (maxProgress < 20) {
                 text = Component.translatable("gtceu.jade.progress_tick", currentProgress, maxProgress);
@@ -181,6 +192,57 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                                 tooltip.getElementHelper().progressStyle().color(color).textColor(-1),
                                 Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555),
                                 true));
+            }
+
+            /* EU/T Display */
+            var EUt = capData.getLong(threadPrefix + "EUt");
+            var isWorking = capData.getBoolean(threadPrefix + "isWorking");
+            var isInput = capData.getBoolean(threadPrefix + "isInput");
+                boolean isSteam = false;
+                if (blockEntity instanceof MetaMachineBlockEntity mbe) {
+                    var machine = mbe.getMetaMachine();
+                    if (machine instanceof SimpleSteamMachine ssm) {
+                        EUt = (long) (EUt * ssm.getConversionRate());
+                        isSteam = true;
+                    } else if (machine instanceof SteamParallelMultiblockMachine smb) {
+                        EUt = (long) (EUt * smb.getConversionRate());
+                        isSteam = true;
+                    }
+                }
+
+            if (EUt > 0 && isWorking) {
+
+                if (isSteam) {
+                    text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
+                            .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
+                } else {
+                    var tier = GTUtil.getOCTierByVoltage(EUt);
+
+                    text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.RED)
+                            .append(Component.literal(" EU/t").withStyle(ChatFormatting.RESET)
+                                    .append(Component.literal(" (").withStyle(ChatFormatting.GREEN)));
+                    if (tier < GTValues.TIER_COUNT) {
+                        text = text.append(Component.literal(GTValues.VNF[tier])
+                                .withStyle(style -> style.withColor(GTValues.VC[tier])));
+                    } else {
+                        int speed = tier - 14;
+                        text = text.append(Component
+                                .literal("MAX")
+                                .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
+                                .append(Component.literal("+")
+                                        .withStyle(style -> style.withColor(GTValues.VC[speed]))
+                                        .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
+                                        .withStyle(style -> style.withColor(GTValues.VC[speed]))));
+
+                    }
+                    text = text.append(Component.literal(")").withStyle(ChatFormatting.GREEN));
+                }
+
+                if (isInput) {
+                    tooltip.add(Component.translatable("gtceu.top.energy_consumption").append(" ").append(text));
+                } else {
+                    tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
+                }
             }
 
             List<ItemStack> outputItems = new ArrayList<>();

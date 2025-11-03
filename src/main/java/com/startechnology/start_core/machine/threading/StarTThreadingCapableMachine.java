@@ -43,7 +43,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             StarTThreadingCapableMachine.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    /* Map of each type to it's stats */
     @Getter
     private HashMap<String, StarTThreadingStatsPredicate.ThreadingStatsBlockTracker> stats;
 
@@ -88,7 +87,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     @Getter
     private List<ThreadedRecipeExecution> activeThreads;
 
-
     public StarTThreadingCapableMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.stats = new HashMap<>();
@@ -113,7 +111,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public void ensureAssignment() {
-        // Check if we need to reduce assigned stats due to reduced capacity
         Integer remaining = getRemainingAssignable();
         if (remaining < 0) {
             Integer deficit = Math.abs(remaining);
@@ -151,7 +148,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 - (this.assignedEfficiency + this.assignedParallels + this.assignedSpeed + this.assignedThreading);
     }
 
-    /* effective duration reduction in % */
     private Integer getEffectiveDurationReduction() {
         if (this.assignedSpeed == null) this.assignedSpeed = 0;
         if (this.speed == null) this.speed = 0;
@@ -160,14 +156,13 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     public MutableComponent getSpeedPrettyFormat() {
         double multiplier = calculateDurationMultiplier();
-        double reductionPercent = (1 - multiplier) * 100.0; // e.g., 0.9 → 10%
+        double reductionPercent = (1 - multiplier) * 100.0;
         return Component.literal(LocalizationUtils.format(
                 "start_core.machine.threading_controller.speed.pretty_format",
                 FormattingUtil.formatNumber2Places(reductionPercent)
         ));
     }
 
-    /* effective power reduction in % */
     private Integer getEffectivePowerReduction() {
         if (this.assignedEfficiency == null) this.assignedEfficiency = 0;
         if (this.efficiency == null) this.efficiency = 0;
@@ -183,7 +178,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         ));
     }
 
-    /* effective parallels */
     private Integer getEffectiveParallels() {
         if (this.assignedParallels == null) this.assignedParallels = 0;
         if (this.parallels == null) this.parallels = 0;
@@ -195,7 +189,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 FormattingUtil.formatNumbers(getEffectiveParallels())));
     }
 
-    /* effective threads */
     private Integer getEffectiveThreads() {
         if (this.assignedThreading == null) this.assignedThreading = 0;
         if (this.threading == null) this.threading = 0;
@@ -307,7 +300,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         this.ensureAssignment();
     }
 
-    /* return all types of stats in their string form */
     public String[] getStatTypes() {
         return new String[] { "speed", "efficiency", "parallels", "threading" };
     }
@@ -333,7 +325,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 continue;
             }
 
-            /* Track it in the hashmap */
             var stats = (StarTThreadingStatsPredicate.ThreadingStatsBlockTracker) entry.getValue();
             this.stats.put(stats.name.replace(StarTThreadingStatsPredicate.THREADING_STATS_HEADER, ""), stats);
             this.increaseStats(stats);
@@ -342,19 +333,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         this.ensureAssignment();
     }
 
-    /**
-     * Calculate duration modifier using exponential formula
-     * DurationNew = (0.9975^s) * DurationCurrent
-     */
     private double calculateDurationMultiplier() {
         int speedPoints = getEffectiveDurationReduction();
         return Math.pow(0.9975, speedPoints);
     }
 
-    /**
-     * Calculate energy modifier using exponential formula
-     * EnergyCostNew = (0.9995^e) * EnergyCostCurrent
-     */
     private double calculateEnergyMultiplier() {
         int efficiencyPoints = getEffectivePowerReduction();
         return Math.pow(0.9995, efficiencyPoints);
@@ -400,15 +383,10 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         });
     }
 
-    /**
-     * Override addDisplayText to show threading information
-     */
     @Override
     public void addDisplayText(List<Component> textList) {
-        // Call parent to add standard display text
         super.addDisplayText(textList);
         
-        // Add threading stats display
         if (isFormed()) {
             textList.add(Component.empty());
             textList.add(Component.translatable("start_core.machine.threading_controller.header"));
@@ -417,7 +395,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             textList.add(getParallelsPrettyFormat());
             textList.add(getThreadsPrettyFormat());
 
-            // Display active threads using synced data
             if (activeThreads.size() > 0) {
                 textList.add(Component.empty());
                 textList.add(Component.translatable("start_core.machine.threading_controller.active_threads"));
@@ -443,10 +420,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         }
     }
 
-    /**
-     * Find multiple distinct recipes that can be run simultaneously
-     * Each thread processes a different recipe type
-     */
     private List<GTRecipe> findThreadedRecipes() {
         int maxThreads = getEffectiveThreads();
         if (maxThreads < 1 || recipeLogic == null) {
@@ -465,7 +438,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             excludedIds.add(lastRecipe.getId());
         }
 
-        // Exclude currently active threaded recipes
         if (activeThreads != null && !activeThreads.isEmpty()) {
             for (ThreadedRecipeExecution thread : activeThreads) {
                 GTRecipe r = thread.recipe;
@@ -480,14 +452,12 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             return List.of();
         }
 
-        // early stop
         List<GTRecipe> result = new ArrayList<>(Math.min(maxThreads, allMatches.size()));
         for (GTRecipe candidate : allMatches) {
             if (candidate == null) continue;
             ResourceLocation id = candidate.getId();
             if (id == null || excludedIds.contains(id)) continue;
 
-            // Only add recipes that can be consumed
             if (canConsumeRecipeInputs(candidate)) {
                 result.add(candidate);
                 if (result.size() >= maxThreads) break;
@@ -497,73 +467,70 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         return result;
     }
 
-
-    /**
-     * Check if the machine has enough resources to consume for a recipe
-     */
     private boolean canConsumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return false;
-        
-        // Check if recipe matches with current inputs
-        // The recipe system will handle the actual checking
-        return recipe.matchRecipe(this.recipeLogic.machine).isSuccess();
+        return recipe.matchRecipe(this.recipeLogic.machine).isSuccess() && recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess();
     }
 
-    /**
-     * Consume inputs for a threaded recipe
-     */
     private void consumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return;
-        
-        // Use empty chance map for deterministic consumption
         Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
         recipe.handleRecipeIO(IO.IN, this.recipeLogic.machine, chanceCaches);
     }
 
-    /**
-     * Override recipe logic to handle multi-threading
-     * This is called when the machine needs to find a recipe to process
-     */
+    @Override
+    public void onWaiting() {
+        super.onWaiting();
+        tickThreads();
+    }
+
     @Override
     public boolean onWorking() {
         boolean result = super.onWorking();
-        
-        // Only run on server side
-        if (this.getLevel().isClientSide) {
-            return result;
+        tickThreads();
+        return result;
+    }
+
+    private void tickThreads() {
+        if (!this.isWorkingEnabled() || this.getLevel().isClientSide) {
+            return;
         }
         
-        // Tick all additional threads
         if (activeThreads != null && !activeThreads.isEmpty()) {
             List<ThreadedRecipeExecution> completedThreads = new ArrayList<>();
             
             for (ThreadedRecipeExecution thread : activeThreads) {
-                thread.ticksRemaining--;
-                
-                if (thread.ticksRemaining <= 0) {
-                    completedThreads.add(thread);
+                GTRecipe recipe = thread.recipe;
+                if (recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess()) {
+                    handleThreadPerTickInputs(thread);
+                    handleThreadPerTickOutputs(thread);
+                    thread.ticksRemaining--;
+
+                    thread.isWorking = true;
+
+                    if (thread.ticksRemaining <= 0) {
+                        completedThreads.add(thread);
+                    }
+                } else {
+                    thread.isWorking = false;
+                    thread.ticksRemaining = Math.min(thread.ticksRemaining + 1, thread.totalDuration);
                 }
             }
 
-            // Handle completed threads
             for (ThreadedRecipeExecution completed : completedThreads) {
                 handleThreadCompletion(completed);
                 activeThreads.remove(completed);
             }
         }
         
-        // If we're working and threading is enabled, try to start additional threads
-        if (result && getEffectiveThreads() > 0 && (activeThreads.size() < getEffectiveThreads())) {
+        if (getEffectiveThreads() > 0 && (activeThreads.size() < getEffectiveThreads())) {
             setupThreadedExecution();
         }
-
-        return result;
     }
 
     private void setupThreadedExecution() {
         List<GTRecipe> recipes = findThreadedRecipes();
         
-        // no recipes found
         if (recipes.size() < 1) {
             return; 
         }
@@ -571,103 +538,96 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         for (int i = 0; i < recipes.size(); i++) {
             GTRecipe recipe = recipes.get(i);
             
-            // Check if we can actually run this recipe
             if (!canConsumeRecipeInputs(recipe)) {
                 continue;
             }
             
-            // Apply ALL recipe modifiers including machine's modifiers
             GTRecipe modifiedRecipe = recipe;
             
-            // Apply machine definition's recipe modifier if it exists
             if (getDefinition().getRecipeModifier() != null) {
                 if (getDefinition().getRecipeModifier() instanceof RecipeModifierList list) {
-                    // Apply each modifier in the list
                     modifiedRecipe = list.applyModifier(this, modifiedRecipe);
                 } else {
-                    // Apply single modifier
                     modifiedRecipe = getDefinition().getRecipeModifier().applyModifier(this, modifiedRecipe);
                 }
             }
             
-            // Try to consume inputs
             try {
                 consumeRecipeInputs(modifiedRecipe);
-                // Start the thread only if consumption succeeded
                 activeThreads.add(new ThreadedRecipeExecution(modifiedRecipe, modifiedRecipe.duration));
             } catch (Exception e) {
-                // Failed to consume inputs, skip this recipe
                 continue;
             }
         }
     }
 
-    /**
-     * Handle completion of a threaded recipe
-     */
+    private void handleThreadPerTickInputs(ThreadedRecipeExecution thread) {
+        if (thread.recipe == null) return;
+        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
+        thread.recipe.handleTickRecipeIO(IO.IN, this.recipeLogic.machine, chanceCaches);
+    }
+
+    private void handleThreadPerTickOutputs(ThreadedRecipeExecution thread) {
+        if (thread.recipe == null) return;
+        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
+        thread.recipe.handleTickRecipeIO(IO.OUT, this.recipeLogic.machine, chanceCaches);
+    }
+
     private void handleThreadCompletion(ThreadedRecipeExecution thread) {
         if (thread.recipe == null) return;
-        
         Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
         thread.recipe.handleRecipeIO(IO.OUT, this.recipeLogic.machine, chanceCaches);
     }
 
-    /**
-     * Called after recipe logic, clear threading if main recipe ends
-     */
     @Override
     public void afterWorking() {
         super.afterWorking();
         
-        // Only run on server side
         if (this.getLevel().isClientSide) {
             return;
         }
         
-        // Check if main recipe is complete
         if (this.recipeLogic.getProgress() == 0) {
-            // Clear threading state when main recipe finishes
             if (activeThreads != null) {
                 activeThreads.clear();
             }
         }
     }
 
-    /**
-     * Inner class to track threaded recipe execution
-     * Must be static and have proper serialization for @Persisted to work
-     */
     public static class ThreadedRecipeExecution {
         public GTRecipe recipe;
         public int ticksRemaining;
         public int totalDuration;
+        public boolean isWorking;
 
         public ThreadedRecipeExecution(GTRecipe recipe, int duration) {
             this.recipe = recipe;
             this.ticksRemaining = duration;
             this.totalDuration = duration;
+            this.isWorking = false;
         }
 
-        public ThreadedRecipeExecution(GTRecipe recipe, int duration, int ticksRemaining) {
+        public ThreadedRecipeExecution(GTRecipe recipe, int duration, int ticksRemaining, boolean isWorking) {
             this.recipe = recipe;
             this.ticksRemaining = ticksRemaining;
             this.totalDuration = duration;
+            this.isWorking = isWorking;
         }
     }
 
     public static class ThreadedRecipeExecutionAccessor extends CustomObjectAccessor<ThreadedRecipeExecution> {
 
         public ThreadedRecipeExecutionAccessor() {
-            super(ThreadedRecipeExecution.class, true); // field class, whether this accessor is available for its children class
+            super(ThreadedRecipeExecution.class, true);
         }
 
         @Override
         public ITypedPayload<?> serialize(AccessorOp accessorOp, ThreadedRecipeExecution threadedRecipeExecution) {
             FriendlyByteBuf serializedHolder = new FriendlyByteBuf(Unpooled.buffer());
 
-            /* Serialize different components over netowrk */
             serializedHolder.writeInt(threadedRecipeExecution.ticksRemaining);
             serializedHolder.writeInt(threadedRecipeExecution.totalDuration);
+            serializedHolder.writeBoolean(threadedRecipeExecution.isWorking);
             serializedHolder.writeUtf(threadedRecipeExecution.recipe.id.toString());
             GTRecipeSerializer.SERIALIZER.toNetwork(serializedHolder, threadedRecipeExecution.recipe);
 
@@ -677,13 +637,13 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         @Override
         public ThreadedRecipeExecution deserialize(AccessorOp accessorOp, ITypedPayload<?> payload) {
             if (payload instanceof FriendlyBufPayload buffer) {
-                /* Deserialize from network, should be in same order as serialisation */
                 int ticksRemaining = buffer.getPayload().readInt();
                 int totalDuration = buffer.getPayload().readInt();
+                boolean isWorking = buffer.getPayload().readBoolean();
 
                 var id = new ResourceLocation(buffer.getPayload().readUtf());
                 GTRecipe innerRecipe = GTRecipeSerializer.SERIALIZER.fromNetwork(id, buffer.getPayload());
-                return new ThreadedRecipeExecution(innerRecipe, totalDuration, ticksRemaining);
+                return new ThreadedRecipeExecution(innerRecipe, totalDuration, ticksRemaining, isWorking);
             }
             return null;
         }
