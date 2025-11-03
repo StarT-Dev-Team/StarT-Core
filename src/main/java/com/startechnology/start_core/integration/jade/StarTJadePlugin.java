@@ -33,6 +33,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTDreamLinkNetworkBlockProvider(), Block.class);
         registration.registerBlockComponent(new StarTHellforgeProvider(), Block.class);
         registration.registerBlockComponent(new StarTRedstoneInterfaceProvider(), Block.class);
+        registration.registerBlockComponent(new StarTAbyssalHarvesterProvider(), BlockEntity.class);       
         registration.registerBlockComponent(new StarTThreadedRecipeProvider(), Block.class);
     }
 }
