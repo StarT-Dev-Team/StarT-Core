@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks.StarTThreadingStatBlock;
+import com.tterrag.registrate.util.entry.BlockEntry;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,15 +41,30 @@ public class StarTThreadingStatsPredicate {
             this.amount += 1;
         }
 
+        public Integer getStatString(String stat) {
+            switch (stat) {
+                case "general":
+                    return this.general;
+                case "speed":
+                    return this.speed;
+                case "efficiency":
+                    return this.efficiency;
+                case "parallels":
+                    return this.parallels;
+                case "threading":
+                    return this.threading;
+            }
+
+            return -1;
+        }
+
     }
-
-    public static final Map<ThreadingStatsBlockTracker, Supplier<Block>> THREADING_STAT_BLOCKS = new HashMap<>();
-
+    
     public static boolean traceThreadingStatBlocks(MultiblockState blockWorldState) {
         BlockState state = blockWorldState.getBlockState();
-        for (Map.Entry<ThreadingStatsBlockTracker, Supplier<Block>> entry : THREADING_STAT_BLOCKS.entrySet()) {
-            if (state.is(entry.getValue().get())) {
-                ThreadingStatsBlockTracker stats = entry.getKey();
+        for (BlockEntry<StarTThreadingStatBlock> blockEntry : StarTThreadingStatBlocks.statBlocks) {
+            if (state.is(blockEntry.get())) {
+                ThreadingStatsBlockTracker stats = blockEntry.get().getThreadingStats();
 
                 ThreadingStatsBlockTracker currentStats = blockWorldState.getMatchContext().getOrDefault(stats.name,
                         new ThreadingStatsBlockTracker(stats.name, stats.general, stats.speed, stats.efficiency,
@@ -64,8 +81,8 @@ public class StarTThreadingStatsPredicate {
     public static Predicate<MultiblockState> threadingStatBlocksPredicate = StarTThreadingStatsPredicate::traceThreadingStatBlocks;
 
     public static TraceabilityPredicate threadingStatBlocks() {
-        return new TraceabilityPredicate(threadingStatBlocksPredicate, () -> THREADING_STAT_BLOCKS.entrySet().stream()
-                .map(entry -> new BlockInfo(entry.getValue().get().defaultBlockState(), null))
+        return new TraceabilityPredicate(threadingStatBlocksPredicate, () -> StarTThreadingStatBlocks.statBlocks.stream()
+                .map(entry -> new BlockInfo(entry.get().defaultBlockState(), null))
                 .toArray(BlockInfo[]::new));
     }
 }
