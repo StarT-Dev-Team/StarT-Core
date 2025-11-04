@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "start_core:block/opv_coprocessor_thread_helix"
+    }
+  }
+}

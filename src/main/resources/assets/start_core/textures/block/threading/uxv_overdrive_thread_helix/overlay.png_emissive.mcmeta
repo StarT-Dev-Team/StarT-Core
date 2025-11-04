@@ -1,0 +1,12 @@
+{
+    "ldlib": {
+        "emissive": true
+    },
+    "shimmer": {
+        "bloom": true
+    }
+    "animation":{
+      "frametime": 1,
+      "interpolate": true
+   }
+}

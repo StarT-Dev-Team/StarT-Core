@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "start_core:block/opv_weaving_thread_helix"
+    }
+  }
+}

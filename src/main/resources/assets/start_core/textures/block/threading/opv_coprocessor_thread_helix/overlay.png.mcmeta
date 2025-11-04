@@ -1,0 +1,9 @@
+{
+    "ldlib": {
+        "emissive": true
+    },
+    "animation":{
+      "frametime": 1,
+      "interpolate": true
+   }
+}
