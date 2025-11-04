@@ -104,7 +104,7 @@ public class StarTThreadingStatBlocks {
                             }
                         }
                     })
-                .model((ctx, prov) -> prov.withExistingParent(prov.name(ctx), StarTCore.resourceLocation("block/threading" + name)))
+                .model((ctx, prov) -> prov.withExistingParent(prov.name(ctx), StarTCore.resourceLocation("block/threading/" + name)))
                 .build()
                 .register();
 
