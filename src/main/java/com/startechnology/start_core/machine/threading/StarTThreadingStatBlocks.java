@@ -54,7 +54,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 public class StarTThreadingStatBlocks {
 
-    public static List<BlockEntry<StarTThreadingStatBlock>> statBlocks = new ArrayList<>();
+public static List<BlockEntry<StarTThreadingStatBlock>> statBlocks = new ArrayList<>();
     public static List<String> statList = List.of("general", "speed", "efficiency", "parallels", "threading");
 
     public static class StarTThreadingStatBlock extends ActiveBlock {
@@ -66,51 +66,78 @@ public class StarTThreadingStatBlocks {
             super(properties);
             this.threadingStats = threadingStats;
         }
-
     }
 
-    public static NonNullBiConsumer<DataGenContext<Block, StarTThreadingStatBlock>, RegistrateBlockstateProvider> createActiveModel(ResourceLocation modelPath) {
+    public static NonNullBiConsumer<DataGenContext<Block, StarTThreadingStatBlock>, RegistrateBlockstateProvider> createActiveModel(String blockName) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
-            ModelFile inactive = prov.models().getExistingFile(modelPath);
-            ModelFile active = prov.models().getExistingFile(modelPath.withSuffix("_active"));
+            String modelName = ctx.getName();
+            
+            ResourceLocation textureBase = StarTCore.resourceLocation("block/threading/" + blockName + "/thread");
+            
+            var inactiveModel = prov.models().cubeAll(
+                modelName,
+                textureBase
+            );
+            
+            var activeModel = prov.models().withExistingParent(
+                modelName + "_active",
+                new ResourceLocation("block/cube_all")
+            )
+            .texture("all", StarTCore.resourceLocation("block/threading/" + blockName + "/thread_active"))
+            .texture("particle", StarTCore.resourceLocation("block/threading/" + blockName + "/thread_active"));
+            
             prov.getVariantBuilder(block)
-                    .partialState().with(ActiveBlock.ACTIVE, false).modelForState().modelFile(inactive).addModel()
-                    .partialState().with(ActiveBlock.ACTIVE, true).modelForState().modelFile(active).addModel();
+                .partialState().with(ActiveBlock.ACTIVE, false)
+                    .modelForState().modelFile(inactiveModel).addModel()
+                .partialState().with(ActiveBlock.ACTIVE, true)
+                    .modelForState().modelFile(activeModel).addModel();
         };
     }
 
     public static BlockEntry<StarTThreadingStatBlock> createThreadingStatBlock(StarTThreadingStatsPredicate.ThreadingStatsBlockTracker stats) {
         String name = stats.name.replace(StarTThreadingStatsPredicate.THREADING_STATS_HEADER, "");
-        BlockEntry<StarTThreadingStatBlock> block = START_REGISTRATE.block(name, (props) -> new StarTThreadingStatBlock(props, stats))
-                .initialProperties(() -> Blocks.IRON_BLOCK)
-                .addLayer(() -> RenderType::cutoutMipped)
-                .blockstate(createActiveModel(StarTCore.resourceLocation( "block/threading/" + name)))
-                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE, CustomTags.TOOL_TIERS[4])
-                .item((blockA, props) -> new BlockItem(blockA, props) {
-
-                        @Override
-                        public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents,
-                                                    TooltipFlag isAdvanced) {
-                            super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
-                            tooltipComponents.add(1, Component.translatable("block.start_core.helix_tooltip_title"));
-                            if (stack.getItem() instanceof BlockItem blockItem) {
-                                if (blockItem.getBlock() instanceof StarTThreadingStatBlock statBlock) {
-                                    ThreadingStatsBlockTracker stats = statBlock.getThreadingStats();
-                                    statList.forEach(stat -> {
-                                        tooltipComponents.add(Component.literal(LocalizationUtils.format("block.start_core.stat." + stat + ".display",  LocalizationUtils.format("start_core.machine.threading.stat." + stat), FormattingUtil.formatNumbers(stats.getStatString(stat)))));
-                                    });
-                                }
-                            }
+        
+        BlockEntry<StarTThreadingStatBlock> block = START_REGISTRATE
+            .block(name, (props) -> new StarTThreadingStatBlock(props, stats))
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .blockstate(createActiveModel(name))
+            .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE, CustomTags.TOOL_TIERS[4])
+            .item((blockA, props) -> new BlockItem(blockA, props) {
+                @Override
+                public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents,
+                                          TooltipFlag isAdvanced) {
+                    super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+                    tooltipComponents.add(1, Component.translatable("block.start_core.helix_tooltip_title"));
+                    if (stack.getItem() instanceof BlockItem blockItem) {
+                        if (blockItem.getBlock() instanceof StarTThreadingStatBlock statBlock) {
+                            ThreadingStatsBlockTracker stats = statBlock.getThreadingStats();
+                            statList.forEach(stat -> {
+                                tooltipComponents.add(Component.literal(
+                                    LocalizationUtils.format(
+                                        "block.start_core.stat." + stat + ".display",
+                                        LocalizationUtils.format("start_core.machine.threading.stat." + stat),
+                                        FormattingUtil.formatNumbers(stats.getStatString(stat))
+                                    )
+                                ));
+                            });
                         }
-                    })
-                .model((ctx, prov) -> prov.withExistingParent(prov.name(ctx), StarTCore.resourceLocation("block/threading/" + name)))
-                .build()
-                .register();
+                    }
+                }
+            })
+            .model((ctx, prov) -> {
+                prov.withExistingParent(prov.name(ctx), 
+                    StarTCore.resourceLocation("block/" + name));
+            })
+            .build()
+            .register();
 
         statBlocks.add(block);
         return block;
     }
+
+
 
     public static final BlockEntry<StarTThreadingStatBlock> TEST_HELIX = createThreadingStatBlock(
             new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("test", 4, 0, 0, 0, 0));
