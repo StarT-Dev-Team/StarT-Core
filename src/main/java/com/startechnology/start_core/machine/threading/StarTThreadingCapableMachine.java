@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.PatternMatchContext;
@@ -20,6 +22,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.AccessorOp;
 import com.lowdragmc.lowdraglib.syncdata.accessor.CustomObjectAccessor;
@@ -86,6 +89,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     @DescSynced
     @Getter
     private List<ThreadedRecipeExecution> activeThreads;
+    protected TickableSubscription threadTickableSubscription;
 
     public StarTThreadingCapableMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -368,6 +372,8 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         });
 
         this.activeThreads.clear();
+        this.threadTickableSubscription.unsubscribe();
+        this.threadTickableSubscription = null;
         super.onStructureInvalid();
     }
 
@@ -381,6 +387,31 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 threadingController.setAssociatedController(this);
             }
         });
+
+        if (Objects.isNull(this.threadTickableSubscription)) {
+            threadTickableSubscription = subscribeServerTick(this::tickThreads);
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+
+        if (getLevel().isClientSide) {
+            return;
+        }
+
+        threadTickableSubscription = subscribeServerTick(this::tickThreads);
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+
+        if (Objects.nonNull(this.threadTickableSubscription)) {
+            this.threadTickableSubscription.unsubscribe();
+            this.threadTickableSubscription = null;
+        }
     }
 
     @Override
@@ -483,21 +514,8 @@ private List<GTRecipe> findThreadedRecipes() {
         recipe.handleRecipeIO(IO.IN, this.recipeLogic.machine, chanceCaches);
     }
 
-    @Override
-    public void onWaiting() {
-        super.onWaiting();
-        tickThreads();
-    }
-
-    @Override
-    public boolean onWorking() {
-        boolean result = super.onWorking();
-        tickThreads();
-        return result;
-    }
-
     private void tickThreads() {
-        if (!this.isWorkingEnabled() || this.getLevel().isClientSide) {
+        if (!this.isWorkingEnabled() || this.getLevel().isClientSide || !isFormed()) {
             return;
         }
         
@@ -548,7 +566,7 @@ private List<GTRecipe> findThreadedRecipes() {
             }
             
             GTRecipe modifiedRecipe = recipe;
-            
+
             if (getDefinition().getRecipeModifier() != null) {
                 if (getDefinition().getRecipeModifier() instanceof RecipeModifierList list) {
                     modifiedRecipe = list.applyModifier(this, modifiedRecipe);
