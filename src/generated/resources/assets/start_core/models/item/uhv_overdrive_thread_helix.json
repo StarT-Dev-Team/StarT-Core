@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "start_core:block/threading/uhv_overdrive_thread_helix/overlay"
-  }
+  "parent": "start_core:block/uhv_overdrive_thread_helix"
 }

@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "active=false": {
       "model": "start_core:block/test"
+    },
+    "active=true": {
+      "model": "start_core:block/test_active"
     }
   }
 }

@@ -1,8 +1,6 @@
 {
-  "parent": "start_core:block/threading_emissive_base",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "base": "start_core:block/threading/uhv_weaving_thread_helix/overlay",
-    "emissive": "start_core:block/threading/uhv_weaving_thread_helix/overlay_emissive",
-    "particle": "start_core:block/threading/uhv_weaving_thread_helix/overlay"
+    "all": "start_core:block/threading/uhv_weaving_thread_helix/thread"
   }
 }

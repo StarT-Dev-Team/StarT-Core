@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "active=false": {
       "model": "start_core:block/uhv_overdrive_thread_helix"
+    },
+    "active=true": {
+      "model": "start_core:block/uhv_overdrive_thread_helix_active"
     }
   }
 }

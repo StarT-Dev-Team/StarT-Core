@@ -140,7 +140,7 @@ public static List<BlockEntry<StarTThreadingStatBlock>> statBlocks = new ArrayLi
 
 
     public static final BlockEntry<StarTThreadingStatBlock> TEST_HELIX = createThreadingStatBlock(
-            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("test", 4, 0, 0, 0, 0));
+            new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("test", 200, 0, 0, 0, 0));
 
     public static final BlockEntry<StarTThreadingStatBlock> OVERDRIVE_HELIX_1 = createThreadingStatBlock(
             new StarTThreadingStatsPredicate.ThreadingStatsBlockTracker("uhv_overdrive_thread_helix", 5, 4, 15, 0, 0));
