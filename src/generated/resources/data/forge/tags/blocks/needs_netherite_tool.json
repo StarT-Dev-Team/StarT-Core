@@ -10,6 +10,7 @@
     "start_core:uhv_weaving_thread_helix",
     "start_core:uiv_weaving_thread_helix",
     "start_core:opv_weaving_thread_helix",
+    "start_core:uv_supreme_thread_helix",
     "start_core:uev_supreme_thread_helix",
     "start_core:uxv_supreme_thread_helix",
     "start_core:max_supreme_thread_helix",
