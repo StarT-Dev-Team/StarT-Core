@@ -349,7 +349,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof StarTThreadingCapableMachine controller && controller.isFormed()) {
-            int parallels = ParallelLogic.getParallelAmount(machine, recipe, controller.getEffectiveParallels());
+            int parallels = ParallelLogic.getParallelAmountFast(machine, recipe, controller.getEffectiveParallels());
             double durationMultiplier = controller.calculateDurationMultiplier();
             double energyMultiplier = controller.calculateEnergyMultiplier();
 
@@ -372,8 +372,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         });
 
         this.activeThreads.clear();
-        this.threadTickableSubscription.unsubscribe();
-        this.threadTickableSubscription = null;
+
+        if (this.threadTickableSubscription != null) {
+            this.threadTickableSubscription.unsubscribe();
+            this.threadTickableSubscription = null;
+        }
         super.onStructureInvalid();
     }
 
@@ -390,6 +393,9 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
         if (Objects.isNull(this.threadTickableSubscription)) {
             threadTickableSubscription = subscribeServerTick(this::tickThreads);
+        } else {
+            threadTickableSubscription.unsubscribe();
+            threadTickableSubscription  = subscribeServerTick(this::tickThreads);
         }
     }
 

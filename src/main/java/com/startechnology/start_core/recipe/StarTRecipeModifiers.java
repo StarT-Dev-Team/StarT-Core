@@ -29,7 +29,7 @@ public class StarTRecipeModifiers {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             int parallels = controller.getParallelHatch()
                 .filter(hatch -> hatch instanceof IStarTAbsoluteParallelHatch)
-                .map(hatch -> ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()))
+                .map(hatch -> ParallelLogic.getParallelAmountFast(machine, recipe, hatch.getCurrentParallel()))
                 .orElse(1);
                     
             if (parallels == 1) return ModifierFunction.IDENTITY;
