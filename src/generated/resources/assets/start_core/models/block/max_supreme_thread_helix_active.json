@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "start_core:block/threading/max_supreme_thread_helix/thread_active",
+    "particle": "start_core:block/threading/max_supreme_thread_helix/thread_active"
+  }
+}

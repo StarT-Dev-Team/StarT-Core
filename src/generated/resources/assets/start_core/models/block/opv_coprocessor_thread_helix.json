@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "start_core:block/threading/opv_coprocessor_thread_helix/thread"
+  }
+}

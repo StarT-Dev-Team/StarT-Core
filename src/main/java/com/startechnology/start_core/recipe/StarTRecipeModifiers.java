@@ -20,6 +20,7 @@ import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
+import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;
@@ -128,6 +129,9 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier LARGE_TURBINE = LargeTurbineMachine::recipeModifier;
     public static final RecipeModifier BOOSTED_PLASMA_TURBINE = BoostedPlasmaTurbine::recipeModifier;
+
+    public static final RecipeModifier THREADING_MACHINE = StarTThreadingCapableMachine::recipeModifier;
+
 
     public static final RecipeModifier START_STEAM_PARALLEL = StarTSteamParallelMultiblockMachine::recipeModifier;
 }

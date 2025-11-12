@@ -1,5 +1,19 @@
 {
   "values": [
+    "start_core:test",
+    "start_core:uhv_overdrive_thread_helix",
+    "start_core:uxv_overdrive_thread_helix",
+    "start_core:max_overdrive_thread_helix",
+    "start_core:uhv_coprocessor_thread_helix",
+    "start_core:uiv_coprocessor_thread_helix",
+    "start_core:opv_coprocessor_thread_helix",
+    "start_core:uhv_weaving_thread_helix",
+    "start_core:uiv_weaving_thread_helix",
+    "start_core:opv_weaving_thread_helix",
+    "start_core:uv_supreme_thread_helix",
+    "start_core:uev_supreme_thread_helix",
+    "start_core:uxv_supreme_thread_helix",
+    "start_core:max_supreme_thread_helix",
     "start_core:fusion_casing_mk4",
     "start_core:auxiliary_boosted_fusion_casing_mk2",
     "start_core:auxiliary_fusion_coil_mk2"
