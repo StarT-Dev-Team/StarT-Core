@@ -204,6 +204,15 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 FormattingUtil.formatNumbers(getEffectiveThreads())));
     }
 
+    public MutableComponent getActualDurationPrettyFormat() {
+        double efficiencyMultiplier = calculateDurationMultiplier();
+        double parallelMultiplier = Math.pow(1.15, (getEffectiveParallels() - 1));
+        double actualDurationMultiplier = efficiencyMultiplier * parallelMultiplier * 100.0;
+        return Component.literal(LocalizationUtils.format(
+                "start_core.machine.threading_controller.duration.pretty_format",
+                FormattingUtil.formatNumber2Places(actualDurationMultiplier)));
+    }
+
     public Integer getStatAssigned(String stat) {
         switch (stat) {
             case "speed":
@@ -353,9 +362,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             double durationMultiplier = controller.calculateDurationMultiplier();
             double energyMultiplier = controller.calculateEnergyMultiplier();
 
+            double finalDurationMultiplier = durationMultiplier * Math.pow(1.15, ((int) parallels - 1));
+
             return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))
-                .durationMultiplier(durationMultiplier)
+                .durationMultiplier(finalDurationMultiplier)
                 .eutMultiplier(energyMultiplier)
                 .parallels(parallels)
                 .build();
@@ -427,7 +438,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         if (isFormed()) {
             textList.add(Component.empty());
             textList.add(Component.translatable("start_core.machine.threading_controller.header"));
-            textList.add(getSpeedPrettyFormat());
+            textList.add(getActualDurationPrettyFormat());
             textList.add(getEfficiencyPrettyFormat());
             textList.add(getParallelsPrettyFormat());
             textList.add(getThreadsPrettyFormat());
