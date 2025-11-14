@@ -185,7 +185,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     private Integer getEffectiveParallels() {
         if (this.assignedParallels == null) this.assignedParallels = 0;
         if (this.parallels == null) this.parallels = 0;
-        return Math.floorDiv(this.assignedParallels + this.parallels, 5) + 1;
+        return Math.floorDiv(this.assignedParallels + this.parallels, 20) + 1;
     }
 
     public MutableComponent getParallelsPrettyFormat() {
@@ -206,7 +206,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     public MutableComponent getActualDurationPrettyFormat() {
         double efficiencyMultiplier = calculateDurationMultiplier();
-        double parallelMultiplier = Math.pow(1.15, (getEffectiveParallels() - 1));
+        double parallelMultiplier = Math.sqrt(getEffectiveParallels());
         double actualDurationMultiplier = efficiencyMultiplier * parallelMultiplier * 100.0;
         return Component.literal(LocalizationUtils.format(
                 "start_core.machine.threading_controller.duration.pretty_format",
@@ -347,13 +347,17 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private double calculateDurationMultiplier() {
+        int spdPointsPerMark = 100; //scaler
         int speedPoints = getEffectiveDurationReduction();
-        return Math.pow(0.9975, speedPoints);
+        double amountSpdMark = (double) speedPoints / spdPointsPerMark;
+        double timesDurationHalved = (-1 + Math.sqrt(1 + 8 * amountSpdMark)) / 2; //to reach each halving you need sum of that metric, example 6 points for 1/8, 6 = sum(3), 1/8 = 2^-3
+        return Math.pow(2, -1 * timesDurationHalved);
     }
 
     private double calculateEnergyMultiplier() {
+        int effPointsPerMark = 30; //1 more thread worth of efficiency per 50 points (linearly scales efficiency to get threads since EUt cost scales linearly)
         int efficiencyPoints = getEffectivePowerReduction();
-        return Math.max(Math.pow(0.9975, efficiencyPoints), 0.015625); //2 underclocks (1/64th) as EU/recipe floor, machines cant get >mid 50 threads
+        return (double) effPointsPerMark / (effPointsPerMark + efficiencyPoints);
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
@@ -362,7 +366,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             double durationMultiplier = controller.calculateDurationMultiplier();
             double energyMultiplier = controller.calculateEnergyMultiplier();
 
-            double finalDurationMultiplier = durationMultiplier * Math.pow(1.15, ((int) parallels - 1));
+            double finalDurationMultiplier = durationMultiplier * Math.sqrt((int) parallels);
 
             return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallels))
