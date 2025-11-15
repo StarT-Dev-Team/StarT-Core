@@ -355,7 +355,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private double calculateEnergyMultiplier() {
-        int effPointsPerMark = 30; //1 more thread worth of efficiency per 50 points (linearly scales efficiency to get threads since EUt cost scales linearly)
+        int effPointsPerMark = 30; //1 more thread worth of efficiency per 30 points (linearly scales efficiency to get threads since EUt cost scales linearly)
         int efficiencyPoints = getEffectivePowerReduction();
         return (double) effPointsPerMark / (effPointsPerMark + efficiencyPoints);
     }

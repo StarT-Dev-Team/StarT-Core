@@ -107,12 +107,12 @@ public class StarTRecipeModifiers {
         double durationModifier = 1.4;
         double eutModifier = 0.9;
 
-        int maxThoughputModifier = Math.max(1, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
+        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
 
-        if (maxThoughputModifier > 1) {
+        if (parallelsAvailable >= thoughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(maxThoughputModifier)) 
+                .modifyAllContents(ContentModifier.multiplier(thoughputModifier)) 
                 .durationMultiplier(durationModifier)
                 .eutMultiplier(eutModifier)
                 .parallels(thoughputModifier)    
