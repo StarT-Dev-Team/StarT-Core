@@ -21,6 +21,7 @@ public class StarTThreadingControllerMachines {
     public static MachineBuilder<MachineDefinition> createThreadingController(String name) {
         return StarTCore.START_REGISTRATE.machine(
                 name, StarTThreadingControllerPartMachine::new)
+                .tooltips(Component.translatable("block.start_core.threading_controller.tooltip"))
                 .rotationState(RotationState.ALL)
                 .abilities(StarTPartAbility.THREADING_CONTROLLER);
     }

@@ -335,6 +335,7 @@
   "item.start_core.lucinducer": "Lucinducer",
 
   "block.start_core.threading_controller": "Prismatic Threading Convergence Hatch",
+  "block.start_core.threading_controller.tooltip": "Allows you to access and control the threading system by assigning points to various stats.\n§6The available points depend on the helixes you have installed in the multiblock structure.",
   "start_core.machine.threading_controller.list_components": "§6Threading Components:",
   "start_core.machine.threading_controller.list_components.hover": "The current amount of each threading component block in this machine",
   "start_core.machine.threading_controller.component_format": "  §7%s: §b%s",
