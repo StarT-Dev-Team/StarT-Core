@@ -167,7 +167,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             if (clickData.isShiftClick && !clickData.isCtrlClick) {
                 amount = 5;
             } else if (clickData.isCtrlClick && !clickData.isShiftClick) {
-                amount = 10;
+                amount = 20;
             } else if (clickData.isCtrlClick && clickData.isShiftClick) {
                 amount = Integer.MAX_VALUE;
             }
