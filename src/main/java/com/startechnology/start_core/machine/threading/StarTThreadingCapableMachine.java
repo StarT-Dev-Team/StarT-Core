@@ -398,6 +398,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        stats.clear(); // resets the hashmap of helixes
         this.updateStats();
 
         this.getParts().forEach(part -> {
