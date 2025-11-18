@@ -526,7 +526,10 @@ private List<GTRecipe> findThreadedRecipes() {
 
     private boolean canConsumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return false;
-        return recipe.matchRecipe(this.recipeLogic.machine).isSuccess() && recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess();
+        return 
+            recipe.matchRecipe(this.recipeLogic.machine).isSuccess() && 
+            recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess() &&
+            recipe.checkConditions(this.recipeLogic).isSuccess();
     }
 
     private void consumeRecipeInputs(GTRecipe recipe) {
