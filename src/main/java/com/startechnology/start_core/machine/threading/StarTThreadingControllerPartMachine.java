@@ -3,6 +3,7 @@ package com.startechnology.start_core.machine.threading;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -42,18 +43,18 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     /* Track controller for updating, screw demeter */
-    private StarTThreadingCapableMachine machine;
+    private Supplier<StarTThreadingCapableMachine> machineSupplier;
 
     public StarTThreadingControllerPartMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
     public void setAssociatedController(StarTThreadingCapableMachine controller) {
-        this.machine = controller;
+        this.machineSupplier = () -> controller;
     }
 
     public void clearController() {
-        this.machine = null;
+        this.machineSupplier = null;
     }
 
     @Override
@@ -72,10 +73,12 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
     }
 
     private void addComponentPanelText(List<Component> componentList) {
-        if (machine == null) {
+        if (machineSupplier == null) {
             componentList.add(Component.literal("No controller connected").withStyle(ChatFormatting.RED));
             return;
         }
+
+        StarTThreadingCapableMachine machine = this.machineSupplier.get();
 
         componentList.add(Component.translatable("start_core.machine.threading_controller.stat.display")
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -152,9 +155,11 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
     /* Handle the click inside of the component panel above */
     public void onThreadingControllerPanelClick(String componentData, ClickData clickData) {        
         // Check if machine is for some reason null
-        if (machine == null) {
+        if (machineSupplier == null) {
             return;
         }
+
+        StarTThreadingCapableMachine machine = machineSupplier.get();
         
         if (!clickData.isRemote) {
 			int amount = 1;
@@ -162,7 +167,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             if (clickData.isShiftClick && !clickData.isCtrlClick) {
                 amount = 5;
             } else if (clickData.isCtrlClick && !clickData.isShiftClick) {
-                amount = 10;
+                amount = 20;
             } else if (clickData.isCtrlClick && clickData.isShiftClick) {
                 amount = Integer.MAX_VALUE;
             }

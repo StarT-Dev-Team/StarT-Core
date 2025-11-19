@@ -220,11 +220,16 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine {
 
             if (fluidsMap.containsKey(material)) {
                 Integer maxHeat = fluidsMap.get(material);
-                Integer addTemperature = ingredientFluid.getFluid().getFluidType().getTemperature() / 1_000_000;
 
-                Integer amountToAdd = (int) Math.floor(ingredientFluid.getAmount() / 1000);
-                this.temperature = Math.min(temperature + addTemperature * amountToAdd, maxHeat);
-                this.temperatureChanged();
+                if (this.temperature < maxHeat) {
+                    
+                    Integer addTemperature = ingredientFluid.getFluid().getFluidType().getTemperature() / 1_000_000;
+
+                    Integer amountToAdd = (int) Math.floor(ingredientFluid.getAmount() / 1000);
+                    this.temperature = Math.min(temperature + addTemperature * amountToAdd, maxHeat);
+                    this.temperatureChanged();
+                
+                }
             }
         }
     }
