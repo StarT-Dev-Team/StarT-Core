@@ -81,6 +81,22 @@ public class StarTDreamLinkRangeRenderer {
         }
     }
 
+    public static void toggleOnBoxAtPositionWithRange(BlockPos position, Integer range) {
+        ActiveBoxData boxData = new ActiveBoxData(position, range);
+
+        if (!activeBoxes.contains(boxData)) {
+            activeBoxes.add(boxData);
+        }
+    }
+
+    public static void toggleOffBoxAtPositionWithRange(BlockPos position, Integer range) {
+        ActiveBoxData boxData = new ActiveBoxData(position, range);
+
+        if (activeBoxes.contains(boxData)) {
+            activeBoxes.remove(boxData);
+        }
+    }
+
     private static final RenderStateShard.TransparencyStateShard TRANSLUCENT_TRANSPARENCY =
             new RenderStateShard.TransparencyStateShard(
                     "translucent",

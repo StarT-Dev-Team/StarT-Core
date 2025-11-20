@@ -125,6 +125,14 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+
+        // Toggle off render on structure invalid if it exists
+        StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range);
+    }
+
+    @Override
     public void onLoad() {
         super.onLoad();
 
