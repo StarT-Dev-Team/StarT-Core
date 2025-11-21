@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
@@ -77,7 +76,16 @@ public class StarTThreadedStatBlockProvider implements IBlockComponentProvider {
         if (block.getBlock() instanceof StarTThreadingStatBlock threadingBlock) {
             tooltip.add(Component.translatable("block.start_core.helix_tooltip_title"));
             for (String stat : StarTThreadingStatBlocks.statList) {
-                tooltip.add(Component.literal(LocalizationUtils.format("block.start_core.stat." + stat + ".display",  LocalizationUtils.format("start_core.machine.threading.stat." + stat), FormattingUtil.formatNumbers(threadingBlock.getThreadingStats().getStatString(stat)))));
+                ChatFormatting color = switch (stat) {
+                    case "speed" -> ChatFormatting.GREEN;           // §a
+                    case "efficiency" -> ChatFormatting.LIGHT_PURPLE; // §d
+                    case "parallels" -> ChatFormatting.RED;          // §c
+                    case "threading" -> ChatFormatting.BLUE;         // §9
+                    default -> ChatFormatting.WHITE;                 // §f
+                };
+                tooltip.add(Component.translatable("block.start_core.stat." + stat + ".display", 
+                    Component.translatable("start_core.machine.threading.stat." + stat), 
+                    Component.literal(FormattingUtil.formatNumbers(threadingBlock.getThreadingStats().getStatString(stat))).withStyle(color)));
             }
         }
 

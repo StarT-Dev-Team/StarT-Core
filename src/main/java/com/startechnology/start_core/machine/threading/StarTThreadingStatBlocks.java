@@ -27,7 +27,6 @@ import com.gregtechceu.gtceu.common.data.GTModels;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.fusion.StarTFusionCasings;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatsPredicate.ThreadingStatsBlockTracker;
@@ -38,6 +37,7 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -114,12 +114,17 @@ public static List<BlockEntry<StarTThreadingStatBlock>> statBlocks = new ArrayLi
                         if (blockItem.getBlock() instanceof StarTThreadingStatBlock statBlock) {
                             ThreadingStatsBlockTracker stats = statBlock.getThreadingStats();
                             statList.forEach(stat -> {
-                                tooltipComponents.add(Component.literal(
-                                    LocalizationUtils.format(
-                                        "block.start_core.stat." + stat + ".display",
-                                        LocalizationUtils.format("start_core.machine.threading.stat." + stat),
-                                        FormattingUtil.formatNumbers(stats.getStatString(stat))
-                                    )
+                                ChatFormatting color = switch (stat) {
+                                    case "speed" -> ChatFormatting.GREEN;           // §a
+                                    case "efficiency" -> ChatFormatting.LIGHT_PURPLE; // §d
+                                    case "parallels" -> ChatFormatting.RED;          // §c
+                                    case "threading" -> ChatFormatting.BLUE;         // §9
+                                    default -> ChatFormatting.WHITE;                 // §f
+                                };
+                                tooltipComponents.add(Component.translatable(
+                                    "block.start_core.stat." + stat + ".display",
+                                    Component.translatable("start_core.machine.threading.stat." + stat),
+                                    Component.literal(FormattingUtil.formatNumbers(stats.getStatString(stat))).withStyle(color)
                                 ));
                             });
                         }

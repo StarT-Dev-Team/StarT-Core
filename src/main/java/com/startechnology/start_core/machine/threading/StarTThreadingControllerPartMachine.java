@@ -22,7 +22,6 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMachine;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkRangeRenderer;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamWidgetGroup;
@@ -86,10 +85,10 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
 
         componentList
                 .add(Component
-                        .literal(LocalizationUtils.format(
+                        .translatable(
                                 "start_core.machine.threading_controller.stat.display_general_remaining",
-                                LocalizationUtils.format("start_core.machine.threading.stat.general"),
-                                FormattingUtil.formatNumbers(machine.getRemainingAssignable())))
+                                Component.translatable("start_core.machine.threading.stat.general"),
+                                Component.literal(FormattingUtil.formatNumbers(machine.getRemainingAssignable())).withStyle(ChatFormatting.YELLOW))
                         .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component
                                         .translatable("start_core.machine.threading_controller.stat.general_hover")))));
@@ -97,12 +96,10 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         for (String stat : machine.getStatTypes()) {
             componentList.add(Component.literal(""));
             var statPointLine = Component
-                    .literal(LocalizationUtils.format("start_core.machine.threading_controller.stat.display_assign",
-                            LocalizationUtils.format("start_core.machine.threading.stat." + stat),
-                            FormattingUtil.formatNumbers(machine.getStatAssigned(stat)),
-                            FormattingUtil.formatNumbers(machine.getStatTotal(stat)))
-
-                    )
+                    .translatable("start_core.machine.threading_controller.stat.display_assign",
+                            Component.translatable("start_core.machine.threading.stat." + stat),
+                            Component.literal(FormattingUtil.formatNumbers(machine.getStatAssigned(stat))).withStyle(ChatFormatting.YELLOW),
+                            Component.literal(FormattingUtil.formatNumbers(machine.getStatTotal(stat))).withStyle(ChatFormatting.YELLOW))
                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             Component.translatable(
                                     "start_core.machine.threading_controller.stat." + stat + ".hover"))));
@@ -141,10 +138,10 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
                         Component.translatable("start_core.machine.threading_controller.list_components.hover")))));
 
         machine.getStats().forEach((name, stats) -> {
-            Component component = Component.literal(
-                    LocalizationUtils.format("start_core.machine.threading_controller.component_format",
-                            LocalizationUtils.format("block.start_core." + name),
-                            FormattingUtil.formatNumbers(stats.amount)));
+            Component component = Component.translatable(
+                    "start_core.machine.threading_controller.component_format",
+                            Component.translatable("block.start_core." + name).withStyle(ChatFormatting.GRAY),
+                            Component.literal(FormattingUtil.formatNumbers(stats.amount)).withStyle(ChatFormatting.AQUA));
             componentList.add(component);
         });
 
@@ -188,7 +185,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         group.addWidget(
                 new DraggableScrollableWidgetGroup(4, 4, 242, 117).setBackground(GuiTextures.DISPLAY)
                         .addWidget(
-                                new LabelWidget(4, 5, LocalizationUtils.format("block.start_core.threading_controller")))
+                                new LabelWidget(4, 5, Component.translatable("block.start_core.threading_controller").getString()))
                         .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText).clickHandler(this::onThreadingControllerPanelClick)));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);

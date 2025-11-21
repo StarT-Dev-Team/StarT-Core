@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
@@ -167,8 +166,8 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
         int threadAmount = capData.getInt("thread_amount");
         for (int i = 0; i < threadAmount; i++) {
             tooltip.add(Component
-                    .literal(LocalizationUtils.format("start_core.machine.threading_controller.jade_thread_header",
-                            FormattingUtil.formatNumbers(i + 1))));
+                    .translatable("start_core.machine.threading_controller.jade_thread_header",
+                            Component.literal(FormattingUtil.formatNumbers(i + 1)).withStyle(ChatFormatting.GOLD)));
             String threadPrefix = "thread_" + i;
 
             // WORKABLE PROVIDER
