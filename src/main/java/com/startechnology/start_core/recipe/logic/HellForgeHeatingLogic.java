@@ -97,6 +97,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
 
             if (!fluidInSlot.isEmpty()) {
                 Material fluidMaterial = ChemicalHelper.getMaterial(fluidInSlot.getFluid());
+                if (fluidMaterial == null) continue;
 
                 if (StarTHellForgeMachine.fluidsMap.containsKey(fluidMaterial)) {
                     FluidStack fluidInput = fluidInSlot.copy();

@@ -31,11 +31,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
 import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -161,10 +161,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     public MutableComponent getSpeedPrettyFormat() {
         double multiplier = calculateDurationMultiplier();
         double reductionPercent = (1 - multiplier) * 100.0;
-        return Component.literal(LocalizationUtils.format(
+        return Component.translatable(
                 "start_core.machine.threading_controller.speed.pretty_format",
-                FormattingUtil.formatNumber2Places(reductionPercent)
-        ));
+                Component.literal(FormattingUtil.formatNumber2Places(reductionPercent)).withStyle(ChatFormatting.GREEN),
+                Component.literal("%").withStyle(ChatFormatting.GREEN)
+        );
     }
 
     private Integer getEffectivePowerReduction() {
@@ -176,10 +177,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     public MutableComponent getEfficiencyPrettyFormat() {
         double multiplier = calculateEnergyMultiplier();
         double reductionPercent = (1 - multiplier) * 100.0;
-        return Component.literal(LocalizationUtils.format(
+        return Component.translatable(
                 "start_core.machine.threading_controller.efficiency.pretty_format",
-                FormattingUtil.formatNumber2Places(reductionPercent)
-        ));
+                Component.literal(FormattingUtil.formatNumber2Places(reductionPercent)).withStyle(ChatFormatting.LIGHT_PURPLE),
+                Component.literal("%").withStyle(ChatFormatting.LIGHT_PURPLE)
+        );
     }
 
     private Integer getEffectiveParallels() {
@@ -189,8 +191,8 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public MutableComponent getParallelsPrettyFormat() {
-        return Component.literal(LocalizationUtils.format("start_core.machine.threading_controller.parallels.pretty_format",
-                FormattingUtil.formatNumbers(getEffectiveParallels())));
+        return Component.translatable("start_core.machine.threading_controller.parallels.pretty_format",
+                Component.literal(FormattingUtil.formatNumbers(getEffectiveParallels())).withStyle(ChatFormatting.RED));
     }
 
     private Integer getEffectiveThreads() {
@@ -200,17 +202,19 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public MutableComponent getThreadsPrettyFormat() {
-        return Component.literal(LocalizationUtils.format("start_core.machine.threading_controller.threading.pretty_format",
-                FormattingUtil.formatNumbers(getEffectiveThreads())));
+        return Component.translatable("start_core.machine.threading_controller.threading.pretty_format",
+                Component.literal(FormattingUtil.formatNumbers(getEffectiveThreads())).withStyle(ChatFormatting.BLUE));
     }
 
     public MutableComponent getActualDurationPrettyFormat() {
         double efficiencyMultiplier = calculateDurationMultiplier();
         double parallelMultiplier = Math.sqrt(getEffectiveParallels());
         double actualDurationMultiplier = efficiencyMultiplier * parallelMultiplier * 100.0;
-        return Component.literal(LocalizationUtils.format(
+        return Component.translatable(
                 "start_core.machine.threading_controller.duration.pretty_format",
-                FormattingUtil.formatNumber2Places(actualDurationMultiplier)));
+                Component.literal(FormattingUtil.formatNumber2Places(actualDurationMultiplier)).withStyle(ChatFormatting.GREEN),
+                Component.literal("%").withStyle(ChatFormatting.GREEN)
+            );
     }
 
     public Integer getStatAssigned(String stat) {
@@ -455,7 +459,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 int threadNum = 1;
                 for (ThreadedRecipeExecution thread : this.activeThreads) {
                     textList.add(Component.empty());
-                    textList.add(Component.literal(LocalizationUtils.format("start_core.machine.threading_controller.thread_header", FormattingUtil.formatNumbers(threadNum))));
+                    textList.add(Component.translatable("start_core.machine.threading_controller.thread_header", Component.literal(FormattingUtil.formatNumbers(threadNum)).withStyle(ChatFormatting.GOLD)));
                     
                     MultiblockDisplayText.builder(textList, true)
                             .setWorkingStatus(true, true)
@@ -468,8 +472,8 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             } 
             
             textList.add(Component.empty());
-            textList.add(Component.literal(LocalizationUtils.format("start_core.machine.threading_controller.threads_available",
-                    FormattingUtil.formatNumbers(getEffectiveThreads() - activeThreads.size()))));
+            textList.add(Component.translatable("start_core.machine.threading_controller.threads_available",
+                    Component.literal(FormattingUtil.formatNumbers(getEffectiveThreads() - activeThreads.size())).withStyle(ChatFormatting.RED)));
         }
     }
 
