@@ -15,8 +15,12 @@ public class ResearchManagerDataItemMixin {
     
     @Inject(method = "getDefaultResearchStationItem", at = @At("HEAD"), remap = false, cancellable = true)
     private static void onGetDefaultResearchStationItem(int cwut, CallbackInfoReturnable<ItemStack> cir) {
-        if (cwut >= 160) {
+        if (cwut >= 160 && cwut< 320) {
             cir.setReturnValue(StarTItems.TOOL_DATA_DNA_DISK.asStack());
         }
+        if (cwut >= 320) {
+            cir.setReturnValue(StarTItems.TOOL_COMPONENT_DATA_CORE.asStack());
+        }
     }
+
 }

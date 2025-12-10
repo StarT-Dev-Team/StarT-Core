@@ -26,6 +26,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -76,10 +78,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected String tempNetwork;
 
     private Integer range;
+    private Integer connections;
     private Integer receiverCount;
     private Boolean checkDimension;
 
-    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Boolean checkDimension) {
+    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Integer connections, Boolean checkDimension) {
         super(holder);
         this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferEnergyTick, this::isFormed);
         this.isReadyToTransmit = false;
@@ -88,6 +91,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         this.range = range;
         this.checkDimension = checkDimension;
         this.receiverCount = 0;
+        this.connections = connections;
     }
 
     @Override
@@ -118,6 +122,14 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
         this.inputHatches = new EnergyContainerList(inputs);
         this.isReadyToTransmit = true;
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+
+        // Toggle off render on structure invalid if it exists
+        StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range);
     }
 
     @Override
@@ -190,6 +202,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             BlockPos posB = entryB.value().devicePos();
             return Double.compare(getSquaredDistanceToThis(posA), getSquaredDistanceToThis(posB));
         });
+
+        // Limit the number of connections if not infinite (-1)
+        if (this.connections != -1 && deviceEntries.size() > this.connections) {
+            deviceEntries = deviceEntries.subList(0, this.connections);
+        }
 
         // Extract just the devices we need
         receiverCache.clear();
@@ -299,10 +316,16 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         if (this.range != -1) {
             MutableComponent rangeComponent = Component.literal(FormattingUtil.formatNumbers(this.range))
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
+
             textList.add(Component
                     .translatable("start_core.machine.dream_link.range", rangeComponent)
                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
+
+            /* Button for showing the range of the dream-link, no need on unlimited range stuff. */
+            textList.add(ComponentPanelWidget.withButton(Component.translatable("start_core.machine.dream_link.tower.range_show").withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.tower.range_button_hover")))
+            ), "range"));
         } else {
             if (this.checkDimension) {
                 textList.add(Component
@@ -317,13 +340,33 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
             }
         }
 
-        MutableComponent totalHatchesComponent = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
+        MutableComponent currentConnections = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
             .setStyle(Style.EMPTY.withColor(ChatFormatting.LIGHT_PURPLE));
 
+        MutableComponent maxConnections = Component.literal(
+                this.connections == -1 ? "∞" : FormattingUtil.formatNumbers(this.connections))
+            .setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
+
+        MutableComponent connectionsDisplay = Component.literal("")
+            .append(currentConnections)
+            .append(Component.literal(" / ").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
+            .append(maxConnections);
+
         textList.add(Component
-            .translatable("start_core.machine.dream_link.total_hatches", totalHatchesComponent)
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.total_hatches_hover")))));
+            .translatable("start_core.machine.dream_link.connections_display", connectionsDisplay)
+            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(
+                HoverEvent.Action.SHOW_TEXT,
+                Component.translatable("start_core.machine.dream_link.tower.connections_display_hover")))));
+
+    }
+
+    /* Triggered by clicking on anything that is a button in the component panel. */
+    public void onDreamLinkComponentPanelClicked(String componentData, ClickData clickData) {
+        if (clickData.isRemote) {
+            if (Objects.equals(componentData, "range")) {
+                StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range);
+            }
+        }
     }
 
     @Override
@@ -341,7 +384,10 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                             return input;
                         })
                         .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
-                ).addWidget(new ComponentPanelWidget(4, 52, this::addDisplayText))
+                )
+                .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText)
+                    .clickHandler(this::onDreamLinkComponentPanelClicked)
+                )
         );
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);

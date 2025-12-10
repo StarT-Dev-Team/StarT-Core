@@ -133,7 +133,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (this.redstoneOutputHatches.isEmpty()) return;
 
         redstoneSaturationMarkers.forEach(marker -> {
-            final double percentSaturation = (this.saturation / (double) marker) * 15.0;
+            final double percentSaturation = Math.min((this.saturation / (double) marker) * 15.0, 15.0);
 
             this.redstoneOutputHatches.forEach(hatch -> {
                 BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);

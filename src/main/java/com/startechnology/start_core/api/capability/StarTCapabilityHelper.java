@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,6 +41,12 @@ public class StarTCapabilityHelper {
             if (machine instanceof StarTAbyssalHarvesterMachine harvesterMachine) {
                 return StarTCapability.CAPABILITY_ABYSSAL_HARVESTER.orEmpty(capability, LazyOptional.of(() -> harvesterMachine));
             }
+        }        
+        
+        else if (capability == StarTCapability.CAPABILITY_THREADING_CAPABLE_MACHINE) {
+            if (machine instanceof StarTThreadingCapableMachine threadingCapableMachine) {
+                return StarTCapability.CAPABILITY_THREADING_CAPABLE_MACHINE.orEmpty(capability, LazyOptional.of(() -> threadingCapableMachine));
+            }
         }
 
         return LazyOptional.empty();
@@ -66,6 +73,11 @@ public class StarTCapabilityHelper {
     @Nullable
     public static StarTRedstoneInterfacePartMachine getRedstoneInterfacePartMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_REDSTONE_INTERFACE, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTThreadingCapableMachine getThreadingCapableMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_THREADING_CAPABLE_MACHINE, level, pos, side);
     }
 
     @Nullable

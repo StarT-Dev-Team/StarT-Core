@@ -149,7 +149,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
 
         // Store effect for later.
         this.abyssalDrain = ForgeRegistries.MOB_EFFECTS.getValue(KubeJS.id("abyssal_drain"));
-
+    
         this.cleanroomType = ABYSSAL_CONTAINMENT_ROOM;
         this.getRecipeLogic().setDuration(4000);
     }
@@ -269,7 +269,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
 
     
     // gui stuff
-        @Override
+    @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
 
@@ -281,5 +281,8 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
                  textList.add(Component.translatable("start_core.abyssal_containment_room.provided_fluids").withStyle(ChatFormatting.GREEN));
             }
         }
+    }
+
+    public static void init() {
     }
 }

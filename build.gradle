@@ -72,7 +72,7 @@ repositories {
     }
     maven {
         name "firstdarkMavenSnapshots"
-        url "https://maven.firstdarkdev.xyz/snapshots"
+        url "https://maven.firstdark.dev/snapshots"
     }
     maven {
         name 'Quilt'

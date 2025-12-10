@@ -20,6 +20,7 @@ import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
+import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;
@@ -28,7 +29,7 @@ public class StarTRecipeModifiers {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             int parallels = controller.getParallelHatch()
                 .filter(hatch -> hatch instanceof IStarTAbsoluteParallelHatch)
-                .map(hatch -> ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()))
+                .map(hatch -> ParallelLogic.getParallelAmountFast(machine, recipe, hatch.getCurrentParallel()))
                 .orElse(1);
                     
             if (parallels == 1) return ModifierFunction.IDENTITY;
@@ -106,12 +107,12 @@ public class StarTRecipeModifiers {
         double durationModifier = 1.4;
         double eutModifier = 0.9;
 
-        int maxThoughputModifier = Math.max(1, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
+        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
 
-        if (maxThoughputModifier > 1) {
+        if (parallelsAvailable >= thoughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(maxThoughputModifier)) 
+                .modifyAllContents(ContentModifier.multiplier(thoughputModifier)) 
                 .durationMultiplier(durationModifier)
                 .eutMultiplier(eutModifier)
                 .parallels(thoughputModifier)    
@@ -128,6 +129,9 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier LARGE_TURBINE = LargeTurbineMachine::recipeModifier;
     public static final RecipeModifier BOOSTED_PLASMA_TURBINE = BoostedPlasmaTurbine::recipeModifier;
+
+    public static final RecipeModifier THREADING_MACHINE = StarTThreadingCapableMachine::recipeModifier;
+
 
     public static final RecipeModifier START_STEAM_PARALLEL = StarTSteamParallelMultiblockMachine::recipeModifier;
 }

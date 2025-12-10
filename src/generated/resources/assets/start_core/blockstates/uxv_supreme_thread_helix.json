@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "start_core:block/uxv_supreme_thread_helix"
+    },
+    "active=true": {
+      "model": "start_core:block/uxv_supreme_thread_helix_active"
+    }
+  }
+}
