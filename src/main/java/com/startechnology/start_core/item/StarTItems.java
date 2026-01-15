@@ -7,7 +7,6 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 import com.google.common.base.Preconditions;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;
@@ -18,11 +17,10 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.item.component.ThermalFluidStats;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
-import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
+import com.startechnology.start_core.item.components.StarTCopyBehaviour;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -54,11 +52,15 @@ public class StarTItems {
 
     public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
         .lang("Lucinducer")
-        .onRegister(attach(new StarTDreamCopyBehaviour()))
-        .onRegister(attach(new TooltipBehavior(lines -> {
-            lines.add(Component.translatable("item.start_core.lucinducer.tooltip"));
-        })))
+        .onRegister(attach(new StarTCopyBehaviour()))
+        .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.lucinducer.tooltip")))))
         .register();
+
+    public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE.item("mechanical_memory_card", ComponentItem::create)
+            .lang("Mechanical Memory Card")
+            .onRegister(attach(new StarTCopyBehaviour()))
+            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip")))))
+            .register();
 
     public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(GTMaterials.NaquadahEnriched, 768, 12, 16, true, true, false);
     public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_NEUTRONIUM = createFluidCell(GTMaterials.Neutronium, 1024, 16, 8, true, true, true);

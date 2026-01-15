@@ -334,6 +334,9 @@
   "item.start_core.lucinducer.tooltip": "§7Copies Dream-Link Network information",
   "item.start_core.lucinducer": "Lucinducer",
 
+  "item.start_core.mechanical_memory_card.tooltip": "§7Allows you to copy miscellaneous machines information.",
+  "item.start_core.mechanical_memory_card": "Mechanical Memory Card",
+
   "block.start_core.threading_controller": "Prismatic Threading Convergence Hatch",
   "block.start_core.threading_controller.tooltip": "Allows you to access and control the threading system by assigning points to various stats.\n§6The available points depend on the helixes you have installed in the multiblock structure.",
   "start_core.machine.threading_controller.list_components": "§6Threading Components:",
