@@ -4,13 +4,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public interface IStarTCopyInteractable {
+public interface IStarTDreamCopyInteractable {
 
-    default InteractionResult onCopyUse(Player player, ItemStack copyItem) {
+    default InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
         return InteractionResult.PASS;
     }
 
-    default InteractionResult onCopyShiftUse(Player player, ItemStack copyItem) {
+    default InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         return InteractionResult.PASS;
     }
 }

@@ -1,8 +1,8 @@
 package com.startechnology.start_core.api.capability;
 
-import com.startechnology.start_core.api.dreamlink.IStarTCopyInteractable;
+import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 
-public interface IStarTDreamLinkNetworkMachine extends IStarTCopyInteractable {
+public interface IStarTDreamLinkNetworkMachine extends IStarTDreamCopyInteractable {
     String DEFAULT_NETWORK = "Untitled Network";
 
     /* Set the dream link network of this machine */

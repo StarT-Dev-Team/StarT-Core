@@ -23,7 +23,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
-import com.startechnology.start_core.api.dreamlink.IStarTCopyInteractable;
+import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,7 +33,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IStarTCopyInteractable, IUICover {
+public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
     
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
         CoverBehavior.MANAGED_FIELD_HOLDER);
@@ -205,7 +205,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     }
 
     @Override
-    public InteractionResult onCopyShiftUse(Player player, ItemStack copyItem) {
+    public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
@@ -218,7 +218,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
 
 
     @Override
-    public final InteractionResult onCopyUse(Player player, ItemStack copyItem) {
+    public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
         CompoundTag tag = copyItem.getTag();
         if (tag == null || !tag.contains("dream_network")) {
             return InteractionResult.PASS;

@@ -3,7 +3,7 @@ package com.startechnology.start_core.mixin;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
-import com.startechnology.start_core.api.dreamlink.IStarTCopyInteractable;
+import com.startechnology.start_core.api.copy.ICopyInteractable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = MaintenanceHatchPartMachine.class, remap = false)
-public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IStarTCopyInteractable {
+public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements ICopyInteractable {
     @Unique
     private final String start$nbtDuration = "duration";
 
@@ -29,22 +29,25 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     }
 
     @Override
-    public InteractionResult onCopyUse(Player player, ItemStack dataStick) {
+    public InteractionResult onUse(Player player, ItemStack dataStick) {
         var tag = dataStick.getTag();
         if (tag == null || !tag.contains(start$nbtDuration)) return InteractionResult.PASS;
         if (!this.isRemote() && this.isConfigurable) {
             this.durationMultiplier = tag.getFloat(start$nbtDuration);
             this.updateMaintenanceSubscription();
+            dataStick.setHoverName(holder.getDefinition().getBlock().getName());
+            player.sendSystemMessage(copySettings);
         }
         return InteractionResult.sidedSuccess(this.isRemote());
     }
 
     @Override
-    public InteractionResult onCopyShiftUse(Player player, ItemStack dataStick) {
+    public InteractionResult onShiftUse(Player player, ItemStack dataStick) {
         if (!this.isRemote() && this.isConfigurable) {
             var tag = new CompoundTag();
             tag.putFloat(start$nbtDuration, this.durationMultiplier);
             dataStick.setTag(tag);
+            player.sendSystemMessage(pasteSettings);
         }
         return InteractionResult.SUCCESS;
     }

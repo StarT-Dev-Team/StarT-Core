@@ -1,26 +1,17 @@
 package com.startechnology.start_core.item.components;
 
-// StarTCopyBehaviour
-// 
-// Behaviour that allows an item to be a copying tool for
-// dream-link network information
-//
-// Adds a tooltip description & Allows for interaction for copying.
-
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.machine.MachineCoverContainer;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.owner.IMachineOwner;
-import com.startechnology.start_core.api.dreamlink.IStarTCopyInteractable;
-
+import com.startechnology.start_core.api.copy.ICopyInteractable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 
-public class StarTCopyBehaviour implements IInteractionItem  {
+public class CopyBehavior implements IInteractionItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
@@ -31,12 +22,12 @@ public class StarTCopyBehaviour implements IInteractionItem  {
             }
             MetaMachine machine = blockEntity.getMetaMachine();
 
-            /* Handle case where machine implements IStarTCopyInteractable */
-            if (machine instanceof IStarTCopyInteractable interactable) {
+            /* Handle case where machine implements IStarTDreamCopyInteractable */
+            if (machine instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
-                    return interactable.onCopyShiftUse(context.getPlayer(), itemStack);
+                    return interactable.onUse(context.getPlayer(), itemStack);
                 } else {
-                    return interactable.onCopyUse(context.getPlayer(), itemStack);
+                    return interactable.onShiftUse(context.getPlayer(), itemStack);
                 }
             }
 
@@ -44,17 +35,16 @@ public class StarTCopyBehaviour implements IInteractionItem  {
             MachineCoverContainer coverContainer = machine.getCoverContainer();
             CoverBehavior cover = coverContainer.getCoverAtSide(context.getClickedFace());
 
-            /* Handle case where cover implements IStarTCopyInteractable */
-            if (cover instanceof IStarTCopyInteractable interactable) {
+            /* Handle case where cover implements IStarTDreamCopyInteractable */
+            if (cover instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
-                    return interactable.onCopyShiftUse(context.getPlayer(), itemStack);
+                    return interactable.onUse(context.getPlayer(), itemStack);
                 } else {
-                    return interactable.onCopyUse(context.getPlayer(), itemStack);
+                    return interactable.onShiftUse(context.getPlayer(), itemStack);
                 }
             }
-            
+
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
     }
-
 }

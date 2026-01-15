@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
-import com.startechnology.start_core.api.dreamlink.IStarTCopyInteractable;
+import com.startechnology.start_core.api.copy.ICopyInteractable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = FluidHatchPartMachine.class, remap = false)
-public abstract class FluidHatchPartMachineMixin  extends TieredIOPartMachine implements IStarTCopyInteractable {
+public abstract class FluidHatchPartMachineMixin  extends TieredIOPartMachine implements ICopyInteractable {
     @Unique
     private final String start$nbtFilterFluid = "filterFluid";
 
@@ -29,23 +29,26 @@ public abstract class FluidHatchPartMachineMixin  extends TieredIOPartMachine im
     }
 
     @Override
-    public InteractionResult onCopyUse(Player player, ItemStack dataStick) {
+    public InteractionResult onUse(Player player, ItemStack dataStick) {
         var tag = dataStick.getTag();
         if (tag == null || !tag.contains(start$nbtFilterFluid)) return InteractionResult.PASS;
         if (!this.isRemote() && this.io == IO.OUT) {
             this.tank.getLockedFluid().deserializeNBT(tag.getCompound(start$nbtFilterFluid));
             this.tank.setLocked(true);
             this.updateTankSubscription();
+            dataStick.setHoverName(holder.getDefinition().getBlock().getName());
+            player.sendSystemMessage(pasteSettings);
         }
         return InteractionResult.sidedSuccess(this.isRemote());
     }
 
     @Override
-    public InteractionResult onCopyShiftUse(Player player, ItemStack dataStick) {
+    public InteractionResult onShiftUse(Player player, ItemStack dataStick) {
         if (!this.isRemote() && this.io == IO.OUT) {
             var tag = new CompoundTag();
             tag.put(start$nbtFilterFluid, this.tank.getLockedFluid().serializeNBT());
             dataStick.setTag(tag);
+            player.sendSystemMessage(copySettings);
         }
         return InteractionResult.SUCCESS;
     }

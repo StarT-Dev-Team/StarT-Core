@@ -20,7 +20,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
-import com.startechnology.start_core.item.components.StarTCopyBehaviour;
+import com.startechnology.start_core.item.components.CopyBehavior;
+import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -52,13 +53,13 @@ public class StarTItems {
 
     public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
         .lang("Lucinducer")
-        .onRegister(attach(new StarTCopyBehaviour()))
+        .onRegister(attach(new StarTDreamCopyBehaviour()))
         .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.lucinducer.tooltip")))))
         .register();
 
     public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE.item("mechanical_memory_card", ComponentItem::create)
             .lang("Mechanical Memory Card")
-            .onRegister(attach(new StarTCopyBehaviour()))
+            .onRegister(attach(new CopyBehavior()))
             .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip")))))
             .register();
 

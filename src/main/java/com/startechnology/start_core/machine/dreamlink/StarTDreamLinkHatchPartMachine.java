@@ -170,7 +170,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public InteractionResult onCopyShiftUse(Player player, ItemStack copyItem) {
+    public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
@@ -183,7 +183,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
 
     @Override
-    public final InteractionResult onCopyUse(Player player, ItemStack copyItem) {
+    public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
         CompoundTag tag = copyItem.getTag();
         if (tag == null || !tag.contains("dream_network")) {
             return InteractionResult.PASS;
