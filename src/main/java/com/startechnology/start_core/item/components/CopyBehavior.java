@@ -25,9 +25,9 @@ public class CopyBehavior implements IInteractionItem {
             /* Handle case where machine implements IStarTDreamCopyInteractable */
             if (machine instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
-                    return interactable.onUse(context.getPlayer(), itemStack);
-                } else {
                     return interactable.onShiftUse(context.getPlayer(), itemStack);
+                } else {
+                    return interactable.onUse(context.getPlayer(), itemStack);
                 }
             }
 
@@ -38,9 +38,9 @@ public class CopyBehavior implements IInteractionItem {
             /* Handle case where cover implements IStarTDreamCopyInteractable */
             if (cover instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
-                    return interactable.onUse(context.getPlayer(), itemStack);
-                } else {
                     return interactable.onShiftUse(context.getPlayer(), itemStack);
+                } else {
+                    return interactable.onUse(context.getPlayer(), itemStack);
                 }
             }
 

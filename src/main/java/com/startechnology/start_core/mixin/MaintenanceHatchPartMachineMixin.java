@@ -29,24 +29,24 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     }
 
     @Override
-    public InteractionResult onUse(Player player, ItemStack dataStick) {
-        var tag = dataStick.getTag();
+    public InteractionResult onUse(Player player, ItemStack card) {
+        var tag = card.getTag();
         if (tag == null || !tag.contains(start$nbtDuration)) return InteractionResult.PASS;
         if (!this.isRemote() && this.isConfigurable) {
             this.durationMultiplier = tag.getFloat(start$nbtDuration);
             this.updateMaintenanceSubscription();
-            dataStick.setHoverName(holder.getDefinition().getBlock().getName());
             player.sendSystemMessage(copySettings);
         }
         return InteractionResult.sidedSuccess(this.isRemote());
     }
 
     @Override
-    public InteractionResult onShiftUse(Player player, ItemStack dataStick) {
+    public InteractionResult onShiftUse(Player player, ItemStack card) {
         if (!this.isRemote() && this.isConfigurable) {
             var tag = new CompoundTag();
             tag.putFloat(start$nbtDuration, this.durationMultiplier);
-            dataStick.setTag(tag);
+            card.setTag(tag);
+            card.setHoverName(card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
             player.sendSystemMessage(pasteSettings);
         }
         return InteractionResult.SUCCESS;

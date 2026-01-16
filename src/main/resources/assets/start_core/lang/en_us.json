@@ -337,8 +337,8 @@
   "item.start_core.mechanical_memory_card.tooltip": "§7Allows you to copy miscellaneous machines information.",
   "item.start_core.mechanical_memory_card": "Mechanical Memory Card",
 
-  "start_core.mechanical_memory_card.copy_settings": "Applied settings from Mechanical Memory Card",
-  "start_core.mechanical_memory_card.paste_settings": "Saved settings to Mechanical Memory Card",
+  "start_core.mechanical_memory_card.copy_settings": "Saved settings to Mechanical Memory Card",
+  "start_core.mechanical_memory_card.paste_settings": "Applied settings from Mechanical Memory Card",
 
   "block.start_core.threading_controller": "Prismatic Threading Convergence Hatch",
   "block.start_core.threading_controller.tooltip": "Allows you to access and control the threading system by assigning points to various stats.\n§6The available points depend on the helixes you have installed in the multiblock structure.",

@@ -226,7 +226,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             playersInside.forEach(player -> {
                 // KJS methods to match kjs better.. ULTRA YOU BETTER NOT CHANGE THIS OR I WILL
                 // violence...
-                String headId = player.kjs$getHeadArmorItem().kjs$getId();
+                /*String headId = player.kjs$getHeadArmorItem().kjs$getId();
                 String chestId = player.kjs$getChestArmorItem().kjs$getId();
                 String legsId = player.kjs$getLegsArmorItem().kjs$getId();
                 String feetId = player.kjs$getFeetArmorItem().kjs$getId();
@@ -248,7 +248,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
                     return;
                 }
 
-                player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30));
+                player.addEffect(new MobEffectInstance(abyssalDrain, 20 * 30));*/
             });
         }
 

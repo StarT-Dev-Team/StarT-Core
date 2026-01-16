@@ -9,11 +9,11 @@ public interface ICopyInteractable {
     Component copySettings = Component.translatable("start_core.mechanical_memory_card.copy_settings");
     Component pasteSettings = Component.translatable("start_core.mechanical_memory_card.paste_settings");
 
-    default InteractionResult onUse(Player player, ItemStack copyItem) {
+    default InteractionResult onUse(Player player, ItemStack card) {
         return InteractionResult.PASS;
     }
 
-    default InteractionResult onShiftUse(Player player, ItemStack copyItem) {
+    default InteractionResult onShiftUse(Player player, ItemStack card) {
         return InteractionResult.PASS;
     }
 }
