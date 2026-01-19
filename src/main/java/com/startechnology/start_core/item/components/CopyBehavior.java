@@ -22,7 +22,7 @@ public class CopyBehavior implements IInteractionItem {
             }
             MetaMachine machine = blockEntity.getMetaMachine();
 
-            /* Handle case where machine implements IStarTDreamCopyInteractable */
+            /* Handle case where machine implements ICopyInteractable */
             if (machine instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
                     return interactable.onShiftUse(context.getPlayer(), itemStack);
@@ -35,7 +35,7 @@ public class CopyBehavior implements IInteractionItem {
             MachineCoverContainer coverContainer = machine.getCoverContainer();
             CoverBehavior cover = coverContainer.getCoverAtSide(context.getClickedFace());
 
-            /* Handle case where cover implements IStarTDreamCopyInteractable */
+            /* Handle case where cover implements ICopyInteractable */
             if (cover instanceof ICopyInteractable interactable) {
                 if (context.isSecondaryUseActive()) {
                     return interactable.onShiftUse(context.getPlayer(), itemStack);

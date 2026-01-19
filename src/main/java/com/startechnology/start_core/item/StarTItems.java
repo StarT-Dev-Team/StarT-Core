@@ -16,7 +16,9 @@ import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.item.component.ThermalFluidStats;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -60,7 +62,12 @@ public class StarTItems {
     public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE.item("mechanical_memory_card", ComponentItem::create)
             .lang("Mechanical Memory Card")
             .onRegister(attach(new CopyBehavior()))
-            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip")))))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip"));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", Component.translatable("gui.start_core.tooltips.fluid_output_hatches")));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.getBlock().getName()));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
+            })))
             .register();
 
     public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(GTMaterials.NaquadahEnriched, 768, 12, 16, true, true, false);
