@@ -4,11 +4,9 @@ import java.util.function.Consumer;
 
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import static com.startechnology.start_core.item.StarTItems.TOOL_DATA_DNA_DISK;
-import static com.startechnology.start_core.item.StarTItems.TOOL_COMPONENT_DATA_CORE;
-import static com.startechnology.start_core.item.StarTItems.TOOL_DREAM_COPY_ITEM;
-
 import net.minecraft.data.recipes.FinishedRecipe;
+
+import static com.startechnology.start_core.item.StarTItems.*;
 
 public class ResetNBT {
 
@@ -21,6 +19,9 @@ public class ResetNBT {
         );
         VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "lucinducer", TOOL_DREAM_COPY_ITEM.asStack(), 
             TOOL_DREAM_COPY_ITEM.asStack()
+        );
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "mechanical_memory_card", MECHANICAL_MEMORY_CARD.asStack(),
+                MECHANICAL_MEMORY_CARD.asStack()
         );
     }
 
