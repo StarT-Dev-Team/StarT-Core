@@ -1,6 +1,7 @@
 package com.startechnology.start_core.recipe;
 import java.util.function.Consumer;
 
+import com.startechnology.start_core.machine.crates.StarTCrates;
 import com.startechnology.start_core.recipe.recipes.AkreyriumLine;
 import com.startechnology.start_core.recipe.recipes.DrumRecipes;
 import com.startechnology.start_core.recipe.recipes.FluidCellRecipes;
@@ -14,5 +15,6 @@ public class StarTRecipes {
         AkreyriumLine.init(provider);
         DrumRecipes.init(provider);
         FluidCellRecipes.init(provider);
+        StarTCrates.init();
     }
 }
