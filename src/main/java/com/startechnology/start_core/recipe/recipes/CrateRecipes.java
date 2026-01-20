@@ -16,10 +16,10 @@ import static com.startechnology.start_core.machine.crates.StarTCrates.NEUTRONIU
 
 public class CrateRecipes {
     public static final void init(Consumer<FinishedRecipe> provider) {
-        customDrumRecipes(provider);
+        customCrateRecipes(provider);
     }
 
-    public static void customDrumRecipes(Consumer<FinishedRecipe> provider) {
+    public static void customCrateRecipes(Consumer<FinishedRecipe> provider) {
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, "enriched_naquadah_crate", ENRICHED_NAQUADAH_CRATE.asStack(),
                 "RPR",
