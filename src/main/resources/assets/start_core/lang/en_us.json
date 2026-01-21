@@ -132,6 +132,8 @@
 
   "block.start_core.enriched_naquadah_drum": "Enriched Naquadah Drum",
   "block.start_core.neutronium_drum": "Neutronium Drum",
+  "block.start_core.enriched_naquadah_crate": "Enriched Naquadah Crate",
+  "block.start_core.neutronium_crate": "Neutronium Crate",
 
   "item.start_core.enriched_naquadah_fluid_cell": "Enriched Naquadah Fluid Cell",
   "item.start_core.neutronium_fluid_cell": "Neutronium Fluid Cell",
