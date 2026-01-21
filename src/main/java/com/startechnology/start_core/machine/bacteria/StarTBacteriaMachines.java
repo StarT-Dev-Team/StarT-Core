@@ -68,7 +68,7 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
+        .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
             GTCEu.id("block/machines/brewery"), false)
         .register();
 
@@ -119,7 +119,7 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
         .build()
     )
-    .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
+    .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
         GTCEu.id("block/multiblock/implosion_compressor"), false)
     .register();
 
@@ -168,7 +168,7 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
+        .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
             GTCEu.id("block/machines/distillery"), false)
         .register();
 
