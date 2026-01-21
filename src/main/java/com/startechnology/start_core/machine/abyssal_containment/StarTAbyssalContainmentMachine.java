@@ -145,7 +145,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
         BlockPos maxWorld = RelativeDirection.offsetPos(controller, front, up, false,
                 +9, -7, 0);
 
-        this.cleanroomBoundingBox = AABB.of(new BoundingBox(minWorld.getX(), minWorld.getY(), minWorld.getZ(), maxWorld.getX(), maxWorld.getY(), maxWorld.getZ()));
+        this.cleanroomBoundingBox = new AABB(minWorld.getX(), minWorld.getY(), minWorld.getZ(), maxWorld.getX(), maxWorld.getY(), maxWorld.getZ());
 
         // Store effect for later.
         this.abyssalDrain = ForgeRegistries.MOB_EFFECTS.getValue(KubeJS.id("abyssal_drain"));
