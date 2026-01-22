@@ -14,7 +14,6 @@ import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.startechnology.start_core.block.casings.StarTCasingBlocks;
 
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.network.chat.Component;
@@ -63,7 +62,7 @@ public class StarTAbyssalharvesterMachines {
             .where('G', Predicates.blocks(StarTMachineUtils.getKjsBlock("abyssal_drill_1")))
             .where('B', Predicates.blocks(StarTMachineUtils.getKjsBlock("abyssal_drill_2")))
             .where('g', Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")))
-            .where('I', Predicates.blocks(StarTCasingBlocks.ENGINE_INTAKE_ENRICHED_NAQUADAH.get()))
+            .where('I', Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
             .where('P', Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_pipe_casing")))
             .where('V', Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:void"))))
             .where('O', Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing"))
