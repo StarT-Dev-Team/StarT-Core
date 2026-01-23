@@ -22,12 +22,10 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -39,7 +37,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
-import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import lombok.Getter;
@@ -57,6 +54,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import rx.Observable;
 
 public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
@@ -129,7 +128,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         super.onStructureInvalid();
 
         // Toggle off render on structure invalid if it exists
-        StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range));
     }
 
     @Override
@@ -364,7 +363,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     public void onDreamLinkComponentPanelClicked(String componentData, ClickData clickData) {
         if (clickData.isRemote) {
             if (Objects.equals(componentData, "range")) {
-                StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range);
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range));
             }
         }
     }
