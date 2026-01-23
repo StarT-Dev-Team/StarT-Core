@@ -39,8 +39,8 @@ public class StarTDreamLinkTransmissionTowers {
             )
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("superalloy_casing")))
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .workableCasingRenderer(KubeJS.id("block/casings/abydos_multis/superalloy_casing"),
-                StarTCore.resourceLocation("block/dreamlink/" + name), false)    
+            .workableCasingModel(KubeJS.id("block/casings/superalloy_casing"),
+                StarTCore.resourceLocation("block/dreamlink/" + name))
             .rotationState(RotationState.NON_Y_AXIS);
 
         if (range != -1)

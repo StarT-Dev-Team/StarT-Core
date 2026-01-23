@@ -14,6 +14,7 @@ import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.startechnology.start_core.block.casings.StarTCasingBlocks;
 
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.network.chat.Component;
@@ -77,8 +78,8 @@ public class StarTAbyssalharvesterMachines {
             //     .or(Predicates.abilities(PartAbility.IMPORT_ITEMS)))
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/end_multis/draneko_casing"),
-            GTCEu.id("block/machines/alloy_smelter"), false)
+        .workableCasingModel(KubeJS.id("block/casings/ultimate_multis/draneko_casing"),
+            GTCEu.id("block/machines/alloy_smelter"))
         .register();
 
     public static void init() {}

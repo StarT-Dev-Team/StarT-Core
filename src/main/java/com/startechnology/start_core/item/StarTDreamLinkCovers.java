@@ -47,7 +47,7 @@ public class StarTDreamLinkCovers {
 
         var definition = new CoverDefinition(coverDefResLocation, 
             (CoverDefinition coverDef, ICoverable coverHolder, Direction attachedSide) -> new StarTDreamLinkCover(coverDef, coverHolder, attachedSide, tier, amperage),
-            new SimpleCoverRenderer(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch/overlay_front"))
+                () -> () -> new SimpleCoverRenderer(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch/overlay_front"))
         );
 
         /* Unfreeze to allow adding */

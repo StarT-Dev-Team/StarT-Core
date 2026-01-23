@@ -44,7 +44,7 @@ public class StarTRedstoneInterfaces {
     }
 
     public static final MachineDefinition REDSTONE_VARIADIC_INTERFACE = buildRedstoneHatch("redstone_variadic_interface", IO.IN)
-        .workableTieredHullRenderer(StarTCore.resourceLocation("block/redstone/redstone_out"))
+        .workableTieredHullModel(StarTCore.resourceLocation("block/redstone/redstone_out"))
         .register();
         
     public static void init() {}

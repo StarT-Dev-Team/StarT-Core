@@ -8,9 +8,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProp
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.item.DrumMachineItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.client.renderer.machine.MachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.storage.DrumMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.network.chat.Component;
@@ -28,14 +26,14 @@ public class StarTDrumMachines {
 
     public static MachineDefinition registerDrum(Material material, int capacity, String lang) {
         var definition = START_REGISTRATE
-                .machine(material.getName() + "_drum", MachineDefinition::createDefinition,
+                .machine(material.getName() + "_drum", MachineDefinition::new,
                         holder -> new DrumMachine(holder, material, capacity), MetaMachineBlock::new,
                         (holder, prop) -> DrumMachineItem.create(holder, prop, material),
-                        MetaMachineBlockEntity::createBlockEntity)
+                        MetaMachineBlockEntity::new)
                 .langValue(lang)
                 .rotationState(RotationState.NONE)
-                .renderer(
-                        () -> new MachineRenderer(GTCEu.id("block/machine/metal_drum")))
+                .simpleModel(
+                        GTCEu.id("block/machine/template/drum/metal_drum"))
                 .tooltipBuilder((stack, list) -> {
                     TANK_TOOLTIPS.accept(stack, list);
                     if (material.hasProperty(PropertyKey.FLUID_PIPE)) {

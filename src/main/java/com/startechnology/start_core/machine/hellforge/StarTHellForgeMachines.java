@@ -90,8 +90,8 @@ public class StarTHellForgeMachines {
             .where("M", Predicates.blocks(StarTMachineUtils.getKjsBlock("heart_of_the_flame")))
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build())
-    .workableCasingRenderer(KubeJS.id("block/casings/nether_multis/extreme_temperature_smelting_casing"),
-        GTCEu.id("block/machines/alloy_smelter"), false)
+    .workableCasingModel(KubeJS.id("block/casings/ultimate_multis/extreme_temperature_smelting_casing"),
+        GTCEu.id("block/machines/alloy_smelter"))
     .register();
 
     public static void init() {}

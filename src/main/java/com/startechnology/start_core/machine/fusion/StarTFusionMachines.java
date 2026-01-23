@@ -155,8 +155,8 @@ public class StarTFusionMachines {
                 shapeInfos.add(baseBuilder.build());
                 return shapeInfos;
             })
-            .workableCasingRenderer(AuxiliaryBoostedFusionReactor.getCasingType(tier).getTexture(),
-                GTCEu.id("block/multiblock/fusion_reactor"), false)
+            .workableCasingModel(AuxiliaryBoostedFusionReactor.getCasingType(tier).getTexture(),
+                GTCEu.id("block/multiblock/fusion_reactor"))
             .register(),
         GTValues.UHV);
 
@@ -247,8 +247,8 @@ public class StarTFusionMachines {
             //     shapeInfos.add(baseBuilder.build());
             //     return shapeInfos;
             // })
-            .workableCasingRenderer(StarTFusionCasings.FUSION_CASING_MK4.getTexture(),
-                GTCEu.id("block/multiblock/fusion_reactor"), false)
+            .workableCasingModel(StarTFusionCasings.FUSION_CASING_MK4.getTexture(),
+                GTCEu.id("block/multiblock/fusion_reactor"))
             .register(),
         GTValues.UEV);
 
@@ -369,8 +369,8 @@ public class StarTFusionMachines {
                 shapeInfos.add(baseBuilder.build());
                 return shapeInfos;
             })
-            .workableCasingRenderer(AuxiliaryBoostedFusionReactor.getCasingType(tier).getTexture(),
-                GTCEu.id("block/multiblock/fusion_reactor"), false)
+            .workableCasingModel(AuxiliaryBoostedFusionReactor.getCasingType(tier).getTexture(),
+                GTCEu.id("block/multiblock/fusion_reactor"))
             .register(),
         GTValues.UIV);
 

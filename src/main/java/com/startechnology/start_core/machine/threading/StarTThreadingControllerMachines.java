@@ -15,7 +15,7 @@ public class StarTThreadingControllerMachines {
     public static final MachineDefinition THREADING_CONTROLLER = createThreadingController(
             "threading_controller")
             .tier(GTValues.UIV)
-            .workableTieredHullRenderer(StarTCore.resourceLocation("block/threading/threading_controller"))
+            .workableTieredHullModel(StarTCore.resourceLocation("block/threading/threading_controller"))
             .register();
 
     public static MachineBuilder<MachineDefinition> createThreadingController(String name) {
