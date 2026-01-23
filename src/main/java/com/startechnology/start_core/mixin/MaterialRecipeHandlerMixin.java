@@ -3,6 +3,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.generated.MaterialRecipeHandler;
@@ -11,6 +12,8 @@ import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.Overwri
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +27,19 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.get;
 
 @Mixin(value = MaterialRecipeHandler.class, remap = false)
 public class MaterialRecipeHandlerMixin {
-    
+
+    public static final Map<BlastProperty.GasTier, FluidIngredient> EBF_GASES = new EnumMap<>(
+            BlastProperty.GasTier.class);
+
+    static {
+        EBF_GASES.put(BlastProperty.GasTier.LOW, FluidIngredient.of(GTMaterials.Nitrogen.getFluid(), 1000));
+        EBF_GASES.put(BlastProperty.GasTier.MID, FluidIngredient.of(GTMaterials.Helium.getFluid(), 100));
+        EBF_GASES.put(BlastProperty.GasTier.HIGH, FluidIngredient.of(GTMaterials.Argon.getFluid(), 50));
+        EBF_GASES.put(BlastProperty.GasTier.HIGHER, FluidIngredient.of(GTMaterials.Neon.getFluid(), 25));
+        EBF_GASES.put(BlastProperty.GasTier.HIGHEST, FluidIngredient.of(GTMaterials.Krypton.getFluid(), 10));
+    }
+
+
     @Overwrite
     private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output,
                                          Consumer<FinishedRecipe> provider) {
@@ -44,7 +59,7 @@ public class MaterialRecipeHandlerMixin {
                 .EUt(EUt);
 
         if (gasTier != null) {
-            FluidIngredient gas = CraftingComponent.EBF_GASES.get(gasTier).copy();
+            FluidIngredient gas = EBF_GASES.get(gasTier).copy();
 
             blastBuilder.copy("blast_" + material.getName())
                     .circuitMeta(1)

@@ -68,8 +68,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
-            GTCEu.id("block/machines/brewery"), false)
+        .workableCasingModel(KubeJS.id("block/casings/machine_casing_peek"),
+            GTCEu.id("block/machines/brewery"))
         .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
@@ -119,8 +119,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
         .build()
     )
-    .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
-        GTCEu.id("block/multiblock/implosion_compressor"), false)
+    .workableCasingModel(KubeJS.id("block/casings/machine_casing_peek"),
+        GTCEu.id("block/multiblock/implosion_compressor"))
     .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
@@ -168,8 +168,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/machine_casing_peek"),
-            GTCEu.id("block/machines/distillery"), false)
+        .workableCasingModel(KubeJS.id("block/casings/machine_casing_peek"),
+            GTCEu.id("block/machines/distillery"))
         .register();
 
     public static void init() {

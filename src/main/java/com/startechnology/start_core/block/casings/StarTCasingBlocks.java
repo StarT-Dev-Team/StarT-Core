@@ -4,10 +4,11 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.block.BoilerFireboxType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTModels;
+import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.startechnology.start_core.StarTCore;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -39,8 +40,8 @@ public class StarTCasingBlocks {
                     .texture("bottom", topBottomTexture)
                     .texture("top", topBottomTexture);
             prov.getVariantBuilder(block)
-                    .partialState().with(ActiveBlock.ACTIVE, false).modelForState().modelFile(inactive).addModel()
-                    .partialState().with(ActiveBlock.ACTIVE, true).modelForState().modelFile(active).addModel();
+                    .partialState().with(GTBlockStateProperties.ACTIVE, false).modelForState().modelFile(inactive).addModel()
+                    .partialState().with(GTBlockStateProperties.ACTIVE, true).modelForState().modelFile(active).addModel();
         };
     }
         private static BlockEntry<ActiveBlock> createFireboxCasing(String name,

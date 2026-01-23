@@ -70,7 +70,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<NotifiableFluidTank> handlers = Objects
-            .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP),
+            .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP),
                     Collections::emptyList)
             .stream()
             .filter(NotifiableFluidTank.class::isInstance)

@@ -53,7 +53,7 @@ public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMach
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         var recipeInputs = recipe.inputs.get(ItemRecipeCapability.CAP);
         var itemInputInventory = Objects
-                .requireNonNullElseGet(getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP),
+                .requireNonNullElseGet(getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
                         Collections::<IRecipeHandler<?>>emptyList)
                 .stream()
                 .filter(handler -> !handler.isProxy())

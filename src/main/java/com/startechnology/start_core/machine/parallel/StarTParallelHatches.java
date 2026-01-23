@@ -24,7 +24,7 @@ public class StarTParallelHatches {
                 } + " Absolute Parallel Mastery Hatch")
                 .rotationState(RotationState.ALL)
                 .abilities(StarTPartAbility.ABSOLUTE_PARALLEL_HATCH)
-                .workableTieredHullRenderer(StarTCore.resourceLocation("block/parallel/absolute_parallel_hatch_mk" + (tier - 8)))
+                .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/absolute_parallel_hatch_mk" + (tier - 8)))
                 .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_mk" + (tier - 8) + ".tooltip"))
                 .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_energy.tooltip"))
                 .register(),
@@ -42,7 +42,7 @@ public class StarTParallelHatches {
                 } + " Parallel Control Hatch")
                 .rotationState(RotationState.ALL)
                 .abilities(PartAbility.PARALLEL_HATCH)
-                .workableTieredHullRenderer(StarTCore.resourceLocation("block/parallel/parallel_hatch_mk" + (tier - 4)))
+                .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/parallel_hatch_mk" + (tier - 4)))
                 .tooltips(Component.translatable("start_core.machine.parallel_hatch_mk" + (tier - 4) + ".tooltip"))
                 .register(),
         GTValues.UHV, GTValues.UEV, GTValues.UIV

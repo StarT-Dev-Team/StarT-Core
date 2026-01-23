@@ -1,14 +1,6 @@
 package com.startechnology.start_core.machine;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.client.renderer.machine.MaintenanceHatchPartRenderer;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.CleaningMaintenanceHatchPartMachine;
-import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatches;
@@ -23,8 +15,6 @@ import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
 
 public class StarTMachines {

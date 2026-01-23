@@ -28,7 +28,7 @@ public class StarTDreamLinkHatches {
                                                 .formatNumbers(
                                                         EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))))
                         .abilities(ability)
-                        .workableTieredHullRenderer(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch"))
+                        .workableTieredHullModel(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch"))
                         .register(),
                 tiers);
     }

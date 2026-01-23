@@ -38,7 +38,7 @@ public class StarTItems {
 
     public static final ItemEntry<ComponentItem> TOOL_DATA_DNA_DISK = START_REGISTRATE.item("data_dna_disk", ComponentItem::create)
         .lang("Data DNA Disk")
-        .onRegister(attach(new DataItemBehavior(true)))
+        .onRegister(attach(new DataItemBehavior(true, 320)))
         .onRegister(attach(new TooltipBehavior(lines -> {
             lines.add(Component.translatable("item.start_core.data_dna_disk.tooltip"));
         })))
@@ -46,7 +46,7 @@ public class StarTItems {
 
     public static final ItemEntry<ComponentItem> TOOL_COMPONENT_DATA_CORE = START_REGISTRATE.item("component_data_core", ComponentItem::create)
         .lang("Component Data Core")
-        .onRegister(attach(new DataItemBehavior(true)))
+        .onRegister(attach(new DataItemBehavior(true, 500)))
         .onRegister(attach(new TooltipBehavior(lines -> {
             lines.add(Component.translatable("item.start_core.component_data_core.tooltip"));
         })))

@@ -4,10 +4,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
-import com.gregtechceu.gtceu.common.machine.owner.IMachineOwner;
+import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.gregtechceu.gtceu.common.machine.owner.PlayerOwner;
 
 import dev.ftb.mods.ftbteams.FTBTeamsAPIImpl;
@@ -24,19 +25,19 @@ public class IStarTGetMachineUUIDSafe {
      */
     public static final UUID getUUIDSafeMetaMachine(MetaMachine machine) {
         return getUUIDSafe(
-            machine.getHolder().getOwner(),
+            machine.getOwner(),
             machine.getPos(),
             machine.getLevel(),
-            owner -> machine.getHolder().setOwner(owner)
+            owner -> machine.setOwnerUUID(owner.getUUID()) // no setOwner method?
         );
     }
 
     public static final UUID getUUIDSafeMetaMachineBlockEntity(MetaMachineBlockEntity machine) {
         return getUUIDSafe(
-            machine.getOwner(),
+            machine.getMetaMachine().getOwner(),
             machine.getBlockPos(),
             machine.getLevel(),
-            owner -> machine.setOwner(owner)
+            owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID()) // no setOwner method?
         );
     }
 
@@ -44,7 +45,7 @@ public class IStarTGetMachineUUIDSafe {
      * Core logic for safely getting UUID from a machine
      */
     private static UUID getUUIDSafe(
-            IMachineOwner currentOwner, 
+            MachineOwner currentOwner,
             BlockPos machinePos, 
             Level level,
             OwnerSetter ownerSetter) {
@@ -88,7 +89,7 @@ public class IStarTGetMachineUUIDSafe {
         }
 
         // Set the owner based on FTB Teams availability
-        IMachineOwner newOwner = createOwnerForPlayer(nearestPlayer);
+        MachineOwner newOwner = createOwnerForPlayer(nearestPlayer);
         ownerSetter.setOwner(newOwner);
 
         return nearestPlayer.getUUID();
@@ -97,11 +98,11 @@ public class IStarTGetMachineUUIDSafe {
     /**
      * Creates appropriate owner type based on FTB Teams availability
      */
-    private static IMachineOwner createOwnerForPlayer(Player player) {
-        if (IMachineOwner.MachineOwnerType.FTB.isAvailable()) {
+    private static MachineOwner createOwnerForPlayer(Player player) {
+        if (GTCEu.Mods.isFTBTeamsLoaded()) {
             Optional<Team> team = FTBTeamsAPIImpl.INSTANCE.getManager().getTeamForPlayerID(player.getUUID());
             if (team.isPresent()) {
-                return new FTBOwner(team.get(), player.getUUID());
+                return new FTBOwner(player.getUUID());
             }
         }
         return new PlayerOwner(player.getUUID());
@@ -112,6 +113,6 @@ public class IStarTGetMachineUUIDSafe {
      */
     @FunctionalInterface
     private interface OwnerSetter {
-        void setOwner(IMachineOwner owner);
+        void setOwner(MachineOwner owner);
     }
 }

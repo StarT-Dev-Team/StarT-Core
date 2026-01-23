@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.client.renderer.machine.ConverterRenderer;
 import com.gregtechceu.gtceu.common.machine.electric.ConverterMachine;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 
@@ -20,7 +19,7 @@ public class StarTConverterMachine {
                         .rotationState(RotationState.ALL)
                         .langValue("%s %s§eA§r Energy Converter".formatted(GTValues.VCF[tier] + GTValues.VN[tier] + ChatFormatting.RESET,
                                 amperage))
-                        .renderer(() -> new ConverterRenderer(tier, amperage))
+                        // .renderer(() -> new ConverterRenderer(tier, amperage))
                         .tooltips(Component.translatable("gtceu.machine.energy_converter.description"),
                                 Component.translatable("gtceu.machine.energy_converter.tooltip_tool_usage"),
                                 Component.translatable("gtceu.machine.energy_converter.tooltip_conversion_native",

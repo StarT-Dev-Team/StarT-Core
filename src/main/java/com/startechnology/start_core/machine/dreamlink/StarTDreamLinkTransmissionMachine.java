@@ -111,11 +111,11 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                 var handlerIO = handler.getHandlerIO();
                 // If IO not compatible
                 if (io != IO.IN && handlerIO != IO.IN && io != handlerIO) continue;
-                if (handler.getCapability() == EURecipeCapability.CAP &&
+                if (handler.hasCapability(EURecipeCapability.CAP) &&
                         handler instanceof IEnergyContainer container) {
                     
                     inputs.add(container);
-                    traitSubscriptions.add(handler.addChangedListener(tickSubscription::updateSubscription));
+                    traitSubscriptions.add(handler.subscribe(tickSubscription::updateSubscription));
                 }
             }
         }
@@ -274,7 +274,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     private void addTowerStatsDisplay(List<Component> textList) {
-        MutableComponent ownerComponent = Component.literal(this.getHolder().getOwner().getName());
+        MutableComponent ownerComponent = Component.literal(this.getOwner().getName());
         
         textList.add(Component
             .translatable("start_core.machine.dream_link.owner_title")

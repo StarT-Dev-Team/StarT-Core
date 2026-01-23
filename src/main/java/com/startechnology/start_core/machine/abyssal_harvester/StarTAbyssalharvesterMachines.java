@@ -78,8 +78,8 @@ public class StarTAbyssalharvesterMachines {
             //     .or(Predicates.abilities(PartAbility.IMPORT_ITEMS)))
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/ultimate_multis/draneko_casing"),
-            GTCEu.id("block/machines/alloy_smelter"), false)
+        .workableCasingModel(KubeJS.id("block/casings/ultimate_multis/draneko_casing"),
+            GTCEu.id("block/machines/alloy_smelter"))
         .register();
 
     public static void init() {}

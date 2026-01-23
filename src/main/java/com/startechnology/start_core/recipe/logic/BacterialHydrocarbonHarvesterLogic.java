@@ -34,7 +34,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<NotifiableItemStackHandler> handlers = Objects
-            .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP),
+            .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
                     Collections::emptyList)
             .stream()
             .filter(NotifiableItemStackHandler.class::isInstance)
