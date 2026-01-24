@@ -27,7 +27,7 @@ public class StarTMaintenanceMachines {
                     .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
         })
             .modelProperty(GTMachineModelProperties.IS_TAPED, false)
-            .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance.sterile")))
+            .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance_sterile")))
         .register();
 
     public static void init() {}

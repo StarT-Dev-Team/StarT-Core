@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "start_core:block/machine/threading_controller",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "start_core:block/machine/threading_controller",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/threading_controller"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/threading_controller",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "start_core:block/machine/threading_controller",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/threading_controller",
+      "y": 270
+    }
+  }
+}
