@@ -2,10 +2,12 @@ package com.startechnology.start_core.recipe;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.lookup.RecipeIterator;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -18,16 +20,15 @@ public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
     }
 
     @Override
-    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder) {
-        if (!holder.hasProxies()) return null;
+    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
+        if (!holder.hasCapabilityProxies()) return Collections.emptyIterator();
 
-        // Prioritise custom recipe logic, then the default recipe iterator.
         for (ICustomRecipeLogic logic : this.getCustomRecipeLogicRunners()) {
             GTRecipe recipe = logic.createCustomRecipe(holder);
-            if (recipe != null) return Collections.singleton(recipe).iterator();
+            if (recipe != null && canHandle.test(recipe)) return Collections.singleton(recipe).iterator();
         }
-        
-        var iterator = getLookup().getRecipeIterator(holder, recipe -> !recipe.isFuel && recipe.matchRecipe(holder).isSuccess() && recipe.matchTickRecipe(holder).isSuccess());
+
+        RecipeIterator iterator = getLookup().getRecipeIterator(holder, canHandle);
         boolean any = false;
         while (iterator.hasNext()) {
             GTRecipe recipe = iterator.next();
@@ -35,10 +36,12 @@ public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
             any = true;
             break;
         }
+
         if (any) {
             iterator.reset();
             return iterator;
         }
+
         return Collections.emptyIterator();
     }
     

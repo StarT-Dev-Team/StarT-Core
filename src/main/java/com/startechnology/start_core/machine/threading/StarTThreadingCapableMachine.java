@@ -18,7 +18,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.pattern.util.PatternMatchContext;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.lookup.GTRecipeLookup;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
@@ -532,15 +534,15 @@ private List<GTRecipe> findThreadedRecipes() {
     private boolean canConsumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return false;
         return 
-            recipe.matchRecipe(this.recipeLogic.machine).isSuccess() && 
-            recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess() &&
-            recipe.checkConditions(this.recipeLogic).isSuccess();
+            RecipeHelper.matchRecipe(this, recipe).isSuccess() && 
+            RecipeHelper.matchTickRecipe(this, recipe).isSuccess() &&
+            RecipeHelper.checkConditions(recipe, this.recipeLogic).isSuccess();
     }
 
     private void consumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return;
         Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
-        recipe.handleRecipeIO(IO.IN, this.recipeLogic.machine, chanceCaches);
+        RecipeHelper.handleRecipeIO(this, recipe, IO.IN, chanceCaches);
     }
 
     private void tickThreads() {
@@ -553,7 +555,7 @@ private List<GTRecipe> findThreadedRecipes() {
             
             for (ThreadedRecipeExecution thread : activeThreads) {
                 GTRecipe recipe = thread.recipe;
-                if (recipe.matchTickRecipe(this.recipeLogic.machine).isSuccess()) {
+                if (RecipeHelper.matchTickRecipe(this, recipe).isSuccess()) {
                     handleThreadPerTickInputs(thread);
                     handleThreadPerTickOutputs(thread);
                     thread.ticksRemaining--;
@@ -615,20 +617,17 @@ private List<GTRecipe> findThreadedRecipes() {
 
     private void handleThreadPerTickInputs(ThreadedRecipeExecution thread) {
         if (thread.recipe == null) return;
-        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
-        thread.recipe.handleTickRecipeIO(IO.IN, this.recipeLogic.machine, chanceCaches);
+        RecipeHelper.handleTickRecipeIO(this, thread.recipe, IO.IN, thread.chanceCaches);
     }
 
     private void handleThreadPerTickOutputs(ThreadedRecipeExecution thread) {
         if (thread.recipe == null) return;
-        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
-        thread.recipe.handleTickRecipeIO(IO.OUT, this.recipeLogic.machine, chanceCaches);
+        RecipeHelper.handleTickRecipeIO(this, thread.recipe, IO.OUT, thread.chanceCaches);
     }
 
     private void handleThreadCompletion(ThreadedRecipeExecution thread) {
         if (thread.recipe == null) return;
-        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
-        thread.recipe.handleRecipeIO(IO.OUT, this.recipeLogic.machine, chanceCaches);
+        RecipeHelper.handleRecipeIO(this, thread.recipe, IO.OUT, thread.chanceCaches);
     }
 
     @Override
@@ -651,6 +650,7 @@ private List<GTRecipe> findThreadedRecipes() {
         public int ticksRemaining;
         public int totalDuration;
         public boolean isWorking;
+        Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches = new HashMap<>();
 
         public ThreadedRecipeExecution(GTRecipe recipe, int duration) {
             this.recipe = recipe;

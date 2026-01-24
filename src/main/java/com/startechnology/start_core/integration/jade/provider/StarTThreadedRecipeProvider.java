@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
@@ -13,7 +15,10 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderFluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
@@ -25,7 +30,7 @@ import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
-
+import com.google.gson.JsonObject;
 import appeng.datagen.providers.localization.LocalizationProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -35,12 +40,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
@@ -80,73 +87,89 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             GTRecipe recipe = threadExecutionContext.recipe;
             String threadPrefix = "thread_" + threadIndex;
 
-            // TODO: Changed in GTM 7
             if (recipe != null) {
                 int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);
                 int chanceTier = recipeTier + recipe.ocLevel;
                 var function = recipe.getType().getChanceFunction();
                 var itemContents = recipe.getOutputContents(ItemRecipeCapability.CAP);
                 var fluidContents = recipe.getOutputContents(FluidRecipeCapability.CAP);
+                int runs = recipe.getTotalRuns();
 
                 ListTag itemTags = new ListTag();
                 for (var item : itemContents) {
-                    var stacks = ItemRecipeCapability.CAP.of(item.content).getItems();
-                    if (stacks.length == 0)
-                        continue;
-                    if (stacks[0].isEmpty())
-                        continue;
-                    var stack = stacks[0];
-
-                    var itemTag = new CompoundTag();
-                    GTUtil.saveItemStack(stack, itemTag);
-                    if (item.chance < item.maxChance) {
-                        int count = stack.getCount();
-                        double countD = (double) count * recipe.parallels *
-                                function.getBoostedChance(item, recipeTier, chanceTier) / item.maxChance;
-                        count = countD < 1 ? 1 : (int) Math.round(countD);
-                        itemTag.putInt("Count", count);
+                    CompoundTag itemTag;
+                    if (item.content instanceof IntProviderIngredient provider) {
+                        // don't roll for output but do copy for chance and batch
+                        IntProviderIngredient chanced = provider;
+                        if (item.chance < item.maxChance) {
+                            double countD = (double) runs *
+                                    function.getBoostedChance(item, recipeTier, chanceTier) / item.maxChance;
+                            chanced = (IntProviderIngredient) ItemRecipeCapability.CAP.copyWithModifier(provider,
+                                    ContentModifier.multiplier(countD));
+                        }
+                        itemTag = (CompoundTag) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, chanced.toJson());
+                    } else {
+                        var stacks = ItemRecipeCapability.CAP.of(item.content).getItems();
+                        if (stacks.length == 0 || stacks[0].isEmpty()) continue;
+                        var stack = stacks[0];
+                        itemTag = new CompoundTag();
+                        GTUtil.saveItemStack(stack, itemTag);
+                        if (item.chance < item.maxChance) {
+                            int count = stack.getCount();
+                            double countD = (double) count * runs *
+                                    function.getBoostedChance(item, recipeTier, chanceTier) / item.maxChance;
+                            count = Math.max(1, (int) Math.round(countD));
+                            itemTag.putInt("Count", count);
+                        }
                     }
                     itemTags.add(itemTag);
                 }
 
                 if (!itemTags.isEmpty()) {
-                    data.put(threadPrefix + "OutputItems", itemTags);
+                    data.put("OutputItems", itemTags);
                 }
 
                 ListTag fluidTags = new ListTag();
                 for (var fluid : fluidContents) {
-                    var stacks = FluidRecipeCapability.CAP.of(fluid.content).getStacks();
-                    if (stacks.length == 0)
-                        continue;
-                    if (stacks[0].isEmpty())
-                        continue;
-                    var stack = stacks[0];
+                    CompoundTag fluidTag;
+                    if (fluid.content instanceof IntProviderFluidIngredient provider) {
+                        // don't bother rolling output for nothing
+                        IntProviderFluidIngredient chanced = provider;
+                        if (fluid.chance < fluid.maxChance) {
+                            double countD = (double) runs *
+                                    function.getBoostedChance(fluid, recipeTier, chanceTier) / fluid.maxChance;
+                            chanced = (IntProviderFluidIngredient) FluidRecipeCapability.CAP.copyWithModifier(provider,
+                                    ContentModifier.multiplier(countD));
+                        }
+                        fluidTag = chanced.toNBT();
+                    } else {
+                        FluidStack[] stacks = FluidRecipeCapability.CAP.of(fluid.content).getStacks();
+                        if (stacks.length == 0) continue;
+                        if (stacks[0].isEmpty()) continue;
+                        var stack = stacks[0];
+                        fluidTag = new CompoundTag();
+                        stack.writeToNBT(fluidTag);
 
-                    var fluidTag = new CompoundTag();
-                    stack.writeToNBT(fluidTag);
-                    if (fluid.chance < fluid.maxChance) {
-                        int amount = stack.getAmount();
-                        double amountD = (double) amount * recipe.parallels *
-                                function.getBoostedChance(fluid, recipeTier, chanceTier) / fluid.maxChance;
-                        amount = amountD < 1 ? 1 : (int) Math.round(amountD);
-                        fluidTag.putInt("Amount", amount);
+                        if (fluid.chance < fluid.maxChance) {
+                            int amount = stacks[0].getAmount();
+                            double amountD = (double) amount * runs *
+                                    function.getBoostedChance(fluid, recipeTier, chanceTier) / fluid.maxChance;
+                            amount = Math.max(1, (int) Math.round(amountD));
+                            fluidTag.putInt("Amount", amount);
+                        }
                     }
                     fluidTags.add(fluidTag);
                 }
 
                 if (!fluidTags.isEmpty()) {
-                    data.put(threadPrefix + "OutputFluids", fluidTags);
+                    data.put("OutputFluids", fluidTags);
                 }
 
-                var EUt = RecipeHelper.getInputEUt(recipe);
-                var isInput = true;
-                if (EUt == 0) {
-                    isInput = false;
-                    EUt = RecipeHelper.getOutputEUt(recipe);
-                }
+                var EUt = RecipeHelper.getRealEUtWithIO(recipe);
 
-                data.putLong(threadPrefix + "EUt", EUt);
-                data.putBoolean(threadPrefix + "isInput", isInput);
+                data.putLong("EUt", EUt.getTotalEU());
+                data.putLong("voltage", getVoltage(capability));
+                data.putBoolean("isInput", EUt.isInput());
                 data.putBoolean(threadPrefix + "isWorking", threadExecutionContext.isWorking);
 
                 data.putInt(threadPrefix + "Progress",
@@ -194,47 +217,51 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             }
 
             /* EU/T Display */
-            var EUt = capData.getLong(threadPrefix + "EUt");
-            var isWorking = capData.getBoolean(threadPrefix + "isWorking");
-            var isInput = capData.getBoolean(threadPrefix + "isInput");
-                boolean isSteam = false;
+            var EUt = capData.getLong("EUt");
+            var isInput = capData.getBoolean("isInput");
+            boolean isSteam = false;
+
+            if (EUt > 0) {
                 if (blockEntity instanceof MetaMachineBlockEntity mbe) {
                     var machine = mbe.getMetaMachine();
                     if (machine instanceof SimpleSteamMachine ssm) {
-                        EUt = (long) (EUt * ssm.getConversionRate());
+                        EUt = (long) Math.ceil(EUt * ssm.getConversionRate());
                         isSteam = true;
                     } else if (machine instanceof SteamParallelMultiblockMachine smb) {
-                        EUt = (long) (EUt * smb.getConversionRate());
+                        EUt = (long) Math.ceil(EUt * smb.getConversionRate());
                         isSteam = true;
                     }
                 }
 
-            if (EUt > 0 && isWorking) {
-
                 if (isSteam) {
-                    text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
-                            .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
+                    text = Component.translatable("gtceu.jade.fluid_use", FormattingUtil.formatNumbers(EUt))
+                            .withStyle(ChatFormatting.GREEN);
                 } else {
-                    var tier = GTUtil.getOCTierByVoltage(EUt);
+                    var voltage = capData.getLong("voltage");
+                    var tier = GTUtil.getTierByVoltage(voltage);
+                    float minAmperage = (float) EUt / voltage;
 
-                    text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.RED)
-                            .append(Component.literal(" EU/t").withStyle(ChatFormatting.RESET)
-                                    .append(Component.literal(" (").withStyle(ChatFormatting.GREEN)));
+                    text = Component
+                            .translatable("gtceu.jade.amperage_use",
+                                    FormattingUtil.formatNumber2Places(minAmperage))
+                            .withStyle(ChatFormatting.RED)
+                            .append(Component.translatable("gtceu.jade.at").withStyle(ChatFormatting.GREEN));
                     if (tier < GTValues.TIER_COUNT) {
                         text = text.append(Component.literal(GTValues.VNF[tier])
                                 .withStyle(style -> style.withColor(GTValues.VC[tier])));
                     } else {
-                        int speed = tier - 14;
-                        text = text.append(Component
-                                .literal("MAX")
+                        int speed = Mth.clamp(tier - GTValues.TIER_COUNT - 1, 0, GTValues.TIER_COUNT);
+                        text = text.append(Component.literal("MAX")
                                 .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
                                 .append(Component.literal("+")
                                         .withStyle(style -> style.withColor(GTValues.VC[speed]))
-                                        .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
-                                        .withStyle(style -> style.withColor(GTValues.VC[speed]))));
+                                        .append(FormattingUtil.formatNumbers(speed))));
 
                     }
-                    text = text.append(Component.literal(")").withStyle(ChatFormatting.GREEN));
+                    text.append(Component.translatable("gtceu.universal.padded_parentheses",
+                            (Component.translatable("gtceu.recipe.eu.total",
+                                    FormattingUtil.formatNumbers(EUt))))
+                            .withStyle(ChatFormatting.WHITE));
                 }
 
                 if (isInput) {
@@ -244,28 +271,40 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 }
             }
 
-            List<ItemStack> outputItems = new ArrayList<>();
-            if (capData.contains(threadPrefix + "OutputItems", Tag.TAG_LIST)) {
-                ListTag itemTags = capData.getList(threadPrefix + "OutputItems", Tag.TAG_COMPOUND);
+            /* Recipe items add tooltip */
+            List<Ingredient> outputItems = new ArrayList<>();
+            if (capData.contains("OutputItems", Tag.TAG_LIST)) {
+                ListTag itemTags = capData.getList("OutputItems", Tag.TAG_COMPOUND);
                 if (!itemTags.isEmpty()) {
                     for (Tag tag : itemTags) {
                         if (tag instanceof CompoundTag tCompoundTag) {
-                            var stack = GTUtil.loadItemStack(tCompoundTag);
-                            if (!stack.isEmpty()) {
-                                outputItems.add(stack);
+                            if (tCompoundTag.contains("count_provider")) {
+                                var ingredient = IntProviderIngredient.SERIALIZER
+                                        .parse((JsonObject) NbtOps.INSTANCE.convertTo(JsonOps.INSTANCE, tCompoundTag));
+                                outputItems.add(ingredient);
+                            } else {
+                                var stack = GTUtil.loadItemStack(tCompoundTag);
+                                if (!stack.isEmpty()) {
+                                    outputItems.add(SizedIngredient.create(stack));
+                                }
                             }
                         }
                     }
                 }
             }
-            List<FluidStack> outputFluids = new ArrayList<>();
-            if (capData.contains(threadPrefix + "OutputFluids", Tag.TAG_LIST)) {
-                ListTag fluidTags = capData.getList(threadPrefix + "OutputFluids", Tag.TAG_COMPOUND);
+            List<FluidIngredient> outputFluids = new ArrayList<>();
+            if (capData.contains("OutputFluids", Tag.TAG_LIST)) {
+                ListTag fluidTags = capData.getList("OutputFluids", Tag.TAG_COMPOUND);
                 for (Tag tag : fluidTags) {
                     if (tag instanceof CompoundTag tCompoundTag) {
-                        var stack = FluidStack.loadFluidStackFromNBT(tCompoundTag);
-                        if (!stack.isEmpty()) {
-                            outputFluids.add(stack);
+                        if (tCompoundTag.contains("count_provider")) {
+                            var ingredient = IntProviderFluidIngredient.fromNBT(tCompoundTag);
+                            outputFluids.add(ingredient);
+                        } else {
+                            var stack = FluidStack.loadFluidStackFromNBT(tCompoundTag);
+                            if (!stack.isEmpty()) {
+                                outputFluids.add(FluidIngredient.of(stack));
+                            }
                         }
                     }
                 }
@@ -278,39 +317,78 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
         }
     }
 
-    private void addItemTooltips(ITooltip iTooltip, List<ItemStack> outputItems) {
+    private void addItemTooltips(ITooltip iTooltip, List<Ingredient> outputItems) {
         IElementHelper helper = iTooltip.getElementHelper();
-        for (ItemStack itemOutput : outputItems) {
+        for (Ingredient itemOutput : outputItems) {
             if (itemOutput != null && !itemOutput.isEmpty()) {
-                int count = itemOutput.getCount();
-                itemOutput.setCount(1);
-                iTooltip.add(helper.smallItem(itemOutput));
-                Component text = Component.literal(" ")
-                        .append(String.valueOf(count))
-                        .append("× ")
-                        .append(getItemName(itemOutput))
-                        .withStyle(ChatFormatting.WHITE);
+                ItemStack item;
+                MutableComponent text = CommonComponents.space();
+                if (itemOutput instanceof IntProviderIngredient provider) {
+                    item = provider.getInner().getItems()[0];
+                    text = text.append(Component.translatable("gtceu.gui.content.range",
+                            String.valueOf(provider.getCountProvider().getMinValue()),
+                            String.valueOf(provider.getCountProvider().getMaxValue())));
+                } else {
+                    item = itemOutput.getItems()[0];
+                    text.append(String.valueOf(item.getCount()));
+                    item.setCount(1);
+                }
+                text.append(Component.translatable("gtceu.gui.content.times_item",
+                        getItemName(item))
+                        .withStyle(ChatFormatting.WHITE));
+
+                iTooltip.add(helper.smallItem(item));
                 iTooltip.append(text);
             }
         }
     }
 
-    private void addFluidTooltips(ITooltip iTooltip, List<FluidStack> outputFluids) {
-        for (FluidStack fluidOutput : outputFluids) {
+
+    private void addFluidTooltips(ITooltip iTooltip, List<FluidIngredient> outputFluids) {
+        for (FluidIngredient fluidOutput : outputFluids) {
             if (fluidOutput != null && !fluidOutput.isEmpty()) {
-                iTooltip.add(GTElementHelper.smallFluid(getFluid(fluidOutput)));
-                Component text = Component.literal(" ")
-                        .append(FluidTextHelper.getUnicodeMillibuckets(fluidOutput.getAmount(), true))
-                        .append(" ")
-                        .append(getFluidName(fluidOutput))
+                FluidStack stack;
+                MutableComponent text = CommonComponents.space();
+                if (fluidOutput instanceof IntProviderFluidIngredient provider) {
+                    stack = provider.getInner().getStacks()[0];
+                    text.append(Component.translatable("gtceu.gui.content.range",
+                            FluidTextHelper.getUnicodeMillibuckets(provider.getCountProvider().getMinValue(), true),
+                            FluidTextHelper.getUnicodeMillibuckets(provider.getCountProvider().getMaxValue(), true)));
+                } else {
+                    stack = fluidOutput.getStacks()[0];
+                    text.append(FluidTextHelper.getUnicodeMillibuckets(stack.getAmount(), true));
+                }
+                text.append(CommonComponents.space())
+                        .append(getFluidName(stack))
                         .withStyle(ChatFormatting.WHITE);
+
+                iTooltip.add(GTElementHelper.smallFluid(getFluid(stack)));
                 iTooltip.append(text);
             }
         }
+    }
+
+    public static long getVoltage(MetaMachine machine) {
+        long voltage = -1;
+        if (machine instanceof SimpleTieredMachine actualMachine) {
+            voltage = GTValues.V[actualMachine.getTier()];
+        } else if (machine instanceof SimpleGeneratorMachine actualMachine) {
+            voltage = GTValues.V[actualMachine.getTier()];
+        } else if (machine instanceof WorkableElectricMultiblockMachine actualMachine) {
+            voltage = actualMachine.getParts().stream()
+                    .filter(EnergyHatchPartMachine.class::isInstance)
+                    .map(EnergyHatchPartMachine.class::cast)
+                    .mapToLong(dynamo -> GTValues.V[dynamo.getTier()])
+                    .max()
+                    .orElse(-1);
+        }
+        // default display as LV, this shouldn't happen because a machine is either electric or steam
+        if (voltage == -1) voltage = 32;
+        return voltage;
     }
 
     private Component getItemName(ItemStack stack) {
-        return ComponentUtils.wrapInSquareBrackets(stack.getItem().getDescription()).withStyle(ChatFormatting.WHITE);
+        return stack.getDisplayName().copy().withStyle(ChatFormatting.WHITE);
     }
 
     private Component getFluidName(FluidStack stack) {

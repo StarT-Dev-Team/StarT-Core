@@ -217,8 +217,8 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
         if (runningTimer % 72 == 0) {
             // passive boosting recipe.
             GTRecipe abyssalContainmentRecipe = getAbyssalContainmentRecipe();
-            this.isSuppliedFluids = abyssalContainmentRecipe.matchRecipe(this).isSuccess() &&
-                    abyssalContainmentRecipe.handleRecipeIO(IO.IN, this, this.recipeLogic.getChanceCaches());
+            this.isSuppliedFluids = RecipeHelper.matchRecipe(this, abyssalContainmentRecipe).isSuccess() &&
+                    RecipeHelper.handleRecipeIO(this, abyssalContainmentRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
 
             List<Player> playersInside =  this.getLevel().getEntitiesOfClass(Player.class, this.cleanroomBoundingBox);
 

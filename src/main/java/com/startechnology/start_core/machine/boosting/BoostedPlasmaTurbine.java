@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -176,7 +177,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         }
 
         // Output of this plasma turbine
-        long EUt = RecipeHelper.getOutputEUt(recipe);
+        long EUt = recipe.getOutputEUt().getTotalEU();
         
         if (EUt > 0) {
             return engineMachine.getModifierFunction();
@@ -193,14 +194,14 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         if (runningTimer % 72 == 0) {
             // passive boosting recipe.
             GTRecipe passiveBoosterRecipe = getPassiveBoostingRecipe();
-            this.isPassiveBoosting = passiveBoosterRecipe.matchRecipe(this).isSuccess() &&
-                    passiveBoosterRecipe.handleRecipeIO(IO.IN, this, this.recipeLogic.getChanceCaches());
+            this.isPassiveBoosting = RecipeHelper.matchRecipe(this, passiveBoosterRecipe).isSuccess() &&
+                    RecipeHelper.handleRecipeIO(this, passiveBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
 
             // active boosting recipe, only if passive is running
             if (this.isPassiveBoosting) {
                 GTRecipe activeBoosterRecipe  = getActiveBoostingRecipe();
-                this.isActiveBoosting = activeBoosterRecipe.matchRecipe(this).isSuccess() &&
-                        activeBoosterRecipe.handleRecipeIO(IO.IN, this, this.recipeLogic.getChanceCaches());
+                this.isActiveBoosting = RecipeHelper.matchRecipe(this, activeBoosterRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
             }
         }
 
@@ -220,7 +221,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
 
             if (isActive()) {
                 long maxProduction = (long)((double)getOverclockVoltage() * this.getBonus());
-                long currentProduction = isActive() && recipeLogic.getLastRecipe() != null ? RecipeHelper.getOutputEUt(recipeLogic.getLastRecipe()) : 0;
+                long currentProduction = isActive() && recipeLogic.getLastRecipe() != null ? (recipeLogic.getLastRecipe().getOutputEUt()).getTotalEU() : 0;
 
                 // glglglblglblgblgblglblgblglblgblgb
                 textList.remove(3);
