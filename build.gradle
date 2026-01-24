@@ -194,6 +194,8 @@ dependencies {
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     // set up properties for filling into metadata
     var properties = [
             "mod_license": mod_license,
