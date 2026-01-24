@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.maintenance;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -26,8 +27,9 @@ public class StarTMaintenanceMachines {
             tooltips.add(Component.literal("  ").append(Component
                     .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
         })
-            .modelProperty(GTMachineModelProperties.IS_TAPED, false)
-            .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance_sterile")))
+        .modelProperty(GTMachineModelProperties.IS_TAPED, false)
+        .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance_sterile")))
+        .tier(GTValues.HV)
         .register();
 
     public static void init() {}

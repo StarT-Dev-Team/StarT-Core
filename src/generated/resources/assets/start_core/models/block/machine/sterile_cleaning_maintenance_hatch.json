@@ -12,9 +12,9 @@
       "model": {
         "parent": "start_core:block/maintenance_sterile",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/ulv/bottom",
-          "side": "gtceu:block/casings/voltage/ulv/side",
-          "top": "gtceu:block/casings/voltage/ulv/top"
+          "bottom": "gtceu:block/casings/voltage/hv/bottom",
+          "side": "gtceu:block/casings/voltage/hv/side",
+          "top": "gtceu:block/casings/voltage/hv/top"
         }
       }
     },
@@ -22,10 +22,10 @@
       "model": {
         "parent": "start_core:block/maintenance_sterile",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/ulv/bottom",
+          "bottom": "gtceu:block/casings/voltage/hv/bottom",
           "overlay_2": "gtceu:block/overlay/machine/overlay_maintenance_taped",
-          "side": "gtceu:block/casings/voltage/ulv/side",
-          "top": "gtceu:block/casings/voltage/ulv/top"
+          "side": "gtceu:block/casings/voltage/hv/side",
+          "top": "gtceu:block/casings/voltage/hv/top"
         }
       }
     }
