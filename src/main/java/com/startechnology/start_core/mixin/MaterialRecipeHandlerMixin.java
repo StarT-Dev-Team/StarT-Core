@@ -1,6 +1,8 @@
 package com.startechnology.start_core.mixin;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.AlloyBlastProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -28,7 +30,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.get;
 @Mixin(value = MaterialRecipeHandler.class, remap = false)
 public class MaterialRecipeHandlerMixin {
 
-    public static final Map<BlastProperty.GasTier, FluidIngredient> EBF_GASES = new EnumMap<>(
+    private static final Map<BlastProperty.GasTier, FluidIngredient> EBF_GASES = new EnumMap<>(
             BlastProperty.GasTier.class);
 
     static {
@@ -111,6 +113,13 @@ public class MaterialRecipeHandlerMixin {
                         .EUt(vacuumEUt)
                         .save(provider);
             }
+        }
+        
+        // this generates ABS recipes
+        // dont remove unless you hate the ABS !!!
+        AlloyBlastProperty alloyBlastProperty = material.getProperty(PropertyKey.ALLOY_BLAST);
+        if (alloyBlastProperty != null) {
+            alloyBlastProperty.getRecipeProducer().produce(material, property, provider);
         }
     }
 }
