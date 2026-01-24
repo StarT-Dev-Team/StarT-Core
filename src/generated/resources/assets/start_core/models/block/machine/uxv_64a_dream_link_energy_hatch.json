@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:uxv_64a_dream_link_energy_hatch",
+  "variants": {
+    "recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uxv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uxv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uxv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uxv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uxv_64a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    }
+  }
+}

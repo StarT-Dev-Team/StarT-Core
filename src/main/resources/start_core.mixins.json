@@ -4,14 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "ResearchManagerDataItemMixin",
-    "CustomStackTooltipsHandlerMixin",
-    "FusionEnergyPowerMixin",
-    "ConverterRendererMixin",
-    "ParallelHatchPartMachineMixin",
-    "WireRecipeHandlerMixin",
-    "MaterialRecipeHandlerMixin",
-    "RecipeLogicProviderMixin"
   ],
   "client": [
   ],

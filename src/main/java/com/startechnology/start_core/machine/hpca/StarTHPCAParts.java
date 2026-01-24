@@ -38,7 +38,7 @@ public class StarTHPCAParts {
 
     public static final MachineDefinition HPCA_NANOFLUIDIC_HEAT_SINK_COMPONENT = registerHPCAPart(
         "hpca_nanofluidic_heat_sink_component", 
-        "block/overlay/hpca/nanofluidic_heat_sink_component", 
+        "nanofluidic_heat_sink_component",
         holder -> new StarTHPCAPassiveCoolingPart(
             holder,
             StarTGuiTextures.NANOFLUIDIC_HEAT_SINK_COMPONENT,
