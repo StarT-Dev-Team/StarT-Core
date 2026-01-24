@@ -32,6 +32,7 @@ public class StarTAbsoluteParallelHatchMachine extends TieredPartMachine impleme
     public StarTAbsoluteParallelHatchMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
         this.maxParallel = 4 * (int) Math.pow(2, tier - GTValues.UHV); // UHV -> 4, UEV -> 8, UIV -> 16
+        this.currentParallel = maxParallel;
     }
 
     public void setCurrentParallel(int parallelAmount) {
