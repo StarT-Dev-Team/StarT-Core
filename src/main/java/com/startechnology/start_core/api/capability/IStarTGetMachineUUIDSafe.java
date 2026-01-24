@@ -28,7 +28,7 @@ public class IStarTGetMachineUUIDSafe {
             machine.getOwner(),
             machine.getPos(),
             machine.getLevel(),
-            owner -> machine.setOwnerUUID(owner.getUUID()) // no setOwner method?
+            owner -> machine.setOwnerUUID(owner.getUUID())
         );
     }
 
@@ -37,7 +37,7 @@ public class IStarTGetMachineUUIDSafe {
             machine.getMetaMachine().getOwner(),
             machine.getBlockPos(),
             machine.getLevel(),
-            owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID()) // no setOwner method?
+            owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID())
         );
     }
 

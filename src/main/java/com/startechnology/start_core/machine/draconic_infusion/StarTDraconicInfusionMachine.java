@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -49,25 +50,42 @@ public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMach
         super(holder);
     }
 
+    public static Comparator<IMultiPart> partSorter(MultiblockControllerMachine mc) {
+        // Sort first by going back and then going right.
+        Comparator<IMultiPart> backSort = Comparator.comparing(p -> p.self().getPos(),
+                    RelativeDirection.BACK.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
+        
+        Comparator<IMultiPart> leftSort = Comparator.comparing(p -> p.self().getPos(),
+                    RelativeDirection.LEFT.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
+        
+        return backSort.thenComparing(leftSort);
+    }
+
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        var recipeInputs = recipe.inputs.get(ItemRecipeCapability.CAP);
-        var itemInputInventory = Objects
-                .requireNonNullElseGet(getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::<IRecipeHandler<?>>emptyList)
-                .stream()
-                .filter(handler -> !handler.isProxy())
-                .map(container -> container.getContents().stream().filter(ItemStack.class::isInstance)
-                        .map(ItemStack.class::cast).toList())
-                .filter(container -> !container.isEmpty())
+        var itemInputs = recipe.inputs.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList());
+        if (itemInputs.isEmpty()) return true;
+
+        int inputsSize = itemInputs.size();
+        var itemHandlers = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
+        if (itemHandlers.size() < inputsSize) return false;
+
+        var itemInventory = itemHandlers.stream()
+                .filter(IRecipeHandler::shouldSearchContent)
+                .map(container -> container.getContents().stream()
+                        .filter(ItemStack.class::isInstance)
+                        .map(ItemStack.class::cast)
+                        .filter(s -> !s.isEmpty())
+                        .findFirst())
+                .limit(inputsSize)
+                .map(o -> o.orElse(ItemStack.EMPTY))
                 .toList();
-        
 
-        if (itemInputInventory.size() < recipeInputs.size()) return false;
+        if (itemInventory.size() < inputsSize) return false;
 
-        for (int i = 0; i < recipeInputs.size(); i++) {
-            var itemStack = itemInputInventory.get(RECIPE_INPUT_MAP.get(i)).get(0);
-            Ingredient recipeStack = ItemRecipeCapability.CAP.of(recipeInputs.get(i).content);
+        for (int i = 0; i < inputsSize; i++) {
+            var itemStack = itemInventory.get(RECIPE_INPUT_MAP.get(i));
+            Ingredient recipeStack = ItemRecipeCapability.CAP.of(itemInputs.get(i).content);
             if (!recipeStack.test(itemStack)) {
                 return false;
             }
@@ -78,18 +96,7 @@ public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMach
 
     @Override
     public void onStructureFormed() {
-        getDefinition()
-            .setPartSorter(
-                // Sort first by going back and then going right.
-                Comparator.comparing(
-                    (IMultiPart it) -> multiblockPartSorter(RelativeDirection.BACK).apply(it.self().getPos())
-                ).thenComparing(
-                    it -> multiblockPartSorter(RelativeDirection.LEFT).apply(it.self().getPos())
-                ));
+        getDefinition().setPartSorter(StarTDraconicInfusionMachine::partSorter);
         super.onStructureFormed();
-    }
-
-    private Function<BlockPos, Integer> multiblockPartSorter(RelativeDirection direction) {
-        return direction.getSorter(getFrontFacing(), getUpwardsFacing(), isFlipped());
     }
 }
