@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.machine.MachineCoverContainer;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.common.machine.owner.IMachineOwner;
+import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.startechnology.start_core.api.copy.ICopyInteractable;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,7 @@ public class CopyBehavior implements IInteractionItem {
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         /* Ensure we only operate on meta machines */
         if (context.getLevel().getBlockEntity(context.getClickedPos()) instanceof MetaMachineBlockEntity blockEntity) {
-            if (!IMachineOwner.canOpenOwnerMachine(context.getPlayer(), blockEntity)) {
+            if (!MachineOwner.canOpenOwnerMachine(context.getPlayer(), blockEntity.getMetaMachine())) {
                 return InteractionResult.FAIL;
             }
             MetaMachine machine = blockEntity.getMetaMachine();

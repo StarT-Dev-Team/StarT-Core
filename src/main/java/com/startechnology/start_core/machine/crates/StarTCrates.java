@@ -1,11 +1,10 @@
 package com.startechnology.start_core.machine.crates;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.client.renderer.machine.CrateRenderer;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.common.machine.storage.CrateMachine;
 import net.minecraft.network.chat.Component;
 
@@ -24,7 +23,7 @@ public class StarTCrates {
                 .langValue(lang)
                 .rotationState(RotationState.NONE)
                 .tooltips(Component.translatable("gtceu.universal.tooltip.item_storage_capacity", capacity))
-                .renderer(() -> new CrateRenderer(GTCEu.id("block/machine/crate/metal_crate")))
+                .model(GTMachineModels.createCrateModel(false))
                 .paintingColor(material.getMaterialRGB())
                 .itemColor((s, t) -> material.getMaterialRGB())
                 .register();
