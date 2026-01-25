@@ -31,7 +31,7 @@ public class StarTHPCAParts {
                 .modelProperty(GTMachineModelProperties.IS_HPCA_PART_DAMAGED, false)
                 .modelProperty(GTMachineModelProperties.IS_ACTIVE, false)
                 .model(createHPCAPartModel(false,
-                        GTCEu.id("block/overlay/machine/hpca/" + texture),
+                        StarTCore.resourceLocation("block/overlay/hpca/" + texture),
                         GTCEu.id("block/overlay/machine/hpca/damaged"))
                 );
     }
