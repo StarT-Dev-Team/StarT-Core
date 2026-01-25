@@ -113,8 +113,6 @@
   "block.start_core.uxv_64a_energy_converter": "§eUXV§r 64§eA§rエネルギー変換機",
   "block.start_core.zpm_64a_energy_converter": "§cZPM§r 64§eA§rエネルギー変換機",
 
-  "block.start_core.enriched_naquadah_firebox_casing": "濃縮ナクアダ製火室外装",
-  "block.start_core.enriched_naquadah_engine_intake_casing": "強化型エンジン吸気口",
   "start_core.machine.parallel_hatch_mk5.tooltip": "最大1024レシピの並列運転が可能",
   "start_core.machine.parallel_hatch_mk6.tooltip": "最大2048レシピの並列運転が可能",
   "start_core.machine.parallel_hatch_mk7.tooltip": "最大4096レシピの並列運転が可能",
