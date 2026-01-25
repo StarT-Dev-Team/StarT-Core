@@ -3,7 +3,7 @@
   "loader": "gtceu:machine",
   "machine": "start_core:redstone_variadic_interface",
   "variants": {
-    "recipe_logic_status=idle": {
+    "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/casings/voltage/luv",
         "textures": {
@@ -11,7 +11,7 @@
         }
       }
     },
-    "recipe_logic_status=suspend": {
+    "is_formed=false,recipe_logic_status=suspend": {
       "model": {
         "parent": "gtceu:block/casings/voltage/luv",
         "textures": {
@@ -19,7 +19,7 @@
         }
       }
     },
-    "recipe_logic_status=waiting": {
+    "is_formed=false,recipe_logic_status=waiting": {
       "model": {
         "parent": "gtceu:block/casings/voltage/luv",
         "textures": {
@@ -27,7 +27,39 @@
         }
       }
     },
-    "recipe_logic_status=working": {
+    "is_formed=false,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/luv",
+        "textures": {
+          "overlay_front": "start_core:block/redstone/redstone_out/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/luv",
+        "textures": {
+          "overlay_front": "start_core:block/redstone/redstone_out/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/luv",
+        "textures": {
+          "overlay_front": "start_core:block/redstone/redstone_out/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/luv",
+        "textures": {
+          "overlay_front": "start_core:block/redstone/redstone_out/overlay_front"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=working": {
       "model": {
         "parent": "gtceu:block/casings/voltage/luv",
         "textures": {

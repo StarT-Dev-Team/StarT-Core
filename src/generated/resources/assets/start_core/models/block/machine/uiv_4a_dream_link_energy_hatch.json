@@ -3,7 +3,7 @@
   "loader": "gtceu:machine",
   "machine": "start_core:uiv_4a_dream_link_energy_hatch",
   "variants": {
-    "recipe_logic_status=idle": {
+    "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/casings/voltage/uiv",
         "textures": {
@@ -12,7 +12,7 @@
         }
       }
     },
-    "recipe_logic_status=suspend": {
+    "is_formed=false,recipe_logic_status=suspend": {
       "model": {
         "parent": "gtceu:block/casings/voltage/uiv",
         "textures": {
@@ -21,7 +21,7 @@
         }
       }
     },
-    "recipe_logic_status=waiting": {
+    "is_formed=false,recipe_logic_status=waiting": {
       "model": {
         "parent": "gtceu:block/casings/voltage/uiv",
         "textures": {
@@ -30,7 +30,43 @@
         }
       }
     },
-    "recipe_logic_status=working": {
+    "is_formed=false,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/uiv_4a_energy_hatch/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=working": {
       "model": {
         "parent": "gtceu:block/casings/voltage/uiv",
         "textures": {

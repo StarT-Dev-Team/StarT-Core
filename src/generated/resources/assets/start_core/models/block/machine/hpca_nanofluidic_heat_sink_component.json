@@ -7,7 +7,7 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
+          "overlay": "start_core:block/overlay/hpca/nanofluidic_heat_sink_component",
           "overlay_emissive": "gtceu:block/void"
         }
       }
@@ -16,7 +16,7 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
+          "overlay": "start_core:block/overlay/hpca/nanofluidic_heat_sink_component",
           "overlay_emissive": "gtceu:block/void"
         }
       }
@@ -25,8 +25,8 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
-          "overlay_emissive": "gtceu:block/void"
+          "overlay": "gtceu:block/overlay/machine/hpca/damaged",
+          "overlay_emissive": "gtceu:block/overlay/machine/hpca/damaged_emissive"
         }
       }
     },
@@ -34,8 +34,8 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
-          "overlay_emissive": "gtceu:block/void"
+          "overlay": "gtceu:block/overlay/machine/hpca/damaged",
+          "overlay_emissive": "gtceu:block/overlay/machine/hpca/damaged_emissive"
         }
       }
     },
@@ -43,7 +43,7 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
+          "overlay": "start_core:block/overlay/hpca/nanofluidic_heat_sink_component",
           "overlay_emissive": "gtceu:block/void"
         }
       }
@@ -52,7 +52,7 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
+          "overlay": "start_core:block/overlay/hpca/nanofluidic_heat_sink_component",
           "overlay_emissive": "gtceu:block/void"
         }
       }
@@ -61,8 +61,8 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
-          "overlay_emissive": "gtceu:block/void"
+          "overlay": "gtceu:block/overlay/machine/hpca/damaged_active",
+          "overlay_emissive": "gtceu:block/overlay/machine/hpca/damaged_active_emissive"
         }
       }
     },
@@ -70,8 +70,8 @@
       "model": {
         "parent": "start_core:block/hpca_nanofluidic_heat_sink_component_base",
         "textures": {
-          "overlay": "gtceu:block/void",
-          "overlay_emissive": "gtceu:block/void"
+          "overlay": "gtceu:block/overlay/machine/hpca/damaged_active",
+          "overlay_emissive": "gtceu:block/overlay/machine/hpca/damaged_active_emissive"
         }
       }
     }
