@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
@@ -23,6 +24,7 @@ public class StarTParallelHatches {
                     default -> "Unknown";
                 } + " Absolute Parallel Mastery Hatch")
                 .rotationState(RotationState.ALL)
+                .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .abilities(StarTPartAbility.ABSOLUTE_PARALLEL_HATCH)
                 .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/absolute_parallel_hatch_mk" + (tier - 8)))
                 .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_mk" + (tier - 8) + ".tooltip"))
@@ -41,6 +43,7 @@ public class StarTParallelHatches {
                     default -> "Unknown";
                 } + " Parallel Control Hatch")
                 .rotationState(RotationState.ALL)
+                .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .abilities(PartAbility.PARALLEL_HATCH)
                 .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/parallel_hatch_mk" + (tier - 4)))
                 .tooltips(Component.translatable("start_core.machine.parallel_hatch_mk" + (tier - 4) + ".tooltip"))

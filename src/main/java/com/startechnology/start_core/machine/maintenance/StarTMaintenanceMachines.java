@@ -27,6 +27,7 @@ public class StarTMaintenanceMachines {
             tooltips.add(Component.literal("  ").append(Component
                     .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
         })
+        .modelProperty(GTMachineModelProperties.IS_FORMED, false)
         .modelProperty(GTMachineModelProperties.IS_TAPED, false)
         .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance_sterile")))
         .tier(GTValues.HV)
