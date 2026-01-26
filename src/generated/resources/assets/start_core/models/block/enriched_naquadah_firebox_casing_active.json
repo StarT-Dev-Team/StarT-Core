@@ -1,8 +1,0 @@
-{
-  "parent": "start_core:block/fire_box_active",
-  "textures": {
-    "bottom": "start_core:block/casings/naquadah/casing",
-    "side": "start_core:block/casings/naquadah/firebox_casing",
-    "top": "start_core:block/casings/naquadah/casing"
-  }
-}

@@ -3,14 +3,14 @@
   "loader": "gtceu:machine",
   "machine": "start_core:bacterial_breeding_vat",
   "texture_overrides": {
-    "all": "kubejs:block/casings/machine_casing_peek"
+    "all": "kubejs:block/casings/basic/machine_casing_peek"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side",
@@ -22,7 +22,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side",
@@ -34,7 +34,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_active_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side_active",
@@ -46,7 +46,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_active_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side_active",
@@ -58,7 +58,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side",
@@ -70,7 +70,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side",
@@ -82,7 +82,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_active_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side_active",
@@ -94,7 +94,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/machine_casing_peek",
+          "all": "kubejs:block/casings/basic/machine_casing_peek",
           "overlay_front": "gtceu:block/machines/brewery/overlay_front_active",
           "overlay_front_emissive": "gtceu:block/machines/brewery/overlay_front_active_emissive",
           "overlay_side": "gtceu:block/machines/brewery/overlay_side_active",

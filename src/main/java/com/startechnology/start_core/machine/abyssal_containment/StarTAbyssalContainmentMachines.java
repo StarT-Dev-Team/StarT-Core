@@ -68,7 +68,7 @@ public class StarTAbyssalContainmentMachines {
             .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")))
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
-        ).workableCasingModel(KubeJS.id("block/casings/draco_ware_casing"),
+        ).workableCasingModel(KubeJS.id("block/casings/end_multis/draco_ware_casing"),
             StarTCore.resourceLocation("block/overlay/abyssal_containment"))
         .register();
 
