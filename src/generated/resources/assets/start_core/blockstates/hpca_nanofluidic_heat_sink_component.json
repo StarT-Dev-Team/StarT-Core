@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/hpca_nanofluidic_heat_sink_component",
+      "y": 270
+    }
+  }
+}

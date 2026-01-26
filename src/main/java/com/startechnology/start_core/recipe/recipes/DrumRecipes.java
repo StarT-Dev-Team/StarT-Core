@@ -1,6 +1,6 @@
 package com.startechnology.start_core.recipe.recipes;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -26,8 +26,8 @@ public class DrumRecipes {
                 " h ",
                 "PRP",
                 "PRP",
-                'P', new UnificationEntry(plate, NaquadahEnriched),
-                'R', new UnificationEntry(rodLong, NaquadahEnriched));
+                'P', new MaterialEntry(plate, NaquadahEnriched),
+                'R', new MaterialEntry(rodLong, NaquadahEnriched));
 
         ASSEMBLER_RECIPES.recipeBuilder("enriched_naquadah_drum")
                 .inputItems(rodLong, NaquadahEnriched, 2)
@@ -42,8 +42,8 @@ public class DrumRecipes {
                 " h ",
                 "PRP",
                 "PRP",
-                'P', new UnificationEntry(plate, Neutronium),
-                'R', new UnificationEntry(rodLong, Neutronium));
+                'P', new MaterialEntry(plate, Neutronium),
+                'R', new MaterialEntry(rodLong, Neutronium));
 
         ASSEMBLER_RECIPES.recipeBuilder("neutronium_drum")
                 .inputItems(rodLong, Neutronium, 2)

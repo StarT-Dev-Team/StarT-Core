@@ -41,7 +41,7 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
         .recipeTypes(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES)
         .pattern(definition -> 
             FactoryBlockPattern.start()
@@ -68,8 +68,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
-            GTCEu.id("block/machines/brewery"), false)
+        .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),
+            GTCEu.id("block/machines/brewery"))
         .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
@@ -119,8 +119,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
         .build()
     )
-    .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
-        GTCEu.id("block/multiblock/implosion_compressor"), false)
+    .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),
+        GTCEu.id("block/multiblock/implosion_compressor"))
     .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
@@ -145,7 +145,7 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
         .recipeTypes(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("THHHT", "TKKKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
@@ -168,8 +168,8 @@ public class StarTBacteriaMachines {
             .where(" ", Predicates.any())
             .build()
         )
-        .workableCasingRenderer(KubeJS.id("block/casings/basic/machine_casing_peek"),
-            GTCEu.id("block/machines/distillery"), false)
+        .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),
+            GTCEu.id("block/machines/distillery"))
         .register();
 
     public static void init() {

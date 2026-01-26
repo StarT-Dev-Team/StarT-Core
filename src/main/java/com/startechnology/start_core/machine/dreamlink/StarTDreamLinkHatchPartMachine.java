@@ -99,13 +99,13 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
         else
             componentList.add(Component.translatable("start_core.machine.dream_link.not_active"));
         
-        if (this.getHolder().getOwner() != null) {
+        if (this.getOwner() != null) {
             componentList.add(Component
             .translatable("start_core.machine.dream_link.owned_title")
             .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                     Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
 
-            MutableComponent ownerComponent = Component.literal(this.getHolder().getOwner().getName());
+            MutableComponent ownerComponent = Component.literal(this.getOwner().getName());
 
             componentList.add(Component
                 .translatable("start_core.machine.dream_link.owner", ownerComponent)

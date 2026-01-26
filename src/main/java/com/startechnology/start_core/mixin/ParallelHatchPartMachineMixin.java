@@ -20,6 +20,10 @@ public class ParallelHatchPartMachineMixin {
     @Shadow
     private int maxParallel;
 
+    @Mutable
+    @Shadow
+    private int currentParallel;
+
     @Inject(method = "<init>", at = @At("RETURN"))
     private void modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
         // Change the maxParallel calculation from Math.pow(4, tier - GTValues.EV)
@@ -27,5 +31,6 @@ public class ParallelHatchPartMachineMixin {
         // This doubles the parallel capacity compared to the original
         this.maxParallel = (tier <= GTValues.UHV) ? (int) Math.pow(4, tier - GTValues.EV) : 
                            (int) Math.pow(2, tier + 1);
+        this.currentParallel = maxParallel;
     }
 }

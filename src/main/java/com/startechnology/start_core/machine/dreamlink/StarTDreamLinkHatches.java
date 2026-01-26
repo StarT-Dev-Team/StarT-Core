@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
@@ -28,7 +29,8 @@ public class StarTDreamLinkHatches {
                                                 .formatNumbers(
                                                         EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))))
                         .abilities(ability)
-                        .workableTieredHullRenderer(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch"))
+                        .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+                        .workableTieredHullModel(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch"))
                         .register(),
                 tiers);
     }

@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:uiv_absolute_parallel_hatch",
+  "variants": {
+    "is_formed=false,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/casings/voltage/uiv",
+        "textures": {
+          "overlay_front": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front",
+          "overlay_front_emissive": "start_core:block/parallel/absolute_parallel_hatch_mk3/overlay_front_emissive"
+        }
+      }
+    }
+  }
+}

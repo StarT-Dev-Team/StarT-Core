@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTPartAbility;
@@ -38,13 +39,14 @@ public class StarTRedstoneInterfaces {
                 Component.translatable("start_core.redstone_hatch.d0"),
                 Component.translatable("start_core.redstone_hatch.d1")
             )
+            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .rotationState(RotationState.ALL)
             .abilities(StarTPartAbility.REDSTONE_INTERFACE)
             .tier(REDSTONE_INTERFACE_TIER);
     }
 
     public static final MachineDefinition REDSTONE_VARIADIC_INTERFACE = buildRedstoneHatch("redstone_variadic_interface", IO.IN)
-        .workableTieredHullRenderer(StarTCore.resourceLocation("block/redstone/redstone_out"))
+        .workableTieredHullModel(StarTCore.resourceLocation("block/redstone/redstone_out"))
         .register();
         
     public static void init() {}
