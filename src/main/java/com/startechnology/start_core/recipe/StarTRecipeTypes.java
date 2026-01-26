@@ -32,22 +32,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 
 public class StarTRecipeTypes {
 
-    public final static GTRecipeType BLAST_FURNACE_RECIPES = GTRecipeTypes.register("electric_vanilla_blast_furnace", GTRecipeTypes.ELECTRIC, RecipeType.BLASTING)
-        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSound(GTSoundEntries.FURNACE);
-
-    public final static GTRecipeType SMOKER_RECIPES = GTRecipeTypes.register("electric_smoker", GTRecipeTypes.ELECTRIC, RecipeType.SMOKING)
-        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSound(GTSoundEntries.FURNACE);
-
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(1, 2, 2, 0)
         .setEUIO(IO.IN)
