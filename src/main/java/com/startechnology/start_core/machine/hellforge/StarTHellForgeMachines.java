@@ -51,7 +51,7 @@ public class StarTHellForgeMachines {
             Component.translatable("block.start_core.hellforge_d8"),
             Component.translatable("block.start_core.breaker_line")
         )
-        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC)
+        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, GTRecipeModifiers.BATCH_MODE)
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
         .pattern(definition -> FactoryBlockPattern.start()

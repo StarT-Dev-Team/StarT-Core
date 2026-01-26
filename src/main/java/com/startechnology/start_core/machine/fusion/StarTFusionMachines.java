@@ -44,7 +44,7 @@ public class StarTFusionMachines {
             .recipeType(GTRecipeTypes.FUSION_RECIPES)
             .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
                     StarTRecipeModifiers.ABSOLUTE_PARALLEL,
-                    AuxiliaryBoostedFusionReactor::recipeModifier)
+                    AuxiliaryBoostedFusionReactor::recipeModifier, GTRecipeModifiers.BATCH_MODE)
             .tooltips(
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.line"),
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.description"),
@@ -168,7 +168,7 @@ public class StarTFusionMachines {
             .langValue("Fusion Reactor MK %s".formatted(fusionTierString(tier)))
             .recipeType(GTRecipeTypes.FUSION_RECIPES)
             .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
-                FusionReactorMachine::recipeModifier)
+                FusionReactorMachine::recipeModifier, GTRecipeModifiers.BATCH_MODE)
             .tooltips(
                 Component.translatable("gtceu.machine.fusion_reactor.capacity",
                 FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
@@ -261,7 +261,7 @@ public class StarTFusionMachines {
             .recipeType(GTRecipeTypes.FUSION_RECIPES)
             .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
                     StarTRecipeModifiers.ABSOLUTE_PARALLEL,
-                    AuxiliaryBoostedFusionReactor::recipeModifier)
+                    AuxiliaryBoostedFusionReactor::recipeModifier, GTRecipeModifiers.BATCH_MODE)
             .tooltips(
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.line"),
                 Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.description"),

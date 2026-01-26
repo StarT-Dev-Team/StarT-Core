@@ -41,7 +41,7 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
         .recipeTypes(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES)
         .pattern(definition -> 
             FactoryBlockPattern.start()
@@ -145,7 +145,7 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.parallels")
         )
         .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
         .recipeTypes(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("THHHT", "TKKKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")

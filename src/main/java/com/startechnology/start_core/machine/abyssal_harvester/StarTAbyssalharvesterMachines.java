@@ -42,7 +42,7 @@ public class StarTAbyssalharvesterMachines {
             Component.translatable("block.start_core.parallels")
         )
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK, StarTAbyssalHarvesterMachine::recipeModifier)
+        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK, StarTAbyssalHarvesterMachine::recipeModifier, GTRecipeModifiers.BATCH_MODE)
         .pattern(definition -> FactoryBlockPattern.start()
             .aisle("             ", "             ", "             ", "       D     ", "      DD     ", "     DD      ", "     D       ", "       D     ", "      DD     ", "     DD      ", "     D       ", "       D     ", "      DD     ", "     DD      ", "             ", "             ", "             ")
             .aisle("             ", "             ", "     DDD     ", "   DD   D    ", "   D         ", "         D   ", "    D   DD   ", "   DD   D    ", "   D         ", "         D   ", "    D   DD   ", "   DD   D    ", "   D         ", "         D   ", "     DDD     ", "             ", "             ")
