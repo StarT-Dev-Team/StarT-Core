@@ -16,8 +16,6 @@ import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
 
-import com.startechnology.start_core.machine.furnaces.StarTFurnaceMachines;
-
 public class StarTMachines {
 
     public static void init() {
@@ -32,7 +30,6 @@ public class StarTMachines {
         StarTHellForgeMachines.init();
         StarTRedstoneInterfaces.init();
         StarTAbyssalharvesterMachines.init();
-        StarTFurnaceMachines.init();
         StarTMaintenanceMachines.init();
         StarTAbyssalContainmentMachines.init();
         StarTThreadingControllerMachines.init();
