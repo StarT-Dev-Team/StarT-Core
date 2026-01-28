@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/uiv_256a_modular_conduit_node",
+      "y": 270
+    }
+  }
+}

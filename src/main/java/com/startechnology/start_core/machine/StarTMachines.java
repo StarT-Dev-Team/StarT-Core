@@ -11,6 +11,7 @@ import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
+import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
@@ -38,5 +39,6 @@ public class StarTMachines {
         StarTThreadingControllerMachines.init();
         StarTThreadingStatBlocks.init();
         StarTCrates.init();
+        StarTModularConnectionHatches.init();
     }
 }

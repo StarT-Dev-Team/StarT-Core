@@ -49,6 +49,12 @@ public class StarTCapabilityHelper {
             }
         }
 
+        else if (capability == StarTCapability.CAPABILITY_SUPPORTED_MODULES) {
+            if (machine instanceof IStarTModularSupportedModules modularSupportedMachine) {
+                return StarTCapability.CAPABILITY_SUPPORTED_MODULES.orEmpty(capability, LazyOptional.of(() -> modularSupportedMachine));
+            }
+        }
+
         return LazyOptional.empty();
     }
 
@@ -88,5 +94,10 @@ public class StarTCapabilityHelper {
     @Nullable
     public static StarTAbyssalHarvesterMachine getAbyssalHarvesterMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_ABYSSAL_HARVESTER, level, pos, side);
+    }
+
+    @Nullable
+    public static IStarTModularSupportedModules getModularSupportedModules(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_SUPPORTED_MODULES, level, pos, side);
     }
 }

@@ -11,4 +11,11 @@ public class StarTPartAbility {
 
     /* Enables the usage of threading with the controller in this machine */
     public static final PartAbility THREADING_CONTROLLER = new PartAbility("threading_controller");
+
+    /* Enables the usage of modular terminals in this machine */
+    public static final PartAbility MODULAR_TERMINAL = new PartAbility("modular_terminal");
+
+    /* Enables the usage of modular nodes in this machine */
+    public static final PartAbility MODULAR_NODE = new PartAbility("modular_node");
+
 }

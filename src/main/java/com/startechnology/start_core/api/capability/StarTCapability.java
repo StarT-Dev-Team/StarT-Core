@@ -24,4 +24,7 @@ public class StarTCapability {
 
     public static final Capability<StarTThreadingCapableMachine> CAPABILITY_THREADING_CAPABLE_MACHINE = CapabilityManager
         .get(new CapabilityToken<>() {});
+
+    public static final Capability<IStarTModularSupportedModules> CAPABILITY_SUPPORTED_MODULES = CapabilityManager
+        .get(new CapabilityToken<>() {});
 }

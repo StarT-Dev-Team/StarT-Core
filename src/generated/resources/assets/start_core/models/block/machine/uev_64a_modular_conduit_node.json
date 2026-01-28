@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:uev_64a_modular_conduit_node",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_formed=false": {
+      "model": {
+        "parent": "gtceu:block/machine/part/energy_input_hatch",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/uev/bottom",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_64a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_64a_in_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_64a_tinted",
+          "side": "gtceu:block/casings/voltage/uev/side",
+          "top": "gtceu:block/casings/voltage/uev/top"
+        }
+      }
+    },
+    "is_formed=true": {
+      "model": {
+        "parent": "gtceu:block/machine/part/energy_input_hatch",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/uev/bottom",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_64a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_64a_in_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_64a_tinted",
+          "side": "gtceu:block/casings/voltage/uev/side",
+          "top": "gtceu:block/casings/voltage/uev/top"
+        }
+      }
+    }
+  }
+}
