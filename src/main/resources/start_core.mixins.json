@@ -6,6 +6,7 @@
   "mixins": [
     "FluidHatchPartMachineMixin",
     "FusionEnergyPowerMixin",
+    "GTRecipeJSMixin",
     "MaintenanceHatchPartMachineMixin",
     "MaterialRecipeHandlerMixin",
     "MEPatternBufferPartMachineMixin",

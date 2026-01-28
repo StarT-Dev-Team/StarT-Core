@@ -4,12 +4,7 @@ import java.util.List;
 
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.integration.jade.provider.MaintenanceBlockProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTAbyssalHarvesterProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTDreamLinkNetworkBlockProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTHellforgeProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTRedstoneInterfaceProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTThreadedRecipeProvider;
-import com.startechnology.start_core.integration.jade.provider.StarTThreadedStatBlockProvider;
+import com.startechnology.start_core.integration.jade.provider.*;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,6 +22,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new StarTRedstoneInterfaceProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTAbyssalHarvesterProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTThreadedRecipeProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTFusionReactorProvider(), BlockEntity.class);
     }
 
     @Override
@@ -37,5 +33,6 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTAbyssalHarvesterProvider(), Block.class);       
         registration.registerBlockComponent(new StarTThreadedRecipeProvider(), Block.class);
         registration.registerBlockComponent(new StarTThreadedStatBlockProvider(), Block.class);
+        registration.registerBlockComponent(new StarTFusionReactorProvider(), Block.class);
     }
 }

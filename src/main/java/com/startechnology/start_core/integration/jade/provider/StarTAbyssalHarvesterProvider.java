@@ -1,13 +1,9 @@
 package com.startechnology.start_core.integration.jade.provider;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
@@ -28,12 +25,7 @@ public class StarTAbyssalHarvesterProvider extends CapabilityBlockProvider<StarT
     @Override
     protected @Nullable StarTAbyssalHarvesterMachine getCapability(Level level, BlockPos pos,
             @Nullable Direction side) {
-        var capability = StarTCapabilityHelper.getAbyssalHarvesterMachine(level, pos, side);
-
-        if (capability != null)
-            return capability;
-            
-        return null;
+        return StarTCapabilityHelper.getAbyssalHarvesterMachine(level, pos, side);
     }
 
     @Override

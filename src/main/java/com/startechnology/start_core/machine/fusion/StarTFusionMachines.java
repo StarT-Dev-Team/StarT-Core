@@ -1,31 +1,44 @@
 package com.startechnology.start_core.machine.fusion;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderHelper;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.startechnology.start_core.api.StarTAPI;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeModifiers;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
-
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.FUSION_GLASS;
+import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.BATCH_MODE;
+import static com.gregtechceu.gtceu.common.data.GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
+import static com.gregtechceu.gtceu.utils.FormattingUtil.toRomanNumeral;
 
 public class StarTFusionMachines {
     public static String fusionTierString(int tier) {
@@ -35,8 +48,110 @@ public class StarTFusionMachines {
         };
     }
 
+    public static final MultiblockMachineDefinition[] FUSION_REACTOR = StarTMachineUtils.registerTieredMultis("fusion_reactor",
+        ReflectorFusionReactorMachine::new, (tier, builder) -> builder
+            .rotationState(RotationState.ALL)
+            .langValue("Fusion Reactor Computer MK %s".formatted(toRomanNumeral(tier == UEV ? 4 : tier - 5)))
+            .recipeType(StarTRecipeTypes.FUSION_RECIPES)
+            .recipeModifiers(DEFAULT_ENVIRONMENT_REQUIREMENT,
+                ReflectorFusionReactorMachine::recipeModifier, BATCH_MODE)
+            .tooltips(
+                Component.translatable("gtceu.machine.fusion_reactor.capacity",
+                    ReflectorFusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
+                Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
+                Component.translatable("gtceu.multiblock.%s_fusion_reactor.description"
+                    .formatted(VN[tier].toLowerCase(Locale.ROOT))))
+            .appearanceBlock(() -> ReflectorFusionReactorMachine.getCasingState(tier))
+            .pattern((definition) -> {
+                var casing = blocks(ReflectorFusionReactorMachine.getCasingState(tier));
+                return FactoryBlockPattern.start()
+                    .aisle("               ", "      OGO      ", "               ")
+                    .aisle("      ICI      ", "    GG###GG    ", "      ICI      ")
+                    .aisle("    CC   CC    ", "   E##OGO##E   ", "    CC   CC    ")
+                    .aisle("   C       C   ", "  EKEG   GEKE  ", "   C       C   ")
+                    .aisle("  C         C  ", " G#E       E#G ", "  C         C  ")
+                    .aisle("  C         C  ", " G#G       G#G ", "  C         C  ")
+                    .aisle(" I           I ", "O#O         O#O", " I           I ")
+                    .aisle(" C           C ", "G#G         G#G", " C           C ")
+                    .aisle(" I           I ", "O#O         O#O", " I           I ")
+                    .aisle("  C         C  ", " G#G       G#G ", "  C         C  ")
+                    .aisle("  C         C  ", " G#E       E#G ", "  C         C  ")
+                    .aisle("   C       C   ", "  EKEG   GEKE  ", "   C       C   ")
+                    .aisle("    CC   CC    ", "   E##OGO##E   ", "    CC   CC    ")
+                    .aisle("      ICI      ", "    GG###GG    ", "      ICI      ")
+                    .aisle("               ", "      OSO      ", "               ")
+                    .where('S', controller(blocks(definition.get())))
+                    .where('G', blocks(FUSION_GLASS.get()).or(casing))
+                    .where('E', casing.or(blocks(PartAbility.INPUT_ENERGY.getBlockRange(tier, UEV).toArray(Block[]::new)).setMinGlobalLimited(1).setPreviewCount(16)))
+                    .where('C', casing)
+                    .where('K', blocks(ReflectorFusionReactorMachine.getCoilState(tier)))
+                    .where('O', casing.or(abilities(PartAbility.EXPORT_FLUIDS)))
+                    .where('I', casing.or(abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(2)))
+                    .where('#', StarTReflectorPredicates.fusionReflectors())
+                    .where(' ', any())
+                    .build();
+            })
+            .shapeInfos((controller) -> {
+                var shapeInfos = new ArrayList<MultiblockShapeInfo>();
+
+                var shapeBuilder = MultiblockShapeInfo.builder()
+                    .aisle("               ", "      NMN      ", "               ")
+                    .aisle("      DCD      ", "    GG###GG    ", "      UCU      ")
+                    .aisle("    CC   CC    ", "   w##SGS##e   ", "    CC   CC    ")
+                    .aisle("   C       C   ", "  nKsG   GsKn  ", "   C       C   ")
+                    .aisle("  C         C  ", " G#e       w#G ", "  C         C  ")
+                    .aisle("  C         C  ", " G#G       G#G ", "  C         C  ")
+                    .aisle(" D           D ", "W#E         W#E", " U           U ")
+                    .aisle(" C           C ", "G#G         G#G", " C           C ")
+                    .aisle(" D           D ", "W#E         W#E", " U           U ")
+                    .aisle("  C         C  ", " G#G       G#G ", "  C         C  ")
+                    .aisle("  C         C  ", " G#e       w#G ", "  C         C  ")
+                    .aisle("   C       C   ", "  sKnG   GnKs  ", "   C       C   ")
+                    .aisle("    CC   CC    ", "   w##NGN##e   ", "    CC   CC    ")
+                    .aisle("      DCD      ", "    GG###GG    ", "      UCU      ")
+                    .aisle("               ", "      SGS      ", "               ")
+                    .where('M', controller, Direction.NORTH)
+                    .where('C', ReflectorFusionReactorMachine.getCasingState(tier))
+                    .where('G', FUSION_GLASS.get())
+                    .where('K', ReflectorFusionReactorMachine.getCoilState(tier))
+                    .where('W', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.WEST)
+                    .where('E', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.EAST)
+                    .where('S', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.SOUTH)
+                    .where('N', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.NORTH)
+                    .where('w', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.WEST)
+                    .where('e', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.EAST)
+                    .where('s', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.SOUTH)
+                    .where('n', GTMachines.ENERGY_INPUT_HATCH[tier], Direction.NORTH)
+                    .where('U', GTMachines.FLUID_IMPORT_HATCH[tier], Direction.UP)
+                    .where('D', GTMachines.FLUID_IMPORT_HATCH[tier], Direction.DOWN);
+
+                StarTAPI.FUSION_REFLECTORS.entrySet().stream()
+                    .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                    .forEach(reflector -> {
+                        shapeInfos.add(shapeBuilder.shallowCopy()
+                            .where('#', reflector.getValue().get())
+                            .build()
+                        );
+                        shapeInfos.add(shapeBuilder.shallowCopy()
+                            .where('#', reflector.getValue().get())
+                            .where('G', ReflectorFusionReactorMachine.getCasingState(tier))
+                            .build()
+                        );
+                    });
+
+                return shapeInfos;
+            })
+            .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
+            .model(
+                createWorkableCasingMachineModel(ReflectorFusionReactorMachine.getCasingType(tier).getTexture(), GTCEu.id("block/multiblock/fusion_reactor"))
+                    .andThen(b -> b.addDynamicRenderer(DynamicRenderHelper::createFusionRingRender))
+            )
+            .hasBER(true)
+            .register(),
+        LuV, ZPM, UV, UEV);
+
     public static final MultiblockMachineDefinition[] AUXILIARY_BOOSTED_FUSION_REACTOR_MK1 = StarTMachineUtils.registerTieredMultis(
-        "auxiliary_boosted_fusion_reactor", AuxiliaryBoostedFusionReactor::new, 
+        "auxiliary_boosted_fusion_reactor", AuxiliaryBoostedFusionReactor::new,
         (tier, builder) ->
             builder
             .rotationState(RotationState.ALL)
@@ -54,7 +169,7 @@ public class StarTFusionMachines {
                         AuxiliaryBoostedFusionReactor.calculateEnergyStorageFactor(tier, 16) / 1000000L),
                 Component.translatable("start_core.machine.fusion_reactor.overclocking"),
                 Component.literal(""),
-                Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.specific", 
+                Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.specific",
                     GTValues.VN[tier], AuxiliaryBoostedFusionReactor.calculateEnergyStorageFactor(tier, 1) / 1000000L
                 ),
                 Component.translatable("block.start_core.breaker_line"),
@@ -63,36 +178,36 @@ public class StarTFusionMachines {
                 Component.translatable("block.start_core.breaker_line")
             )
             .appearanceBlock(() -> AuxiliaryBoostedFusionReactor.getCasingState(tier))
-            .pattern((definition) -> { 
+            .pattern((definition) -> {
                 var casing = Predicates.blocks(AuxiliaryBoostedFusionReactor.getCasingState(tier));
                 return FactoryBlockPattern.start()
-	                .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ") 
-	                .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ") 
-                    .aisle("           B           ", "                       ", "                       ", "         CDDDC         ", "                       ", "                       ", "           B           ") 
-                    .aisle("           B           ", "                       ", "   B     EAAAE     B   ", "   B   DD#####DD   B   ", "   B     EAAAE     B   ", "                       ", "           B           ") 
-                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     DF##CDDDC##FD     ", "       AA     AA       ", "    B             B    ", "           B           ") 
-                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGFD     DFGGD    ", "     AA         AA     ", "           B           ", "     B           B     ") 
-                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    FGD    B    DGF    ", "     A     B     A     ", "                       ", "      B         B      ") 
-                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D#F           F#D   ", "    A             A    ", "       B       B       ", "                       ") 
-                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D#D  B     B  D#D   ", "    A   B     B   A    ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   E               E   ", "  C#C             C#C  ", "   E               E   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   A               A   ", "  D#D             D#D  ", "   A               A   ", "                       ", "                       ") 
-                    .aisle("  BBB             BBB  ", " B   B           B   B ", "B  A  B         B  A  B", "B D#D B         B D#D B", "B  A  B         B  A  B", " B   B           B   B ", "  BBB             BBB  ") 
-                    .aisle("                       ", "                       ", "   A               A   ", "  D#D             D#D  ", "   A               A   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   E               E   ", "  C#C             C#C  ", "   E               E   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D#D  B     B  D#D   ", "    A   B     B   A    ", "                       ", "                       ") 
-                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D#F           F#D   ", "    A             A    ", "       B       B       ", "                       ") 
-                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    FGD    B    DGF    ", "     A     B     A     ", "                       ", "      B         B      ") 
-                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGFD     DFGGD    ", "     AA         AA     ", "           B           ", "     B           B     ") 
-                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     DF##CD@DC##FD     ", "       AA     AA       ", "    B             B    ", "           B           ") 
-                    .aisle("           B           ", "                       ", "   B     EAAAE     B   ", "   B   DD#####DD   B   ", "   B     EAAAE     B   ", "                       ", "           B           ") 
-                    .aisle("           B           ", "                       ", "                       ", "         CDSDC         ", "                       ", "                       ", "           B           ") 
-                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ") 
-                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ") 
+	                .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ")
+	                .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ")
+                    .aisle("           B           ", "                       ", "                       ", "         CDDDC         ", "                       ", "                       ", "           B           ")
+                    .aisle("           B           ", "                       ", "   B     EAAAE     B   ", "   B   DD#####DD   B   ", "   B     EAAAE     B   ", "                       ", "           B           ")
+                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     DF##CDDDC##FD     ", "       AA     AA       ", "    B             B    ", "           B           ")
+                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGFD     DFGGD    ", "     AA         AA     ", "           B           ", "     B           B     ")
+                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    FGD    B    DGF    ", "     A     B     A     ", "                       ", "      B         B      ")
+                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D#F           F#D   ", "    A             A    ", "       B       B       ", "                       ")
+                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D#D  B     B  D#D   ", "    A   B     B   A    ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   E               E   ", "  C#C             C#C  ", "   E               E   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   A               A   ", "  D#D             D#D  ", "   A               A   ", "                       ", "                       ")
+                    .aisle("  BBB             BBB  ", " B   B           B   B ", "B  A  B         B  A  B", "B D#D B         B D#D B", "B  A  B         B  A  B", " B   B           B   B ", "  BBB             BBB  ")
+                    .aisle("                       ", "                       ", "   A               A   ", "  D#D             D#D  ", "   A               A   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   E               E   ", "  C#C             C#C  ", "   E               E   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D#D  B     B  D#D   ", "    A   B     B   A    ", "                       ", "                       ")
+                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D#F           F#D   ", "    A             A    ", "       B       B       ", "                       ")
+                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    FGD    B    DGF    ", "     A     B     A     ", "                       ", "      B         B      ")
+                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGFD     DFGGD    ", "     AA         AA     ", "           B           ", "     B           B     ")
+                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     DF##CD@DC##FD     ", "       AA     AA       ", "    B             B    ", "           B           ")
+                    .aisle("           B           ", "                       ", "   B     EAAAE     B   ", "   B   DD#####DD   B   ", "   B     EAAAE     B   ", "                       ", "           B           ")
+                    .aisle("           B           ", "                       ", "                       ", "         CDSDC         ", "                       ", "                       ", "           B           ")
+                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ")
+                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ")
                     .where('S', Predicates.controller(Predicates.blocks(definition.get())))
                     .where("A", casing)
                     .where(' ', Predicates.any())
-                    .where('#', Predicates.air())                    
+                    .where('#', Predicates.air())
                     .where("B", Predicates.blocks(AuxiliaryBoostedFusionReactor.getAuxiliaryCoilState(tier)))
                     .where("C", casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1)))
                     .where("D", Predicates.blocks(GTBlocks.FUSION_GLASS.get()).or(casing))
@@ -108,29 +223,29 @@ public class StarTFusionMachines {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
                 MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
-                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ") 
-                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ") 
-                    .aisle("           B           ", "                       ", "                       ", "         NDMDN         ", "                       ", "                       ", "           B           ") 
-                    .aisle("           B           ", "                       ", "   B     XAAAX     B   ", "   B   DD     DD   B   ", "   B     UAAAU     B   ", "                       ", "           B           ") 
-                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     Dn  SD@DS  nD     ", "       AA     AA       ", "    B             B    ", "           B           ") 
-                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGsD     DsGGD    ", "     AA         AA     ", "           B           ", "     B           B     ") 
-                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    wGD    B    DGe    ", "     A     B     A     ", "                       ", "      B         B      ") 
-                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D e           w D   ", "    A             A    ", "       B       B       ", "                       ") 
-                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D D  B     B  D D   ", "    A   B     B   A    ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   X               X   ", "  W E             W E  ", "   U               U   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   A               A   ", "  D D             D D  ", "   A               A   ", "                       ", "                       ") 
-                    .aisle("  BBB             BBB  ", " B   B           B   B ", "B  A  B         B  A  B", "B D D B         B D D B", "B  A  B         B  A  B", " B   B           B   B ", "  BBB             BBB  ") 
-                    .aisle("                       ", "                       ", "   A               A   ", "  D D             D D  ", "   A               A   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "   X               X   ", "  W E             W E  ", "   U               U   ", "                       ", "                       ") 
-                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D D  B     B  D D   ", "    A   B     B   A    ", "                       ", "                       ") 
-                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D e           w D   ", "    A             A    ", "       B       B       ", "                       ") 
-                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    wGD    B    DGe    ", "     A     B     A     ", "                       ", "      B         B      ") 
-                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGnD     DnGGD    ", "     AA         AA     ", "           B           ", "     B           B     ") 
-                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     Ds  NDDDN  sD     ", "       AA     AA       ", "    B             B    ", "           B           ") 
-                    .aisle("           B           ", "                       ", "   B     XAAAX     B   ", "   B   DD     DD   B   ", "   B     UAAAU     B   ", "                       ", "           B           ") 
-                    .aisle("           B           ", "                       ", "                       ", "         SDDDS         ", "                       ", "                       ", "           B           ") 
-                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ") 
-                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ") 
+                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ")
+                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ")
+                    .aisle("           B           ", "                       ", "                       ", "         NDMDN         ", "                       ", "                       ", "           B           ")
+                    .aisle("           B           ", "                       ", "   B     XAAAX     B   ", "   B   DD     DD   B   ", "   B     UAAAU     B   ", "                       ", "           B           ")
+                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     Dn  SD@DS  nD     ", "       AA     AA       ", "    B             B    ", "           B           ")
+                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGsD     DsGGD    ", "     AA         AA     ", "           B           ", "     B           B     ")
+                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    wGD    B    DGe    ", "     A     B     A     ", "                       ", "      B         B      ")
+                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D e           w D   ", "    A             A    ", "       B       B       ", "                       ")
+                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D D  B     B  D D   ", "    A   B     B   A    ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   X               X   ", "  W E             W E  ", "   U               U   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   A               A   ", "  D D             D D  ", "   A               A   ", "                       ", "                       ")
+                    .aisle("  BBB             BBB  ", " B   B           B   B ", "B  A  B         B  A  B", "B D D B         B D D B", "B  A  B         B  A  B", " B   B           B   B ", "  BBB             BBB  ")
+                    .aisle("                       ", "                       ", "   A               A   ", "  D D             D D  ", "   A               A   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "   X               X   ", "  W E             W E  ", "   U               U   ", "                       ", "                       ")
+                    .aisle("                       ", "                       ", "    A   B     B   A    ", "   D D  B     B  D D   ", "    A   B     B   A    ", "                       ", "                       ")
+                    .aisle("                       ", "       B       B       ", "    A             A    ", "   D e           w D   ", "    A             A    ", "       B       B       ", "                       ")
+                    .aisle("      B         B      ", "                       ", "     A     B     A     ", "    wGD    B    DGe    ", "     A     B     A     ", "                       ", "      B         B      ")
+                    .aisle("     B           B     ", "           B           ", "     AA         AA     ", "    DGGnD     DnGGD    ", "     AA         AA     ", "           B           ", "     B           B     ")
+                    .aisle("           B           ", "    B             B    ", "       AA     AA       ", "     Ds  NDDDN  sD     ", "       AA     AA       ", "    B             B    ", "           B           ")
+                    .aisle("           B           ", "                       ", "   B     XAAAX     B   ", "   B   DD     DD   B   ", "   B     UAAAU     B   ", "                       ", "           B           ")
+                    .aisle("           B           ", "                       ", "                       ", "         SDDDS         ", "                       ", "                       ", "           B           ")
+                    .aisle("                       ", "           B           ", "                       ", "                       ", "                       ", "           B           ", "                       ")
+                    .aisle("                       ", "                       ", "           B           ", "           B           ", "           B           ", "                       ", "                       ")
                     .where('M', controller, Direction.NORTH)
                     .where('A', AuxiliaryBoostedFusionReactor.getCasingState(tier))
                     .where('D', GTBlocks.FUSION_GLASS.get())
@@ -160,78 +275,78 @@ public class StarTFusionMachines {
             .register(),
         GTValues.UHV);
 
-    public static final MultiblockMachineDefinition[] FUSION_REACTOR_MK4 = StarTMachineUtils.registerTieredMultis(
-        "fusion_reactor", FusionReactorMachine::new, 
-        (tier, builder) ->
-            builder
-            .rotationState(RotationState.ALL)
-            .langValue("Fusion Reactor MK %s".formatted(fusionTierString(tier)))
-            .recipeType(GTRecipeTypes.FUSION_RECIPES)
-            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
-                FusionReactorMachine::recipeModifier, GTRecipeModifiers.BATCH_MODE)
-            .tooltips(
-                Component.translatable("gtceu.machine.fusion_reactor.capacity",
-                FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
-                Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
-                Component.translatable("start_core.multiblock.%s_fusion_reactor.description"
-                    .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))
-            )
-            .appearanceBlock(() -> StarTFusionBlocks.FUSION_CASING_MK4.get())
-            .pattern((definition) -> { 
-                var casing = Predicates.blocks(StarTFusionBlocks.FUSION_CASING_MK4.get());
-                return FactoryBlockPattern.start()
-                    .aisle("                 ", "      BCCCB      ", "                 ") 
-                    .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
-                    .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
-                    .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
-                    .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
-                    .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
-                    .aisle(" D             D ", "B#B           B#B", " D             D ") 
-                    .aisle(" E             E ", "C#C           C#C", " E             E ") 
-                    .aisle(" E             E ", "C#C           C#C", " E             E ") 
-                    .aisle(" E             E ", "C#C           C#C", " E             E ") 
-                    .aisle(" D             D ", "B#B           B#B", " D             D ") 
-                    .aisle("  E           E  ", " C#C         C#C ", "  E           E  ") 
-                    .aisle("  E           E  ", " C#F         F#C ", "  E           E  ") 
-                    .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
-                    .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ") 
-                    .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ") 
-                    .aisle("                 ", "      BC@CB      ", "                 ")
-                    .where(' ', Predicates.any())
-                    .where('#', Predicates.air())
-                    .where('B', casing
-                        .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1)))
-                    .where('C', Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")).or(casing))
-                    .where('D', casing
-                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1)))
-                    .where('E', casing)
-                    .where('F', casing
-                        .or(Predicates.blocks(PartAbility.INPUT_ENERGY.getBlockRange(tier, GTValues.UEV).toArray(Block[]::new)).setMinGlobalLimited(1).setPreviewCount(16))) 
-                    .where('G', Predicates.blocks(StarTFusionBlocks.ADVANCED_FUSION_COIL.get()))
-                    .where('@', Predicates.controller(Predicates.blocks(definition.get())))
-                .build();
-            })
+//    public static final MultiblockMachineDefinition[] FUSION_REACTOR_MK4 = StarTMachineUtils.registerTieredMultis(
+//        "fusion_reactor", FusionReactorMachine::new,
+//        (tier, builder) ->
+//            builder
+//            .rotationState(RotationState.ALL)
+//            .langValue("Fusion Reactor MK %s".formatted(fusionTierString(tier)))
+//            .recipeType(GTRecipeTypes.FUSION_RECIPES)
+//            .recipeModifiers(GTRecipeModifiers.DEFAULT_ENVIRONMENT_REQUIREMENT,
+//                FusionReactorMachine::recipeModifier, GTRecipeModifiers.BATCH_MODE)
+//            .tooltips(
+//                Component.translatable("gtceu.machine.fusion_reactor.capacity",
+//                FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
+//                Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
+//                Component.translatable("start_core.multiblock.%s_fusion_reactor.description"
+//                    .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))
+//            )
+//            .appearanceBlock(() -> StarTFusionBlocks.FUSION_CASING_MK4.get())
+//            .pattern((definition) -> {
+//                var casing = Predicates.blocks(StarTFusionBlocks.FUSION_CASING_MK4.get());
+//                return FactoryBlockPattern.start()
+//                    .aisle("                 ", "      BCCCB      ", "                 ")
+//                    .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ")
+//                    .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ")
+//                    .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ")
+//                    .aisle("  E           E  ", " C#F         F#C ", "  E           E  ")
+//                    .aisle("  E           E  ", " C#C         C#C ", "  E           E  ")
+//                    .aisle(" D             D ", "B#B           B#B", " D             D ")
+//                    .aisle(" E             E ", "C#C           C#C", " E             E ")
+//                    .aisle(" E             E ", "C#C           C#C", " E             E ")
+//                    .aisle(" E             E ", "C#C           C#C", " E             E ")
+//                    .aisle(" D             D ", "B#B           B#B", " D             D ")
+//                    .aisle("  E           E  ", " C#C         C#C ", "  E           E  ")
+//                    .aisle("  E           E  ", " C#F         F#C ", "  E           E  ")
+//                    .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ")
+//                    .aisle("    EE     EE    ", "   F##BCCCB##F   ", "    EE     EE    ")
+//                    .aisle("      DEEED      ", "    CC#####CC    ", "      DEEED      ")
+//                    .aisle("                 ", "      BC@CB      ", "                 ")
+//                    .where(' ', Predicates.any())
+//                    .where('#', Predicates.air())
+//                    .where('B', casing
+//                        .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1)))
+//                    .where('C', Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")).or(casing))
+//                    .where('D', casing
+//                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1)))
+//                    .where('E', casing)
+//                    .where('F', casing
+//                        .or(Predicates.blocks(PartAbility.INPUT_ENERGY.getBlockRange(tier, GTValues.UEV).toArray(Block[]::new)).setMinGlobalLimited(1).setPreviewCount(16)))
+//                    .where('G', Predicates.blocks(StarTFusionBlocks.ADVANCED_FUSION_COIL.get()))
+//                    .where('@', Predicates.controller(Predicates.blocks(definition.get())))
+//                .build();
+//            })
             // .shapeInfos((controller) -> { //delaying, not worth time investment atm
             //     List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
             //     MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
-            //         .aisle("                 ", "      BC@CB      ", "                 ") 
-            //         .aisle("      DEEED      ", "    CC     CC    ", "      DEEED      ") 
-            //         .aisle("    EE     EE    ", "   F  BCCCB  F   ", "    EE     EE    ") 
-            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
-            //         .aisle("  E           E  ", " C F         F C ", "  E           E  ") 
-            //         .aisle("  E           E  ", " C C         C C ", "  E           E  ") 
-            //         .aisle(" D             D ", "B B           B B", " D             D ") 
-            //         .aisle(" E             E ", "C C           C C", " E             E ") 
-            //         .aisle(" E             E ", "C C           C C", " E             E ") 
-            //         .aisle(" E             E ", "C C           C C", " E             E ") 
-            //         .aisle(" D             D ", "B B           B B", " D             D ") 
-            //         .aisle("  E           E  ", " C C         C C ", "  E           E  ") 
-            //         .aisle("  E           E  ", " C F         F C ", "  E           E  ") 
-            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ") 
-            //         .aisle("    EE     EE    ", "   F  BCCCB   F  ", "    EE     EE    ") 
-            //         .aisle("      DEEED      ", "    CC     CC    ", "      DEEED      ") 
-            //         .aisle("                 ", "      BCCCB      ", "                 ") 
+            //         .aisle("                 ", "      BC@CB      ", "                 ")
+            //         .aisle("      DEEED      ", "    CC     CC    ", "      DEEED      ")
+            //         .aisle("    EE     EE    ", "   F  BCCCB  F   ", "    EE     EE    ")
+            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ")
+            //         .aisle("  E           E  ", " C F         F C ", "  E           E  ")
+            //         .aisle("  E           E  ", " C C         C C ", "  E           E  ")
+            //         .aisle(" D             D ", "B B           B B", " D             D ")
+            //         .aisle(" E             E ", "C C           C C", " E             E ")
+            //         .aisle(" E             E ", "C C           C C", " E             E ")
+            //         .aisle(" E             E ", "C C           C C", " E             E ")
+            //         .aisle(" D             D ", "B B           B B", " D             D ")
+            //         .aisle("  E           E  ", " C C         C C ", "  E           E  ")
+            //         .aisle("  E           E  ", " C F         F C ", "  E           E  ")
+            //         .aisle("   E         E   ", "  FGFC     CFGF  ", "   E         E   ")
+            //         .aisle("    EE     EE    ", "   F  BCCCB   F  ", "    EE     EE    ")
+            //         .aisle("      DEEED      ", "    CC     CC    ", "      DEEED      ")
+            //         .aisle("                 ", "      BCCCB      ", "                 ")
             //         .where(' ', Blocks.AIR.defaultBlockState())
             //         .where('B', GTMachines.FLUID_EXPORT_HATCH[tier], Direction.NORTH)
             //         .where('C', StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass"))
@@ -247,13 +362,13 @@ public class StarTFusionMachines {
             //     shapeInfos.add(baseBuilder.build());
             //     return shapeInfos;
             // })
-            .workableCasingModel(StarTFusionCasings.FUSION_CASING_MK4.getTexture(),
-                GTCEu.id("block/multiblock/fusion_reactor"))
-            .register(),
-        GTValues.UEV);
+//            .workableCasingModel(StarTFusionCasings.FUSION_CASING_MK4.getTexture(),
+//                GTCEu.id("block/multiblock/fusion_reactor"))
+//            .register(),
+//        GTValues.UEV);
 
     public static final MultiblockMachineDefinition[] AUXILIARY_BOOSTED_FUSION_REACTOR_MK2 = StarTMachineUtils.registerTieredMultis(
-        "auxiliary_boosted_fusion_reactor", AuxiliaryBoostedFusionReactor::new, 
+        "auxiliary_boosted_fusion_reactor", AuxiliaryBoostedFusionReactor::new,
         (tier, builder) ->
             builder
             .rotationState(RotationState.ALL)
@@ -271,7 +386,7 @@ public class StarTFusionMachines {
                         AuxiliaryBoostedFusionReactor.calculateEnergyStorageFactor(tier, 16) / 1000000L),
                 Component.translatable("start_core.machine.fusion_reactor.overclocking"),
                 Component.literal(""),
-                Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.specific", 
+                Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.specific",
                     GTValues.VN[tier], AuxiliaryBoostedFusionReactor.calculateEnergyStorageFactor(tier, 1) / 1000000L
                 ),
                 Component.translatable("block.start_core.breaker_line"),
@@ -280,38 +395,38 @@ public class StarTFusionMachines {
                 Component.translatable("block.start_core.breaker_line")
             )
             .appearanceBlock(() -> AuxiliaryBoostedFusionReactor.getCasingState(tier))
-            .pattern((definition) -> { 
+            .pattern((definition) -> {
                 var casing = Predicates.blocks(AuxiliaryBoostedFusionReactor.getCasingState(tier));
                 return FactoryBlockPattern.start()
-                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ") 
-                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ") 
-                    .aisle("          B   B          ", "                         ", "                         ", "          CDDDC          ", "                         ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD#####DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG##CDDDC##GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ") 
-                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ") 
-                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ") 
-                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ") 
-                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D#G  B       B  G#D   ", "    F   B       B   F    ", "                         ", "                         ") 
-                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D#D             D#D  B", "B   F               F   B", " B                     B ", "                         ") 
-                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C#C               C#C  ", "   E                 E   ", "                         ", "  BBB               BBB  ") 
-                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D#D B           B D#D  ", "   F  B           B  F   ", "     B             B     ", "                         ") 
-                    .aisle("                         ", "                         ", "   F                 F   ", "  D#D               D#D  ", "   F                 F   ", "                         ", "                         ") 
-                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D#D B           B D#D  ", "   F  B           B  F   ", "     B             B     ", "                         ") 
-                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C#C               C#C  ", "   E                 E   ", "                         ", "  BBB               BBB  ") 
-                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D#D             D#D  B", "B   F               F   B", " B                     B ", "                         ") 
-                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D#G  B       B  G#D   ", "    F   B       B   F    ", "                         ", "                         ") 
-                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ") 
-                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ") 
-                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ") 
-                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG##CDIDC##GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD#####DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "                         ", "          CD@DC          ", "                         ", "                         ", "          B   B          ") 
-                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ") 
-                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ") 
+                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ")
+                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ")
+                    .aisle("          B   B          ", "                         ", "                         ", "          CDDDC          ", "                         ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD#####DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG##CDDDC##GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ")
+                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ")
+                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ")
+                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ")
+                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D#G  B       B  G#D   ", "    F   B       B   F    ", "                         ", "                         ")
+                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D#D             D#D  B", "B   F               F   B", " B                     B ", "                         ")
+                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C#C               C#C  ", "   E                 E   ", "                         ", "  BBB               BBB  ")
+                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D#D B           B D#D  ", "   F  B           B  F   ", "     B             B     ", "                         ")
+                    .aisle("                         ", "                         ", "   F                 F   ", "  D#D               D#D  ", "   F                 F   ", "                         ", "                         ")
+                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D#D B           B D#D  ", "   F  B           B  F   ", "     B             B     ", "                         ")
+                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C#C               C#C  ", "   E                 E   ", "                         ", "  BBB               BBB  ")
+                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D#D             D#D  B", "B   F               F   B", " B                     B ", "                         ")
+                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D#G  B       B  G#D   ", "    F   B       B   F    ", "                         ", "                         ")
+                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ")
+                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ")
+                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ")
+                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG##CDIDC##GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD#####DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "                         ", "          CD@DC          ", "                         ", "                         ", "          B   B          ")
+                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ")
+                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ")
                     .where('@', Predicates.controller(Predicates.blocks(definition.get())))
                     .where('F', casing)
                     .where(' ', Predicates.any())
-                    .where('#', Predicates.air())                    
+                    .where('#', Predicates.air())
                     .where('B', Predicates.blocks(AuxiliaryBoostedFusionReactor.getAuxiliaryCoilState(tier)))
                     .where('C', casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1)))
                     .where('D', Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")).or(casing))
@@ -327,31 +442,31 @@ public class StarTFusionMachines {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
 
                 MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
-                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ") 
-                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ") 
-                    .aisle("          B   B          ", "                         ", "                         ", "          CD@DC          ", "                         ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD     DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG  CDIDC  GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ") 
-                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ") 
-                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ") 
-                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ") 
-                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D G  B       B  G D   ", "    F   B       B   F    ", "                         ", "                         ") 
-                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D D             D D  B", "B   F               F   B", " B                     B ", "                         ") 
-                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C C               C C  ", "   E                 E   ", "                         ", "  BBB               BBB  ") 
-                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D D B           B D D  ", "   F  B           B  F   ", "     B             B     ", "                         ") 
-                    .aisle("                         ", "                         ", "   F                 F   ", "  D D               D D  ", "   F                 F   ", "                         ", "                         ") 
-                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D D B           B D D  ", "   F  B           B  F   ", "     B             B     ", "                         ") 
-                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C C               C C  ", "   E                 E   ", "                         ", "  BBB               BBB  ") 
-                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D D             D D  B", "B   F               F   B", " B                     B ", "                         ") 
-                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D G  B       B  G D   ", "    F   B       B   F    ", "                         ", "                         ") 
-                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ") 
-                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ") 
-                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ") 
-                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG  CDDDC  GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD     DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ") 
-                    .aisle("          B   B          ", "                         ", "                         ", "          CDDDC          ", "                         ", "                         ", "          B   B          ") 
-                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ") 
-                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ") 
+                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ")
+                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ")
+                    .aisle("          B   B          ", "                         ", "                         ", "          CD@DC          ", "                         ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD     DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG  CDIDC  GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ")
+                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ")
+                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ")
+                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ")
+                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D G  B       B  G D   ", "    F   B       B   F    ", "                         ", "                         ")
+                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D D             D D  B", "B   F               F   B", " B                     B ", "                         ")
+                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C C               C C  ", "   E                 E   ", "                         ", "  BBB               BBB  ")
+                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D D B           B D D  ", "   F  B           B  F   ", "     B             B     ", "                         ")
+                    .aisle("                         ", "                         ", "   F                 F   ", "  D D               D D  ", "   F                 F   ", "                         ", "                         ")
+                    .aisle("                         ", "     B             B     ", "   F  B           B  F   ", "  D D B           B D D  ", "   F  B           B  F   ", "     B             B     ", "                         ")
+                    .aisle("  BBB               BBB  ", "                         ", "   E                 E   ", "  C C               C C  ", "   E                 E   ", "                         ", "  BBB               BBB  ")
+                    .aisle("                         ", " B                     B ", "B   F               F   B", "B  D D             D D  B", "B   F               F   B", " B                     B ", "                         ")
+                    .aisle("                         ", "                         ", "    F   B       B   F    ", "   D G  B       B  G D   ", "    F   B       B   F    ", "                         ", "                         ")
+                    .aisle("                         ", "       B         B       ", "     F             F     ", "    GHD           DHG    ", "     F             F     ", "       B         B       ", "                         ")
+                    .aisle("      B           B      ", "                         ", "     FF    B B    FF     ", "    DHHD   B B   DHHD    ", "     FF    B B    FF     ", "                         ", "      B           B      ")
+                    .aisle("     B             B     ", "           B B           ", "      FF         FF      ", "     DHHGD     DGHHD     ", "      FF         FF      ", "           B B           ", "     B             B     ")
+                    .aisle("          B   B          ", "    B               B    ", "        FF     FF        ", "      DG  CDDDC  GD      ", "        FF     FF        ", "    B               B    ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "   B      EFFFE      B   ", "   B    DD     DD    B   ", "   B      EFFFE      B   ", "                         ", "          B   B          ")
+                    .aisle("          B   B          ", "                         ", "                         ", "          CDDDC          ", "                         ", "                         ", "          B   B          ")
+                    .aisle("                         ", "         B     B         ", "                         ", "                         ", "                         ", "         B     B         ", "                         ")
+                    .aisle("                         ", "                         ", "         B     B         ", "         B     B         ", "         B     B         ", "                         ", "                         ")
                     .where(' ', Blocks.AIR.defaultBlockState())
                     .where('F', AuxiliaryBoostedFusionReactor.getCasingState(tier))
                     .where('B', AuxiliaryBoostedFusionReactor.getAuxiliaryCoilState(tier))
@@ -378,5 +493,5 @@ public class StarTFusionMachines {
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (AUXI)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UIV, " (AUXII)");
-    }   
+    }
 }
