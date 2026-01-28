@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
@@ -38,6 +39,7 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachin
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import lombok.Getter;
 import lombok.Setter;
@@ -98,24 +100,29 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         super.onStructureFormed();
 
         List<IEnergyContainer> inputs = new ArrayList<>();
-        Map<Long, IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
 
-        // Add update subscription to EUCap trait
-        // TODO: Changed in gt 1.7
+        Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap",
+                Long2ObjectMaps::emptyMap);
+
         for (IMultiPart part : getParts()) {
-            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.IN);
+            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
             if (io == IO.NONE) continue;
 
-            for (var handler : part.getRecipeHandlers()) {
-                var handlerIO = handler.getHandlerIO();
-                // If IO not compatible
-                if (io != IO.IN && handlerIO != IO.IN && io != handlerIO) continue;
-                if (handler.hasCapability(EURecipeCapability.CAP) &&
-                        handler instanceof IEnergyContainer container) {
-                    
-                    inputs.add(container);
-                    traitSubscriptions.add(handler.subscribe(tickSubscription::updateSubscription));
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
+                if (!handlerList.isValid(io)) continue;
+
+                var containers = handlerList.getCapability(EURecipeCapability.CAP).stream()
+                        .filter(IEnergyContainer.class::isInstance)
+                        .map(IEnergyContainer.class::cast)
+                        .toList();
+
+                if (handlerList.getHandlerIO().support(IO.IN)) {
+                    inputs.addAll(containers);
                 }
+
+                traitSubscriptions
+                        .add(handlerList.subscribe(tickSubscription::updateSubscription, EURecipeCapability.CAP));
             }
         }
 
