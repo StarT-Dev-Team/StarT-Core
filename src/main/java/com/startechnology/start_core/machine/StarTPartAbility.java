@@ -18,4 +18,28 @@ public class StarTPartAbility {
     /* Enables the usage of modular nodes in this machine */
     public static final PartAbility MODULAR_NODE = new PartAbility("modular_node");
 
+    /* Enables the usage of modular terminal interfaces in this machine */
+    public static final PartAbility MODULAR_TERMINAL_INTERFACE = new PartAbility("modular_terminal_interface");
+
+    /* Enables the usage of modular node interfaces in this machine */
+    public static final PartAbility MODULAR_NODE_INTERFACE = new PartAbility("modular_node_interface");
+
+    /* Enables the usage of modular terminal conduits (powered) in this machine */
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_2A = new PartAbility("modular_terminal_conduit_2a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_4A = new PartAbility("modular_terminal_conduit_4a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_16A = new PartAbility("modular_terminal_conduit_16a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_64A = new PartAbility("modular_terminal_conduit_64a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_256A = new PartAbility("modular_terminal_conduit_256a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_1024A = new PartAbility("modular_terminal_conduit_1024a");
+    public static final PartAbility MODULAR_TERMINAL_CONDUIT_4096A = new PartAbility("modular_terminal_conduit_4096a");
+
+    /* Enables the usage of modular node conduits (powered) in this machine */
+    public static final PartAbility MODULAR_NODE_CONDUIT_2A = new PartAbility("modular_node_conduit_2a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_4A = new PartAbility("modular_node_conduit_4a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_16A = new PartAbility("modular_node_conduit_16a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_64A = new PartAbility("modular_node_conduit_64a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_256A = new PartAbility("modular_node_conduit_256a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_1024A = new PartAbility("modular_node_conduit_1024a");
+    public static final PartAbility MODULAR_NODE_CONDUIT_4096A = new PartAbility("modular_node_conduit_4096a");
+
 }

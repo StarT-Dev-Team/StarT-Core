@@ -120,7 +120,8 @@ public class StarTModularConnectionHatches {
         };
     }
 
-    public static MachineDefinition[] registerPowerModularConnectionHatch(int amperage, IO io, PartAbility ability, int... tiers) {
+        public static MachineDefinition[] registerPowerModularConnectionHatch(int amperage, IO io, PartAbility ability, PartAbility conduitAbility,
+                        int... tiers) {
         String name = getModularConnectionHatchIOName(io);
 
         return StarTMachineUtils.registerTieredMachines(amperage + "a_modular_conduit_" + name,
@@ -139,7 +140,7 @@ public class StarTModularConnectionHatches {
                                                 .formatNumbers(
                                                         EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))),
                                 Component.translatable("gtceu.part_sharing.disabled"))
-                        .abilities(ability)
+                        .abilities(ability, conduitAbility)
                         .model(createPowerModularHatchModel(amperage, io))
                         .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                         .register(),
@@ -152,7 +153,8 @@ public class StarTModularConnectionHatches {
         return holder -> new StarTModularInterfaceHatchPartMachine(holder, io, MODULAR_CONDUIT_BASE_TIER);
     }
 
-    public static MachineDefinition registerNonPoweredModularConnectionHatch(IO io, PartAbility ability) {
+        public static MachineDefinition registerNonPoweredModularConnectionHatch(IO io, PartAbility ability,
+                        PartAbility interfaceAbility) {
         String name = getModularConnectionHatchIOName(io);
 
         return StarTCore.START_REGISTRATE.machine(
@@ -162,71 +164,87 @@ public class StarTModularConnectionHatches {
                         Component.translatable("gtceu.part_sharing.disabled"))
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .rotationState(RotationState.ALL)
-                .abilities(ability)
+                .abilities(ability, interfaceAbility)
                 .model(createNonPoweredModularHatchModel(io))
                 .tier(MODULAR_CONDUIT_BASE_TIER)
                 .register();
     }
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_2 = registerPowerModularConnectionHatch(2, IO.OUT, StarTPartAbility.MODULAR_TERMINAL, 
+    public static final MachineDefinition[] MODULAR_TERMINAL_2 = registerPowerModularConnectionHatch(2, IO.OUT,
+        StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_2A,
         GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_4 = registerPowerModularConnectionHatch(4, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_4 = registerPowerModularConnectionHatch(4, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_4A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_16 = registerPowerModularConnectionHatch(16, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_16 = registerPowerModularConnectionHatch(16, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_16A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_64 = registerPowerModularConnectionHatch(64, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_64 = registerPowerModularConnectionHatch(64, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_64A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_256 = registerPowerModularConnectionHatch(256, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_256 = registerPowerModularConnectionHatch(256, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_256A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_1024 = registerPowerModularConnectionHatch(1024, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_1024 = registerPowerModularConnectionHatch(1024, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_1024A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_TERMINAL_4096 = registerPowerModularConnectionHatch(4096, IO.OUT, StarTPartAbility.MODULAR_TERMINAL,
+    public static final MachineDefinition[] MODULAR_TERMINAL_4096 = registerPowerModularConnectionHatch(4096, IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_CONDUIT_4096A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_2 = registerPowerModularConnectionHatch(2, IO.IN, StarTPartAbility.MODULAR_NODE, 
+    public static final MachineDefinition[] MODULAR_NODE_2 = registerPowerModularConnectionHatch(2, IO.IN,
+        StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_2A,
         GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_4 = registerPowerModularConnectionHatch(4, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_4 = registerPowerModularConnectionHatch(4, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_4A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_16 = registerPowerModularConnectionHatch(16, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_16 = registerPowerModularConnectionHatch(16, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_16A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_64 = registerPowerModularConnectionHatch(64, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_64 = registerPowerModularConnectionHatch(64, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_64A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_256 = registerPowerModularConnectionHatch(256, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_256 = registerPowerModularConnectionHatch(256, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_256A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_1024 = registerPowerModularConnectionHatch(1024, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_1024 = registerPowerModularConnectionHatch(1024, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_1024A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition[] MODULAR_NODE_4096 = registerPowerModularConnectionHatch(4096, IO.IN, StarTPartAbility.MODULAR_NODE,
+    public static final MachineDefinition[] MODULAR_NODE_4096 = registerPowerModularConnectionHatch(4096, IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_CONDUIT_4096A,
             GTValues.tiersBetween(MODULAR_CONDUIT_BASE_TIER, GTValues.MAX)
     );
 
-    public static final MachineDefinition MODULAR_NODE = registerNonPoweredModularConnectionHatch(IO.IN, StarTPartAbility.MODULAR_NODE);
+    public static final MachineDefinition MODULAR_NODE = registerNonPoweredModularConnectionHatch(IO.IN,
+            StarTPartAbility.MODULAR_NODE, StarTPartAbility.MODULAR_NODE_INTERFACE);
 
-    public static final MachineDefinition MODULAR_TERMINAL = registerNonPoweredModularConnectionHatch(IO.OUT, StarTPartAbility.MODULAR_TERMINAL);
+    public static final MachineDefinition MODULAR_TERMINAL = registerNonPoweredModularConnectionHatch(IO.OUT,
+            StarTPartAbility.MODULAR_TERMINAL, StarTPartAbility.MODULAR_TERMINAL_INTERFACE);
 
     public static void init() {}
 }
