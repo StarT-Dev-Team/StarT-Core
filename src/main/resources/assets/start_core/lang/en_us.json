@@ -101,6 +101,9 @@
   "block.start_core.advanced_fusion_coil": "Advanced Fusion Coil",
   "start_core.multiblock.uev_fusion_reactor.description": "The Fusion Reactor MK 4 is a large multiblock structure used for fusing elements into heavier ones. It can only use UEV Energy Hatches. For every Hatch it has, its buffer increases by 80M EU, and has a maximum of 1280M.",
 
+  "start_core.multiblock.pattern.error.reflector": "§cAll fusion reflectors must be the same§r",
+  "start_core.machine.reflector.tooltip_reflector_tier": "Reflector Tier T%d",
+
   "block.start_core.ev_64a_energy_converter": "§5EV§r 64§eA§r Energy Converter",
   "block.start_core.iv_64a_energy_converter": "§9IV§r 64§eA§r Energy Converter",
   "block.start_core.luv_64a_energy_converter": "§dLuV§r 64§eA§r Energy Converter",
@@ -399,5 +402,4 @@
   "block.start_core.stat.parallels.display": "§7%s: §c%s",
   "block.start_core.stat.threading.display": "§7%s: §9%s",
   "config.jade.plugin_start_core.threading_stat_blocks": "[Star Technology] Threading Stat Block"
-
 }
