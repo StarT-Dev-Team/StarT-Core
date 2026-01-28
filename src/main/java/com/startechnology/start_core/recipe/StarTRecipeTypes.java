@@ -30,6 +30,7 @@ public class StarTRecipeTypes {
         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, LEFT_TO_RIGHT)
         .setSound(GTSoundEntries.ARC)
         .setOffsetVoltageText(true)
+        .setVoltageTextOffset(30)
         .setMaxTooltips(5)
         .addDataInfo(data -> {
             var reflectorTier = data.getInt("reflector_tier");
