@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 
 public interface IStarTModularSupportedModules {
-    /* This should return a list of the machine definition ids which are supported */
-    @Nullable
-    List<ResourceLocation> getSupportedMultiblockIds();
+    /* This return if this multiblock id is a supported module, being tested from a position */
+    boolean isSupportedMultiblockId(ResourceLocation id, BlockPos fromPos);
 }

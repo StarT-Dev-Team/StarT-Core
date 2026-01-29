@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
@@ -55,6 +56,12 @@ public class StarTCapabilityHelper {
             }
         }
 
+        else if (capability == StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE) {
+            if (machine instanceof StarTModularInterfaceHatchPartMachine modularInterfaceHatchPartMachine) {
+                return StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE.orEmpty(capability, LazyOptional.of(() -> modularInterfaceHatchPartMachine));
+            }
+        }
+
         return LazyOptional.empty();
     }
 
@@ -99,5 +106,10 @@ public class StarTCapabilityHelper {
     @Nullable
     public static IStarTModularSupportedModules getModularSupportedModules(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_SUPPORTED_MODULES, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTModularInterfaceHatchPartMachine getModularInterfaceHatchPartMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE, level, pos, side);
     }
 }

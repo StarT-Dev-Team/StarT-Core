@@ -18,6 +18,13 @@ public class StarTPartAbility {
     /* Enables the usage of modular nodes in this machine */
     public static final PartAbility MODULAR_NODE = new PartAbility("modular_node");
 
+    /* NOTE: 
+     * There should only ever be ONE modular node on a module machine
+     * (doesn't make much sense to have multiple "link" spots)
+     * 
+     * It is UB to have more than one !!! Here be dragons. Thou art forewarned
+     */
+
     /* Enables the usage of modular terminal interfaces in this machine */
     public static final PartAbility MODULAR_TERMINAL_INTERFACE = new PartAbility("modular_terminal_interface");
 

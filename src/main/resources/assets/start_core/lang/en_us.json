@@ -498,5 +498,13 @@
   "block.start_core.uxv_4a_modular_conduit_node": "§eUXV§r 4§eA§r Modular Conduit Node",
   "block.start_core.uxv_4a_modular_conduit_terminal": "§eUXV§r 4§eA§r Modular Conduit Terminal",
   "block.start_core.uxv_64a_modular_conduit_node": "§eUXV§r 64§eA§r Modular Conduit Node",
-  "block.start_core.uxv_64a_modular_conduit_terminal": "§eUXV§r 64§eA§r Modular Conduit Terminal"
+  "block.start_core.uxv_64a_modular_conduit_terminal": "§eUXV§r 64§eA§r Modular Conduit Terminal",
+  "modular.start_core.no_link": "No established Modular-Link",
+  "modular.start_core.has_link": "Modular-Link established",
+  "modular.start_core.supported_list_title": "Supported Modules:",
+  "modular.start_core.not_formed": "Structure not formed",
+  "modular.start_core.linked_type": "Linked Module:",
+  "modular.start_core.not_formed_description": "The multiblock must be formed for a link to be established.",
+  "modular.start_core.supported_list_description": "These are the available multiblock types which can be linked with this terminal to enable their functionality.",
+  "config.jade.plugin_start_core.modular_interface_hatch_part_machine": "[Star Technology] Modular Interface Information"
 }

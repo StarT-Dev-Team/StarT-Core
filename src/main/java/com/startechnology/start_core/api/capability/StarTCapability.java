@@ -2,6 +2,7 @@ package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
@@ -26,5 +27,8 @@ public class StarTCapability {
         .get(new CapabilityToken<>() {});
 
     public static final Capability<IStarTModularSupportedModules> CAPABILITY_SUPPORTED_MODULES = CapabilityManager
+        .get(new CapabilityToken<>() {});
+
+    public static final Capability<StarTModularInterfaceHatchPartMachine> CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE = CapabilityManager
         .get(new CapabilityToken<>() {});
 }
