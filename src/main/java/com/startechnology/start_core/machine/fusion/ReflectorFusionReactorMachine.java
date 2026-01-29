@@ -3,22 +3,23 @@ package com.startechnology.start_core.machine.fusion;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.IFusionCasingType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.startechnology.start_core.api.reflector.FusionReflectorType;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
+import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import lombok.Getter;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
-
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 
 public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
@@ -66,8 +67,8 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         // normal fusion logic
 
         if (RecipeHelper.getRecipeEUtTier(recipe) > reactor.getTier() ||
-                !recipe.data.contains("eu_to_start") ||
-                recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
+            !recipe.data.contains("eu_to_start") ||
+            recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
             return ModifierFunction.NULL;
         }
 
@@ -92,35 +93,89 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        var type = getMultiblockState().getMatchContext().get("ReflectorType");
-        if (type instanceof FusionReflectorType reflectorType) {
-            this.reflectorType = reflectorType;
+        var typeO = getMultiblockState().getMatchContext().get("ReflectorType");
+        if (typeO instanceof FusionReflectorType type) {
+            reflectorType = type;
         }
     }
 
-    public static @NotNull Block getCasingState(int tier) {
+    public static boolean isAuxReactor(int tier) {
         return switch (tier) {
-            case LuV -> FUSION_CASING.get();
-            case ZPM -> FUSION_CASING_MK2.get();
-            case UV -> FUSION_CASING_MK3.get();
-            default -> StarTFusionBlocks.FUSION_CASING_MK4.get();
+            case GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UEV -> false;
+            default -> true;
         };
     }
 
     public static @NotNull Block getCoilState(int tier) {
         return switch (tier) {
-            case LuV -> SUPERCONDUCTING_COIL.get();
-            case ZPM, UV -> FUSION_COIL.get();
+            case GTValues.LuV -> GTBlocks.SUPERCONDUCTING_COIL.get();
+            case GTValues.ZPM, GTValues.UV, GTValues.UHV -> GTBlocks.FUSION_COIL.get();
             default -> StarTFusionBlocks.ADVANCED_FUSION_COIL.get();
         };
     }
 
-    public static IFusionCasingType getCasingType(int tier) {
+    public static MachineDefinition getParallelHatch(int tier) {
         return switch (tier) {
-            case ZPM -> FusionCasingBlock.CasingType.FUSION_CASING_MK2;
-            case UV -> FusionCasingBlock.CasingType.FUSION_CASING_MK3;
-            case UEV -> StarTFusionCasings.FUSION_CASING_MK4;
+            case GTValues.UHV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UHV];
+            case GTValues.UIV -> StarTParallelHatches.ABSOLUTE_PARALLEL_HATCH[GTValues.UIV];
+            default -> null;
+        };
+    }
+
+    public static @NotNull Block getFusionGlass(int tier) {
+        return switch (tier) {
+            case GTValues.LuV, GTValues.ZPM -> GTBlocks.FUSION_GLASS.get();
+            case GTValues.UV -> StarTMachineUtils.getKjsBlock("tier2_fusion_glass");
+            default -> StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass");
+        };
+    }
+
+    public static Block getAuxiliaryCoilState(int tier) {
+        return switch (tier) {
+            case GTValues.UHV -> StarTFusionBlocks.AUXILIARY_FUSION_COIL_MK1.get();
+            case GTValues.UIV -> StarTFusionBlocks.AUXILIARY_FUSION_COIL_MK2.get();
+            default -> null;
+        };
+    }
+
+    public static @NotNull Block getCasingState(int tier) {
+        return switch (tier) {
+            case GTValues.ZPM -> GTBlocks.FUSION_CASING_MK2.get();
+            case GTValues.UV -> GTBlocks.FUSION_CASING_MK3.get();
+            case GTValues.UHV -> StarTFusionBlocks.AUXILIARY_BOOSTED_FUSION_CASING_MK1.get();
+            case GTValues.UEV -> StarTFusionBlocks.FUSION_CASING_MK4.get();
+            case GTValues.UIV -> StarTFusionBlocks.AUXILIARY_BOOSTED_FUSION_CASING_MK2.get();
+            default -> GTBlocks.FUSION_CASING.get();
+        };
+    }
+
+    public static @NotNull IFusionCasingType getCasingType(int tier) {
+        return switch (tier) {
+            case GTValues.ZPM -> FusionCasingBlock.CasingType.FUSION_CASING_MK2;
+            case GTValues.UV -> FusionCasingBlock.CasingType.FUSION_CASING_MK3;
+            case GTValues.UHV -> StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK1;
+            case GTValues.UEV -> StarTFusionCasings.FUSION_CASING_MK4;
+            case GTValues.UIV -> StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK2;
             default -> FusionCasingBlock.CasingType.FUSION_CASING;
+        };
+    }
+
+    public static String getControllerName(int tier) {
+        return switch (tier) {
+            case GTValues.LuV -> "Fusion Reactor Computer MK I";
+            case GTValues.ZPM -> "Fusion Reactor Computer MK II";
+            case GTValues.UV -> "Fusion Reactor Computer MK III";
+            case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I";
+            case GTValues.UEV -> "Fusion Reactor Computer MK IV";
+            case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
+            default -> "Fusion Reactor Computer";
+        };
+    }
+
+    public static int getMaxEnergyHatchTier(int tier) {
+        return switch (tier) {
+            case GTValues.LuV, GTValues.ZPM -> GTValues.UV;
+            default -> tier;
         };
     }
 

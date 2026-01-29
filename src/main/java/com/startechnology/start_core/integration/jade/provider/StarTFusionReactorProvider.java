@@ -38,8 +38,8 @@ public class StarTFusionReactorProvider extends CapabilityBlockProvider<Reflecto
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
         if (!capData.contains("reflector_tier")) return;
-
         int tier = capData.getInt("reflector_tier");
+        if (tier <= 0) return;
         tooltip.add(Component.translatable("ui.start_core.fusion_reactor.reflector_tier_info", "T%d".formatted(tier)));
     }
 }
