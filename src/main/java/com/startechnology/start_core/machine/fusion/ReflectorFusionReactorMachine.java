@@ -62,7 +62,7 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         if (recipeReflectorTier > reflectorType.getTier()) return ModifierFunction.NULL;
 
         var reflectorDiff = reflectorType.getTier() - recipeReflectorTier;
-        var maxVoltage = Math.min(reactor.getOverclockMaxVoltage(), GTValues.V[reactor.getTier() + reflectorDiff]);
+        var maxVoltage = GTValues.VEX[reactor.getTier() + reflectorDiff];
 
         // normal fusion logic
 
@@ -125,7 +125,7 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
     public static @NotNull Block getFusionGlass(int tier) {
         return switch (tier) {
             case GTValues.LuV, GTValues.ZPM -> GTBlocks.FUSION_GLASS.get();
-            case GTValues.UV -> StarTMachineUtils.getKjsBlock("tier2_fusion_glass");
+            case GTValues.UV, GTValues.UHV -> StarTMachineUtils.getKjsBlock("reinforced_fusion_glass");
             default -> StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass");
         };
     }
@@ -162,20 +162,13 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
     public static String getControllerName(int tier) {
         return switch (tier) {
-            case GTValues.LuV -> "Fusion Reactor Computer MK I";
-            case GTValues.ZPM -> "Fusion Reactor Computer MK II";
-            case GTValues.UV -> "Fusion Reactor Computer MK III";
+            case GTValues.LuV -> "Fusion Reactor MK I";
+            case GTValues.ZPM -> "Fusion Reactor MK II";
+            case GTValues.UV -> "Fusion Reactor MK III";
             case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I";
-            case GTValues.UEV -> "Fusion Reactor Computer MK IV";
+            case GTValues.UEV -> "Fusion Reactor MK IV";
             case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
-            default -> "Fusion Reactor Computer";
-        };
-    }
-
-    public static int getMaxEnergyHatchTier(int tier) {
-        return switch (tier) {
-            case GTValues.LuV, GTValues.ZPM -> GTValues.UV;
-            default -> tier;
+            default -> "Fusion Reactor";
         };
     }
 

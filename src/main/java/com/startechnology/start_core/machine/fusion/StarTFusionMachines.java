@@ -135,7 +135,6 @@ public class StarTFusionMachines {
         var wy = aislesPair.getFirst();
         var aisles = aislesPair.getSecond();
         var aux = ReflectorFusionReactorMachine.isAuxReactor(tier);
-        var maxEnergyTier = ReflectorFusionReactorMachine.getMaxEnergyHatchTier(tier);
 
         builder
             .langValue(ReflectorFusionReactorMachine.getControllerName(tier))
