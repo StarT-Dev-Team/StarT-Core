@@ -124,9 +124,6 @@ public class StarTRecipeModifiers {
   
     }
 
-    public static final RecipeModifier EBF_OVERCLOCK = GTRecipeModifiers::ebfOverclock;
-    public static final RecipeModifier MS_COIL_PARALLELS = GTRecipeModifiers::multiSmelterParallel;
-
     public static final RecipeModifier LARGE_TURBINE = LargeTurbineMachine::recipeModifier;
     public static final RecipeModifier BOOSTED_PLASMA_TURBINE = BoostedPlasmaTurbine::recipeModifier;
 
