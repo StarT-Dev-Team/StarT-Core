@@ -1,10 +1,10 @@
 package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
+import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
-
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -24,4 +24,7 @@ public class StarTCapability {
 
     public static final Capability<StarTThreadingCapableMachine> CAPABILITY_THREADING_CAPABLE_MACHINE = CapabilityManager
         .get(new CapabilityToken<>() {});
+
+    public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = CapabilityManager.get(new CapabilityToken<>() {});
+
 }
