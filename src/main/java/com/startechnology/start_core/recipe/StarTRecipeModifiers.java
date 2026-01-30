@@ -29,7 +29,7 @@ public class StarTRecipeModifiers {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             int parallels = controller.getParallelHatch()
                 .filter(hatch -> hatch instanceof IStarTAbsoluteParallelHatch)
-                .map(hatch -> ParallelLogic.getParallelAmountFast(machine, recipe, hatch.getCurrentParallel()))
+                .map(hatch -> ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel()))
                 .orElse(1);
                     
             if (parallels == 1) return ModifierFunction.IDENTITY;
@@ -64,7 +64,7 @@ public class StarTRecipeModifiers {
         double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
         int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
         
-        int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, hellforgeParallels);
+        int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hellforgeParallels);
 
         // Runs largest 2^n parallels that it can. 1,2,4,8,16,etc.
         return ModifierFunction.builder()
@@ -77,23 +77,19 @@ public class StarTRecipeModifiers {
 
     public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
         // Bulks at 4n:3n up to bulkLimit = 4n
-        int bulkLimit = 64;
+        var bulkLimit = 64;
+        var maxBulking = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, bulkLimit);
+        var timesBulkingApplied = maxBulking / 4;
 
-        int maxBulking = ParallelLogic.getParallelAmountFast(machine, recipe, bulkLimit);
-
-        double timesBulkingApplied = Math.floor(Math.max(0.0, (maxBulking / 4)));
-
-        int thoughputBulkingApplied = (int) timesBulkingApplied * 4;
-        int durationBulkingApplied = (int) timesBulkingApplied * 3;
+        var thoughputBulkingApplied = timesBulkingApplied * 4;
+        var durationBulkingApplied = timesBulkingApplied * 3;
 
         if (timesBulkingApplied >= 1) {
-       
             return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(thoughputBulkingApplied)) 
                 .durationMultiplier(durationBulkingApplied)
                 .parallels(thoughputBulkingApplied)    
                 .build();
-
         }
         
         return ModifierFunction.IDENTITY;
@@ -107,7 +103,7 @@ public class StarTRecipeModifiers {
         double durationModifier = 1.4;
         double eutModifier = 0.9;
 
-        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, thoughputModifier));
+        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, thoughputModifier));
 
         if (parallelsAvailable >= thoughputModifier) {
 
