@@ -1,0 +1,1 @@
+com.startechnology.start_core.integration.kjs.StarTKubeJSPlugin
