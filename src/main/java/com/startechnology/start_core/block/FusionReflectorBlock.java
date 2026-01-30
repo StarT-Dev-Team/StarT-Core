@@ -25,6 +25,6 @@ public class FusionReflectorBlock extends ActiveBlock {
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         var tier = reflectorType.getTier();
-        tooltip.add(Component.translatable("start_core.machine.reflector.tooltip_reflector_tier", "T%d".formatted(tier)));
+        tooltip.add(Component.translatable("start_core.machine.reflector.tooltip_reflector_tier", tier));
     }
 }

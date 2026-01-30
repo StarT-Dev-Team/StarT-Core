@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.startechnology.start_core.api.reflector.FusionReflectorType;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
@@ -170,6 +172,14 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
             case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
             default -> "Fusion Reactor";
         };
+    }
+
+    public static void addEUToStartLabel(GTRecipe recipe, @NotNull WidgetGroup group) {
+        var euToStart = recipe.data.getLong("eu_to_start");
+        if (euToStart <= 0) return;
+        FusionReactorMachine.addEUToStartLabel(recipe, group);
+        var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
+        last.setSelfPositionY(group.getSizeHeight() - 8);
     }
 
 }
