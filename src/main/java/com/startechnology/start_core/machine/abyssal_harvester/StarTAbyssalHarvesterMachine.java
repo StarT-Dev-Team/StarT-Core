@@ -69,7 +69,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if ((1750 <= machineSaturation && machineSaturation <= 2750) ||
          (4750 <= machineSaturation && machineSaturation <= 5750) ||
          (7750 <= machineSaturation && machineSaturation <= 8750)) {
-        int maxPossibleParallels = ParallelLogic.getParallelAmountFast(machine, recipe, 2);
+        int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
         return ModifierFunction.builder()
             .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
             .parallels(maxPossibleParallels)
