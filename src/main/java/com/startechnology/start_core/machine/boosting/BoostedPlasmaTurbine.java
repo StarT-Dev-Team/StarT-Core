@@ -60,62 +60,51 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private Material BEC_OG_FLUID = GTMaterials.get("bec_og");
 
     private Integer getParallelBonus() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return 6;
-            case NYINSANE_TURBINE_TIER:
-                return 12;
-            default: 
-                return 1;
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER -> 6;
+            case NYINSANE_TURBINE_TIER -> 12;
+            default -> 1;
+        };
     }
 
     /* Boosting bonus while active/passive boosting. */
     private double getBoostingBonus() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return isActiveBoosting ? 2 : 1.25;
-            case NYINSANE_TURBINE_TIER:
-                return isActiveBoosting ? 3 : 1.5;
-            default: 
-                return 1;
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER -> isActiveBoosting ? 2 : 1.25;
+            case NYINSANE_TURBINE_TIER -> isActiveBoosting ? 3 : 1.5;
+            default -> 1;
+        };
     }
 
     /* Loss when not passive boosting */
     private double getNonBoostingBonus() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return 0.9;
-            case NYINSANE_TURBINE_TIER:
-                return 0.8;
-            default: 
-                return 1;
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER -> 0.9;
+            case NYINSANE_TURBINE_TIER -> 0.8;
+            default -> 1;
+        };
     }
 
     /* Passive boosting recipe */
     private GTRecipe getPassiveBoostingRecipe() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1000)).buildRawRecipe();
-            case NYINSANE_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(2500)).buildRawRecipe();
-            default: 
-                return GTRecipeBuilder.ofRaw().buildRawRecipe();
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER ->
+                    GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1000)).buildRawRecipe();
+            case NYINSANE_TURBINE_TIER ->
+                    GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(2500)).buildRawRecipe();
+            default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
+        };
     }
 
     /* Active boosting recipe */
     private GTRecipe getActiveBoostingRecipe() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(2500)).buildRawRecipe();
-            case NYINSANE_TURBINE_TIER:
-                return GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(800)).buildRawRecipe();
-            default: 
-                return GTRecipeBuilder.ofRaw().buildRawRecipe();
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER ->
+                    GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(2500)).buildRawRecipe();
+            case NYINSANE_TURBINE_TIER ->
+                    GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(800)).buildRawRecipe();
+            default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
+        };
     }
 
     private double getBonus() {
@@ -130,9 +119,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     @Override
     public long getOverclockVoltage() {
         long largeTurbineOCVoltage = super.getOverclockVoltage();
-
-        // wow i love losing precision !! content modifier does double cast anyway so we would lose precision there
-        return (long)(((double)largeTurbineOCVoltage) * this.getParallelBonus());
+        return largeTurbineOCVoltage * this.getParallelBonus();
     }
 
     public ModifierFunction getModifierFunction() {
@@ -143,14 +130,13 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
 
     /* return component for description of active boosting being ran */
     private MutableComponent getActiveBoostingComponent() {
-        switch(this.tier) {
-            case SUPREME_TURBINE_TIER:
-                return Component.translatable("start_core.multiblock.supreme_turbine.ss_h32_boosting").withStyle(ChatFormatting.YELLOW);
-            case NYINSANE_TURBINE_TIER:
-                return Component.translatable("start_core.multiblock.nyinsane_turbine.bec_og_boosting").withStyle(ChatFormatting.LIGHT_PURPLE);
-            default: 
-                return Component.empty();
-        }
+        return switch (this.tier) {
+            case SUPREME_TURBINE_TIER ->
+                    Component.translatable("start_core.multiblock.supreme_turbine.ss_h32_boosting").withStyle(ChatFormatting.YELLOW);
+            case NYINSANE_TURBINE_TIER ->
+                    Component.translatable("start_core.multiblock.nyinsane_turbine.bec_og_boosting").withStyle(ChatFormatting.LIGHT_PURPLE);
+            default -> Component.empty();
+        };
     }
 
 
@@ -172,15 +158,15 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
      * @return A {@link ModifierFunction} for the given Boosted Plasma Turbine
      */
     public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (!(machine instanceof BoostedPlasmaTurbine engineMachine)) {
+        if (!(machine instanceof BoostedPlasmaTurbine turbine)) {
             return RecipeModifier.nullWrongType(BoostedPlasmaTurbine.class, machine);
         }
 
         // Output of this plasma turbine
-        long EUt = recipe.getOutputEUt().getTotalEU();
+        EnergyStack EUt = recipe.getOutputEUt();
         
-        if (EUt > 0) {
-            return engineMachine.getModifierFunction();
+        if (!EUt.isEmpty()) {
+            return turbine.getModifierFunction();
         }
 
         return ModifierFunction.NULL;
