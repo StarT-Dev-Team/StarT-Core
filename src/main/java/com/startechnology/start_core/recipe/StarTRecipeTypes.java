@@ -9,10 +9,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
-import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.recipe.logic.*;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,13 +30,13 @@ public class StarTRecipeTypes {
         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, LEFT_TO_RIGHT)
         .setSound(GTSoundEntries.ARC)
         .setOffsetVoltageText(true)
-        .setVoltageTextOffset(30)
-        .setMaxTooltips(5)
+        .setVoltageTextOffset(19)
+        .setMaxTooltips(4)
         .addDataInfo(data -> {
             var reflectorTier = data.getInt("reflector_tier");
-            return "Reflector Tier T" + reflectorTier;
+            return LocalizationUtils.format("start_core.recipe.min_reflector_tier", reflectorTier);
         })
-        .setUiBuilder(FusionReactorMachine::addEUToStartLabel);
+        .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel);
 
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(1, 2, 2, 0)

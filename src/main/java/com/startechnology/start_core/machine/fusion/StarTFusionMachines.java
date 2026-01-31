@@ -157,8 +157,8 @@ public class StarTFusionMachines {
                     .where('G', glass)
                     .where('E', casing.or(energyHatch.setMinGlobalLimited(1).setPreviewCount(16)))
                     .where('K', Predicates.blocks(ReflectorFusionReactorMachine.getCoilState(tier)))
-                    .where('O', casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS)))
-                    .where('I', casing.or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(2)))
+                    .where('O', casing.or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(16)))
+                    .where('I', casing.or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(2).setPreviewCount(16)))
                     .where('#', StarTReflectorPredicates.fusionReflectors())
                     .where(' ', Predicates.any());
 

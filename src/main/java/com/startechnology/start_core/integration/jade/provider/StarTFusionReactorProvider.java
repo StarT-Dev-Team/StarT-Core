@@ -40,6 +40,6 @@ public class StarTFusionReactorProvider extends CapabilityBlockProvider<Reflecto
         if (!capData.contains("reflector_tier")) return;
         int tier = capData.getInt("reflector_tier");
         if (tier <= 0) return;
-        tooltip.add(Component.translatable("ui.start_core.fusion_reactor.reflector_tier_info", "T%d".formatted(tier)));
+        tooltip.add(Component.translatable("ui.start_core.fusion_reactor.reflector_tier_info", tier));
     }
 }

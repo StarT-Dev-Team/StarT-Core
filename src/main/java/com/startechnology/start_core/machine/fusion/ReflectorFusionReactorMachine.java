@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -13,6 +14,8 @@ import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.startechnology.start_core.api.reflector.FusionReflectorType;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
@@ -22,6 +25,9 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 public class ReflectorFusionReactorMachine extends FusionReactorMachine {
+
+    public static final OverclockingLogic FUSION_OC = OverclockingLogic.create(
+        OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
 
     private int tier;
 
@@ -76,7 +82,7 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
         // if the stored heat is >= required energy, recipe is okay to run
         if (heatDiff <= 0) {
-            return FUSION_OC.getModifier(machine, recipe, maxVoltage, false);
+            return FUSION_OC.getModifier(machine, recipe, maxVoltage, true);
         }
         // if the remaining energy needed is more than stored, do not run
         if (reactor.energyContainer.getEnergyStored() < heatDiff) return ModifierFunction.NULL;
@@ -87,7 +93,7 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         reactor.heat += heatDiff;
         reactor.updatePreHeatSubscription();
 
-        return FUSION_OC.getModifier(machine, recipe, maxVoltage, false);
+        return FUSION_OC.getModifier(machine, recipe, maxVoltage, true);
     }
 
     @Override
@@ -170,6 +176,14 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
             case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
             default -> "Fusion Reactor";
         };
+    }
+
+    public static void addEUToStartLabel(GTRecipe recipe, @NotNull WidgetGroup group) {
+        var euToStart = recipe.data.getLong("eu_to_start");
+        if (euToStart <= 0) return;
+        FusionReactorMachine.addEUToStartLabel(recipe, group);
+        var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
+        last.setSelfPositionY(group.getSizeHeight() - 8);
     }
 
 }
