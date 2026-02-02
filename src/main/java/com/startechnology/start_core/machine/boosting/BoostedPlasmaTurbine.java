@@ -3,6 +3,7 @@ package com.startechnology.start_core.machine.boosting;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.gregtechceu.gtceu.integration.kjs.helpers.MachineModifiers;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -166,7 +167,8 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         EnergyStack EUt = recipe.getOutputEUt();
         
         if (!EUt.isEmpty()) {
-            return turbine.getModifierFunction();
+            var turbineModifier = MachineModifiers.LARGE_TURBINE;
+            return turbineModifier.getModifier(machine, recipe).andThen(turbine.getModifierFunction());
         }
 
         return ModifierFunction.NULL;
