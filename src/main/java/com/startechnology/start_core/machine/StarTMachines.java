@@ -15,6 +15,7 @@ import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
+import com.startechnology.start_core.machine.vcr.StarTVacuumChemicalReactorMachines;
 
 public class StarTMachines {
 
@@ -35,5 +36,6 @@ public class StarTMachines {
         StarTThreadingControllerMachines.init();
         StarTThreadingStatBlocks.init();
         StarTCrates.init();
+        StarTVacuumChemicalReactorMachines.init();
     }
 }
