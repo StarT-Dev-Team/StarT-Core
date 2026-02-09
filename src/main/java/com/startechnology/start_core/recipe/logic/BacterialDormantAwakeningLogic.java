@@ -45,16 +45,16 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
             "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"
         ));
         
-        ItemStack runic = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_engraved_plating")));
+        ItemStack netherstar = new ItemStack(ForgeRegistries.ITEMS.getValue(Minecraft.id("nether_star")));
 
         GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
             .recipeBuilder("dormant_awakening")
             .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-            .inputItems(runic)
+            .inputItems(netherstar)
             .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
-            .inputFluids(GTMaterials.Mutagen.getFluid( 8000))
+            .inputFluids(GTMaterials.Naquadria.getFluid(8000))
             .outputItems(bacteriaDormantMutation)
-            .duration(480)
+            .duration(1200)
             .EUt(GTValues.V[GTValues.UV])
             .buildRawRecipe();
 

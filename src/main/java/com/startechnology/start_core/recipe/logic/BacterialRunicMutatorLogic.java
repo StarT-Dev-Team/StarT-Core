@@ -92,7 +92,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                 }
             }
         }
-        
+
 
         if (!existingBacteria.isEmpty() && !existingRunic.isEmpty()) {
             StarTBacteriaBehaviour bacteriaBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(existingBacteria);
@@ -112,12 +112,14 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
             List<Fluid> possibleAffinityFluids = bacteriaBehaviour.getBehaviourAffinityFluids();
             Collections.shuffle(possibleAffinityFluids);
 
-            StarTBacteriaStats mutatedStats = new StarTBacteriaStats(production, metabolism, mutability, 
+            StarTBacteriaStats mutatedStats = new StarTBacteriaStats(production, metabolism, mutability,
                 possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2)
             );
 
+            ItemStack netherstar = new ItemStack(ForgeRegistries.ITEMS.getValue(Minecraft.id("nether_star")));
+
             if (existingRunic.is(
-                ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_pathway_engraved_plating"))
+                ForgeRegistries.FLUIDS.getValue(gtceu.id("enriched_naquadah"))
             )) {
                 // Affinity & stat mutation only.
                 ItemStack output = existingBacteria.copyWithCount(1);
@@ -128,9 +130,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                     .inputItems(existingBacteria.copyWithCount(1))
                     .chancedInput(existingRunic.copyWithCount(1), 10_00, 0)
                     .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                    .inputFluids(GTMaterials.Mutagen.getFluid( 400))
+                    .inputFluids(GTMaterials.NaquadahEnriched.getFluid(400))
                     .outputItems(output)
-                    .duration(4800 / existingStats.getMutability())
+                    .duration(400)
                     .EUt(GTValues.V[GTValues.UV])
                     .buildRawRecipe();
             }
@@ -154,9 +156,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                 .inputItems(existingBacteria.copyWithCount(1))
                 .chancedInput(existingRunic.copyWithCount(1), 10_00, 0)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                .inputFluids(GTMaterials.Mutagen.getFluid( 800))
+                .inputFluids(GTMaterials.Naquadria.getFluid(800))
                 .outputItems(output)
-                .duration(4800 / existingStats.getMutability())
+                .duration(640)
                 .EUt(GTValues.V[GTValues.UV])
                 .buildRawRecipe();
         }

@@ -48,11 +48,11 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                         .recipeBuilder(bacteria.getId().getPath())
                         .inputItems(bacteriaInput)
                         .inputFluids(GTMaterials.Water.getFluid(8000))
-                        .inputFluids(GTMaterials.Bacteria.getFluid(2000))
+                        .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
                         .outputItems(bacteriaMutationOutput)
                         .outputItems(bacteriaReplicationOutput)
-                        .duration(800)
-                        .EUt(GTValues.V[GTValues.UV])
+                        .duration(1800)
+                        .EUt(GTValues.V[GTValues.ZPM])
                         .buildRawRecipe();
 
                      // for EMI to detect it's a synthetic recipe (not ever in JSON)
