@@ -26,16 +26,19 @@
   "behaviour.start_core.bacteria.primary_output": "§5Primary output",
   "behaviour.start_core.bacteria.any_affinity": "§dCan be any one of the affinities",
   "behaviour.start_core.bacteria.maximum_shown_input": "§7Maximum amount consumed shown",
-  "behaviour.start_core.bacteria.harvester_sludge_input": "§7Actual sludge consumption is §625 * (2 << Metabolism)",
-  "behaviour.start_core.bacteria.harvester_sugar_input": "§7Actual sugar consumption is §62 << Metabolism",
+  "behaviour.start_core.bacteria.harvester_biomass_input": "§7Actual biomass consumption is §6100 * (2 ^ Metabolism)",
+  "behaviour.start_core.bacteria.harvester_sugar_input": "§7Actual sugar consumption is §62 ^ Metabolism",
   "behaviour.start_core.bacteria.maximum_shown_output": "§7Maximum amount outputted shown",
-  "behaviour.start_core.bacteria.harvester_primary_output": "§7Actual primary fluid output amount is §62000mB * Production",
+  "behaviour.start_core.bacteria.harvester_primary_output": "§7Actual primary fluid output amount is §61000mB * Production",
 
   "behaviour.start_core.bacteria.secondary_output": "§5Secondary output",
-  "behaviour.start_core.bacteria.harvester_secondary_output": "§7Actual secondary fluid output amount is §61240mB * Production",
+  "behaviour.start_core.bacteria.harvester_secondary_output": "§7Actual secondary fluid output amount is §6750mB * Production",
 
   "behaviour.start_core.bacteria.tertiary_output": "§5Tertiary output",
-  "behaviour.start_core.bacteria.harvester_tertiary_output": "§7Actual tertiary fluid output amount is §6320mB * Production",
+  "behaviour.start_core.bacteria.harvester_tertiary_output": "§7Actual tertiary fluid output amount is §6250mB * Production",
+
+  "behaviour.start_core.bacteria.super_output": "§5Super output",
+  "behaviour.start_core.bacteria.harvester_super_output": "§7Actual super fluid output amount is §61000mB * Production",
 
   "behaviour.start_core.bacteria.no_stats": "§7The bacteria with any stats",
   "behaviour.start_core.bacteria.stats_header": "§fBacteria Stats:",

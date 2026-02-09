@@ -38,7 +38,8 @@ public class StarTBacteriaItems {
         .onRegister(attach(new StarTBacteriaBehaviour(
             GTMaterials.Ethanol,
             GTMaterials.AceticAcid,
-            GTMaterials.Methanol
+            GTMaterials.Methanol,
+            GTMaterials.Fermentibacter
         )))
         .register();
 
@@ -48,7 +49,8 @@ public class StarTBacteriaItems {
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Creosote,
                 GTMaterials.Naphthalene,
-                GTMaterials.Phenol
+                GTMaterials.Phenol,
+                GTMaterials.Xylopseudomonas
             )))
             .register();
 
@@ -58,7 +60,8 @@ public class StarTBacteriaItems {
             .onRegister(attach(new StarTBacteriaBehaviour(
                 GTMaterials.Benzene,
                 GTMaterials.Ethane,
-                GTMaterials.Acetone
+                GTMaterials.Acetone,
+                GTMaterials.Petrospirillum
             )))
             .register();
 
@@ -69,6 +72,7 @@ public class StarTBacteriaItems {
                 GTMaterials.Octane,
                 GTMaterials.get("sorbitol"),
                 GTMaterials.Butane
+                GTMaterials.Octanivorax
             )))
             .register();
 
@@ -79,6 +83,7 @@ public class StarTBacteriaItems {
                 GTMaterials.Toluene,
                 GTMaterials.Butadiene,
                 GTMaterials.Propene
+                GTMaterials.Bituminimonas
             )))
             .register();
 
@@ -89,6 +94,7 @@ public class StarTBacteriaItems {
                 GTMaterials.Methane,
                 GTMaterials.Butene,
                 GTMaterials.Ethylene
+                GTMaterials.Carbanogasibacter
             )))
             .register();
 
