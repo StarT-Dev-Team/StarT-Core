@@ -3,16 +3,16 @@
   "loader": "gtceu:machine",
   "machine": "start_core:vacuumchemicalreactor",
   "texture_overrides": {
-    "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing"
+    "all": "kubejs:block/casings/naquadah/casing"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_emissive"
         }
       }
     },
@@ -20,9 +20,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_emissive"
         }
       }
     },
@@ -30,9 +30,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_active_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_active_emissive"
         }
       }
     },
@@ -40,9 +40,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_active_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_active_emissive"
         }
       }
     },
@@ -50,9 +50,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_emissive"
         }
       }
     },
@@ -60,9 +60,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_emissive"
         }
       }
     },
@@ -70,9 +70,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_active_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_active_emissive"
         }
       }
     },
@@ -80,9 +80,9 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "kubejs:block/casings/nether_multis/extreme_temperature_smelting_casing",
-          "overlay_front": "gtceu:block/machines/alloy_smelter/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/machines/alloy_smelter/overlay_front_active_emissive"
+          "all": "kubejs:block/casings/naquadah/casing",
+          "overlay_front": "gtceu:block/machines/chemical_reactor/overlay_front_active",
+          "overlay_front_emissive": "gtceu:block/machines/chemical_reactor/overlay_front_active_emissive"
         }
       }
     }
