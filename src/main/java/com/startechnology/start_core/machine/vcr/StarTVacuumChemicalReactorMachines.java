@@ -55,9 +55,9 @@ public class StarTVacuumChemicalReactorMachines {
                   .where("g", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_pipe_casing")))
                   .where("h", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
                   .where("i", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
-                  .where("j", Predicates.blocks(Blocks.COBBLED_DEEPSLATE))
+                  .where("j", StarTVacuumPumpPredicates.vacuumPumps())
                   .build())
-            .workableCasingModel(KubeJS.id("block/casings/enriched_naquadah_machine_casing"),
+            .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
                     GTCEu.id("block/machines/chemical_reactor"))
             .register();
 

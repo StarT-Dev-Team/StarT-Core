@@ -3,8 +3,11 @@ package com.startechnology.start_core.machine.vcr;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.api.reflector.FusionReflectorType;
+import com.startechnology.start_core.api.vacuumpump.IVacuumPumpType;
+import com.startechnology.start_core.block.VacuumPumpBlock;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
-import com.startechnology.start_core.machine.vcr.VacuumPumpTier;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
@@ -14,6 +17,10 @@ public class StarTVacuumChemicalReactorMachine extends WorkableElectricMultibloc
     // Defining Main Variables
     @Persisted
     protected Integer pressure;
+
+    @Getter
+    private IVacuumPumpType pumpType = VacuumPumpBlock.VacuumPumpType.ZPM;
+
     private boolean isWorking;
     private boolean startPressureLoss;
 
@@ -34,25 +41,20 @@ public class StarTVacuumChemicalReactorMachine extends WorkableElectricMultibloc
         this.isWorking = false;
         this.startPressureLoss = true;
 
+        this.pumpType = getMultiblockState().getMatchContext().get("VacuumPumpType");
+
         this.getParts()
                 .stream()
                 .filter(StarTRedstoneInterfacePartMachine.class::isInstance)
                 .forEach(part -> {
                     this.redstoneOutputHatches.add((StarTRedstoneInterfacePartMachine)part);
-
                 });
-
-
     }
 
     public void onStructureInvalid() {
         super.onStructureInvalid();
         this.isWorking = false;
     }
-
-
-
-
 }
 
 
