@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
@@ -31,6 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
@@ -54,30 +56,29 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
 
         // Distinct first, reset our stacks for every inventory
         for (var handler : handlers.getOrDefault(true, Collections.emptyList())) {
-            ItemStack runic = ItemStack.EMPTY;
             ItemStack bacteria = ItemStack.EMPTY;
-            GTRecipe recipe = createBacteriaRecipe(runic, bacteria, handler);
+            FluidStack naq = FluidStack.EMPTY;
+            GTRecipe recipe = createBacteriaRecipe(bacteria, naq, handler);
             if (recipe != null) return recipe;
         }
 
         // Non-distinct, return as soon as we find valid items
-        ItemStack runic = ItemStack.EMPTY;
         ItemStack bacteria = ItemStack.EMPTY;
+        FluidStack naq = FluidStack.EMPTY;
         for (var handler : handlers.getOrDefault(false, Collections.emptyList())) {
-            GTRecipe recipe = createBacteriaRecipe(runic, bacteria, handler);
+            GTRecipe recipe = createBacteriaRecipe(bacteria, naq, handler);
             if (recipe != null) return recipe;
         }
 
         return null;
     }
 
-    public static GTRecipe createBacteriaRecipe(ItemStack existingBacteria, FluidStack existingNaq, NotifiableItemStackHandler handler) {
+    public static GTRecipe createBacteriaRecipe(ItemStack existingBacteria, FluidStack existingNaq, NotifiableItemStackHandler itemHandler, NotifiableFluidTank fluidHandler) {
         // Find first items that match the mutation requirements
-        for (int i = 0; i < handler.getSlots(); ++i) {
-            ItemStack itemInSlot = handler.getStackInSlot(i);
-            FluidStack fluidInSlot = handler.getStackInSlot(i);
+        for (int i = 0; i < itemHandler.getSlots(); ++i) {
+            ItemStack itemInSlot = itemHandler.getStackInSlot(i);
             
-            if (!existingBacteria.isEmpty() && !existingNaq.isEmpty()) break;
+            if (!existingBacteria.isEmpty()) break;
 
             if (itemInSlot == null) continue;
 
@@ -88,11 +89,17 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                     continue;
                 }
             }
+        }
+
+        for (int i = 0; i < fluidHandler.getTanks(); ++i) {
+            FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
+
+            if (!existingNaq.isEmpty()) break;
 
             if (fluidInSlot == null) continue;
 
             if (!fluidInSlot.isEmpty()) {
-                // Check for runic
+                // Check for naquadah
                 if (existingNaq.isEmpty() && isNaq(fluidInSlot)) {
                     existingNaq = fluidInSlot;
                     continue;
@@ -170,9 +177,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
     }
 
     public static boolean isNaq(FluidStack potentialNaq) {
-        return potentialRunic.is(
+        return potentialNaq.is(
             // Fluid == NaquadahEnriched
-        ) || potentialRunic.is(
+        ) || potentialNaq.is(
             // Fluid == Naquadria
         );
     }

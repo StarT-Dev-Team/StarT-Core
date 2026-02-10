@@ -25,6 +25,7 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -73,7 +74,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                     100 * (2 << (existingStats.getMetabolism()-1))
                 );
 
-                ItemStack sugar = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", "sugar")), 
+                ItemStack sugar = new ItemStack(Items.SUGAR,
                     (2 << (existingStats.getMetabolism()-1))
                 );
 
@@ -135,7 +136,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                     "behaviour.start_core.bacteria.harvester_biomass_input"
                 );
 
-                ItemStack sugar = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", "sugar")), 
+                ItemStack sugar = new ItemStack(Items.SUGAR,
                     (2 << (StarTBacteriaStats.MAX_STAT_VALUE-1))
                 );
 
@@ -183,8 +184,8 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                     "behaviour.start_core.bacteria.harvester_tertiary_output"
                 );
 
-
-                FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid(),
+                // .getSuperfluid is referenced from static context, whilst not being static
+                FluidStack superOutputStack = new FluidStack(StarTBacteriaBehaviour.getSuperfluid().getFluid(),
                         1000 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
