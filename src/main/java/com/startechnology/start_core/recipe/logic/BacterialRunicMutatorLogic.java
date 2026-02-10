@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
@@ -28,6 +29,7 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -116,11 +118,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                 possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2)
             );
 
-            ItemStack netherstar = new ItemStack(ForgeRegistries.ITEMS.getValue(Minecraft.id("nether_star")));
+            ItemStack nether_star = new ItemStack(Items.NETHER_STAR);
 
-            if (existingRunic.is(
-                ForgeRegistries.FLUIDS.getValue(gtceu.id("enriched_naquadah"))
-            )) {
+            if (existingRunic.is(nether_star.getItem())) {
                 // Affinity & stat mutation only.
                 ItemStack output = existingBacteria.copyWithCount(1);
                 StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), mutatedStats);

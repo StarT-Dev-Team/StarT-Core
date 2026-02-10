@@ -118,7 +118,8 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                     mutabilityOutputs.getRandom(),
                     stats.getPrimary(),
                     stats.getSecondary(),
-                    stats.getTertiary()
+                    stats.getTertiary(),
+                    stats.getSuperFluid()
                 );
 
                 StarTBacteriaManager.writeBacteriaStatsToItem(outputMutatedBacteria.getOrCreateTag(), newStats);

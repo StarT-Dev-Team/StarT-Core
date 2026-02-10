@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -45,12 +47,12 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
             "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"
         ));
         
-        ItemStack netherstar = new ItemStack(ForgeRegistries.ITEMS.getValue(Minecraft.id("nether_star")));
+        ItemStack nether_star = new ItemStack(Items.NETHER_STAR);
 
         GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
             .recipeBuilder("dormant_awakening")
             .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-            .inputItems(netherstar)
+            .inputItems(nether_star)
             .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
             .inputFluids(GTMaterials.Naquadria.getFluid(8000))
             .outputItems(bacteriaDormantMutation)

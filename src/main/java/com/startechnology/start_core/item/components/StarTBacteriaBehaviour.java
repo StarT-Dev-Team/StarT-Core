@@ -22,21 +22,28 @@ import net.minecraft.world.level.material.Fluid;
 
 public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
 
+    private Material superfluid;
+
     private List<Material> possibleBacteriaAffinities;
 
     public List<Material> getPossibleBacteriaAffinities() {
         return possibleBacteriaAffinities;
     }
 
+    public Material getSuperfluid() {
+        return superfluid;
+    }
+
     public List<Fluid> getBehaviourAffinityFluids() {
         return possibleBacteriaAffinities
             .stream()
             .filter(Material::hasFluid)
-            .map(material -> material.getFluid())
+            .map(Material::getFluid)
             .collect(Collectors.toList());
     }
 
-    public StarTBacteriaBehaviour(Material... materials) {
+    public StarTBacteriaBehaviour(Material superfluid, Material... materials) {
+        this.superfluid = superfluid;
         this.possibleBacteriaAffinities = Arrays.asList(materials);
     }
 

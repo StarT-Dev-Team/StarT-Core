@@ -117,6 +117,16 @@ public class StarTBacteriaStats {
         this.superFluid = superFluid;
     }
 
+    public StarTBacteriaStats(Integer production, Integer metabolism, Integer mutability,  Fluid primary, Fluid secondary, Fluid tertiary) {
+        this.production = production;
+        this.metabolism = metabolism;
+        this.mutability = mutability;
+        this.primary = primary;
+        this.secondary = secondary;
+        this.tertiary = tertiary;
+        this.superFluid = null;
+    }
+
     public StarTBacteriaStats(CompoundTag bacteriaStatsCompound) {
         this.production = bacteriaStatsCompound.getInt(BACTERIA_PRODUCTION_NBT_TAG);
         this.metabolism = bacteriaStatsCompound.getInt(BACTERIA_METABOLISM_NBT_TAG);
