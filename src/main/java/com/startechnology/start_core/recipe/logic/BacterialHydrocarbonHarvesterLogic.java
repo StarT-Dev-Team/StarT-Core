@@ -146,7 +146,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 );
 
                 FluidStack primaryOutputStack = new FluidStack(affinities.get(0), 
-                    2000 * StarTBacteriaStats.MAX_STAT_VALUE
+                    1500 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -159,7 +159,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
 
                 FluidStack secondaryOutputStack = new FluidStack(affinities.get(1), 
-                    1240 * StarTBacteriaStats.MAX_STAT_VALUE
+                    750 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -172,7 +172,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
 
                 FluidStack tertiaryOutputStack = new FluidStack(affinities.get(2), 
-                    320 * StarTBacteriaStats.MAX_STAT_VALUE
+                    250 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -184,7 +184,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 );
 
 
-                FluidStack superOutputStack = new FluidStack(affinities.get(2),
+                FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid(),
                         1000 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 

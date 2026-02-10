@@ -29,7 +29,7 @@
   "behaviour.start_core.bacteria.harvester_biomass_input": "§7Actual biomass consumption is §6100 * (2 ^ Metabolism)",
   "behaviour.start_core.bacteria.harvester_sugar_input": "§7Actual sugar consumption is §62 ^ Metabolism",
   "behaviour.start_core.bacteria.maximum_shown_output": "§7Maximum amount outputted shown",
-  "behaviour.start_core.bacteria.harvester_primary_output": "§7Actual primary fluid output amount is §61000mB * Production",
+  "behaviour.start_core.bacteria.harvester_primary_output": "§7Actual primary fluid output amount is §61500mB * Production",
 
   "behaviour.start_core.bacteria.secondary_output": "§5Secondary output",
   "behaviour.start_core.bacteria.harvester_secondary_output": "§7Actual secondary fluid output amount is §6750mB * Production",
