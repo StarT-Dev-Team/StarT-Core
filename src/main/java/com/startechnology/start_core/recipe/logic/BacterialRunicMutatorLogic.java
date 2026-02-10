@@ -43,7 +43,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
 
     @Override
     public GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        var handlers = Objects
+        var itemHandlers = Objects
                 .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
                         Collections::emptyList)
                 .stream()
@@ -52,22 +52,42 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                 .filter(i -> i.getSlots() >= 1)
                 .collect(Collectors.groupingBy(NotifiableRecipeHandlerTrait::isDistinct));
 
-        if (handlers.isEmpty()) return null;
+        var fluidHandlers = Objects
+                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
+                        Collections::emptyList)
+                .stream()
+                .filter(NotifiableFluidTank.class::isInstance)
+                .map(NotifiableFluidTank.class::cast)
+                .filter(i -> i.getTanks() >= 1)
+                .collect(Collectors.groupingBy(NotifiableRecipeHandlerTrait::isDistinct));
+
+        if (itemHandlers.isEmpty() || fluidHandlers.isEmpty()) return null;
+
+        ItemStack bacteria = ItemStack.EMPTY;
+        FluidStack naq = FluidStack.EMPTY;
 
         // Distinct first, reset our stacks for every inventory
-        for (var handler : handlers.getOrDefault(true, Collections.emptyList())) {
-            ItemStack bacteria = ItemStack.EMPTY;
-            FluidStack naq = FluidStack.EMPTY;
-            GTRecipe recipe = createBacteriaRecipe(bacteria, naq, handler);
-            if (recipe != null) return recipe;
+        for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
+            for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
+                GTRecipe recipe = createBacteriaRecipe(bacteria, naq, itemHandler, fluidHandler);
+                if (recipe != null) return recipe;
+            }
+            for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
+                GTRecipe recipe = createBacteriaRecipe(bacteria, naq, itemHandler, fluidHandler);
+                if (recipe != null) return recipe;
+            }
         }
 
         // Non-distinct, return as soon as we find valid items
-        ItemStack bacteria = ItemStack.EMPTY;
-        FluidStack naq = FluidStack.EMPTY;
-        for (var handler : handlers.getOrDefault(false, Collections.emptyList())) {
-            GTRecipe recipe = createBacteriaRecipe(bacteria, naq, handler);
-            if (recipe != null) return recipe;
+        for (var itemHandler : itemHandlers.getOrDefault(false, Collections.emptyList())) {
+            for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
+                GTRecipe recipe = createBacteriaRecipe(bacteria, naq, itemHandler, fluidHandler);
+                if (recipe != null) return recipe;
+            }
+            for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
+                GTRecipe recipe = createBacteriaRecipe(bacteria, naq, itemHandler, fluidHandler);
+                if (recipe != null) return recipe;
+            }
         }
 
         return null;
@@ -134,16 +154,19 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
         ItemStack nether_star = new ItemStack(Items.NETHER_STAR);
         ItemStack currentBacteria = existingBacteria.copyWithCount(1);
 
-        if (existingNaq.is(/*NaquadahEnriched*/)) {
+        if (existingNaq.isFluidEqual(GTMaterials.NaquadahEnriched.getFluid(1))) {
             // Affinity & stat mutation only.
-            StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), mutatedStats);
+            StarTBacteriaManager.writeBacteriaStatsToItem(currentBacteria.getOrCreateTag(), mutatedStats);
+
+            FluidStack enrichedNaq = existingNaq.copy();
+            enrichedNaq.setAmount(400);
 
             return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
                 .recipeBuilder("runic_mutator_pathway")
                 .inputItems(currentBacteria)
                 .chancedInput(nether_star, 10_00, 0)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                .inputFluids(existingNaq/* amount 400 */)
+                .inputFluids(enrichedNaq)
                 .outputItems(currentBacteria)
                 .duration(400)
                 .EUt(GTValues.V[GTValues.UV])
@@ -164,12 +187,15 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
         );
         StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
+        FluidStack naquadria = existingNaq.copy();
+        naquadria.setAmount(400);
+
         return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
             .recipeBuilder("runic_mutator_total")
             .inputItems(currentBacteria)
             .chancedInput(nether_star, 10_00, 0)
             .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-            .inputFluids(existingNaq/* amount 400 */)
+            .inputFluids(naquadria)
             .outputItems(output)
             .duration(640)
             .EUt(GTValues.V[GTValues.UV])
@@ -177,10 +203,10 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
     }
 
     public static boolean isNaq(FluidStack potentialNaq) {
-        return potentialNaq.is(
-            // Fluid == NaquadahEnriched
-        ) || potentialNaq.is(
-            // Fluid == Naquadria
+        return potentialNaq.isFluidEqual(
+                GTMaterials.NaquadahEnriched.getFluid(1)
+        ) || potentialNaq.isFluidEqual(
+                GTMaterials.Naquadria.getFluid(1)
         );
     }
 

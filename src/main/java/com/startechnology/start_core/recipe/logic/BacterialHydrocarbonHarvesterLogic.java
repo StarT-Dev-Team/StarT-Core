@@ -185,7 +185,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 );
 
                 // .getSuperfluid is referenced from static context, whilst not being static
-                FluidStack superOutputStack = new FluidStack(StarTBacteriaBehaviour.getSuperfluid().getFluid(),
+                FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid().getFluid(),
                         1000 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
