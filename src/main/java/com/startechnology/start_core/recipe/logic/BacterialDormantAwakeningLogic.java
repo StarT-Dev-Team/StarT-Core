@@ -124,7 +124,7 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
                     .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
                     .inputFluids(GTMaterials.Naquadria.getFluid( 8000))
                     .outputItems(output)
-                    .duration(480)
+                    .duration(1200)
                     .EUt(GTValues.V[GTValues.UV])
                     .buildRawRecipe();
             }

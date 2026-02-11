@@ -131,7 +131,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                 .outputItems(outputMutatedBacteria)
                 .inputFluids(GTMaterials.Water.getFluid(8000))
                 .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
-                .duration(800)
+                .duration(1800)
                 .EUt(GTValues.V[GTValues.ZPM])
                 .buildRawRecipe();
         }
