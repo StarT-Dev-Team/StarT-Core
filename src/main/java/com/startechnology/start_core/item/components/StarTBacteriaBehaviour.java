@@ -88,6 +88,8 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", stats.getFluidPretty(stats.getSecondary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", stats.getFluidPretty(stats.getTertiary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
             tooltipComponents.add(Component.translatable(""));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super", stats.getFluidPretty(stats.getSuperFluid()).withStyle(ChatFormatting.LIGHT_PURPLE)));
+            tooltipComponents.add(Component.translatable(""));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", stats.getProductionPretty()));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", stats.getMetabolismPretty()));

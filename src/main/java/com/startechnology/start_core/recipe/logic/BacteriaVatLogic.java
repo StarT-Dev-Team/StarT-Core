@@ -95,45 +95,45 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
             
             if (itemInSlot == null) continue;
 
-            if (!itemInSlot.isEmpty()) {
-                StarTBacteriaStats stats = StarTBacteriaManager.bacteriaStatsFromTag(itemInSlot);
-            
-                if (stats == null) continue;
+            if (itemInSlot.isEmpty()) continue;
 
-                ItemStack outputMutatedBacteria = new ItemStack(itemInSlot.getItem(), 16);
-                ItemStack outputReplicatedBacteria = new ItemStack(itemInSlot.getItem(), 16);
-            
-                // 16x of the same
-                StarTBacteriaManager.writeBacteriaStatsToItem(outputReplicatedBacteria.getOrCreateTag(), stats);
+            StarTBacteriaStats stats = StarTBacteriaManager.bacteriaStatsFromTag(itemInSlot);
 
-                // IT's mathing time
-                List<Double> weights = getMutationWeights(stats.getMutability());
-                WeightedRandomList<Integer> productionOutputs = getStatWeightedList(stats.getProduction(), weights);
-                WeightedRandomList<Integer> metabolismOutputs = getStatWeightedList(stats.getMetabolism(), weights);
-                WeightedRandomList<Integer> mutabilityOutputs = getStatWeightedList(stats.getMutability(), weights);
+            if (stats == null) continue;
 
-                StarTBacteriaStats newStats = new StarTBacteriaStats(
-                    productionOutputs.getRandom(),
-                    metabolismOutputs.getRandom(),
-                    mutabilityOutputs.getRandom(),
-                    stats.getPrimary(),
-                    stats.getSecondary(),
-                    stats.getTertiary(),
-                    stats.getSuperFluid()
-                );
+            ItemStack outputMutatedBacteria = new ItemStack(itemInSlot.getItem(), 16);
+            ItemStack outputReplicatedBacteria = new ItemStack(itemInSlot.getItem(), 16);
 
-                StarTBacteriaManager.writeBacteriaStatsToItem(outputMutatedBacteria.getOrCreateTag(), newStats);
+            // 16x of the same
+            StarTBacteriaManager.writeBacteriaStatsToItem(outputReplicatedBacteria.getOrCreateTag(), stats);
 
-                return StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.recipeBuilder(itemInSlot.getItem().getDescriptionId())
-                    .inputItems(itemInSlot.copyWithCount(1))
-                    .outputItems(outputReplicatedBacteria)
-                    .outputItems(outputMutatedBacteria)
-                    .inputFluids(GTMaterials.Water.getFluid(8000))
-                    .inputFluids(GTMaterials.Bacteria.getFluid(2000))
-                    .duration(800)
-                    .EUt(GTValues.V[GTValues.UV])
-                    .buildRawRecipe();
-            }
+            // IT's mathing time
+            List<Double> weights = getMutationWeights(stats.getMutability());
+            WeightedRandomList<Integer> productionOutputs = getStatWeightedList(stats.getProduction(), weights);
+            WeightedRandomList<Integer> metabolismOutputs = getStatWeightedList(stats.getMetabolism(), weights);
+            WeightedRandomList<Integer> mutabilityOutputs = getStatWeightedList(stats.getMutability(), weights);
+
+            StarTBacteriaStats newStats = new StarTBacteriaStats(
+                productionOutputs.getRandom(),
+                metabolismOutputs.getRandom(),
+                mutabilityOutputs.getRandom(),
+                stats.getPrimary(),
+                stats.getSecondary(),
+                stats.getTertiary(),
+                stats.getSuperFluid()
+            );
+
+            StarTBacteriaManager.writeBacteriaStatsToItem(outputMutatedBacteria.getOrCreateTag(), newStats);
+
+            return StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.recipeBuilder(itemInSlot.getItem().getDescriptionId())
+                .inputItems(itemInSlot.copyWithCount(1))
+                .outputItems(outputReplicatedBacteria)
+                .outputItems(outputMutatedBacteria)
+                .inputFluids(GTMaterials.Water.getFluid(8000))
+                .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                .duration(800)
+                .EUt(GTValues.V[GTValues.ZPM])
+                .buildRawRecipe();
         }
 
         return null;

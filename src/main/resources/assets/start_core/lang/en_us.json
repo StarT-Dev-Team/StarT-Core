@@ -51,6 +51,15 @@
   "behaviour.start_core.bacteria.stat_metabolism": "§7Metabolism: {0}",
   "behaviour.start_core.bacteria.stat_mutability": "§7Mutability: {0}",
 
+  "behaviour.start_core.bacteria.affinity_super": "§7Superfluid: %1$s",
+
+  "material.start_core.fermentibacter_solvis": "Fermentibacter Solvatis",
+  "material.start_core.xylopseudomonas_creosotica": "Xylopseudomonas Creosotica",
+  "material.start_core.petrospirillum_solvans": "Petrospirillum Solvans",
+  "material.start_core.octanivorax_sorbitolens": "Octanivorax Sorbitolens",
+  "material.start_core.bituminimonas_combustilis": "Bituminimonas Combustilis",
+  "material.start_core.carbanogasibacter_volatilis": "Carbanogasibacter Volatilis",
+
   "behaviour.start_core.bacteria.stat_affinity": "§dHas affinity with %1$s",
   "behaviour.start_core.bacteria.possible_affinities": "§dColony Affinities: %1$s§5, %2$s§5, %3$s",
   "behaviour.start_core.bacteria.affinity_none": "None",
