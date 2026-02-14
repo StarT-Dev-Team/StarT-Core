@@ -121,7 +121,11 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     }
 
     public void updateSupportedStatus() {
-        if (getLevel().isClientSide || !this.isFormed()) return;
+        if (getLevel().isClientSide) return;
+
+        if (!this.isFormed()) {
+            this.isSupportedModule = false;
+        }
 
         if (getOffsetTimer() > (lastCheckTime + MODULAR_CHECK_DURATION) || lastCheckTime == 0) {
             this.isSupportedModule = checkSupportedModule();
