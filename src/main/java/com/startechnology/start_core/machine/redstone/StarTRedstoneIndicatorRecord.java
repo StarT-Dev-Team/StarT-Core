@@ -13,12 +13,18 @@ public record StarTRedstoneIndicatorRecord(
         Integer redstoneLevel,
         Integer ordering) {
 
-    public static StarTRedstoneIndicatorRecord defaultIndicator() {
-        return new StarTRedstoneIndicatorRecord("variadic.start_core.default",
-                "variadic.start_core.description.default", 0, 0);
+    public static final StarTRedstoneIndicatorRecord DEFAULT = new StarTRedstoneIndicatorRecord(
+            "variadic.start_core.default",
+            "variadic.start_core.description.default", 0, 0);
+
+    public StarTRedstoneIndicatorRecord withRedstoneLevel(int newLevel) {
+        return new StarTRedstoneIndicatorRecord(indicatorKey, descriptionKey, newLevel, ordering);
     }
 
-    /* This accessor allows LDLIB to serialize/deserialize over network for the sync annotations */
+    /*
+     * This accessor allows LDLIB to serialize/deserialize over network for the sync
+     * annotations
+     */
     public static class StarTRedstoneIndicatorRecordAccessor
             extends CustomObjectAccessor<StarTRedstoneIndicatorRecord> {
 
