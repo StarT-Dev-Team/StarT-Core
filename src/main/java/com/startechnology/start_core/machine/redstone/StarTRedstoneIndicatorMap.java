@@ -137,12 +137,4 @@ public class StarTRedstoneIndicatorMap {
                         .thenComparing(StarTRedstoneIndicatorRecord::indicatorKey))
                 .collect(Collectors.toList());
     }
-
-    /**
-     * Clears the map, emptying all values
-     */
-    public void clear() {
-        this.current = StarTRedstoneIndicatorRecord.DEFAULT;
-        this.records.clear();
-    }
 }

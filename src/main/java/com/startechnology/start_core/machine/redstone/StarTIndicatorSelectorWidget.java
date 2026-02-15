@@ -2,14 +2,19 @@ package com.startechnology.start_core.machine.redstone;
 
 import com.lowdragmc.lowdraglib.gui.widget.SelectableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import net.minecraft.network.chat.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class StarTIndicatorSelectorWidget extends SelectorWidget {
-
-    private Supplier<List<StarTRedstoneIndicatorRecord>> recordSupplier;
+    private final Supplier<List<StarTRedstoneIndicatorRecord>> recordSupplier;
+    private Map<String, StarTRedstoneIndicatorRecord> recordMap = new HashMap<>();
 
     public StarTIndicatorSelectorWidget(
             int x, int y, int width, int height,
@@ -19,34 +24,56 @@ public class StarTIndicatorSelectorWidget extends SelectorWidget {
         rebuildFromRecords();
     }
 
-    /* THIS SHOULDN'T NEED TO BE CALLED ELSEWHERE SINCE INDICATOR MAP IS NOT CHANGING! */
     public void rebuildFromRecords() {
         List<StarTRedstoneIndicatorRecord> records = recordSupplier.get();
-
+        recordMap = records.stream()
+                .collect(Collectors.toMap(
+                        StarTRedstoneIndicatorRecord::indicatorKey,
+                        r -> r));
         setCandidates(records.stream()
                 .map(StarTRedstoneIndicatorRecord::indicatorKey)
                 .toList());
-
         decorateRows(records);
+        // Re-apply the display name for the currently selected value
+        updateButtonDisplay();
     }
 
-    /**
-     * After the parent has built its SelectableWidgetGroup rows via computeLayout,
-     * walk the popUp children and attach a tooltip to each one matching its record.
-     */
+    @Override
+    public SelectorWidget setValue(String value) {
+        super.setValue(value);
+        updateButtonDisplay();
+        return this;
+    }
+
+    private void updateButtonDisplay() {
+        if (StarTRedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
+            textTexture.updateText(StarTRedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString());
+            return;
+        }
+
+        StarTRedstoneIndicatorRecord record = recordMap.get(currentValue);
+        if (record != null) {
+            textTexture.updateText(record.indicatorComponent().getString());
+        }
+    }
+
     private void decorateRows(List<StarTRedstoneIndicatorRecord> records) {
-        var children = popUp.widgets;
-        for (int i = 0; i < Math.min(children.size(), records.size()); i++) {
-            if (!(children.get(i) instanceof SelectableWidgetGroup row)) continue;
+        int width = candidates.size() > maxCount ? getSize().width - 4 : getSize().width;
+
+        for (int i = 0; i < selectables.size() && i < records.size(); i++) {
+            SelectableWidgetGroup row = selectables.get(i);
             StarTRedstoneIndicatorRecord record = records.get(i);
-            row.setHoverTooltips(
-                Component.translatable(record.indicatorKey()),
-                Component.translatable(record.descriptionKey()),
-                Component.translatable(
-                    "ui.start_core.redstone_signal",
-                    record.redstoneLevel()
-                )
-            );
+
+            row.clearAllWidgets();
+            row.addWidget(new ImageWidget(0, 0, width, 15,
+                    new TextTexture(record.indicatorComponent().getString())
+                            .setWidth(width)
+                            .setType(TextTexture.TextType.ROLL))
+                    .appendHoverTooltips(
+                            record.indicatorComponent(),
+                            record.descriptionComponent(),
+                            Component.translatable("ui.start_core.redstone_signal",
+                                    record.redstoneLevel())));
         }
     }
 }

@@ -32,7 +32,6 @@ public interface IStarTRedstoneIndicatorMachine {
         /* Update hatches with the initial values */
         List<StarTRedstoneIndicatorRecord> indicators = getInitialIndicators();
         hatches.forEach(hatch -> {
-            hatch.clearIndicators();
             indicators.forEach(hatch::putIndicator);
         });
     }

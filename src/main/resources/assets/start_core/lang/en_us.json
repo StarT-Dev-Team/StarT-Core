@@ -411,5 +411,7 @@
   "config.jade.plugin_start_core.fusion_reactor_info": "[Star Technology] Fusion Reactor Info",
 
   "variadic.start_core.indicator.default": "Click here to select (if any)",
-  "variadic.start_core.description.default": "When part of a formed multiblock which has interfaced with this hatch, clicking here will produce a dropdown to select a desired redstone indicator of the multiblock's function"
+  "variadic.start_core.description.default": "When part of a formed multiblock which has interfaced with this hatch, clicking here will produce a dropdown to select a desired redstone indicator of the multiblock's function",
+  "variadic.start_core.indicator.hellforge": "Percentage to %sMK",
+  "variadic.start_core.description.hellforge": "A normalised value between 0-15 of the current temperature / %s"
 }

@@ -1,7 +1,5 @@
 package com.startechnology.start_core.machine.redstone;
 
-import java.util.List;
-
 import org.jetbrains.annotations.Nullable;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -12,9 +10,10 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.LazyManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.Direction;
@@ -25,6 +24,8 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
             TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
+    @DescSynced
+    @LazyManaged
     protected StarTRedstoneIndicatorMap indicatorMap;
 
     public StarTRedstoneInterfacePartMachine(IMachineBlockEntity holder, int tier, IO io) {
@@ -36,27 +37,30 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
         return this.indicatorMap.getCurrent();
     }
 
+    private void syncMap() {
+        markDirty("indicatorMap");
+    }
+
     public void setCurrentIndicator(String indicatorKey) {
         this.indicatorMap.setCurrent(indicatorKey);
+        syncMap();
     }
 
     public void putIndicator(StarTRedstoneIndicatorRecord indicator) {
         this.indicatorMap.put(indicator);
+        syncMap();
     }
 
     public void updateIndicator(String indicatorKey, Integer redstoneLevel) {
         this.indicatorMap.setRedstoneLevel(indicatorKey, redstoneLevel);
+        syncMap();
     }
 
     @Override
     public int getOutputSignal(@Nullable Direction side) {
         if (side.getOpposite() != this.getFrontFacing())
             return 0;
-        return this.indicatorMap.getCurrent().redstoneLevel();
-    }
-
-    public void clearIndicators() {
-        this.indicatorMap.clear();
+        return Math.min(this.indicatorMap.getCurrent().redstoneLevel(), 15);
     }
 
     @Override
@@ -76,19 +80,17 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
         return super.createMainPage(widget);
     }
 
-    private List<String> getIndicatorKeys() {
-        return this.indicatorMap.getOrdered().stream().map(
-                record -> record.indicatorKey()).toList();
-    }
-
     @Override
     public Widget createUIWidget() {
+        if (!getLevel().isClientSide) syncMap();
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 117 + 8);
+
         group.addWidget(new LabelWidget(55, 35, "start_core.redstone_interface.select"));
-        group.addWidget(new SelectorWidget(20, 50, 200, 20, getIndicatorKeys(), -1)
-                .setOnChanged(indicator -> {
-                    setCurrentIndicator(indicator);
-                })
+
+        group.addWidget(new StarTIndicatorSelectorWidget(
+                        20, 50, 200, 20,
+                        () -> this.indicatorMap.getOrdered())
+                .setOnChanged(this::setCurrentIndicator)
                 .setSupplier(() -> getCurrentIndicator().indicatorKey())
                 .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
                 .setBackground(ColorPattern.BLACK.rectTexture())
