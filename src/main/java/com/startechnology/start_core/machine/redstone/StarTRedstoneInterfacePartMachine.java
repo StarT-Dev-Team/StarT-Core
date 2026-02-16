@@ -28,8 +28,12 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     @LazyManaged
     protected StarTRedstoneIndicatorMap indicatorMap;
 
+    /* Last indicator value for reducing unecessary block updates */
+    private Integer lastIndicator;
+
     public StarTRedstoneInterfacePartMachine(IMachineBlockEntity holder, int tier, IO io) {
         super(holder, tier, io);
+        this.lastIndicator = 0;
         this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
 
@@ -37,30 +41,48 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
         return this.indicatorMap.getCurrent();
     }
 
+    public Integer getCurrentLevel() {
+        return Math.min(getCurrentIndicator().redstoneLevel(), 15);
+    }
+
+
     private void syncMap() {
         markDirty("indicatorMap");
     }
 
     public void setCurrentIndicator(String indicatorKey) {
         this.indicatorMap.setCurrent(indicatorKey);
-        syncMap();
+        modified();
     }
 
     public void putIndicator(StarTRedstoneIndicatorRecord indicator) {
         this.indicatorMap.put(indicator);
-        syncMap();
+        modified();
     }
 
     public void updateIndicator(String indicatorKey, Integer redstoneLevel) {
         this.indicatorMap.setRedstoneLevel(indicatorKey, redstoneLevel);
-        syncMap();
+        modified();
     }
 
     @Override
     public int getOutputSignal(@Nullable Direction side) {
         if (side.getOpposite() != this.getFrontFacing())
             return 0;
-        return Math.min(this.indicatorMap.getCurrent().redstoneLevel(), 15);
+        return getCurrentLevel();
+    }
+
+    public void updateBlock() {
+        if (getCurrentLevel() != this.lastIndicator) {
+            this.lastIndicator = getCurrentLevel();
+            notifyBlockUpdate();
+        }
+    }
+
+    /* Should be called whenever the indicators have been modified */
+    public void modified() {
+        syncMap();
+        updateBlock();
     }
 
     @Override
@@ -83,12 +105,12 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     @Override
     public Widget createUIWidget() {
         if (!getLevel().isClientSide) syncMap();
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 117 + 8);
+        WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 127 + 8);
 
-        group.addWidget(new LabelWidget(55, 35, "start_core.redstone_interface.select"));
+        group.addWidget(new LabelWidget(55, 15, "start_core.redstone_interface.select"));
 
         group.addWidget(new StarTIndicatorSelectorWidget(
-                        20, 50, 200, 20,
+                        20, 30, 200, 20,
                         () -> this.indicatorMap.getOrdered())
                 .setOnChanged(this::setCurrentIndicator)
                 .setSupplier(() -> getCurrentIndicator().indicatorKey())

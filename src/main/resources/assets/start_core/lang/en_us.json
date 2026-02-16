@@ -301,7 +301,7 @@
   "start_core.redstone_interface.select": "Select Redstone Indicator",
   "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] Variadic Redstone Information",
   "ui.start_core.redstone_signal": "§6Redstone Level: §c{0}",
-  "ui.start_core.indicator": "§dIndicator: §f{0}",
+  "ui.start_core.indicator": "§dIndicator: §f%s",
 
   "block.start_core.abyssal_harvester": "Abyssal Harvester",
   "start_core.machine.abyssal_harvester.line": "§5§lAbyssal Harvesting",
@@ -412,6 +412,8 @@
 
   "variadic.start_core.indicator.default": "Click here to select (if any)",
   "variadic.start_core.description.default": "When part of a formed multiblock which has interfaced with this hatch, clicking here will produce a dropdown to select a desired redstone indicator of the multiblock's function",
-  "variadic.start_core.indicator.hellforge": "Percentage to %sMK",
-  "variadic.start_core.description.hellforge": "A normalised value between 0-15 of the current temperature / %s"
+  "variadic.start_core.indicator.hellforge": "Percentage to §c%s",
+  "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
+  "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
+  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15"
 }

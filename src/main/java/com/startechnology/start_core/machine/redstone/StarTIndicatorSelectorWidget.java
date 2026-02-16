@@ -47,14 +47,18 @@ public class StarTIndicatorSelectorWidget extends SelectorWidget {
 
     private void updateButtonDisplay() {
         if (StarTRedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
-            textTexture.updateText(StarTRedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString());
+            textTexture.updateText(escapeFormatSpecifiers(StarTRedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
             return;
         }
 
         StarTRedstoneIndicatorRecord record = recordMap.get(currentValue);
         if (record != null) {
-            textTexture.updateText(record.indicatorComponent().getString());
+            textTexture.updateText(escapeFormatSpecifiers(record.indicatorComponent().getString()));
         }
+    }
+
+    private static String escapeFormatSpecifiers(String text) {
+        return text.replace("%", "%%");
     }
 
     private void decorateRows(List<StarTRedstoneIndicatorRecord> records) {
@@ -66,7 +70,9 @@ public class StarTIndicatorSelectorWidget extends SelectorWidget {
 
             row.clearAllWidgets();
             row.addWidget(new ImageWidget(0, 0, width, 15,
-                    new TextTexture(record.indicatorComponent().getString())
+                    // hacky escape, but without copy pasting lots of code this is the best way
+                    // and it should be the only required escape ?
+                    new TextTexture(escapeFormatSpecifiers(record.indicatorComponent().getString()))
                             .setWidth(width)
                             .setType(TextTexture.TextType.ROLL))
                     .appendHoverTooltips(

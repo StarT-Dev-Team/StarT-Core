@@ -1,8 +1,6 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -19,16 +17,16 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.syncdata.managed.ManagedField;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 // import com.startechnology.start_core.materials.StarTAbyssalHarvesterVoidFluids;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.crafting.Recipe;
 
-public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine {
+public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTAbyssalHarvesterMachine.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -40,7 +38,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private boolean startSaturationGain;
 
     private boolean isWorking;
-    public ArrayList<StarTRedstoneInterfacePartMachine> redstoneOutputHatches;
 
 
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
@@ -48,7 +45,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         this.saturation = 0;
         this.startSaturationGain = false;
         this.isWorking = false;
-        this.redstoneOutputHatches = new ArrayList<>();
     }
 
     public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
@@ -109,16 +105,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         super.onStructureFormed();
         this.isWorking = false;
         this.startSaturationGain = true;
-
-        // Find output redstone if it exists
-        this.getParts()
-            .stream()
-            .filter(StarTRedstoneInterfacePartMachine.class::isInstance)
-            .forEach(part -> {
-                this.redstoneOutputHatches.add((StarTRedstoneInterfacePartMachine)part);
-            });
-
-
         this.saturationChanged();
     }
 
@@ -130,19 +116,11 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     );
 
     private void saturationChanged() {
-        if (this.redstoneOutputHatches.isEmpty()) return;
-
         redstoneSaturationMarkers.forEach(marker -> {
-            final double percentSaturation = Math.min((this.saturation / (double) marker) * 15.0, 15.0);
+            BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
-            this.redstoneOutputHatches.forEach(hatch -> {
-                BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-
-                hatch.setIndicatorSignal(
-                    "Ratio of §5" + label.toString() + "%% §fAbyssal Saturation",
-                    (int) Math.floor(percentSaturation)
-                );
-            });
+            this.setIndicatorValue("variadic.start_core.indicator.abyssal_harvester." + label.toString(),
+                    (int) Math.floor(calculatePercentageSaturation(marker)));
         });
     }
 
@@ -187,6 +165,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         return isWorking;
     }
 
+    public double calculatePercentageSaturation(double marker) {
+        return Math.min((this.saturation / marker) * 15.0, 15.0);
+    }
+
     @Override
     public void afterWorking() {
         super.afterWorking();
@@ -197,5 +179,22 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private void tryAbsorbSaturation() {
         this.saturation = Math.max(this.saturation - 500, 0);
         this.saturationChanged();
+    }
+
+    @Override
+    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+        return redstoneSaturationMarkers.stream().map(
+            marker -> {
+                BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+
+                return new StarTRedstoneIndicatorRecord(
+                    "variadic.start_core.indicator.abyssal_harvester." + label.toString(), 
+                    Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)), 
+                    Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY), 
+                    (int) Math.floor(calculatePercentageSaturation(marker)), 
+                    marker
+                );
+            }
+        ).toList();
     }
 }

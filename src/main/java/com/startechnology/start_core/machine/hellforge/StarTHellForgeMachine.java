@@ -165,10 +165,10 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     private void temperatureChanged() {
         fluidsMap.entrySet().stream().forEach(
                 entry -> {
-                    final double percentageOfTier = (this.temperature / ((double) entry.getValue())) * 15.0;
+                    Integer temperature = entry.getValue();
 
-                    this.setIndicatorValue("variadic.start_core.indicator.hellforge." + entry.getValue().toString(),
-                            (int) Math.floor(percentageOfTier));
+                    this.setIndicatorValue("variadic.start_core.indicator.hellforge." + temperature.toString(),
+                            (int) Math.floor(redstonePercentageOfTemp(temperature)));
                 });
     }
 
@@ -207,6 +207,10 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         return this.temperature;
     }
 
+    public double redstonePercentageOfTemp(double temperature) {
+        return (this.temperature / ((double) temperature)) * 15.0;
+    }
+
     @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return fluidsMap.entrySet().stream().map(
@@ -216,9 +220,9 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
                 return new StarTRedstoneIndicatorRecord(
                     "variadic.start_core.indicator.hellforge." + temperatureString, 
-                    Component.translatable("variadic.start_core.indicator.hellforge", temperatureString), 
+                    Component.translatable("variadic.start_core.indicator.hellforge", Component.literal(temperatureString + "MK").withStyle(ChatFormatting.RED)), 
                     Component.translatable("variadic.start_core.description.hellforge", temperatureString).withStyle(ChatFormatting.GRAY), 
-                    temperature, 
+                    (int) Math.floor(redstonePercentageOfTemp(temperature)), 
                     temperature
                 );
             }
