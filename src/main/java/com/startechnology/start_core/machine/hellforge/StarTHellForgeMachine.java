@@ -208,7 +208,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     public double redstonePercentageOfTemp(double temperature) {
-        return (this.temperature / ((double) temperature)) * 15.0;
+        return Math.min((this.temperature / ((double) temperature)) * 15.0, 15.0);
     }
 
     @Override
