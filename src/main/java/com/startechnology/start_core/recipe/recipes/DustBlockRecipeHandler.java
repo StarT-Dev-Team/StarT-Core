@@ -36,23 +36,23 @@ public class DustBlockRecipeHandler {
                 var dust_9x = ChemicalHelper.getDust(material, 9);
 
                 // Compressing recipes
-                VanillaRecipeHelper.addShapedRecipe(provider, material.getName() + "_dust_to_dust_block", dustBlock,
+                VanillaRecipeHelper.addShapedRecipe(provider, String.format("%s_dust_to_dust_block", material.getName()), dustBlock,
                         "DDD",
                                 "DDD",
                                 "DDD",
-                        'D', ChemicalHelper.getDust(material, 1));
+                        'D', new MaterialEntry(TagPrefix.dust, material));
 
-                PACKER_RECIPES.recipeBuilder("package_" + material.getName() + "_dust_block")
+                PACKER_RECIPES.recipeBuilder(String.format("package_%s_dust_block", material.getName()))
                         .inputItems(dust_9x)
                         .circuitMeta(3)
                         .outputItems(dustBlock)
                         .save(provider);
 
                 // Decompressing recipes
-                VanillaRecipeHelper.addShapelessRecipe(provider, material.getName() + "_dust_block_to_dust", dust_9x,
-                'm', ChemicalHelper.get(StarTTagPrefixes.dustBlock, material));
+                VanillaRecipeHelper.addShapelessRecipe(provider, String.format("%s_dust_block_to_dust", material.getName()), ChemicalHelper.get(TagPrefix.dust, material, 9),
+                new MaterialEntry(StarTTagPrefixes.dustBlock, material));
 
-                PACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_dust_block")
+                PACKER_RECIPES.recipeBuilder(String.format("unpackage_%s_dust_block", material.getName()))
                         .inputItems(dustBlock)
                         .circuitMeta(1)
                         .outputItems(dust_9x)
