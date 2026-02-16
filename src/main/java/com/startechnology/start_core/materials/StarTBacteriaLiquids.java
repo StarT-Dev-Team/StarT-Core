@@ -21,37 +21,37 @@ public class StarTBacteriaLiquids {
     public static void register() {
         Fermentibacter = new Material.Builder(StarTCore.resourceLocation("fermentibacter_solvis"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0xfd8151)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         Xylopseudomonas = new Material.Builder(StarTCore.resourceLocation("xylopseudomonas_creosotica"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0x815b33)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         Petrospirillum = new Material.Builder(StarTCore.resourceLocation("petrospirillum_solvans"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0x4b4b4b)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         Octanivorax = new Material.Builder(StarTCore.resourceLocation("octanivorax_sorbitolens"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0x913e3d)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         Bituminimonas = new Material.Builder(StarTCore.resourceLocation("bituminimonas_combustilis"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0xb9ad9f)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         Carbanogasibacter = new Material.Builder(StarTCore.resourceLocation("carbanogasibacter_volatilis"))
                 .liquid(new FluidBuilder())
-                .color(0xffffff)
+                .color(0x80a466)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .buildAndRegister();
     }
