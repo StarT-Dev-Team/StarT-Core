@@ -33,7 +33,7 @@ public class DustBlockRecipeHandler {
             if (material.hasProperty(PropertyKey.DUST)) {
 
                 var dustBlock = ChemicalHelper.get(StarTTagPrefixes.dustBlock, material);
-                var dust_9x = ChemicalHelper.getDust(material, 9);
+                var dust_9x = ChemicalHelper.get(TagPrefix.dust, material, 9);
 
                 // Compressing recipes
                 VanillaRecipeHelper.addShapedRecipe(provider, String.format("%s_dust_to_dust_block", material.getName()), dustBlock,
@@ -49,7 +49,7 @@ public class DustBlockRecipeHandler {
                         .save(provider);
 
                 // Decompressing recipes
-                VanillaRecipeHelper.addShapelessRecipe(provider, String.format("%s_dust_block_to_dust", material.getName()), ChemicalHelper.get(TagPrefix.dust, material, 9),
+                VanillaRecipeHelper.addShapelessRecipe(provider, String.format("%s_dust_block_to_dust", material.getName()), dust_9x,
                 new MaterialEntry(StarTTagPrefixes.dustBlock, material));
 
                 PACKER_RECIPES.recipeBuilder(String.format("unpackage_%s_dust_block", material.getName()))
