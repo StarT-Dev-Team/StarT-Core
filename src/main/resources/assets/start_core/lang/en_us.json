@@ -415,5 +415,7 @@
   "variadic.start_core.indicator.hellforge": "Percentage to §c%s",
   "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
-  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15"
+  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
+  "start_core.parallel_hatch.max_parallel": "Maximum Allowed Parallels",
+  "start_core.parallel_hatch.min_parallel": "Minimum Allowed Parallels"
 }

@@ -18,29 +18,11 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
 public class StarTRecipeModifiers {
-    public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;
-
-    public static ModifierFunction hatchAbsoluteParallel(MetaMachine machine, GTRecipe recipe) {
-        if (machine instanceof IMultiController controller && controller.isFormed()) {
-            int parallels = controller.getParallelHatch()
-                .filter(hatch -> hatch instanceof IStarTAbsoluteParallelHatch)
-                .map(hatch -> ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel()))
-                .orElse(1);
-                    
-            if (parallels == 1) return ModifierFunction.IDENTITY;
-
-            return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallels))
-                .parallels(parallels)
-                .build();
-        }
-        return ModifierFunction.IDENTITY;
-    }
+    public static final RecipeModifier ABSOLUTE_PARALLEL = GTRecipeModifiers::hatchParallel;
 
     public static final RecipeModifier HELL_FORGE_OC = StarTRecipeModifiers::hellforgeOverclock;
 

@@ -12,6 +12,8 @@
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
     "ParallelHatchPartMachineMixin",
+    "ParallelHatchPartMachineAccessor",
+    "GTRecipeModifiersMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin"
   ],
