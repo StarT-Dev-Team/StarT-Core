@@ -65,13 +65,13 @@ repositories {
         dir 'libs'
     }
     mavenCentral()
-    maven {
-        name = 'GTCEu Maven'
-        url = 'https://maven.gtceu.com'
-        content {
-            includeGroup 'com.gregtechceu.gtceu'
-        }
-    }
+  // maven {
+  //     name = 'GTCEu Maven'
+  //     url = 'https://maven.gtceu.com'
+  //     content {
+  //         includeGroup 'com.gregtechceu.gtceu'
+  //     }
+  // }
     maven {
         name "firstdarkMavenSnapshots"
         url "https://maven.firstdark.dev/snapshots"

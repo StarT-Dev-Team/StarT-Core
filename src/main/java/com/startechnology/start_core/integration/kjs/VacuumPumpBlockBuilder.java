@@ -20,10 +20,7 @@ import java.util.function.Supplier;
 public class VacuumPumpBlockBuilder extends BlockBuilder {
 
     @Setter
-    private transient int tier;
-
-    @Setter
-    private transient float rate, cap;
+    private transient int tier, rate, cap;
 
     @NotNull
     public transient Supplier<Material> material = () -> GTMaterials.NULL;
@@ -58,7 +55,7 @@ public class VacuumPumpBlockBuilder extends BlockBuilder {
         return result;
     }
 
-    public record KjsVacuumPumpType(String name, int tier, float rate, float cap, ResourceLocation texture) implements IVacuumPumpType {
+    public record KjsVacuumPumpType(String name, int tier, int rate, int cap, ResourceLocation texture) implements IVacuumPumpType {
 
         @Override
         public @NotNull String getName() {
@@ -66,12 +63,12 @@ public class VacuumPumpBlockBuilder extends BlockBuilder {
         }
 
         @Override
-        public float getRate() {
+        public int getRate() {
             return this.rate;
         }
 
         @Override
-        public float getCap() {
+        public int getCap() {
             return this.cap;
         }
 
