@@ -32,10 +32,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
-    public static void print(String input) {
-        System.out.println(input);
-    }
-
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<NotifiableItemStackHandler> handlers = Objects

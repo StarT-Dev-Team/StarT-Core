@@ -47,12 +47,12 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
             "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"
         ));
         
-        ItemStack nether_star = new ItemStack(Items.NETHER_STAR);
+        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
         GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
             .recipeBuilder("dormant_awakening")
             .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-            .inputItems(nether_star)
+            .inputItems(netherStar)
             .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
             .inputFluids(GTMaterials.Naquadria.getFluid(8000))
             .outputItems(bacteriaDormantMutation)
@@ -114,13 +114,13 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
                 
                 StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
-                ItemStack nether_star = new ItemStack(Items.NETHER_STAR);
+                ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
                 // Output
                 return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
                     .recipeBuilder("runic_mutator_dormant")
                     .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-                    .inputItems(nether_star)
+                    .inputItems(netherStar)
                     .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
                     .inputFluids(GTMaterials.Naquadria.getFluid( 8000))
                     .outputItems(output)
