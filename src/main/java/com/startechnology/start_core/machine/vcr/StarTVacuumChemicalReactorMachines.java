@@ -2,7 +2,6 @@ package com.startechnology.start_core.machine.vcr;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -15,10 +14,8 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-import com.startechnology.start_core.machine.vcr.StarTVacuumChemicalReactorMachine;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
-import net.minecraft.world.level.block.Blocks;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
@@ -26,20 +23,20 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 public class StarTVacuumChemicalReactorMachines {
 
     public static final MultiblockMachineDefinition VACUUM_CHEMICAL_REACTOR = START_REGISTRATE
-          .multiblock("vacuumchemicalreactor", StarTVacuumChemicalReactorMachine::new)
+          .multiblock("vacuumchemicalreactor", VacuumChemicalReactorMachine::new)
           .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
             .recipeTypes(StarTRecipeTypes.VACUUM_CHEMICAL_REACTOR_RECIPES)
-          .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
+          .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, VacuumChemicalReactorMachine::recipeModifier)
           .rotationState(RotationState.NON_Y_AXIS)
           .pattern(definition -> FactoryBlockPattern.start()
-                  .aisle("aaabcccccb", "aaabbbbbbb", "aaabiiiiib", "aaabbbbbbb", "aaabfffffb", "aaaaaaaaaa", "aaaaaaaaaa")
-                  .aisle("affbbbbbbb", "bfbbaaaaai", "bbbbgggggi", "bfbbahaaai", "affbbbbbbb", "aaaaaaaaaa", "aaaaaaaaaa")
-                  .aisle("bfbbbbbbbb", "abababbbbb", "ababgbbbgb", "abababbbbb", "bfbbbbfffb", "aaaaaaaaaa", "aaaaaaaaaa")
-                  .aisle("bbbbbbaaaa", "abababaaba", "ajgggbabgb", "abababaaba", "bbbbhbaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
-                  .aisle("bfbbbbabbb", "ababaiabbb", "ababgiabgb", "ababaiabbb", "bfbbbbabbb", "aaaaaaabbb", "aaaaaaabbb")
-                  .aisle("affbbbacgc", "bfbbababgb", "bbbbgbabgb", "bfbbabaeae", "affbhbaeae", "aaaaaaaeae", "aaaaaaabbb")
-                  .aisle("aaabcbaccc", "aaabbbabbb", "aaabdbabbb", "aaabbbaeee", "aaabcbaeee", "aaaaaaaeee", "aaaaaaabbb")
-                  .where("a", Predicates.any())
+                  .aisle("   bcccccb", "   bbbbbbb", "   biiiiib", "   bbbbbbb", "   bfffffb", "          ", "          ")
+                  .aisle(" ffbbbbbbb", "bfbb     i", "bbbbgggggi", "bfbb h   i", " ffbbbbbbb", "          ", "          ")
+                  .aisle("bfbbbbbbbb", " b b bbbbb", " b bgbbbgb", " b b bbbbb", "bfbbbbfffb", "          ", "          ")
+                  .aisle("bbbbbb    ", " b b b  b ", " jgggb bgb", " b b b  b ", "bbbbhb    ", "          ", "          ")
+                  .aisle("bfbbbb bbb", " b b i bbb", " b bgi bgb", " b b i bbb", "bfbbbb bbb", "       bbb", "       bbb")
+                  .aisle(" ffbbb cgc", "bfbb b bgb", "bbbbgb bgb", "bfbb b e e", " ffbhb e e", "       e e", "       bbb")
+                  .aisle("   bcb ccc", "   bbb bbb", "   bdb bbb", "   bbb eee", "   bcb eee", "       eee", "       bbb")
+                  .where(" ", Predicates.any())
                   .where("b", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(8).setPreviewCount(0))
                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(0))

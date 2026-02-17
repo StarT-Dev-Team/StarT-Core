@@ -36,33 +36,32 @@ public class VacuumPumpBlock extends Block {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
-        // TODO: add language keys
-        tooltip.add(Component.translatable("§cVac% Capacity §f%f%%", pumpTier.getCap()));
-        tooltip.add(Component.translatable("§cVac% Increase Per Second §f%f%%", pumpTier.getRate()));
+        tooltip.add(Component.translatable("start_core.machine.vacuum_pump.tooltip_cap", pumpTier.formatCap()));
+        tooltip.add(Component.translatable("start_core.machine.vacuum_pump.tooltip_rate", pumpTier.formatRate()));
     }
 
     public enum VacuumPumpType implements IVacuumPumpType {
 
         // TODO: add textures
-        ZPM("zpm", 5f, 80f, StarTCore.resourceLocation("block/pumps/zpm")),
-        UV("uv", 10f, 85f, StarTCore.resourceLocation("block/pumps/uv")),
-        UHV("uhv", 15f, 90f, StarTCore.resourceLocation("block/pumps/uhv")),
-        UEV("uev", 20f, 95f, StarTCore.resourceLocation("block/pumps/uev")),
-        UIV("uiv", 25f, 100f, StarTCore.resourceLocation("block/pumps/uiv"));
+        ZPM("zpm", 5, 80, StarTCore.resourceLocation("block/pumps/zpm")),
+        UV("uv", 10, 85, StarTCore.resourceLocation("block/pumps/uv")),
+        UHV("uhv", 15, 90, StarTCore.resourceLocation("block/pumps/uhv")),
+        UEV("uev", 20, 95, StarTCore.resourceLocation("block/pumps/uev")),
+        UIV("uiv", 25, 100, StarTCore.resourceLocation("block/pumps/uiv"));
 
         @Getter
         public final String name;
 
         @Getter
-        public final float rate;
+        public final int rate;
 
         @Getter
-        public final float cap;
+        public final int cap;
 
         @Getter
         public final ResourceLocation texture;
 
-        VacuumPumpType(String name, float rate, float cap, ResourceLocation texture) {
+        VacuumPumpType(String name, int rate, int cap, ResourceLocation texture) {
             this.name = name;
             this.rate = rate;
             this.cap = cap;

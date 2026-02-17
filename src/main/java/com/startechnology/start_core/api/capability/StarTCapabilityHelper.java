@@ -7,6 +7,7 @@ import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachin
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
+import com.startechnology.start_core.machine.vcr.VacuumChemicalReactorMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -40,6 +41,10 @@ public class StarTCapabilityHelper {
         } else if (capability == StarTCapability.CAPABILITY_FUSION_REACTOR) {
             if (machine instanceof ReflectorFusionReactorMachine fusionReactorMachine) {
                 return StarTCapability.CAPABILITY_FUSION_REACTOR.orEmpty(capability, LazyOptional.of(() -> fusionReactorMachine));
+            }
+        } else if (capability == StarTCapability.VACUUM_CHEMICAL_REACTOR) {
+            if (machine instanceof VacuumChemicalReactorMachine vcrMachine) {
+                return StarTCapability.VACUUM_CHEMICAL_REACTOR.orEmpty(capability, LazyOptional.of(() -> vcrMachine));
             }
         }
 
@@ -87,6 +92,11 @@ public class StarTCapabilityHelper {
     @Nullable
     public static ReflectorFusionReactorMachine getFusionReactorMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_FUSION_REACTOR, level, pos, side);
+    }
+
+    @Nullable
+    public static VacuumChemicalReactorMachine getVacuumChemicalReactorMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.VACUUM_CHEMICAL_REACTOR, level, pos, side);
     }
 
 }
