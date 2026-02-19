@@ -1,9 +1,0 @@
-{
-  "values": [
-    "start_core:zpm_vacuum_pump_block",
-    "start_core:uv_vacuum_pump_block",
-    "start_core:uhv_vacuum_pump_block",
-    "start_core:uev_vacuum_pump_block",
-    "start_core:uiv_vacuum_pump_block"
-  ]
-}

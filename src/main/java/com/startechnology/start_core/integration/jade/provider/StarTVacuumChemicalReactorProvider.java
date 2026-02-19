@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.machine.vacuumpump.VacuumPumpPartMachine;
 import com.startechnology.start_core.machine.vcr.VacuumChemicalReactorMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,8 +31,8 @@ public class StarTVacuumChemicalReactorProvider extends CapabilityBlockProvider<
 
     @Override
     protected void write(CompoundTag data, VacuumChemicalReactorMachine capability) {
-        data.putInt("vcr_pump_cap", capability.getPumpType().getCap());
-        data.putInt("vcr_pump_rate", capability.getPumpType().getRate());
+        data.putInt("vcr_pump_cap", capability.getPump().getPumpCap());
+        data.putInt("vcr_pump_rate", capability.getPump().getPumpRate());
         data.putFloat("vcr_vacuum_amount", capability.getVacuumAmount());
         data.putInt("vcr_vacuum_status", capability.getVacuumStatus().ordinal());
     }
@@ -52,9 +53,9 @@ public class StarTVacuumChemicalReactorProvider extends CapabilityBlockProvider<
         var cap = capData.getInt("vcr_pump_cap");
         var rate = capData.getInt("vcr_pump_rate");
         tooltip.add(Component.literal("")
-                .append(Component.translatable("ui.start_core.vcr.pump_type.cap", VacuumChemicalReactorMachine.formatVacuumPumpCap(cap)))
+                .append(Component.translatable("ui.start_core.vcr.pump_type.cap", VacuumPumpPartMachine.formatVacuumPumpCap(cap)))
                 .append(", ")
-                .append(Component.translatable("ui.start_core.vcr.pump_type.rate", VacuumChemicalReactorMachine.formatVacuumPumpRate(rate)))
+                .append(Component.translatable("ui.start_core.vcr.pump_type.rate", VacuumPumpPartMachine.formatVacuumPumpRate(rate)))
         );
     }
 }

@@ -1,4 +1,5 @@
 package com.startechnology.start_core.machine;
+
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
@@ -15,6 +16,7 @@ import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
+import com.startechnology.start_core.machine.vacuumpump.StarTVacuumPumpMachines;
 import com.startechnology.start_core.machine.vcr.StarTVacuumChemicalReactorMachines;
 
 public class StarTMachines {
@@ -36,6 +38,7 @@ public class StarTMachines {
         StarTThreadingControllerMachines.init();
         StarTThreadingStatBlocks.init();
         StarTCrates.init();
+        StarTVacuumPumpMachines.init();
         StarTVacuumChemicalReactorMachines.init();
     }
 }

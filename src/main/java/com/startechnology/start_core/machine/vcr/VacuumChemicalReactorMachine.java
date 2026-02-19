@@ -10,11 +10,10 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.startechnology.start_core.api.vacuumpump.IVacuumPumpType;
-import com.startechnology.start_core.block.VacuumPumpBlock;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.vacuumpump.IVacuumPump;
+import com.startechnology.start_core.machine.vacuumpump.VacuumPumpPartMachine;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,9 +21,7 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
 
@@ -37,9 +34,7 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
     protected Status vacuumStatus;
 
     @Getter
-    private IVacuumPumpType pumpType = VacuumPumpBlock.VacuumPumpType.ZPM;
-
-    public ArrayList<StarTRedstoneInterfacePartMachine> redstoneOutputHatches;
+    private IVacuumPump pump = new IVacuumPump.Empty();
 
     private @Nullable TickableSubscription vacuumSubscription;
 
@@ -47,7 +42,6 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
         super(holder, args);
         vacuumAmount = 0;
         vacuumStatus = Status.IDLE;
-        redstoneOutputHatches = new ArrayList<>();
     }
 
     @Override
@@ -59,8 +53,10 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
         textList.add(Component.translatable("ui.start_core.vcr.vacuum_status", formatVacuumStatus(vacuumStatus)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.vcr.vacuum_amount", formatVacuumAmount(vacuumAmount)).withStyle(ChatFormatting.GRAY));
         if (isFormed) {
-            textList.add(Component.translatable("ui.start_core.vcr.pump_type.cap", pumpType.formatCap()).withStyle(ChatFormatting.GRAY));
-            textList.add(Component.translatable("ui.start_core.vcr.pump_type.rate", pumpType.formatRate()).withStyle(ChatFormatting.GRAY));
+            textList.add(Component.translatable("ui.start_core.vcr.pump_type.cap", VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpCap()))
+                    .withStyle(ChatFormatting.GRAY));
+            textList.add(Component.translatable("ui.start_core.vcr.pump_type.rate", VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpRate()))
+                    .withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -72,12 +68,12 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
         var requiredVacuum = recipe.data.getInt("vacuum_level");
         if (requiredVacuum == 0) return ModifierFunction.IDENTITY;
 
-        if (vcr.pumpType.getCap() < requiredVacuum) return ModifierFunction.NULL;
+        if (vcr.pump.getPumpCap() < requiredVacuum) return ModifierFunction.NULL;
 
         var diff = requiredVacuum - vcr.vacuumAmount;
         if (diff <= 0) return ModifierFunction.IDENTITY;
 
-        var timeToVacuum = diff / (vcr.pumpType.getRate() * 0.05f);
+        var timeToVacuum = diff / (vcr.pump.getPumpRate() * 0.05f);
         return ModifierFunction.builder().durationModifier(ContentModifier.addition(timeToVacuum)).build();
     }
 
@@ -87,9 +83,9 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
             return false;
         }
 
-        if (vacuumAmount < pumpType.getCap()) {
+        if (vacuumAmount < pump.getPumpCap()) {
             vacuumStatus = Status.PUMPING_DOWN;
-            setVacuumAmount(vacuumAmount + pumpType.getRate() * 0.05f);
+            setVacuumAmount(vacuumAmount + pump.getPumpRate() * 0.05f);
         } else {
             vacuumStatus = vacuumAmount >= 100.f - Mth.EPSILON ? Status.FULL_VACUUM : Status.PARTIAL_VACUUM;
         }
@@ -101,19 +97,23 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
     public void afterWorking() {
         super.afterWorking();
 
-        vacuumStatus = Status.PRESSURE_LOSS;
-        if (recipeLogic.getLastRecipe() != null) {
-            setVacuumAmount(vacuumAmount * 0.5f);
+        if (!isRemote()) {
+            vacuumStatus = Status.PRESSURE_LOSS;
+            if (recipeLogic.getLastRecipe() != null) {
+                setVacuumAmount(vacuumAmount * 0.5f);
+            }
+            // check next tick
+            subscribeServerTick(vacuumSubscription, this::updateVacuum);
         }
-        // check next tick
-        subscribeServerTick(vacuumSubscription, this::updateVacuum);
     }
 
     @Override
     public void onWaiting() {
         super.onWaiting();
-        // check next tick
-        subscribeServerTick(vacuumSubscription, this::updateVacuum);
+        if (!isRemote()) {
+            // check next tick
+            subscribeServerTick(vacuumSubscription, this::updateVacuum);
+        }
     }
 
     @Override
@@ -152,27 +152,26 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        pumpType = getMultiblockState().getMatchContext().get("VacuumPumpType");
 
-        getParts()
-                .stream()
-                .filter(StarTRedstoneInterfacePartMachine.class::isInstance)
-                .forEach(part -> {
-                    redstoneOutputHatches.add((StarTRedstoneInterfacePartMachine) part);
-                });
+        for (var part : getParts()) {
+            if (part instanceof IVacuumPump pumpPart)
+                this.pump = pumpPart;
+        }
     }
 
     public void onStructureInvalid() {
         super.onStructureInvalid();
+
         vacuumAmount = 0;
+        pump = new IVacuumPump.Empty();
     }
 
     private int redstoneOutputVacPercentToPumpCapacity() {
-        return (int) Math.floor(Math.min((vacuumAmount / pumpType.getCap()) * 15f, 15f));
+        return (int) Math.floor(Math.min((vacuumAmount / pump.getPumpCap()) * 15f, 15f));
     }
 
     private void setVacuumAmount(float vacuumAmount) {
-        this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pumpType.getCap());
+        this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pump.getPumpCap());
         this.setIndicatorValue("variadic.start_core.indicator.vcr_vac_to_capacity", redstoneOutputVacPercentToPumpCapacity());
     }
 
@@ -182,7 +181,7 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
                 new StarTRedstoneIndicatorRecord(
                         "variadic.start_core.indicator.vcr_vac_to_capacity",
                         Component.translatable("variadic.start_core.indicator.vcr_vac_to_capacity"),
-                        Component.translatable("variadic.start_core.description.vcr_vac_to_capacity", FormattingUtil.DECIMAL_FORMAT_0F.format(pumpType.getCap())),
+                        Component.translatable("variadic.start_core.description.vcr_vac_to_capacity", FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
                         redstoneOutputVacPercentToPumpCapacity(),
                         0)
         );
@@ -198,8 +197,7 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
     }
 
     public static Component formatVacuumPumpCap(int cap) {
-        var status = cap == 100 ? VacuumChemicalReactorMachine.Status.FULL_VACUUM : VacuumChemicalReactorMachine.Status.PARTIAL_VACUUM;
-        return Component.literal(cap + "%").withStyle(status.getColor());
+        return VacuumPumpPartMachine.formatVacuumPumpCap(cap);
     }
 
     public static Component formatVacuumPumpRate(int rate) {
