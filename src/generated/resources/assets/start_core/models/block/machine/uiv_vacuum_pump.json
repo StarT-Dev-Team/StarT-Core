@@ -8,21 +8,45 @@
     "side"
   ],
   "variants": {
-    "is_formed=false": {
+    "active=false,is_formed=false": {
       "model": {
         "parent": "start_core:block/vacuum_pump",
         "textures": {
           "bottom": "gtceu:block/casings/voltage/uiv/bottom",
+          "overlay": "start_core:block/overlay/vacuum_pump/overlay_uiv",
           "side": "gtceu:block/casings/voltage/uiv/side",
           "top": "gtceu:block/casings/voltage/uiv/top"
         }
       }
     },
-    "is_formed=true": {
+    "active=false,is_formed=true": {
       "model": {
         "parent": "start_core:block/vacuum_pump",
         "textures": {
           "bottom": "gtceu:block/casings/voltage/uiv/bottom",
+          "overlay": "start_core:block/overlay/vacuum_pump/overlay_uiv",
+          "side": "gtceu:block/casings/voltage/uiv/side",
+          "top": "gtceu:block/casings/voltage/uiv/top"
+        }
+      }
+    },
+    "active=true,is_formed=false": {
+      "model": {
+        "parent": "start_core:block/vacuum_pump",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/uiv/bottom",
+          "overlay": "start_core:block/overlay/vacuum_pump/overlay_uiv_active",
+          "side": "gtceu:block/casings/voltage/uiv/side",
+          "top": "gtceu:block/casings/voltage/uiv/top"
+        }
+      }
+    },
+    "active=true,is_formed=true": {
+      "model": {
+        "parent": "start_core:block/vacuum_pump",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/uiv/bottom",
+          "overlay": "start_core:block/overlay/vacuum_pump/overlay_uiv_active",
           "side": "gtceu:block/casings/voltage/uiv/side",
           "top": "gtceu:block/casings/voltage/uiv/top"
         }

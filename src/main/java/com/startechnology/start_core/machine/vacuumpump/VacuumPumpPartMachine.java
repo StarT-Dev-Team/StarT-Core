@@ -2,7 +2,9 @@ package com.startechnology.start_core.machine.vacuumpump;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.startechnology.start_core.machine.vcr.VacuumChemicalReactorMachine;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -13,6 +15,25 @@ public class VacuumPumpPartMachine extends TieredPartMachine implements IVacuumP
 
     public VacuumPumpPartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
+    }
+
+    @Override
+    public boolean onWorking(IWorkableMultiController controller) {
+        setActive(true);
+        return super.onWorking(controller);
+    }
+
+    @Override
+    public boolean afterWorking(IWorkableMultiController controller) {
+        setActive(false);
+        return super.afterWorking(controller);
+    }
+
+    private void setActive(boolean active) {
+        var state = getRenderState();
+        if (state.hasProperty(GTMachineModelProperties.IS_ACTIVE) && state.getValue(GTMachineModelProperties.IS_ACTIVE) != active) {
+            setRenderState(state.setValue(GTMachineModelProperties.IS_ACTIVE, active));
+        }
     }
 
     public static int getVacuumCap(int tier) {
