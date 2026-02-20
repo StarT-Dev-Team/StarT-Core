@@ -190,7 +190,6 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
                         superOutputStack.getOrCreateTag(),
                         "behaviour.start_core.bacteria.super_output",
-                        "behaviour.start_core.bacteria.any_affinity",
                         "behaviour.start_core.bacteria.maximum_shown_output",
                         "behaviour.start_core.bacteria.harvester_super_output"
                 );
