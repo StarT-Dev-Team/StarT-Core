@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.Nullable;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -45,16 +47,16 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
             "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"
         ));
         
-        ItemStack runic = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_engraved_plating")));
+        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
         GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
             .recipeBuilder("dormant_awakening")
             .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-            .inputItems(runic)
+            .inputItems(netherStar)
             .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
-            .inputFluids(GTMaterials.Mutagen.getFluid( 8000))
+            .inputFluids(GTMaterials.Naquadria.getFluid(8000))
             .outputItems(bacteriaDormantMutation)
-            .duration(480)
+            .duration(1200)
             .EUt(GTValues.V[GTValues.UV])
             .buildRawRecipe();
 
@@ -102,26 +104,27 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
 
                 ItemStack output = new ItemStack(nextType.get());
                 List<Fluid> possibleNewAffinities = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getBehaviourAffinityFluids();
+                Fluid superFluid = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getSuperfluid().getFluid();
                 Collections.shuffle(possibleNewAffinities);
 
                 StarTBacteriaStats newStats = new StarTBacteriaStats(
                     production, metabolism, mutability, 
-                    possibleNewAffinities.get(0), possibleNewAffinities.get(1), possibleNewAffinities.get(2)
+                    possibleNewAffinities.get(0), possibleNewAffinities.get(1), possibleNewAffinities.get(2), superFluid
                 );
                 
                 StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
-                ItemStack runic = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("runic_engraved_plating")));
+                ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
                 // Output
                 return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
                     .recipeBuilder("runic_mutator_dormant")
                     .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-                    .inputItems(runic)
+                    .inputItems(netherStar)
                     .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
-                    .inputFluids(GTMaterials.Mutagen.getFluid( 8000))
+                    .inputFluids(GTMaterials.Naquadria.getFluid( 8000))
                     .outputItems(output)
-                    .duration(480)
+                    .duration(1200)
                     .EUt(GTValues.V[GTValues.UV])
                     .buildRawRecipe();
             }
