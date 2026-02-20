@@ -2,10 +2,7 @@ package com.startechnology.start_core.recipe;
 import java.util.function.Consumer;
 
 import com.startechnology.start_core.machine.crates.StarTCrates;
-import com.startechnology.start_core.recipe.recipes.AkreyriumLine;
-import com.startechnology.start_core.recipe.recipes.DrumRecipes;
-import com.startechnology.start_core.recipe.recipes.FluidCellRecipes;
-import com.startechnology.start_core.recipe.recipes.ResetNBT;
+import com.startechnology.start_core.recipe.recipes.*;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -15,6 +12,7 @@ public class StarTRecipes {
         AkreyriumLine.init(provider);
         DrumRecipes.init(provider);
         FluidCellRecipes.init(provider);
-        StarTCrates.init();
+        CrateRecipes.init(provider);
+        DustBlockRecipeHandler.init(provider);
     }
 }
