@@ -13,6 +13,7 @@ import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
+import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
 
@@ -35,5 +36,6 @@ public class StarTMachines {
         StarTThreadingControllerMachines.init();
         StarTThreadingStatBlocks.init();
         StarTCrates.init();
+        StarTSolarMachines.init();
     }
 }

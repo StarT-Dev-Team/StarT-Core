@@ -116,6 +116,10 @@ public class StarTRecipeTypes {
         })
         .setSound(GTSoundEntries.CENTRIFUGE);
 
+    public static final GTRecipeType SOLAR_ENERGY = GTRecipeTypes.register("solar_energy", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 0, 0)
+            .setEUIO(IO.OUT);
+
 
     public static final void init() {
 
