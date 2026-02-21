@@ -1,0 +1,9 @@
+{
+  "values": [
+    "start_core:ev_solar_cell",
+    "start_core:iv_solar_cell",
+    "start_core:luv_solar_cell",
+    "start_core:uv_solar_cell",
+    "start_core:uhv_solar_cell"
+  ]
+}

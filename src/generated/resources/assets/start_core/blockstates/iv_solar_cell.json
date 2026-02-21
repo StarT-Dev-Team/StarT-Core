@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "start_core:block/iv_solar_cell"
+    }
+  }
+}

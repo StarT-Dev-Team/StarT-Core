@@ -36,7 +36,7 @@ public class StarTSolarMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(KubeJS.id("block/casing/solar_casings/ev_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
+            .workableCasingModel(KubeJS.id("block/casings/solar_casings/ev_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
             .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_IV = START_REGISTRATE
@@ -60,7 +60,7 @@ public class StarTSolarMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(KubeJS.id("block/casing/solar_casings/iv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
+            .workableCasingModel(KubeJS.id("block/casings/solar_casings/iv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
             .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_LUV = START_REGISTRATE
@@ -86,7 +86,7 @@ public class StarTSolarMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(KubeJS.id("block/casing/solar_casings/luv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
+            .workableCasingModel(KubeJS.id("block/casings/solar_casings/luv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
             .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UV = START_REGISTRATE
@@ -116,7 +116,7 @@ public class StarTSolarMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(KubeJS.id("block/casing/solar_casings/uv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
+            .workableCasingModel(KubeJS.id("block/casings/solar_casings/uv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
             .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UHV = START_REGISTRATE
@@ -150,7 +150,7 @@ public class StarTSolarMachines {
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build()
             )
-            .workableCasingModel(KubeJS.id("block/casing/solar_casings/uhv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
+            .workableCasingModel(KubeJS.id("block/casings/solar_casings/uhv_solar_casing"), StarTCore.resourceLocation("block/overlay/sterile_maintenance"))
             .register();
 
     public static void init() {}
