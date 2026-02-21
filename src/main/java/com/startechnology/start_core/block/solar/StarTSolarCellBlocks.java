@@ -28,7 +28,7 @@ public class StarTSolarCellBlocks {
         String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
 
         return START_REGISTRATE
-                .block("%s_solar_cell".formatted(tierName), StarTSolarCell::new)
+                .block("%s_solar_cell".formatted(tierName), p -> new StarTSolarCell(p, tier))
                 .lang("%s Solar Cell".formatted(GTValues.VN[tier]))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -46,7 +46,7 @@ public class StarTSolarCellBlocks {
     public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(UHV);
 
     public static final BlockEntityEntry<StarTSolarCellBlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
-            .blockEntity("fluid_pipe", StarTSolarCellBlockEntity::new)
+            .blockEntity("solar_cell", StarTSolarCellBlockEntity::new)
             .onRegister(StarTSolarCellBlockEntity::onBlockEntityRegister)
             .validBlocks(EV_SOLAR_CELL, IV_SOLAR_CELL, LUV_SOLAR_CELL, UV_SOLAR_CELL, UHV_SOLAR_CELL)
             .register();
