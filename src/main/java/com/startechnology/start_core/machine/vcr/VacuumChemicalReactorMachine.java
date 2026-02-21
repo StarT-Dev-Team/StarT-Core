@@ -77,6 +77,8 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
         return ModifierFunction.builder().durationModifier(ContentModifier.addition(timeToVacuum)).build();
     }
 
+    public static final RecipeModifier VCR_RECIPE_MODIFIER = VacuumChemicalReactorMachine::recipeModifier;
+
     @Override
     public boolean onWorking() {
         if (!super.onWorking()) {
@@ -152,16 +154,13 @@ public class VacuumChemicalReactorMachine extends WorkableElectricMultiblockMach
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-
-        for (var part : getParts()) {
-            if (part instanceof IVacuumPump pumpPart)
-                this.pump = pumpPart;
-        }
+        this.pump = getParts().stream()
+                .filter(IVacuumPump.class::isInstance).map(IVacuumPump.class::cast)
+                .findFirst().orElseGet(IVacuumPump.Empty::new);
     }
 
     public void onStructureInvalid() {
         super.onStructureInvalid();
-
         vacuumAmount = 0;
         pump = new IVacuumPump.Empty();
     }

@@ -320,7 +320,6 @@
   "start_core.recipe.max_saturation.0": "No Maximum Saturation",
   "gtceu.abyssal_harvester": "Abyssal Harvesting",
 
-  "block.start_core.vacuumchemicalreactor": "Vacuum Chemical Reactor",
   "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%)",
   "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%)",
   "start_core.machine.vacuum_pump.tooltip_cap": "§7Capacity: %s",
@@ -341,6 +340,7 @@
   "ui.start_core.vcr.vacuum_status.pressure_loss": "Pressure Loss",
   "ui.start_core.vcr.vacuum_status.idle": "Idle",
   "config.jade.plugin_start_core.vacuum_chemical_reactor_info": "[Star Technology] Vacuum Chemical Reactor Info",
+  "start_core.multiblock.pattern.error.vacuumpump": "§cAll vacuum pumps must be the same§r",
 
   "block.start_core.abydos_marker": "Abydos",
   
