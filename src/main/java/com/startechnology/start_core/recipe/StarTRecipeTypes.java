@@ -61,6 +61,19 @@ public class StarTRecipeTypes {
         .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType VACUUM_CHEMICAL_REACTOR_RECIPES = GTRecipeTypes.register("vacuum_chemical_reactor", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4,2,4,2)
+            .setEUIO(IO.IN)
+            .setOffsetVoltageText(true)
+            .setVoltageTextOffset(19)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> {
+                var vacuumLevel = data.getInt("vacuum_level");
+                if (vacuumLevel >= 100) return LocalizationUtils.format("start_core.recipe.min_vacuum_amount_max").replace("%", "%%");
+                return LocalizationUtils.format("start_core.recipe.min_vacuum_amount", FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumLevel))
+                        .replace("%", "%%");
+            });
+
     public static GTRecipeType registerStarTPrioritiseCustomLogic(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new StarTPrioritiseCustomLogicRecipeType(GTCEu.id(name), group, proxyRecipes);
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);

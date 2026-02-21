@@ -320,6 +320,28 @@
   "start_core.recipe.max_saturation.0": "No Maximum Saturation",
   "gtceu.abyssal_harvester": "Abyssal Harvesting",
 
+  "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%)",
+  "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%)",
+  "start_core.machine.vacuum_pump.tooltip_cap": "§7Capacity: %s",
+  "start_core.machine.vacuum_pump.tooltip_rate": "§7Rate: %s §7(/sec)",
+  "block.start_core.uev_vacuum_pump": "§aUEV §rVacuum Pump",
+  "block.start_core.uhv_vacuum_pump": "§4UHV §rVacuum Pump",
+  "block.start_core.uiv_vacuum_pump": "§2UIV §rVacuum Pump",
+  "block.start_core.uv_vacuum_pump": "§3UV §rVacuum Pump",
+  "block.start_core.zpm_vacuum_pump": "§cZPM §rVacuum Pump",
+  "ui.start_core.vcr.info": "Vacuum Information:",
+  "ui.start_core.vcr.vacuum_status": "Status: %s",
+  "ui.start_core.vcr.vacuum_amount": "Percentage: %s (vac%%)",
+  "ui.start_core.vcr.pump_type.cap": "Capacity: %s",
+  "ui.start_core.vcr.pump_type.rate": "Rate: %s (/sec)",
+  "ui.start_core.vcr.vacuum_status.pumping_down": "Pumping Down",
+  "ui.start_core.vcr.vacuum_status.partial_vacuum": "Partial Vacuum",
+  "ui.start_core.vcr.vacuum_status.full_vacuum": "Full Vacuum",
+  "ui.start_core.vcr.vacuum_status.pressure_loss": "Pressure Loss",
+  "ui.start_core.vcr.vacuum_status.idle": "Idle",
+  "config.jade.plugin_start_core.vacuum_chemical_reactor_info": "[Star Technology] Vacuum Chemical Reactor Info",
+  "start_core.multiblock.pattern.error.vacuumpump": "§cAll vacuum pumps must be the same§r",
+
   "block.start_core.abydos_marker": "Abydos",
   
   "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
@@ -415,5 +437,7 @@
   "variadic.start_core.indicator.hellforge": "Percentage to §c%s",
   "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
-  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15"
+  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
+  "variadic.start_core.indicator.vcr_vac_to_capacity": "Percentage to Vac%% Capacity",
+  "variadic.start_core.description.vcr_vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15"
 }
