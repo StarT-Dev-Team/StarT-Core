@@ -4,8 +4,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.solar.StarTSolarCell;
+import com.startechnology.start_core.machine.solar.StarTSolarCellBlockEntity;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.item.BlockItem;
@@ -42,6 +44,12 @@ public class StarTSolarCellBlocks {
     public static final BlockEntry<StarTSolarCell> LUV_SOLAR_CELL = createSolarCellBlock(LuV);
     public static final BlockEntry<StarTSolarCell> UV_SOLAR_CELL = createSolarCellBlock(UV);
     public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(UHV);
+
+    public static final BlockEntityEntry<StarTSolarCellBlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
+            .blockEntity("fluid_pipe", StarTSolarCellBlockEntity::new)
+            .onRegister(StarTSolarCellBlockEntity::onBlockEntityRegister)
+            .validBlocks(EV_SOLAR_CELL, IV_SOLAR_CELL, LUV_SOLAR_CELL, UV_SOLAR_CELL, UHV_SOLAR_CELL)
+            .register();
 
     public static void init() {}
 }
