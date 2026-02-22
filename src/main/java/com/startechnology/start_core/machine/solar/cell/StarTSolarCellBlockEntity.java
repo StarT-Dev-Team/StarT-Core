@@ -1,4 +1,4 @@
-package com.startechnology.start_core.machine.solar;
+package com.startechnology.start_core.machine.solar.cell;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +14,15 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
     private int temperature = 300;
     @Getter
     @Setter
-    private int durability = 500;
+    private int durability;
 
-    public StarTSolarCellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public StarTSolarCellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int durability) {
         super(type, pos, state);
+
+        this.durability = durability;
     }
 
-    public static void onBlockEntityRegister(BlockEntityType<StarTSolarCellBlockEntity> solarCellBlockEntityBlockEntityType) {}
+    public static void onBlockEntityRegister(BlockEntityType<? extends BlockEntity> solarCellBlockEntityBlockEntityType) {}
 
     @Override
     protected void saveAdditional(CompoundTag tag) {

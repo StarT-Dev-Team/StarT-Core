@@ -1,55 +1,65 @@
 package com.startechnology.start_core.block.solar;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.solar.StarTSolarCell;
-import com.startechnology.start_core.machine.solar.StarTSolarCellBlockEntity;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.Locale;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTSolarCellBlocks {
-    public static NonNullBiConsumer<DataGenContext<Block, StarTSolarCell>, RegistrateBlockstateProvider> createSolarCellModel(String tierName) {
-        return(ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeAll("%s_solar_cell".formatted(tierName), StarTCore.resourceLocation("block/casings/solar_cell/%s".formatted(tierName))));
-    }
-
-    public static BlockEntry<StarTSolarCell> createSolarCellBlock(int tier) {
+    public static NonNullBiConsumer<DataGenContext<Block, StarTSolarCell>, RegistrateBlockstateProvider> createSolarCellModel(StarTSolarCellType solarCellType) {
+        var tier = solarCellType.getTier();
         String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
 
+        return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
+                        .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
+                        .texture("top", StarTCore.resourceLocation("block/casings/solar_cell/%s".formatted(tierName)))
+                        .texture("side", GTCEu.id("block/casings/voltage/%s/side".formatted(tierName)))
+                        .texture("bottom", tier < 7 ? GTCEu.id("block/casings/solid/machine_casing_solid_steel") : KubeJS.id("block/casings/naquadah/casing")));
+    }
+
+    public static BlockEntry<StarTSolarCell> createSolarCellBlock(StarTSolarCellType solarCellType) {
         return START_REGISTRATE
-                .block("%s_solar_cell".formatted(tierName), p -> new StarTSolarCell(p, tier))
-                .lang("%s Solar Cell".formatted(GTValues.VN[tier]))
+                .block(solarCellType.getSerializedName(), p -> new StarTSolarCell(p, solarCellType))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
-                .blockstate(createSolarCellModel(tierName))
-                .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
+                .blockstate(createSolarCellModel(solarCellType))
+                .tag(GTToolType.WRENCH.harvestTags.get(0), CustomTags.TOOL_TIERS[solarCellType.getHarvestLevel()])
                 .item(BlockItem::new)
                 .build()
                 .register();
     }
 
-    public static final BlockEntry<StarTSolarCell> EV_SOLAR_CELL = createSolarCellBlock(EV);
-    public static final BlockEntry<StarTSolarCell> IV_SOLAR_CELL = createSolarCellBlock(IV);
-    public static final BlockEntry<StarTSolarCell> LUV_SOLAR_CELL = createSolarCellBlock(LuV);
-    public static final BlockEntry<StarTSolarCell> UV_SOLAR_CELL = createSolarCellBlock(UV);
-    public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(UHV);
+    public static final BlockEntry<StarTSolarCell> EV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.EV_SOLAR_CELL);
+    public static final BlockEntry<StarTSolarCell> IV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.IV_SOLAR_CELL);
+    public static final BlockEntry<StarTSolarCell> LUV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.LUV_SOLAR_CELL);
+    public static final BlockEntry<StarTSolarCell> UV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UV_SOLAR_CELL);
+    public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UHV_SOLAR_CELL);
 
-    public static final BlockEntityEntry<StarTSolarCellBlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
-            .blockEntity("solar_cell", StarTSolarCellBlockEntity::new)
+    public static final BlockEntityEntry<BlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
+            .blockEntity("solar_cell", (type, pos, blockState) -> new StarTSolarCellBlockEntity(type, pos, blockState, 0))
             .onRegister(StarTSolarCellBlockEntity::onBlockEntityRegister)
             .validBlocks(EV_SOLAR_CELL, IV_SOLAR_CELL, LUV_SOLAR_CELL, UV_SOLAR_CELL, UHV_SOLAR_CELL)
             .register();
 
-    public static void init() {}
+    public static void init() {
+    }
 }
