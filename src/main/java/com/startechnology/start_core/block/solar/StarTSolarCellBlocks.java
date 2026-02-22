@@ -20,24 +20,26 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-import java.util.Locale;
+import java.util.*;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTSolarCellBlocks {
+    public static List<BlockEntry<StarTSolarCell>> solarCells = new ArrayList<>();
+
     public static NonNullBiConsumer<DataGenContext<Block, StarTSolarCell>, RegistrateBlockstateProvider> createSolarCellModel(StarTSolarCellType solarCellType) {
         var tier = solarCellType.getTier();
         String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
 
         return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
-                        .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
-                        .texture("top", StarTCore.resourceLocation("block/casings/solar_cell/%s".formatted(tierName)))
-                        .texture("side", GTCEu.id("block/casings/voltage/%s/side".formatted(tierName)))
-                        .texture("bottom", tier < 7 ? GTCEu.id("block/casings/solid/machine_casing_solid_steel") : KubeJS.id("block/casings/naquadah/casing")));
+                .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
+                .texture("top", StarTCore.resourceLocation("block/casings/solar_cell/%s".formatted(tierName)))
+                .texture("side", GTCEu.id("block/casings/voltage/%s/side".formatted(tierName)))
+                .texture("bottom", tier < 7 ? GTCEu.id("block/casings/solid/machine_casing_solid_steel") : KubeJS.id("block/casings/naquadah/casing")));
     }
 
     public static BlockEntry<StarTSolarCell> createSolarCellBlock(StarTSolarCellType solarCellType) {
-        return START_REGISTRATE
+        BlockEntry<StarTSolarCell> block = START_REGISTRATE
                 .block(solarCellType.getSerializedName(), p -> new StarTSolarCell(p, solarCellType))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -46,6 +48,10 @@ public class StarTSolarCellBlocks {
                 .item(BlockItem::new)
                 .build()
                 .register();
+
+        solarCells.add(block);
+
+        return block;
     }
 
     public static final BlockEntry<StarTSolarCell> EV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.EV_SOLAR_CELL);
