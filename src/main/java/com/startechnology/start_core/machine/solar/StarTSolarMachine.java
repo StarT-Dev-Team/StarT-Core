@@ -14,15 +14,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
-    private final long BASE_EU_OUTPUT;
+    private final long EU_OUTPUT;
     @Getter
     private final int tier;
+    private final int panelAmount;
 
-    public StarTSolarMachine(IMachineBlockEntity holder, int tier) {
+    public StarTSolarMachine(IMachineBlockEntity holder, int tier, int panelAmount) {
         super(holder);
 
+        this.EU_OUTPUT = GTValues.VHA[tier];
         this.tier = tier;
-        this.BASE_EU_OUTPUT = GTValues.V[tier] * 2;
+        this.panelAmount = panelAmount;
     }
 
     public boolean regressWhenWaiting() {
