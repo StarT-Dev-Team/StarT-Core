@@ -1,26 +1,19 @@
 package com.startechnology.start_core.recipe;
 
-import java.util.Optional;
-
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatch;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
+import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;
@@ -121,10 +114,12 @@ public class StarTRecipeModifiers {
     }
 
     public static final RecipeModifier LARGE_TURBINE = LargeTurbineMachine::recipeModifier;
+
     public static final RecipeModifier BOOSTED_PLASMA_TURBINE = BoostedPlasmaTurbine::recipeModifier;
 
     public static final RecipeModifier THREADING_MACHINE = StarTThreadingCapableMachine::recipeModifier;
 
-
     public static final RecipeModifier START_STEAM_PARALLEL = StarTSteamParallelMultiblockMachine::recipeModifier;
+
+    public static final RecipeModifier VACUUM_CHEMICAL_REACTION_CHAMBER = VacuumChemicalReactionChamberMachine::recipeModifier;
 }
