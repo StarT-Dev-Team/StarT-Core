@@ -141,6 +141,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.hv5"),
             Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.hv6"),
+            Component.translatable("block.start_core.gap"),
+            Component.translatable("block.start_core.hv7"),
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("block.start_core.parallels")
         )

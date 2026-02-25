@@ -25,6 +25,7 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -59,51 +60,55 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
             
             if (itemInSlot == null) continue;
 
-            if (!itemInSlot.isEmpty()) {
-                StarTBacteriaBehaviour bacteriaBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(itemInSlot);
+            if (itemInSlot.isEmpty()) continue;
 
-                if (bacteriaBehaviour == null) continue;
-    
-                // Current stats
-                StarTBacteriaStats existingStats = StarTBacteriaManager.bacteriaStatsFromTag(itemInSlot);
-    
-                if (existingStats == null) continue;
+            StarTBacteriaBehaviour bacteriaBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(itemInSlot);
 
-                FluidStack bacterialInputSludge = GTMaterials.EnrichedBacterialSludge.getFluid(
-                    25 * (2 << existingStats.getMetabolism())
-                );
+            if (bacteriaBehaviour == null) continue;
+            // Current stats
+            StarTBacteriaStats existingStats = StarTBacteriaManager.bacteriaStatsFromTag(itemInSlot);
 
-                ItemStack sugar = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", "sugar")), 
-                    (2 << existingStats.getMetabolism())
-                );
+            if (existingStats == null) continue;
 
-                FluidStack primaryOutput = new FluidStack(
-                    existingStats.getPrimary(), 
-                    2000 * existingStats.getProduction()
-                );
+            FluidStack biomass = GTMaterials.Biomass.getFluid(
+                100 * (2 << (existingStats.getMetabolism()-1))
+            );
 
-                FluidStack secondaryOutput = new FluidStack(
-                    existingStats.getSecondary(),
-                    1240 * existingStats.getProduction()
-                );
+            ItemStack sugar = new ItemStack(Items.SUGAR,
+                (2 << (existingStats.getMetabolism()-1))
+            );
 
-                FluidStack tertiaryOutput = new FluidStack(
-                    existingStats.getTertiary(),
-                    320 * existingStats.getProduction()
-                );
+            FluidStack primaryOutput = new FluidStack(
+                existingStats.getPrimary(),
+                1500 * existingStats.getProduction()
+            );
 
-                // Output
-                return StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
-                    .recipeBuilder("harvesting")
-                    .inputItems(itemInSlot.copyWithCount(1))
-                    .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
-                    .inputFluids(bacterialInputSludge)
-                    .inputItems(sugar)
-                    .outputFluids(primaryOutput, secondaryOutput, tertiaryOutput)
-                    .duration(240)
-                    .EUt(GTValues.V[GTValues.ZPM])
-                    .buildRawRecipe();
-            }
+            FluidStack secondaryOutput = new FluidStack(
+                existingStats.getSecondary(),
+                750 * existingStats.getProduction()
+            );
+
+            FluidStack tertiaryOutput = new FluidStack(
+                existingStats.getTertiary(),
+                250 * existingStats.getProduction()
+            );
+
+            FluidStack superOutput = new FluidStack(
+                    existingStats.getSuperFluid(),
+                    1000 * existingStats.getProduction()
+            );
+
+            // Output
+            return StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
+                .recipeBuilder("harvesting")
+                .inputItems(itemInSlot.copyWithCount(1))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                .inputFluids(biomass)
+                .inputItems(sugar)
+                .outputFluids(primaryOutput, secondaryOutput, tertiaryOutput, superOutput, GTMaterials.Bacteria.getFluid(500))
+                .duration(160)
+                .EUt(GTValues.VH[GTValues.ZPM])
+                .buildRawRecipe();
         }
 
         return null;
@@ -120,18 +125,18 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 StarTBacteriaBehaviour inputBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(bacteriaInput);
                 List<Fluid> affinities = inputBehaviour.getBehaviourAffinityFluids();
                 
-                FluidStack bacterialInputSludge = GTMaterials.EnrichedBacterialSludge.getFluid(
-                        25 * (2 << StarTBacteriaStats.MAX_STAT_VALUE)
+                FluidStack biomass = GTMaterials.Biomass.getFluid(
+                        100 * (2 << (StarTBacteriaStats.MAX_STAT_VALUE-1))
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    bacterialInputSludge.getOrCreateTag(), 
+                    biomass.getOrCreateTag(),
                     "behaviour.start_core.bacteria.maximum_shown_input",
-                    "behaviour.start_core.bacteria.harvester_sludge_input"
+                    "behaviour.start_core.bacteria.harvester_biomass_input"
                 );
 
-                ItemStack sugar = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft", "sugar")), 
-                    (2 << StarTBacteriaStats.MAX_STAT_VALUE)
+                ItemStack sugar = new ItemStack(Items.SUGAR,
+                    (2 << (StarTBacteriaStats.MAX_STAT_VALUE-1))
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -141,7 +146,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                 );
 
                 FluidStack primaryOutputStack = new FluidStack(affinities.get(0), 
-                    2000 * StarTBacteriaStats.MAX_STAT_VALUE
+                    1500 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -154,7 +159,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
 
                 FluidStack secondaryOutputStack = new FluidStack(affinities.get(1), 
-                    1240 * StarTBacteriaStats.MAX_STAT_VALUE
+                    750 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -167,7 +172,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
 
                 FluidStack tertiaryOutputStack = new FluidStack(affinities.get(2), 
-                    320 * StarTBacteriaStats.MAX_STAT_VALUE
+                    250 * StarTBacteriaStats.MAX_STAT_VALUE
                 );
 
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(
@@ -178,15 +183,26 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                     "behaviour.start_core.bacteria.harvester_tertiary_output"
                 );
 
+                FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid().getFluid(),
+                        1000 * StarTBacteriaStats.MAX_STAT_VALUE
+                );
+
+                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                        superOutputStack.getOrCreateTag(),
+                        "behaviour.start_core.bacteria.super_output",
+                        "behaviour.start_core.bacteria.maximum_shown_output",
+                        "behaviour.start_core.bacteria.harvester_super_output"
+                );
+
                 GTRecipe harvesterRecipe = StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
                     .recipeBuilder(bacteria.getId().getPath().toString() + "_harvest")
                     .inputItems(bacteriaInput.copyWithCount(1))
                     .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
-                    .inputFluids(bacterialInputSludge)
+                    .inputFluids(biomass)
                     .inputItems(sugar)
-                    .outputFluids(primaryOutputStack, secondaryOutputStack, tertiaryOutputStack)
-                    .duration(240)
-                    .EUt(GTValues.V[GTValues.ZPM])
+                    .outputFluids(primaryOutputStack, secondaryOutputStack, tertiaryOutputStack, superOutputStack, GTMaterials.Bacteria.getFluid(500))
+                    .duration(160)
+                    .EUt(GTValues.VH[GTValues.ZPM])
                     .buildRawRecipe();
             
                 harvesterRecipe.setId(harvesterRecipe.getId().withPrefix("/"));
