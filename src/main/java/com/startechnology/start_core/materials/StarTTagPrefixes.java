@@ -1,12 +1,14 @@
 package com.startechnology.start_core.materials;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.startechnology.start_core.utils.StarTStringUtils;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class StarTTagPrefixes {
 
@@ -22,6 +24,25 @@ public class StarTTagPrefixes {
             .unificationEnabled(true)
             .blockProperties(() -> RenderType::translucent, properties -> properties.sound(SoundType.SAND))
             .fallingBlock();
+
+    public static TagPrefix generateItemTagPrefix(String prefix, MaterialIconType iconType) {
+        return new TagPrefix(StarTStringUtils.snakeCaseToCamelCase(prefix))
+                .defaultTagPath(prefix + "/%s")
+                .langValue("%s " + StarTStringUtils.snakeCaseToSentence(prefix))
+                .materialIconType(iconType)
+                .unificationEnabled(true)
+                .enableRecycling()
+                .generateItem(true);
+    }
+
+    public static final TagPrefix foilReam = generateItemTagPrefix("foil_ream", StarTMaterialIconTypes.foilReam)
+            .materialAmount(GTValues.M * 16)
+            .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FOIL));
+
+    public static final TagPrefix wireSpool = generateItemTagPrefix("wire_spool", StarTMaterialIconTypes.wireSpool)
+            .materialAmount(GTValues.M * 8)
+            .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FINE_WIRE));
+
 
     public static void init() {
 
