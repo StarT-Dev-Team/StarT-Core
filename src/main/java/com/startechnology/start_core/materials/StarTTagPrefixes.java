@@ -15,7 +15,6 @@ public class StarTTagPrefixes {
     public static final TagPrefix dustBlock = new TagPrefix("dustBlock")
             .defaultTagPath("dust_blocks/%s")
             .unformattedTagPath("dust_blocks")
-            .langValue("Block of %s dust")
             .materialAmount(GTValues.M * 9)
             .materialIconType(StarTMaterialIconTypes.dustBlockIconType)
             .miningToolTag(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -27,8 +26,7 @@ public class StarTTagPrefixes {
 
     public static TagPrefix generateItemTagPrefix(String prefix, MaterialIconType iconType) {
         return new TagPrefix(StarTStringUtils.snakeCaseToCamelCase(prefix))
-                .defaultTagPath(prefix + "/%s")
-                .langValue("%s " + StarTStringUtils.snakeCaseToSentence(prefix))
+                .defaultTagPath(prefix + "s/%s")
                 .materialIconType(iconType)
                 .unificationEnabled(true)
                 .enableRecycling()
@@ -42,6 +40,14 @@ public class StarTTagPrefixes {
     public static final TagPrefix wireSpool = generateItemTagPrefix("wire_spool", StarTMaterialIconTypes.wireSpool)
             .materialAmount(GTValues.M * 8)
             .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FINE_WIRE));
+
+    public static final TagPrefix ultradensePlate = generateItemTagPrefix("ultradense_plate", StarTMaterialIconTypes.ultraDensePlate)
+            .materialAmount(GTValues.M * 36)
+            .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_DENSE));
+
+    public static final TagPrefix ballBearing = generateItemTagPrefix("ball_bearing", StarTMaterialIconTypes.ballBearing    )
+            .materialAmount(GTValues.M)
+            .generationCondition(material -> material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING));
 
 
     public static void init() {

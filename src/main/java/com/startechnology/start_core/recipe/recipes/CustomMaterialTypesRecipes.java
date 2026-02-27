@@ -73,6 +73,35 @@ public class CustomMaterialTypesRecipes {
 
             }
 
+            if (material.hasFlag(MaterialFlags.GENERATE_DENSE)) {
+                TITAN_FORGE_RECIPES.recipeBuilder(String.format("forge_%s_ultradense_plate", material.getName()))
+                        .inputItems(TagPrefix.plateDense, material, 4)
+                        .outputItems(StarTTagPrefixes.ultradensePlate, material)
+                        .duration((int) (material.getMass()))
+                        .EUt(GTValues.VHA[GTValues.ZPM])
+                        .circuitMeta(3)
+                        .save(provider);
+            }
+
+            if (material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING)) {
+                FORMING_PRESS_RECIPES.recipeBuilder(String.format("press_%s_ball_bearing", material.getName()))
+                        .inputItems(TagPrefix.ring, material, 2)
+                        .inputItems(TagPrefix.round, material, 8)
+                        .outputItems(StarTTagPrefixes.ballBearing, material)
+                        .duration((int) (material.getMass() * 4))
+                        .EUt(GTValues.VA[GTValues.HV])
+                        .circuitMeta(6)
+                        .save(provider);
+
+                TITAN_FORGE_RECIPES.recipeBuilder(String.format("forge_%s_ball_bearing", material.getName()))
+                        .inputItems(TagPrefix.ingot, material)
+                        .outputItems(StarTTagPrefixes.ballBearing, material)
+                        .duration((int) (material.getMass()))
+                        .EUt(GTValues.VHA[GTValues.EV])
+                        .circuitMeta(6)
+                        .save(provider);
+            }
+
         }
 
     }
