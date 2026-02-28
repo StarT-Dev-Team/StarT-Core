@@ -21,6 +21,8 @@ public enum StarTSolarCells implements StarTSolarCellType {
     public final int durability;
     @Getter
     public final int maxTemperature;
+    @Getter
+    public final int minTemperature = 273;
 
     StarTSolarCells(String name, int tier, int harvestLevel, int durability, int maxTemperature) {
         this.name = name;

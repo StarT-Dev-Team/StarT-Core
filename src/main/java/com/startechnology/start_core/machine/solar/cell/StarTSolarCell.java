@@ -28,6 +28,8 @@ import static com.startechnology.start_core.block.solar.StarTSolarCellBlocks.STA
 public class StarTSolarCell extends Block implements EntityBlock {
     @Getter
     private final StarTSolarCellType solarCellType;
+    @Getter
+    private StarTSolarCellBlockEntity solarCellBlockEntity;
 
     public StarTSolarCell(Block.Properties properties, StarTSolarCellType solarCellType) {
         super(properties);
@@ -38,6 +40,8 @@ public class StarTSolarCell extends Block implements EntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         var solarCellBlockEntity = new StarTSolarCellBlockEntity(START_SOLAR_CELL_BLOCK_ENTITY.get(), pos, state, solarCellType.getDurability());
+
+        this.solarCellBlockEntity = solarCellBlockEntity;
 
         return solarCellBlockEntity;
     }
@@ -78,7 +82,44 @@ public class StarTSolarCell extends Block implements EntityBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
-    private static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D,16.0D, 8.0D, 16.0D);
+    public void doLogic() {
+        if (solarCellBlockEntity.isBroken()) {
+            return;
+        }
+
+        int tier = solarCellType.getTier();
+        int maxTemp = solarCellType.getMaxTemperature();
+        int maxDurability = solarCellType.getDurability();
+        int currentTemp = Math.min(maxTemp, solarCellBlockEntity.getTemperature() + tier);
+
+        if (currentTemp >= maxTemp) {
+            solarCellBlockEntity.setBroken(true);
+
+            return;
+        }
+
+        double tempPercent = (double) currentTemp / maxTemp;
+        int durabilityDiff = calculateDurabilityDamage(tempPercent);
+        int durability = Math.min(maxDurability, solarCellBlockEntity.getDurability() + durabilityDiff);
+
+        if (durability >= maxDurability) {
+            solarCellBlockEntity.setBroken(true);
+
+            return;
+        }
+
+        solarCellBlockEntity.setTemperature(currentTemp);
+        solarCellBlockEntity.setDurability(durability);
+    }
+
+    private int calculateDurabilityDamage(double tempPercent) {
+        if (tempPercent < 0.75) return 1;
+        if (tempPercent < 0.85) return 2;
+        if (tempPercent < 0.95) return 4;
+        return 8;
+    }
+
+    private static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -97,17 +138,8 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
-        if (stack.hasTag() && stack.getTag().contains("BlockEntityTag")) {
-            CompoundTag tag = stack.getTag().getCompound("BlockEntityTag");
-            int temperature = tag.getInt("Temperature");
-            int durability = tag.getInt("Durability");
-
-            tooltip.add(Component.literal("Temperature: " + temperature + "°C").withStyle(ChatFormatting.RED));
-            tooltip.add(Component.literal("Durability: " + durability).withStyle(ChatFormatting.GREEN));
-        } else {
-            tooltip.add(Component.literal("Temperature: N/A").withStyle(ChatFormatting.GRAY));
-            tooltip.add(Component.literal("Durability: N/A").withStyle(ChatFormatting.GRAY));
-        }
+        tooltip.add(Component.literal("Temperature: " + solarCellBlockEntity.getTemperature() + " °C").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.literal("Durability: " + solarCellBlockEntity.getDurability() + "/" + solarCellType.getDurability()).withStyle(ChatFormatting.GREEN));
 
         super.appendHoverText(stack, level, tooltip, flag);
     }

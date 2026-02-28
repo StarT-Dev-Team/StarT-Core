@@ -15,11 +15,15 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
     @Getter
     @Setter
     private int durability;
+    @Getter
+    @Setter
+    private boolean broken;
 
     public StarTSolarCellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int durability) {
         super(type, pos, state);
 
         this.durability = durability;
+        this.broken = false;
     }
 
     public static void onBlockEntityRegister(BlockEntityType<? extends BlockEntity> solarCellBlockEntityBlockEntityType) {}
@@ -30,6 +34,7 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
 
         tag.putInt("temperature", temperature);
         tag.putInt("durability", durability);
+        tag.putBoolean("broken", broken);
     }
 
     @Override
@@ -38,5 +43,6 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
 
         this.temperature = tag.getInt("temperature");
         this.durability = tag.getInt("durability");
+        this.broken = tag.getBoolean("broken");
     }
 }
