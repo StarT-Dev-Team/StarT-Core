@@ -7,13 +7,17 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +33,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     private final int tier;
     private final List<StarTSolarCell> panels;
     private boolean isWorking;
+    @Getter
+    private int euT;
 
     public StarTSolarMachine(IMachineBlockEntity holder, int tier) {
         super(holder);
@@ -36,6 +42,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         this.tier = tier;
         this.panels = new ArrayList<>();
         this.isWorking = false;
+        this.euT = 0;
     }
 
     @Override
@@ -48,8 +55,12 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
 
         this.getParts().forEach(part -> {
-            if (part instanceof StarTSolarCell) {
-                panels.add((StarTSolarCell) part);
+            if (part instanceof StarTSolarCell solarCell) {
+                if (!solarCell.getSolarCellBlockEntity().isBroken()) {
+                    euT += GTValues.VHA[solarCell.getSolarCellType().getTier()];
+                }
+
+                panels.add(solarCell);
             }
         });
     }
@@ -70,38 +81,45 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         super.afterWorking();
 
         this.isWorking = false;
-
-        panels.forEach(panel -> {
-            if (panel instanceof StarTSolarCell) {
-                panel.doLogic();
-            }
-        });
     }
 
-    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (!(machine instanceof StarTSolarMachine starTSolarMachine)) {
-            return RecipeModifier.nullWrongType(StarTSolarMachine.class, machine);
-        }
+    public void doLogic() {
+        AtomicInteger newEuT = new AtomicInteger();
 
-        AtomicInteger euT = new AtomicInteger();
-        AtomicInteger workingPanels = new AtomicInteger();
+        this.panels.forEach(solarCell -> {
+            StarTSolarCellBlockEntity solarCellBlockEntity = solarCell.getSolarCellBlockEntity();
 
-        starTSolarMachine.panels.forEach(starTSolarCell -> {
-            if (starTSolarCell instanceof StarTSolarCell) {
-                if (!starTSolarCell.getSolarCellBlockEntity().isBroken()) {
-                    euT.addAndGet(GTValues.VHA[starTSolarCell.getSolarCellType().getTier()]);
-                    workingPanels.incrementAndGet();
+            if (!solarCellBlockEntity.isBroken()) {
+                StarTSolarCellType solarCellType = solarCell.getSolarCellType();
+
+                int tier = solarCellType.getTier();
+                int maxTemp = solarCellType.getMaxTemperature();
+                int currentTemp = Math.min(maxTemp, solarCellBlockEntity.getTemperature() + tier);
+
+                if (currentTemp >= maxTemp) {
+                    solarCell.getSolarCellBlockEntity().setBroken(true);
+
+                    return;
                 }
+
+                double tempPercent = (double) currentTemp / maxTemp;
+                int durabilityDiff = solarCell.calculateDurabilityDamage(tempPercent);
+                int durability = Math.max(0, solarCellBlockEntity.getDurability() - durabilityDiff);
+
+                if (durability == 0) {
+                    solarCell.getSolarCellBlockEntity().setBroken(true);
+
+                    return;
+                }
+
+                solarCell.getSolarCellBlockEntity().setTemperature(currentTemp);
+                solarCell.getSolarCellBlockEntity().setDurability(durability);
+
+                newEuT.addAndGet(GTValues.VHA[solarCellType.getTier()]);
             }
         });
 
-        if (workingPanels.get() == 0) {
-            return ModifierFunction.NULL;
-        }
-
-        return ModifierFunction.builder()
-                .eutModifier(ContentModifier.addition(euT.get()))
-                .build();
+        euT = newEuT.get();
     }
 
     public boolean regressWhenWaiting() {
@@ -113,6 +131,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
+        private static final int BASE_UPDATE_INTERVAL = 5 * 20;
+
         public StarTSolarMachineRecipeLogic(StarTSolarMachine metaTileEntity) {
             super(metaTileEntity);
         }
@@ -121,6 +141,50 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         @Override
         public StarTSolarMachine getMachine() {
             return (StarTSolarMachine) super.getMachine();
+        }
+
+        private boolean produceEnergy() {
+            EnergyContainerList energyContainer = getMachine().energyContainer;
+
+            if (energyContainer == null) {
+                return false;
+            }
+
+            long resultEnergy = energyContainer.getEnergyStored() + getMachine().euT;
+            if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
+                energyContainer.changeEnergy(resultEnergy);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void serverTick() {
+            if (!getMachine().isFormed() || !isWorkingEnabled()) {
+                setStatus(Status.IDLE);
+            } else if (produceEnergy()) {
+                setStatus(Status.WORKING);
+                isActive = true;
+                progress = (progress + 1) % BASE_UPDATE_INTERVAL;
+
+                if (progress == 0) {
+                    getMachine().doLogic();
+                }
+            } else {
+                setStatus(Status.WAITING);
+                isActive = false;
+                progress = Math.max(progress - 2, 1);
+            }
+        }
+
+        @Override
+        public int getMaxProgress() {
+            return BASE_UPDATE_INTERVAL;
+        }
+
+        @Override
+        public boolean isActive() {
+            return getMachine().isFormed() && this.isActive;
         }
     }
 }

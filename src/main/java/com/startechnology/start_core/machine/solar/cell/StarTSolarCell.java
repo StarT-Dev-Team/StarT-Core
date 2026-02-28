@@ -82,37 +82,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
-    public void doLogic() {
-        if (solarCellBlockEntity.isBroken()) {
-            return;
-        }
-
-        int tier = solarCellType.getTier();
-        int maxTemp = solarCellType.getMaxTemperature();
-        int maxDurability = solarCellType.getDurability();
-        int currentTemp = Math.min(maxTemp, solarCellBlockEntity.getTemperature() + tier);
-
-        if (currentTemp >= maxTemp) {
-            solarCellBlockEntity.setBroken(true);
-
-            return;
-        }
-
-        double tempPercent = (double) currentTemp / maxTemp;
-        int durabilityDiff = calculateDurabilityDamage(tempPercent);
-        int durability = Math.min(maxDurability, solarCellBlockEntity.getDurability() + durabilityDiff);
-
-        if (durability >= maxDurability) {
-            solarCellBlockEntity.setBroken(true);
-
-            return;
-        }
-
-        solarCellBlockEntity.setTemperature(currentTemp);
-        solarCellBlockEntity.setDurability(durability);
-    }
-
-    private int calculateDurabilityDamage(double tempPercent) {
+    public int calculateDurabilityDamage(double tempPercent) {
         if (tempPercent < 0.75) return 1;
         if (tempPercent < 0.85) return 2;
         if (tempPercent < 0.95) return 4;
