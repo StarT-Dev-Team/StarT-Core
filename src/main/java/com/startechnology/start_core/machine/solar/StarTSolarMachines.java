@@ -15,6 +15,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCellPredicates;
 import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -32,7 +33,7 @@ public class StarTSolarMachines {
                     .aisle("CCC", " F ", "SSS")
                     .aisle("C@C", "   ", "SSS")
                     .where(" ", Predicates.air())
-                    .where("S", Predicates.blocks(StarTSolarCellBlocks.EV_SOLAR_CELL.get()))
+                    .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
@@ -56,7 +57,7 @@ public class StarTSolarMachines {
                     .aisle("CCCCC", " F F ", "SSSSS")
                     .aisle("CC@CC", "     ", "SSSSS")
                     .where(" ", Predicates.air())
-                    .where("S", Predicates.blocks(StarTSolarCellBlocks.IV_SOLAR_CELL.get()))
+                    .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
@@ -80,7 +81,7 @@ public class StarTSolarMachines {
                     .aisle("CCCCCCC", " F F F ", "SSSSSSS")
                     .aisle("CCC@CCC", "       ", "SSSSSSS")
                     .where(" ", Predicates.air())
-                    .where("S", Predicates.blocks(StarTSolarCellBlocks.LUV_SOLAR_CELL.get()))
+                    .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
@@ -112,7 +113,7 @@ public class StarTSolarMachines {
                     .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
                     .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
                     .where(" ", Predicates.air())
-                    .where("S", Predicates.blocks(StarTSolarCellBlocks.UV_SOLAR_CELL.get()))
+                    .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
                     .where("B", Predicates.blocks(GTBlocks.BATTERY_LAPOTRONIC_UV.get()))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
@@ -131,7 +132,6 @@ public class StarTSolarMachines {
             .multiblock("uhv_solar_array", holder -> new StarTSolarMachine(holder, UHV))
             .langValue("UHV Solar Panel")
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-            .recipeModifier(StarTSolarMachine::recipeModifier)
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
@@ -152,7 +152,7 @@ public class StarTSolarMachines {
                     .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
                     .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
                     .where(" ", Predicates.air())
-                    .where("S", Predicates.blocks(StarTSolarCellBlocks.UHV_SOLAR_CELL.get()))
+                    .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
                     .where("B", Predicates.blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
