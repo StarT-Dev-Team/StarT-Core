@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -35,6 +36,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         this.tier = tier;
         this.panels = new ArrayList<>();
         this.isWorking = false;
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new StarTSolarMachineRecipeLogic(this);
     }
 
     @Override
@@ -104,5 +110,17 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
         return capability != EURecipeCapability.CAP;
+    }
+
+    public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
+        public StarTSolarMachineRecipeLogic(StarTSolarMachine metaTileEntity) {
+            super(metaTileEntity);
+        }
+
+        @NotNull
+        @Override
+        public StarTSolarMachine getMachine() {
+            return (StarTSolarMachine) super.getMachine();
+        }
     }
 }

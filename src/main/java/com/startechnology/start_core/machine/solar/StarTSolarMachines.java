@@ -10,11 +10,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -25,8 +25,7 @@ public class StarTSolarMachines {
             .multiblock("ev_solar_panel", holder -> new StarTSolarMachine(holder, EV))
             .langValue("EV Solar Panel")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.SOLAR_ENERGY)
-            .recipeModifier(StarTSolarMachine::recipeModifier)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCC", "   ", "SSS")
@@ -50,8 +49,7 @@ public class StarTSolarMachines {
             .multiblock("iv_solar_panel", holder -> new StarTSolarMachine(holder, IV))
             .langValue("IV Solar Panel")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.SOLAR_ENERGY)
-            .recipeModifier(StarTSolarMachine::recipeModifier)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCC", "     ", "SSSSS")
@@ -75,8 +73,7 @@ public class StarTSolarMachines {
             .multiblock("luv_solar_panel", holder -> new StarTSolarMachine(holder, LuV))
             .langValue("LuV Solar Panel")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.SOLAR_ENERGY)
-            .recipeModifier(StarTSolarMachine::recipeModifier)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCCCC", "       ", "SSSSSSS")
@@ -100,8 +97,7 @@ public class StarTSolarMachines {
             .multiblock("uv_solar_array", holder -> new StarTSolarMachine(holder, UV))
             .langValue("UV Solar Panel")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.SOLAR_ENERGY)
-            .recipeModifier(StarTSolarMachine::recipeModifier)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
@@ -134,8 +130,7 @@ public class StarTSolarMachines {
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UHV = START_REGISTRATE
             .multiblock("uhv_solar_array", holder -> new StarTSolarMachine(holder, UHV))
             .langValue("UHV Solar Panel")
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.SOLAR_ENERGY)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .recipeModifier(StarTSolarMachine::recipeModifier)
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
             .pattern(definition -> FactoryBlockPattern.start()
