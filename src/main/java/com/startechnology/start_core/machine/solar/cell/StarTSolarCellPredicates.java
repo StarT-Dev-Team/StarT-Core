@@ -3,7 +3,6 @@ package com.startechnology.start_core.machine.solar.cell;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 
 import java.util.Comparator;
 
@@ -12,12 +11,16 @@ public class StarTSolarCellPredicates {
         return new TraceabilityPredicate(blockWorldState -> {
             var blockState = blockWorldState.getBlockState();
 
-            return StarTSolarCellBlocks.solarCells.stream()
-                    .map(RegistryEntry::get)
-                    .equals(blockState);
-        }, () -> StarTSolarCellBlocks.solarCells.stream()
-                .sorted(Comparator.comparingInt(block -> block.get().getSolarCellType().getTier()))
-                .map(block -> BlockInfo.fromBlock(block.get()))
+            for( var solarCell : StarTSolarCellBlocks.SOLAR_CELLS.entrySet()) {
+                if (blockState.is(solarCell.getValue().get())) {
+                    return true;
+                }
+            }
+
+            return false;
+        }, () -> StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(block -> block.getKey().getTier()))
+                .map(block -> BlockInfo.fromBlockState(block.getValue().get().defaultBlockState()))
                 .toArray(BlockInfo[]::new));
     }
 }

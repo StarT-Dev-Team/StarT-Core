@@ -4,20 +4,15 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -127,7 +122,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     }
 
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
-        return capability != EURecipeCapability.CAP;
+        return false;
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {

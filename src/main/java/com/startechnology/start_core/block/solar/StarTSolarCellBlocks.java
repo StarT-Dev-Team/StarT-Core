@@ -21,11 +21,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTSolarCellBlocks {
-    public static List<BlockEntry<StarTSolarCell>> solarCells = new ArrayList<>();
+    public static final Map<StarTSolarCellType, Supplier<StarTSolarCell>> SOLAR_CELLS = new HashMap<>();
 
     public static NonNullBiConsumer<DataGenContext<Block, StarTSolarCell>, RegistrateBlockstateProvider> createSolarCellModel(StarTSolarCellType solarCellType) {
         var tier = solarCellType.getTier();
@@ -49,7 +50,7 @@ public class StarTSolarCellBlocks {
                 .build()
                 .register();
 
-        solarCells.add(block);
+        SOLAR_CELLS.put(solarCellType, block);
 
         return block;
     }
@@ -59,7 +60,6 @@ public class StarTSolarCellBlocks {
     public static final BlockEntry<StarTSolarCell> LUV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.LUV_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> UV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UV_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UHV_SOLAR_CELL);
-
     public static final BlockEntityEntry<BlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
             .blockEntity("solar_cell", (type, pos, blockState) -> new StarTSolarCellBlockEntity(type, pos, blockState, 0))
             .onRegister(StarTSolarCellBlockEntity::onBlockEntityRegister)
