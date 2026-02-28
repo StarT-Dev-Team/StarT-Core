@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMac
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.startechnology.start_core.machine.parallel.IStarTMinimumParallelHatch;
 
@@ -45,6 +46,7 @@ public class ParallelHatchPartMachineMixin extends TieredPartMachine implements 
     @Shadow
     private int currentParallel;
 
+    @Persisted
     private int minimumRunParallel;
 
     @Inject(method = "<init>", at = @At("RETURN"))
