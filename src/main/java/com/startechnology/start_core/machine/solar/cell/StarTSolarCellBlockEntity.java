@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class StarTSolarCellBlockEntity extends BlockEntity {
     @Getter
     @Setter
-    private int temperature = 300;
+    private double temperature = 300;
     @Getter
     @Setter
     private int durability;
@@ -32,7 +32,7 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
 
-        tag.putInt("temperature", temperature);
+        tag.putDouble("temperature", temperature);
         tag.putInt("durability", durability);
         tag.putBoolean("broken", broken);
     }
@@ -41,7 +41,7 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
 
-        this.temperature = tag.getInt("temperature");
+        this.temperature = tag.getDouble("temperature");
         this.durability = tag.getInt("durability");
         this.broken = tag.getBoolean("broken");
     }

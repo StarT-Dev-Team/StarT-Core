@@ -108,8 +108,8 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("Temperature: " + solarCellBlockEntity.getTemperature() + " °C").withStyle(ChatFormatting.RED));
-        tooltip.add(Component.literal("Durability: " + solarCellBlockEntity.getDurability() + "/" + solarCellType.getDurability()).withStyle(ChatFormatting.GREEN));
+        tooltip.add(Component.literal("Temperature: " + this.solarCellBlockEntity.getTemperature() + " K"));
+        tooltip.add(Component.literal("Durability: " + this.solarCellBlockEntity.getDurability() + "/" + this.solarCellType.getDurability()));
 
         super.appendHoverText(stack, level, tooltip, flag);
     }
