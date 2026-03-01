@@ -36,17 +36,16 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("robust_machine_casing")))//will be a kjs casing
-                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))//Energy Output Slot
+                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get())) //will be a kjs casing
                     .where("D", Predicates.blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get())) //will be a kjs casing
                     .where("E", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("robust_machine_casing")) //will be a kjs casing
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))
-                            //or i/o
                     )
-                    .where("F", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)) //Any Maintenance Hatch
-                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("luv_rotor_holder"))) //specifically this tier LUV
-                    .where("I", Predicates.abilities(PartAbility.MUFFLER)) //any muffler
+                    .where("F", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("luv_rotor_holder")))
+                    .where("I", Predicates.abilities(PartAbility.MUFFLER))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
@@ -67,17 +66,16 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))) //will be a dif kjs casing
-                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL)) //Energy Output Slot
+                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
                     .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))//will be a kjs casing
-                            //or i/o
                     )
-                    .where("F", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)) //Any Maintenance Hatch
-                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder"))) //specifically this tier Zpm
-                    .where("I", Predicates.abilities(PartAbility.MUFFLER))//any muffler
+                    .where("F", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
+                    .where("I", Predicates.abilities(PartAbility.MUFFLER))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
@@ -98,17 +96,16 @@ public class StarTModularCombustionMachines {
                     .aisle("CFC", "CDC", "CEC")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
-                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))//Energy Output Slot
+                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))) //will be a dif kjs casing
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
-                    .where("E", Predicates.abilities(PartAbility.MUFFLER)) //any muffler
+                    .where("E", Predicates.abilities(PartAbility.MUFFLER))
                     .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))//will be a dif kjs casing
-                            //or i/o
                     )
-                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder"))) //specifically this tier ZPM
-                    .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)) //Any Maintenance Hatch
+                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
+                    .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
@@ -129,17 +126,16 @@ public class StarTModularCombustionMachines {
                     .aisle("CFC", "CDC", "CEC")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_engine_intake_casing")))
-                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))//Energy Output Slot
+                    .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_casing"))) //will be a dif kjs casing
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_gearbox")))
-                    .where("E", Predicates.abilities(PartAbility.MUFFLER)) //any muffler
+                    .where("E", Predicates.abilities(PartAbility.MUFFLER))
                     .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))
-                            //or i/o
                     )
-                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("uhv_rotor_holder"))) //specifically this tier UHV
-                     .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)) //Any Maintenance Hatch
+                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("uhv_rotor_holder")))
+                     .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(KubeJS.id("block/casings/nyanium/casing"),
@@ -174,7 +170,7 @@ public class StarTModularCombustionMachines {
                     .where(" ", Predicates.any())
                     .where("B", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:naquadah_alloy"))))
                     .where("C", Predicates.blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
-                    .where("-", Predicates.any())
+                    .where("-", Predicates.any()) //modules go here
                     .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_pipe_casing")))
                     .where("F", Predicates.abilities(StarTPartAbility.MODULAR_NODE))
                     .where("G", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
