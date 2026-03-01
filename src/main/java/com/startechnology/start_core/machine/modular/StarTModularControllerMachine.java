@@ -8,6 +8,7 @@ import java.util.Map;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -55,7 +56,7 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         for (IMultiPart part : getParts()) {
             if (part instanceof StarTModularInterfaceHatchPartMachine interfaceHatch) {
                 interfaceHatch.setSupportedModules(new ArrayList<>(supportedMultiblockIds));
-                
+
                 if (part instanceof StarTModularConduitHatchPartMachine conduitMachine) {
                     outputs.add(conduitMachine.energyContainer);
                 }
@@ -94,13 +95,13 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         if (getLevel().isClientSide)
             return;
 
-        tryTickSub = subscribeServerTick(tryTickSub, this::tryTransferConduitEnergy);
+        tryTickSub = subscribeServerTick(tryTickSub, this::transferEnergy);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-    
+
         if (getLevel().isClientSide)
             return;
 
@@ -113,26 +114,56 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         }
     }
 
-    protected void tryTransferConduitEnergy() {
+    protected void transferEnergy() {
         // Transfer energy tick only every 3 seconds (same as dream-link)
         if (getOffsetTimer() % 60 == 0 && this.readyToUpdate) {
+            // conduit i/o
+            updateActiveBlocks(transferModuleInterfacesTick() || transferToOutputs());
             transferModuleInterfacesTick();
+            transferToOutputs();
         }
     }
-    
-    protected void transferModuleInterfacesTick() {
-        if (getLevel().isClientSide || !this.readyToUpdate || !isWorkingEnabled())
-            return;
+
+    protected boolean transferModuleInterfacesTick() {
+        if (getLevel().isClientSide || !this.readyToUpdate || !isWorkingEnabled()) return false;
 
         /* Transfer from the input hatches to the output conduits */
         long energyStored = inputHatches.getEnergyStored();
-        if (energyStored <= 0) return;
+        if (energyStored <= 0) return false;
 
         long totalEnergyTransferred = outputConduits.changeEnergy(inputHatches.getEnergyStored());
-        
+
         if (totalEnergyTransferred > 0) {
             inputHatches.removeEnergy(totalEnergyTransferred);
+            return true;
         }
+        return false;
     }
 
+    private boolean transferToOutputs() {
+        if (getLevel().isClientSide || !this.readyToUpdate || !isWorkingEnabled()) return false;
+
+        long outputEnergy = outputConduits.getEnergyStored();
+        if (outputEnergy <= 0) return false;
+
+        var handlers = getOutputs();
+        var transferred = handlers.addEnergy(outputEnergy);
+        if (transferred > 0) {
+            outputConduits.removeEnergy(transferred);
+            return true;
+        }
+        return false;
+    }
+
+    private EnergyContainerList getOutputs() {
+        List<IEnergyContainer> containers = new ArrayList<>();
+        List<IRecipeHandler<?>> handlers = this.getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP);
+
+        for (var handler : handlers) {
+            if (handler instanceof IEnergyContainer container) {
+                containers.add(container);
+            }
+        }
+        return new EnergyContainerList(containers);
+    }
 }

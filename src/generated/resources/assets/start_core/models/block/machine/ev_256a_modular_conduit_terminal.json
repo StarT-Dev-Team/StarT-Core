@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "start_core:modular_interface_terminal",
+  "machine": "start_core:ev_256a_modular_conduit_terminal",
   "replaceable_textures": [
     "bottom",
     "top",
@@ -13,9 +13,9 @@
         "parent": "gtceu:block/machine/part/energy_input_hatch",
         "textures": {
           "bottom": "gtceu:block/casings/voltage/ev/bottom",
-          "overlay_in": "start_core:block/overlay/modular/overlay_interface_out",
-          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_interface_out_emissive",
-          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_2a_tinted",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_256a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_256a_out_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_256a_tinted",
           "side": "gtceu:block/casings/voltage/ev/side",
           "top": "gtceu:block/casings/voltage/ev/top"
         }
@@ -26,9 +26,9 @@
         "parent": "gtceu:block/machine/part/energy_input_hatch",
         "textures": {
           "bottom": "gtceu:block/casings/voltage/ev/bottom",
-          "overlay_in": "start_core:block/overlay/modular/overlay_interface_out",
-          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_interface_out_emissive",
-          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_2a_tinted",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_256a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_256a_out_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_256a_tinted",
           "side": "gtceu:block/casings/voltage/ev/side",
           "top": "gtceu:block/casings/voltage/ev/top"
         }

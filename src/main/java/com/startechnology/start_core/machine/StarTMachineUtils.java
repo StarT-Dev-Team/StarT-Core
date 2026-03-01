@@ -5,6 +5,7 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 import java.util.Locale;
 import java.util.function.BiFunction;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -52,5 +53,8 @@ public class StarTMachineUtils {
 
     public static Block getKjsBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
+    }
+    public static Block getGTCEuBlock(String block) {
+        return ForgeRegistries.BLOCKS.getValue(GTCEu.id(block));
     }
 }
