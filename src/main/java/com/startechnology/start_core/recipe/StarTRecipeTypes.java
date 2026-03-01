@@ -129,6 +129,11 @@ public class StarTRecipeTypes {
         })
         .setSound(GTSoundEntries.CENTRIFUGE);
 
+    public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes.register("titan_forge", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
 
     public static final void init() {
 

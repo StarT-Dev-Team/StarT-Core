@@ -2,11 +2,13 @@ package com.startechnology.start_core.recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.AssemblyLineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
@@ -14,6 +16,8 @@ import com.startechnology.start_core.machine.parallel.IStarTAbsoluteParallelHatc
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
+
+import java.util.Comparator;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = StarTRecipeModifiers::hatchAbsoluteParallel;
