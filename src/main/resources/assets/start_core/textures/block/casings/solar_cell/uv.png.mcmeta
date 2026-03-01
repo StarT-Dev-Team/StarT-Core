@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "start_core:block/casings/solar_cell/uv_ctm"
+    }
+}
