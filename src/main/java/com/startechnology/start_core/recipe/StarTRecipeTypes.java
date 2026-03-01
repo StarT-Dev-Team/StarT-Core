@@ -37,12 +37,28 @@ public class StarTRecipeTypes {
             return LocalizationUtils.format("start_core.recipe.min_reflector_tier", reflectorTier);
         })
         .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel);
+//    public final static GTRecipeType BLAST_FURNACE_RECIPES = GTRecipeTypes.register("electric_vanilla_blast_furnace", GTRecipeTypes.ELECTRIC, RecipeType.BLASTING)
+//        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
+//        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
+//        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
+//        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+//        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+//        .setSound(GTSoundEntries.FURNACE);
+//
+//    public final static GTRecipeType SMOKER_RECIPES = GTRecipeTypes.register("electric_smoker", GTRecipeTypes.ELECTRIC, RecipeType.SMOKING)
+//        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
+//        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
+//        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
+//        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+//        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+//        .setSound(GTSoundEntries.FURNACE);
 
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(1, 2, 2, 0)
         .setEUIO(IO.IN)
         .addCustomRecipeLogic(new BacteriaVatLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
 
     public static final GTRecipeType ABYSSAL_CONTAINMENT_RECIPE_TYPE = GTRecipeTypes.register("abyssal_containment", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(0, 0, 2, 0)
@@ -138,8 +154,16 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType MODULAR_COMBUSTION_MODULES_RECIPES = GTRecipeTypes.register("modular_combustion_module",GTRecipeTypes.ELECTRIC)
+            .setMaxIOSize(0,0,2,1)
+            .setEUIO(IO.OUT);
+
+    public static final GTRecipeType MODULAR_ROCKET_MODULE_RECIPES = GTRecipeTypes.register("modular_rocket_module", GTRecipeTypes.ELECTRIC)
+            .setMaxIOSize(0,0,2,1)
+            .setEUIO(IO.OUT);
 
     public static final void init() {
+
 
     }
 }
