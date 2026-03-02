@@ -1,9 +1,7 @@
 package com.startechnology.start_core.mixin;
 
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.integration.kjs.recipe.GTRecipeSchema;
 import dev.latvian.mods.rhino.util.RemapPrefixForJS;
-import net.minecraft.nbt.CompoundTag;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -20,6 +18,11 @@ public class GTRecipeJSMixin {
     @Unique
     public GTRecipeSchema.GTRecipeJS kjs$reflectorTier(int tier) {
         return addData("reflector_tier", tier);
+    }
+
+    @Unique
+    public GTRecipeSchema.GTRecipeJS kjs$vacuumLevel(int vacuum) {
+        return addData("vacuum_level", vacuum);
     }
 
     @Unique

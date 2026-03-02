@@ -56,10 +56,23 @@ public class StarTRecipeTypes {
         .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType BACTERIAL_HYDROCARBON_HARVESTER_RECIPES = GTRecipeTypes.register("bacterial_hydrocarbon_harvester", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(2, 0, 2, 3)
+        .setMaxIOSize(2, 0, 2, 5)
         .setEUIO(IO.IN)
         .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes.register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4,2,4,2)
+            .setEUIO(IO.IN)
+            .setOffsetVoltageText(true)
+            .setVoltageTextOffset(19)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> {
+                var vacuumLevel = data.getInt("vacuum_level");
+                if (vacuumLevel >= 100) return LocalizationUtils.format("start_core.recipe.min_vacuum_amount_full").replace("%", "%%");
+                return LocalizationUtils.format("start_core.recipe.min_vacuum_amount", FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumLevel))
+                        .replace("%", "%%");
+            });
 
     public static GTRecipeType registerStarTPrioritiseCustomLogic(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new StarTPrioritiseCustomLogicRecipeType(GTCEu.id(name), group, proxyRecipes);
@@ -115,6 +128,11 @@ public class StarTRecipeTypes {
             return LocalizationUtils.format("start_core.recipe.max_saturation.0");
         })
         .setSound(GTSoundEntries.CENTRIFUGE);
+
+    public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes.register("titan_forge", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
 
     public static final void init() {
