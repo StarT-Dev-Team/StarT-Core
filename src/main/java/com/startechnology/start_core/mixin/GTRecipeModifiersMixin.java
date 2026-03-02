@@ -27,7 +27,6 @@ public class GTRecipeModifiersMixin {
                         int maximumParallels = 1;
                         int minimumParallels = 1;
 
-                        /* the great crime !!! look away */
                         if (hatch instanceof StarTAbsoluteParallelHatchMachine) {
                             maximumParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel());
                         } else {

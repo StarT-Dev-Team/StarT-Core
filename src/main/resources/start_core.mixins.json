@@ -15,7 +15,8 @@
     "ParallelHatchPartMachineAccessor",
     "GTRecipeModifiersMixin",
     "ResearchManagerDataItemMixin",
-    "WireRecipeHandlerMixin"
+    "WireRecipeHandlerMixin",
+    "WorkableElectricMultiblockMachineMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin"
