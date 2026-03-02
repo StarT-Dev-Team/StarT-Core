@@ -88,7 +88,7 @@ public class ParallelHatchPartMachineMixin extends TieredPartMachine implements 
     }
 
     @Override
-    public Integer getMinimumParallels() {
+    public int getMinimumParallels() {
         return this.minimumRunParallel;
     }
 }

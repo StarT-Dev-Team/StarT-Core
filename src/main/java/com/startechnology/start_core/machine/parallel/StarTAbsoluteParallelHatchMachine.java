@@ -10,7 +10,7 @@ import com.startechnology.start_core.mixin.ParallelHatchPartMachineAccessor;
 public class StarTAbsoluteParallelHatchMachine extends ParallelHatchPartMachine {
     public StarTAbsoluteParallelHatchMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
-        Integer absoluteMaxParallels = 4 * (int) Math.pow(2, tier - GTValues.UHV);
+        int absoluteMaxParallels = 4 * (int) Math.pow(2, tier - GTValues.UHV);
 
         // UHV -> 4, UEV -> 8, UIV -> 16
         ((ParallelHatchPartMachineAccessor)(Object)this).start_core$maxParallel(absoluteMaxParallels);
