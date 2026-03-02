@@ -451,6 +451,11 @@
   "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
   "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
+  "start_core.parallel_hatch.max_parallel": "Maximum Allowed Parallels",
+  "start_core.parallel_hatch.min_parallel": "Minimum Allowed Parallels",
+  "start_core.parallel_hatch.jade_min_parallel": "Requires at least %d Recipes in Parallel",
+  "config.jade.plugin_start_core.min_parallel": "[Star Technology] Minimum Parallel Info",
+  
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15"
 }
