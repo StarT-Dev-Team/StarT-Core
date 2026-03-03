@@ -4,7 +4,6 @@
   "item.start_core.data_dna_disk": "§dデータDNAディスク",
   "item.start_core.component_data_core.tooltip": "§7人知を超越したデータ保存",
   "item.start_core.component_data_core": "§d部品データコア",
-
   "item.start_core.bacteria_dormant.tooltip": "§7この群生地、いわばコロニーを目覚めさせ、資源を生み出せ",
   "item.start_core.bacteria_dormant": "§3休眠中のバクテリアコロニー",
   "item.start_core.bacteria_bituminimonas_combustilis": "§3可燃性ビチュミニモナスバクテリアコロニー",
@@ -13,16 +12,12 @@
   "item.start_core.bacteria_octanivorax_sorbitolens": "§3ソルビトール性オクタニボラックスバクテリアコロニー",
   "item.start_core.bacteria_petrospirillum_solvans": "§3溶解性ペトロスピリルムバクテリアコロニー",
   "item.start_core.bacteria_xylotoxibacter_aromatica": "§3クレオソート性キシロシュードモナスバクテリアコロニー",
-
   "gtceu.bacterial_breeding_vat": "バクテリア培養",
   "block.start_core.bacterial_breeding_vat": "バクテリア培養槽",
-
   "gtceu.bacterial_runic_mutator": "バクテリア変異",
   "block.start_core.bacterial_runic_mutator": "バクテリアルーン式変異機",
-
   "gtceu.bacterial_hydrocarbon_harvester": "バクテリア採取",
   "block.start_core.bacterial_hydrocarbon_harvester": "バクテリア式炭化水素採取機",
-
   "behaviour.start_core.bacteria.primary_output": "§5一次出力",
   "behaviour.start_core.bacteria.any_affinity": "§d親和性のある物のいずれか",
   "behaviour.start_core.bacteria.maximum_shown_input": "§7最大消費量が表示される",
@@ -30,24 +25,19 @@
   "behaviour.start_core.bacteria.harvester_sugar_input": "§7実際の砂糖の消費量は §62 << 代謝力",
   "behaviour.start_core.bacteria.maximum_shown_output": "§7最大出力量が表示される",
   "behaviour.start_core.bacteria.harvester_primary_output": "§7実際の一次液体出力量は §62000mB * 生産力",
-
   "behaviour.start_core.bacteria.secondary_output": "§5二次出力",
   "behaviour.start_core.bacteria.harvester_secondary_output": "§7実際の二次液体出力量は §61240mB * 生産力",
-
   "behaviour.start_core.bacteria.tertiary_output": "§5三次出力",
   "behaviour.start_core.bacteria.harvester_tertiary_output": "§7実際の三次液体出力量は §6320mB * 生産力",
-
   "behaviour.start_core.bacteria.no_stats": "§7バクテリアの統計無し",
   "behaviour.start_core.bacteria.stats_header": "§fバクテリアの統計:",
   "behaviour.start_core.bacteria.affinities_header": "§f親和性:",
   "behaviour.start_core.bacteria.affinity_primary": "§7一次: %1$s",
   "behaviour.start_core.bacteria.affinity_secondary": "§7二次: %1$s",
   "behaviour.start_core.bacteria.affinity_tertiary": "§7三次: %1$s",
-
   "behaviour.start_core.bacteria.stat_production": "§7生産力: {0}",
   "behaviour.start_core.bacteria.stat_metabolism": "§7代謝力: {0}",
   "behaviour.start_core.bacteria.stat_mutability": "§7変異性: {0}",
-
   "behaviour.start_core.bacteria.stat_affinity": "§d%1$sとの親和性が存在",
   "behaviour.start_core.bacteria.possible_affinities": "§dコロニー親和性: %1$s§5, %2$s§5, %3$s",
   "behaviour.start_core.bacteria.affinity_none": "無し",
@@ -57,7 +47,6 @@
   "behaviour.start_core.bacteria.mutator_affinity_output": "§6変異§7したバクテリア。変異した統計と親和性を保有するが、入力と同じ種類で出力される。",
   "behaviour.start_core.bacteria.mutator_total_output": "§6変異§7したバクテリア。変異した種類と統計、親和性を保有する。",
   "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria": "§3?????バクテリアコロニー",
-
   "block.start_core.bacteria_multiblock_line": "§3§lバクテリアコロニー機械",
   "block.start_core.runic_mutator_description": "§7ルーン時代の技術を利用して、バクテリアコロニーは生物学的構造に対する極端な遺伝子改変によって変異し、休眠中のコロニーを目覚めさせたり、既存のコロニーの特性を改変などを可能にする機械。",
   "block.start_core.breaker_line": "§8-----------------------------------",
@@ -79,9 +68,7 @@
   "block.start_core.vat2": "§7バクテリアコロニーを複製、及び変異させ、採取や変異のためのコロニーを大量生産可能。",
   "block.start_core.vat3": "§7入力と完璧に同じ種類、統計、親和性を保有する§f16個の複製§7バクテリアを生成する。",
   "block.start_core.vat4": "§7入力と同じ種類と親和性を保有する§f16個の変異§7バクテリアを生成するが、統計はバクテリアの§f変異性§7に応じて変化する。",
-
   "tab.start_core.creative": "Star Technology Core (コアMod)",
-
   "block.start_core.uhv_auxiliary_boosted_fusion_reactor": "補助強化型核融合炉 MK I",
   "block.start_core.uiv_auxiliary_boosted_fusion_reactor": "補助強化型核融合炉 MK II",
   "start_core.machine.auxiliary_boosted_fusion_reactor.description": "§7補助用核融合コイルを利用して核融合反応を強化し、核融合炉反応室内で同時に高密度な核融合反応を起こせる、高効率型核融合炉。",
@@ -95,12 +82,10 @@
   "start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info_1": "§7任意の絶対型並列制御ユニットを使用可能で、非常に高い生産効率を実現する。",
   "block.start_core.auxiliary_fusion_coil_mk1": "補助用核融合コイル MK I",
   "block.start_core.auxiliary_fusion_coil_mk2": "補助用核融合コイル MK II",
-
   "block.start_core.uev_fusion_reactor": "核融合炉 MK IV",
   "block.start_core.fusion_casing_mk4": "核融合炉マシン外装 MK IV",
   "block.start_core.advanced_fusion_coil": "発展型核融合コイル",
   "start_core.multiblock.uev_fusion_reactor.description": "核融合炉MK 4は、元素をより重い元素に融合するために使われる大型マルチブロック機械です。核融合炉Mark 4は、UEVエネルギーハッチのみ使用できます。ハッチごとに、バッファが8000万EUずつ増加します。最大開始エネルギーは12億8000万EUです。",
-
   "block.start_core.ev_64a_energy_converter": "§5EV§r 64§eA§rエネルギー変換機",
   "block.start_core.iv_64a_energy_converter": "§9IV§r 64§eA§rエネルギー変換機",
   "block.start_core.luv_64a_energy_converter": "§dLuV§r 64§eA§rエネルギー変換機",
@@ -112,14 +97,12 @@
   "block.start_core.uv_64a_energy_converter": "§3UV§r 64§eA§rエネルギー変換機",
   "block.start_core.uxv_64a_energy_converter": "§eUXV§r 64§eA§rエネルギー変換機",
   "block.start_core.zpm_64a_energy_converter": "§cZPM§r 64§eA§rエネルギー変換機",
-
   "start_core.machine.parallel_hatch_mk5.tooltip": "最大1024レシピの並列運転が可能",
   "start_core.machine.parallel_hatch_mk6.tooltip": "最大2048レシピの並列運転が可能",
   "start_core.machine.parallel_hatch_mk7.tooltip": "最大4096レシピの並列運転が可能",
   "block.start_core.uhv_parallel_hatch": "エピック並列制御ユニット",
   "block.start_core.uev_parallel_hatch": "メガ並列制御ユニット",
   "block.start_core.uiv_parallel_hatch": "ハイパー並列制御ユニット",
-
   "start_core.machine.absolute_parallel_hatch_mk1.tooltip": "最大4レシピの並列運転が可能",
   "start_core.machine.absolute_parallel_hatch_mk2.tooltip": "最大8レシピの並列運転が可能",
   "start_core.machine.absolute_parallel_hatch_mk3.tooltip": "最大16レシピの並列運転が可能",
@@ -127,13 +110,10 @@
   "block.start_core.uhv_absolute_parallel_hatch": "エピック絶対型並列制御ユニット",
   "block.start_core.uev_absolute_parallel_hatch": "メガ絶対型並列制御ユニット",
   "block.start_core.uiv_absolute_parallel_hatch": "ハイパー絶対型並列制御ユニット",
-
   "block.start_core.enriched_naquadah_drum": "濃縮ナクアダ製ドラム",
   "block.start_core.neutronium_drum": "ニュートロニウム製ドラム",
-
   "item.start_core.enriched_naquadah_fluid_cell": "濃縮ナクアダ製セル",
   "item.start_core.neutronium_fluid_cell": "ニュートロニウム製セル",
-
   "block.start_core.dream_link_energy_hatch_tooltip": "§7夢を通じて無線でエネルギーを受電する",
   "block.start_core.max_1024a_dream_link_energy_hatch": "§c§lMAX§r 1,024§eA§r 夢線型エネルギーハッチ",
   "block.start_core.max_16384a_dream_link_energy_hatch": "§c§lMAX§r 16,384§eA§r 夢線型エネルギーハッチ",
@@ -245,16 +225,13 @@
   "start_core.machine.paragon_of_the_veil.description": "§7パラゴンは夢領域そのものの基盤と統合され、エネルギーを照射するのではなく、普遍的な同期アンカーとしてディメンションを問わず、接続された夢線ネットワークに瞬時にエネルギーを伝送する究極型の機械。",
   "start_core.machine.dream_link_tower.beacon_of_lucidity.range_description": "§7ビーコンは§d無制限の範囲§7を誇る",
   "start_core.machine.dream_link_tower.paragon_of_the_veil.range_description": "§7パラゴンは§d無制限のディメンション伝送§7を誇る",
-
   "block.start_core.dream_link_node": "夢線送電ノード",
   "block.start_core.oneiric_relay": "夢のリレー",
   "block.start_core.daydream_spire": "白昼夢のスパイア",
   "block.start_core.beacon_of_lucidity": "明晰夢のビーコン",
   "block.start_core.paragon_of_the_veil": "§eベールのパラゴン",
-
   "start_core.recipe.temperature": "温度: 🔥 %sMK",
   "start_core.recipe.heating_fluid": "液体: §6{0}",
-
   "material.start_core.corefire_nectar": "§6核炎のネクター",
   "material.start_core.infernal_tar": "§8地獄のタール",
   "material.start_core.flamewake_solvent": "§6炎醒のソルベント",
@@ -283,7 +260,6 @@
   "ui.start_core.hellforge_crucible": "§6坩堝温度: §c{0}MK",
   "config.jade.plugin_start_core.hellforge_heat_info": "[Star Technology] ヘルフォージ坩堝温度",
   "config.jade.plugin_start_core.abyssal_harvester_info": "[Star Technology] アビサルハーベスター詳細",
-
   "block.start_core.redstone_variadic_interface": "§cレッドストーン可変長引数インターフェース",
   "start_core.redstone_hatch.d0": "マルチブロック自動化のためのレッドストーンインジケーターへのアクセスを提供",
   "start_core.redstone_hatch.d1": "§6機能はインターフェースするマルチブロックに依存",
@@ -291,7 +267,6 @@
   "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] レッドストーン可変長引数詳細",
   "ui.start_core.redstone_signal": "§6レッドストーン信号レベル: §c{0}",
   "ui.start_core.indicator": "§dインジケーター: §f{0}",
-
   "block.start_core.abyssal_harvester": "アビサルハーベスター",
   "start_core.machine.abyssal_harvester.line": "§5§lアビサルハーベスト",
   "start_core.machine.abyssal_harvester.description": "§7エンドの深淵から潜在的な潮流を吸収し、ディメンションの亀裂から異質な深淵液体を引き出し、物質状に濃縮する、非常に発展的な機械。",
@@ -308,9 +283,7 @@
   "start_core.recipe.max_saturation": "最大飽和度:§5 %s",
   "start_core.recipe.max_saturation.0": "最大飽和度無し",
   "gtceu.abyssal_harvester": "アビサルハーベスト",
-
   "block.start_core.abydos_marker": "アビドス",
-  
   "start_core.machine.sterile_hatch.tooltip": "マルチブロックを更に清潔で滅菌に！",
   "block.start_core.sterile_cleaning_maintenance_hatch": "バイオセキュア滅菌クリーンメンテナンスハッチ",
   "start_core.uuid_safe.fail_nearest_player": "UUIDに関する問題が発生しました。%sの夢線ネットワークにアクセスし、所有者が正しくない場合は交換を検討してください。",
@@ -325,13 +298,11 @@
   "start_core.abyssal_containment_room.acr1": "§dアビサル封じ込め",
   "start_core.abyssal_containment_room.acr2": "§7クリーンルームの様に、内部に配置されたすべての機械に§5真淵§7のシュミレーション効果を提供する。深淵の性質上、§f保護対策を実施することが推奨される。§7",
   "start_core.abyssal_containment_room.acr3": "§6隔離メンテナンス",
-  "start_core.abyssal_containment_room.acr4":  "§7アビサル封じ込めを維持する為に、1時間当たり§e1,000,00Bのエンドの空気§7と§d50Bのドラゴンブレス§7を供給する必要がある。",
+  "start_core.abyssal_containment_room.acr4": "§7アビサル封じ込めを維持する為に、1時間当たり§e1,000,00Bのエンドの空気§7と§d50Bのドラゴンブレス§7を供給する必要がある。",
   "start_core.abyssal_containment_room.not_provided_fluids": "隔離液未供給",
   "start_core.abyssal_containment_room.provided_fluids": "隔離液供給中",
-
   "item.start_core.lucinducer.tooltip": "§7夢線ネットワークの詳細をコピー",
   "item.start_core.lucinducer": "ルシンドゥーサー",
-
   "block.start_core.threading_controller": "プリズマティックスレッド処理コンバージェンスハッチ",
   "block.start_core.threading_controller.tooltip": "様々な統計にポイントを割り当てて、スレッド処理式強化をしよう！\n§6利用可能なポイントは、マルチブロックに組み込まれているヘリックスによって変化する。",
   "start_core.machine.threading_controller.list_components": "§6スレッド処理部品:",
@@ -366,7 +337,6 @@
   "start_core.machine.threading_controller.jade_thread_header": "§6マルチスレッド %s§e:",
   "start_core.machine.threading_controller.threads_available": "%s §7マルチスレッド利用可能",
   "config.jade.plugin_start_core.threading_recipes": "[Star Technology] マルチスレッドレシピ",
-
   "block.start_core.test": "テスト用ヘリックス",
   "block.start_core.uhv_overdrive_thread_helix": "エピックアクセルロヘリックス",
   "block.start_core.uxv_overdrive_thread_helix": "アセンダントアクセルロヘリックス",
