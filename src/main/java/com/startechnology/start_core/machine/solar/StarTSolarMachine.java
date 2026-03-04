@@ -114,7 +114,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
             }
         });
 
-        euT = newEuT.get();
+    public void doNightLogic() {}
     }
 
     public boolean regressWhenWaiting() {
@@ -125,12 +125,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         return false;
     }
 
-    public boolean isNight() {
-        return getLevel().isNight();
+    public boolean isDay() {
+        return getLevel().isDay();
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
         private static final int BASE_UPDATE_INTERVAL = 5 * 20;
+@Getter
+        public static int nightProgress = 0;
 
         public StarTSolarMachineRecipeLogic(StarTSolarMachine metaTileEntity) {
             super(metaTileEntity);
@@ -159,10 +161,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
         @Override
         public void serverTick() {
-            if (!getMachine().isFormed() || !isWorkingEnabled() || getMachine().isNight()) {
+            if (!getMachine().isFormed() || !isWorkingEnabled()) {
                 setStatus(Status.IDLE);
-            } else if (produceEnergy()) {
+            }  else if (getMachine().isDay() && produceEnergy()) {
                 setStatus(Status.WORKING);
+
                 isActive = true;
                 progress = (progress + 1) % BASE_UPDATE_INTERVAL;
 
@@ -171,8 +174,15 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 }
             } else {
                 setStatus(Status.WAITING);
+
                 isActive = false;
                 progress = Math.max(progress - 2, 1);
+
+                nightProgress = (nightProgress + 1) % BASE_UPDATE_INTERVAL;
+
+                if (nightProgress == 0) {
+                    getMachine().doNightLogic();
+                }
             }
         }
 
