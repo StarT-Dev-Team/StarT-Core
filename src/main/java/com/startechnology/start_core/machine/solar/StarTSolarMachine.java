@@ -12,6 +12,7 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntit
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import it.unimi.dsi.fastutil.longs.LongSets;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +31,12 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     private final List<StarTSolarCell> cells;
     private boolean isWorking;
     @Getter
-    private int euT;
+    private int euT = 0;
+    @Getter
+    private boolean isCooled = false;
+    @Setter
+    @Getter
+    private int runningTimer = 0;
 
     public StarTSolarMachine(IMachineBlockEntity holder, int tier) {
         super(holder);
@@ -38,7 +44,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         this.tier = tier;
         this.cells = new ArrayList<>();
         this.isWorking = false;
-        this.euT = 0;
     }
 
     @Override
@@ -82,6 +87,10 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     }
 
     public void doLogic() {
+
+    public void doDayLogic() {
+        var heatGain = getHeatGain();
+
         AtomicInteger newEuT = new AtomicInteger();
 
         cells.forEach(solarCell -> {
@@ -91,26 +100,26 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 StarTSolarCellType solarCellType = solarCell.getSolarCellType();
 
                 int maxTemp = solarCellType.getMaxTemperature();
-                double currentTemp = solarCellBlockEntity.getTemperature() + (solarCellType.getTemperatureScale() * solarCellType.getHeatRaise());
+                double currentTemp = solarCellBlockEntity.getTemperature() + (solarCellType.getTemperatureScale() * heatGain);
 
                 if (currentTemp >= maxTemp) {
-                    solarCell.getSolarCellBlockEntity().setBroken(true);
+                    solarCellBlockEntity.setBroken(true);
 
                     return;
                 }
 
                 double tempPercent = (currentTemp - 273) / (maxTemp - 273);
                 int durabilityDiff = solarCell.calculateDurabilityDamage(tempPercent);
-                int durability = Math.max(0, solarCellBlockEntity.getDurability() - durabilityDiff);
+                int durability = solarCellBlockEntity.getDurability() - durabilityDiff;
 
-                if (durability == 0) {
-                    solarCell.getSolarCellBlockEntity().setBroken(true);
+                if (durability <= 0) {
+                    solarCellBlockEntity.setBroken(true);
 
                     return;
                 }
 
-                solarCell.getSolarCellBlockEntity().setTemperature(currentTemp);
-                solarCell.getSolarCellBlockEntity().setDurability(durability);
+                solarCellBlockEntity.setTemperature(currentTemp);
+                solarCellBlockEntity.setDurability(durability);
 
                 newEuT.addAndGet((int) GTValues.V[solarCellType.getTier()] / 3);
             }
@@ -119,7 +128,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         euT = (int) (newEuT.get() * getOutputModifier());
     }
 
-    public void doNightLogic() {}
+    public void doNightLogic() {
+    }
 
     public double getOutputModifier() {
         return switch (tier) {
@@ -131,6 +141,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         };
     }
 
+    public double getHeatGain() {
+        if (tier >= GTValues.EV && tier <= GTValues.LuV) return 0.2;
+        else {
+            if (isCooled) return 0.25;
+            else return 0.3;
+        }
+    }
+
     public boolean regressWhenWaiting() {
         return false;
     }
@@ -139,12 +157,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         return false;
     }
 
-    public boolean isDay() {
-        return getLevel().isDay();
+    public boolean isNight() {
+        return getLevel().isNight();
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
         private static final int BASE_UPDATE_INTERVAL = 6 * 20;
+        @Getter
+        public static int dayProgress = 0;
         @Getter
         public static int nightProgress = 0;
 
@@ -175,27 +195,37 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
         @Override
         public void serverTick() {
-            if (!getMachine().isFormed() || !isWorkingEnabled()) {
+            var machine = getMachine();
+
+            if (!machine.isFormed || !isWorkingEnabled()) {
                 setStatus(Status.IDLE);
-            }  else if (getMachine().isDay() && produceEnergy()) {
+            } else {
+                if (machine.isNight()) {
+                    setStatus(Status.WORKING);
+
+                    isActive = true;
+                    nightProgress = (nightProgress + 1) % BASE_UPDATE_INTERVAL;
+                    progress = nightProgress;
+
+                    if (nightProgress == 0) {
+                        machine.doNightLogic();
+                    }
+
+                } else if (produceEnergy()) {
                 setStatus(Status.WORKING);
 
                 isActive = true;
-                progress = (progress + 1) % BASE_UPDATE_INTERVAL;
+                    dayProgress = (dayProgress + 1) % BASE_UPDATE_INTERVAL;
+                    progress = dayProgress;
 
-                if (progress == 0) {
-                    getMachine().doLogic();
+                    if (dayProgress == 0) {
+                        machine.doDayLogic();
                 }
             } else {
                 setStatus(Status.WAITING);
 
                 isActive = false;
                 progress = Math.max(progress - 2, 1);
-
-                nightProgress = (nightProgress + 1) % BASE_UPDATE_INTERVAL;
-
-                if (nightProgress == 0) {
-                    getMachine().doNightLogic();
                 }
             }
         }

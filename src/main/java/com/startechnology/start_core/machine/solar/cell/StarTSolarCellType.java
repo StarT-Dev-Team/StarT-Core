@@ -11,7 +11,5 @@ public interface StarTSolarCellType extends StringRepresentable {
     int getDurability();
     int getMaxTemperature();
     double getTemperatureScale();
-    double getHeatRaise();
-    double getHeatDecline();
 
 }
