@@ -153,7 +153,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
             long resultEnergy = energyContainer.getEnergyStored() + getMachine().euT;
             if (resultEnergy >= 0L && resultEnergy <= energyContainer.getEnergyCapacity()) {
-                energyContainer.changeEnergy(resultEnergy);
+                energyContainer.changeEnergy(getMachine().euT);
                 return true;
             }
             return false;
