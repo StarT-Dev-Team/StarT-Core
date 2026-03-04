@@ -59,6 +59,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 }
             }
         }
+
+        euT = (int) (euT * getOutputModifier());
     }
 
     @Override
@@ -82,7 +84,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     public void doLogic() {
         AtomicInteger newEuT = new AtomicInteger();
 
-        this.cells.forEach(solarCell -> {
+        cells.forEach(solarCell -> {
             StarTSolarCellBlockEntity solarCellBlockEntity = solarCell.getSolarCellBlockEntity();
 
             if (!solarCellBlockEntity.isBroken()) {
@@ -110,11 +112,23 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 solarCell.getSolarCellBlockEntity().setTemperature(currentTemp);
                 solarCell.getSolarCellBlockEntity().setDurability(durability);
 
-                newEuT.addAndGet(GTValues.VHA[solarCellType.getTier()]);
+                newEuT.addAndGet((int) GTValues.V[solarCellType.getTier()] / 3);
             }
         });
 
+        euT = (int) (newEuT.get() * getOutputModifier());
+    }
+
     public void doNightLogic() {}
+
+    public double getOutputModifier() {
+        return switch (tier) {
+            case GTValues.IV -> 1.1;
+            case GTValues.LuV -> 1.2;
+            case GTValues.UV -> 1.5;
+            case GTValues.UHV -> 1.75;
+            default -> 1.0;
+        };
     }
 
     public boolean regressWhenWaiting() {
@@ -131,7 +145,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
         private static final int BASE_UPDATE_INTERVAL = 6 * 20;
-@Getter
+        @Getter
         public static int nightProgress = 0;
 
         public StarTSolarMachineRecipeLogic(StarTSolarMachine metaTileEntity) {
