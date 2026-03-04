@@ -130,7 +130,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
-        private static final int BASE_UPDATE_INTERVAL = 5 * 20;
+        private static final int BASE_UPDATE_INTERVAL = 6 * 20;
 @Getter
         public static int nightProgress = 0;
 
