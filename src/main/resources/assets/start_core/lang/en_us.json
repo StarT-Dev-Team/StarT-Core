@@ -293,6 +293,7 @@
   "gtceu.recipe.category.hellforge_heating": "§6Hadean Crucible Heating",
   "gtceu.hellforge": "§6Infernal Forging",
   "block.start_core.hellforge": "§6Hell Forge",
+  "block.start_core.fornaxs_infernal_rotary_engine": "§6Fornaxs Infernal Rotary Engine",
   "block.start_core.hellforge_multiblock_line": "§c§lDomain of Infernal Reckoning",
   "block.start_core.hellforge_description": "§7A towering infernal crucible that harnesses the Heart of the Flame to fuel its relentless fires, demanding fluid offerings to awaken its molten fury.",
   "block.start_core.hellforge_d0": "§6Hadean Crucible:",
