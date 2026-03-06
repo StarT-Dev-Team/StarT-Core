@@ -295,6 +295,7 @@
   "block.start_core.hellforge": "§6Hell Forge",
   "block.start_core.fornaxs_infernal_rotary_engine": "§6Fornaxs Infernal Rotary Engine",
   "block.start_core.fornaxs_infernal_rotary_engine_rm": "Has §bThroughput Boosting§r and §eBatching",
+  "block.start_core.hellforge_added": "Has §bThroughput Boosting§r and §eBatching",
   "block.start_core.hellforge_multiblock_line": "§c§lDomain of Infernal Reckoning",
   "block.start_core.hellforge_description": "§7A towering infernal crucible that harnesses the Heart of the Flame to fuel its relentless fires, demanding fluid offerings to awaken its molten fury.",
   "block.start_core.hellforge_d0": "§6Hadean Crucible:",
@@ -455,5 +456,7 @@
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
   "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
-  "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15"
+  "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
+
+  "start_core.added_by_tooltip": "§eAdded by Star Technology"
 }
