@@ -596,16 +596,8 @@ private List<GTRecipe> findThreadedRecipes() {
                 continue;
             }
             
-            GTRecipe modifiedRecipe = recipe;
+            GTRecipe modifiedRecipe = this.fullModifyRecipe(recipe);
 
-            if (getDefinition().getRecipeModifier() != null) {
-                if (getDefinition().getRecipeModifier() instanceof RecipeModifierList list) {
-                    modifiedRecipe = list.applyModifier(this, modifiedRecipe);
-                } else {
-                    modifiedRecipe = getDefinition().getRecipeModifier().applyModifier(this, modifiedRecipe);
-                }
-            }
-            
             try {
                 consumeRecipeInputs(modifiedRecipe);
                 activeThreads.add(new ThreadedRecipeExecution(modifiedRecipe, modifiedRecipe.duration));
