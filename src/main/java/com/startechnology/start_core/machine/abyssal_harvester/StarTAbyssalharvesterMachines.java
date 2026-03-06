@@ -39,7 +39,8 @@ public class StarTAbyssalharvesterMachines {
             Component.translatable("machine.start_core.redstone_interfacing"),
             Component.translatable("start_core.machine.abyssal_harvester.ah6"),
             Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.parallels")
+            Component.translatable("block.start_core.parallels_batching"),
+            Component.translatable("block.start_core.added_by_tooltip")
         )
         .recipeTypes(StarTRecipeTypes.ABYSSAL_HARVESTER_RECIPES)
         .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT_SUBTICK, StarTAbyssalHarvesterMachine::recipeModifier, GTRecipeModifiers.BATCH_MODE)

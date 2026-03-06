@@ -295,7 +295,8 @@ public class StarTFusionMachines {
                     Component.translatable("block.start_core.breaker_line"),
                     Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info"),
                     Component.translatable("start_core.machine.auxiliary_boosted_fusion_reactor.parallel_info_1"),
-                    Component.translatable("block.start_core.breaker_line"));
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.added_by_tooltip"));
 
         } else {
             builder
@@ -305,7 +306,8 @@ public class StarTFusionMachines {
                         ReflectorFusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L),
                     Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
                     Component.translatable("gtceu.multiblock.%s_fusion_reactor.description"
-                        .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT))));
+                        .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT))),
+                    Component.translatable("block.start_core.added_by_tooltip"));
         }
 
         return builder.register();

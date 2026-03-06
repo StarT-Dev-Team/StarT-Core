@@ -38,7 +38,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.vat4"),
             Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.parallels")
+            Component.translatable("block.start_core.parallels_batching"),
+            Component.translatable("block.start_core.added_by_tooltip")
         )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
@@ -85,7 +86,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("block.start_core.rm3"),
             Component.translatable("block.start_core.rm4"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.added_by_tooltip")
         )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
         .rotationState(RotationState.NON_Y_AXIS)
@@ -144,7 +146,8 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.hv7"),
             Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.parallels")
+            Component.translatable("block.start_core.parallels_batching"),
+            Component.translatable("block.start_core.added_by_tooltip")
         )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)

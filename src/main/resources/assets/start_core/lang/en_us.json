@@ -74,6 +74,7 @@
   "block.start_core.runic_mutator_description": "§7Using runic-age technologies, bacterial colonies are mutated through extreme genetic alterations to their biological structures, either reawakening dormant colonies or reshaping existing ones into novel types.",
   "block.start_core.breaker_line": "§8-----------------------------------",
   "block.start_core.parallels": "Can use §3Parallel§r hatches",
+  "block.start_core.parallels_batching": "Can use §3Parallel§r hatches and has §eBatching",
   "block.start_core.rm0": "§eDormant Reawakening:",
   "block.start_core.rm1": "§7Reawaken dormant colonies into a randomised bacterial colony with random stats, affinities and type.",
   "block.start_core.gap": "",
@@ -571,5 +572,5 @@
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
-  "start_core.added_by_tooltip": "§eAdded by Star Technology"
+  "block.start_core.added_by_tooltip": "§eAdded by Star Technology"
 }
