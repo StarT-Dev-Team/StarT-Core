@@ -12,11 +12,13 @@
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
     "ParallelHatchPartMachineMixin",
+    "LaserHatchPartMachineAccessor",
     "ParallelHatchPartMachineAccessor",
     "GTRecipeModifiersMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
-    "WorkableElectricMultiblockMachineMixin"
+    "WorkableElectricMultiblockMachineMixin",
+    "WorkableElectricMultiblockMachineAccessor"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin"
