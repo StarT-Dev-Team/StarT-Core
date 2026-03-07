@@ -20,6 +20,8 @@ public enum StarTSolarCells implements StarTSolarCellType {
     @Getter
     public final int durability;
     @Getter
+    public final int maxDurability;
+    @Getter
     public final int maxTemperature;
     @Getter
     public final int minTemperature = 273;
@@ -31,6 +33,7 @@ public enum StarTSolarCells implements StarTSolarCellType {
         this.tier = tier;
         this.harvestLevel = harvestLevel;
         this.durability = durability;
+        this.maxDurability = durability;
         this.maxTemperature = maxTemperature;
         this.temperatureScale = temperatureScale;
     }
