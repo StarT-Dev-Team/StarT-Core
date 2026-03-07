@@ -15,11 +15,14 @@
     "MaterialRecipeHandlerMixin",
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
+    "ParallelHatchPartMachineMixin",
+    "LaserHatchPartMachineAccessor",
     "ParallelHatchPartMachineAccessor",
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
-    "WorkableElectricMultiblockMachineMixin"
+    "WorkableElectricMultiblockMachineMixin",
+    "WorkableElectricMultiblockMachineAccessor"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",

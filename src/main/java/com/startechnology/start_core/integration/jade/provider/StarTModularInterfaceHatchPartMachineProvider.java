@@ -2,14 +2,17 @@ package com.startechnology.start_core.integration.jade.provider;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.modular.StarTModularConduitAutoScalingHatchPartMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 
 import net.minecraft.ChatFormatting;
@@ -66,6 +69,11 @@ public class StarTModularInterfaceHatchPartMachineProvider extends CapabilityBlo
             data.putString("linked_module_namespace", linkedModule.getNamespace());
             data.putString("linked_module_path", linkedModule.getPath());
         }
+
+        if (capability instanceof StarTModularConduitAutoScalingHatchPartMachine autoScalingHatch) {
+            data.putLong("scaled_voltage", autoScalingHatch.getScaledVoltage());
+            data.putLong("scaled_amperage", autoScalingHatch.getScaledAmperage());
+        }
     }
 
     @Override
@@ -75,6 +83,13 @@ public class StarTModularInterfaceHatchPartMachineProvider extends CapabilityBlo
         {
             boolean isTerminal = capData.getBoolean("is_terminal");
             boolean isLinked = capData.getBoolean("is_linked");
+            
+            if (capData.contains("scaled_voltage") && capData.contains("scaled_amperage")) {
+                long scaledVoltage = capData.getLong("scaled_voltage");
+                long scaledAmperage = capData.getLong("scaled_amperage");
+
+                StarTModularConduitAutoScalingHatchPartMachine.addDisplayTextToList((component) -> tooltip.add(component), scaledVoltage, scaledAmperage);
+             }
 
             if (isLinked) {
                 tooltip.add(Component.translatable("modular.start_core.has_link").withStyle(ChatFormatting.GREEN));

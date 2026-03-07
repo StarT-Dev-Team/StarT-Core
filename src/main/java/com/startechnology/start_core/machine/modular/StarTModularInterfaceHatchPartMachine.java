@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
@@ -15,39 +16,31 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
-import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTModularSupportedModules;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.api.gui.StarTGuiTextures;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamWidgetGroup;
-
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 
 public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine implements IStarTModularSupportedModules {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTModularInterfaceHatchPartMachine.class,
@@ -59,6 +52,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     private static final int MODULAR_CHECK_DURATION = 100;
     
     @DescSynced
+    @Persisted
     protected boolean isSupportedModule;
     protected TickableSubscription tickSubscription;
 
@@ -69,6 +63,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     @Setter
     @NotNull
     protected Predicate<ResourceLocation> extraSupportedCondition;
+    
+    @Setter
+    @NotNull
+    protected Consumer<IStarTModularSupportedModules> supportedMachineConsumer;
 
     public StarTModularInterfaceHatchPartMachine(IMachineBlockEntity holder, IO io, int tier) {
         super(holder, tier, io);
@@ -99,15 +97,16 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             this.supportedModules = null;
         }
     }
-
-    public boolean checkSupportedModule() {
+    
+    
+    public void updateSupportedModule() {
         /* We need the controller of this machine to get the ID */
         SortedSet<IMultiController> controllers = getControllers();
-        if (controllers == null || controllers.size() == 0) return false;
+        if (controllers == null || controllers.size() == 0) return;
 
         /* Sharing is not supported */
         IMultiController controller = controllers.first() ;
-        if (!(controller instanceof MultiblockControllerMachine)) return false;
+        if (!(controller instanceof MultiblockControllerMachine)) return;
 
         MultiblockControllerMachine multiblockControllerMachine = (MultiblockControllerMachine)(controller);
         ResourceLocation multiblockId = multiblockControllerMachine.getDefinition().getId();
@@ -115,9 +114,17 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         /* Get capability from in front to get if we are supported or not! */
         BlockPos offsetPos = getPos().relative(getFrontFacing());
         IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper.getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
-        if (modulesSupportedContainer == null) return false;
+        if (modulesSupportedContainer == null) return;
 
-        return modulesSupportedContainer.isSupportedMultiblockId(multiblockId, getPos());
+        /* Get supported state */
+        boolean isSupported = modulesSupportedContainer.isSupportedMultiblockId(multiblockId, getPos());
+
+        /* Changed to true state for supported */
+        if (this.isSupportedModule == false && isSupported && modulesSupportedContainer.getOnSupportedConsumer() != null) {
+            modulesSupportedContainer.getOnSupportedConsumer().accept(this);
+        }
+        
+        this.isSupportedModule = isSupported;
     }
 
     public void updateSupportedStatus() {
@@ -128,7 +135,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         }
 
         if (getOffsetTimer() > (lastCheckTime + MODULAR_CHECK_DURATION) || lastCheckTime == 0) {
-            this.isSupportedModule = checkSupportedModule();
+            updateSupportedModule();
             lastCheckTime = getOffsetTimer();
         }
     }
@@ -189,7 +196,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     }
 
 
-    private void addComponentPanelText(List<Component> componentList) {
+    protected void addComponentPanelText(List<Component> componentList) {
         if (this.isCurrentlyLinked()) {
             componentList.add(Component.translatable("modular.start_core.has_link").withStyle(ChatFormatting.GREEN));
             
@@ -294,5 +301,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
                 () -> null
             )
         );
+    }
+
+    @Override
+    public Consumer<IStarTModularSupportedModules> getOnSupportedConsumer() {
+        return supportedMachineConsumer;
     }
 }
