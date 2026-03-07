@@ -307,6 +307,7 @@ public class StarTFusionMachines {
                     Component.translatable("gtceu.machine.fusion_reactor.overclocking"),
                     Component.translatable("gtceu.multiblock.%s_fusion_reactor.description"
                         .formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT))),
+                    Component.translatable("block.start_core.batching"),
                     Component.translatable("block.start_core.added_by_tooltip"));
         }
 

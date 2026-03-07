@@ -27,6 +27,7 @@ public class StarTHPCAParts {
         return StarTCore.START_REGISTRATE.machine(name, machineConstructor)
                 .abilities(PartAbility.HPCA_COMPONENT)
                 .rotationState(RotationState.ALL)
+                .langValue("HPCA Nanofluidic Heat Sink Component")
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .modelProperty(GTMachineModelProperties.IS_HPCA_PART_DAMAGED, false)
                 .modelProperty(GTMachineModelProperties.IS_ACTIVE, false)

@@ -50,7 +50,7 @@ public class StarTHellForgeMachines {
             Component.translatable("machine.start_core.redstone_interfacing"),
             Component.translatable("block.start_core.hellforge_d8"),
             Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.hellforge_rm"),
+            Component.translatable("block.start_core.batching"),
             Component.translatable("block.start_core.added_by_tooltip")
         )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, GTRecipeModifiers.BATCH_MODE)
