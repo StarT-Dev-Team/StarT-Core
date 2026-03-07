@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/opv_16a_modular_conduit_terminal",
+      "y": 270
+    }
+  }
+}

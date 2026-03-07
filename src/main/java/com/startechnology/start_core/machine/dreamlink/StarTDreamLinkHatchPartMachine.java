@@ -120,8 +120,6 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
                 .translatable("start_core.machine.dream_link.input_per_sec", inAmountComponent)
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         Component.translatable("start_core.machine.dream_link.hatch.input_per_sec_hover")))));
-
-            
     }   
 
     @Override
