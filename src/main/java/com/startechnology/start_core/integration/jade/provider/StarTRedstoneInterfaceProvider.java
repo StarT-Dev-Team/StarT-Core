@@ -1,5 +1,7 @@
 package com.startechnology.start_core.integration.jade.provider;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -46,24 +48,25 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Star
     /* Used for storing data for the addTooltip method ? */
     @Override
     protected void write(CompoundTag data, StarTRedstoneInterfacePartMachine capability) {
-        data.putInt("signal_level", capability.getCurrentSignal());
-        data.putString("indicator", capability.getCurrentIndicator());
+        data.putInt("signal_level", capability.getCurrentLevel());
+        data.putString("indicator", Component.Serializer.toJson(capability.getCurrentIndicator().indicatorComponent()));
     }
 
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
             BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("signal_level") && capData.contains("indicator"))
-        {
+        if (capData.contains("signal_level") && capData.contains("indicator")) {
             Integer signal_level = capData.getInt("signal_level");
-            String indicator = capData.getString("indicator");
-            tooltip.add(Component.translatable("ui.start_core.redstone_signal", signal_level));
+            String indicatorJson = capData.getString("indicator");
 
-            if (indicator != StarTRedstoneInterfacePartMachine.DEFAULT_INDICATOR) {
-                tooltip.add(Component.translatable("ui.start_core.indicator", indicator));
-            }
+            Component indicatorComponent = Optional
+                    .ofNullable(Component.Serializer.fromJson(indicatorJson))
+                    .orElse(Component.literal(indicatorJson));
+
+            tooltip.add(Component.translatable("ui.start_core.redstone_signal", signal_level));
+            tooltip.add(Component.translatable("ui.start_core.indicator", indicatorComponent));
         }
     }
-    
+
 }

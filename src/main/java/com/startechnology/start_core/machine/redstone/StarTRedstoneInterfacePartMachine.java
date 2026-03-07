@@ -1,118 +1,100 @@
 package com.startechnology.start_core.machine.redstone;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.gregtechceu.gtceu.common.machine.storage.CreativeEnergyContainerMachine;
-import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
-import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.LazyManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
 
 public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTRedstoneInterfacePartMachine.class,
-        TieredIOPartMachine.MANAGED_FIELD_HOLDER);
-
-    public static final String DEFAULT_INDICATOR = "Click here to select (if any)";
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTRedstoneInterfacePartMachine.class,
+            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    protected String indicator;
-
     @DescSynced
-    protected CompoundTag indicatorMap;
-    
-    @Persisted
-    Integer currentSignal;
+    @LazyManaged
+    protected StarTRedstoneIndicatorMap indicatorMap;
 
-    protected int setTier;
-
-    public int getCurrentSignal() {
-        return Integer.min(this.currentSignal, 15);
-    }
-
-    public String getCurrentIndicator() {
-        return this.indicator;
-    }
-
-    public void setIndicator(String indicator) {
-        this.indicator = indicator;
-        this.updateCurrentSignal();
-    }
-
-    public void setIndicatorSignal(String indicator, int currentSignal) {
-        indicatorMap.putInt(indicator, currentSignal);
-        this.updateCurrentSignal();
-    }
-
-    public void updateCurrentSignal() {
-        int newSignal = currentSignal;
-
-        if (this.indicatorMap.contains(indicator)) {
-            newSignal = this.indicatorMap.getInt(indicator);
-        }
-
-        if (newSignal == this.currentSignal) return;
-        this.currentSignal = newSignal;
-        notifyBlockUpdate();
-    }
+    /* Last indicator value for reducing unecessary block updates */
+    private Integer lastIndicator;
 
     public StarTRedstoneInterfacePartMachine(IMachineBlockEntity holder, int tier, IO io) {
         super(holder, tier, io);
-        this.indicator = DEFAULT_INDICATOR;
-        this.indicatorMap = new CompoundTag();
-        this.currentSignal = 0;
+        this.lastIndicator = 0;
+        this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
-    
+
+    public StarTRedstoneIndicatorRecord getCurrentIndicator() {
+        return this.indicatorMap.getCurrent();
+    }
+
+    public Integer getCurrentLevel() {
+        return Math.min(getCurrentIndicator().redstoneLevel(), 15);
+    }
+
+
+    private void syncMap() {
+        markDirty("indicatorMap");
+    }
+
+    public void setCurrentIndicator(String indicatorKey) {
+        this.indicatorMap.setCurrent(indicatorKey);
+        modified();
+    }
+
+    public void putIndicator(StarTRedstoneIndicatorRecord indicator) {
+        this.indicatorMap.put(indicator);
+        modified();
+    }
+
+    public void updateIndicator(String indicatorKey, Integer redstoneLevel) {
+        this.indicatorMap.setRedstoneLevel(indicatorKey, redstoneLevel);
+        modified();
+    }
+
     @Override
     public int getOutputSignal(@Nullable Direction side) {
-        if (side.getOpposite() != this.getFrontFacing()) return 0;
-        return this.currentSignal;
+        if (side.getOpposite() != this.getFrontFacing())
+            return 0;
+        return getCurrentLevel();
+    }
+
+    public void updateBlock() {
+        if (getCurrentLevel() != this.lastIndicator) {
+            this.lastIndicator = getCurrentLevel();
+            notifyBlockUpdate();
+        }
+    }
+
+    /* Should be called whenever the indicators have been modified */
+    public void modified() {
+        syncMap();
+        updateBlock();
     }
 
     @Override
     public boolean canConnectRedstone(Direction side) {
-        if (side == this.getFrontFacing()) return true;
+        if (side == this.getFrontFacing())
+            return true;
         return false;
     }
 
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
-    }
-
-    private List<String> getIndicators() {
-        // Sanity checking..
-        if ((this.controllers.size()) < 1) return List.of();
-
-        return List.copyOf(this.indicatorMap.getAllKeys());
     }
 
     @Override
@@ -122,16 +104,19 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
 
     @Override
     public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 117 + 8);
-        group.addWidget(new LabelWidget(55, 35, "start_core.redstone_interface.select"));
-        group.addWidget(new SelectorWidget(20, 50, 200, 20, getIndicators(), -1)
-                        .setOnChanged(indicator -> {
-                            setIndicator(indicator);
-                        })
-                        .setSupplier(() -> this.indicator)
-                        .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
-                        .setBackground(ColorPattern.BLACK.rectTexture())
-                        .setValue(this.indicator));
+        if (!getLevel().isClientSide) syncMap();
+        WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 127 + 8);
+
+        group.addWidget(new LabelWidget(55, 15, "start_core.redstone_interface.select"));
+
+        group.addWidget(new StarTIndicatorSelectorWidget(
+                        20, 30, 200, 20,
+                        () -> this.indicatorMap.getOrdered())
+                .setOnChanged(this::setCurrentIndicator)
+                .setSupplier(() -> getCurrentIndicator().indicatorKey())
+                .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
+                .setBackground(ColorPattern.BLACK.rectTexture())
+                .setValue(getCurrentIndicator().indicatorKey()));
 
         group.setBackground(GuiTextures.BACKGROUND);
         return group;

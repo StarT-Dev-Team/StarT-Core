@@ -12,6 +12,8 @@ public class StarTPartAbility {
     /* Enables the usage of threading with the controller in this machine */
     public static final PartAbility THREADING_CONTROLLER = new PartAbility("threading_controller");
 
+    public static final PartAbility VACUUM_PUMP = new PartAbility("vacuum_pump");
+
     /* Enables the usage of modular terminals in this machine */
     public static final PartAbility MODULAR_TERMINAL = new PartAbility("modular_terminal");
 

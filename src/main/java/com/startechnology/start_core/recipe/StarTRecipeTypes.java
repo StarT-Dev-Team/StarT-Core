@@ -1,59 +1,49 @@
 package com.startechnology.start_core.recipe;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.recipe.logic.BacteriaVatLogic;
-import com.startechnology.start_core.recipe.logic.BacterialDormantAwakeningLogic;
-import com.startechnology.start_core.recipe.logic.BacterialHydrocarbonHarvesterLogic;
-import com.startechnology.start_core.recipe.logic.BacterialRunicMutatorLogic;
-import com.startechnology.start_core.recipe.logic.HellForgeHeatingLogic;
-
-import net.minecraft.client.resources.language.I18n;
+import com.startechnology.start_core.recipe.logic.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
+import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
+
 
 public class StarTRecipeTypes {
 
-    public final static GTRecipeType BLAST_FURNACE_RECIPES = GTRecipeTypes.register("electric_vanilla_blast_furnace", GTRecipeTypes.ELECTRIC, RecipeType.BLASTING)
-        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSound(GTSoundEntries.FURNACE);
-
-    public final static GTRecipeType SMOKER_RECIPES = GTRecipeTypes.register("electric_smoker", GTRecipeTypes.ELECTRIC, RecipeType.SMOKING)
-        .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-        .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-        .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-        .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-        .setSound(GTSoundEntries.FURNACE);
+    public static final GTRecipeType FUSION_RECIPES = GTRecipeTypes.register("reflector_fusion_reactor", GTRecipeTypes.MULTIBLOCK)
+        .setMaxIOSize(0, 0, 2, 1)
+        .setEUIO(IO.IN)
+        .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, LEFT_TO_RIGHT)
+        .setSound(GTSoundEntries.ARC)
+        .setOffsetVoltageText(true)
+        .setVoltageTextOffset(19)
+        .setMaxTooltips(4)
+        .addDataInfo(data -> {
+            var reflectorTier = data.getInt("reflector_tier");
+            return LocalizationUtils.format("start_core.recipe.min_reflector_tier", reflectorTier);
+        })
+        .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel);
 
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes.register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(1, 2, 2, 0)
         .setEUIO(IO.IN)
         .addCustomRecipeLogic(new BacteriaVatLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
-    
+
     public static final GTRecipeType ABYSSAL_CONTAINMENT_RECIPE_TYPE = GTRecipeTypes.register("abyssal_containment", GTRecipeTypes.MULTIBLOCK)
         .setMaxIOSize(0, 0, 2, 0)
         .setEUIO(IO.IN);
@@ -66,10 +56,23 @@ public class StarTRecipeTypes {
         .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType BACTERIAL_HYDROCARBON_HARVESTER_RECIPES = GTRecipeTypes.register("bacterial_hydrocarbon_harvester", GTRecipeTypes.MULTIBLOCK)
-        .setMaxIOSize(2, 0, 2, 3)
+        .setMaxIOSize(2, 0, 2, 5)
         .setEUIO(IO.IN)
         .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes.register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4,2,4,2)
+            .setEUIO(IO.IN)
+            .setOffsetVoltageText(true)
+            .setVoltageTextOffset(19)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> {
+                var vacuumLevel = data.getInt("vacuum_level");
+                if (vacuumLevel >= 100) return LocalizationUtils.format("start_core.recipe.min_vacuum_amount_full").replace("%", "%%");
+                return LocalizationUtils.format("start_core.recipe.min_vacuum_amount", FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumLevel))
+                        .replace("%", "%%");
+            });
 
     public static GTRecipeType registerStarTPrioritiseCustomLogic(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new StarTPrioritiseCustomLogicRecipeType(GTCEu.id(name), group, proxyRecipes);
@@ -126,8 +129,13 @@ public class StarTRecipeTypes {
         })
         .setSound(GTSoundEntries.CENTRIFUGE);
 
+    public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes.register("titan_forge", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
 
     public static final void init() {
-        
+
     }
 }

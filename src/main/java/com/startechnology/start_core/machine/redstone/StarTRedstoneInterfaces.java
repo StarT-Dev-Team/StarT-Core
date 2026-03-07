@@ -2,21 +2,17 @@ package com.startechnology.start_core.machine.redstone;
 
 import java.util.function.Function;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTPartAbility;
 
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
 public class StarTRedstoneInterfaces {

@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
-import com.startechnology.start_core.machine.fusion.AuxiliaryBoostedFusionReactor;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 import dev.latvian.mods.kubejs.KubeJS;

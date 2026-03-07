@@ -237,31 +237,40 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                     text = Component.translatable("gtceu.jade.fluid_use", FormattingUtil.formatNumbers(EUt))
                             .withStyle(ChatFormatting.GREEN);
                 } else {
-                    var voltage = capData.getLong("voltage");
-                    var tier = GTUtil.getTierByVoltage(voltage);
-                    float minAmperage = (float) EUt / voltage;
+                    var tier = GTUtil.getTierByVoltage(EUt);
+                    float minAmperage = (float) EUt / GTValues.V[tier];
 
                     text = Component
-                            .translatable("gtceu.jade.amperage_use",
-                                    FormattingUtil.formatNumber2Places(minAmperage))
-                            .withStyle(ChatFormatting.RED)
-                            .append(Component.translatable("gtceu.jade.at").withStyle(ChatFormatting.GREEN));
-                    if (tier < GTValues.TIER_COUNT) {
-                        text = text.append(Component.literal(GTValues.VNF[tier])
-                                .withStyle(style -> style.withColor(GTValues.VC[tier])));
-                    } else {
-                        int speed = Mth.clamp(tier - GTValues.TIER_COUNT - 1, 0, GTValues.TIER_COUNT);
-                        text = text.append(Component.literal("MAX")
-                                .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
-                                .append(Component.literal("+")
-                                        .withStyle(style -> style.withColor(GTValues.VC[speed]))
-                                        .append(FormattingUtil.formatNumbers(speed))));
+                            .translatable("gtceu.recipe.eu.total",
+                                    FormattingUtil.formatNumbers(EUt))
+                            .withStyle(ChatFormatting.RED);
 
+                    MutableComponent voltageTier;
+                    if (tier < GTValues.TIER_COUNT - 1) {
+                        voltageTier = Component.literal(GTValues.VNF[tier])
+                                .withStyle(style -> style.withColor(GTValues.VC[tier]));
+                    } else {
+                        int calculatedSpeed = Mth
+                                .ceil(Math.log((double) EUt / GTValues.V[GTValues.MAX]) / Math.log(4));
+                        int speed = Mth.clamp(calculatedSpeed, 0, GTValues.TIER_COUNT);
+                        if (speed == 0) {
+                            voltageTier = Component.literal(GTValues.VNF[tier])
+                                    .withStyle(style -> style.withColor(GTValues.VC[tier]));
+                        } else {
+                            minAmperage = (float) (minAmperage / Math.pow(4, speed));
+                            voltageTier = Component.literal("MAX")
+                                    .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
+                                    .append(Component.literal("+")
+                                            .withStyle(style -> style.withColor(GTValues.VC[speed]))
+                                            .append(FormattingUtil.formatNumbers(speed)));
+                        }
                     }
+
                     text.append(Component.translatable("gtceu.universal.padded_parentheses",
-                            (Component.translatable("gtceu.recipe.eu.total",
-                                    FormattingUtil.formatNumbers(EUt))))
-                            .withStyle(ChatFormatting.WHITE));
+                            (Component.translatable("gtceu.recipe.eu.amp_notation",
+                                    FormattingUtil.formatNumber2Places(minAmperage),
+                                    voltageTier))
+                                    .withStyle(ChatFormatting.WHITE)));
                 }
 
                 if (isInput) {
