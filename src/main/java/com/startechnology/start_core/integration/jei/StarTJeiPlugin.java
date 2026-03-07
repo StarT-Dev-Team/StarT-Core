@@ -45,6 +45,11 @@ public class StarTJeiPlugin implements IModPlugin {
             GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
         );
 
+        registration.addRecipeCatalyst(StarTHellForgeMachines.BOOSTED_HELL_FORGE.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
+                GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
+        );
+
     }
 
 }

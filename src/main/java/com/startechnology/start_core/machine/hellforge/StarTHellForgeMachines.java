@@ -49,7 +49,9 @@ public class StarTHellForgeMachines {
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("machine.start_core.redstone_interfacing"),
             Component.translatable("block.start_core.hellforge_d8"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.hellforge_rm"),
+            Component.translatable("start_core.added_by_tooltip")
         )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, GTRecipeModifiers.BATCH_MODE)
         .rotationState(RotationState.NON_Y_AXIS)
@@ -93,6 +95,76 @@ public class StarTHellForgeMachines {
     .workableCasingModel(KubeJS.id("block/casings/nether_multis/extreme_temperature_smelting_casing"),
         GTCEu.id("block/machines/alloy_smelter"))
     .register();
+
+    public static final MultiblockMachineDefinition BOOSTED_HELL_FORGE = START_REGISTRATE
+            .multiblock("fornaxs_infernal_rotary_engine", StarTHellForgeMachine::new)
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("absolute_temperature_smelting_casing")))
+            .langValue("Fornaxs Infernal Rotary Engine")
+            .tooltips(
+                    Component.translatable("block.start_core.hellforge_multiblock_line"),
+                    Component.translatable("block.start_core.hellforge_description"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.hellforge_d0"),
+                    Component.translatable("block.start_core.hellforge_d1"),
+                    Component.literal(""),
+                    Component.translatable("block.start_core.hellforge_d2"),
+                    Component.literal(""),
+                    Component.translatable("block.start_core.hellforge_d9"),
+                    Component.literal(""),
+                    Component.translatable("block.start_core.hellforge_d3"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.hellforge_d5"),
+                    Component.translatable("block.start_core.hellforge_d6"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("machine.start_core.redstone_interfacing"),
+                    Component.translatable("block.start_core.hellforge_d8"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm"),
+                    Component.translatable("start_core.added_by_tooltip")
+            )
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, StarTRecipeModifiers.THOUGHPUT_BOOSTING, GTRecipeModifiers.BATCH_MODE)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("    B   B    ", "    B   B    ", "    B   B    ", "    B   B    ", "    BBBBB    ", "    CCCCC    ", "             ", "             ", "             ", "      D      ", "    DDDDD    ", "      D      ", "             ", "             ", "             ", "    CCCCC    ", "    BBBBB    ", "             ", "    BBBBB    ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "      E      ", "      E      ", "      E      ", "             ")
+                    .aisle(" B  BBBBB  B ", " B  FEEEF  B ", " B  FEGEF  B ", " B  FEEEF  B ", " BBBBBBBBBBB ", " CCCEEEEECCC ", "    EEEEE    ", "     EEE     ", "             ", "             ", "  DD     DD  ", "             ", "             ", "     EEE     ", "    EEEEE    ", " CCCEEEEECCC ", " BBBHHHHHBBB ", "    FFFFF    ", " BBB     BBB ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "      E      ", "    E   E    ", "    E   E    ", "        E    ", "      E      ")
+                    .aisle("  BBFBBBFBB  ", "  FF     FF  ", "  FF     FF  ", "  FF     FF  ", " BBBFFFFFBBB ", " CHHHHHHHHHC ", "  HHHHHHHHH  ", "    HHEHH    ", "     E E     ", "             ", " D         D ", "             ", "     E E     ", "    HHEHH    ", "  HHHHHHHHH  ", " CHHHHHHHHHC ", " BHHIIIIIHHB ", "  FF     FF  ", " B         B ", "             ", "             ", "             ", "    DDDDD    ", "             ", "             ", "             ", "      E E    ", "    E E E    ", "             ", "             ", "    E        ", "        E    ")
+                    .aisle("  BFFBBBFFB  ", "  F  III  F  ", "  F  III  F  ", "  F  III  F  ", " BBFFIIIFFBB ", " CHHHIIIHHHC ", "  HHHIIIHHH  ", "   HHIIIHH   ", "   HHJJJHH   ", "   HE J EH   ", " D  E   E  D ", "   HE J EH   ", "   HHJJJHH   ", "   HHIIIHH   ", "  HHHIIIHHH  ", " CHHHIIIHHHC ", " BHIIIIIIIHB ", "  F  JJJ  F  ", " B   IKI   B ", "     JJJ     ", "             ", "             ", "   D     D   ", "             ", "             ", "     E E     ", "    EEHEH    ", "    E        ", "         E   ", "         E   ", "             ", "             ")
+                    .aisle("BBFFBBBBBFFBB", "BF  GIFIG  FB", "BF  GJ JG  FB", "BF  GJ JG  FB", "BBFFG   GFFBB", "CEHHG   GHHEC", " EHHG   GHHE ", "  HHG   GHH  ", "   HGBCBGH   ", "   EGBJBGE   ", "D  EGBLBGE  D", "   EGBJBGE   ", "   HGBCBGH   ", "  HHG   GHH  ", " EHHG   GHHE ", "CEHHG   GHHEC", "BHIIG   GIIHB", " F  JJ JJ  F ", "B   IJ JI   B", "    JEBEJ    ", "    JEBEJ    ", "     EBE     ", "  D  EBH  D  ", "     EBE     ", "     EBE     ", "    EEEEE    ", "    HEEEEE   ", "         E   ", "             ", "             ", "         E   ", "             ")
+                    .aisle(" BFBBBBBBBFB ", " E IIIIIII E ", " E IJ   JI E ", " E IJ   JI E ", "BBFI     IFBB", "CEHI     IHEC", " EHI     IHE ", " EHI     IHE ", "  EJB C BJE  ", "    B   B    ", "D   B   B   D", "    B   B    ", "  EJB C BJE  ", " EHI     IHE ", " EHI     IHE ", "CEHI     IHEC", "BHII     IIHB", " F JJ   JJ F ", "B  IJ   JI  B", "   JE   EJ   ", "    E B E    ", "    E   E    ", "  D E   E D  ", "    H   E    ", "    EEEEE    ", "    EBBBEE   ", "        HE   ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle(" BFBBBBBBBFB ", " E IFIIIFI E ", " G I  G  I G ", " E I  G  I E ", "BBFI  G  IFBB", "CEHI  G  IHEC", " EHI     IHE ", " EEI     IEE ", "   JCCECCJ   ", "D  JJ E JJ  D", "D   L M L   D", "D  JJ E JJ  D", "   JCCECCJ   ", " EEI     IEE ", " EHI     IHE ", "CEHI     IHEC", "BHII     IIHB", " F J     J F ", "B  K     K  B", "   JB   BJ   ", "    B B B    ", "    B B B    ", "  D B   B D  ", "    B   B    ", "    BEEEB    ", "     BBBEE   ", "             ", "             ", "      D      ", "     DDD     ", "     DDD     ", "      D      ")
+                    .aisle(" BFBBBBBBBFB ", " E IIIIIII E ", " E IJ   JI E ", " E IJ   JI E ", "BBFI     IFBB", "CEHI     IHEC", " EHI     IHE ", " EHI     IHE ", "  EJB C BJE  ", "    B   B    ", "D   B   B   D", "    B   B    ", "  EJB C BJE  ", " EHI     IHE ", " EHI     IHE ", "CEHI     IHEC", "BHII     IIHB", " F JJ   JJ F ", "B  IJ   JI  B", "   JE   EJ   ", "    E   E    ", "    E   E    ", "  D E   E D  ", "    H   H    ", "    EEBEEE   ", "        HEE  ", "         EE  ", "          E  ", "          E  ", "             ", "             ", "             ")
+                    .aisle("BBFFBBBBBFFBB", "BF  GIFIG  FB", "BF  GJ JG  FB", "BF  GJ JG  FB", "BBFFG   GFFBB", "CEHHG   GHHEC", " EHHG   GHHE ", "  HHG   GHH  ", "   HGBCBGH   ", "   EGBJBGE   ", "D  EGBLBGE  D", "   EGBJBGE   ", "   HGBCBGH   ", "  HHG   GHH  ", " EHHG   GHHE ", "CEHHG   GHHEC", "BHIIG   GIIHB", " F  JJ JJ  F ", "B   IJ JI   B", "    JEBEJ    ", "    JEBEJ    ", "     EBE     ", "  D  HBE  D  ", "     EBE     ", "     EBE     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("  BFFBBBFFB  ", "  F  III  F  ", "  F  III  F  ", "  F  III  F  ", " BBFFIIIFFBB ", " CHHHIIIHHHC ", "  HHHIIIHHH  ", "   HHIIIHH   ", "   HHJJJHH   ", "   HE J EH   ", " D  E   E  D ", "   HE J EH   ", "   HHJJJHH   ", "   HHIIIHH   ", "  HHHIIIHHH  ", " CHHHIIIHHHC ", " BHIIIIIIIHB ", "  F  JJJ  F  ", " B   IKI   B ", "     JJJ     ", "             ", "             ", "   D     D   ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("  BBFFFFFBB  ", "  FF     FF  ", "  FF     FF  ", "  FF     FF  ", " BBBFFFFFBBB ", " CHHHHHHHHHC ", "  HHHHHHHHH  ", "    HHEHH    ", "     E E     ", "             ", " D         D ", "             ", "     E E     ", "    HHEHH    ", "  HHHHHHHHH  ", " CHHHHHHHHHC ", " BHHIIIIIHHB ", "  FF     FF  ", " B         B ", "             ", "             ", "             ", "    DDDDD    ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle(" B  BBBBB  B ", " B  FEEEF  B ", " B  FE@EF  B ", " B  FEEEF  B ", " BBBBBBBBBBB ", " CCCEEEEECCC ", "    EEEEE    ", "     EEE     ", "             ", "             ", "  DD     DD  ", "             ", "             ", "     EEE     ", "    EEEEE    ", " CCCEEEEECCC ", " BBBHHHHHBBB ", "    FFFFF    ", " BBB     BBB ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("    B   B    ", "    B   B    ", "    B   B    ", "    B   B    ", "    BBBBB    ", "    CCCCC    ", "             ", "             ", "             ", "      D      ", "    DDDDD    ", "      D      ", "             ", "             ", "             ", "    CCCCC    ", "    BBBBB    ", "             ", "    BBBBB    ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .where(" ", Predicates.any())
+                    .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("aberration_casing")))
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("absolute_temperature_smelting_casing"))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(8).setPreviewCount(0))
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(0))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(0))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(0))
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(4).setPreviewCount(0)))
+                    .where("D", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:draco_abyssal"))))
+                    .where("E", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.of("thermal_extra:dragonsteel_glass", ':'))))
+                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_engine_intake_casing")))
+                    .where("G", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_firebox_casing")))
+                    .where("H", Predicates.blocks(StarTMachineUtils.getKjsBlock("infernally_reinforced_casing")))
+                    .where("I", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
+                    .where("J", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_pipe_casing")))
+                    .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_casing")))
+                    .where("L",Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.of("thermal:enderium_glass", ':'))))
+                    .where("M", Predicates.blocks(StarTMachineUtils.getKjsBlock("runic_stabilization_casing")))
+                    .where("N", Predicates.blocks(StarTMachineUtils.getKjsBlock("soul_of_the_flame")))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .workableCasingModel(KubeJS.id("block/casings/riftic_multis/absolute_temperature_smelting_casing"),
+                    GTCEu.id("block/machines/alloy_smelter"))
+            .register();
 
     public static void init() {}
 }

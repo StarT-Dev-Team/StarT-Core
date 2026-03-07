@@ -16,6 +16,7 @@
   "block.start_core.enriched_naquadah_crate": "ǝʇɐɹƆ ɥɐpɐnbɐN pǝɥɔıɹuƎ",
   "block.start_core.enriched_naquadah_drum": "ɯnɹᗡ ɥɐpɐnbɐN pǝɥɔıɹuƎ",
   "block.start_core.ev_64a_energy_converter": "ɹǝʇɹǝʌuoƆ ʎbɹǝuƎ ɹ§Ɐǝ§ㄣ9 ɹ§ΛƎϛ§",
+  "block.start_core.fornaxs_infernal_rotary_engine": "ǝuıbuƎ ʎɹɐʇoᴚ ןɐuɹǝɟuI sxɐuɹoℲ",
   "block.start_core.fusion_casing_mk4": "ㄣʞW buısɐƆ uoısnℲ",
   "block.start_core.hellforge": "ǝbɹoℲ ןןǝH",
   "block.start_core.hpca_nanofluidic_heat_sink_component": "ʇuǝuodɯoƆ ʞuıS ʇɐǝH ɔıpınןɟouɐN ɐɔdH",
@@ -243,13 +244,19 @@
   "item.start_core.uiv_2a_dream_link_cover_item": "ɹǝʌoƆ ʎbɹǝuƎ ʞuıꞀ-ɯɐǝɹᗡ ɹ§Ɐǝ§ᄅ ɹ§ΛI∩ᄅ§",
   "item.start_core.uv_2a_dream_link_cover_item": "ɹǝʌoƆ ʎbɹǝuƎ ʞuıꞀ-ɯɐǝɹᗡ ɹ§Ɐǝ§ᄅ ɹ§Λ∩Ɛ§",
   "item.start_core.uxv_2a_dream_link_cover_item": "ɹǝʌoƆ ʎbɹǝuƎ ʞuıꞀ-ɯɐǝɹᗡ ɹ§Ɐǝ§ᄅ ɹ§ΛX∩ǝ§",
+  "material.start_core.bituminimonas_combustilis": "sıןıʇsnqɯoƆ sɐuoɯıuıɯnʇıᗺ",
   "material.start_core.blazing_phlogiston": "uoʇsıboןɥԀ buızɐןᗺ",
+  "material.start_core.carbanogasibacter_volatilis": "sıןıʇɐןoΛ ɹǝʇɔɐqısɐbouɐqɹɐƆ",
   "material.start_core.cinderbrew_solvent": "ʇuǝʌןoS ʍǝɹqɹǝpuıƆ",
   "material.start_core.corefire_nectar": "ɹɐʇɔǝN ǝɹıɟǝɹoƆ",
   "material.start_core.emberheart_nectar": "ɹɐʇɔǝN ʇɹɐǝɥɹǝqɯƎ",
+  "material.start_core.fermentibacter_solvis": "sıʌןoS ɹǝʇɔɐqıʇuǝɯɹǝℲ",
   "material.start_core.flamewake_solvent": "ʇuǝʌןoS ǝʞɐʍǝɯɐןℲ",
   "material.start_core.hellfire_essence": "ǝɔuǝssƎ ǝɹıɟןןǝH",
   "material.start_core.igniferous_elixir": "ɹıxıןƎ snoɹǝɟıubI",
   "material.start_core.infernal_tar": "ɹɐ⟘ ןɐuɹǝɟuI",
-  "material.start_core.infernum_elixir": "ɹıxıןƎ ɯnuɹǝɟuI"
+  "material.start_core.infernum_elixir": "ɹıxıןƎ ɯnuɹǝɟuI",
+  "material.start_core.octanivorax_sorbitolens": "suǝןoʇıqɹoS xɐɹoʌıuɐʇɔO",
+  "material.start_core.petrospirillum_solvans": "suɐʌןoS ɯnןןıɹıdsoɹʇǝԀ",
+  "material.start_core.xylopseudomonas_creosotica": "ɐɔıʇosoǝɹƆ sɐuoɯopnǝsdoןʎX"
 }
