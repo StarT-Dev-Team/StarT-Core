@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,6 +23,9 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -68,12 +72,25 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     @NotNull
     protected Consumer<IStarTModularSupportedModules> supportedMachineConsumer;
 
+    @Persisted
+    @DescSynced
+    protected boolean isWaitingForLink = false;
+
+    /* Optional extra modifier that can be added for moodules */
+    @Setter
+    protected RecipeModifier recipeModifier;
+
+    /* Optional consumer that can be ran after working of the module */
+    @Setter
+    protected Consumer<IWorkableMultiController> moduleAfterWorkConsumer;
+
     public StarTModularInterfaceHatchPartMachine(IMachineBlockEntity holder, IO io, int tier) {
         super(holder, tier, io);
         this.lastCheckTime = 0;
         this.supportedModules = null;
         this.extraSupportedCondition = id -> true;
         this.tickSubscription = null;
+        this.recipeModifier = RecipeModifier.NO_MODIFIER;
         setupTickSubscription();
     }
 
@@ -81,6 +98,18 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         if (io == IO.IN && tickSubscription == null && getLevel() != null && !getLevel().isClientSide) {
             this.tickSubscription = subscribeServerTick(this.tickSubscription, this::updateSupportedStatus);
         }
+    }
+
+    @Override
+    public GTRecipe modifyRecipe(GTRecipe recipe) {
+        GTRecipe modifiedRecipe = super.modifyRecipe(recipe);
+        
+        /* Should be impossible to get a recipe without having a controller right? */
+        if (this.controllers == null || this.controllers.size() == 0) {
+            return modifiedRecipe;
+        }
+
+        return this.recipeModifier.applyModifier(this.controllers.first().self(), modifiedRecipe);
     }
 
     @Nullable
@@ -97,16 +126,37 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             this.supportedModules = null;
         }
     }
+
+    public void resetSupportedModule() {
+        setUnsupported();
+
+        /* Update neighbouring if this is an out interface */
+        if (!this.isTerminal()) return;
+        BlockPos offsetPos = getPos().relative(getFrontFacing());
+        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper.getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
+        if (modulesSupportedContainer != null) {
+            modulesSupportedContainer.invalidateSupportedModule();
+        }
+    }
     
+    public void setUnsupported() {
+        this.isSupportedModule = false;
+    }
     
     public void updateSupportedModule() {
         /* We need the controller of this machine to get the ID */
         SortedSet<IMultiController> controllers = getControllers();
-        if (controllers == null || controllers.size() == 0) return;
+        if (controllers == null || controllers.size() == 0) {
+            setUnsupported();
+            return;
+        }
 
         /* Sharing is not supported */
         IMultiController controller = controllers.first() ;
-        if (!(controller instanceof MultiblockControllerMachine)) return;
+        if (!(controller instanceof MultiblockControllerMachine)) {
+            setUnsupported();
+            return;
+        }
 
         MultiblockControllerMachine multiblockControllerMachine = (MultiblockControllerMachine)(controller);
         ResourceLocation multiblockId = multiblockControllerMachine.getDefinition().getId();
@@ -114,7 +164,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         /* Get capability from in front to get if we are supported or not! */
         BlockPos offsetPos = getPos().relative(getFrontFacing());
         IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper.getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
-        if (modulesSupportedContainer == null) return;
+        if (modulesSupportedContainer == null) {
+            setUnsupported();
+            return;
+        }
 
         /* Get supported state */
         boolean isSupported = modulesSupportedContainer.isSupportedMultiblockId(multiblockId, getPos());
@@ -131,9 +184,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         if (getLevel().isClientSide) return;
 
         if (!this.isFormed()) {
-            this.isSupportedModule = false;
+            setUnsupported();
+            return;
         }
-
+        
         if (getOffsetTimer() > (lastCheckTime + MODULAR_CHECK_DURATION) || lastCheckTime == 0) {
             updateSupportedModule();
             lastCheckTime = getOffsetTimer();
@@ -180,7 +234,9 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     @Override
     public boolean onWorking(IWorkableMultiController controller) {
         if (!this.isSupportedModule) {
-            return false;
+            controller.getRecipeLogic().setWaiting(
+                Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.GRAY)
+            );
         }
 
         return super.onWorking(controller);
@@ -287,6 +343,15 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     }
 
     @Override
+    public boolean afterWorking(IWorkableMultiController controller) {
+        if (moduleAfterWorkConsumer != null) {
+            moduleAfterWorkConsumer.accept(controller);
+        }
+
+        return super.afterWorking(controller);
+    }
+
+    @Override
     public void attachTooltips(TooltipsPanel tooltipsPanel) {
         super.attachTooltips(tooltipsPanel);
         tooltipsPanel.attachTooltips(
@@ -306,5 +371,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     @Override
     public Consumer<IStarTModularSupportedModules> getOnSupportedConsumer() {
         return supportedMachineConsumer;
+    }
+
+    @Override
+    public void invalidateSupportedModule() {
+        setUnsupported();
     }
 }

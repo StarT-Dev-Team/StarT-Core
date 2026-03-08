@@ -5,12 +5,17 @@ import java.util.List;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableLaserContainer;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.startechnology.start_core.machine.modular.StarTModularConduitAutoScalingHatchPartMachine;
 import com.startechnology.start_core.mixin.LaserHatchPartMachineAccessor;
@@ -96,17 +101,36 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine {
         return this.inputLaserContainer.getInputVoltage();
     }
 
+    private ModifierFunction moduleRecipeModifierExample(MetaMachine machine, GTRecipe recipe) {
+        /* blah blah blah recipe modifier */
+        return ModifierFunction.builder()
+            .durationMultiplier(2)
+            .build();
+    }
+
+    private void afterBasicModuleWorking(IWorkableMultiController controller) {
+        /* Do some logic after basic or advanced thingo works */
+    }
+
+    private void afterAdvancedModuleWorking(IWorkableMultiController controller) {
+        /* Do some logic after basic or advanced thingo works */
+    }
+
     private void setupTerminals() {
         for (StarTModularConduitAutoScalingHatchPartMachine basicTerminal : basicTerminals) {
             basicTerminal.setSupportedModules(List.of(new ResourceLocation("gtceu:basic_type_module")));
+            basicTerminal.resetSupportedModule();
 
             if (this.inputLaserContainer != null) {
                 basicTerminal.scaleNewEnergyContainer(getModuleVoltage(), getBasicAmperage());
                 terminalContainers.add(basicTerminal.getEnergyContainer());
 
                 basicTerminal.setSupportedMachineConsumer(basicNode -> {
+                    /* Should be a StarTModularConduitAutoScalingHatchPartMachine */
                     if (basicNode instanceof StarTModularConduitAutoScalingHatchPartMachine autoScalingHatch) {
                         autoScalingHatch.scaleNewEnergyContainer(getModuleVoltage(), getBasicAmperage());
+                        autoScalingHatch.setRecipeModifier(this::moduleRecipeModifierExample);
+                        autoScalingHatch.setModuleAfterWorkConsumer(this::afterBasicModuleWorking);
                     }
                 });
             }
@@ -114,7 +138,8 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine {
 
         for (StarTModularConduitAutoScalingHatchPartMachine advancedTerminal : advancedTerminals) {
             advancedTerminal.setSupportedModules(List.of(new ResourceLocation("gtceu:advanced_type_module")));
-
+            advancedTerminal.resetSupportedModule();
+            
             if (this.inputLaserContainer != null) {
                 advancedTerminal.scaleNewEnergyContainer(getModuleVoltage(), getAdvancedAmperage());
                 terminalContainers.add(advancedTerminal.getEnergyContainer());
@@ -122,6 +147,8 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine {
                 advancedTerminal.setSupportedMachineConsumer(advancedNode -> {
                     if (advancedNode instanceof StarTModularConduitAutoScalingHatchPartMachine autoScalingHatch) {
                         autoScalingHatch.scaleNewEnergyContainer(getModuleVoltage(), getAdvancedAmperage());
+                        autoScalingHatch.setRecipeModifier(this::moduleRecipeModifierExample);
+                        autoScalingHatch.setModuleAfterWorkConsumer(this::afterAdvancedModuleWorking);
                     }
                 });
             }
