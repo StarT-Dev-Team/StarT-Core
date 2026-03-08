@@ -14,7 +14,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
-import it.unimi.dsi.fastutil.longs.LongSets;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -58,14 +58,20 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
         var level = getLevel();
 
-        for (var cellPosition : getMultiblockState().getMatchContext().getOrDefault("cellPositions", LongSets.emptySet())) {
-            if (level.getBlockState(BlockPos.of(cellPosition)).getBlock() instanceof StarTSolarCell solarCell) {
-                if (!solarCell.getSolarCellBlockEntity().isBroken() && level.canSeeSky(BlockPos.of(cellPosition))) {
-                    euT += (int) (GTValues.V[solarCell.getSolarCellType().getTier()] / 3);
+        LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
-                    cells.add(solarCell);
+        if (solarCells != null && !solarCells.isEmpty()) {
+            for (var cellPosition : solarCells) {
+                if (level.getBlockState(BlockPos.of(cellPosition)).getBlock() instanceof StarTSolarCell solarCell) {
+                    if (!solarCell.getSolarCellBlockEntity().isBroken() && level.canSeeSky(BlockPos.of(cellPosition))) {
+                        euT += (int) (GTValues.V[solarCell.getSolarCellType().getTier()] / 3);
+
+                        cells.add(solarCell);
+                    }
                 }
             }
+        } else {
+            System.out.println("No Cells");
         }
 
         euT = (int) (euT * getOutputModifier());
