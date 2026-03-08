@@ -11,4 +11,7 @@ public interface IStarTModularSupportedModules {
 
     /* This returns an optional consumer on connection */
     Consumer<IStarTModularSupportedModules> getOnSupportedConsumer();
+
+    /* Force invalidate this modular support item */
+    void invalidateSupportedModule();
 }
