@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.solar;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -11,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
@@ -19,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -31,10 +34,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     @Getter
     private final int tier;
+    @Getter
     private final List<StarTSolarCell> cells;
     @Getter
     private int euT = 0;
-    @Setter
+    @Getter
+    private double avgTemp = 0;
+    @Getter
+    private int avgDura = 0;
+    @Getter
+    private int cellAmount = 0;
+    @Getter
+    private int brokenCells = 0;
     @Getter
     private boolean isCooled = false;
     @Getter
@@ -57,24 +68,41 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
 
         var level = getLevel();
+        double totalTemp = 0;
+        int totalDura = 0;
 
-        LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
+        if (!level.isClientSide) {
+            LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
-        if (solarCells != null && !solarCells.isEmpty()) {
-            for (var cellPosition : solarCells) {
-                if (level.getBlockState(BlockPos.of(cellPosition)).getBlock() instanceof StarTSolarCell solarCell) {
-                    if (!solarCell.getSolarCellBlockEntity().isBroken() && level.canSeeSky(BlockPos.of(cellPosition))) {
-                        euT += (int) (GTValues.V[solarCell.getSolarCellType().getTier()] / 3);
+            if (solarCells != null && !solarCells.isEmpty()) {
+                for (var cellPosition : solarCells) {
+                    if (level.getBlockState(BlockPos.of(cellPosition)).getBlock() instanceof StarTSolarCell solarCell) {
+                        StarTSolarCellBlockEntity solarCellBlockEntity = solarCell.getSolarCellBlockEntity();
+
+                        ++cellAmount;
+
+                        totalTemp += solarCellBlockEntity.getTemperature();
+                        totalDura += solarCellBlockEntity.getDurability();
 
                         cells.add(solarCell);
+
+                        if (!solarCellBlockEntity.isBroken()) {
+                            if (level.canSeeSky(BlockPos.of(cellPosition))) {
+                                euT += (int) (GTValues.V[solarCell.getSolarCellType().getTier()] / 3);
+                            }
+                        } else {
+                            ++brokenCells;
+                        }
                     }
                 }
+            } else {
+                System.out.println("No Cells");
             }
-        } else {
-            System.out.println("No Cells");
-        }
 
-        euT = (int) (euT * getOutputModifier());
+            euT = (int) (euT * getOutputModifier());
+            avgTemp = totalTemp / (cellAmount - brokenCells);
+            avgDura = totalDura / (cellAmount - brokenCells);
+        }
     }
 
     public void doLogic() {
@@ -82,6 +110,9 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         var level = getLevel();
 
         AtomicInteger newEuT = new AtomicInteger();
+        AtomicDouble totalTemp = new AtomicDouble();
+        AtomicInteger totalDura = new AtomicInteger();
+        AtomicInteger newBrokenCells = new AtomicInteger();
 
         if (tier >= GTValues.UV && tier <= GTValues.UHV) {
             ++runningTimer;
@@ -117,6 +148,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 if (currentTemp > maxTemp) {
                     solarCellBlockEntity.setBroken(true);
 
+                    newBrokenCells.incrementAndGet();
+
                     continue;
                 }
 
@@ -127,21 +160,33 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 if (durability <= 0) {
                     solarCellBlockEntity.setBroken(true);
 
+                    newBrokenCells.incrementAndGet();
+
                     continue;
                 }
 
                 solarCellBlockEntity.setTemperature(currentTemp);
                 solarCellBlockEntity.setDurability(durability);
 
+                totalTemp.addAndGet(currentTemp);
+                totalDura.addAndGet(durability);
+
                 if (level.canSeeSky(solarCell.getSolarCellBlockEntity().getBlockPos())) {
                     newEuT.addAndGet((int) GTValues.V[solarCellType.getTier()] / 3);
                 }
             } else {
-                solarCellBlockEntity.setTemperature(solarCellBlockEntity.getTemperature() - heatDiff);
+                double currentTemp = solarCellBlockEntity.getTemperature() - heatDiff;
+
+                solarCellBlockEntity.setTemperature(currentTemp);
+
+                totalTemp.addAndGet(currentTemp);
             }
         }
 
         euT = newEuT.get() > 0 ? (int) (newEuT.get() * getOutputModifier()) : 0;
+        brokenCells = newBrokenCells.get();
+        avgTemp = totalTemp.get() / (cellAmount - brokenCells);
+        avgDura = totalDura.get() / (cellAmount - brokenCells);
     }
 
     public double getOutputModifier() {
@@ -167,6 +212,10 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         else return 0.1;
     }
 
+    public boolean isDay() {
+        return getLevel().isDay();
+    }
+
     public GTRecipe getBoostingRecipe() {
         var amount = tier == GTValues.UV ? 1000 : 2500;
 
@@ -185,8 +234,19 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         return false;
     }
 
-    public boolean isDay() {
-        return getLevel().isDay();
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed) {
+            if (isActive()) {
+                textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick_maxed", FormattingUtil.formatNumbers(euT)));
+            }
+
+            textList.add(Component.nullToEmpty(String.format("Total Cells: %s | Broken Cells: %s", cellAmount, brokenCells)));
+            textList.add(Component.nullToEmpty(String.format("AVG Temperature: %s", avgTemp)));
+            textList.add(Component.nullToEmpty(String.format("AVG Durability: %s", avgDura)));
+        }
     }
 
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
