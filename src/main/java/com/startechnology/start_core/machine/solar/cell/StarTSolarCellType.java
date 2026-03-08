@@ -8,9 +8,9 @@ public interface StarTSolarCellType extends StringRepresentable {
 
     int getTier();
     int getHarvestLevel();
-    int getDurability();
     int getMaxDurability();
     int getMaxTemperature();
+    int getMinTemperature();
     double getTemperatureScale();
 
 }

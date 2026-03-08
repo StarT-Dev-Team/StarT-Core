@@ -1,9 +1,10 @@
 package com.startechnology.start_core.machine.solar.cell;
 
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -28,8 +29,6 @@ import static com.startechnology.start_core.block.solar.StarTSolarCellBlocks.STA
 public class StarTSolarCell extends Block implements EntityBlock {
     @Getter
     private final StarTSolarCellType solarCellType;
-    @Getter
-    private StarTSolarCellBlockEntity solarCellBlockEntity;
 
     public StarTSolarCell(Block.Properties properties, StarTSolarCellType solarCellType) {
         super(properties);
@@ -39,11 +38,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        var solarCellBlockEntity = new StarTSolarCellBlockEntity(START_SOLAR_CELL_BLOCK_ENTITY.get(), pos, state, solarCellType.getDurability());
-
-        this.solarCellBlockEntity = solarCellBlockEntity;
-
-        return solarCellBlockEntity;
+        return new StarTSolarCellBlockEntity(START_SOLAR_CELL_BLOCK_ENTITY.get(), pos, state, solarCellType.getMaxDurability());
     }
 
     @Override
@@ -55,7 +50,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
             ItemStack stack = new ItemStack(this);
 
-            CompoundTag tag = solarBlockEntity.saveWithoutMetadata();
+            CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
 
             stack.getOrCreateTag().put("BlockEntityTag", tag);
 
@@ -82,7 +77,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
-    public int calculateDurabilityDamage(double tempPercent) {
+    public static int calculateDurabilityDamage(double tempPercent) {
         if (tempPercent < 0.75) return 1;
         if (tempPercent < 0.85) return 2;
         if (tempPercent < 0.95) return 4;
@@ -108,8 +103,17 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("Temperature: " + this.solarCellBlockEntity.getTemperature() + " K"));
-        tooltip.add(Component.literal("Durability: " + this.solarCellBlockEntity.getDurability() + "/" + this.solarCellType.getDurability()));
+        CompoundTag tag = stack.getTag();
+
+        if (tag != null && tag.contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
+            CompoundTag beTag = tag.getCompound("BlockEntityTag");
+
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(beTag.getDouble("temperature")), this.solarCellType.getMaxTemperature()));
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", beTag.getInt("durability"), this.solarCellType.getMaxDurability()));
+        } else {
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", 300, this.solarCellType.getMaxTemperature()));
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", this.solarCellType.getMaxDurability(), this.solarCellType.getMaxDurability()));
+        }
 
         super.appendHoverText(stack, level, tooltip, flag);
     }

@@ -18,8 +18,6 @@ public enum StarTSolarCells implements StarTSolarCellType {
     private final int tier;
     private final int harvestLevel;
     @Getter
-    public final int durability;
-    @Getter
     public final int maxDurability;
     @Getter
     public final int maxTemperature;
@@ -32,7 +30,6 @@ public enum StarTSolarCells implements StarTSolarCellType {
         this.name = name;
         this.tier = tier;
         this.harvestLevel = harvestLevel;
-        this.durability = durability;
         this.maxDurability = durability;
         this.maxTemperature = maxTemperature;
         this.temperatureScale = temperatureScale;

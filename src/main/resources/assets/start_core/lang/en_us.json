@@ -563,11 +563,30 @@
   "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
   "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
+
+  "block.start_core.ev_solar_panel": "EV Solar Panel",
+  "block.start_core.iv_solar_panel": "IV Solar Panel",
+  "block.start_core.luv_solar_panel": "LuV Solar Panel",
+  "block.start_core.uv_solar_array": "UV Solar Panel",
+  "block.start_core.uhv_solar_array": "UHV Solar Panel",
+
+  "block.start_core.ev_solar_cell": "EV Solar Cell",
+  "block.start_core.iv_solar_cell": "IV Solar Cell",
+  "block.start_core.luv_solar_cell": "LuV Solar Cell",
+  "block.start_core.uv_solar_cell": "UV Solar Cell",
+  "block.start_core.uhv_solar_cell": "UHV Solar Cell",
+
+  "solar.start_core.solar_cell.temperature_tooltip": "Temperature: %s/%s K",
+  "solar.start_core.solar_cell.durability_tooltip": "Durability: %s/%s",
+  "solar.start_core.solar_machine.cell_tooltip": "Total Cells: %s | Broken Cells: %s",
+  "solar.start_core.solar_machine.avg_temp_tooltip": "Average Temperature: %s",
+  "solar.start_core.solar_machine.avg_dura_tooltip": "Average Durability: %s"
+  "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
   "start_core.parallel_hatch.max_parallel": "Maximum Allowed Parallels",
   "start_core.parallel_hatch.min_parallel": "Minimum Allowed Parallels",
   "start_core.parallel_hatch.jade_min_parallel": "Requires at least %d Recipes in Parallel",
   "config.jade.plugin_start_core.min_parallel": "[Star Technology] Minimum Parallel Info",
-  
+
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
