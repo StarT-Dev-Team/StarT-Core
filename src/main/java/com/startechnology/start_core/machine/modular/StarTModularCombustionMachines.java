@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.machine.boosting.ModularCombustionBoosting;
 import dev.latvian.mods.kubejs.KubeJS;
 
 
@@ -24,10 +24,11 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 public class StarTModularCombustionMachines {
 
     public static final MultiblockMachineDefinition T1_COMBUSTION_MODULE = START_REGISTRATE
-            .multiblock("t1_combustion_module", (holder) -> new StarTModularControllerMachine(holder, StarTCore.resourceLocation("modular_combustion_frame")))
+            .multiblock("t1_combustion_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T1_COMBUSTION_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getGTCEuBlock("robust_machine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAA", "ABA", "AAA")
@@ -35,9 +36,9 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "ADA", "AFA")
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
-                    .where("A", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("robust_machine_casing")))//will be a kjs casing
+                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("robust_machine_casing")))//will be a kjs casing
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get())) //will be a kjs casing
+                    .where("C", Predicates.blocks((StarTMachineUtils.getKjsBlock("pallaridum"))))//will be a kjs casing
                     .where("D", Predicates.blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get())) //will be a kjs casing
                     .where("E", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("robust_machine_casing")) //will be a kjs casing
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
@@ -53,10 +54,11 @@ public class StarTModularCombustionMachines {
             .register();
 
     public static final MultiblockMachineDefinition T2_COMBUSTION_MODULE = START_REGISTRATE
-            .multiblock("t2_combustion_module", (holder) -> new StarTModularControllerMachine(holder, StarTCore.resourceLocation("modular_combustion_frame")))
-            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+            .multiblock("t2_combustion_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T2_COMBUSTION_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(StarTRecipeTypes.MODULAR_COMBUSTION_MODULES_RECIPES)
+            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             //T2 Combustion Module
             .pattern(definition -> FactoryBlockPattern.start()
@@ -65,11 +67,11 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "ADA", "AFA")
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
-                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))) //will be a dif kjs casing
+                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))) //will be a dif kjs casing
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
-                    .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                    .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))//will be a kjs casing
                     )
@@ -78,15 +80,16 @@ public class StarTModularCombustionMachines {
                     .where("I", Predicates.abilities(PartAbility.MUFFLER))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
+            .workableCasingModel(KubeJS.id("block/casings/naquadah/turbine_casing"),
                     GTCEu.id("block/machines/alloy_smelter"))
             .register();
 
     public static final MultiblockMachineDefinition T1_ROCKET_MODULE = START_REGISTRATE
-            .multiblock("t1_rocket_module", (holder) -> new StarTModularControllerMachine(holder, StarTCore.resourceLocation("modular_combustion_frame")))
-            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+            .multiblock("t1_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T1_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             //T1 Rocket Module
             .pattern(definition -> FactoryBlockPattern.start()
@@ -97,10 +100,10 @@ public class StarTModularCombustionMachines {
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))) //will be a dif kjs casing
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))) //will be a dif kjs casing
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
                     .where("E", Predicates.abilities(PartAbility.MUFFLER))
-                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))//will be a dif kjs casing
                     )
@@ -108,16 +111,17 @@ public class StarTModularCombustionMachines {
                     .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
+            .workableCasingModel(KubeJS.id("block/casings/naquadah/turbine_casing"),
                     GTCEu.id("block/machines/alloy_smelter"))
             .register();
 
     //T2 Rocket Module
     public static final MultiblockMachineDefinition T2_ROCKET_MODULE = START_REGISTRATE
-            .multiblock("t2_rocket_module", (holder) -> new StarTModularControllerMachine(holder, StarTCore.resourceLocation("modular_combustion_frame")))
-            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("nyanium_machine_casing"))
+            .multiblock("t2_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T2_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
+            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAA", "ABA", "AAA")
@@ -127,10 +131,10 @@ public class StarTModularCombustionMachines {
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_engine_intake_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_casing"))) //will be a dif kjs casing
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))) //will be a dif kjs casing
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_gearbox")))
                     .where("E", Predicates.abilities(PartAbility.MUFFLER))
-                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_machine_casing"))
+                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
                                     .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS))
                                     .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS))
                     )
@@ -138,7 +142,7 @@ public class StarTModularCombustionMachines {
                      .where("H", Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
-            .workableCasingModel(KubeJS.id("block/casings/nyanium/casing"),
+            .workableCasingModel(KubeJS.id("block/casings/nyanium/turbine_casing"),
                     GTCEu.id("block/machines/alloy_smelter"))
             .register();
 
