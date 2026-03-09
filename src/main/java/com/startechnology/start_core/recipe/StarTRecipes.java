@@ -14,7 +14,6 @@ public class StarTRecipes {
         FluidCellRecipes.init(provider);
         CrateRecipes.init(provider);
         DustBlockRecipeHandler.init(provider);
-        SolarEnergyRecipes.init(provider);
         CustomMaterialTypesRecipes.init(provider);
     }
 }
