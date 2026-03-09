@@ -3,6 +3,7 @@ package com.startechnology.start_core.machine.solar;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -13,25 +14,34 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
+import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
+public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
     @Getter
     private final int tier;
     @Getter
@@ -58,6 +68,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         this.tier = tier;
         this.cells = new ArrayList<>();
     }
+
+    private Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
 
     @Override
     protected RecipeLogic createRecipeLogic(Object... args) {
@@ -91,15 +103,17 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
                         if (!(blockEntity instanceof StarTSolarCellBlockEntity solarCellBlockEntity)) continue;
 
+                        StarTSolarCellType solarCellType = solarCell.getSolarCellType();
+
                         cellAmount++;
 
                         totalTemp += solarCellBlockEntity.getTemperature();
                         totalDura += solarCellBlockEntity.getDurability();
 
-                        cells.add(new SolarCellInstance(blockPos, solarCell.getSolarCellType()));
+                        cells.add(new SolarCellInstance(blockPos, solarCellType, ForgeRegistries.ITEMS.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName()))));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
-                            euT += GTValues.V[solarCell.getSolarCellType().getTier()] / 3;
+                            euT += GTValues.V[solarCellType.getTier()] / 3;
                         } else if (solarCellBlockEntity.isBroken()) {
                             brokenCells++;
                         }
@@ -113,6 +127,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
             avgTemp = totalTemp / activeCells;
             avgDura = totalDura / activeCells;
+
+            temperatureChanged();
         }
     }
 
@@ -145,12 +161,16 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
             if (!(blockEntity instanceof StarTSolarCellBlockEntity solarCellBlockEntity)) continue;
 
             if (solarCellBlockEntity.isBroken()) {
-                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCellType);
+                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
 
                 if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
                     solarCellBlockEntity.setBroken(false);
                     solarCellBlockEntity.setDurability(solarCellType.getMaxDurability());
                     solarCellBlockEntity.setTemperature(300);
+                } else {
+                    newBrokenCells++;
+
+                    continue;
                 }
             }
 
@@ -234,11 +254,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     public GTRecipe getBoostingRecipe() {
         var amount = tier == GTValues.UV ? 1000 : 2500;
 
-        return GTRecipeBuilder.ofRaw().inputFluids(GTMaterials.get("deionized_water").getFluid(amount)).buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(amount)).buildRawRecipe();
     }
 
-    public GTRecipe getSolarPanelRecipe(StarTSolarCellType type) {
-        return GTRecipeBuilder.ofRaw().inputItems(type.getSerializedName()).buildRawRecipe();
+    public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
+        return GTRecipeBuilder.ofRaw().inputItems(new ItemStack(solarCellItem)).buildRawRecipe();
     }
 
     public boolean regressWhenWaiting() {
@@ -247,6 +267,32 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
 
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
         return false;
+    }
+
+    public double redstonePercentageOfTemp(int maxTemp) {
+        return Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0);
+    }
+
+    private void temperatureChanged() {
+        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
+            this.setIndicatorValue("variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
+                    (int) Math.floor(redstonePercentageOfTemp(entry.getMaxTemperature())));
+        });
+    }
+
+    @Override
+    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+        return Arrays.stream(StarTSolarCells.values()).map(entry -> {
+            int maxTemp = entry.getMaxTemperature();
+
+            return new StarTRedstoneIndicatorRecord(
+                    "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
+                    Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
+                    Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
+                    (int) Math.floor(redstonePercentageOfTemp(maxTemp)),
+                    maxTemp
+            );
+        }).toList();
     }
 
     @Override
@@ -260,7 +306,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 textList.add(2, Component.translatable("gtceu.multiblock.turbine.energy_per_tick_maxed", FormattingUtil.formatNumbers(euT)));
             }
 
-            textList.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip",cellAmount - brokenCells, cellAmount));
+            textList.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip", cellAmount - brokenCells, cellAmount));
             textList.add(Component.translatable("solar.start_core.solar_machine.avg_temp_tooltip", FormattingUtil.formatNumbers(avgTemp)));
             textList.add(Component.translatable("solar.start_core.solar_machine.avg_dura_tooltip", avgDura));
 
@@ -328,6 +374,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         }
     }
 
-    public record SolarCellInstance(BlockPos blockPos, StarTSolarCellType cellType) {
+    public record SolarCellInstance(BlockPos blockPos, StarTSolarCellType cellType, Item solarCellItem) {
     }
 }
