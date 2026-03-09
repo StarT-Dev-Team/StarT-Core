@@ -232,14 +232,16 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     }
 
     @Override
-    public boolean onWorking(IWorkableMultiController controller) {
+    public boolean testRecipeTick(IWorkableMultiController controller) {
         if (!this.isSupportedModule) {
             controller.getRecipeLogic().setWaiting(
                 Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.GRAY)
             );
+
+            return false;
         }
 
-        return super.onWorking(controller);
+        return true;
     }
 
     @Override
