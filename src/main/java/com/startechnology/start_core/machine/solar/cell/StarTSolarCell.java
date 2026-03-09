@@ -108,8 +108,12 @@ public class StarTSolarCell extends Block implements EntityBlock {
         if (tag != null && tag.contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
             CompoundTag beTag = tag.getCompound("BlockEntityTag");
 
-            tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(beTag.getDouble("temperature")), this.solarCellType.getMaxTemperature()));
-            tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", beTag.getInt("durability"), this.solarCellType.getMaxDurability()));
+            if (beTag.getBoolean("broken")) {
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.is_broken"));
+            } else {
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(beTag.getDouble("temperature")), this.solarCellType.getMaxTemperature()));
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", beTag.getInt("durability"), this.solarCellType.getMaxDurability()));
+            }
         } else {
             tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", 300, this.solarCellType.getMaxTemperature()));
             tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", this.solarCellType.getMaxDurability(), this.solarCellType.getMaxDurability()));

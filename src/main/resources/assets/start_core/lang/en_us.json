@@ -574,12 +574,6 @@
 
   "start_core.added_by_tooltip": "§eAdded by Star Technology",
 
-  "block.start_core.ev_solar_panel": "EV Solar Panel",
-  "block.start_core.iv_solar_panel": "IV Solar Panel",
-  "block.start_core.luv_solar_panel": "LuV Solar Panel",
-  "block.start_core.uv_solar_array": "UV Solar Panel",
-  "block.start_core.uhv_solar_array": "UHV Solar Panel",
-
   "block.start_core.ev_solar_cell": "EV Solar Cell",
   "block.start_core.iv_solar_cell": "IV Solar Cell",
   "block.start_core.luv_solar_cell": "LuV Solar Cell",
@@ -588,6 +582,14 @@
 
   "solar.start_core.solar_cell.temperature_tooltip": "Temperature: %s/%s K",
   "solar.start_core.solar_cell.durability_tooltip": "Durability: %s/%s",
+  "solar.start_core.solar_cell.is_broken": "§4Cell is broken",
+  "config.jade.plugin_start_core.solar_cell": "[Star Technology] Solar Cell Block",
+
+  "block.start_core.ev_solar_panel": "EV Solar Panel",
+  "block.start_core.iv_solar_panel": "IV Solar Panel",
+  "block.start_core.luv_solar_panel": "LuV Solar Panel",
+  "block.start_core.uv_solar_array": "UV Solar Panel",
+  "block.start_core.uhv_solar_array": "UHV Solar Panel",
 
   "solar.start_core.solar_machine.cell_tooltip": "Working Cells: %s/%s",
   "solar.start_core.solar_machine.avg_temp_tooltip": "Average Temperature: %s K",
