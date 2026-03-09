@@ -70,14 +70,14 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     }
     private Integer getParallelBonus() {
         switch(this.tier) {
-//            case T1_COMBUSTION_MODULE:
-//                return 3;
-//            case T2_COMBUSTION_MODULE:
-//                return 6;
-//            case T1_ROCKET_MODULE:
-//                return 9;
-//            case T2_ROCKET_MODULE:
-//                return 12;
+            case T1_COMBUSTION_MODULE:
+                return 3;
+            case T2_COMBUSTION_MODULE:
+                return 6;
+            case T1_ROCKET_MODULE:
+                return 9;
+            case T2_ROCKET_MODULE:
+                return 12;
             default:
                 return 1;
         }
