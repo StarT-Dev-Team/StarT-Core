@@ -27,13 +27,13 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
 
     protected List<ResourceLocation> supportedMultiblockIds;
 
-    private EnergyContainerList inputHatches;
-    private EnergyContainerList outputConduits;
+    protected EnergyContainerList inputHatches;
+    protected EnergyContainerList outputConduits;
 
     protected ConditionalSubscriptionHandler tickSubscription;
     protected TickableSubscription tryTickSub;
 
-    private boolean readyToUpdate;
+    protected boolean readyToUpdate;
 
 
     public StarTModularControllerMachine(IMachineBlockEntity holder, ResourceLocation... supportedMultiblockIds) {
@@ -118,9 +118,9 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         // Transfer energy tick only every 3 seconds (same as dream-link)
         if (getOffsetTimer() % 60 == 0 && this.readyToUpdate) {
             // conduit i/o
-            updateActiveBlocks(transferModuleInterfacesTick() || transferToOutputs());
-            transferModuleInterfacesTick();
-            transferToOutputs();
+            boolean didTransfer = transferModuleInterfacesTick();
+            boolean didOutput = transferToOutputs();
+            updateActiveBlocks(didTransfer || didOutput);
         }
     }
 
