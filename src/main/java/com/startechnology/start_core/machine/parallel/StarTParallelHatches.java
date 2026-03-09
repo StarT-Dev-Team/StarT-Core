@@ -27,8 +27,9 @@ public class StarTParallelHatches {
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .abilities(StarTPartAbility.ABSOLUTE_PARALLEL_HATCH)
                 .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/absolute_parallel_hatch_mk" + (tier - 8)))
-                .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_mk" + (tier - 8) + ".tooltip"))
-                .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_energy.tooltip"))
+                .tooltips(Component.translatable("start_core.machine.absolute_parallel_hatch_mk" + (tier - 8) + ".tooltip"),
+                        Component.translatable("start_core.machine.absolute_parallel_hatch_energy.tooltip"),
+                        Component.translatable("gtceu.part_sharing.disabled"))
                 .register(),
         GTValues.UHV, GTValues.UEV, GTValues.UIV
     );
@@ -46,7 +47,8 @@ public class StarTParallelHatches {
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .abilities(PartAbility.PARALLEL_HATCH)
                 .workableTieredHullModel(StarTCore.resourceLocation("block/parallel/parallel_hatch_mk" + (tier - 4)))
-                .tooltips(Component.translatable("start_core.machine.parallel_hatch_mk" + (tier - 4) + ".tooltip"))
+                .tooltips(Component.translatable("start_core.machine.parallel_hatch_mk" + (tier - 4) + ".tooltip"),
+                        Component.translatable("gtceu.part_sharing.disabled"))
                 .register(),
         GTValues.UHV, GTValues.UEV, GTValues.UIV
     );

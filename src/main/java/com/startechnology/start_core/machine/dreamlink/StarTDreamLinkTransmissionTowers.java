@@ -63,7 +63,8 @@ public class StarTDreamLinkTransmissionTowers {
         multiBuilder.tooltips(
             Component.literal(""),
             Component.translatable("start_core.machine.dream_link_tower.copy_description"),
-            Component.translatable("block.start_core.breaker_line")
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.added_by_tooltip")
         );
 
         return multiBuilder;

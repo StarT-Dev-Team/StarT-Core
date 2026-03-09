@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.fusion.StarTFusionCasings;
+import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -42,6 +43,7 @@ public class StarTFusionBlocks {
     private static BlockEntry<FusionCasingBlock> createFusionCasing(IFusionCasingType casingType) {
         BlockEntry<FusionCasingBlock> casingBlock = START_REGISTRATE
                 .block(casingType.getSerializedName(), p -> new FusionCasingBlock(p, casingType))
+                .lang(StarTStringUtils.snakeCaseToSentence(casingType.getSerializedName()).replace("Mk", "MK"))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL))
                 .addLayer(() -> RenderType::cutoutMipped)

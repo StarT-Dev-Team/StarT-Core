@@ -1,5 +1,7 @@
 package com.startechnology.start_core;
 
+import com.startechnology.start_core.lang.LangHandler;
+import com.tterrag.registrate.providers.ProviderType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,6 +54,7 @@ public class StarTCore {
 
         StarTCreativeTab.init();
         START_REGISTRATE.creativeModeTab(() -> StarTCreativeTab.START_CORE);
+        START_REGISTRATE.addDataGenerator(ProviderType.LANG, LangHandler::init);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
