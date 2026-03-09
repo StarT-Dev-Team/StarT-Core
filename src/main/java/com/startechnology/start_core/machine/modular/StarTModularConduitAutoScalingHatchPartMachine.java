@@ -4,14 +4,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.client.util.TooltipHelper;
-import com.gregtechceu.gtceu.integration.jade.provider.RecipeLogicProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.LDLib;
@@ -20,10 +15,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.TickTask;
-import net.minecraft.util.Mth;
-import com.startechnology.start_core.mixin.WorkableElectricMultiblockMachineAccessor;
 
 public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModularConduitHatchPartMachine {
 
@@ -36,6 +28,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
 
     @Persisted
     private long persistedAmperage = 0L;
+    private static final long BASE_VOLTAGE = GTValues.V[GTValues.ULV];
 
     public StarTModularConduitAutoScalingHatchPartMachine(IMachineBlockEntity holder, IO io, int tier) {
         super(holder, io, GTValues.ULV, 1);
@@ -44,9 +37,9 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
 
     private void initMaxEnergyContainer() {
         if (this.io == IO.IN) {
-            this.energyContainer.resetBasicInfo(Long.MAX_VALUE, GTValues.ULV, 1, 0, 0);
+            this.energyContainer.resetBasicInfo(Long.MAX_VALUE, BASE_VOLTAGE, 1, 0, 0);
         } else {
-            this.energyContainer.resetBasicInfo(Long.MAX_VALUE, 0, 0, GTValues.ULV, 1);
+            this.energyContainer.resetBasicInfo(Long.MAX_VALUE, 0, 0, BASE_VOLTAGE, 1);
         }
     }
 
@@ -60,7 +53,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
     }
 
     private void restoreEnergyContainer() {
-        if (persistedVoltage > 0 && persistedAmperage > 0) {
+        if (persistedVoltage > BASE_VOLTAGE && persistedAmperage > 0) {
             long maxCapacity = persistedVoltage * 64L * persistedAmperage;
             if (this.io == IO.IN) {
                 this.energyContainer.resetBasicInfo(maxCapacity, persistedVoltage, persistedAmperage, 0, 0);
@@ -68,12 +61,12 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
                 this.energyContainer.resetBasicInfo(maxCapacity, 0, 0, persistedVoltage, persistedAmperage);
             }
         } else {
-            long maxCapacity = GTValues.V[GTValues.ULV] * 64L * 1;
+            long maxCapacity = BASE_VOLTAGE * 64L * 1;
 
             if (this.io == IO.IN) {
-                this.energyContainer.resetBasicInfo(maxCapacity, GTValues.ULV, 1, 0, 0);
+                this.energyContainer.resetBasicInfo(maxCapacity, BASE_VOLTAGE, 1, 0, 0);
             } else {
-                this.energyContainer.resetBasicInfo(maxCapacity, 0, 0, GTValues.ULV, 1);
+                this.energyContainer.resetBasicInfo(maxCapacity, 0, 0, BASE_VOLTAGE, 1);
             }
         }
     }
@@ -113,7 +106,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
 
 
     public static void addDisplayTextToList(Consumer<Component> componentAdder, long scaledVoltage, long scaledAmperage) {
-        if (scaledAmperage > 0 && scaledVoltage > 0) {
+        if (scaledVoltage > BASE_VOLTAGE && scaledAmperage > 0) {
             var tier = GTUtil.getTierByVoltage(scaledVoltage);
 
             componentAdder.accept(
