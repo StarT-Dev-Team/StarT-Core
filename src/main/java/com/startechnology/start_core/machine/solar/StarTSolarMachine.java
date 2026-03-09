@@ -126,14 +126,13 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
         int newBrokenCells = 0;
 
         if (tier >= GTValues.UV && tier <= GTValues.UHV) {
+            GTRecipe boostingRecipe = getBoostingRecipe();
+
+            isCooled = RecipeHelper.matchRecipe(this, boostingRecipe).isSuccess() && RecipeHelper.handleRecipeIO(this, boostingRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess();
+
             ++runningTimer;
 
-            if (runningTimer == 10) {
-                GTRecipe boostingRecipe = getBoostingRecipe();
-
-                runningTimer = 0;
-                isCooled = RecipeHelper.matchRecipe(this, boostingRecipe).isSuccess() && RecipeHelper.handleRecipeIO(this, boostingRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess();
-            }
+            if (runningTimer > 600) runningTimer %= 600;
         }
 
         var heatDiff = isDay ? getHeatGain() : getHeatLoose();
@@ -193,6 +192,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
                 solarCellBlockEntity.setTemperature(currentTemp);
 
                 totalTemp += currentTemp;
+                totalDura += solarCellBlockEntity.getDurability();
             }
         }
 
@@ -234,11 +234,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     public GTRecipe getBoostingRecipe() {
         var amount = tier == GTValues.UV ? 1000 : 2500;
 
-        return GTRecipeBuilder.ofRaw().inputFluids(GTMaterials.get("tungsten_disulfide").getFluid(amount)).buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputFluids(GTMaterials.get("deionized_water").getFluid(amount)).buildRawRecipe();
     }
 
     public GTRecipe getSolarPanelRecipe(StarTSolarCellType type) {
-        return GTRecipeBuilder.ofRaw().inputItems(type.getSerializedName(), 1).buildRawRecipe();
+        return GTRecipeBuilder.ofRaw().inputItems(type.getSerializedName()).buildRawRecipe();
     }
 
     public boolean regressWhenWaiting() {
@@ -253,14 +253,24 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine {
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
 
+        textList.remove(1);
+
         if (isFormed) {
             if (isActive()) {
-                textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick_maxed", FormattingUtil.formatNumbers(euT)));
+                textList.add(2, Component.translatable("gtceu.multiblock.turbine.energy_per_tick_maxed", FormattingUtil.formatNumbers(euT)));
             }
 
-            textList.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip", cellAmount, brokenCells));
+            textList.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip",cellAmount - brokenCells, cellAmount));
             textList.add(Component.translatable("solar.start_core.solar_machine.avg_temp_tooltip", FormattingUtil.formatNumbers(avgTemp)));
             textList.add(Component.translatable("solar.start_core.solar_machine.avg_dura_tooltip", avgDura));
+
+            if (tier >= GTValues.UV && tier <= GTValues.UHV) {
+                if (isCooled) {
+                    textList.add(Component.translatable("solar.start_core.solar_machine.is_cooled_tooltip"));
+                } else {
+                    textList.add(Component.translatable("solar.start_core.solar_machine.is_not_cooled_tooltip"));
+                }
+            }
         }
     }
 

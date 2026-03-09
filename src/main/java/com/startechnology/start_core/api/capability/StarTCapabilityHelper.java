@@ -7,6 +7,7 @@ import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachin
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,10 @@ public class StarTCapabilityHelper {
         } else if (capability == StarTCapability.CAPABILITY_FUSION_REACTOR) {
             if (machine instanceof ReflectorFusionReactorMachine fusionReactorMachine) {
                 return StarTCapability.CAPABILITY_FUSION_REACTOR.orEmpty(capability, LazyOptional.of(() -> fusionReactorMachine));
+            }
+        } else if (capability == StarTCapability.CAPABILITY_SOLAR) {
+            if (machine instanceof StarTSolarMachine solarMachine) {
+                return StarTCapability.CAPABILITY_SOLAR.orEmpty(capability, LazyOptional.of(() -> solarMachine));
             }
         } else if (capability == StarTCapability.VACUUM_CHEMICAL_REACTION_CHAMBER) {
             if (machine instanceof VacuumChemicalReactionChamberMachine vcrcMachine) {
@@ -117,6 +122,11 @@ public class StarTCapabilityHelper {
     @Nullable
     public static ReflectorFusionReactorMachine getFusionReactorMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_FUSION_REACTOR, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTSolarMachine getSolarMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_SOLAR, level, pos, side);
     }
 
     @Nullable

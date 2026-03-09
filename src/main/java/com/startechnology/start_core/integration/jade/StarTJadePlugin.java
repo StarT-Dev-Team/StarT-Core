@@ -18,6 +18,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new StarTAbyssalHarvesterProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTThreadedRecipeProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTFusionReactorProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTSolarMachineProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTMinimumParallelCountProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTVacuumChemicalReactionChamberProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTModularInterfaceHatchPartMachineProvider(), BlockEntity.class);
@@ -32,6 +33,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTThreadedRecipeProvider(), Block.class);
         registration.registerBlockComponent(new StarTThreadedStatBlockProvider(), Block.class);
         registration.registerBlockComponent(new StarTFusionReactorProvider(), Block.class);
+        registration.registerBlockComponent(new StarTSolarMachineProvider(), Block.class);
         registration.registerBlockComponent(new StarTMinimumParallelCountProvider(), Block.class);
         registration.registerBlockComponent(new StarTVacuumChemicalReactionChamberProvider(), Block.class);
         registration.registerBlockComponent(new StarTModularInterfaceHatchPartMachineProvider(), Block.class);

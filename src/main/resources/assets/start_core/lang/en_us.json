@@ -591,4 +591,11 @@
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
   "start_core.added_by_tooltip": "§eAdded by Star Technology"
+
+  "solar.start_core.solar_machine.cell_tooltip": "Working Cells: %s/%s",
+  "solar.start_core.solar_machine.avg_temp_tooltip": "Average Temperature: %s K",
+  "solar.start_core.solar_machine.avg_dura_tooltip": "Average Durability: %s",
+  "solar.start_core.solar_machine.is_cooled_tooltip": "Actively cooled",
+  "solar.start_core.solar_machine.is_not_cooled_tooltip": "Not actively cooled",
+  "config.jade.plugin_start_core.solar_machine_info": "[Star Technology] Solar Panel/Array Entropy"
 }

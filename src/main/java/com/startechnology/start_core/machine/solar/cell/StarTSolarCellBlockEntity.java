@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.solar.cell;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -11,12 +12,15 @@ import net.minecraft.world.level.block.state.BlockState;
 public class StarTSolarCellBlockEntity extends BlockEntity {
     @Getter
     @Setter
+    @Persisted
     private double temperature = 300;
     @Getter
     @Setter
+    @Persisted
     private int durability;
     @Getter
     @Setter
+    @Persisted
     private boolean broken;
 
     public StarTSolarCellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int durability) {
