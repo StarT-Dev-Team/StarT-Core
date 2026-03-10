@@ -547,6 +547,82 @@
   "block.start_core.uxv_4a_modular_conduit_terminal": "§eUXV§r 4§eA§r Modular Conduit Terminal",
   "block.start_core.uxv_64a_modular_conduit_node": "§eUXV§r 64§eA§r Modular Conduit Node",
   "block.start_core.uxv_64a_modular_conduit_terminal": "§eUXV§r 64§eA§r Modular Conduit Terminal",
+  "block.start_core.ev_2a_modular_conduit_terminal":"§5EV§r 2§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_2a_modular_conduit_terminal":"§9IV§r 2§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_2a_modular_conduit_terminal":"§dLuV§r 2§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_2a_modular_conduit_terminal":"§cZPM§r 2§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_4a_modular_conduit_terminal":"§5EV§r 4§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_4a_modular_conduit_terminal":"§9IV§r 4§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_4a_modular_conduit_terminal":"§dLuV§r 4§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_4a_modular_conduit_terminal":"§cZPM§r 4§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_16a_modular_conduit_terminal":"§5EV§r 16§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_16a_modular_conduit_terminal":"§9IV§r 16§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_16a_modular_conduit_terminal":"§dLuV§r 16§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_16a_modular_conduit_terminal":"§cZPM§r 16§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_64a_modular_conduit_terminal":"§5EV§r 64§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_64a_modular_conduit_terminal":"§9IV§r 64§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_64a_modular_conduit_terminal":"§dLuV§r 64§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_64a_modular_conduit_terminal":"§cZPM§r 64§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_256a_modular_conduit_terminal":"§5EV§r 256§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_256a_modular_conduit_terminal":"§9IV§r 256§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_256a_modular_conduit_terminal":"§dLuV§r 256§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_256a_modular_conduit_terminal":"§cZPM§r 256§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_1024a_modular_conduit_terminal":"§5EV§r 1024§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_1024a_modular_conduit_terminal":"§9IV§r 1024§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_1024a_modular_conduit_terminal":"§dLuV§r 1024§eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_1024a_modular_conduit_terminal":"§cZPM§r 1024§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_4096a_modular_conduit_terminal":"§5EV§r 4096§eA§r Modular Conduit Terminal",
+  "block.start_core.iv_4096a_modular_conduit_terminal":"§9IV§r 4096§eA§r Modular Conduit Terminal",
+  "block.start_core.luv_4096a_modular_conduit_terminal":"§dLuV§r 4096eA§r Modular Conduit Terminal",
+  "block.start_core.zpm_4096a_modular_conduit_terminal":"§cZPM§r 4096§eA§r Modular Conduit Terminal",
+
+  "block.start_core.ev_2a_modular_conduit_node":"§5EV§r 2§eA§r Modular Conduit Node",
+  "block.start_core.iv_2a_modular_conduit_node":"§9IV§r 2§eA§r Modular Conduit Node",
+  "block.start_core.luv_2a_modular_conduit_node":"§dLuV§r 2§eA§r Modular Conduit Node",
+  "block.start_core.zpm_2a_modular_conduit_node":"§cZPM§r 2§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_4a_modular_conduit_node":"§5EV§r 4§eA§r Modular Conduit Node",
+  "block.start_core.iv_4a_modular_conduit_node":"§9IV§r 4§eA§r Modular Conduit Node",
+  "block.start_core.luv_4a_modular_conduit_node":"§dLuV§r 4§eA§r Modular Conduit Node",
+  "block.start_core.zpm_4a_modular_conduit_node":"§cZPM§r 4§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_16a_modular_conduit_node":"§5EV§r 16§eA§r Modular Conduit Node",
+  "block.start_core.iv_16a_modular_conduit_node":"§9IV§r 16§eA§r Modular Conduit Node",
+  "block.start_core.luv_16a_modular_conduit_node":"§dLuV§r 16§eA§r Modular Conduit Node",
+  "block.start_core.zpm_16a_modular_conduit_node":"§cZPM§r 16§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_64a_modular_conduit_node":"§5EV§r 64§eA§r Modular Conduit Node",
+  "block.start_core.iv_64a_modular_conduit_node":"§9IV§r 64§eA§r Modular Conduit Node",
+  "block.start_core.luv_64a_modular_conduit_node":"§dLuV§r 64§eA§r Modular Conduit Node",
+  "block.start_core.zpm_64a_modular_conduit_node":"§cZPM§r 64§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_256a_modular_conduit_node":"§5EV§r 256§eA§r Modular Conduit Node",
+  "block.start_core.iv_256a_modular_conduit_node":"§9IV§r 256§eA§r Modular Conduit Node",
+  "block.start_core.luv_256a_modular_conduit_node":"§dLuV§r 256§eA§r Modular Conduit Node",
+  "block.start_core.zpm_256a_modular_conduit_node":"§cZPM§r 256§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_1024a_modular_conduit_node":"§5EV§r 1024§eA§r Modular Conduit Node",
+  "block.start_core.iv_1024a_modular_conduit_node":"§9IV§r 1024§eA§r Modular Conduit Node",
+  "block.start_core.luv_1024a_modular_conduit_node":"§dLuV§r 1024§eA§r Modular Conduit Node",
+  "block.start_core.zpm_1024a_modular_conduit_node":"§cZPM§r 1024§eA§r Modular Conduit Node",
+
+  "block.start_core.ev_4096a_modular_conduit_node":"§5EV§r 4096§eA§r Modular Conduit Node",
+  "block.start_core.iv_4096a_modular_conduit_node":"§9IV§r 4096§eA§r Modular Conduit Node",
+  "block.start_core.luv_4096a_modular_conduit_node":"§dLuV§r 4096eA§r Modular Conduit Node",
+  "block.start_core.zpm_4096a_modular_conduit_node":"§cZPM§r 4096§eA§r Modular Conduit Node",
+
+  "block.start_core.t2_rocket_module": "T2 Rocket Module",
+  "block.start_core.t1_rocket_module": "T1 Rocket Module",
+  "block.start_core.t1_combustion_module": "T1 Combustion Module",
+  "block.start_core.t2_combustion_module": "T2 Combustion Module",
+  "block.start_core.modular_combustion_frame": "Modular Combustion Frame",
+
   "modular.start_core.no_link": "No established Modular-Link",
   "modular.start_core.has_link": "Modular-Link established",
   "modular.start_core.supported_list_title": "Supported Modules:",
