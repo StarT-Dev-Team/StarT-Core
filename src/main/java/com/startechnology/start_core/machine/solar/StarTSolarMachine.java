@@ -125,8 +125,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
             int activeCells = cellAmount - brokenCells;
 
-            avgTemp = totalTemp / activeCells;
-            avgDura = totalDura / activeCells;
+            avgTemp = totalTemp > 0 ? totalTemp / activeCells : 0;
+            avgDura = totalDura > 0 ? totalDura / activeCells : 0;
 
             temperatureChanged();
         }
@@ -220,8 +220,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
         euT = (int) (newEuT * getOutputModifier());
         brokenCells = newBrokenCells;
-        avgTemp = totalTemp / activeCells;
-        avgDura = totalDura / activeCells;
+        avgTemp = totalTemp > 0 ? totalTemp / activeCells : 0;
+        avgDura = totalDura > 0 ? totalDura / activeCells : 0;
     }
 
     public double getOutputModifier() {
