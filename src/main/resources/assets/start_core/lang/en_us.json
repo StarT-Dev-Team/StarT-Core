@@ -571,5 +571,7 @@
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
+  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r",
+
   "start_core.added_by_tooltip": "§eAdded by Star Technology"
 }
