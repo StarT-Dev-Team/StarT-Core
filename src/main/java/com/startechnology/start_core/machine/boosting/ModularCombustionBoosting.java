@@ -115,20 +115,6 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         }
     }
 
-    private double getNonBoostingBonus() {
-        switch(this.tier) {
-//            case T1_COMBUSTION_MODULE:
-//                return 0.9;
-//            case T2_COMBUSTION_MODULE:
-//                return 0.8;
-//            case T1_ROCKET_MODULE:
-//                return 0.7;
-//            case T2_ROCKET_MODULE:
-//                return 0.6;
-            default:
-                return 1;
-        }
-    }
     @Override
     protected @NotNull GTRecipe getLubricantRecipe() {
         return GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
@@ -148,24 +134,18 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         }
     }
     private double getBonus() {
-        // Bonus of this turbine
         if (this.isActiveBoosting) {
             return this.getBoostingBonus();
         } else {
-            return this.getNonBoostingBonus();
+            return 1;
         }
     }
 
-    @Override
-    public long getOverclockVoltage() {
-        long moduleOCVoltage = super.getOverclockVoltage();
-
-        return (long)(((double)moduleOCVoltage) * this.getParallelBonus());
-    }
     //one could say Crazyman
     public ModifierFunction getModifierFunction(long EUt) {
-        int parallels = getParallelBonus();
-        double finalMultiplier = (double) getBaseEUGeneration() / EUt * getBonus() * parallels;
+        int baseParallels = (int)(getBaseEUGeneration() / EUt);
+        int parallels = (int)(baseParallels * getParallelBonus() * getBonus());
+        double finalMultiplier = (double) getBaseEUGeneration() / EUt * getParallelBonus() * getBonus();
 
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallels))

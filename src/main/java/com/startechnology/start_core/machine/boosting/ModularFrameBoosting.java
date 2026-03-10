@@ -87,7 +87,7 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
                     .withStyle(STYLE_GREEN));
 
             MutableComponent avgOutComponent = Component.literal(FormattingUtil.formatNumbers(this.outputPerSec / 60L));
-            textList.add(Component.literal("Avg EU Out: ")
+            textList.add(Component.literal("Boosted EU Out: ")
                     .withStyle(STYLE_YELLOW)
                     .append(avgOutComponent.withStyle(STYLE_RED))
                     .append(Component.literal(" EU/t")));
