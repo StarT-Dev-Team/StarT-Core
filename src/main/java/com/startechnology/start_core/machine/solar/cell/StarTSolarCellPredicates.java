@@ -12,11 +12,11 @@ public class StarTSolarCellPredicates {
         return new TraceabilityPredicate(blockWorldState -> {
             var blockState = blockWorldState.getBlockState();
 
-            for( var solarCell : StarTSolarCellBlocks.SOLAR_CELLS.entrySet()) {
+            for (var solarCell : StarTSolarCellBlocks.SOLAR_CELLS.entrySet()) {
                 if (blockState.is(solarCell.getValue().get())) {
                     blockWorldState.getMatchContext()
-                            .getOrCreate("cellPositions", LongOpenHashSet::new)
-                            .add(blockWorldState.getPos().asLong());
+                        .getOrCreate("cellPositions", LongOpenHashSet::new)
+                        .add(blockWorldState.getPos().asLong());
 
                     return true;
                 }
@@ -24,8 +24,8 @@ public class StarTSolarCellPredicates {
 
             return false;
         }, () -> StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(block -> block.getKey().getTier()))
-                .map(block -> BlockInfo.fromBlockState(block.getValue().get().defaultBlockState()))
-                .toArray(BlockInfo[]::new));
+            .sorted(Comparator.comparingInt(block -> block.getKey().getTier()))
+            .map(block -> BlockInfo.fromBlockState(block.getValue().get().defaultBlockState()))
+            .toArray(BlockInfo[]::new));
     }
 }

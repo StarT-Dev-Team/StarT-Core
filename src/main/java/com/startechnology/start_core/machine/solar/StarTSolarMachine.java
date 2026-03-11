@@ -276,7 +276,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     private void temperatureChanged() {
         Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
             this.setIndicatorValue("variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                    (int) Math.floor(redstonePercentageOfTemp(entry.getMaxTemperature())));
+                (int) Math.floor(redstonePercentageOfTemp(entry.getMaxTemperature())));
         });
     }
 
@@ -286,11 +286,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             int maxTemp = entry.getMaxTemperature();
 
             return new StarTRedstoneIndicatorRecord(
-                    "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                    Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
-                    Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
-                    (int) Math.floor(redstonePercentageOfTemp(maxTemp)),
-                    maxTemp
+                "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
+                Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
+                Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
+                (int) Math.floor(redstonePercentageOfTemp(maxTemp)),
+                maxTemp
             );
         }).toList();
     }

@@ -43,13 +43,10 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-
         BlockEntity be = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
 
         if (be instanceof StarTSolarCellBlockEntity solarBlockEntity) {
-
             ItemStack stack = new ItemStack(this);
-
             CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
 
             stack.getOrCreateTag().put("BlockEntityTag", tag);
@@ -81,6 +78,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
         if (tempPercent < 0.75) return 1;
         if (tempPercent < 0.85) return 2;
         if (tempPercent < 0.95) return 4;
+
         return 8;
     }
 
