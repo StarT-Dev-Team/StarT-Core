@@ -627,10 +627,10 @@
   "block.start_core.luv_4096a_modular_conduit_node":"§dLuV§r 4096eA§r Modular Conduit Node",
   "block.start_core.zpm_4096a_modular_conduit_node":"§cZPM§r 4096§eA§r Modular Conduit Node",
 
-  "block.start_core.t2_rocket_module": "T2 Rocket Module",
-  "block.start_core.t1_rocket_module": "T1 Rocket Module",
-  "block.start_core.t1_combustion_module": "T1 Combustion Module",
-  "block.start_core.t2_combustion_module": "T2 Combustion Module",
+  "block.start_core.t2_rocket_module": "Nyinsane Rocket Module",
+  "block.start_core.t1_rocket_module": "Supreme Rocket Module",
+  "block.start_core.t1_combustion_module": "Unreal Combustion Module",
+  "block.start_core.t2_combustion_module": "Supreme Combustion Module",
   "block.start_core.modular_combustion_frame": "Modular Combustion Frame",
 
   "modular.start_core.no_link": "No established Modular-Link",

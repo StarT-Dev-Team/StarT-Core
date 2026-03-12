@@ -24,10 +24,6 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
         super(holder, supportedMultiblockIds);
     }
 
-    protected double getFrameBoost() {
-        return FRAME_BOOST;
-    }
-
     @Override
     public void onStructureInvalid() {
         this.netInLastSec = 0L;
