@@ -7,7 +7,10 @@ import java.util.List;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,24 +78,9 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             case T2_COMBUSTION_MODULE:
                 return 6;
             case T1_ROCKET_MODULE:
-                return 9;
+                return 3;
             case T2_ROCKET_MODULE:
-                return 12;
-            default:
-                return 1;
-        }
-    }
-
-    private double getBoostingBonus() {
-        switch(this.tier) {
-            case T1_COMBUSTION_MODULE:
-                return isActiveBoosting ? 2 : 1.25;
-            case T2_COMBUSTION_MODULE:
-                return isActiveBoosting ? 3 : 1.5;
-            case T1_ROCKET_MODULE:
-                return isActiveBoosting ? 4 : 1.75;
-            case T2_ROCKET_MODULE:
-                return isActiveBoosting ? 5 : 2;
+                return 6;
             default:
                 return 1;
         }
@@ -135,7 +123,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     }
     private double getBonus() {
         if (this.isActiveBoosting) {
-            return this.getBoostingBonus();
+            return 4;
         } else {
             return 1;
         }
@@ -199,6 +187,19 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
         return value;
     }
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+            boolean oxidizerBoosting = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
+            if (oxidizerBoosting) {
+                textList.add(textList.size() - 1, Component.literal("Oxidizer Boosted.")
+                        .withStyle(ChatFormatting.AQUA));
+            }
+        }
+    }
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
