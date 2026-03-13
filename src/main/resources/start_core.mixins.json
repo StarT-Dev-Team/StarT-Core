@@ -4,20 +4,17 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
-    "FluidDrillMachineMixin",
+    "EmiApiMixin",
     "FluidHatchPartMachineMixin",
     "FusionEnergyPowerMixin",
     "GTRecipeJSMixin",
-    "GTRecipeModifiersMixin",
     "MaintenanceHatchPartMachineMixin",
     "MaterialRecipeHandlerMixin",
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
-    "ParallelHatchPartMachineAccessor",
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
-    "WireRecipeHandlerMixin",
-    "WorkableElectricMultiblockMachineMixin"
+    "WireRecipeHandlerMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin"
