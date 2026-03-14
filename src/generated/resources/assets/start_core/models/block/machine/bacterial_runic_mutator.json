@@ -3,86 +3,104 @@
   "loader": "gtceu:machine",
   "machine": "start_core:bacterial_runic_mutator",
   "texture_overrides": {
-    "all": "kubejs:block/casings/basic/machine_casing_peek"
+    "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
+    "side": "gtceu:block/casings/hpca/computer_casing/side",
+    "top": "gtceu:block/casings/hpca/computer_casing/top"
   },
   "variants": {
     "is_formed=false,recipe_logic_status=idle": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=false,recipe_logic_status=suspend": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=false,recipe_logic_status=waiting": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=false,recipe_logic_status=working": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=true,recipe_logic_status=idle": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=true,recipe_logic_status=suspend": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_paused_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=true,recipe_logic_status=waiting": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     },
     "is_formed=true,recipe_logic_status=working": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/sided/sided",
         "textures": {
-          "all": "kubejs:block/casings/basic/machine_casing_peek",
+          "bottom": "gtceu:block/casings/hpca/computer_casing/bottom",
           "overlay_front": "gtceu:block/multiblock/implosion_compressor/overlay_front_active",
-          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive"
+          "overlay_front_emissive": "gtceu:block/multiblock/implosion_compressor/overlay_front_active_emissive",
+          "side": "gtceu:block/casings/hpca/computer_casing/side",
+          "top": "gtceu:block/casings/hpca/computer_casing/top"
         }
       }
     }
