@@ -35,41 +35,42 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
-    @Getter
     private final int tier;
     @Getter
-    private final List<SolarCellInstance> cells;
-    @Getter
     private int euT = 0;
-    @Getter
-    private double avgTemp = 0;
-    @Getter
     private int avgDura = 0;
     @Getter
     private int cellAmount = 0;
     @Getter
     private int brokenCells = 0;
-    @Getter
-    private boolean isCooled = false;
-    @Getter
     @Persisted
     private int runningTimer = 0;
+
+    private final double outputModifier;
+    private double avgTemp = 0;
+
+    private boolean isCooled = false;
+
+    private final GTRecipe boostingRecipe;
+
+    private final List<SolarCellInstance> cells;
+    private final Map<Item, GTRecipe> repairRecipeCache = new HashMap<>();
 
     public StarTSolarMachine(IMachineBlockEntity holder, int tier) {
         super(holder);
 
         this.tier = tier;
         this.cells = new ArrayList<>();
+        this.boostingRecipe = createBoostingRecipe();
+        this.outputModifier = getOutputModifier();
     }
 
-    private Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
+    private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
 
     @Override
     protected RecipeLogic createRecipeLogic(Object... args) {
@@ -89,11 +90,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         brokenCells = 0;
 
         cells.clear();
+        repairRecipeCache.clear();
 
         if (!level.isClientSide) {
             LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
             if (solarCells != null && !solarCells.isEmpty()) {
+                var items = ForgeRegistries.ITEMS;
+
                 for (long packedPos : solarCells) {
                     BlockPos blockPos = BlockPos.of(packedPos);
                     BlockState blockState = level.getBlockState(blockPos);
@@ -110,7 +114,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                         totalTemp += solarCellBlockEntity.getTemperature();
                         totalDura += solarCellBlockEntity.getDurability();
 
-                        cells.add(new SolarCellInstance(blockPos, solarCellType, ForgeRegistries.ITEMS.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName()))));
+                        cells.add(new SolarCellInstance(blockPos, solarCellType, items.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())), solarCellBlockEntity));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
                             euT += GTValues.V[solarCellType.getTier()] / 3;
@@ -121,7 +125,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                 }
             }
 
-            euT = (int) (euT * getOutputModifier());
+            euT = (int) (euT * outputModifier);
 
             int activeCells = cellAmount - brokenCells;
 
@@ -142,8 +146,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         int newBrokenCells = 0;
 
         if (tier >= GTValues.UV && tier <= GTValues.UHV) {
-            GTRecipe boostingRecipe = getBoostingRecipe();
-
             isCooled = RecipeHelper.matchRecipe(this, boostingRecipe).isSuccess() && RecipeHelper.handleRecipeIO(this, boostingRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess();
 
             ++runningTimer;
@@ -154,9 +156,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         var heatDiff = isDay ? getHeatGain() : getHeatLoose();
 
         for (SolarCellInstance solarCell : cells) {
-            BlockPos blockPos = solarCell.blockPos();
             StarTSolarCellType solarCellType = solarCell.cellType();
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            BlockEntity blockEntity = solarCell.solarCellBlockEntity;
 
             if (!(blockEntity instanceof StarTSolarCellBlockEntity solarCellBlockEntity)) continue;
 
@@ -203,7 +204,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                 totalTemp += currentTemp;
                 totalDura += newDurability;
 
-                if (level.canSeeSky(blockPos)) {
+                if (level.canSeeSky(solarCell.blockPos())) {
                     newEuT += (int) (GTValues.V[solarCellType.getTier()] / 3);
                 }
             } else {
@@ -251,14 +252,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return getLevel().isDay();
     }
 
-    public GTRecipe getBoostingRecipe() {
+    public GTRecipe createBoostingRecipe() {
         var amount = tier == GTValues.UV ? 1000 : 2500;
 
         return GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(amount)).buildRawRecipe();
     }
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
-        return GTRecipeBuilder.ofRaw().inputItems(new ItemStack(solarCellItem)).buildRawRecipe();
+        return repairRecipeCache.computeIfAbsent(solarCellItem, item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).buildRawRecipe());
     }
 
     public boolean regressWhenWaiting() {
@@ -320,6 +321,10 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         }
     }
 
+    public record SolarCellInstance(BlockPos blockPos, StarTSolarCellType cellType, Item solarCellItem,
+                                    StarTSolarCellBlockEntity solarCellBlockEntity) {
+    }
+
     public static class StarTSolarMachineRecipeLogic extends RecipeLogic {
         private static final int BASE_UPDATE_INTERVAL = 6 * 20;
 
@@ -372,8 +377,5 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         public boolean isActive() {
             return getMachine().isFormed() && isActive;
         }
-    }
-
-    public record SolarCellInstance(BlockPos blockPos, StarTSolarCellType cellType, Item solarCellItem) {
     }
 }
