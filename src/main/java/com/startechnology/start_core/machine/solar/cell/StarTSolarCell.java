@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.solar.cell;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
@@ -93,7 +94,14 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+        StarTSolarCellType solarCellType = getSolarCellType();
+
         CompoundTag tag = stack.getTag();
+
+        tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip1"));
+        tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip2"));
+        tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip3"));
+        tooltip.add(Component.translatable("gtceu.universal.tooltip.voltage_out", FormattingUtil.formatNumbers(solarCellType.getEuT()), GTValues.VNF[solarCellType.getTier()]));
 
         if (tag != null && tag.contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
             CompoundTag beTag = tag.getCompound("BlockEntityTag");

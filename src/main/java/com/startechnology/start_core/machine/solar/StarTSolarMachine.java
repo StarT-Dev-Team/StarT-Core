@@ -117,14 +117,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                         cells.add(new SolarCellInstance(blockPos, solarCellType, items.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())), solarCellBlockEntity));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
-                            euT += GTValues.V[solarCellType.getTier()] / 3;
+                            euT += solarCellType.getEuT();
                         } else if (solarCellBlockEntity.isBroken()) {
                             brokenCells++;
                         }
                     }
                 }
             }
-
+            
             euT = (int) (euT * outputModifier);
 
             int activeCells = cellAmount - brokenCells;
@@ -205,7 +205,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                 totalDura += newDurability;
 
                 if (level.canSeeSky(solarCell.blockPos())) {
-                    newEuT += (int) (GTValues.V[solarCellType.getTier()] / 3);
+                    newEuT += solarCellType.getEuT();
                 }
             } else {
                 double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - heatDiff, solarCellType.getMinTemperature());

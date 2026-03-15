@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.solar.cell;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.startechnology.start_core.StarTCore;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +26,8 @@ public enum StarTSolarCells implements StarTSolarCellType {
     public final int minTemperature = 273;
     @Getter
     public final double temperatureScale;
+    @Getter
+    public final int euT;
 
     StarTSolarCells(String name, int tier, int harvestLevel, int durability, int maxTemperature, double temperatureScale) {
         this.name = name;
@@ -33,6 +36,7 @@ public enum StarTSolarCells implements StarTSolarCellType {
         this.maxDurability = durability;
         this.maxTemperature = maxTemperature;
         this.temperatureScale = temperatureScale;
+        this.euT = (int) V[tier] / 3;
     }
 
     @Override

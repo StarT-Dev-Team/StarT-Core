@@ -580,8 +580,12 @@
   "block.start_core.uv_solar_cell": "UV Solar Cell",
   "block.start_core.uhv_solar_cell": "UHV Solar Cell",
 
-  "solar.start_core.solar_cell.temperature_tooltip": "Temperature: %s/%s K",
-  "solar.start_core.solar_cell.durability_tooltip": "Durability: %s/%s",
+  "solar.start_core.solar_cell.tooltip1": "§7Produces energy during the day, while heating up.",
+  "solar.start_core.solar_cell.tooltip2": "§7Cools down during the night.",
+  "solar.start_core.solar_cell.tooltip3": "§7Produces power only when used in a Solar Panel or Array.",
+
+  "solar.start_core.solar_cell.temperature_tooltip": "§cTemperature:§f %s/%s K",
+  "solar.start_core.solar_cell.durability_tooltip": "§dDurability:§f %s/%s",
   "solar.start_core.solar_cell.is_broken": "§4Cell is broken",
   "config.jade.plugin_start_core.solar_cells": "[Star Technology] Solar Cell Block",
 
@@ -592,10 +596,10 @@
   "block.start_core.uhv_solar_array": "UHV Solar Panel",
 
   "solar.start_core.solar_machine.cell_tooltip": "Working Cells: %s/%s",
-  "solar.start_core.solar_machine.avg_temp_tooltip": "Average Temperature: %s K",
-  "solar.start_core.solar_machine.avg_dura_tooltip": "Average Durability: %s",
-  "solar.start_core.solar_machine.is_cooled_tooltip": "Actively cooled",
-  "solar.start_core.solar_machine.is_not_cooled_tooltip": "Not actively cooled",
+  "solar.start_core.solar_machine.avg_temp_tooltip": "§cAverage Temperature:§f %s K",
+  "solar.start_core.solar_machine.avg_dura_tooltip": "§dAverage Durability:§f %s",
+  "solar.start_core.solar_machine.is_cooled_tooltip": "§3Actively cooled",
+  "solar.start_core.solar_machine.is_not_cooled_tooltip": "§1Not actively cooled",
   "config.jade.plugin_start_core.solar_machine_info": "[Star Technology] Solar Panel/Array Entropy",
 
   "variadic.start_core.indicator.solar_machine": "Percentage to %s K",
