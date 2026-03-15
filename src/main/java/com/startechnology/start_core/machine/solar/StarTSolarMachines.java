@@ -55,7 +55,7 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/dreamlink/dream_link_node"))
+        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/ev"))
         .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_IV = START_REGISTRATE
@@ -87,7 +87,7 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/dreamlink/oneiric_relay"))
+        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/iv"))
         .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_LUV = START_REGISTRATE
@@ -119,7 +119,7 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/dreamlink/daydream_spire"))
+        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/luv"))
         .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UV = START_REGISTRATE
@@ -165,7 +165,7 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/dreamlink/beacon_of_lucidity"))
+        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uv"))
         .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UHV = START_REGISTRATE
@@ -216,7 +216,7 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/dreamlink/paragon_of_the_veil"))
+        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uhv"))
         .register();
 
     public static void init() {

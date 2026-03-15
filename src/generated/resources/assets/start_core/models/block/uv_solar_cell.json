@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "kubejs:block/casings/naquadah/casing",
     "side": "gtceu:block/casings/voltage/uv/side",
-    "top": "start_core:block/casings/solar_cell/uv"
+    "top": "start_core:block/solar/cells/uv"
   }
 }

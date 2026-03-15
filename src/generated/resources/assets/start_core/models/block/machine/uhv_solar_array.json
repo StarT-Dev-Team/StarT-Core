@@ -11,8 +11,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -21,8 +21,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -31,8 +31,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -41,8 +41,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -51,8 +51,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -61,8 +61,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -71,8 +71,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     },
@@ -81,8 +81,8 @@
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
           "all": "kubejs:block/casings/naquadah/casing",
-          "overlay_front": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front",
-          "overlay_front_emissive": "start_core:block/dreamlink/paragon_of_the_veil/overlay_front_emissive"
+          "overlay_front": "start_core:block/solar/overlay/uhv/overlay_front",
+          "overlay_front_emissive": "start_core:block/solar/overlay/uhv/overlay_front_emissive"
         }
       }
     }

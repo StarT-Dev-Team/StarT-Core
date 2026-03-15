@@ -36,7 +36,7 @@ public class StarTSolarCellBlocks {
 
         return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
             .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
-            .texture("top", StarTCore.resourceLocation("block/casings/solar_cell/%s".formatted(tierName)))
+            .texture("top", StarTCore.resourceLocation("block/solar/cells/%s".formatted(tierName)))
             .texture("side", GTCEu.id("block/casings/voltage/%s/side".formatted(tierName)))
             .texture("bottom", tier < 7 ? GTCEu.id("block/casings/solid/machine_casing_solid_steel") : KubeJS.id("block/casings/naquadah/casing")));
     }

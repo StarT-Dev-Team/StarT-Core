@@ -3,6 +3,6 @@
   "textures": {
     "bottom": "gtceu:block/casings/solid/machine_casing_solid_steel",
     "side": "gtceu:block/casings/voltage/luv/side",
-    "top": "start_core:block/casings/solar_cell/luv"
+    "top": "start_core:block/solar/cells/luv"
   }
 }
