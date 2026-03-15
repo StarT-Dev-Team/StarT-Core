@@ -187,7 +187,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                     continue;
                 }
 
-                int durabilityDiff = StarTSolarCell.calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
+                int durabilityDiff = calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
                 int newDurability = solarCellBlockEntity.getDurability() - durabilityDiff;
 
                 if (newDurability <= 0) {
@@ -260,6 +260,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
         return repairRecipeCache.computeIfAbsent(solarCellItem, item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).buildRawRecipe());
+    }
+
+    public static int calculateDurabilityDamage(double tempPercent) {
+        if (tempPercent < 0.75) return 1;
+        if (tempPercent < 0.85) return 2;
+        if (tempPercent < 0.95) return 4;
+
+        return 8;
     }
 
     public boolean regressWhenWaiting() {

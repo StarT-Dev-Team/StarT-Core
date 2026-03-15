@@ -74,14 +74,6 @@ public class StarTSolarCell extends Block implements EntityBlock {
         super.setPlacedBy(level, pos, state, placer, stack);
     }
 
-    public static int calculateDurabilityDamage(double tempPercent) {
-        if (tempPercent < 0.75) return 1;
-        if (tempPercent < 0.85) return 2;
-        if (tempPercent < 0.95) return 4;
-
-        return 8;
-    }
-
     private static final VoxelShape BOTTOM_SLAB_SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
     @Override
