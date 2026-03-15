@@ -67,7 +67,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.tier = tier;
         this.cells = new ArrayList<>();
         this.boostingRecipe = createBoostingRecipe();
-        this.outputModifier = getOutputModifier();
+        this.outputModifier = getOutputModifier(tier);
     }
 
     private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
@@ -124,7 +124,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                     }
                 }
             }
-            
+
             euT = (int) (euT * outputModifier);
 
             int activeCells = cellAmount - brokenCells;
@@ -219,13 +219,13 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
         int activeCells = cellAmount - brokenCells;
 
-        euT = (int) (newEuT * getOutputModifier());
+        euT = (int) (newEuT * outputModifier);
         brokenCells = newBrokenCells;
         avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
         avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
     }
 
-    public double getOutputModifier() {
+    public static double getOutputModifier(int tier) {
         return switch (tier) {
             case GTValues.IV -> 1.1;
             case GTValues.LuV -> 1.2;

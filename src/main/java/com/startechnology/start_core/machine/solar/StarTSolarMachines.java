@@ -16,14 +16,28 @@ import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellPredicates;
 import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTSolarMachines {
+    public static TextColor customGoldColor = TextColor.parseColor("#FDB813");
+
     public static final MultiblockMachineDefinition SOLAR_PANEL_EV = START_REGISTRATE
         .multiblock("ev_solar_panel", holder -> new StarTSolarMachine(holder, EV))
         .langValue("EV Solar Panel")
+        .tooltips(
+            Component.translatable("block.start_core.solar_multiblock_line").setStyle(Style.EMPTY.withColor(customGoldColor)),
+            Component.translatable("solar.start_core.solar_machine.tooltip1"),
+            Component.translatable("solar.start_core.solar_machine.tooltip2"),
+            Component.translatable("solar.start_core.solar_machine.tooltip3"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip4", StarTSolarMachine.getOutputModifier(EV)),
+            Component.translatable("solar.start_core.solar_machine.tooltip5")
+        )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
@@ -47,6 +61,15 @@ public class StarTSolarMachines {
     public static final MultiblockMachineDefinition SOLAR_PANEL_IV = START_REGISTRATE
         .multiblock("iv_solar_panel", holder -> new StarTSolarMachine(holder, IV))
         .langValue("IV Solar Panel")
+        .tooltips(
+            Component.translatable("block.start_core.solar_multiblock_line").setStyle(Style.EMPTY.withColor(customGoldColor)),
+            Component.translatable("solar.start_core.solar_machine.tooltip1"),
+            Component.translatable("solar.start_core.solar_machine.tooltip2"),
+            Component.translatable("solar.start_core.solar_machine.tooltip3"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip4", StarTSolarMachine.getOutputModifier(IV)),
+            Component.translatable("solar.start_core.solar_machine.tooltip5")
+        )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
@@ -70,6 +93,15 @@ public class StarTSolarMachines {
     public static final MultiblockMachineDefinition SOLAR_PANEL_LUV = START_REGISTRATE
         .multiblock("luv_solar_panel", holder -> new StarTSolarMachine(holder, LuV))
         .langValue("LuV Solar Panel")
+        .tooltips(
+            Component.translatable("block.start_core.solar_multiblock_line").setStyle(Style.EMPTY.withColor(customGoldColor)),
+            Component.translatable("solar.start_core.solar_machine.tooltip1"),
+            Component.translatable("solar.start_core.solar_machine.tooltip2"),
+            Component.translatable("solar.start_core.solar_machine.tooltip3"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip4", StarTSolarMachine.getOutputModifier(LuV)),
+            Component.translatable("solar.start_core.solar_machine.tooltip5")
+        )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
@@ -92,7 +124,20 @@ public class StarTSolarMachines {
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UV = START_REGISTRATE
         .multiblock("uv_solar_array", holder -> new StarTSolarMachine(holder, UV))
-        .langValue("UV Solar Panel")
+        .langValue("UV Solar Array")
+        .tooltips(
+            Component.translatable("block.start_core.solar_multiblock_line").setStyle(Style.EMPTY.withColor(customGoldColor)),
+            Component.translatable("solar.start_core.solar_machine.tooltip1"),
+            Component.translatable("solar.start_core.solar_machine.tooltip2"),
+            Component.translatable("solar.start_core.solar_machine.tooltip3"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip4", StarTSolarMachine.getOutputModifier(UV)),
+            Component.translatable("solar.start_core.solar_machine.tooltip5"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip6", "§71000", Component.translatable("material.gtceu.deionized_water")),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip7")
+        )
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
@@ -125,7 +170,20 @@ public class StarTSolarMachines {
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UHV = START_REGISTRATE
         .multiblock("uhv_solar_array", holder -> new StarTSolarMachine(holder, UHV))
-        .langValue("UHV Solar Panel")
+        .langValue("UHV Solar Array")
+        .tooltips(
+            Component.translatable("block.start_core.solar_multiblock_line").setStyle(Style.EMPTY.withColor(customGoldColor)),
+            Component.translatable("solar.start_core.solar_machine.tooltip1"),
+            Component.translatable("solar.start_core.solar_machine.tooltip2"),
+            Component.translatable("solar.start_core.solar_machine.tooltip3"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip4", StarTSolarMachine.getOutputModifier(UHV)),
+            Component.translatable("solar.start_core.solar_machine.tooltip5"),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip6", "§72500", Component.translatable("material.gtceu.deionized_water")),
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("solar.start_core.solar_machine.tooltip7")
+        )
         .recipeType(GTRecipeTypes.DUMMY_RECIPES)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
         .pattern(definition -> FactoryBlockPattern.start()

@@ -7,6 +7,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -98,6 +100,7 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
         CompoundTag tag = stack.getTag();
 
+        tooltip.add(Component.translatable("block.start_core.solar_cell_line").setStyle(Style.EMPTY.withColor(TextColor.parseColor("#FDB813"))));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip1"));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip2"));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip3"));

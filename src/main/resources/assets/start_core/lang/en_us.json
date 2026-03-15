@@ -580,6 +580,8 @@
   "block.start_core.uv_solar_cell": "UV Solar Cell",
   "block.start_core.uhv_solar_cell": "UHV Solar Cell",
 
+  "block.start_core.solar_cell_line": "§lPhotovoltaic Energy Component",
+
   "solar.start_core.solar_cell.tooltip1": "§7Produces energy during the day, while heating up.",
   "solar.start_core.solar_cell.tooltip2": "§7Cools down during the night.",
   "solar.start_core.solar_cell.tooltip3": "§7Produces power only when used in a Solar Panel or Array.",
@@ -592,8 +594,18 @@
   "block.start_core.ev_solar_panel": "EV Solar Panel",
   "block.start_core.iv_solar_panel": "IV Solar Panel",
   "block.start_core.luv_solar_panel": "LuV Solar Panel",
-  "block.start_core.uv_solar_array": "UV Solar Panel",
-  "block.start_core.uhv_solar_array": "UHV Solar Panel",
+  "block.start_core.uv_solar_array": "UV Solar Array",
+  "block.start_core.uhv_solar_array": "UHV Solar Array",
+
+  "block.start_core.solar_multiblock_line": "§lPhotovoltaic Energy Production",
+
+  "solar.start_core.solar_machine.tooltip1": "§7Produces energy during the day, using the different cells its made out of.",
+  "solar.start_core.solar_machine.tooltip2": "§7During the night it cools down the cells.",
+  "solar.start_core.solar_machine.tooltip3": "§7Replaces broken cells with new ones, when provided.",
+  "solar.start_core.solar_machine.tooltip4": "§aVoltage multiplier:§f x%s",
+  "solar.start_core.solar_machine.tooltip5": "§7Total EU/t gets multiplied by this factor.",
+  "solar.start_core.solar_machine.tooltip6": "§3Cooling: §7Consumes %s§7B of §f%s§7 an Hour for a §4-0.5 K§7 reduced heat gain during the day and a §a+0.05 K§7 cooling during the night, failure to do so leads to faster heat gain during the day and slower cooling during the night.",
+  "solar.start_core.solar_machine.tooltip7": "Can use §dLaser Hatches",
 
   "solar.start_core.solar_machine.cell_tooltip": "Working Cells: %s/%s",
   "solar.start_core.solar_machine.avg_temp_tooltip": "§cAverage Temperature:§f %s K",
