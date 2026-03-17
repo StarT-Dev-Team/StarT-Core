@@ -56,7 +56,10 @@ public class StarTItems {
     public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
         .lang("Lucinducer")
         .onRegister(attach(new StarTDreamCopyBehaviour()))
-        .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("item.start_core.lucinducer.tooltip")))))
+        .onRegister(attach(new TooltipBehavior(lines -> {
+            lines.add(Component.translatable("item.start_core.lucinducer.tooltip1"));
+            lines.add(Component.translatable("item.start_core.lucinducer.tooltip2"));
+        })))
         .register();
 
     public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE.item("mechanical_memory_card", ComponentItem::create)
