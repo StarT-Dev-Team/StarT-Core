@@ -45,8 +45,6 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     private TickableSubscription addTickSubscription;
     private UUID ownerUUID;
 
-    private ItemStack dreamItem = new ItemStack(StarTItems.TOOL_DREAM_COPY_ITEM);
-
     public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier, int amperage) {
         super(definition, coverHolder, attachedSide);
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
@@ -62,7 +60,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
 
         var playerOffhandItem = player.getOffhandItem();
 
-        if (dreamItem.is(playerOffhandItem.getItem())) {
+        if (playerOffhandItem.is(StarTItems.TOOL_DREAM_COPY_ITEM.asItem())) {
             onDreamCopyUse(player, playerOffhandItem);
         }
     }
