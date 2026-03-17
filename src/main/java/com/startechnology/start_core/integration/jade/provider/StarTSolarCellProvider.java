@@ -35,8 +35,8 @@ public class StarTSolarCellProvider implements IBlockComponentProvider, IServerD
         if (serverData.contains("temperature") && serverData.contains("durability") && serverData.contains("broken")) {
             if (serverData.getBoolean("broken")) {
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.is_broken"));
-            } else {
-                StarTSolarCellType solarCellType = ((StarTSolarCell) block.getBlock()).getSolarCellType();
+            } else if (block.getBlock() instanceof StarTSolarCell solarBlock) {
+                StarTSolarCellType solarCellType = solarBlock.getSolarCellType();
 
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(serverData.getDouble("temperature")), solarCellType.getMaxTemperature()));
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", serverData.getInt("durability"), solarCellType.getMaxDurability()));
