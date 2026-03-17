@@ -44,7 +44,12 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     private final List<ResourceLocation> acceptedFrameIds;
 
     private Material LUBRICANT = GTMaterials.get("lubricant");
-    private Material OXIDIZER =  GTMaterials.get("water");
+    private Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");//t2 Lube
+
+    private Material T1COXIDIZER = GTMaterials.get("water"); //placeholder Oxidizer
+    private Material T2COXIDIZER = GTMaterials.get("neon");  //placeholder Oxidizer
+    private Material T1ROXIDIZER = GTMaterials.get("helium");  //placeholder Oxidizer
+    private Material T2ROXIDIZER = GTMaterials.get("hydrogen"); //placeholder Oxidizer
 
     public ModularCombustionBoosting(IMachineBlockEntity holder, int tier, ResourceLocation... acceptedFrameIds) {
         super(holder, tier);
@@ -105,22 +110,35 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     @Override
     protected @NotNull GTRecipe getLubricantRecipe() {
-        return GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
+        return getAvailableLubricant();
     }
+
     private GTRecipe getActiveBoostingRecipe() {
         switch(this.tier) {
             case T1_COMBUSTION_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(OXIDIZER.getFluid(1500)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(1500)).buildRawRecipe();
             case T2_COMBUSTION_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(OXIDIZER.getFluid(2000)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(1500)).buildRawRecipe();
             case T1_ROCKET_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(OXIDIZER.getFluid(2500)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(1500)).buildRawRecipe();
             case T2_ROCKET_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(OXIDIZER.getFluid(3000)).buildRawRecipe();
+                return GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(1500)).buildRawRecipe();
             default:
                 return GTRecipeBuilder.ofRaw().buildRawRecipe();
         }
     }
+
+    private GTRecipe getAvailableLubricant() {
+        switch(this.tier) {
+            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE:
+                return GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
+            case T1_ROCKET_MODULE, T2_ROCKET_MODULE:
+                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
+            default:
+                return GTRecipeBuilder.ofRaw().buildRawRecipe();
+        }
+    }
+
     private double getBonus() {
         if (this.isActiveBoosting) {
             return 4;
@@ -187,14 +205,16 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
         return value;
     }
+
+    //evil >:(
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            boolean oxidizerBoosting = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
-            if (oxidizerBoosting) {
-                textList.add(textList.size() - 1, Component.literal("Oxidizer Boosted.")
+            boolean oxidizerBoosted = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
+            if (oxidizerBoosted) {
+                textList.add(Component.literal("Oxidizer Boosted.")
                         .withStyle(ChatFormatting.AQUA));
             }
         }
