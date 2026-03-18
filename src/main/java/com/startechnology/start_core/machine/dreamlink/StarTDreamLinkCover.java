@@ -1,8 +1,5 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import java.util.Objects;
-import java.util.UUID;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -13,25 +10,27 @@ import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.cover.IUICover;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
-
+import com.startechnology.start_core.item.StarTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
+import java.util.UUID;
+
 
 public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
     
@@ -51,6 +50,19 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.tier = tier;
         this.amperage = amperage;
+    }
+
+    @Override
+    public void onAttached(ItemStack itemStack, @Nullable ServerPlayer player) {
+        super.onAttached(itemStack, player);
+
+        if (player == null) return;
+
+        var playerOffhandItem = player.getOffhandItem();
+
+        if (playerOffhandItem.is(StarTItems.TOOL_DREAM_COPY_ITEM.asItem())) {
+            onDreamCopyUse(player, playerOffhandItem);
+        }
     }
 
     @Override

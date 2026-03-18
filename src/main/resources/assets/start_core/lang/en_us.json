@@ -379,7 +379,8 @@
   "start_core.abyssal_containment_room.not_provided_fluids": "Isolation fluids not provided",
   "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids",
 
-  "item.start_core.lucinducer.tooltip": "§7Copies Dream-Link Network information",
+  "item.start_core.lucinducer.tooltip1": "§7Copies and applies Dream-Link network information.",
+  "item.start_core.lucinducer.tooltip2": "§7While held offhand, the stored network will be applied to any placed Dream-Link Hatch or Cover.",
   "item.start_core.lucinducer": "Lucinducer",
 
   "item.start_core.mechanical_memory_card.tooltip": "§7Allows you to copy miscellaneous machines information. Supported: ",
