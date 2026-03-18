@@ -175,7 +175,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                 }
             }
 
-            if (isDay) {
+            if (isDay && level.canSeeSky(solarCell.blockPos())) {
                 int maxTemp = solarCellType.getMaxTemperature();
                 double currentTemp = solarCellBlockEntity.getTemperature() + (solarCellType.getTemperatureScale() * heatDiff);
 
@@ -203,10 +203,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
                 totalTemp += currentTemp;
                 totalDura += newDurability;
-
-                if (level.canSeeSky(solarCell.blockPos())) {
-                    newEuT += solarCellType.getEuT();
-                }
+                newEuT += solarCellType.getEuT();
             } else {
                 double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - heatDiff, solarCellType.getMinTemperature());
 
