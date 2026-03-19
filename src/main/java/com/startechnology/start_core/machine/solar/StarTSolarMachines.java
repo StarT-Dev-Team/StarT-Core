@@ -8,17 +8,25 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellPredicates;
 import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.level.block.Blocks;
+
+import java.util.ArrayList;
+import java.util.Comparator;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
@@ -55,6 +63,28 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .shapeInfos(definition -> {
+            var shapes = new ArrayList<MultiblockShapeInfo>();
+            var pattern = MultiblockShapeInfo.builder()
+                .aisle("C@C", "   ", "SSS")
+                .aisle("CCC", " F ", "SSS")
+                .aisle("CEC", "   ", "SSS")
+                .where(' ', Blocks.AIR)
+                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
+                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[EV], Direction.SOUTH)
+                .where('@', definition, Direction.NORTH);
+
+            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                .forEach(entry -> {
+                    shapes.add(pattern.shallowCopy()
+                        .where('S', entry.getValue().get())
+                        .build());
+                });
+
+            return shapes;
+        })
         .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/ev"))
         .register();
 
@@ -87,6 +117,28 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .shapeInfos(definition -> {
+            var shapes = new ArrayList<MultiblockShapeInfo>();
+            var pattern = MultiblockShapeInfo.builder()
+                .aisle("CC@CC", "     ", "SSSSS")
+                .aisle("CCCCC", " F F ", "SSSSS")
+                .aisle("CCECC", "     ", "SSSSS")
+                .where(' ', Blocks.AIR)
+                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
+                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[IV], Direction.SOUTH)
+                .where('@', definition, Direction.NORTH);
+
+            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                .forEach(entry -> {
+                    shapes.add(pattern.shallowCopy()
+                        .where('S', entry.getValue().get())
+                        .build());
+                });
+
+            return shapes;
+        })
         .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/iv"))
         .register();
 
@@ -119,6 +171,28 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .shapeInfos(definition -> {
+            var shapes = new ArrayList<MultiblockShapeInfo>();
+            var pattern = MultiblockShapeInfo.builder()
+                .aisle("CCC@CCC", "       ", "SSSSSSS")
+                .aisle("CCCCCCC", " F F F ", "SSSSSSS")
+                .aisle("CCCECCC", "       ", "SSSSSSS")
+                .where(' ', Blocks.AIR)
+                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
+                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[LuV], Direction.SOUTH)
+                .where('@', definition, Direction.NORTH);
+
+            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                .forEach(entry -> {
+                    shapes.add(pattern.shallowCopy()
+                        .where('S', entry.getValue().get())
+                        .build());
+                });
+
+            return shapes;
+        })
         .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/luv"))
         .register();
 
@@ -165,6 +239,37 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .shapeInfos(definition -> {
+            var shapes = new ArrayList<MultiblockShapeInfo>();
+            var pattern = MultiblockShapeInfo.builder()
+                .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                .aisle("    CCC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                .aisle("    CCC    ", "  FFCBCFF  ", " FS  F  SF ", "S    @    S", "     F     ")
+                .aisle("    CEC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                .where(' ', Blocks.AIR)
+                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                .where('B', GTBlocks.BATTERY_LAPOTRONIC_UV.get())
+                .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UV], Direction.SOUTH)
+                .where('@', definition, Direction.NORTH);
+
+            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                .forEach(entry -> {
+                    shapes.add(pattern.shallowCopy()
+                        .where('S', entry.getValue().get())
+                        .build());
+                });
+
+            return shapes;
+        })
         .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uv"))
         .register();
 
@@ -216,6 +321,43 @@ public class StarTSolarMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .shapeInfos(definition -> {
+            var shapes = new ArrayList<MultiblockShapeInfo>();
+            var pattern = MultiblockShapeInfo.builder()
+                .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "        F        ", "     SSSSSSS     ", " SSS         SSS ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "        F        ", "    SSS   SSS    ", " SS           SS ", "                 ", "                 ")
+                .aisle("                 ", "        F        ", "      SSSSS      ", "   SSS     SSS   ", "SSS           SSS", "                 ", "                 ")
+                .aisle("      FCCCF      ", "        F        ", "     SS   SS     ", "   SS       SS   ", "SSS           SSS", "                 ", "                 ")
+                .aisle("      CCCCC      ", "       FCF       ", "     S  C  S     ", "   S         S   ", "SS             SS", "                 ", "                 ")
+                .aisle("      CCCCC      ", "     FFCCCFF     ", "   FFS CBC SFF   ", " FFS    F    SFF ", "SS      @      SS", "        F        ", "        F        ")
+                .aisle("      CCCCC      ", "       FCF       ", "     S  C  S     ", "   S         S   ", "SS             SS", "                 ", "                 ")
+                .aisle("      FCECF      ", "        F        ", "     SS   SS     ", "   SS       SS   ", "SSS           SSS", "                 ", "                 ")
+                .aisle("                 ", "        F        ", "      SSSSS      ", "   SSS     SSS   ", "SSS           SSS", "                 ", "                 ")
+                .aisle("                 ", "                 ", "        F        ", "    SSS   SSS    ", " SS           SS ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "        F        ", "     SSSSSSS     ", " SSS         SSS ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
+                .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
+                .where(' ', Blocks.AIR)
+                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                .where('B', GTBlocks.BATTERY_ULTIMATE_UHV.get())
+                .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UHV], Direction.SOUTH)
+                .where('@', definition, Direction.NORTH);
+
+            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                .forEach(entry -> {
+                    shapes.add(pattern.shallowCopy()
+                        .where('S', entry.getValue().get())
+                        .build());
+                });
+
+            return shapes;
+        })
         .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uhv"))
         .register();
 
