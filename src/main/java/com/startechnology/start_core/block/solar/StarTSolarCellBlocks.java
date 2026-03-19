@@ -32,13 +32,14 @@ public class StarTSolarCellBlocks {
 
     public static NonNullBiConsumer<DataGenContext<Block, StarTSolarCell>, RegistrateBlockstateProvider> createSolarCellModel(StarTSolarCellType solarCellType) {
         var tier = solarCellType.getTier();
-        String tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
+        var isLowTier = tier < 7;
+        var tierName = GTValues.VN[tier].toLowerCase(Locale.ROOT);
 
         return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
             .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
             .texture("top", StarTCore.resourceLocation("block/solar/cells/%s".formatted(tierName)))
-            .texture("side", GTCEu.id("block/casings/voltage/%s/side".formatted(tierName)))
-            .texture("bottom", tier < 7 ? GTCEu.id("block/casings/solid/machine_casing_solid_steel") : KubeJS.id("block/casings/naquadah/casing")));
+            .texture("side", StarTCore.resourceLocation("block/solar/%s_side".formatted(isLowTier ? "low" : "high")))
+            .texture("bottom", StarTCore.resourceLocation("block/solar/%s_bottom".formatted(isLowTier ? "low" : "high"))));
     }
 
     public static BlockEntry<StarTSolarCell> createSolarCellBlock(StarTSolarCellType solarCellType) {
