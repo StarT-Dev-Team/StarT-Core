@@ -16,6 +16,8 @@
     "start_core:test",
     "start_core:fusion_casing_mk4",
     "start_core:auxiliary_boosted_fusion_casing_mk2",
-    "start_core:auxiliary_fusion_coil_mk2"
+    "start_core:auxiliary_fusion_coil_mk2",
+    "start_core:uv_solar_cell",
+    "start_core:uhv_solar_cell"
   ]
 }

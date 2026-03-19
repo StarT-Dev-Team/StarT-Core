@@ -12,8 +12,8 @@ public enum StarTSolarCells implements StarTSolarCellType {
     IV_SOLAR_CELL("iv_solar_cell", IV, 2, 1152, 360, 1.1),
     LUV_SOLAR_CELL("luv_solar_cell", LuV, 3, 1280, 380, 1),
     ZPM_SOLAR_CELL("zpm_solar_cell", ZPM, 3, 1408, 400, 0.9),
-    UV_SOLAR_CELL("uv_solar_cell", UV, 5, 1536, 425, 0.8),
-    UHV_SOLAR_CELL("uhv_solar_cell", UHV, 5, 1664, 450, 0.7);
+    UV_SOLAR_CELL("uv_solar_cell", UV, 4, 1536, 425, 0.8),
+    UHV_SOLAR_CELL("uhv_solar_cell", UHV, 4, 1664, 450, 0.7);
 
     private final String name;
     @Getter
