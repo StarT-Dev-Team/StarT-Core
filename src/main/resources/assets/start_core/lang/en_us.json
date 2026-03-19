@@ -577,6 +577,7 @@
   "block.start_core.ev_solar_cell": "EV Solar Cell",
   "block.start_core.iv_solar_cell": "IV Solar Cell",
   "block.start_core.luv_solar_cell": "LuV Solar Cell",
+  "block.start_core.zpm_solar_cell": "ZPM Solar Cell",
   "block.start_core.uv_solar_cell": "UV Solar Cell",
   "block.start_core.uhv_solar_cell": "UHV Solar Cell",
 

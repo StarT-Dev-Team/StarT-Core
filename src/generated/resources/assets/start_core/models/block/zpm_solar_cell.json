@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "kubejs:block/casings/naquadah/casing",
+    "side": "gtceu:block/casings/voltage/zpm/side",
+    "top": "start_core:block/solar/cells/zpm"
+  }
+}

@@ -60,12 +60,13 @@ public class StarTSolarCellBlocks {
     public static final BlockEntry<StarTSolarCell> EV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.EV_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> IV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.IV_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> LUV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.LUV_SOLAR_CELL);
+    public static final BlockEntry<StarTSolarCell> ZPM_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.ZPM_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> UV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UV_SOLAR_CELL);
     public static final BlockEntry<StarTSolarCell> UHV_SOLAR_CELL = createSolarCellBlock(StarTSolarCells.UHV_SOLAR_CELL);
     public static final BlockEntityEntry<BlockEntity> START_SOLAR_CELL_BLOCK_ENTITY = START_REGISTRATE
         .blockEntity("solar_cell", (type, pos, blockState) -> new StarTSolarCellBlockEntity(type, pos, blockState, 0))
         .onRegister(StarTSolarCellBlockEntity::onBlockEntityRegister)
-        .validBlocks(EV_SOLAR_CELL, IV_SOLAR_CELL, LUV_SOLAR_CELL, UV_SOLAR_CELL, UHV_SOLAR_CELL)
+        .validBlocks(EV_SOLAR_CELL, IV_SOLAR_CELL, LUV_SOLAR_CELL, ZPM_SOLAR_CELL, UV_SOLAR_CELL, UHV_SOLAR_CELL)
         .register();
 
     public static void init() {

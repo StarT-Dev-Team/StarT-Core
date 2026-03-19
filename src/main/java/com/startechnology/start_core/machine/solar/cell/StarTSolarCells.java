@@ -8,11 +8,12 @@ import net.minecraft.resources.ResourceLocation;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public enum StarTSolarCells implements StarTSolarCellType {
-    EV_SOLAR_CELL("ev_solar_cell", EV, 2, 512, 340, 1.2),
-    IV_SOLAR_CELL("iv_solar_cell", IV, 2, 768, 360, 1.1),
-    LUV_SOLAR_CELL("luv_solar_cell", LuV, 3, 1024, 380, 1),
-    UV_SOLAR_CELL("uv_solar_cell", UV, 5, 1536, 425, 0.9),
-    UHV_SOLAR_CELL("uhv_solar_cell", UHV, 5, 2048, 450, 0.8);
+    EV_SOLAR_CELL("ev_solar_cell", EV, 2, 1024, 340, 1.2),
+    IV_SOLAR_CELL("iv_solar_cell", IV, 2, 1152, 360, 1.1),
+    LUV_SOLAR_CELL("luv_solar_cell", LuV, 3, 1280, 380, 1),
+    ZPM_SOLAR_CELL("zpm_solar_cell", ZPM, 3, 1408, 400, 0.9),
+    UV_SOLAR_CELL("uv_solar_cell", UV, 5, 1536, 425, 0.8),
+    UHV_SOLAR_CELL("uhv_solar_cell", UHV, 5, 1664, 450, 0.7);
 
     private final String name;
     @Getter
