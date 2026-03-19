@@ -15,10 +15,12 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -38,7 +40,7 @@ public class StarTSolarCellBlocks {
         return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
             .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
             .texture("top", StarTCore.resourceLocation("block/solar/cells/%s".formatted(tierName)))
-            .texture("side", StarTCore.resourceLocation("block/solar/%s_side".formatted(isLowTier ? "low" : "high")))
+            .texture("side", StarTCore.resourceLocation("block/solar/%s_bottom".formatted(isLowTier ? "low" : "high")))
             .texture("bottom", StarTCore.resourceLocation("block/solar/%s_bottom".formatted(isLowTier ? "low" : "high"))));
     }
 
@@ -46,8 +48,9 @@ public class StarTSolarCellBlocks {
         BlockEntry<StarTSolarCell> block = START_REGISTRATE
             .block(solarCellType.getSerializedName(), p -> new StarTSolarCell(p, solarCellType))
             .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
+            .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false).noOcclusion())
             .blockstate(createSolarCellModel(solarCellType))
+            .addLayer(() -> RenderType::translucent)
             .tag(GTToolType.WRENCH.harvestTags.get(0), CustomTags.TOOL_TIERS[solarCellType.getHarvestLevel()])
             .item(BlockItem::new)
             .build()
