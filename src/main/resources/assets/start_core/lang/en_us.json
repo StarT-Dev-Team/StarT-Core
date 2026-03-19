@@ -605,7 +605,7 @@
   "solar.start_core.solar_machine.tooltip3": "§7Replaces broken cells with new ones, when provided.",
   "solar.start_core.solar_machine.tooltip4": "§aVoltage multiplier:§f x%s",
   "solar.start_core.solar_machine.tooltip5": "§7Total EU/t gets multiplied by this factor.",
-  "solar.start_core.solar_machine.tooltip6": "§3Cooling: §7Consumes %s§7B of §f%s§7 an Hour for a §4-0.5 K§7 reduced heat gain during the day and a §a+0.05 K§7 cooling during the night, failure to do so leads to faster heat gain during the day and slower cooling during the night.",
+  "solar.start_core.solar_machine.tooltip6": "§3Cooling: §7Consumes %s§7B of §f%s§7 an Hour for an additional §4-0.05 K§7 reduced heat gain during the day and an additional §a+0.05 K§7 cooling during the night, failure to do so leads to faster heat gain during the day and slower cooling during the night.",
   "solar.start_core.solar_machine.tooltip7": "Can use §dLaser Hatches",
 
   "solar.start_core.solar_machine.cell_tooltip": "Working Cells: %s/%s",

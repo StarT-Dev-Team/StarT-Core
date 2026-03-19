@@ -2,7 +2,7 @@
   "parent": "minecraft:block/slab",
   "textures": {
     "bottom": "start_core:block/solar/high_bottom",
-    "side": "start_core:block/solar/high_bottom",
+    "side": "start_core:block/solar/high_side",
     "top": "start_core:block/solar/cells/uhv"
   }
 }

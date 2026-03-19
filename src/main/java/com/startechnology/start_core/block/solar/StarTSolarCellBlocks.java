@@ -1,6 +1,5 @@
 package com.startechnology.start_core.block.solar;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -14,13 +13,11 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -40,7 +37,7 @@ public class StarTSolarCellBlocks {
         return (ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models()
             .withExistingParent("%s_solar_cell".formatted(tierName), "minecraft:block/slab")
             .texture("top", StarTCore.resourceLocation("block/solar/cells/%s".formatted(tierName)))
-            .texture("side", StarTCore.resourceLocation("block/solar/%s_bottom".formatted(isLowTier ? "low" : "high")))
+            .texture("side", StarTCore.resourceLocation("block/solar/%s_side".formatted(isLowTier ? "low" : "high")))
             .texture("bottom", StarTCore.resourceLocation("block/solar/%s_bottom".formatted(isLowTier ? "low" : "high"))));
     }
 
