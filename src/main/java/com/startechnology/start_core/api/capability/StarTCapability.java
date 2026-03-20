@@ -5,6 +5,7 @@ import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachin
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 import net.minecraftforge.common.capabilities.Capability;
@@ -34,6 +35,8 @@ public class StarTCapability {
         .get(new CapabilityToken<>() {});
 
     public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = CapabilityManager.get(new CapabilityToken<>() {});
+
+    public static final Capability<StarTSolarMachine>  CAPABILITY_SOLAR = CapabilityManager.get(new CapabilityToken<>() {});
 
     public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = CapabilityManager.get(new CapabilityToken<>() {});
 

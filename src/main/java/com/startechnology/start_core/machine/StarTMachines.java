@@ -16,6 +16,7 @@ import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachine
 import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
+import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
 import com.startechnology.start_core.machine.vacuum_pump.StarTVacuumPumpMachines;
@@ -39,6 +40,7 @@ public class StarTMachines {
         StarTThreadingControllerMachines.init();
         StarTThreadingStatBlocks.init();
         StarTCrates.init();
+        StarTSolarMachines.init();
         StarTModularConnectionHatches.init();
         StarTVacuumPumpMachines.init();
         StarTDrillingRigs.init();

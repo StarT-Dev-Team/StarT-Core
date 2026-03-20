@@ -1,0 +1,52 @@
+package com.startechnology.start_core.machine.solar.cell;
+
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class StarTSolarCellBlockEntity extends BlockEntity {
+    @Getter
+    @Setter
+    @Persisted
+    private double temperature = 300;
+    @Getter
+    @Setter
+    @Persisted
+    private int durability;
+    @Getter
+    @Setter
+    @Persisted
+    private boolean broken;
+
+    public StarTSolarCellBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int durability) {
+        super(type, pos, state);
+
+        this.durability = durability;
+        this.broken = false;
+    }
+
+    public static void onBlockEntityRegister(BlockEntityType<? extends BlockEntity> solarCellBlockEntityBlockEntityType) {}
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+
+        tag.putDouble("temperature", temperature);
+        tag.putInt("durability", durability);
+        tag.putBoolean("broken", broken);
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+
+        this.temperature = tag.getDouble("temperature");
+        this.durability = tag.getInt("durability");
+        this.broken = tag.getBoolean("broken");
+    }
+}
