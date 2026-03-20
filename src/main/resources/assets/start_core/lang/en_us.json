@@ -379,7 +379,8 @@
   "start_core.abyssal_containment_room.not_provided_fluids": "Isolation fluids not provided",
   "start_core.abyssal_containment_room.provided_fluids": "Provided isolation fluids",
 
-  "item.start_core.lucinducer.tooltip": "§7Copies Dream-Link Network information",
+  "item.start_core.lucinducer.tooltip1": "§7Copies and applies Dream-Link network information.",
+  "item.start_core.lucinducer.tooltip2": "§7While held offhand, the stored network will be applied to any placed Dream-Link Hatch or Cover.",
   "item.start_core.lucinducer": "Lucinducer",
 
   "item.start_core.mechanical_memory_card.tooltip": "§7Allows you to copy miscellaneous machines information. Supported: ",
@@ -616,5 +617,9 @@
   "config.jade.plugin_start_core.solar_machine_info": "[Star Technology] Solar Panel/Array Entropy",
 
   "variadic.start_core.indicator.solar_machine": "Percentage to %s K",
-  "variadic.start_core.description.solar_machine": "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)"
+  "variadic.start_core.description.solar_machine": "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)",
+  
+  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r",
+
+  "start_core.added_by_tooltip": "§eAdded by Star Technology"
 }

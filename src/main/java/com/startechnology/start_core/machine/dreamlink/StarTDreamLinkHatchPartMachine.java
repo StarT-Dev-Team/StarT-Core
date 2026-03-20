@@ -1,35 +1,22 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
-import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.editor.configurator.IConfigurableWidget;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
-
+import com.startechnology.start_core.item.StarTItems;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.ChatFormatting;
@@ -41,11 +28,16 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 
-public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine, IStarTDreamLinkNetworkRecieveEnergy {
+import java.util.List;
+import java.util.Objects;
+
+public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine, IStarTDreamLinkNetworkRecieveEnergy, IMachineLife {
 
     /*
      * As far as i can understand, the Managed Field Holder allows this class
@@ -161,10 +153,23 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     public void setNetwork(String network) {
         this.network = network;
     }
-
+    
     @Override
     public String getNetwork() {
         return this.network;
+    }
+
+    @Override
+    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
+        IMachineLife.super.onMachinePlaced(player, stack);
+
+        if (player == null) return;
+
+        var playerOffhandItem = player.getOffhandItem();
+
+        if (playerOffhandItem.is(StarTItems.TOOL_DREAM_COPY_ITEM.asItem())) {
+            onDreamCopyUse((Player) player, playerOffhandItem);
+        }
     }
 
     @Override
@@ -178,7 +183,6 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
         }
         return InteractionResult.SUCCESS;
     }
-
 
     @Override
     public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
