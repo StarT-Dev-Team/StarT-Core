@@ -73,7 +73,6 @@ repositories {
         }
         content {
             includeGroup 'com.gregtechceu.gtceu'
-            includeGroup 'com.tterrag.registrate'
         }
     }
     maven {
@@ -101,6 +100,7 @@ repositories {
         content {
             // need to be specific here due to version overlaps
             includeGroup("com.jozufozu.flywheel")
+            includeGroup("com.tterrag.registrate")
             includeGroup("com.simibubi.create")
         }
     }
