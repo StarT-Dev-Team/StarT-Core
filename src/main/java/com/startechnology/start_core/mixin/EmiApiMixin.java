@@ -5,6 +5,7 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,11 +40,11 @@ public class EmiApiMixin {
     @Unique
     private static EmiIngredient start$bucketFluid(EmiIngredient ingredient) {
         if (!(ingredient instanceof EmiStack emiStack)) return ingredient;
-        Fluid fluid = null;
+        Fluid fluid = Fluids.EMPTY;
         // Works with gt buckets since GTBucketItem extends the BucketItem class
         if (emiStack.getKey() instanceof BucketItem bucketItem) {
             fluid = bucketItem.getFluid();
         }
-        return fluid == null ? ingredient : EmiStack.of(fluid);
+        return fluid == Fluids.EMPTY ? ingredient : EmiStack.of(fluid);
     }
 }
