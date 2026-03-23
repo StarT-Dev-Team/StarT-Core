@@ -66,8 +66,11 @@ repositories {
     }
     mavenCentral()
     maven {
-        name = 'GTCEu Maven'
-        url = 'https://maven.gtceu.com'
+        url = uri("https://repo.expandium.net/private")
+        credentials {
+            username = project.findProperty("MAVEN_USERNAME") as String ?: ""
+            password = project.findProperty("MAVEN_TOKEN") as String ?: ""
+        }
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }

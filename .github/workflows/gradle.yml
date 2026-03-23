@@ -12,6 +12,10 @@ jobs:
     permissions:
       contents: read
 
+    env:
+      MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+      MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -26,7 +30,7 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew build
+      run: ./gradlew build -PmavenUsername=${{ secrets.MAVEN_USERNAME }} -PmavenPassword=${{ secrets.MAVEN_TOKEN }}
 
     - name: Upload jar as Artifact
       uses: actions/upload-artifact@v4.4.3
