@@ -66,10 +66,14 @@ repositories {
     }
     mavenCentral()
     maven {
-        name = 'GTCEu Maven'
-        url = 'https://maven.gtceu.com'
+        url = uri("https://repo.expandium.net/private")
+        credentials {
+            username = project.findProperty("MAVEN_USERNAME") as String ?: ""
+            password = project.findProperty("MAVEN_TOKEN") as String ?: ""
+        }
         content {
             includeGroup 'com.gregtechceu.gtceu'
+            includeGroup 'com.tterrag.registrate'
         }
     }
     maven {
@@ -97,7 +101,6 @@ repositories {
         content {
             // need to be specific here due to version overlaps
             includeGroup("com.jozufozu.flywheel")
-            includeGroup("com.tterrag.registrate")
             includeGroup("com.simibubi.create")
         }
     }
