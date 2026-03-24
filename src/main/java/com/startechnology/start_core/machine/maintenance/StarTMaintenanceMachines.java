@@ -20,7 +20,7 @@ public class StarTMaintenanceMachines {
                 holder -> new CleaningMaintenanceHatchPartMachine(holder, CleanroomType.STERILE_CLEANROOM))
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.MAINTENANCE)
-        .tooltips(Component.translatable("gtceu.universal.disabled"),
+        .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
                 Component.translatable("start_core.machine.sterile_hatch.tooltip"),
                 Component.translatable("gtceu.machine.maintenance_hatch_cleanroom_auto.tooltip.1"))
         .tooltipBuilder((stack, tooltips) -> {
