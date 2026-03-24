@@ -1,23 +1,18 @@
 package com.startechnology.start_core.recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.gregtechceu.gtceu.common.machine.multiblock.electric.AssemblyLineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
-
-import java.util.Comparator;
 
 public class StarTRecipeModifiers {
     public static final RecipeModifier ABSOLUTE_PARALLEL = GTRecipeModifiers::hatchParallel;
@@ -56,19 +51,18 @@ public class StarTRecipeModifiers {
     public static final RecipeModifier BULK_PROCESSING = StarTRecipeModifiers::bulkThroughputProcessing;
 
     public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
-        // Bulks at 4n:3n up to bulkLimit = 4n
-        var bulkLimit = 64;
-        var maxBulking = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, bulkLimit);
-        var timesBulkingApplied = maxBulking / 4;
+        int maxBulk = 16;
+        int throughputModifier = 16;
+        int durationModifier = 13;
 
-        var thoughputBulkingApplied = timesBulkingApplied * 4;
-        var durationBulkingApplied = timesBulkingApplied * 3;
+        var parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, maxBulk));
 
-        if (timesBulkingApplied >= 1) {
+        if (parallelsAvailable >= maxBulk) {
+
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(thoughputBulkingApplied)) 
-                .durationMultiplier(durationBulkingApplied)
-                .parallels(thoughputBulkingApplied)    
+                .modifyAllContents(ContentModifier.multiplier(throughputModifier))
+                .durationMultiplier(durationModifier)
+                .parallels(throughputModifier)
                 .build();
         }
         
@@ -76,22 +70,22 @@ public class StarTRecipeModifiers {
   
     }
 
-    public static final RecipeModifier THOUGHPUT_BOOSTING = StarTRecipeModifiers::thoughputBoosting;
+    public static final RecipeModifier THROUGHPUT_BOOSTING = StarTRecipeModifiers::throughputBoosting;
 
-    public static ModifierFunction thoughputBoosting(MetaMachine machine, GTRecipe recipe) {
-        int thoughputModifier = 4;
-        double durationModifier = 1.4;
-        double eutModifier = 0.9;
+    public static ModifierFunction throughputBoosting(MetaMachine machine, GTRecipe recipe) {
+        int throughputModifier = 4;
+        double durationModifier = 1.6;
+        double eutModifier = 0.95;
 
-        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, thoughputModifier));
+        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
 
-        if (parallelsAvailable >= thoughputModifier) {
+        if (parallelsAvailable >= throughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(thoughputModifier)) 
+                .modifyAllContents(ContentModifier.multiplier(throughputModifier)) 
                 .durationMultiplier(durationModifier)
                 .eutMultiplier(eutModifier)
-                .parallels(thoughputModifier)    
+                .parallels(throughputModifier)    
                 .build();
 
         }
