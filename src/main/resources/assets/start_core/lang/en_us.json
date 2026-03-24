@@ -429,8 +429,8 @@
 
   "block.start_core.test": "Test Helix",
   "block.start_core.uhv_overdrive_thread_helix": "Epic Adcelero Helix",
-  "block.start_core.uxv_overdrive_thread_helix": "Ascendant Adcelero Helix",
-  "block.start_core.max_overdrive_thread_helix": "Omnipotent Adcelero Helix",
+  "block.start_core.uiv_overdrive_thread_helix": "Ascendant Adcelero Helix",
+  "block.start_core.opv_overdrive_thread_helix": "Omnipotent Adcelero Helix",
   "block.start_core.uhv_coprocessor_thread_helix": "Epic Traversus Helix",
   "block.start_core.uiv_coprocessor_thread_helix": "Hyper Traversus Helix",
   "block.start_core.opv_coprocessor_thread_helix": "Trancendent Traversus Helix",
