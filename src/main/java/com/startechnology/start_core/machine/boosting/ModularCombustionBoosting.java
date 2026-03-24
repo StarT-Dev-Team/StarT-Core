@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -32,10 +32,10 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ModularCombustionBoosting.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-    public static final int T1_COMBUSTION_MODULE = GTValues.IV;
-    public static final int T2_COMBUSTION_MODULE = GTValues.LuV;
-    public static final int T1_ROCKET_MODULE = GTValues.ZPM;
-    public static final int T2_ROCKET_MODULE = GTValues.UV;
+    public static final int T1_COMBUSTION_MODULE = GTValues.LuV;
+    public static final int T2_COMBUSTION_MODULE = GTValues.ZPM;
+    public static final int T1_ROCKET_MODULE = GTValues.UV;
+    public static final int T2_ROCKET_MODULE = GTValues.UHV;
 
     private int tier;
     private boolean isActiveBoosting;
@@ -85,7 +85,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             case T1_ROCKET_MODULE:
                 return 3;
             case T2_ROCKET_MODULE:
-                return 6;
+                return 3;
             default:
                 return 1;
         }
@@ -94,13 +94,13 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     private long getBaseEUGeneration(){
         switch(this.tier){
             case T1_COMBUSTION_MODULE:
-                return GTValues.V[GTValues.IV];
+                return GTValues.V[T1_COMBUSTION_MODULE];
             case T2_COMBUSTION_MODULE:
-                return GTValues.V[GTValues.LuV];
+                return GTValues.V[T2_COMBUSTION_MODULE];
             case T1_ROCKET_MODULE:
-                return GTValues.V[GTValues.ZPM];
+                return GTValues.V[T1_ROCKET_MODULE];
             case T2_ROCKET_MODULE:
-                return GTValues.V[GTValues.UV];
+                return GTValues.V[T2_ROCKET_MODULE];
             default:
                 return GTValues.V[GTValues.IV];
 
@@ -209,15 +209,28 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     //evil >:(
     @Override
     public void addDisplayText(List<Component> textList) {
-        super.addDisplayText(textList);
+        MultiblockDisplayText.Builder builder = MultiblockDisplayText.builder(textList, this.isFormed()).setWorkingStatus(this.recipeLogic.isWorkingEnabled(), this.recipeLogic.isActive());
+        long lastEUt = this.recipeLogic.getLastRecipe() != null ? this.recipeLogic.getLastRecipe().getOutputEUt().getTotalEU() : 0L;
+        if (getParallelBonus()==3) //t1 Rocket and Combustion modules parallel bonus
+            builder.addEnergyProductionLine(GTValues.V[this.tier + 1]*3, lastEUt);//t1 Rocket and Combustion modules * Parallel bonus
+        else
+            builder.addEnergyProductionLine(GTValues.V[this.tier + 1]*6, lastEUt);//t2 Rocket and Combustion modules * Parallel bonus
+
+        if (this.isActive() && this.isWorkingEnabled()) {
+            builder.addCurrentEnergyProductionLine(lastEUt);
+        }
+
+//        if (!this.recipeLogic.isWaiting()) {
+//            builder.addFuelNeededLine(this.getRecipeFluidInputInfo(), this.recipeLogic.getDuration());
+//        }
 
         if (isFormed()) {
             boolean oxidizerBoosted = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
             if (oxidizerBoosted) {
-                textList.add(Component.literal("Oxidizer Boosted.")
-                        .withStyle(ChatFormatting.AQUA));
+                textList.add(Component.translatable("start_core.multiblock.boosted_combustion_oxidizer").withStyle(ChatFormatting.DARK_AQUA));
             }
         }
+        builder.addWorkingStatusLine();
     }
 
     @Override

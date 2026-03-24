@@ -16,7 +16,9 @@ import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.boosting.ModularCombustionBoosting;
 import com.startechnology.start_core.machine.boosting.ModularFrameBoosting;
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
+import net.minecraft.network.chat.Component;
 
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
@@ -88,7 +90,7 @@ public class StarTModularCombustionMachines {
             .multiblock("t1_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T1_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             //T1 Rocket Module
@@ -120,7 +122,7 @@ public class StarTModularCombustionMachines {
             .multiblock("t2_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T2_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            .recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             .pattern(definition -> FactoryBlockPattern.start()
