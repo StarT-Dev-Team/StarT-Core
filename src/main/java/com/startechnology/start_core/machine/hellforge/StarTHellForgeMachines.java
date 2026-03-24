@@ -122,7 +122,7 @@ public class StarTHellForgeMachines {
                     Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm"),
                     Component.translatable("start_core.added_by_tooltip")
             )
-            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, StarTRecipeModifiers.THOUGHPUT_BOOSTING, GTRecipeModifiers.BATCH_MODE)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, StarTRecipeModifiers.THROUGHPUT_BOOSTING, GTRecipeModifiers.BATCH_MODE)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
