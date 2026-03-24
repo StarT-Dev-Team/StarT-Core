@@ -51,13 +51,12 @@ public class StarTRecipeModifiers {
     public static final RecipeModifier BULK_PROCESSING = StarTRecipeModifiers::bulkThroughputProcessing;
 
     public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
-        int maxBulk = 16;
         int throughputModifier = 16;
         int durationModifier = 13;
 
-        var parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, maxBulk));
+        var parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
 
-        if (parallelsAvailable >= maxBulk) {
+        if (parallelsAvailable >= throughputModifier) {
 
             return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(throughputModifier))
