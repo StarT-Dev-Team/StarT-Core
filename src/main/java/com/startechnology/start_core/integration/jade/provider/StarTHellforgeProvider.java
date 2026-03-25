@@ -45,17 +45,19 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
     /* Used for storing data for the addTooltip method ? */
     @Override
     protected void write(CompoundTag data, StarTHellForgeMachine capability) {
-        data.putInt("temperature", capability.getCrucibleTemperature());
+        data.putInt("temperature", capability.getTemperature());
+        data.putString("uiKey", capability.getCrucibleUIKey());
     }
 
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
             BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("temperature"))
+        if (capData.contains("temperature") && capData.contains("uiKey"))
         {
             Integer temperature = capData.getInt("temperature");
-            tooltip.add(Component.translatable("ui.start_core.hellforge_crucible", temperature));
+            String uiKey = capData.getString("uiKey");
+            tooltip.add(Component.translatable(uiKey, temperature));
         }
     }
     

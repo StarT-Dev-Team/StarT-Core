@@ -29,7 +29,7 @@ public class StarTRecipeModifiers {
             return RecipeModifier.nullWrongType(StarTHellForgeMachine.class, machine);
         }
 
-        int hellforgeTemp = coilMachine.getCrucibleTemperature();
+        int hellforgeTemp = coilMachine.getTemperature();
 
         int recipeTemp = recipe.data.getInt("ebf_temp");
 

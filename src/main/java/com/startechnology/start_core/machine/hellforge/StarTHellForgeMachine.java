@@ -19,6 +19,7 @@ import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMac
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
@@ -32,16 +33,28 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
+    @Getter
     protected Integer temperature;
+
+    /* The hell forge cannot go below this base Temperature */
+    @Getter
+    private Integer baseTemperature;
+
+    private Integer baseTempLoss;
+    private Integer dormantTempLoss;
 
     protected TickableSubscription tryTickSub;
     private boolean startHeatLoss;
 
     private boolean isWorking;
 
-    public StarTHellForgeMachine(IMachineBlockEntity holder, Object... args) {
+    public StarTHellForgeMachine(IMachineBlockEntity holder, Integer baseTemperature, Integer baseTempLoss, Integer dormantTempLoss, Object... args) {
         super(holder, args);
-        this.temperature = 0;
+        this.temperature = baseTemperature;
+        this.baseTemperature = baseTemperature;
+        this.baseTempLoss = baseTempLoss;
+        this.dormantTempLoss = dormantTempLoss;
+
         this.startHeatLoss = false;
         this.isWorking = false;
     }
@@ -72,11 +85,21 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         this.isWorking = false;
     }
 
+    public String getCrucibleUIKey() {
+        String uiKey = "ui.start_core.hellforge_crucible";
+        if (baseTemperature > 0) {
+            uiKey = "ui.start_core.fornaxs_crucible";
+        }
+
+        return uiKey;
+    }
+
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
+
         textList.add(
-                Component.translatable("ui.start_core.hellforge_crucible", this.temperature));
+                Component.translatable(getCrucibleUIKey(), this.temperature));
     }
 
     /**
@@ -142,9 +165,9 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
             boolean machineActive = getRecipeLogic().isWorking();
 
             if (machineActive) {
-                this.temperature = Math.max(this.temperature - 5, 0);
+                this.temperature = Math.max(this.temperature - baseTempLoss, baseTemperature);
             } else {
-                this.temperature = Math.max(this.temperature - 125, 0);
+                this.temperature = Math.max(this.temperature - dormantTempLoss, baseTemperature);
             }
 
             this.temperatureChanged();
@@ -201,10 +224,6 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
                 }
             }
         }
-    }
-
-    public Integer getCrucibleTemperature() {
-        return this.temperature;
     }
 
     public double redstonePercentageOfTemp(double temperature) {
