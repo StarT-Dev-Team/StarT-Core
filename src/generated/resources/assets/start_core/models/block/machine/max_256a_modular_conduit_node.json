@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:max_256a_modular_conduit_node",
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
+  "variants": {
+    "is_formed=false": {
+      "model": {
+        "parent": "gtceu:block/machine/part/energy_input_hatch",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/max/bottom",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_256a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_256a_in_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_256a_tinted",
+          "side": "gtceu:block/casings/voltage/max/side",
+          "top": "gtceu:block/casings/voltage/max/top"
+        }
+      }
+    },
+    "is_formed=true": {
+      "model": {
+        "parent": "gtceu:block/machine/part/energy_input_hatch",
+        "textures": {
+          "bottom": "gtceu:block/casings/voltage/max/bottom",
+          "overlay_in": "start_core:block/overlay/modular/overlay_energy_256a_out",
+          "overlay_in_emissive": "start_core:block/overlay/modular/overlay_energy_256a_in_emissive",
+          "overlay_tint": "start_core:block/overlay/modular/overlay_energy_256a_tinted",
+          "side": "gtceu:block/casings/voltage/max/side",
+          "top": "gtceu:block/casings/voltage/max/top"
+        }
+      }
+    }
+  }
+}

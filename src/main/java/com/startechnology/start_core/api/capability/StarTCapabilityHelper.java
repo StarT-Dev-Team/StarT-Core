@@ -5,7 +5,9 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 import net.minecraft.core.BlockPos;
@@ -42,9 +44,37 @@ public class StarTCapabilityHelper {
             if (machine instanceof ReflectorFusionReactorMachine fusionReactorMachine) {
                 return StarTCapability.CAPABILITY_FUSION_REACTOR.orEmpty(capability, LazyOptional.of(() -> fusionReactorMachine));
             }
+        } else if (capability == StarTCapability.CAPABILITY_SOLAR) {
+            if (machine instanceof StarTSolarMachine solarMachine) {
+                return StarTCapability.CAPABILITY_SOLAR.orEmpty(capability, LazyOptional.of(() -> solarMachine));
+            }
         } else if (capability == StarTCapability.VACUUM_CHEMICAL_REACTION_CHAMBER) {
             if (machine instanceof VacuumChemicalReactionChamberMachine vcrcMachine) {
                 return StarTCapability.VACUUM_CHEMICAL_REACTION_CHAMBER.orEmpty(capability, LazyOptional.of(() -> vcrcMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_SUPPORTED_MODULES) {
+            if (machine instanceof IStarTModularSupportedModules modularSupportedMachine) {
+                return StarTCapability.CAPABILITY_SUPPORTED_MODULES.orEmpty(capability, LazyOptional.of(() -> modularSupportedMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE) {
+            if (machine instanceof StarTModularInterfaceHatchPartMachine modularInterfaceHatchPartMachine) {
+                return StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE.orEmpty(capability, LazyOptional.of(() -> modularInterfaceHatchPartMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_SUPPORTED_MODULES) {
+            if (machine instanceof IStarTModularSupportedModules modularSupportedMachine) {
+                return StarTCapability.CAPABILITY_SUPPORTED_MODULES.orEmpty(capability, LazyOptional.of(() -> modularSupportedMachine));
+            }
+        }
+
+        else if (capability == StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE) {
+            if (machine instanceof StarTModularInterfaceHatchPartMachine modularInterfaceHatchPartMachine) {
+                return StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE.orEmpty(capability, LazyOptional.of(() -> modularInterfaceHatchPartMachine));
             }
         }
 
@@ -95,8 +125,23 @@ public class StarTCapabilityHelper {
     }
 
     @Nullable
+    public static StarTSolarMachine getSolarMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_SOLAR, level, pos, side);
+    }
+
+    @Nullable
     public static VacuumChemicalReactionChamberMachine getVacuumChemicalReactionChamberMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.VACUUM_CHEMICAL_REACTION_CHAMBER, level, pos, side);
     }
 
+
+    @Nullable
+    public static IStarTModularSupportedModules getModularSupportedModules(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_SUPPORTED_MODULES, level, pos, side);
+    }
+
+    @Nullable
+    public static StarTModularInterfaceHatchPartMachine getModularInterfaceHatchPartMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getBlockEntityCapability(StarTCapability.CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE, level, pos, side);
+    }
 }

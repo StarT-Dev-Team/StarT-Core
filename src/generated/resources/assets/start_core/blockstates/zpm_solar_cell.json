@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "start_core:block/zpm_solar_cell"
+    }
+  }
+}

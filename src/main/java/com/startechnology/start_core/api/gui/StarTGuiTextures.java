@@ -8,4 +8,8 @@ public class StarTGuiTextures {
     public static final ResourceTexture NANOFLUIDIC_HEAT_SINK_COMPONENT = new ResourceTexture(
         StarTCore.resourceLocation("textures/gui/widget/hpca/nanofluidic_heat_sink_component.png")
     );
+
+    public static final ResourceTexture MODULAR_INTERFACE_MISSING = new ResourceTexture(
+        StarTCore.resourceLocation("textures/gui/missing_modular_link.png")
+    );
 }

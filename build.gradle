@@ -66,10 +66,14 @@ repositories {
     }
     mavenCentral()
     maven {
-        name = 'GTCEu Maven'
-        url = 'https://maven.gtceu.com'
+        url = uri("https://repo.expandium.net/private")
+        credentials {
+            username = project.findProperty("MAVEN_USERNAME") as String ?: ""
+            password = project.findProperty("MAVEN_TOKEN") as String ?: ""
+        }
         content {
             includeGroup 'com.gregtechceu.gtceu'
+            includeGroup 'com.tterrag.registrate'
         }
     }
     maven {
@@ -97,7 +101,6 @@ repositories {
         content {
             // need to be specific here due to version overlaps
             includeGroup("com.jozufozu.flywheel")
-            includeGroup("com.tterrag.registrate")
             includeGroup("com.simibubi.create")
         }
     }
@@ -177,12 +180,12 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:cofh-core-69162:5374122")
-
+    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
 
     modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
     modRuntimeOnly("curse.maven:spark-361579:4738952")
-    modRuntimeOnly ("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
+    modImplementation("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
 
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))

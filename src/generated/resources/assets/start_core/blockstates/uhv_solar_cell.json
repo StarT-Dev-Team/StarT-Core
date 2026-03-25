@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "start_core:block/uhv_solar_cell"
+    }
+  }
+}
