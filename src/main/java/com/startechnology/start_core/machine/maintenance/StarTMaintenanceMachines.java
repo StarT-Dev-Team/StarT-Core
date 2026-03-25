@@ -6,9 +6,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.CleaningMaintenanceHatchPartMachine;
 import com.startechnology.start_core.StarTCore;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
@@ -17,7 +15,7 @@ import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createMai
 public class StarTMaintenanceMachines {
     public static final MachineDefinition STERILE_CLEANING_MAINTENANCE_HATCH = StarTCore.START_REGISTRATE
         .machine("sterile_cleaning_maintenance_hatch",
-                holder -> new CleaningMaintenanceHatchPartMachine(holder, CleanroomType.STERILE_CLEANROOM))
+            holder -> new StarTCleaningMaintenanceHatchPartMachine(holder, CleanroomType.CLEANROOM, CleanroomType.STERILE_CLEANROOM))
         .rotationState(RotationState.ALL)
         .abilities(PartAbility.MAINTENANCE)
         .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
@@ -25,7 +23,9 @@ public class StarTMaintenanceMachines {
                 Component.translatable("gtceu.machine.maintenance_hatch_cleanroom_auto.tooltip.1"))
         .tooltipBuilder((stack, tooltips) -> {
             tooltips.add(Component.literal("  ").append(Component
-                    .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
+                .translatable(CleanroomType.CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
+            tooltips.add(Component.literal("  ").append(Component
+                .translatable(CleanroomType.STERILE_CLEANROOM.getTranslationKey()).withStyle(ChatFormatting.GOLD)));
         })
         .modelProperty(GTMachineModelProperties.IS_FORMED, false)
         .modelProperty(GTMachineModelProperties.IS_TAPED, false)
@@ -33,5 +33,6 @@ public class StarTMaintenanceMachines {
         .tier(GTValues.HV)
         .register();
 
-    public static void init() {}
+    public static void init() {
+    }
 }
