@@ -13,6 +13,7 @@
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
     "ParallelHatchPartMachineMixin",
+    "ParallelHatchPartMachineAccessor",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin"
   ],
