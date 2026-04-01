@@ -22,7 +22,14 @@
     "WorkableElectricMultiblockMachineMixin"
   ],
   "client": [
-    "CustomStackTooltipsHandlerMixin"
+    "CustomStackTooltipsHandlerMixin",
+    "ponder.PonderIndexAccessor",
+    "ponder.PonderIndexMixin",
+    "ponder.PonderInstructionMixin",
+    "ponder.PonderLocalizationMixin",
+    "ponder.PonderTagRegistryAccessor",
+    "ponder.PonderWorldInstructionsMixin",
+    "ponder.PonderOverlayInstructionMixin"
   ],
   "injectors": {
     "defaultRequire": 1

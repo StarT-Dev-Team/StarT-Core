@@ -136,6 +136,8 @@ repositories {
     }
 
     maven { url "https://maven.covers1624.net" }
+    maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
+    maven { url = "https://maven.createmod.net" }
 }
 
 dependencies {
@@ -171,6 +173,7 @@ dependencies {
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("appeng:appliedenergistics2-forge:15.3.3")
     modImplementation("curse.maven:jade-324717:6106101")
+    modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
 
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
     modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
