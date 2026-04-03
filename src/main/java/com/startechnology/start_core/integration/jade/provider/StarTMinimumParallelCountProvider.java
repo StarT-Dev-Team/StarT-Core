@@ -1,27 +1,14 @@
 package com.startechnology.start_core.integration.jade.provider;
 
-import org.jetbrains.annotations.Nullable;
-
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.IParallelHatch;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.machine.parallel.IStarTMinimumParallelHatch;
-
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -60,7 +47,7 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
             if (minParallels > 1) {
                 Component minParallelComponent = Component.literal(FormattingUtil.formatNumbers(minParallels))
                         .withStyle(ChatFormatting.DARK_PURPLE);
-                iTooltip.add(Component.translatable("start_core.parallel_hatch.jade_min_parallel", minParallelComponent));
+                iTooltip.add(1, Component.translatable("start_core.parallel_hatch.jade_min_parallel", minParallelComponent));
             }
         }
     }
