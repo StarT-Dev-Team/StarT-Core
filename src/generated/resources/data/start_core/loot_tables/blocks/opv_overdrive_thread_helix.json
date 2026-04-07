@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "start_core:test"
+          "name": "start_core:opv_overdrive_thread_helix"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "start_core:blocks/test"
+  "random_sequence": "start_core:blocks/opv_overdrive_thread_helix"
 }
