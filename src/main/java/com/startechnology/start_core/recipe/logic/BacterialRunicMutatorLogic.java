@@ -185,7 +185,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
         Fluid newSuperFluid = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getSuperfluid().getFluid();
 
         StarTBacteriaStats newStats = new StarTBacteriaStats(production, metabolism, mutability,
-                possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2), newSuperFluid
+                possibleNewAffinities.get(0), possibleNewAffinities.get(1), possibleNewAffinities.get(2), newSuperFluid
         );
         StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
 
