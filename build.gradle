@@ -13,8 +13,6 @@ plugins {
     id "maven-publish"
 }
 
-
-
 base {
     archivesName = project.archives_base_name
 }
@@ -172,6 +170,17 @@ dependencies {
     modImplementation("appeng:appliedenergistics2-forge:15.3.3")
     modImplementation("curse.maven:jade-324717:6106101")
 
+    modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:$project.flywheel_version")
+
+    modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
+    modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
+
+    modImplementation("curse.maven:codechicken-lib-1-8-242818:5753868") { transitive = false }
+    modImplementation("curse.maven:cb-multipart-258426:5311521") { transitive = false }
+    modImplementation("curse.maven:project-red-core-228702:6868143") { transitive = false }
+    modImplementation("curse.maven:project-red-integration-229045:6868148") { transitive = false }
+    modImplementation("curse.maven:project-red-transmission-478939:6868149") { transitive = false }
+
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
     modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
     modRuntimeOnly("com.teamcofh:thermal_core:1.20.1-11.0.7+")
@@ -181,6 +190,8 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:cofh-core-69162:5374122")
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
+
+    modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-1.20.1:$project.flywheel_version")
 
     modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }

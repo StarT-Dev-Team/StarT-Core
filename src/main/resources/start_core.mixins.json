@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [
+    "CoverBehaviorAccessor",
     "CustomStackTooltipsHandlerMixin",
     "EmiApiMixin",
     "FluidDrillMachineMixin",
@@ -19,7 +20,14 @@
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
-    "WorkableElectricMultiblockMachineMixin"
+    "WorkableElectricMultiblockMachineMixin",
+    "ccb.MultiPartSPHMixin",
+    "ccl.BlockRenderingRegistryAccessor",
+    "create.SchematicAndQuillHandlerMixin",
+    "create.SchematicHandlerMixin",
+    "create.SchematicLevelAccessor",
+    "create.SchematicPrinterMixin",
+    "create.SchematicRendererMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin"
