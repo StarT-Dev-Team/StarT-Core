@@ -27,7 +27,8 @@
     "create.SchematicHandlerMixin",
     "create.SchematicLevelAccessor",
     "create.SchematicPrinterMixin",
-    "create.SchematicRendererMixin"
+    "create.SchematicRendererMixin",
+    "pr.GTToolItemMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",
