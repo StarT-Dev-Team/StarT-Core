@@ -1,6 +1,8 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -33,6 +35,8 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
     @Persisted
     protected Integer saturation;
+    @Persisted
+    private Map<String, Integer> lastIndicatorValues;
 
     protected TickableSubscription tryTickSub;
     private boolean startSaturationGain;
@@ -43,6 +47,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.saturation = 0;
+        this.lastIndicatorValues = new HashMap<>();
         this.startSaturationGain = false;
         this.isWorking = false;
     }
@@ -118,9 +123,15 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private void saturationChanged() {
         redstoneSaturationMarkers.forEach(marker -> {
             BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            String key = "variadic.start_core.indicator.abyssal_harvester." + label.toString();
 
-            this.setIndicatorValue("variadic.start_core.indicator.abyssal_harvester." + label.toString(),
-                    (int) Math.floor(calculatePercentageSaturation(marker)));
+            int newValue = (int) Math.floor(calculatePercentageSaturation(marker));
+
+            Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
+            if (!lastValue.equals(newValue)) {
+                lastIndicatorValues.put(key, newValue);
+                this.setIndicatorValue(key, newValue);
+            }
         });
     }
 

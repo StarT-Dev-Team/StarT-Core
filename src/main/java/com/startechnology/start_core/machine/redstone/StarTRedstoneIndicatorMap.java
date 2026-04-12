@@ -13,11 +13,18 @@ import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;
 import com.startechnology.start_core.StarTCore;
 
 import io.netty.buffer.Unpooled;
+import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class StarTRedstoneIndicatorMap {
 
     private final Map<String, StarTRedstoneIndicatorRecord> records = new HashMap<>();
+    /**
+     * -- GETTER --
+     *  Returns the currently selected indicator.
+     *  Should be Never null and defaults to DEFAULT.
+     */
+    @Getter
     private StarTRedstoneIndicatorRecord current = StarTRedstoneIndicatorRecord.DEFAULT;
 
     /* LDLIB sync accessor so we can sync/persist the redstone indicator map of hatches. */
@@ -101,11 +108,10 @@ public class StarTRedstoneIndicatorMap {
     }
 
     /**
-     * Returns the currently selected indicator.
-     * Should be Never null and defaults to DEFAULT.
+     * Retrieve a record by its indicator key.
      */
-    public StarTRedstoneIndicatorRecord getCurrent() {
-        return current;
+    public StarTRedstoneIndicatorRecord getRecord(String indicatorKey) {
+        return records.get(indicatorKey);
     }
 
     /**

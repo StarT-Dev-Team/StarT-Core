@@ -51,7 +51,17 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     }
 
     public void setCurrentIndicator(String indicatorKey) {
+        String oldKey = this.indicatorMap.getCurrent().indicatorKey();
+        if (oldKey.equals(indicatorKey)) {
+            return;
+        }
+
         this.indicatorMap.setCurrent(indicatorKey);
+
+        if (this.getHolder() instanceof IStarTRedstoneIndicatorMachine machine) {
+            machine.updateHatchIndicatorSelection(this, oldKey, indicatorKey);
+        }
+
         modified();
     }
 
@@ -61,6 +71,11 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
     }
 
     public void updateIndicator(String indicatorKey, Integer redstoneLevel) {
+        StarTRedstoneIndicatorRecord existing = this.indicatorMap.getRecord(indicatorKey);
+        if (existing == null || existing.redstoneLevel().equals(redstoneLevel)) {
+            return;
+        }
+
         this.indicatorMap.setRedstoneLevel(indicatorKey, redstoneLevel);
         modified();
     }
@@ -104,7 +119,14 @@ public class StarTRedstoneInterfacePartMachine extends TieredIOPartMachine {
 
     @Override
     public Widget createUIWidget() {
-        if (!getLevel().isClientSide) syncMap();
+        if (!getLevel().isClientSide) {
+            //This needs to be called on server somehow
+            syncMap();
+
+            if (this.getHolder().getMetaMachine() instanceof IStarTRedstoneIndicatorMachine machine) {
+                machine.forceRedstoneIndicatorSync();
+            }
+        }
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 58, 127 + 8);
 
         group.addWidget(new LabelWidget(55, 15, "start_core.redstone_interface.select"));

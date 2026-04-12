@@ -1,6 +1,9 @@
 package com.startechnology.start_core.machine.redstone;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
@@ -11,6 +14,13 @@ public interface IStarTRedstoneIndicatorMachine {
      * WeakHashMap means entries will be removed from here automatically if key not referenced elsewhere
      */
     WeakHashMap<IStarTRedstoneIndicatorMachine, List<StarTRedstoneInterfacePartMachine>> HATCH_CACHE
+            = new WeakHashMap<>();
+
+    /*
+     * Reverse mapping: indicator key -> list of hatches that have this indicator selected
+     * Allows efficient updates by only targeting hatches that care about a specific indicator
+     */
+    WeakHashMap<IStarTRedstoneIndicatorMachine, Map<String, List<StarTRedstoneInterfacePartMachine>>> INDICATOR_TO_HATCH_MAP
             = new WeakHashMap<>();
 
     /**
@@ -29,24 +39,80 @@ public interface IStarTRedstoneIndicatorMachine {
 
         HATCH_CACHE.put(this, hatches);
 
-        /* Update hatches with the initial values */
+        /* Build indicator -> hatches reverse mapping */
         List<StarTRedstoneIndicatorRecord> indicators = getInitialIndicators();
+        Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = new HashMap<>();
+
+        indicators.forEach(indicator -> indicatorMap.put(indicator.indicatorKey(), new ArrayList<>()));
+
+        INDICATOR_TO_HATCH_MAP.put(this, indicatorMap);
+
+        /* Update hatches with the initial values */
         hatches.forEach(hatch -> {
             indicators.forEach(hatch::putIndicator);
+
+            String currentKey = hatch.getCurrentIndicator().indicatorKey();
+
+            indicatorMap.get(currentKey).add(hatch);
         });
     }
 
     default void onRedstoneStructureInvalid() {
         HATCH_CACHE.remove(this);
+        INDICATOR_TO_HATCH_MAP.remove(this);
     }
 
     /**
-     * Updates all the associated redstone interfaces on this machine
-     * with the new redstone level for an indicator
+     * Updates only the redstone interfaces that have this indicator selected
+     * with the new redstone level for an indicator.
+     * This is more efficient than updating all hatches.
      */
     default void setIndicatorValue(String indicatorKey, int redstoneLevel) {
+        Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = INDICATOR_TO_HATCH_MAP.get(this);
+
+        if (indicatorMap == null || !indicatorMap.containsKey(indicatorKey)) return;
+        
+        List<StarTRedstoneInterfacePartMachine> affectedHatches = indicatorMap.get(indicatorKey);
+
+        affectedHatches.forEach(hatch -> hatch.updateIndicator(indicatorKey, redstoneLevel));
+    }
+
+    /**
+     * Called when a hatch changes its selected indicator.
+     * Updates the reverse mapping to track which hatch has which indicator selected.
+     */
+    default void updateHatchIndicatorSelection(StarTRedstoneInterfacePartMachine hatch, 
+                                               String oldIndicator, String newIndicator) {
+        Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = INDICATOR_TO_HATCH_MAP.get(this);
+
+        if (indicatorMap == null) return;
+        
+        List<StarTRedstoneInterfacePartMachine> oldList = indicatorMap.get(oldIndicator);
+
+        if (oldList != null) {
+            oldList.remove(hatch);
+        }
+        
+        List<StarTRedstoneInterfacePartMachine> newList = indicatorMap.computeIfAbsent(newIndicator, k -> new ArrayList<>());
+
+        if (!newList.contains(hatch)) {
+            newList.add(hatch);
+        }
+    }
+
+    /**
+     * Force all hatches to resync their indicators with the machine.
+     * Called when UI opens to ensure consistency between machine state and UI.
+     */
+    default void forceRedstoneIndicatorSync() {
         List<StarTRedstoneInterfacePartMachine> hatches = HATCH_CACHE.get(this);
-        if (hatches == null || hatches.isEmpty()) return;
-        hatches.forEach(hatch -> hatch.updateIndicator(indicatorKey, redstoneLevel));
+
+        if (hatches == null) return;
+        
+        List<StarTRedstoneIndicatorRecord> indicators = getInitialIndicators();
+
+        hatches.forEach(hatch -> {
+            indicators.forEach(hatch::putIndicator);
+        });
     }
 }

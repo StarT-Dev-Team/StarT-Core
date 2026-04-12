@@ -50,6 +50,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     private int brokenCells = 0;
     @Persisted
     private int runningTimer = 0;
+    @Persisted
+    private Map<String, Integer> lastIndicatorValues;
 
     private final double outputModifier;
     private double avgTemp = 0;
@@ -68,6 +70,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.cells = new ArrayList<>();
         this.boostingRecipe = createBoostingRecipe();
         this.outputModifier = getOutputModifier(tier);
+        this.lastIndicatorValues = new HashMap<>();
     }
 
     private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
@@ -132,7 +135,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
             avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
 
-            temperatureChanged();
+            if (avgTemp > 0) temperatureChanged();
         }
     }
 
@@ -220,6 +223,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         brokenCells = newBrokenCells;
         avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
         avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
+
+        if (avgTemp > 0) temperatureChanged();
     }
 
     public static double getOutputModifier(int tier) {
@@ -275,27 +280,37 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return false;
     }
 
-    public double redstonePercentageOfTemp(int maxTemp) {
-        return Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0);
+    public int redstonePercentageOfTemp(int maxTemp) {
+        return (int) Math.max(Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0), 0);
     }
 
     private void temperatureChanged() {
         Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
-            this.setIndicatorValue("variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                (int) Math.floor(redstonePercentageOfTemp(entry.getMaxTemperature())));
+            String key = "variadic.start_core.indicator.solar_machine." + entry.getSerializedName();
+            Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
+
+            int newValue = redstonePercentageOfTemp(entry.getMaxTemperature());
+
+            if (!lastValue.equals(newValue)) {
+                lastIndicatorValues.put(key, newValue);
+
+                this.setIndicatorValue(key, newValue);
+            }
         });
     }
 
     @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return Arrays.stream(StarTSolarCells.values()).map(entry -> {
+            String key = "variadic.start_core.indicator.solar_mine." + entry.getSerializedName();
+
             int maxTemp = entry.getMaxTemperature();
 
             return new StarTRedstoneIndicatorRecord(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
                 Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
-                (int) Math.floor(redstonePercentageOfTemp(maxTemp)),
+                lastIndicatorValues.getOrDefault(key, 0),
                 maxTemp
             );
         }).toList();

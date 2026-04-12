@@ -21,17 +21,20 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
 
     @Persisted
     @Getter
     protected float vacuumAmount;
-
     @Persisted
     @Getter
     protected Status vacuumStatus;
+    @Persisted
+    private Map<String, Integer> lastIndicatorValues;
 
     @Getter
     private IVacuumPump pump = new IVacuumPump.Empty();
@@ -40,8 +43,9 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
     public VacuumChemicalReactionChamberMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        vacuumAmount = 0;
-        vacuumStatus = Status.IDLE;
+        this.vacuumAmount = 0;
+        this.vacuumStatus = Status.IDLE;
+        this.lastIndicatorValues = new HashMap<>();
     }
 
     @Override
@@ -169,7 +173,16 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
     private void setVacuumAmount(float vacuumAmount) {
         this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pump.getPumpCap());
-        this.setIndicatorValue("variadic.start_core.indicator.vcrc.vac_to_capacity", redstoneOutputVacPercentToPumpCapacity());
+
+        String key = "variadic.start_core.indicator.vcrc.vac_to_capacity";
+        Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
+
+        int newValue = redstoneOutputVacPercentToPumpCapacity();
+
+        if (!lastValue.equals(newValue)) {
+            lastIndicatorValues.put(key, newValue);
+            this.setIndicatorValue(key, newValue);
+        }
     }
 
     @Override
