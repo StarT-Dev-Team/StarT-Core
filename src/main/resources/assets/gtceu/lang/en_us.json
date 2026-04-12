@@ -1,3 +1,7 @@
 {
-  "tagprefix.dust_block": "Block of %s Dust"
+  "tagprefix.dust_block": "Block of %s Dust",
+  "tagprefix.foil_ream": "%s Foil Ream",
+  "tagprefix.wire_spool": "%s Wire Spool",
+  "tagprefix.ultradense_plate": "%s Ultradense Plate",
+  "tagprefix.ball_bearing": "%s Ball Bearing"
 }
