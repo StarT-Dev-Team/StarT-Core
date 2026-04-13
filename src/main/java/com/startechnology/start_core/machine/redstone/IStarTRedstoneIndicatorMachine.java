@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.LazyManaged;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import lombok.Getter;
 
 public interface IStarTRedstoneIndicatorMachine {
 
@@ -23,11 +27,15 @@ public interface IStarTRedstoneIndicatorMachine {
     WeakHashMap<IStarTRedstoneIndicatorMachine, Map<String, List<StarTRedstoneInterfacePartMachine>>> INDICATOR_TO_HATCH_MAP
             = new WeakHashMap<>();
 
+    @Persisted
+    @DescSynced
+    @LazyManaged
+    StarTRedstoneIndicatorMap indicatorMap =  new StarTRedstoneIndicatorMap();
+
     /**
      * Declare all of the indicators for this machine initially
      */
     List<StarTRedstoneIndicatorRecord> getInitialIndicators();
-
     /**
      * Get the indicator map stored in the machine
      */
@@ -46,21 +54,19 @@ public interface IStarTRedstoneIndicatorMachine {
 
         /* Build indicator -> hatches reverse mapping */
         List<StarTRedstoneIndicatorRecord> indicators = getInitialIndicators();
-        Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = new HashMap<>();
+        Map<String, List<StarTRedstoneInterfacePartMachine>> internalIndicatorMap = new HashMap<>();
 
-        indicators.forEach(indicator -> indicatorMap.put(indicator.indicatorKey(), new ArrayList<>()));
+        indicators.forEach(indicator -> internalIndicatorMap.put(indicator.indicatorKey(), new ArrayList<>()));
 
-        INDICATOR_TO_HATCH_MAP.put(this, indicatorMap);
+        INDICATOR_TO_HATCH_MAP.put(this, internalIndicatorMap);
 
-        /* Initialize machine's indicator map with initial values set to 0 */
-        StarTRedstoneIndicatorMap machineMap = getIndicatorMap();
-        indicators.forEach(machineMap::put);
+        indicators.forEach(indicatorMap::put);
 
         /* Set up reverse mapping */
         hatches.forEach(hatch -> {
             String currentKey = hatch.getCurrentIndicator().indicatorKey();
 
-            indicatorMap.get(currentKey).add(hatch);
+            internalIndicatorMap.get(currentKey).add(hatch);
         });
     }
 
@@ -75,14 +81,13 @@ public interface IStarTRedstoneIndicatorMachine {
      * This is more efficient than updating all hatches.
      */
     default void setIndicatorValue(String indicatorKey, int redstoneLevel) {
-        StarTRedstoneIndicatorMap map = getIndicatorMap();
-        StarTRedstoneIndicatorRecord existing = map.getRecord(indicatorKey);
+        StarTRedstoneIndicatorRecord existing = indicatorMap.getRecord(indicatorKey);
 
         if (existing != null && existing.redstoneLevel().equals(redstoneLevel)) {
             return;
         }
 
-        map.setRedstoneLevel(indicatorKey, redstoneLevel);
+        indicatorMap.setRedstoneLevel(indicatorKey, redstoneLevel);
 
         Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = INDICATOR_TO_HATCH_MAP.get(this);
 

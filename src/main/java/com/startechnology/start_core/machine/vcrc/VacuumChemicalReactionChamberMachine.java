@@ -34,10 +34,6 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     @Persisted
     @Getter
     protected Status vacuumStatus;
-    @Persisted
-    private Map<String, Integer> lastIndicatorValues;
-    @Persisted
-    protected StarTRedstoneIndicatorMap indicatorMap;
 
     @Getter
     private IVacuumPump pump = new IVacuumPump.Empty();
@@ -48,8 +44,6 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         super(holder, args);
         this.vacuumAmount = 0;
         this.vacuumStatus = Status.IDLE;
-        this.lastIndicatorValues = new HashMap<>();
-        this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
 
     @Override
@@ -178,20 +172,12 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     private void setVacuumAmount(float vacuumAmount) {
         this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pump.getPumpCap());
 
-        String key = "variadic.start_core.indicator.vcrc.vac_to_capacity";
-        Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
-
-        int newValue = redstoneOutputVacPercentToPumpCapacity();
-
-        if (!lastValue.equals(newValue)) {
-            lastIndicatorValues.put(key, newValue);
-            this.setIndicatorValue(key, newValue);
-        }
+        this.setIndicatorValue("variadic.start_core.indicator.vcrc.vac_to_capacity", redstoneOutputVacPercentToPumpCapacity());
     }
 
     @Override
     public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return this.indicatorMap;
+        return indicatorMap;
     }
 
     @Override

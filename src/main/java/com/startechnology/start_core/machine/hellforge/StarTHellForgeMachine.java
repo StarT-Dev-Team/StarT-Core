@@ -38,10 +38,6 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     @Persisted
     @Getter
     protected Integer temperature;
-    @Persisted
-    private Map<String, Integer> lastIndicatorValues;
-    @Persisted
-    protected StarTRedstoneIndicatorMap indicatorMap;
 
     /* The hell forge cannot go below this base Temperature */
     @Getter
@@ -61,8 +57,6 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         this.baseTemperature = baseTemperature;
         this.baseTempLoss = baseTempLoss;
         this.dormantTempLoss = dormantTempLoss;
-        this.lastIndicatorValues = new HashMap<>();
-        this.indicatorMap = new StarTRedstoneIndicatorMap();
 
         this.startHeatLoss = false;
         this.isWorking = false;
@@ -195,18 +189,12 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     private void temperatureChanged() {
-        fluidsMap.forEach((key1, temperature) -> {
-            String key = "variadic.start_core.indicator.hellforge." + temperature.toString();
-            int newValue = (int) Math.floor(redstonePercentageOfTemp(temperature));
-
-            Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
-
-            if (!lastValue.equals(newValue)) {
-                lastIndicatorValues.put(key, newValue);
-
-                this.setIndicatorValue(key, newValue);
-            }
-        });
+        fluidsMap.forEach((key1, temperature) ->
+            this.setIndicatorValue(
+                "variadic.start_core.indicator.hellforge." + temperature.toString(),
+                (int) Math.floor(redstonePercentageOfTemp(temperature))
+            )
+        );
     }
 
     @Override
@@ -245,7 +233,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     @Override
     public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return this.indicatorMap;
+        return indicatorMap;
     }
 
     @Override

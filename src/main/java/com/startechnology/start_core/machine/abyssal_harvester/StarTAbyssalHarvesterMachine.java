@@ -32,14 +32,10 @@ import net.minecraft.network.chat.Component;
 public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTAbyssalHarvesterMachine.class,
-            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+        WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     protected Integer saturation;
-    @Persisted
-    private Map<String, Integer> lastIndicatorValues;
-    @Persisted
-    protected StarTRedstoneIndicatorMap indicatorMap;
 
     protected TickableSubscription tryTickSub;
     private boolean startSaturationGain;
@@ -50,8 +46,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.saturation = 0;
-        this.lastIndicatorValues = new HashMap<>();
-        this.indicatorMap = new StarTRedstoneIndicatorMap();
         this.startSaturationGain = false;
         this.isWorking = false;
     }
@@ -60,7 +54,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (!(machine instanceof StarTAbyssalHarvesterMachine abyssalHarvesterMachine)) {
             return RecipeModifier.nullWrongType(StarTAbyssalHarvesterMachine.class, machine);
         }
-        
+
         if (!recipe.data.contains("min_saturation") || !recipe.data.contains("max_saturation")) {
             return ModifierFunction.IDENTITY;
         }
@@ -70,25 +64,25 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         if (minRecipeSaturation > machineSaturation || maxRecipeSaturation < machineSaturation) {
             return ModifierFunction.NULL;
         }
-       
+
         if ((1750 <= machineSaturation && machineSaturation <= 2750) ||
-         (4750 <= machineSaturation && machineSaturation <= 5750) ||
-         (7750 <= machineSaturation && machineSaturation <= 8750)) {
-        int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
-        return ModifierFunction.builder()
-            .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
-            .parallels(maxPossibleParallels)
-            .build();
+            (4750 <= machineSaturation && machineSaturation <= 5750) ||
+            (7750 <= machineSaturation && machineSaturation <= 8750)) {
+            int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
+            return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+                .parallels(maxPossibleParallels)
+                .build();
         }
 
         return ModifierFunction.IDENTITY;
     }
- 
+
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        textList.add(Component.translatable("ui.start_core.abyssal_harvester", 
-        String.format("%.2f", this.getSaturation() / 100.0)));
+        textList.add(Component.translatable("ui.start_core.abyssal_harvester",
+            String.format("%.2f", this.getSaturation() / 100.0)));
     }
 
     @Override
@@ -99,7 +93,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     @Override
     public void onUnload() {
         super.onUnload();
-    
+
         if (getLevel().isClientSide)
             return;
 
@@ -125,18 +119,12 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     );
 
     private void saturationChanged() {
-        redstoneSaturationMarkers.forEach(marker -> {
-            BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-            String key = "variadic.start_core.indicator.abyssal_harvester." + label.toString();
-
-            int newValue = (int) Math.floor(calculatePercentageSaturation(marker));
-
-            Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
-            if (!lastValue.equals(newValue)) {
-                lastIndicatorValues.put(key, newValue);
-                this.setIndicatorValue(key, newValue);
-            }
-        });
+        redstoneSaturationMarkers.forEach(marker ->
+            this.setIndicatorValue(
+                "variadic.start_core.indicator.abyssal_harvester." + BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100),
+                2, RoundingMode.HALF_UP).toString(), (int) Math.floor(calculatePercentageSaturation(marker))
+            )
+        );
     }
 
     @Override
@@ -145,7 +133,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         this.isWorking = false;
         this.startSaturationGain = false;
     }
-    
+
     @Override
     public void onLoad() {
         super.onLoad();
@@ -155,7 +143,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
         tryTickSub = subscribeServerTick(tryTickSub, this::tryGainSaturation);
     }
-    
+
     public Integer getSaturation() {
         return this.saturation;
     }
@@ -198,9 +186,9 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
     @Override
     public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return this.indicatorMap;
+        return indicatorMap;
     }
-    
+
     @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return redstoneSaturationMarkers.stream().map(
@@ -208,10 +196,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
                 BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
 
                 return new StarTRedstoneIndicatorRecord(
-                    "variadic.start_core.indicator.abyssal_harvester." + label.toString(), 
-                    Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)), 
-                    Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY), 
-                    0, 
+                    "variadic.start_core.indicator.abyssal_harvester." + label,
+                    Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
+                    Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY),
+                    0,
                     marker
                 );
             }

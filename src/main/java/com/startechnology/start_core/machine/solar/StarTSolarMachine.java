@@ -18,6 +18,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
@@ -51,10 +52,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     private int brokenCells = 0;
     @Persisted
     private int runningTimer = 0;
-    @Persisted
-    private Map<String, Integer> lastIndicatorValues;
-    @Persisted
-    protected StarTRedstoneIndicatorMap indicatorMap;
 
     private final double outputModifier;
     private double avgTemp = 0;
@@ -73,8 +70,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.cells = new ArrayList<>();
         this.boostingRecipe = createBoostingRecipe();
         this.outputModifier = getOutputModifier(tier);
-        this.lastIndicatorValues = new HashMap<>();
-        this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
 
     private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
@@ -289,23 +284,17 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     private void temperatureChanged() {
-        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
-            String key = "variadic.start_core.indicator.solar_machine." + entry.getSerializedName();
-            Integer lastValue = lastIndicatorValues.getOrDefault(key, -1);
-
-            int newValue = redstonePercentageOfTemp(entry.getMaxTemperature());
-
-            if (!lastValue.equals(newValue)) {
-                lastIndicatorValues.put(key, newValue);
-
-                this.setIndicatorValue(key, newValue);
-            }
-        });
+        Arrays.stream(StarTSolarCells.values()).forEach(entry ->
+            this.setIndicatorValue(
+                "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
+                redstonePercentageOfTemp(entry.getMaxTemperature())
+            )
+        );
     }
 
     @Override
     public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return this.indicatorMap;
+        return indicatorMap;
     }
 
     @Override
