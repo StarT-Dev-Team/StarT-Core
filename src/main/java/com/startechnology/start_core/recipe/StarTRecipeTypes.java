@@ -62,7 +62,7 @@ public class StarTRecipeTypes {
         .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes.register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(4,2,4,2)
+            .setMaxIOSize(3,2,3,2)
             .setEUIO(IO.IN)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
