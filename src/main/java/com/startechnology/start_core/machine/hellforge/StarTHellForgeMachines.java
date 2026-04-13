@@ -50,8 +50,7 @@ public class StarTHellForgeMachines {
             Component.translatable("machine.start_core.redstone_interfacing"),
             Component.translatable("block.start_core.hellforge_d8"),
             Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.hellforge_rm"),
-            Component.translatable("start_core.added_by_tooltip")
+            Component.translatable("block.start_core.hellforge_rm")
         )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, GTRecipeModifiers.BATCH_MODE)
         .rotationState(RotationState.NON_Y_AXIS)
@@ -119,8 +118,7 @@ public class StarTHellForgeMachines {
                     Component.translatable("machine.start_core.redstone_interfacing"),
                     Component.translatable("block.start_core.hellforge_d8"),
                     Component.translatable("block.start_core.breaker_line"),
-                    Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm"),
-                    Component.translatable("start_core.added_by_tooltip")
+                    Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm")
             )
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, StarTRecipeModifiers.THROUGHPUT_BOOSTING, GTRecipeModifiers.BATCH_MODE)
             .rotationState(RotationState.NON_Y_AXIS)
