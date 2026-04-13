@@ -348,8 +348,8 @@
   "start_core.recipe.max_saturation.0": "No Maximum Saturation",
   "gtceu.abyssal_harvester": "Abyssal Harvesting",
 
-  "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%)",
-  "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%)",
+  "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%§f)",
+  "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%§f)",
   "start_core.machine.vacuum_pump.tooltip_cap": "§7Capacity: %s",
   "start_core.machine.vacuum_pump.tooltip_rate": "§7Rate: %s §7(/sec)",
   "block.start_core.uev_vacuum_pump": "§aUEV §rVacuum Pump",
