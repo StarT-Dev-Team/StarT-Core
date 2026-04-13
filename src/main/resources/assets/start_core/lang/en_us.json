@@ -582,8 +582,6 @@
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
-  "start_core.added_by_tooltip": "§eAdded by Star Technology",
-
   "block.start_core.ev_solar_cell": "EV Solar Cell",
   "block.start_core.iv_solar_cell": "IV Solar Cell",
   "block.start_core.luv_solar_cell": "LuV Solar Cell",
@@ -628,7 +626,5 @@
   "variadic.start_core.indicator.solar_machine": "Percentage to %s K",
   "variadic.start_core.description.solar_machine": "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)",
   
-  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r",
-
-  "start_core.added_by_tooltip": "§eAdded by Star Technology"
+  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r"
 }
