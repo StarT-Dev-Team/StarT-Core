@@ -1,11 +1,13 @@
 package com.startechnology.start_core.integration.jei;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
+import com.gregtechceu.gtceu.integration.jei.orevein.GTBedrockFluidInfoCategory;
+import com.gregtechceu.gtceu.integration.jei.orevein.GTBedrockOreInfoCategory;
 import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
-import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
@@ -14,8 +16,7 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Objects;
+import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
 
 @JeiPlugin
 public class StarTJeiPlugin implements IModPlugin {
@@ -28,6 +29,7 @@ public class StarTJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
         if (GTCEu.Mods.isREILoaded() || GTCEu.Mods.isEMILoaded()) return;
+
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_BREEDING_VAT.asStack(),
             GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.getCategory())
         );
@@ -50,6 +52,11 @@ public class StarTJeiPlugin implements IModPlugin {
                 GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
         );
 
+        for (MultiblockMachineDefinition multiBlockDefinition : FLUID_DRILLING_RIGS) {
+            if (multiBlockDefinition != null) {
+                registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockFluidInfoCategory.RECIPE_TYPE);
+                registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockOreInfoCategory.RECIPE_TYPE);
+            }
+        }
     }
-
 }
