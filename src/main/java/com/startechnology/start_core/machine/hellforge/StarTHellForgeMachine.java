@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
@@ -39,6 +40,8 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     protected Integer temperature;
     @Persisted
     private Map<String, Integer> lastIndicatorValues;
+    @Persisted
+    protected StarTRedstoneIndicatorMap indicatorMap;
 
     /* The hell forge cannot go below this base Temperature */
     @Getter
@@ -59,6 +62,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         this.baseTempLoss = baseTempLoss;
         this.dormantTempLoss = dormantTempLoss;
         this.lastIndicatorValues = new HashMap<>();
+        this.indicatorMap = new StarTRedstoneIndicatorMap();
 
         this.startHeatLoss = false;
         this.isWorking = false;
@@ -240,6 +244,11 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     @Override
+    public StarTRedstoneIndicatorMap getIndicatorMap() {
+        return this.indicatorMap;
+    }
+
+    @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return fluidsMap.values().stream().map(temperature -> {
             String temperatureString = temperature.toString();
@@ -248,7 +257,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
                 "variadic.start_core.indicator.hellforge." + temperatureString,
                 Component.translatable("variadic.start_core.indicator.hellforge", Component.literal(temperatureString + "MK").withStyle(ChatFormatting.RED)),
                 Component.translatable("variadic.start_core.description.hellforge", temperatureString).withStyle(ChatFormatting.GRAY),
-                (int) Math.floor(redstonePercentageOfTemp(temperature)),
+                0,
                 temperature
             );
         }).toList();

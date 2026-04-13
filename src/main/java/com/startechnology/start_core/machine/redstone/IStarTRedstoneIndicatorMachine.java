@@ -28,6 +28,11 @@ public interface IStarTRedstoneIndicatorMachine {
      */
     List<StarTRedstoneIndicatorRecord> getInitialIndicators();
 
+    /**
+     * Get the indicator map stored in the machine
+     */
+    StarTRedstoneIndicatorMap getIndicatorMap();
+
     default void onRedstoneStructureFormed() {
         if (!(this instanceof MultiblockControllerMachine machine)) return;
 
@@ -47,10 +52,12 @@ public interface IStarTRedstoneIndicatorMachine {
 
         INDICATOR_TO_HATCH_MAP.put(this, indicatorMap);
 
-        /* Update hatches with the initial values */
-        hatches.forEach(hatch -> {
-            indicators.forEach(hatch::putIndicator);
+        /* Initialize machine's indicator map with initial values set to 0 */
+        StarTRedstoneIndicatorMap machineMap = getIndicatorMap();
+        indicators.forEach(machineMap::put);
 
+        /* Set up reverse mapping */
+        hatches.forEach(hatch -> {
             String currentKey = hatch.getCurrentIndicator().indicatorKey();
 
             indicatorMap.get(currentKey).add(hatch);
@@ -68,13 +75,22 @@ public interface IStarTRedstoneIndicatorMachine {
      * This is more efficient than updating all hatches.
      */
     default void setIndicatorValue(String indicatorKey, int redstoneLevel) {
+        StarTRedstoneIndicatorMap map = getIndicatorMap();
+        StarTRedstoneIndicatorRecord existing = map.getRecord(indicatorKey);
+
+        if (existing != null && existing.redstoneLevel().equals(redstoneLevel)) {
+            return;
+        }
+
+        map.setRedstoneLevel(indicatorKey, redstoneLevel);
+
         Map<String, List<StarTRedstoneInterfacePartMachine>> indicatorMap = INDICATOR_TO_HATCH_MAP.get(this);
 
         if (indicatorMap == null || !indicatorMap.containsKey(indicatorKey)) return;
         
         List<StarTRedstoneInterfacePartMachine> affectedHatches = indicatorMap.get(indicatorKey);
 
-        affectedHatches.forEach(hatch -> hatch.updateIndicator(indicatorKey, redstoneLevel));
+        affectedHatches.forEach(StarTRedstoneInterfacePartMachine::modified);
     }
 
     /**
@@ -98,21 +114,5 @@ public interface IStarTRedstoneIndicatorMachine {
         if (!newList.contains(hatch)) {
             newList.add(hatch);
         }
-    }
-
-    /**
-     * Force all hatches to resync their indicators with the machine.
-     * Called when UI opens to ensure consistency between machine state and UI.
-     */
-    default void forceRedstoneIndicatorSync() {
-        List<StarTRedstoneInterfacePartMachine> hatches = HATCH_CACHE.get(this);
-
-        if (hatches == null) return;
-        
-        List<StarTRedstoneIndicatorRecord> indicators = getInitialIndicators();
-
-        hatches.forEach(hatch -> {
-            indicators.forEach(hatch::putIndicator);
-        });
     }
 }

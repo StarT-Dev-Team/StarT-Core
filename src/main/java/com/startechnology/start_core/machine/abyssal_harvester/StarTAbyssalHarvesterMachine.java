@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 // import com.startechnology.start_core.materials.StarTAbyssalHarvesterVoidFluids;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
@@ -37,6 +38,8 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     protected Integer saturation;
     @Persisted
     private Map<String, Integer> lastIndicatorValues;
+    @Persisted
+    protected StarTRedstoneIndicatorMap indicatorMap;
 
     protected TickableSubscription tryTickSub;
     private boolean startSaturationGain;
@@ -48,6 +51,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         super(holder, args);
         this.saturation = 0;
         this.lastIndicatorValues = new HashMap<>();
+        this.indicatorMap = new StarTRedstoneIndicatorMap();
         this.startSaturationGain = false;
         this.isWorking = false;
     }
@@ -193,6 +197,11 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
+    public StarTRedstoneIndicatorMap getIndicatorMap() {
+        return this.indicatorMap;
+    }
+    
+    @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return redstoneSaturationMarkers.stream().map(
             marker -> {
@@ -202,7 +211,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
                     "variadic.start_core.indicator.abyssal_harvester." + label.toString(), 
                     Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)), 
                     Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY), 
-                    (int) Math.floor(calculatePercentageSaturation(marker)), 
+                    0, 
                     marker
                 );
             }

@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.vacuum_pump.IVacuumPump;
 import com.startechnology.start_core.machine.vacuum_pump.VacuumPumpPartMachine;
@@ -35,6 +36,8 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     protected Status vacuumStatus;
     @Persisted
     private Map<String, Integer> lastIndicatorValues;
+    @Persisted
+    protected StarTRedstoneIndicatorMap indicatorMap;
 
     @Getter
     private IVacuumPump pump = new IVacuumPump.Empty();
@@ -46,6 +49,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         this.vacuumAmount = 0;
         this.vacuumStatus = Status.IDLE;
         this.lastIndicatorValues = new HashMap<>();
+        this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
 
     @Override
@@ -186,13 +190,18 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     }
 
     @Override
+    public StarTRedstoneIndicatorMap getIndicatorMap() {
+        return this.indicatorMap;
+    }
+
+    @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return List.of(
                 new StarTRedstoneIndicatorRecord(
                         "variadic.start_core.indicator.vcrc.vac_to_capacity",
                         Component.translatable("variadic.start_core.indicator.vcrc.vac_to_capacity"),
                         Component.translatable("variadic.start_core.description.vcrc.vac_to_capacity", FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
-                        redstoneOutputVacPercentToPumpCapacity(),
+                        0,
                         0)
         );
     }

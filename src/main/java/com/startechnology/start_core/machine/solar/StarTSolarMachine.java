@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
@@ -52,6 +53,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     private int runningTimer = 0;
     @Persisted
     private Map<String, Integer> lastIndicatorValues;
+    @Persisted
+    protected StarTRedstoneIndicatorMap indicatorMap;
 
     private final double outputModifier;
     private double avgTemp = 0;
@@ -71,6 +74,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.boostingRecipe = createBoostingRecipe();
         this.outputModifier = getOutputModifier(tier);
         this.lastIndicatorValues = new HashMap<>();
+        this.indicatorMap = new StarTRedstoneIndicatorMap();
     }
 
     private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
@@ -135,7 +139,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
             avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
 
-            if (avgTemp > 0) temperatureChanged();
+            temperatureChanged();
         }
     }
 
@@ -224,7 +228,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
         avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
 
-        if (avgTemp > 0) temperatureChanged();
+        temperatureChanged();
     }
 
     public static double getOutputModifier(int tier) {
@@ -300,17 +304,20 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     @Override
+    public StarTRedstoneIndicatorMap getIndicatorMap() {
+        return this.indicatorMap;
+    }
+
+    @Override
     public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
         return Arrays.stream(StarTSolarCells.values()).map(entry -> {
-            String key = "variadic.start_core.indicator.solar_mine." + entry.getSerializedName();
-
             int maxTemp = entry.getMaxTemperature();
 
             return new StarTRedstoneIndicatorRecord(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
                 Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
-                lastIndicatorValues.getOrDefault(key, 0),
+                0,
                 maxTemp
             );
         }).toList();
