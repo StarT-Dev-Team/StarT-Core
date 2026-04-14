@@ -24,5 +24,4 @@ public class GTToolItemMixin implements IScrewdriver {
     public void damageScrewdriver(Player player, ItemStack itemStack) {
         ToolHelper.damageItem(itemStack, player);
     }
-
 }
