@@ -13,17 +13,36 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
+import static com.startechnology.start_core.machine.drills.StarTDrillingRigs;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
-
+@ParametersAreNonnullByDefault
 @JeiPlugin
 public class StarTJeiPlugin implements IModPlugin {
 
     @Override
     public ResourceLocation getPluginUid() {
         return StarTCore.resourceLocation("jei_plugin");
+    }
+
+    @Override
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        if (!GTCEu.Mods.isEMILoaded()) {
+            // TODO: add EMI plugin
+            CBMicroblockRecipes.registerCategoryExtension(registration);
+        }
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
+        if (!GTCEu.Mods.isEMILoaded()) {
+            // TODO: add EMI plugin
+            CBMicroblockRecipes.registerRecipes(registration);
+        }
     }
 
     @Override
@@ -52,7 +71,7 @@ public class StarTJeiPlugin implements IModPlugin {
                 GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
         );
 
-        for (MultiblockMachineDefinition multiBlockDefinition : FLUID_DRILLING_RIGS) {
+        for (MultiblockMachineDefinition multiBlockDefinition : StarTDrillingRigs.FLUID_DRILLING_RIGS) {
             if (multiBlockDefinition != null) {
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockFluidInfoCategory.RECIPE_TYPE);
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockOreInfoCategory.RECIPE_TYPE);
