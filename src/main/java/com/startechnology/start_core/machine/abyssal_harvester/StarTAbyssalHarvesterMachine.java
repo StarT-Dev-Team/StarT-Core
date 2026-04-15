@@ -116,12 +116,11 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     );
 
     private void saturationChanged() {
-        redstoneSaturationMarkers.forEach(marker ->
-            this.setIndicatorValue(
-                "variadic.start_core.indicator.abyssal_harvester." + BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100),
-                2, RoundingMode.HALF_UP).toString(), (int) Math.floor(calculatePercentageSaturation(marker))
-            )
-        );
+        redstoneSaturationMarkers.forEach(marker -> {
+            var scaled = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            var value = (int) Math.floor(calculatePercentageSaturation(marker));
+            this.setIndicatorValue("variadic.start_core.indicator.abyssal_harvester." + scaled, value);
+        });
     }
 
     @Override
@@ -143,10 +142,8 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
 
     protected void tryGainSaturation() {
         if (getOffsetTimer() % 100 == 0 && this.startSaturationGain) {
-
             this.saturation = Math.min(this.saturation + 55, 12000);
             this.saturationChanged();
-
         }
     }
 
@@ -180,12 +177,11 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         return redstoneSaturationMarkers.stream().map(
             marker -> {
                 BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-
                 return new RedstoneIndicatorRecord(
                     "variadic.start_core.indicator.abyssal_harvester." + label,
                     Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
                     Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY),
-                    0,
+                    (int) Math.floor(calculatePercentageSaturation(marker)),
                     marker
                 );
             }
