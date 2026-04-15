@@ -1,10 +1,7 @@
 package com.startechnology.start_core.machine.modular;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -120,7 +117,8 @@ public class StarTModularCombustionMachines {
 
             )
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
+            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+            //.recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             //T1 Rocket Module
@@ -160,7 +158,8 @@ public class StarTModularCombustionMachines {
             )
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
+            .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
+           //.recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             .pattern(definition -> FactoryBlockPattern.start()

@@ -118,9 +118,8 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         // Transfer energy tick only every 3 seconds (same as dream-link)
         if (getOffsetTimer() % 60 == 0 && this.readyToUpdate) {
             // conduit i/o
-            boolean didTransfer = transferModuleInterfacesTick();
-            boolean didOutput = transferToOutputs();
-            updateActiveBlocks(didTransfer || didOutput);
+            transferModuleInterfacesTick();
+            transferToOutputs();
         }
     }
 

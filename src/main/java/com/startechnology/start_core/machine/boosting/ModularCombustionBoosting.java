@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -35,10 +36,11 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     public static final int T1_COMBUSTION_MODULE = GTValues.LuV;
     public static final int T2_COMBUSTION_MODULE = GTValues.ZPM;
     public static final int T1_ROCKET_MODULE = GTValues.UV;
-    public static final int T2_ROCKET_MODULE = GTValues.UHV;
+    public static final int T2_ROCKET_MODULE = GTValues.UEV;
 
     private int tier;
     private boolean isActiveBoosting;
+    @Persisted
     private int runningTimer = 0;
 
     private final List<ResourceLocation> acceptedFrameIds;
@@ -46,10 +48,10 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     private Material LUBRICANT = GTMaterials.get("lubricant");
     private Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");//t2 Lube
 
-    private Material T1COXIDIZER = GTMaterials.get("water"); //placeholder Oxidizer
-    private Material T2COXIDIZER = GTMaterials.get("neon");  //placeholder Oxidizer
-    private Material T1ROXIDIZER = GTMaterials.get("helium");  //placeholder Oxidizer
-    private Material T2ROXIDIZER = GTMaterials.get("hydrogen"); //placeholder Oxidizer
+    private Material T1COXIDIZER = GTMaterials.get("water"); //placeholder for WFNA
+    private Material T2COXIDIZER = GTMaterials.get("neon");  //placeholder for RFNA
+    private Material T1ROXIDIZER = GTMaterials.get("helium");  //placeholder for O2F2
+    private Material T2ROXIDIZER = GTMaterials.get("hydrogen"); //placeholder for FSB
 
     public ModularCombustionBoosting(IMachineBlockEntity holder, int tier, ResourceLocation... acceptedFrameIds) {
         super(holder, tier);
@@ -76,87 +78,50 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             }
         }
     }
-    private Integer getParallelBonus() {
-        switch(this.tier) {
-            case T1_COMBUSTION_MODULE:
-                return 3;
-            case T2_COMBUSTION_MODULE:
-                return 6;
-            case T1_ROCKET_MODULE:
-                return 3;
-            case T2_ROCKET_MODULE:
-                return 3;
-            default:
-                return 1;
-        }
+    private int getOxidizerConsumption() {
+        return (int)(Math.pow(4, tier - 1) * 4);
     }
 
-    private long getBaseEUGeneration(){
-        switch(this.tier){
-            case T1_COMBUSTION_MODULE:
-                return GTValues.V[T1_COMBUSTION_MODULE];
-            case T2_COMBUSTION_MODULE:
-                return GTValues.V[T2_COMBUSTION_MODULE];
-            case T1_ROCKET_MODULE:
-                return GTValues.V[T1_ROCKET_MODULE];
-            case T2_ROCKET_MODULE:
-                return GTValues.V[T2_ROCKET_MODULE];
-            default:
-                return GTValues.V[GTValues.IV];
-
-
-        }
+    private double getBoostingBonus() {
+        return switch (this.tier){
+            case T1_COMBUSTION_MODULE -> isActiveBoosting ? 5.0 : 1; // 5A Luv || 1A Luv
+            case T2_COMBUSTION_MODULE -> isActiveBoosting ? 6.0 : 1; // 6A ZPM || 1A ZPM
+            case T1_ROCKET_MODULE -> isActiveBoosting ? 8.0 : 2; // 8A UV || 2A UV
+            case T2_ROCKET_MODULE -> isActiveBoosting ? 12.0 : 2; // 12A UEV || 2A EUV
+            default -> 1;
+        };
     }
-
     @Override
     protected @NotNull GTRecipe getLubricantRecipe() {
         return getAvailableLubricant();
     }
 
     private GTRecipe getActiveBoostingRecipe() {
-        switch(this.tier) {
-            case T1_COMBUSTION_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(1500)).buildRawRecipe();
-            case T2_COMBUSTION_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(1500)).buildRawRecipe();
-            case T1_ROCKET_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(1500)).buildRawRecipe();
-            case T2_ROCKET_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(1500)).buildRawRecipe();
-            default:
-                return GTRecipeBuilder.ofRaw().buildRawRecipe();
-        }
+        return switch (this.tier) {
+            case T1_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            case T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            case T1_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            case T2_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
+        };
     }
 
     private GTRecipe getAvailableLubricant() {
-        switch(this.tier) {
-            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
-            case T1_ROCKET_MODULE, T2_ROCKET_MODULE:
-                return GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
-            default:
-                return GTRecipeBuilder.ofRaw().buildRawRecipe();
-        }
+        return switch (this.tier) {
+            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
+            case T1_ROCKET_MODULE, T2_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
+            default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
+        };
     }
 
-    private double getBonus() {
-        if (this.isActiveBoosting) {
-            return 4;
-        } else {
-            return 1;
-        }
-    }
 
     //one could say Crazyman
-    public ModifierFunction getModifierFunction(long EUt) {
-        int baseParallels = (int)(getBaseEUGeneration() / EUt);
-        int parallels = (int)(baseParallels * getParallelBonus() * getBonus());
-        double finalMultiplier = (double) getBaseEUGeneration() / EUt * getParallelBonus() * getBonus();
-
+    public ModifierFunction getModifierFunction(long recipeEUt) {
+        int parallels = (int)((GTValues.V[tier] / recipeEUt) * getBoostingBonus());
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallels))
                 .outputModifier(ContentModifier.multiplier(parallels))
-                .eutMultiplier(finalMultiplier)
+                .eutMultiplier(parallels)
                 .parallels(parallels)
                 .build();
     }
@@ -187,13 +152,11 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
         // check every 3.6s 1000 times = 1hr
         if (runningTimer % 72 == 0) {
-            // passive boosting recipe.
-            GTRecipe passiveBoosterRecipe = getLubricantRecipe();
-            boolean isPassiveBoosting = RecipeHelper.matchRecipe(this, passiveBoosterRecipe).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, passiveBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+            GTRecipe lubeRecipe = getLubricantRecipe();
+            //o_o
+            boolean lubed = RecipeHelper.matchRecipe(this, lubeRecipe).isSuccess(); // active boosting recipe, only if passive is running
 
-            // active boosting recipe, only if passive is running
-            if (isPassiveBoosting) {
+            if (lubed) {
                 GTRecipe activeBoosterRecipe  = getActiveBoostingRecipe();
                 this.isActiveBoosting = RecipeHelper.matchRecipe(this, activeBoosterRecipe).isSuccess() &&
                         RecipeHelper.handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
@@ -211,10 +174,6 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     public void addDisplayText(List<Component> textList) {
         MultiblockDisplayText.Builder builder = MultiblockDisplayText.builder(textList, this.isFormed()).setWorkingStatus(this.recipeLogic.isWorkingEnabled(), this.recipeLogic.isActive());
         long lastEUt = this.recipeLogic.getLastRecipe() != null ? this.recipeLogic.getLastRecipe().getOutputEUt().getTotalEU() : 0L;
-        if (getParallelBonus()==3) //t1 Rocket and Combustion modules parallel bonus
-            builder.addEnergyProductionLine(GTValues.V[this.tier + 1]*3, lastEUt);//t1 Rocket and Combustion modules * Parallel bonus
-        else
-            builder.addEnergyProductionLine(GTValues.V[this.tier + 1]*6, lastEUt);//t2 Rocket and Combustion modules * Parallel bonus
 
         if (this.isActive() && this.isWorkingEnabled()) {
             builder.addCurrentEnergyProductionLine(lastEUt);

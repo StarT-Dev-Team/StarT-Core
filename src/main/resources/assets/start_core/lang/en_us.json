@@ -624,7 +624,7 @@
 
   "block.start_core.ev_4096a_modular_conduit_node":"§5EV§r 4096§eA§r Modular Conduit Node",
   "block.start_core.iv_4096a_modular_conduit_node":"§9IV§r 4096§eA§r Modular Conduit Node",
-  "block.start_core.luv_4096a_modular_conduit_node":"§dLuV§r 4096eA§r Modular Conduit Node",
+  "block.start_core.luv_4096a_modular_conduit_node":"§dLuV§r 4096§eA§r Modular Conduit Node",
   "block.start_core.zpm_4096a_modular_conduit_node":"§cZPM§r 4096§eA§r Modular Conduit Node",
 
   "block.start_core.t2_rocket_module": "Nyinsane Rocket Module",
@@ -656,6 +656,10 @@
   "start_core.multiblock.boosted_combustion_oxidizer": "Oxidizer Boosted",
 
   "block.start_core.modular_combustion_frame_description": "WIP",
+
+  "start_core.multiblock.frame.avg_eu_in": "§eAvg EU In: §a%s EU/t",
+  "start_core.multiblock.frame.frame_boost": "§aFrame Boost: +%s%%",
+  "start_core.multiblock.frame.boosted_eu_out": "§eBoosted EU Out: §c%s EU/t",
 
   "modular.start_core.no_link": "No established Modular-Link",
   "modular.start_core.has_link": "Modular-Link established",
