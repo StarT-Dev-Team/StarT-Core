@@ -4,7 +4,7 @@ import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarve
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
@@ -19,7 +19,7 @@ public class StarTCapability {
     public static final Capability<StarTHellForgeMachine> CAPABILITY_HELL_FORGE_MACHINE = CapabilityManager
         .get(new CapabilityToken<>() {});
 
-    public static final Capability<StarTRedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
+    public static final Capability<RedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
         .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTAbyssalHarvesterMachine> CAPABILITY_ABYSSAL_HARVESTER = CapabilityManager

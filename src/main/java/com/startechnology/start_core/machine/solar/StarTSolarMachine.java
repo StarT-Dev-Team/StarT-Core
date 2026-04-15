@@ -15,10 +15,8 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
@@ -41,7 +39,7 @@ import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
+public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
     private final int tier;
     @Getter
     private int euT = 0;
@@ -293,20 +291,15 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     @Override
-    public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return indicatorMap;
-    }
-
-    @Override
-    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+    public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return Arrays.stream(StarTSolarCells.values()).map(entry -> {
             int maxTemp = entry.getMaxTemperature();
 
-            return new StarTRedstoneIndicatorRecord(
+            return new RedstoneIndicatorRecord(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
                 Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
-                0,
+                redstonePercentageOfTemp(maxTemp),
                 maxTemp
             );
         }).toList();

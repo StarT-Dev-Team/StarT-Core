@@ -1,9 +1,9 @@
 package com.startechnology.start_core.machine.hellforge;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import org.jetbrains.annotations.Nullable;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -17,9 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorMap;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 
 import lombok.Getter;
@@ -27,7 +25,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
-public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
+public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
     /*
      * persist/save data onto the world using NBT with the @Persisted field
      * annotation
@@ -37,21 +35,21 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     @Persisted
     @Getter
-    protected Integer temperature;
+    protected int temperature;
 
     /* The hell forge cannot go below this base Temperature */
     @Getter
-    private Integer baseTemperature;
+    private int baseTemperature;
 
-    private Integer baseTempLoss;
-    private Integer dormantTempLoss;
+    private int baseTempLoss;
+    private int dormantTempLoss;
 
     protected TickableSubscription tryTickSub;
     private boolean startHeatLoss;
 
     private boolean isWorking;
 
-    public StarTHellForgeMachine(IMachineBlockEntity holder, Integer baseTemperature, Integer baseTempLoss, Integer dormantTempLoss, Object... args) {
+    public StarTHellForgeMachine(IMachineBlockEntity holder, int baseTemperature, int baseTempLoss, int dormantTempLoss, Object... args) {
         super(holder, args);
         this.temperature = baseTemperature;
         this.baseTemperature = baseTemperature;
@@ -232,20 +230,15 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     @Override
-    public StarTRedstoneIndicatorMap getIndicatorMap() {
-        return indicatorMap;
-    }
-
-    @Override
-    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+    public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return fluidsMap.values().stream().map(temperature -> {
             String temperatureString = temperature.toString();
 
-            return new StarTRedstoneIndicatorRecord(
+            return new RedstoneIndicatorRecord(
                 "variadic.start_core.indicator.hellforge." + temperatureString,
                 Component.translatable("variadic.start_core.indicator.hellforge", Component.literal(temperatureString + "MK").withStyle(ChatFormatting.RED)),
                 Component.translatable("variadic.start_core.description.hellforge", temperatureString).withStyle(ChatFormatting.GRAY),
-                0,
+                (int) Math.floor(redstonePercentageOfTemp(temperature)),
                 temperature
             );
         }).toList();
