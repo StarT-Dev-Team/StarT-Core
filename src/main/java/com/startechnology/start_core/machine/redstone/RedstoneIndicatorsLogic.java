@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.redstone;
 
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,10 +34,10 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
 
     private final List<RedstoneInterfacePartMachine> redstoneParts = new ArrayList<>();
 
-    private final IRedstoneIndicatorMachine machine;
+    private final @Nullable IRedstoneIndicatorMachine machine;
 
-    public RedstoneIndicatorsLogic(IRedstoneIndicatorMachine machine) {
-        this.machine = machine;
+    public RedstoneIndicatorsLogic(IMultiController machine) {
+        this.machine = machine instanceof IRedstoneIndicatorMachine redstoneMachine ? redstoneMachine : null;
     }
 
     @Override
@@ -46,7 +47,14 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
 
     @Override
     public void onChanged() {
+        if (machine == null) return;
         machine.self().onChanged();
+    }
+
+    @Override
+    public void scheduleRenderUpdate() {
+        if (machine == null) return;
+        machine.self().scheduleRenderUpdate();
     }
 
     @SuppressWarnings("unused")
@@ -61,6 +69,10 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
 
     public void onStructureFormed() {
         indicatorRecords.clear();
+        redstoneParts.clear();
+
+        if (machine == null) return;
+
         indicatorRecords.addAll(machine.getInitialIndicators());
         updateRecordsMap(indicatorRecords);
 
@@ -100,10 +112,5 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
             if (part.getRedstoneValue() != redstoneLevel) continue;
             part.setRedstoneValue(redstoneLevel);
         }
-    }
-
-    @Override
-    public void scheduleRenderUpdate() {
-        machine.self().scheduleRenderUpdate();
     }
 }
