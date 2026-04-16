@@ -117,11 +117,11 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     //one could say Crazyman
     public ModifierFunction getModifierFunction(long recipeEUt) {
-        int parallels = (int)((GTValues.V[tier] / recipeEUt) * getBoostingBonus());
+        int parallels = (int)(GTValues.V[tier] / recipeEUt);
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallels))
                 .outputModifier(ContentModifier.multiplier(parallels))
-                .eutMultiplier(parallels)
+                .eutMultiplier(parallels * getBoostingBonus())
                 .parallels(parallels)
                 .build();
     }

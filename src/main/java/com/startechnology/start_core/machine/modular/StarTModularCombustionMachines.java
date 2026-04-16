@@ -118,7 +118,6 @@ public class StarTModularCombustionMachines {
             )
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
-            //.recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             //T1 Rocket Module
@@ -159,7 +158,6 @@ public class StarTModularCombustionMachines {
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GTRecipeTypes.COMBUSTION_GENERATOR_FUELS)
-           //.recipeTypes(StarTRecipeTypes.MODULAR_ROCKET_MODULE_RECIPES)
             .recipeModifier(ModularCombustionBoosting::recipeModifier)
             .generator(true)
             .pattern(definition -> FactoryBlockPattern.start()
