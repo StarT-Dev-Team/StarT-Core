@@ -114,7 +114,15 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         };
     }
 
-
+    private int boostingParallels() {
+        return switch (this.tier){
+            case T1_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
+            case T2_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
+            case T1_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
+            case T2_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
+            default -> 1;
+        };
+    }
     //one could say Crazyman
     public ModifierFunction getModifierFunction(long recipeEUt) {
         int parallels = (int)(GTValues.V[tier] / recipeEUt);
@@ -122,7 +130,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
                 .inputModifier(ContentModifier.multiplier(parallels))
                 .outputModifier(ContentModifier.multiplier(parallels))
                 .eutMultiplier(parallels * getBoostingBonus())
-                .parallels(parallels)
+                .parallels(parallels * boostingParallels())
                 .build();
     }
 
