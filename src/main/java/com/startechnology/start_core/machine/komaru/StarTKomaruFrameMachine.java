@@ -3,6 +3,7 @@ package com.startechnology.start_core.machine.komaru;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,8 +47,8 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
             StarTKomaruFrameMachine.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    private static final ResourceLocation BASIC_MODULE_ID = GTCEu.id("basic_type_module");
-    private static final ResourceLocation ADVANCED_MODULE_ID = GTCEu.id("advanced_type_module");
+    private static final List<ResourceLocation> BASIC_MODULE_ID = new ArrayList<>();
+    private static final List<ResourceLocation> ADVANCED_MODULE_ID = new ArrayList<>();
     private static final ResourceLocation FAEMATTER_TAG_ID = StarTCore.resourceLocation("komaru/faematter");
     private static final Pattern FILAMENT_TAG_PATTERN = Pattern.compile("^start_core:komaru/filaments/tier_(\\d+)$");
 
@@ -203,7 +204,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
     private void setupTerminals() {
         for (StarTModularConduitAutoScalingHatchPartMachine basicTerminal : basicTerminals) {
-            basicTerminal.setSupportedModules(List.of(BASIC_MODULE_ID));
+            basicTerminal.setSupportedModules(BASIC_MODULE_ID);
             basicTerminal.resetSupportedModule();
             tryScaleTerminal(basicTerminal, false);
 
@@ -219,7 +220,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
         }
 
         for (StarTModularConduitAutoScalingHatchPartMachine advancedTerminal : advancedTerminals) {
-            advancedTerminal.setSupportedModules(List.of(ADVANCED_MODULE_ID));
+            advancedTerminal.setSupportedModules(ADVANCED_MODULE_ID);
             advancedTerminal.resetSupportedModule();
             tryScaleTerminal(advancedTerminal, true);
 
@@ -566,5 +567,17 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
     private boolean checkOffset(int ticks) {
         return getOffsetTimer() % ticks == 0;
+    }
+
+    public static void addModule(String moduleId, String type) {
+        ResourceLocation resourceLocation = ResourceLocation.tryParse(moduleId);
+
+        if (resourceLocation != null) {
+            if (Objects.equals(type, "basic")) {
+                BASIC_MODULE_ID.add(resourceLocation);
+            } else if (Objects.equals(type, "advanced")) {
+                ADVANCED_MODULE_ID.add(resourceLocation);
+            }
+        }
     }
 }
