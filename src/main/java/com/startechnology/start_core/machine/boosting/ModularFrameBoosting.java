@@ -65,7 +65,7 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
 
         if (isFormed()) {
             textList.add(Component.translatable("start_core.multiblock.frame.avg_eu_in",
-                    FormattingUtil.formatNumbers(this.inputPerSec / 60L)));
+                    FormattingUtil.formatNumbers((double)((long)(this.outputPerSec / 60L / FRAME_BOOST)))));
 
             textList.add(Component.translatable("start_core.multiblock.frame.frame_boost",
                     (int)((FRAME_BOOST - 1.0) * 100)));

@@ -8,11 +8,13 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -28,6 +30,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import org.jetbrains.annotations.Nullable;
 
 public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
@@ -116,10 +119,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     private int boostingParallels() {
         return switch (this.tier){
-            case T1_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
-            case T2_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
-            case T1_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
-            case T2_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
+            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE, T1_ROCKET_MODULE, T2_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
             default -> 1;
         };
     }
@@ -187,9 +187,9 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             builder.addCurrentEnergyProductionLine(lastEUt);
         }
 
-//        if (!this.recipeLogic.isWaiting()) {
-//            builder.addFuelNeededLine(this.getRecipeFluidInputInfo(), this.recipeLogic.getDuration());
-//        }
+        if (!this.recipeLogic.isWaiting()) {
+            builder.addFuelNeededLine(this.getRecipeFluidInputInfo(), this.recipeLogic.getDuration());
+        }
 
         if (isFormed()) {
             boolean oxidizerBoosted = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();

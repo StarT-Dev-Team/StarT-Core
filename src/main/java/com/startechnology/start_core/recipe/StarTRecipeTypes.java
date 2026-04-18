@@ -162,6 +162,10 @@ public class StarTRecipeTypes {
             .setMaxIOSize(0,0,2,1)
             .setEUIO(IO.OUT);
 
+    public static final GTRecipeType COMBUSTION_FRAME_RECIPE_TYPE = GTRecipeTypes.register("modular_combustion_frame", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0,0,2,1)
+            .setEUIO(IO.OUT);
+
     public static final void init() {
 
 
