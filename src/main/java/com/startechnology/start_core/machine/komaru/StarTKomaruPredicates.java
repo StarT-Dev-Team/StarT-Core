@@ -1,8 +1,6 @@
 package com.startechnology.start_core.machine.komaru;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.modular.StarTModularPredicates;
 
 public class StarTKomaruPredicates {
