@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -144,7 +143,7 @@ public class StarTModularConnectionHatches {
                 tiers);
     }
 
-    public static final Integer MODULAR_CONDUIT_BASE_TIER = GTValues.UV;
+    public static final Integer MODULAR_CONDUIT_BASE_TIER = GTValues.EV;
 
     public static Function<IMachineBlockEntity, MetaMachine> getHolder(IO io) {
         return holder -> new StarTModularInterfaceHatchPartMachine(holder, io, MODULAR_CONDUIT_BASE_TIER);

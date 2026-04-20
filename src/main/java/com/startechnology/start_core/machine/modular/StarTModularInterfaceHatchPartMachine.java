@@ -57,7 +57,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     
     protected long lastCheckTime;
     private static final int MODULAR_CHECK_DURATION = 100;
-    
+
     @DescSynced
     protected boolean isSupportedModule;
     protected TickableSubscription tickSubscription;
@@ -192,7 +192,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     private void addComponentPanelText(List<Component> componentList) {
         if (this.isCurrentlyLinked()) {
             componentList.add(Component.translatable("modular.start_core.has_link").withStyle(ChatFormatting.GREEN));
-            
+
             if (this.io == IO.OUT && lastSupportedModuleName != null) {
                 componentList.add(Component.empty());
                 componentList.add(Component.translatable("modular.start_core.linked_type").withStyle(ChatFormatting.GOLD));
@@ -201,7 +201,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
 
         } else {
             componentList.add(Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.RED));
-        
+
             if (!this.isFormed()) {
                 componentList.add(Component.translatable("modular.start_core.not_formed")
                     .withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withHoverEvent(
@@ -217,12 +217,12 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             componentList.add(Component.translatable("modular.start_core.supported_list_title").withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD).withHoverEvent(
                 new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("modular.start_core.supported_list_description"))
             )));
-            
+
             for (ResourceLocation module : thisSupportedModules) {
                 componentList.add(Component.translatable("block." + module.getNamespace() + "." + module.getPath()));
             }
         }
-    }   
+    }
 
 
     @Override
@@ -233,19 +233,19 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
                 .addWidget(new LabelWidget(4, 5, this.getTitle()))
                 .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText))
         );
-        
+
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
-    
+
 
     @Override
     public boolean isSupportedMultiblockId(ResourceLocation id, BlockPos fromPos) {
         // Ensure its coming from the "front" block relatively
-        boolean test = fromPos.compareTo(getPos().relative(getFrontFacing())) == 0 
-            && this.extraSupportedCondition.test(id) 
-            && (this.getSupportedModules() != null) 
-            && this.getSupportedModules().stream().anyMatch(otherId -> otherId.compareTo(id) == 0) 
+        boolean test = fromPos.compareTo(getPos().relative(getFrontFacing())) == 0
+            && this.extraSupportedCondition.test(id)
+            && (this.getSupportedModules() != null)
+            && this.getSupportedModules().stream().anyMatch(otherId -> otherId.compareTo(id) == 0)
             && this.isFormed();
 
         /* We also want the out to display if it was a supported module */
@@ -284,13 +284,13 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         super.attachTooltips(tooltipsPanel);
         tooltipsPanel.attachTooltips(
             new IFancyTooltip.Basic(
-                () -> StarTGuiTextures.MODULAR_INTERFACE_MISSING, 
+                () -> StarTGuiTextures.MODULAR_INTERFACE_MISSING,
                 () -> {
                     var tooltips = new ArrayList<Component>();
                     tooltips.add(Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.RED));
                     return tooltips;
-                }, 
-                () -> !this.isTerminal() && !this.isCurrentlyLinked(), 
+                },
+                () -> !this.isTerminal() && !this.isCurrentlyLinked(),
                 () -> null
             )
         );
