@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:hpca_optimized_computation_component",
+  "variants": {
+    "active=false,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/optimized_computation",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/optimized_computation",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/damaged_optimized",
+          "overlay_emissive": "start_core:block/overlay/hpca/damaged_optimized_emissive"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/damaged_optimized",
+          "overlay_emissive": "start_core:block/overlay/hpca/damaged_optimized_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/optimized_computation_active",
+          "overlay_emissive": "start_core:block/overlay/hpca/optimized_computation_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/optimized_computation_active",
+          "overlay_emissive": "start_core:block/overlay/hpca/optimized_computation_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/damaged_optimized_active",
+          "overlay_emissive": "start_core:block/overlay/hpca/damaged_optimized_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "start_core:block/hpca_optimized_computation_component_base",
+        "textures": {
+          "overlay": "start_core:block/overlay/hpca/damaged_optimized_active",
+          "overlay_emissive": "start_core:block/overlay/hpca/damaged_optimized_active_emissive"
+        }
+      }
+    }
+  }
+}
