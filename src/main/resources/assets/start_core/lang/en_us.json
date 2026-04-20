@@ -627,8 +627,8 @@
   "block.start_core.luv_4096a_modular_conduit_node":"§dLuV§r 4096§eA§r Modular Conduit Node",
   "block.start_core.zpm_4096a_modular_conduit_node":"§cZPM§r 4096§eA§r Modular Conduit Node",
 
-  "block.start_core.t2_rocket_module": "Nyinsane Rocket Module",
-  "block.start_core.t1_rocket_module": "Supreme Rocket Module",
+  "block.start_core.t4_combustion_module": "Nyinsane Rocket Module",
+  "block.start_core.t3_combustion_module": "Supreme Rocket Module",
   "block.start_core.t1_combustion_module": "Unreal Combustion Module",
   "block.start_core.t2_combustion_module": "Supreme Combustion Module",
   "block.start_core.modular_combustion_frame": "Modular Combustion Frame",
@@ -654,6 +654,8 @@
   "block.start_core.t2_rocket_module_d2": "Supply §f80 mB/s§7 of an oxidizer to produce up to §f%s EU/t§7 at §f2x§7 fuel consumption.",
 
   "start_core.multiblock.boosted_combustion_oxidizer": "Oxidizer Boosted",
+
+  "start_core.multiblock.frame.linked_modules": "Linked Modules: %s",
 
   "block.start_core.modular_combustion_frame_description": "WIP",
 

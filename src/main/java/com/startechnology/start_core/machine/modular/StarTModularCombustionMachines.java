@@ -105,8 +105,8 @@ public class StarTModularCombustionMachines {
                     GTCEu.id("block/machines/alloy_smelter"))
             .register();
 
-    public static final MultiblockMachineDefinition T1_ROCKET_MODULE = START_REGISTRATE
-            .multiblock("t1_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T1_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
+    public static final MultiblockMachineDefinition T3_COMBUSTION_MODULE = START_REGISTRATE
+            .multiblock("t3_combustion_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T3_COMBUSTION_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .langValue("Supreme Rocket Module")
             .tooltips(
@@ -145,8 +145,8 @@ public class StarTModularCombustionMachines {
             .register();
 
     //T2 Rocket Module
-    public static final MultiblockMachineDefinition T2_ROCKET_MODULE = START_REGISTRATE
-            .multiblock("t2_rocket_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T2_ROCKET_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
+    public static final MultiblockMachineDefinition T4_COMBUSTION_MODULE = START_REGISTRATE
+            .multiblock("t4_combustion_module", (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T4_COMBUSTION_MODULE, StarTCore.resourceLocation("modular_combustion_frame")))
             .langValue("Nyinsane Rocket Module")
             .tooltips(
                     Component.translatable("block.start_core.t2_rocket_module_description"),
@@ -184,7 +184,7 @@ public class StarTModularCombustionMachines {
             .register();
 
     public static final MultiblockMachineDefinition MODULAR_COMBUSTION_FRAME = START_REGISTRATE
-            .multiblock("modular_combustion_frame", (holder) -> new ModularFrameBoosting(holder, StarTCore.resourceLocation("t2_rocket_module"),StarTCore.resourceLocation("t1_rocket_module"),StarTCore.resourceLocation("t1_combustion_module"),StarTCore.resourceLocation("t2_combustion_module")))
+            .multiblock("modular_combustion_frame", (holder) -> new ModularFrameBoosting(holder, StarTCore.resourceLocation("t3_combustion_module"),StarTCore.resourceLocation("t4_combustion_module"),StarTCore.resourceLocation("t1_combustion_module"),StarTCore.resourceLocation("t2_combustion_module")))
             .langValue("Modular Combustion Frame")
             .tooltips(
                     Component.translatable("block.start_core.modular_combustion_frame_description")

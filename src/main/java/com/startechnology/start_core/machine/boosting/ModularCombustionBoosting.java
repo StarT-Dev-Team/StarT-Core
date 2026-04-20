@@ -8,13 +8,11 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -30,7 +28,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.Nullable;
 
 public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
@@ -38,8 +35,8 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             ModularCombustionBoosting.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
     public static final int T1_COMBUSTION_MODULE = GTValues.LuV;
     public static final int T2_COMBUSTION_MODULE = GTValues.ZPM;
-    public static final int T1_ROCKET_MODULE = GTValues.UV;
-    public static final int T2_ROCKET_MODULE = GTValues.UEV;
+    public static final int T3_COMBUSTION_MODULE = GTValues.UV;
+    public static final int T4_COMBUSTION_MODULE = GTValues.UEV;
 
     private int tier;
     private boolean isActiveBoosting;
@@ -89,8 +86,8 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         return switch (this.tier){
             case T1_COMBUSTION_MODULE -> isActiveBoosting ? 5.0 : 1; // 5A Luv || 1A Luv
             case T2_COMBUSTION_MODULE -> isActiveBoosting ? 6.0 : 1; // 6A ZPM || 1A ZPM
-            case T1_ROCKET_MODULE -> isActiveBoosting ? 8.0 : 2; // 8A UV || 2A UV
-            case T2_ROCKET_MODULE -> isActiveBoosting ? 12.0 : 2; // 12A UEV || 2A EUV
+            case T3_COMBUSTION_MODULE -> isActiveBoosting ? 8.0 : 2; // 8A UV || 2A UV
+            case T4_COMBUSTION_MODULE -> isActiveBoosting ? 12.0 : 2; // 12A UEV || 2A EUV
             default -> 1;
         };
     }
@@ -103,8 +100,8 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         return switch (this.tier) {
             case T1_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
             case T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
-            case T1_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
-            case T2_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            case T3_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
+            case T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(getOxidizerConsumption())).buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
@@ -112,14 +109,14 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     private GTRecipe getAvailableLubricant() {
         return switch (this.tier) {
             case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
-            case T1_ROCKET_MODULE, T2_ROCKET_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
+            case T3_COMBUSTION_MODULE, T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
 
     private int boostingParallels() {
         return switch (this.tier){
-            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE, T1_ROCKET_MODULE, T2_ROCKET_MODULE -> isActiveBoosting ? 2 : 1;
+            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE, T3_COMBUSTION_MODULE, T4_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
             default -> 1;
         };
     }
