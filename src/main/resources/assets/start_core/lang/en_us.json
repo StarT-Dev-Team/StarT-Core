@@ -1,5 +1,6 @@
 {
   "block.start_core.hpca_nanofluidic_heat_sink_component": "HPCA Nanofluidic Heat Sink Component",
+  "block.start_core.hpca_optimized_computation_component": "HPCA Optimized Computation Component",
   "item.start_core.data_dna_disk.tooltip": "§7Storing Information in Life",
   "item.start_core.data_dna_disk": "§dData DNA Disk",
   "item.start_core.component_data_core.tooltip": "§7Data Beyond Transcendance",

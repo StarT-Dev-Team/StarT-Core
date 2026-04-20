@@ -6,7 +6,7 @@ import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarve
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
@@ -29,7 +29,7 @@ public class StarTCapabilityHelper {
                 return StarTCapability.CAPABILITY_HELL_FORGE_MACHINE.orEmpty(capability, LazyOptional.of(() -> hellforgeMachine));
             }
         } else if (capability == StarTCapability.CAPABILITY_REDSTONE_INTERFACE) {
-            if (machine instanceof StarTRedstoneInterfacePartMachine redstoneMachine) {
+            if (machine instanceof RedstoneInterfacePartMachine redstoneMachine) {
                 return StarTCapability.CAPABILITY_REDSTONE_INTERFACE.orEmpty(capability, LazyOptional.of(() -> redstoneMachine));
             }
         } else if (capability == StarTCapability.CAPABILITY_ABYSSAL_HARVESTER) {
@@ -100,7 +100,7 @@ public class StarTCapabilityHelper {
     }
 
     @Nullable
-    public static StarTRedstoneInterfacePartMachine getRedstoneInterfacePartMachine(Level level, BlockPos pos, @Nullable Direction side) {
+    public static RedstoneInterfacePartMachine getRedstoneInterfacePartMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getBlockEntityCapability(StarTCapability.CAPABILITY_REDSTONE_INTERFACE, level, pos, side);
     }
 

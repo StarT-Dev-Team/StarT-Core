@@ -12,26 +12,27 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class StarTIndicatorSelectorWidget extends SelectorWidget {
-    private final Supplier<List<StarTRedstoneIndicatorRecord>> recordSupplier;
-    private Map<String, StarTRedstoneIndicatorRecord> recordMap = new HashMap<>();
+public class RedstoneIndicatorSelectorWidget extends SelectorWidget {
 
-    public StarTIndicatorSelectorWidget(
-            int x, int y, int width, int height,
-            Supplier<List<StarTRedstoneIndicatorRecord>> recordSupplier) {
+    private final Supplier<List<RedstoneIndicatorRecord>> recordSupplier;
+
+    private Map<String, RedstoneIndicatorRecord> recordMap = new HashMap<>();
+
+    public RedstoneIndicatorSelectorWidget(int x, int y, int width, int height,
+                                           Supplier<List<RedstoneIndicatorRecord>> recordSupplier) {
         super(x, y, width, height, List.of(), -1);
         this.recordSupplier = recordSupplier;
         rebuildFromRecords();
     }
 
     public void rebuildFromRecords() {
-        List<StarTRedstoneIndicatorRecord> records = recordSupplier.get();
+        List<RedstoneIndicatorRecord> records = recordSupplier.get();
         recordMap = records.stream()
                 .collect(Collectors.toMap(
-                        StarTRedstoneIndicatorRecord::indicatorKey,
+                        RedstoneIndicatorRecord::indicatorKey,
                         r -> r));
         setCandidates(records.stream()
-                .map(StarTRedstoneIndicatorRecord::indicatorKey)
+                .map(RedstoneIndicatorRecord::indicatorKey)
                 .toList());
         decorateRows(records);
         // Re-apply the display name for the currently selected value
@@ -46,12 +47,12 @@ public class StarTIndicatorSelectorWidget extends SelectorWidget {
     }
 
     private void updateButtonDisplay() {
-        if (StarTRedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
-            textTexture.updateText(escapeFormatSpecifiers(StarTRedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
+        if (RedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
+            textTexture.updateText(escapeFormatSpecifiers(RedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
             return;
         }
 
-        StarTRedstoneIndicatorRecord record = recordMap.get(currentValue);
+        RedstoneIndicatorRecord record = recordMap.get(currentValue);
         if (record != null) {
             textTexture.updateText(escapeFormatSpecifiers(record.indicatorComponent().getString()));
         }
@@ -61,12 +62,12 @@ public class StarTIndicatorSelectorWidget extends SelectorWidget {
         return text.replace("%", "%%");
     }
 
-    private void decorateRows(List<StarTRedstoneIndicatorRecord> records) {
+    private void decorateRows(List<RedstoneIndicatorRecord> records) {
         int width = candidates.size() > maxCount ? getSize().width - 4 : getSize().width;
 
         for (int i = 0; i < selectables.size() && i < records.size(); i++) {
             SelectableWidgetGroup row = selectables.get(i);
-            StarTRedstoneIndicatorRecord record = records.get(i);
+            RedstoneIndicatorRecord record = records.get(i);
 
             row.clearAllWidgets();
             row.addWidget(new ImageWidget(0, 0, width, 15,

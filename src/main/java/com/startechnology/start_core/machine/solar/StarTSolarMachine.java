@@ -15,8 +15,8 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
@@ -39,7 +39,7 @@ import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
+public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
     private final int tier;
     @Getter
     private int euT = 0;
@@ -220,6 +220,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         brokenCells = newBrokenCells;
         avgTemp = totalTemp > 0 && activeCells > 0 ? totalTemp / activeCells : 0;
         avgDura = totalDura > 0 && activeCells > 0 ? totalDura / activeCells : 0;
+
+        temperatureChanged();
     }
 
     public static double getOutputModifier(int tier) {
@@ -275,27 +277,29 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return false;
     }
 
-    public double redstonePercentageOfTemp(int maxTemp) {
-        return Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0);
+    public int redstonePercentageOfTemp(int maxTemp) {
+        return (int) Math.max(Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0), 0);
     }
 
     private void temperatureChanged() {
-        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
-            this.setIndicatorValue("variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                (int) Math.floor(redstonePercentageOfTemp(entry.getMaxTemperature())));
-        });
+        Arrays.stream(StarTSolarCells.values()).forEach(entry ->
+            this.setIndicatorValue(
+                "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
+                redstonePercentageOfTemp(entry.getMaxTemperature())
+            )
+        );
     }
 
     @Override
-    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+    public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return Arrays.stream(StarTSolarCells.values()).map(entry -> {
             int maxTemp = entry.getMaxTemperature();
 
-            return new StarTRedstoneIndicatorRecord(
+            return new RedstoneIndicatorRecord(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
                 Component.translatable("variadic.start_core.description.solar_machine", maxTemp).withStyle(ChatFormatting.GRAY),
-                (int) Math.floor(redstonePercentageOfTemp(maxTemp)),
+                redstonePercentageOfTemp(maxTemp),
                 maxTemp
             );
         }).toList();
@@ -362,6 +366,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (!machine.isFormed || !isWorkingEnabled()) {
                 setStatus(Status.IDLE);
             } else {
+                setStatus(Status.WORKING);
+
                 isActive = true;
                 progress = (progress + 1) % BASE_UPDATE_INTERVAL;
 
@@ -376,11 +382,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         @Override
         public int getMaxProgress() {
             return BASE_UPDATE_INTERVAL;
-        }
-
-        @Override
-        public boolean isActive() {
-            return getMachine().isFormed() && isActive;
         }
     }
 }

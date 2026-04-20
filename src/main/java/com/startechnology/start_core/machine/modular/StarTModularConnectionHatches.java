@@ -18,14 +18,11 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfacePartMachine;
 
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Start;
 
 public class StarTModularConnectionHatches {
     public static String getModularConnectionHatchIOName(IO io) {

@@ -12,4 +12,11 @@ public class StarTGuiTextures {
     public static final ResourceTexture MODULAR_INTERFACE_MISSING = new ResourceTexture(
         StarTCore.resourceLocation("textures/gui/missing_modular_link.png")
     );
+
+    public static final ResourceTexture HPCA_ICON_OPTIMIZED_COMPUTATION_COMPONENT = new ResourceTexture(
+        StarTCore.resourceLocation("textures/gui/widget/hpca/optimized_computation_component.png")
+    );
+    public static final ResourceTexture HPCA_ICON_OPTIMIZED_DAMAGED_COMPUTATION_COMPONENT = new ResourceTexture(
+        StarTCore.resourceLocation("textures/gui/widget/hpca/damaged_optimized_computation_component.png")
+    );
 }
