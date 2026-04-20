@@ -81,10 +81,10 @@ public class StarTRecipeModifiers {
         if (parallelsAvailable >= throughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(throughputModifier)) 
+                .modifyAllContents(ContentModifier.multiplier(throughputModifier))
                 .durationMultiplier(durationModifier)
                 .eutMultiplier(eutModifier)
-                .parallels(throughputModifier)    
+                .parallels(throughputModifier)
                 .build();
 
         }

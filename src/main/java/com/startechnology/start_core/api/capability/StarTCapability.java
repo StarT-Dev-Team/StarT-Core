@@ -39,5 +39,4 @@ public class StarTCapability {
     public static final Capability<StarTSolarMachine>  CAPABILITY_SOLAR = CapabilityManager.get(new CapabilityToken<>() {});
 
     public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = CapabilityManager.get(new CapabilityToken<>() {});
-
 }

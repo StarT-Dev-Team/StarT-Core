@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "start_core:block/machine/komaru",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/komaru"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/komaru",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/komaru",
+      "y": 270
+    }
+  }
+}
