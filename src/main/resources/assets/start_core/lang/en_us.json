@@ -1,5 +1,6 @@
 {
   "block.start_core.hpca_nanofluidic_heat_sink_component": "HPCA Nanofluidic Heat Sink Component",
+  "block.start_core.hpca_optimized_computation_component": "HPCA Optimized Computation Component",
   "item.start_core.data_dna_disk.tooltip": "§7Storing Information in Life",
   "item.start_core.data_dna_disk": "§dData DNA Disk",
   "item.start_core.component_data_core.tooltip": "§7Data Beyond Transcendance",
@@ -347,8 +348,8 @@
   "start_core.recipe.max_saturation.0": "No Maximum Saturation",
   "gtceu.abyssal_harvester": "Abyssal Harvesting",
 
-  "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%)",
-  "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%)",
+  "start_core.recipe.min_vacuum_amount": "Requires Partial Vacuum (§a%s%%§f)",
+  "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%§f)",
   "start_core.machine.vacuum_pump.tooltip_cap": "§7Capacity: %s",
   "start_core.machine.vacuum_pump.tooltip_rate": "§7Rate: %s §7(/sec)",
   "block.start_core.uev_vacuum_pump": "§aUEV §rVacuum Pump",
@@ -581,8 +582,6 @@
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Percentage to Vac%% Capacity",
   "variadic.start_core.description.vcrc.vac_to_capacity": "A clamped value between 0-15 of the (current vac%% / %s%%) * 15",
 
-  "start_core.added_by_tooltip": "§eAdded by Star Technology",
-
   "block.start_core.ev_solar_cell": "EV Solar Cell",
   "block.start_core.iv_solar_cell": "IV Solar Cell",
   "block.start_core.luv_solar_cell": "LuV Solar Cell",
@@ -627,7 +626,5 @@
   "variadic.start_core.indicator.solar_machine": "Percentage to %s K",
   "variadic.start_core.description.solar_machine": "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)",
   
-  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r",
-
-  "start_core.added_by_tooltip": "§eAdded by Star Technology"
+  "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r"
 }

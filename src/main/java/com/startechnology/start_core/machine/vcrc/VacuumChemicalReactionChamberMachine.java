@@ -10,8 +10,8 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMachine;
-import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.vacuum_pump.IVacuumPump;
 import com.startechnology.start_core.machine.vacuum_pump.VacuumPumpPartMachine;
 import lombok.Getter;
@@ -23,12 +23,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine implements IStarTRedstoneIndicatorMachine {
+public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
 
     @Persisted
     @Getter
     protected float vacuumAmount;
-
     @Persisted
     @Getter
     protected Status vacuumStatus;
@@ -40,8 +39,8 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
     public VacuumChemicalReactionChamberMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        vacuumAmount = 0;
-        vacuumStatus = Status.IDLE;
+        this.vacuumAmount = 0;
+        this.vacuumStatus = Status.IDLE;
     }
 
     @Override
@@ -169,13 +168,14 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
     private void setVacuumAmount(float vacuumAmount) {
         this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pump.getPumpCap());
+
         this.setIndicatorValue("variadic.start_core.indicator.vcrc.vac_to_capacity", redstoneOutputVacPercentToPumpCapacity());
     }
 
     @Override
-    public List<StarTRedstoneIndicatorRecord> getInitialIndicators() {
+    public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return List.of(
-                new StarTRedstoneIndicatorRecord(
+                new RedstoneIndicatorRecord(
                         "variadic.start_core.indicator.vcrc.vac_to_capacity",
                         Component.translatable("variadic.start_core.indicator.vcrc.vac_to_capacity"),
                         Component.translatable("variadic.start_core.description.vcrc.vac_to_capacity", FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
@@ -191,14 +191,6 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     public static Component formatVacuumAmount(float vacuumAmount) {
         var status = vacuumAmount >= (100.0f - Mth.EPSILON) ? Status.FULL_VACUUM : vacuumAmount >= (80.0f - Mth.EPSILON) ? Status.PARTIAL_VACUUM : Status.PRESSURE_LOSS;
         return Component.literal(FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumAmount) + "%").withStyle(status.color);
-    }
-
-    public static Component formatVacuumPumpCap(int cap) {
-        return VacuumPumpPartMachine.formatVacuumPumpCap(cap);
-    }
-
-    public static Component formatVacuumPumpRate(int rate) {
-        return Component.literal(rate + "%");
     }
 
     public enum Status {
