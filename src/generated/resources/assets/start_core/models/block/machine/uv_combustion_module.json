@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "start_core:t3_combustion_module",
+  "machine": "start_core:uv_combustion_module",
   "texture_overrides": {
     "all": "kubejs:block/casings/naquadah/turbine_casing"
   },
