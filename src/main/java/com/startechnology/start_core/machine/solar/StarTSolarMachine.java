@@ -366,6 +366,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (!machine.isFormed || !isWorkingEnabled()) {
                 setStatus(Status.IDLE);
             } else {
+                setStatus(Status.WORKING);
+
                 isActive = true;
                 progress = (progress + 1) % BASE_UPDATE_INTERVAL;
 
@@ -380,11 +382,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         @Override
         public int getMaxProgress() {
             return BASE_UPDATE_INTERVAL;
-        }
-
-        @Override
-        public boolean isActive() {
-            return getMachine().isFormed() && isActive;
         }
     }
 }
