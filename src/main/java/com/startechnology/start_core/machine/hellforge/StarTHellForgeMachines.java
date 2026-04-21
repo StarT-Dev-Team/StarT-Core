@@ -34,13 +34,6 @@ public class StarTHellForgeMachines {
         .multiblock("hellforge", holder -> (new StarTHellForgeMachine(holder, 0, 5, 125)))
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("extreme_temperature_smelting_casing")))
         .langValue("Hell Forge")
-        .tooltips(
-            Component.translatable("block.start_core.hellforge_multiblock_line"),
-            Component.translatable("block.start_core.hellforge_description"),
-            Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.hellforge_rm"),
-            Component.translatable("block.start_core.breaker_line")
-        )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, GTRecipeModifiers.BATCH_MODE)
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
@@ -81,6 +74,11 @@ public class StarTHellForgeMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
+        .tooltips(
+            Component.translatable("block.start_core.hellforge_multiblock_line"),
+            Component.translatable("block.start_core.hellforge_description"),
+            Component.translatable("block.start_core.breaker_line")
+        )
         .paginatedTooltips(
             List.of(
                 Component.translatable("block.start_core.hellforge_d0"),
@@ -94,12 +92,15 @@ public class StarTHellForgeMachines {
             ),
             List.of(
                 Component.translatable("block.start_core.hellforge_d5"),
-                Component.translatable("block.start_core.hellforge_d6")
-            ),
-            List.of(
+                Component.translatable("block.start_core.hellforge_d6"),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("machine.start_core.redstone_interfacing"),
                 Component.translatable("block.start_core.hellforge_d8")
             )
+        )
+        .bottomTooltips(
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.hellforge_rm")
         )
         .workableCasingModel(KubeJS.id("block/casings/nether_multis/extreme_temperature_smelting_casing"),
             GTCEu.id("block/machines/alloy_smelter"))
@@ -109,13 +110,6 @@ public class StarTHellForgeMachines {
         .multiblock("fornaxs_infernal_rotary_engine", holder -> (new StarTHellForgeMachine(holder, 925, 3, 75)))
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("absolute_temperature_smelting_casing")))
         .langValue("Fornaxs Infernal Rotary Engine")
-        .tooltips(
-            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_line"),
-            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_description"),
-            Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm"),
-            Component.translatable("block.start_core.breaker_line")
-        )
         .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, StarTRecipeModifiers.HELL_FORGE_OC, StarTRecipeModifiers.THROUGHPUT_BOOSTING, GTRecipeModifiers.BATCH_MODE)
         .rotationState(RotationState.NON_Y_AXIS)
         .recipeTypes(StarTRecipeTypes.HELL_FORGE_RECIPES)
@@ -164,6 +158,11 @@ public class StarTHellForgeMachines {
             .where("N", Predicates.blocks(StarTMachineUtils.getKjsBlock("soul_of_the_flame")))
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build())
+        .tooltips(
+            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_line"),
+            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_description"),
+            Component.translatable("block.start_core.breaker_line")
+        )
         .paginatedTooltips(
             List.of(
                 Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_d0"),
@@ -177,12 +176,15 @@ public class StarTHellForgeMachines {
                 ),
             List.of(
                 Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_d5"),
-                Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_d6")
-            ),
-            List.of(
+                Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_d6"),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("machine.start_core.redstone_interfacing"),
                 Component.translatable("block.start_core.hellforge_d8")
             )
+        )
+        .bottomTooltips(
+            Component.translatable("block.start_core.breaker_line"),
+            Component.translatable("block.start_core.fornaxs_infernal_rotary_engine_rm")
         )
         .workableCasingModel(KubeJS.id("block/casings/riftic_multis/absolute_temperature_smelting_casing"),
             GTCEu.id("block/machines/alloy_smelter"))
