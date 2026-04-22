@@ -1,6 +1,6 @@
 package com.startechnology.start_core.mixin;
 
-import com.startechnology.start_core.machine.komaru.client.DelayedRenderType;
+import com.startechnology.start_core.machine.komaru.client.v2.DelayedRenderType;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;

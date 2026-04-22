@@ -1,4 +1,4 @@
-package com.startechnology.start_core.machine.komaru.client;
+package com.startechnology.start_core.machine.komaru.client.v2;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 import lombok.Getter;

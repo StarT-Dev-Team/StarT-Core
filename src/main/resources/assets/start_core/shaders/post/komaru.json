@@ -1,0 +1,30 @@
+{
+  "targets": [
+    "swap",
+    "base"
+  ],
+  "passes": [
+    {
+      "name": "start_core:komaru",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "base:depth"
+        }
+      ]
+    },
+    {
+      "name": "start_core:blit_depth",
+      "intarget": "swap",
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "swap:depth"
+        }
+      ]
+    }
+  ]
+}

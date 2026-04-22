@@ -8,13 +8,17 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
+import com.startechnology.start_core.machine.komaru.client.KomaruRenderer;
 import dev.latvian.mods.kubejs.KubeJS;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
@@ -119,7 +123,12 @@ public class StarTKomaruFrameMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .workableCasingModel(KubeJS.id("block/casings/end_multis/draco_assembly_grating"), GTCEu.id("block/machines/assembler"))
+        .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
+        .model(GTMachineModels.createWorkableCasingMachineModel(
+                KubeJS.id("block/casings/end_multis/draco_assembly_grating"),
+                GTCEu.id("block/machines/assembler")
+            ).andThen(b -> b.addDynamicRenderer(KomaruRenderer::new))
+        )
         .register();
 
     public static void init() {}

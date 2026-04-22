@@ -24,7 +24,9 @@
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",
+    "MixinVertexFormatElement",
     "MultiBufferSourceBufferSourceMixin",
+    "PostPassMixin",
     "RenderBuffersMixin",
     "ponder.PonderIndexAccessor",
     "ponder.PonderIndexMixin",

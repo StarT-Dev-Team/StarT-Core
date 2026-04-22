@@ -22,9 +22,7 @@ public class CustomStackTooltipsHandlerMixin {
     
     @Inject(method = "appendTooltips", at = @At("HEAD"), remap = false, cancellable = true)
     private static void onAppendTooltips(ItemStack stack, TooltipFlag flag, List<Component> tooltips, CallbackInfo ci) {
-        if (stack == null) return;
-        if (stack.isEmpty()) return;
-        if (stack.hasTag() == false) return;
+        if (stack == null || stack.isEmpty() || !stack.hasTag()) return;
         
         if (StarTCustomTooltipsManager.hasCustomTooltip(stack.getOrCreateTag())) {
             ci.cancel();
@@ -33,9 +31,7 @@ public class CustomStackTooltipsHandlerMixin {
 
     @Inject(method = "appendFluidTooltips", at = @At("HEAD"), remap = false, cancellable = true)
     private static void onAppendFluidTooltips(FluidStack fluidStack, Consumer<Component> tooltips, TooltipFlag flag, CallbackInfo ci) {
-        if (fluidStack == null) return;
-        if (fluidStack.isEmpty()) return;
-        if (fluidStack.hasTag() == false) return;
+        if (fluidStack == null || fluidStack.isEmpty() || !fluidStack.hasTag()) return;
         
         if (StarTCustomTooltipsManager.hasCustomTooltip(fluidStack.getOrCreateTag())) {
             StarTCustomTooltip customTooltips = StarTCustomTooltipsManager.customTooltipFromTag(fluidStack.getOrCreateTag());

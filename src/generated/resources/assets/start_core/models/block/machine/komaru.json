@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "start_core:komaru_renderer"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "start_core:komaru",
   "texture_overrides": {
