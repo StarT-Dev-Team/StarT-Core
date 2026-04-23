@@ -372,7 +372,7 @@
   "start_core.multiblock.pattern.error.vacuumpump": "§cAll vacuum pumps must be the same§r",
 
   "block.start_core.abydos_marker": "Abydos",
-  
+
   "start_core.machine.sterile_hatch.tooltip": "Makes your Multiblocks extra squeaky clean and sterile!",
   "block.start_core.sterile_cleaning_maintenance_hatch": "Biosecure Sterilisation Maintenance Hatch",
   "start_core.uuid_safe.fail_nearest_player": "Issue regarding UUID's occured, Please visit Dream-Link at %s and consider replacing if Owner is not correct.",
@@ -558,6 +558,11 @@
   "block.start_core.uxv_4a_modular_conduit_terminal": "§eUXV§r 4§eA§r Modular Conduit Terminal",
   "block.start_core.uxv_64a_modular_conduit_node": "§eUXV§r 64§eA§r Modular Conduit Node",
   "block.start_core.uxv_64a_modular_conduit_terminal": "§eUXV§r 64§eA§r Modular Conduit Terminal",
+  "block.start_core.modular_auto_scaling_node": "Modular Auto Scaling Conduit Node",
+  "block.start_core.modular_auto_scaling_terminal": "Modular Auto Scaling Conduit Terminal",
+  "modular.start_core.scaled_voltage": "Scaled Voltage: %s",
+  "modular.start_core.scaled_amperage": "Scaled Amperage: %s",
+  "modular.start_core.no_scaling": "No Energy Scaling Applied",
   "modular.start_core.no_link": "No established Modular-Link",
   "modular.start_core.has_link": "Modular-Link established",
   "modular.start_core.supported_list_title": "Supported Modules:",
@@ -574,6 +579,18 @@
   "variadic.start_core.description.hellforge": "A clamped value between 0-15 of the (current temperature / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "Ratio of §5%s §rAbyssal Saturation",
   "variadic.start_core.description.abyssal_harvester": "A clamped value between 0-15 of the (current saturation / %s%%) * 15",
+
+  "start_core.machine.komaru.stabilization_unpaid": "KOMARU stabilization payment missing",
+  "ui.start_core.komaru.stabilization": "KOMARU Stabilization:",
+  "ui.start_core.komaru.c": "C: %s buckets/cycle",
+  "ui.start_core.komaru.fae_scaling": "Fae Scaling: %s",
+  "ui.start_core.komaru.filaments": "Filaments: %s, highest tier %s",
+  "ui.start_core.komaru.stabilization_paid": "§aStabilization paid",
+  "ui.start_core.komaru.stabilization_unpaid": "§cStabilization unpaid",
+  "variadic.start_core.indicator.komaru.c": "Ratio of §bC §rto §e%s",
+  "variadic.start_core.description.komaru.c": "A clamped value between 0-15 of (current C / %s) * 15",
+  "variadic.start_core.indicator.komaru.fae_scaling": "Ratio of §dFae Scaling §rto §e%s",
+  "variadic.start_core.description.komaru.fae_scaling": "A clamped value between 0-15 of (current Fae Scaling / %s) * 15",
 
   "start_core.parallel_hatch.max_parallel": "Maximum Allowed Parallels",
   "start_core.parallel_hatch.min_parallel": "Minimum Allowed Parallels",
@@ -626,6 +643,6 @@
 
   "variadic.start_core.indicator.solar_machine": "Percentage to %s K",
   "variadic.start_core.description.solar_machine": "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)",
-  
+
   "block.start_core.zpm_fluid_drilling_rig": "§cElite Fluid Drilling Rig III§r"
 }

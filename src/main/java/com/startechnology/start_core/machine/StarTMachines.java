@@ -12,6 +12,7 @@ import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
+import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachines;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
@@ -44,5 +45,6 @@ public class StarTMachines {
         StarTModularConnectionHatches.init();
         StarTVacuumPumpMachines.init();
         StarTDrillingRigs.init();
+        StarTKomaruFrameMachines.init();
     }
 }

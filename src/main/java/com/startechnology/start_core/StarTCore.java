@@ -1,5 +1,7 @@
 package com.startechnology.start_core;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,14 +16,12 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.common.data.GTDimensionMarkers;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
-import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -68,6 +68,8 @@ public class StarTCore {
         // If we want to use annotations to register event listeners,
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
+
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> StarTCoreClient::init);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

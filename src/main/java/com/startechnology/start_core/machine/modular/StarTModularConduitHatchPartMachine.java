@@ -19,6 +19,7 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachin
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMachine;
 
+import lombok.Getter;
 import net.minecraft.network.chat.Component;
 
 public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHatchPartMachine implements IDataInfoProvider  {
@@ -27,6 +28,7 @@ public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHa
     
     @Persisted
     @Nullable
+    @Getter
     protected NotifiableEnergyContainer energyContainer;
 
     public StarTModularConduitHatchPartMachine(IMachineBlockEntity holder, IO io, int tier, int amperage) {
@@ -43,6 +45,8 @@ public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHa
             this.energyContainer.setSideOutputCondition(s -> s == getFrontFacing());
         }
     }
+
+    
 
     @Override
     public boolean canShared() {

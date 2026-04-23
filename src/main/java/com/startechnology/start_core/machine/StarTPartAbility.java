@@ -33,6 +33,12 @@ public class StarTPartAbility {
     /* Enables the usage of modular node interfaces in this machine */
     public static final PartAbility MODULAR_NODE_INTERFACE = new PartAbility("modular_node_interface");
 
+    /* Enables the usage of modular auto scaling terminal conduits in this machine */
+    public static final PartAbility MODULAR_AUTO_SCALING_TERMINAL_CONDUIT = new PartAbility("modular_auto_scaling_terminal_conduit");
+
+    /* Enables the usage of modular auto scaling node conduits in this machine */
+    public static final PartAbility MODULAR_AUTO_SCALING_NODE_CONDUIT = new PartAbility("modular_auto_scaling_node_conduit");
+
     /* Enables the usage of modular terminal conduits (powered) in this machine */
     public static final PartAbility MODULAR_TERMINAL_CONDUIT_2A = new PartAbility("modular_terminal_conduit_2a");
     public static final PartAbility MODULAR_TERMINAL_CONDUIT_4A = new PartAbility("modular_terminal_conduit_4a");

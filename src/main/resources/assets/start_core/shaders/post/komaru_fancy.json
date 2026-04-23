@@ -1,0 +1,75 @@
+{
+  "targets": [
+    "swap",
+    "base",
+    "translucent",
+    "itemEntity",
+    "particles",
+    "clouds",
+    "weather"
+  ],
+  "passes": [
+    {
+      "name": "start_core:komaru_fancy",
+      "intarget": "base",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "base:depth"
+        },
+        {
+          "name": "TranslucentSampler",
+          "id": "translucent"
+        },
+        {
+          "name": "TranslucentDepthSampler",
+          "id": "translucent:depth"
+        },
+        {
+          "name": "ItemEntitySampler",
+          "id": "itemEntity"
+        },
+        {
+          "name": "ItemEntityDepthSampler",
+          "id": "itemEntity:depth"
+        },
+        {
+          "name": "ParticlesSampler",
+          "id": "particles"
+        },
+        {
+          "name": "ParticlesDepthSampler",
+          "id": "particles:depth"
+        },
+        {
+          "name": "CloudsSampler",
+          "id": "clouds"
+        },
+        {
+          "name": "CloudsDepthSampler",
+          "id": "clouds:depth"
+        },
+        {
+          "name": "WeatherSampler",
+          "id": "weather"
+        },
+        {
+          "name": "WeatherDepthSampler",
+          "id": "weather:depth"
+        }
+      ]
+    },
+    {
+      "name": "start_core:blit_depth",
+      "intarget": "swap",
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "swap:depth"
+        }
+      ]
+    }
+  ]
+}

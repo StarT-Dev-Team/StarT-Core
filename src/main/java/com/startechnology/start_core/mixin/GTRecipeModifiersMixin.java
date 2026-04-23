@@ -1,9 +1,5 @@
 package com.startechnology.start_core.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-
-import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -11,48 +7,35 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.startechnology.start_core.machine.parallel.IStarTMinimumParallelHatch;
 import com.startechnology.start_core.machine.parallel.StarTAbsoluteParallelHatchMachine;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value=GTRecipeModifiers.class, remap=false)
 public class GTRecipeModifiersMixin {
 
-    /* is this a crime against good java programming? perhaps... does it work? yes. */
-    @Overwrite
-    public static ModifierFunction hatchParallel(MetaMachine machine, GTRecipe recipe) {
+    @Inject(method = "hatchParallel", at = @At("HEAD"), cancellable = true)
+    private static void injectHatchParallel(MetaMachine machine, GTRecipe recipe, CallbackInfoReturnable<ModifierFunction> cir) {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
-            int parallels = controller.getParallelHatch()
-                    .map(hatch -> {
-                        int maximumParallels = 1;
-                        int minimumParallels = 1;
+            var hatch = controller.getParallelHatch().orElse(null);
+            var maximumParallels = hatch instanceof StarTAbsoluteParallelHatchMachine ?
+                    ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel()) :
+                    hatch != null ? ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()) : 1;
+            var minimumParallels = hatch instanceof IStarTMinimumParallelHatch minHatch ? minHatch.getMinimumParallels() : 1;
 
-                        if (hatch instanceof StarTAbsoluteParallelHatchMachine) {
-                            maximumParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel());
-                        } else {
-                            maximumParallels = ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel());
-                        }
+            if (maximumParallels < minimumParallels) cir.setReturnValue(ModifierFunction.NULL);
+            if (maximumParallels == 1) cir.setReturnValue(ModifierFunction.IDENTITY);
 
-                        if (hatch instanceof IStarTMinimumParallelHatch minHatch) {
-                            minimumParallels = minHatch.getMinimumParallels();
-                        }
+            // actually... I think I could make it better still
 
-                        if (maximumParallels >= minimumParallels) {
-                            return maximumParallels;
-                        }
-
-                        return 0;
-                    })
-                    .orElse(1);
-
-            if (parallels == 0) return ModifierFunction.NULL;
-            if (parallels == 1) return ModifierFunction.IDENTITY;
-            return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(parallels))
-                    .eutMultiplier(parallels)
-                    .parallels(parallels)
-                    .build();
+            cir.setReturnValue(ModifierFunction.builder()
+                    .modifyAllContents(ContentModifier.multiplier(maximumParallels))
+                    .eutMultiplier(maximumParallels)
+                    .parallels(maximumParallels)
+                    .build());
         }
-        return ModifierFunction.IDENTITY;
     }
 }
