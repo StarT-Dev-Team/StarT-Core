@@ -11,6 +11,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.client.renderer.PostPass;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -77,21 +78,30 @@ public final class HookLevelRenderer {
             }
 
             var pass = chain.passes.get(0);
-            var machine = COLLECTED_RENDERS.get(0);
             var effect = pass.getEffect();
-
             fillCommonEffectUniforms(effect);
-            RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 2);
-            GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, CUBE_MAP_TEXTURE.getId());
 
-            effect.safeGetUniform("BeamOrigin").set(getBeamOrigin(machine));
-            effect.safeGetUniform("CubeMapSampler").set(2);
+            for (var machine : COLLECTED_RENDERS) {
+                // TODO: actually save the resulting buffer between renders so we don't clear the stuff
+                var beamOrigin = getBeamOrigin(machine);
 
-            RenderSystem.depthMask(true);
-            super.end(partialTick);
+                effect.safeGetUniform("AnimationTicks").set(machine.getRendererAnimationTicks());
+                effect.safeGetUniform("AnimationType").set(machine.getRendererAnimationType());
+                effect.safeGetUniform("BeamOrigin").set(beamOrigin);
+                RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 2);
+                GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, CUBE_MAP_TEXTURE.getId());
+                effect.safeGetUniform("CubeMapSampler").set(2);
 
-            RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 2);
-            GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, 0);
+                RenderSystem.depthMask(true);
+
+                // super.end(partialTick);
+                for(PostPass postpass : chain.passes) {
+                    postpass.process(partialTick / 20.0f);
+                }
+
+                RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 2);
+                GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, 0);
+            }
         }
     };
 
@@ -170,18 +180,28 @@ public final class HookLevelRenderer {
         public void end(float partialTick) {
             if (COLLECTED_RENDERS.isEmpty()) return;
 
-            for (var pass : this.chain.passes) {
-                var machine = COLLECTED_RENDERS.get(0);
-                var effect = pass.getEffect();
-                fillCommonEffectUniforms(effect);
-                effect.safeGetUniform("BeamOrigin").set(getBeamOrigin(machine));
+            if (!CUBE_MAP_TEXTURE.loaded()) {
+                CUBE_MAP_TEXTURE.load(Minecraft.getInstance().getResourceManager());
             }
 
-            RenderSystem.depthMask(true);
+            var pass = chain.passes.get(0);
+            var machine = COLLECTED_RENDERS.get(0);
+            var beamOrigin = getBeamOrigin(machine);
+            var effect = pass.getEffect();
 
+            fillCommonEffectUniforms(effect);
+            effect.safeGetUniform("AnimationTicks").set(machine.getRendererAnimationTicks());
+            effect.safeGetUniform("AnimationType").set(machine.getRendererAnimationType());
+            effect.safeGetUniform("BeamOrigin").set(beamOrigin);
+            RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 12);
+            GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, CUBE_MAP_TEXTURE.getId());
+            effect.safeGetUniform("CubeMapSampler").set(12);
+
+            RenderSystem.depthMask(true);
             super.end(partialTick);
 
-
+            RenderSystem.activeTexture(GL30.GL_TEXTURE0 + 12);
+            GL11.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, 0);
         }
     };
 
@@ -267,5 +287,9 @@ public final class HookLevelRenderer {
             instance.GAME_TIME.set(RenderSystem.getShaderGameTime());
         }
         RenderSystem.setupShaderLights(instance);
+    }
+
+    // animationType is 0 when opening, 1 when idle, 2 when closing
+    record KomaruRendererData(StarTKomaruFrameMachine machine, int animationTicks, int animationType) {
     }
 }

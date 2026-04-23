@@ -9,6 +9,8 @@ uniform float Time;
 uniform float GameTime;
 
 uniform vec3 BeamOrigin;
+uniform int AnimationTicks;
+uniform int AnimationType;
 
 uniform sampler2D DiffuseSampler;
 uniform sampler2D DiffuseDepthSampler;
@@ -21,6 +23,12 @@ out vec4 fragColor;
 // --- import start_komaru.glsl
 
 #define PI 3.1415926535897932384626433832795
+
+// easing
+
+float exponentialOut(float t) {
+    return t == 1.0 ? t : 1.0 - pow(2.0, -10.0 * t);
+}
 
 // noise
 
@@ -160,31 +168,14 @@ vec2 opSmoothUnion(float k, vec2 d1, vec2 d2) {
 }
 
 float mapValue(float value, float min1, float max1, float min2, float max2) {
-    return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+    float perc = clamp((value - min1) / (max1 - min1), 0.0, 1.0);
+    return perc * (max2 - min2) + min2;
 }
 
-/*
-ill give you relative to bottom center and then tell controller relative
-
-bottom circle is 41 diameter (inclusive of the center of the "beam") with a diameter of 3 blocks
-it is centered at a height of 4 blocks
-
-it cuts out for 5 blocks on each main cardinal axis.
-
-controller is on the center outmost bottom layer, the bottom layer is 63 blocks in diameter
-
-[x] the center beam starts a a point at the center with a height of 5
-[x] broadens out to a width of 1 at 13 blocks
-[x] it continues to widen to 3 blocks at height of 17
-[x] a width of 5 block at a height of 21
-[x] at height of 28 it goes back to a width 4
-[x] at height of 32 it goes to a width of 3
-[x] at 36 height goes to a width of 2.5
-[ ] 2.5 width is maintained till height of 133 blocks and the uses next 10 blocks (till height of 143) to fan to rift
-[ ] rift should be a width of 57 blocks
-*/
-
 vec2 map(vec3 p) {
+    float realTime = float(AnimationTicks) / 20. + Time;
+    float rayAnimationProgress = mapValue(realTime, 0.0, 2.5, 0.0, 1.0);
+
     float sdf1H = 23. - 5.;
     vec3 sdf1Pos = BeamOrigin + vec3(0, 5, 0);
     vec2 sdf1 = vec2(sdRoundCone(p - sdf1Pos, .1, 2., sdf1H), 1);
@@ -200,77 +191,30 @@ vec2 map(vec3 p) {
     vec3 sdf4Pos = BeamOrigin + vec3(0, 36. + 3., 0);
     vec2 sdf4 = vec2(sdVerticalCapsule(p - sdf4Pos, sdf4H, 2.3 / 2.), 1);
 
-    vec3 sdf5Pos = BeamOrigin + vec3(0, 133., 0);
-    vec2 sdf5 = vec2(sdSphere(p - sdf5Pos, 19.), 2);
+    float sphereY = mapValue(rayAnimationProgress, 0.0, 1.0, 36. + 3., 133.);
+    vec3 sdf5Pos = BeamOrigin + vec3(0, sphereY, 0);
+    float sphereRadius = mapValue(rayAnimationProgress, 0.0, 1.0, 2, 19.0);
+    vec2 sdf5 = vec2(sdSphere(p - sdf5Pos, sphereRadius), 2);
 
-    vec2 res = opSmoothUnion(0.5, sdf1, opSmoothUnion(0.5, sdf2, opSmoothUnion(0.1, sdf3, opSmoothUnion(4.0, sdf4, sdf5))));
-    res.x += sin(5 * p.y + -Time * 2. * PI) * .025;
+    vec2 res = opSmoothUnion(0.5, sdf1,
+        opSmoothUnion(0.5, sdf2,
+            opSmoothUnion(0.1, sdf3,
+                opSmoothUnion(mapValue(rayAnimationProgress, 0.0, 1.0, 0.2, 4.0), sdf4, sdf5))));
+    res.x += sin(5 * p.y + -realTime * 2. * PI) * .025;
 
     vec3 sdfRingPos = BeamOrigin + vec3(0, 2, 0);
     vec3 sdfRingRelative = p - sdfRingPos;
     vec2 sdfRing = vec2(sdTorus(sdfRingRelative, vec2(21, 1)), 3);
     float angle1 = atan(sdfRingRelative.z, sdfRingRelative.x);
-    sdfRing.x += sin(30 * angle1 + Time * 2. * PI) * 0.1;
+    sdfRing.x += sin(30 * angle1 + realTime * 2. * PI) * 0.1;
 
     vec3 sdfRingBoxPos = BeamOrigin + vec3(0, 2, 0);
     vec2 sdfRingBox1 = vec2(sdBox(p - sdfRingBoxPos, vec3(2, 2, 30)), 3.0);
     vec2 sdfRingBox2 = vec2(sdBox(p - sdfRingBoxPos, vec3(30, 2, 2)), 3.0);
 
     vec2 res2 = opSubtraction(opSubtraction(sdfRing, sdfRingBox1), sdfRingBox2);
-    // res2 = opUnion(sdfRingBox1, sdfRingBox2);
 
     return opUnion(res, res2);
-/*
-    float sdf1H = 13. - 5.;
-    vec3 sdf1Pos = BeamOrigin + vec3(0, 5, 0);
-    vec2 sdf1 = vec2(sdCone(p - sdf1Pos, vec2(.5, sdf1H)), 1);
-
-    float sdf2H = (17. - 13.) / 2.;
-    vec3 sdf2Pos = BeamOrigin + vec3(0, 13. + sdf2H - 0.1 , 0);
-    vec2 sdf2 = vec2(sdCappedCone(p - sdf2Pos, sdf2H - 0.2, 1. / 2., 3. / 2.), 2);
-
-    float sdf3H = (21. - 17.) / 2.;
-    vec3 sdf3Pos = BeamOrigin + vec3(0, 17. + sdf3H, 0);
-    vec2 sdf3 = vec2(sdCappedCone(p - sdf3Pos, sdf3H, 3. / 2., 5. / 2.), 3);
-
-    float sdf4H = (28. - 21.) / 2.;
-    vec3 sdf4Pos = BeamOrigin + vec3(0, 21. + sdf4H, 0);
-    vec2 sdf4 = vec2(sdCappedCone(p - sdf4Pos, sdf4H, 5. / 2., 4. / 2.), 4);
-
-    float sdf5H = (32. - 28.) / 2.;
-    vec3 sdf5Pos = BeamOrigin + vec3(0, 28. + sdf5H, 0);
-    vec2 sdf5 = vec2(sdCappedCone(p - sdf5Pos, sdf5H, 4. / 2., 3. / 2.), 5);
-
-    float sdf6H = (36. - 32.) / 2.;
-    vec3 sdf6Pos = BeamOrigin + vec3(0, 32. + sdf6H, 0);
-    vec2 sdf6 = vec2(sdCappedCone(p - sdf6Pos, sdf6H, 3. / 2., 2.5 / 2.), 6);
-
-    float sdf7H = (133. - 36.) / 2.;
-    vec3 sdf7Pos = BeamOrigin + vec3(0, 36. + sdf7H, 0);
-    vec2 sdf7 = vec2(sdCappedCylinder(p - sdf7Pos, 2.5 / 2., sdf7H), 7);
-
-    float sdf8H = (143. - 133.) / 2.;
-    vec3 sdf8Pos = BeamOrigin + vec3(0, 133. + sdf8H, 0);
-    vec2 sdf8 = vec2(sdCappedCone(p - sdf8Pos, sdf8H, 2.5 / 2., 57. / 2.), 8);
-
-    vec2 res =
-    opSmoothUnion(0.2, sdf1,
-      opSmoothUnion(0.05, sdf2,
-        opSmoothUnion(0.05, sdf3,
-          opSmoothUnion(0.05, sdf4,
-            opSmoothUnion(0.05, sdf5,
-              opSmoothUnion(0.05, sdf6,
-                opSmoothUnion(0.05, sdf7, sdf8)
-              )
-            )
-          )
-        )
-      )
-    );
-
-    // res.x += sin(5 * p.y + -Time * 2. * PI) * .025;
-
-    return res;*/
 }
 
 float calcHitDepth(float distance) {
@@ -401,8 +345,13 @@ void komaruMain(in float solidDepth, out vec4 color, out vec3 normal, out float 
 
     float glowTotal = 0;
 
+    float realTime = float(AnimationTicks) / 20. + Time;
+
+    float sphereRadiusPerc = mapValue(realTime, 2.5, 5.0, 0.0, 1.0);
+    float sphereRadius = AnimationType == 1 ? mapValue(exponentialOut(sphereRadiusPerc), 0.0, 1.0, 0.1, 17.0) : mapValue(exponentialOut(sphereRadiusPerc), 0.0, 1.0, 17.0, 0.1);
+
     // BALL
-    vec2 disk = sphIntersect(ro, rd, BeamOrigin + vec3(0, 133, 0), 17.);
+    vec2 disk = sphIntersect(ro, rd, BeamOrigin + vec3(0, 133, 0), sphereRadius);
     float diskMin = min(disk.x, disk.y);
     if (disk.y > 0. && (disk.x < 0. || disk.x < solidDepth)) {
         color = vec4(texture(CubeMapSampler, rd).rgb, 1.0);

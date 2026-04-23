@@ -33,6 +33,7 @@ import com.startechnology.start_core.machine.redstone.IStarTRedstoneIndicatorMac
 import com.startechnology.start_core.machine.redstone.StarTRedstoneIndicatorRecord;
 import com.startechnology.start_core.mixin.LaserHatchPartMachineAccessor;
 
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -93,8 +94,29 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     @DescSynced
     private boolean stabilizationPaid = false;
 
+    // client only
+    @Getter
+    private int rendererAnimationType = 0;
+    @Getter
+    private int rendererAnimationTicks = 0;
+
     public StarTKomaruFrameMachine(IMachineBlockEntity holder) {
         super(holder);
+    }
+
+    @Override
+    public void clientTick() {
+        super.clientTick();
+        if (isFormed && rendererAnimationType != 1) {
+            // formed but we are not opening
+            rendererAnimationType = 1;
+            rendererAnimationTicks = -1;
+        } else if (!isFormed && rendererAnimationType != 2) {
+            // not formed but we are not opening
+            rendererAnimationType = 2;
+            rendererAnimationTicks = -1;
+        }
+        rendererAnimationTicks++;
     }
 
     @Override

@@ -23,6 +23,8 @@
     { "name": "CameraNearPlane", "type": "float", "count": 1, "values": [ 0.05 ] },
     { "name": "CameraFarPlane", "type": "float", "count": 1, "values": [ 256.0 ] },
     { "name": "CameraPosition", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
-    { "name": "CubeMapSampler", "type": "int", "count": 1, "values": [ 0 ] }
+    { "name": "CubeMapSampler", "type": "int", "count": 1, "values": [ 0 ] },
+    { "name": "AnimationTicks", "type": "int", "count": 1, "values": [ 0 ] },
+    { "name": "AnimationType", "type": "int", "count": 1, "values": [ 0 ] }
   ]
 }
