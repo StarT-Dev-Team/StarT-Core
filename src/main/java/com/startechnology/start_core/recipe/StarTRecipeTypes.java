@@ -154,16 +154,12 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
-    public static final GTRecipeType MODULAR_COMBUSTION_MODULES_RECIPES = GTRecipeTypes.register("modular_combustion_module",GTRecipeTypes.ELECTRIC)
-            .setMaxIOSize(0,0,2,1)
-            .setEUIO(IO.OUT);
-
     public static final GTRecipeType MODULAR_ROCKET_MODULE_RECIPES = GTRecipeTypes.register("modular_rocket_module", GTRecipeTypes.ELECTRIC)
-            .setMaxIOSize(0,0,2,1)
+            .setMaxIOSize(0,0,1,0)
             .setEUIO(IO.OUT);
 
     public static final GTRecipeType COMBUSTION_FRAME_RECIPE_TYPE = GTRecipeTypes.register("modular_combustion_frame", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(0,0,2,1)
+            .setMaxIOSize(0,0,1,0)
             .setEUIO(IO.OUT);
 
     public static final void init() {

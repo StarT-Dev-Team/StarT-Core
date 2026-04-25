@@ -108,8 +108,10 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     private GTRecipe getAvailableLubricant() {
         return switch (this.tier) {
-            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(1)).buildRawRecipe();
-            case T3_COMBUSTION_MODULE, T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1)).buildRawRecipe();
+            case T1_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(100)).buildRawRecipe();
+            case T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(LUBRICANT.getFluid(200)).buildRawRecipe();
+            case T3_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(200)).buildRawRecipe();
+            case T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(400)).buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
