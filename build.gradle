@@ -190,6 +190,9 @@ dependencies {
     modRuntimeOnly("curse.maven:spark-361579:4738952")
     modImplementation("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
 
+    modCompileOnly("top.theillusivec4.curios:curios-forge:$project.curios_version:api")
+    modRuntimeOnly("top.theillusivec4.curios:curios-forge:$project.curios_version")
+
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     implementation(include("io.github.llamalad7:mixinextras-forge:$project.mixinextras_version"))
