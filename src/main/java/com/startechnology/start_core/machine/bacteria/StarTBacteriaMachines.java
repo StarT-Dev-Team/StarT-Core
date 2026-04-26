@@ -75,7 +75,7 @@ public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
         .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
-        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
+        .appearanceBlock(GTBlocks.ADVANCED_COMPUTER_CASING)
         .langValue("Bacterial Runic Mutator")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
@@ -121,7 +121,7 @@ public class StarTBacteriaMachines {
             .where("@", Predicates.controller(Predicates.blocks(definition.get())))
             .build()
         )
-        .sidedWorkableCasingModel(GTCEu.id("block/casings/hpca/computer_casing"), GTCEu.id("block/multiblock/implosion_compressor"))
+        .sidedWorkableCasingModel(GTCEu.id("block/casings/hpca/advanced_computer_casing"), GTCEu.id("block/multiblock/implosion_compressor"))
         .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
@@ -135,15 +135,9 @@ public class StarTBacteriaMachines {
             Component.translatable("block.start_core.hv0"),
             Component.translatable("block.start_core.hv1"),
             Component.translatable("block.start_core.gap"),
+            Component.translatable("block.start_core.hv2"),
+            Component.translatable("block.start_core.gap"),
             Component.translatable("block.start_core.hv3"),
-            Component.translatable("block.start_core.gap"),
-            Component.translatable("block.start_core.hv4"),
-            Component.translatable("block.start_core.gap"),
-            Component.translatable("block.start_core.hv5"),
-            Component.translatable("block.start_core.gap"),
-            Component.translatable("block.start_core.hv6"),
-            Component.translatable("block.start_core.gap"),
-            Component.translatable("block.start_core.hv7"),
             Component.translatable("block.start_core.breaker_line"),
             Component.translatable("block.start_core.parallels")
         )

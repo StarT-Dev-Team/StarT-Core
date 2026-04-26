@@ -19,31 +19,23 @@ public class StarTRedstoneInterfaces {
 
     public static final Integer REDSTONE_INTERFACE_TIER = GTValues.LuV;
 
-    public static Function<IMachineBlockEntity, MetaMachine> getHolder(
-        IO io
-    ) {
-        return holder -> new StarTRedstoneInterfacePartMachine(holder, REDSTONE_INTERFACE_TIER, io);
+    public static Function<IMachineBlockEntity, MetaMachine> getHolder(IO io) {
+        return holder -> new RedstoneInterfacePartMachine(holder, REDSTONE_INTERFACE_TIER, io);
     }
 
-    public static MachineBuilder<MachineDefinition> buildRedstoneHatch(
-        String name,
-        IO io
-    ) {
-        return StarTCore.START_REGISTRATE.machine(
-            name, getHolder(io))
-            .tooltips(
-                Component.translatable("start_core.redstone_hatch.d0"),
-                Component.translatable("start_core.redstone_hatch.d1")
-            )
-            .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-            .rotationState(RotationState.ALL)
-            .abilities(StarTPartAbility.REDSTONE_INTERFACE)
-            .tier(REDSTONE_INTERFACE_TIER);
+    public static MachineBuilder<MachineDefinition> buildRedstoneHatch(String name, IO io) {
+        return StarTCore.START_REGISTRATE.machine(name, getHolder(io))
+                .tooltips(Component.translatable("start_core.redstone_hatch.d0"), Component.translatable("start_core.redstone_hatch.d1"))
+                .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+                .rotationState(RotationState.ALL)
+                .abilities(StarTPartAbility.REDSTONE_INTERFACE)
+                .tier(REDSTONE_INTERFACE_TIER);
     }
 
     public static final MachineDefinition REDSTONE_VARIADIC_INTERFACE = buildRedstoneHatch("redstone_variadic_interface", IO.IN)
-        .workableTieredHullModel(StarTCore.resourceLocation("block/redstone/redstone_out"))
-        .register();
-        
-    public static void init() {}
+            .workableTieredHullModel(StarTCore.resourceLocation("block/redstone/redstone_out"))
+            .register();
+
+    public static void init() {
+    }
 }
