@@ -3,6 +3,7 @@ package com.startechnology.start_core.recipe;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.IdentifiedRecipeModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
@@ -15,7 +16,7 @@ import com.startechnology.start_core.machine.threading.StarTThreadingCapableMach
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 
 public class StarTRecipeModifiers {
-    public static final RecipeModifier ABSOLUTE_PARALLEL = GTRecipeModifiers::hatchParallel;
+    public static final RecipeModifier ABSOLUTE_PARALLEL = new IdentifiedRecipeModifier("absolute_parallel", GTRecipeModifiers::hatchParallel);
 
     public static final RecipeModifier HELL_FORGE_OC = StarTRecipeModifiers::hellforgeOverclock;
 
@@ -48,7 +49,7 @@ public class StarTRecipeModifiers {
             .build();
         }
 
-    public static final RecipeModifier BULK_PROCESSING = StarTRecipeModifiers::bulkThroughputProcessing;
+    public static final RecipeModifier BULK_PROCESSING = new IdentifiedRecipeModifier("bulk_processing", StarTRecipeModifiers::bulkThroughputProcessing);
 
     public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
         int throughputModifier = 16;
@@ -69,7 +70,7 @@ public class StarTRecipeModifiers {
   
     }
 
-    public static final RecipeModifier THROUGHPUT_BOOSTING = StarTRecipeModifiers::throughputBoosting;
+    public static final RecipeModifier THROUGHPUT_BOOSTING = new IdentifiedRecipeModifier("throughput_boosting", StarTRecipeModifiers::throughputBoosting);
 
     public static ModifierFunction throughputBoosting(MetaMachine machine, GTRecipe recipe) {
         int throughputModifier = 4;
