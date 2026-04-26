@@ -393,7 +393,7 @@
 
   "item.start_core.lucinducer.tooltip1": "§7Copies and applies Dream-Link network information.",
   "item.start_core.lucinducer.tooltip2": "§7While held offhand, the stored network will be applied to any placed Dream-Link Hatch or Cover.",
-  "item.start_core.lucinducer.tooltip3": "§7When equipped as a Curio, charges EU and FE-powered items from the copied Dream-Link network.",
+  "item.start_core.lucinducer.tooltip3": "§7When equipped as a Curio, it charges EU and FE-powered items in your inventory by using the copied Dream-Link network.",
   "item.start_core.lucinducer": "Lucinducer",
   "curios.identifier.lucinducer": "Lucinducer",
 
