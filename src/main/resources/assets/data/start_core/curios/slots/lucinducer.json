@@ -1,0 +1,7 @@
+{
+  "order": 150,
+  "size": 1,
+  "validators": [
+    "curios:tag"
+  ]
+}

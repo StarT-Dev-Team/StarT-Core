@@ -1,5 +1,9 @@
 package com.startechnology.start_core;
 
+import com.startechnology.start_core.item.StarTItems;
+import com.startechnology.start_core.item.curios.LucinducerCurioItem;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,6 +38,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @SuppressWarnings("unused")
 @Mod(StarTCore.MOD_ID)
@@ -72,6 +77,7 @@ public class StarTCore {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         StarTAbyssalContainmentMachine.init();
+        CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -113,5 +119,21 @@ public class StarTCore {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         StarTMachines.init();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        LucinducerCurioItem.removeAllFor(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        LucinducerCurioItem.removeAllFor(event.getOriginal());
+        LucinducerCurioItem.removeAllFor(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        LucinducerCurioItem.removeAllFor(event.getEntity());
     }
 }
