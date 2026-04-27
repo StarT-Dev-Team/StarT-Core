@@ -12,13 +12,17 @@ import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLU
 
 @EmiEntrypoint
 public class StarTEMIPlugin implements EmiPlugin {
+
     @Override
     public void register(EmiRegistry registry) {
         for (MultiblockMachineDefinition multiBlockDefinition : FLUID_DRILLING_RIGS) {
             if (multiBlockDefinition != null) {
-                registry.addWorkstation(GTBedrockFluidEmiCategory.CATEGORY, EmiStack.of(multiBlockDefinition.asStack()));
+                registry.addWorkstation(GTBedrockFluidEmiCategory.CATEGORY,
+                        EmiStack.of(multiBlockDefinition.asStack()));
                 registry.addWorkstation(GTBedrockOreEmiCategory.CATEGORY, EmiStack.of(multiBlockDefinition.asStack()));
             }
         }
+
+        CBMicroblockRecipes.register(registry);
     }
 }
