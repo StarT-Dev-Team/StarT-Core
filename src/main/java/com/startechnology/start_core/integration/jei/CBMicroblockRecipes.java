@@ -1,10 +1,9 @@
 package com.startechnology.start_core.integration.jei;
 
-import codechicken.microblock.api.MicroMaterial;
 import codechicken.microblock.init.CBMicroblockTags;
 import codechicken.microblock.item.ItemMicroBlock;
-import codechicken.microblock.util.MicroMaterialRegistry;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.integration.CBMicroblockUtils;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
@@ -23,9 +22,11 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public final class CBMicroblockRecipes {
 
@@ -175,7 +176,7 @@ public final class CBMicroblockRecipes {
     }
 
     public static void registerCategoryExtension(IVanillaCategoryExtensionRegistration registration) {
-        var materials = List.of(MicroMaterialRegistry.MICRO_MATERIALS.getValues().toArray(MicroMaterial[]::new));
+        var materials = CBMicroblockUtils.getMicroMaterials();
 
         var craftingCategory = registration.getCraftingCategory();
         craftingCategory.addCategoryExtension(
@@ -183,19 +184,17 @@ public final class CBMicroblockRecipes {
                 r -> r.getGroup().equals("cb_microblock.recipes"),
                 recipe -> new ICraftingCategoryExtension() {
                     @Override
-                    public void setRecipe(IRecipeLayoutBuilder builder, ICraftingGridHelper helper, IFocusGroup focus) {
-                        var inputs = new ArrayList<List<ItemStack>>();
-                        for (var ingredient : recipe.getIngredients()) {
-                            var items = ingredient.getItems();
-                            if (items.length == 1) {
-                                inputs.add(convertToMaterials(materials, items[0]));
-                            } else {
-                                inputs.add(List.of(items));
-                            }
-                        }
+                    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull ICraftingGridHelper helper, @NotNull IFocusGroup focus) {
                         var resultItem = getResultItem(recipe);
-                        helper.createAndSetOutputs(builder, convertToMaterials(materials, resultItem));
-                        helper.createAndSetInputs(builder, inputs, getWidth(), getHeight());
+                        var replacementResult = CBMicroblockUtils.convertToMaterials(materials, resultItem).orElseGet(() -> List.of(resultItem));
+
+                        helper.createAndSetOutputs(builder, replacementResult);
+                        helper.createAndSetInputs(builder, recipe.getIngredients().stream().map(ingredient -> {
+                            var items = ingredient.getItems();
+                            return Optional.ofNullable(items.length == 1 ? items[0] : null)
+                                    .flatMap(i -> CBMicroblockUtils.convertToMaterials(materials, i))
+                                    .orElseGet(() -> Arrays.asList(items));
+                        }).toList(), getWidth(), getHeight());
                     }
 
                     @Override
@@ -224,20 +223,6 @@ public final class CBMicroblockRecipes {
             RegistryAccess registryAccess = level.registryAccess();
             return recipe.getResultItem(registryAccess);
         }
-    }
-
-    private static List<ItemStack> convertToMaterials(List<MicroMaterial> materials, ItemStack stack) {
-        if (stack.is(Items.COBBLESTONE)) {
-            return materials.stream().map(MicroMaterial::getItem).toList();
-        }
-        if (stack.getItem() instanceof ItemMicroBlock) {
-            return materials.stream().map(mat -> ItemMicroBlock.createStack(
-                    stack.getCount(),
-                    ItemMicroBlock.getFactoryID(stack),
-                    ItemMicroBlock.getSize(stack),
-                    mat)).toList();
-        }
-        return List.of(stack);
     }
 
     private static ShapedRecipe makeMicroblockRecipe(String id, ItemStack result, Ingredient... ingredients) {

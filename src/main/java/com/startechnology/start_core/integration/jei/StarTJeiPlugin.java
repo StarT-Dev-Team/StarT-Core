@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.integration.jei.orevein.GTBedrockOreInfoCategory;
 import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
+import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
@@ -17,8 +18,9 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import static com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Arrays;
+import java.util.Objects;
 
 @ParametersAreNonnullByDefault
 @JeiPlugin
@@ -32,7 +34,6 @@ public class StarTJeiPlugin implements IModPlugin {
     @Override
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
         if (!GTCEu.Mods.isEMILoaded()) {
-            // TODO: add EMI plugin
             CBMicroblockRecipes.registerCategoryExtension(registration);
         }
     }
@@ -40,7 +41,6 @@ public class StarTJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         if (!GTCEu.Mods.isEMILoaded()) {
-            // TODO: add EMI plugin
             CBMicroblockRecipes.registerRecipes(registration);
         }
     }
