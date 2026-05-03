@@ -20,5 +20,7 @@ public class StarTEMIPlugin implements EmiPlugin {
                 registry.addWorkstation(GTBedrockOreEmiCategory.CATEGORY, EmiStack.of(multiBlockDefinition.asStack()));
             }
         }
+
+        CBMicroblockRecipes.register(registry);
     }
 }
