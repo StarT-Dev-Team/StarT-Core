@@ -169,7 +169,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         boolean isSupported = modulesSupportedContainer.isSupportedMultiblockId(multiblockId, getPos());
 
         /* Changed to true state for supported */
-        if (this.isSupportedModule == false && isSupported && modulesSupportedContainer.getOnSupportedConsumer() != null) {
+        if (!this.isSupportedModule && isSupported && modulesSupportedContainer.getOnSupportedConsumer() != null) {
             modulesSupportedContainer.getOnSupportedConsumer().accept(this);
         }
 

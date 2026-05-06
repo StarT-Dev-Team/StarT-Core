@@ -20,7 +20,7 @@ public class StarTNBTTooltipsBehaviour implements IAddInformation {
         
         if (stack == null) return;
         if (stack.isEmpty()) return;
-        if (stack.hasTag() == false) return;
+        if (!stack.hasTag()) return;
 
         StarTCustomTooltip tooltips = StarTCustomTooltipsManager.customTooltipFromTag(stack.getOrCreateTag());
 
