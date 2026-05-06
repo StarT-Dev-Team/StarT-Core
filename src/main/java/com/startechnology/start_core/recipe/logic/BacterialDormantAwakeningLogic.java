@@ -70,7 +70,7 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
                 .filter(NotifiableItemStackHandler.class::isInstance)
                 .map(NotifiableItemStackHandler.class::cast)
                 .filter(i -> i.getSlots() >= 1)
-                .collect(Collectors.toList());
+                .toList();
     
         if (handlers.isEmpty()) return null;
 
@@ -86,8 +86,6 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
     private GTRecipe createDormantAwakeningRecipe(NotifiableItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); ++i) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
-            
-            if (itemInSlot == null) continue;
 
             if (!itemInSlot.isEmpty()) {
                 int production = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);

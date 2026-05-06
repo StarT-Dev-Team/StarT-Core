@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.generated.MaterialRecipeHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +37,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.VACUUM_RECIPES;
 @Mixin(value = MaterialRecipeHandler.class, remap = false)
 public class MaterialRecipeHandlerMixin {
 
+    @Unique
     private static final Map<BlastProperty.GasTier, FluidIngredient> EBF_GASES = new EnumMap<>(
             BlastProperty.GasTier.class);
 

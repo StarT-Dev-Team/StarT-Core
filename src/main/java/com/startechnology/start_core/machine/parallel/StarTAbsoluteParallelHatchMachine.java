@@ -11,7 +11,7 @@ public class StarTAbsoluteParallelHatchMachine extends ParallelHatchPartMachine 
         int absoluteMaxParallels = 4 * (int) Math.pow(2, tier - GTValues.UHV);
 
         // UHV -> 4, UEV -> 8, UIV -> 16
-        ((ParallelHatchPartMachineAccessor)(Object)this).start_core$maxParallel(absoluteMaxParallels);
+        ((ParallelHatchPartMachineAccessor) this).start_core$maxParallel(absoluteMaxParallels);
         this.setCurrentParallel(absoluteMaxParallels);
     }
 }   

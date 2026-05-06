@@ -38,7 +38,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
             .filter(NotifiableItemStackHandler.class::isInstance)
             .map(NotifiableItemStackHandler.class::cast)
             .filter(i -> i.getSlots() >= 1)
-            .collect(Collectors.toList());
+            .toList();
 
         if (handlers.isEmpty()) return null;
 
@@ -54,8 +54,6 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
     private GTRecipe createHarvesterRecipe(NotifiableItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); ++i) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
-            
-            if (itemInSlot == null) continue;
 
             if (itemInSlot.isEmpty()) continue;
 
@@ -118,7 +116,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        BACTERIA_ITEMS.stream().forEach(
+        BACTERIA_ITEMS.forEach(
             bacteria -> {
                 ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(), 

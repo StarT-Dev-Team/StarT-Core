@@ -33,7 +33,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     private static final int SUPREME_TURBINE_TIER = GTValues.UHV;
     private static final int NYINSANE_TURBINE_TIER = GTValues.UIV;
 
-    private int tier;
+    private final int tier;
     private boolean isActiveBoosting;
     private boolean isPassiveBoosting;
     @Persisted
@@ -44,9 +44,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         this.tier = tier;
     }
 
-    private Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");
-    private Material SS_HE3_FLUID = GTMaterials.get("superstate_helium_3");
-    private Material BEC_OG_FLUID = GTMaterials.get("bec_og");
+    private final Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");
+    private final Material SS_HE3_FLUID = GTMaterials.get("superstate_helium_3");
+    private final Material BEC_OG_FLUID = GTMaterials.get("bec_og");
 
     private int getParallelBonus() {
         return switch (this.tier) {

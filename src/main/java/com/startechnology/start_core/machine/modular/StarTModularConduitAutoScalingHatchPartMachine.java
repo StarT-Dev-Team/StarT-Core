@@ -84,7 +84,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
         if (this.io == IO.IN) {
             this.energyContainer.resetBasicInfo(maxCapacity, voltage, amperage, 0, 0);
             /* Reform module to update multiblock state (is this a crime?) */
-            if (this.controllers.size() > 0) {
+            if (!this.controllers.isEmpty()) {
                 for (var controller : this.controllers) {
                     controller.onPartUnload();
                     controller.onStructureFormed();
@@ -126,7 +126,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
 
     @Override
     protected void addComponentPanelText(List<Component> componentList) {
-        addDisplayTextToList((component) -> componentList.add(component), getScaledVoltage(), getScaledAmperage());
+        addDisplayTextToList(componentList::add, getScaledVoltage(), getScaledAmperage());
         componentList.add(Component.empty());
         super.addComponentPanelText(componentList);
     }

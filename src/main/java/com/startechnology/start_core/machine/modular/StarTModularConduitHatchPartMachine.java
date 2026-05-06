@@ -41,13 +41,6 @@ public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHa
         }
     }
 
-    
-
-    @Override
-    public boolean canShared() {
-        return false;
-    }
-
     @Override
     public List<Component> getDataInfo(PortableScannerBehavior.DisplayMode mode) {
         if (mode == PortableScannerBehavior.DisplayMode.SHOW_ALL ||

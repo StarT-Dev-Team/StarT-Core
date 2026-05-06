@@ -63,7 +63,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
             .filter(NotifiableFluidTank.class::isInstance)
             .map(NotifiableFluidTank.class::cast)
             .filter(i -> i.getTanks() >= 1)
-            .collect(Collectors.toList());
+            .toList();
 
         if (handlers.isEmpty()) return null;
 
@@ -79,12 +79,9 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
     private GTRecipe createHeatingRecipe(NotifiableFluidTank handler) {
         for (int i = 0; i < handler.getTanks(); ++i) {
             FluidStack fluidInSlot = handler.getFluidInTank(i);
-            
-            if (fluidInSlot == null) continue;
 
             if (!fluidInSlot.isEmpty()) {
                 Material fluidMaterial = ChemicalHelper.getMaterial(fluidInSlot.getFluid());
-                if (fluidMaterial == null) continue;
 
                 if (StarTHellForgeMachine.fluidsMap.containsKey(fluidMaterial)) {
                     FluidStack fluidInput = fluidInSlot.copy();

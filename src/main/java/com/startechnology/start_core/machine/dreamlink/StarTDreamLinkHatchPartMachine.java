@@ -146,8 +146,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        ModularUI ui = new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
-        return ui;
+        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
     }
 
     @Override
@@ -216,7 +215,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, Boolean checkDimension) {
+    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
         if (!Objects.equals(this.getNetwork(), tower.getNetwork()))
             return false;
 
@@ -224,8 +223,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
             return false;
 
         if (checkDimension) {
-            if (!Objects.equals(this.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId()))
-                return false;
+            return Objects.equals(this.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId());
         }
 
         return true;

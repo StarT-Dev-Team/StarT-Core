@@ -1,5 +1,6 @@
 package com.startechnology.start_core.api.bacteria;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -20,41 +21,20 @@ public class StarTBacteriaStats {
     public static final String BACTERIA_SUPERFLUID_NBT_TAG = "bacteria_superFluid";
     public static final int MAX_STAT_VALUE = 5;
 
-    private int production;
-    private int metabolism;
-    private int mutability;
+    @Getter
+    private final int production;
+    @Getter
+    private final int metabolism;
+    @Getter
+    private final int mutability;
+    @Getter
     private Fluid primary;
+    @Getter
     private Fluid secondary;
+    @Getter
     private Fluid tertiary;
+    @Getter
     private Fluid superFluid;
-
-    public int getProduction() {
-        return production;
-    }
-
-    public int getMetabolism() {
-        return metabolism;
-    }
-
-    public int getMutability() {
-        return mutability;
-    }
-
-    public Fluid getPrimary() {
-        return primary;
-    }
-
-    public Fluid getSecondary() {
-        return secondary;
-    }
-
-    public Fluid getTertiary() {
-        return tertiary;
-    }
-
-    public Fluid getSuperFluid() {
-        return superFluid;
-    }
 
     public String getProductionPretty() {
         return StarTBacteriaStats.getPrettyStatHighBias(production);

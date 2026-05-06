@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDreamLinkTransmissionTowers {
-    public static MultiblockMachineBuilder makeDreamlinkNode(String name, int range, int connections, Boolean checkDimension) {
+    public static MultiblockMachineBuilder makeDreamlinkNode(String name, int range, int connections, boolean checkDimension) {
         var multiBuilder = START_REGISTRATE
             .multiblock(name, (holder) -> new StarTDreamLinkTransmissionMachine(holder, range, connections, checkDimension))
             .tooltips(

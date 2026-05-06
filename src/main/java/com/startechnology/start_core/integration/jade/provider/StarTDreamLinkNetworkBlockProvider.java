@@ -48,7 +48,7 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
         if (capData.contains("network") && capData.contains("dreaming"))
         {
             String network = capData.getString("network");
-            Boolean dreaming = capData.getBoolean("dreaming");
+            boolean dreaming = capData.getBoolean("dreaming");
 
             if (dreaming)
                 tooltip.add(Component.translatable("start_core.machine.dream_link.active_network", network));

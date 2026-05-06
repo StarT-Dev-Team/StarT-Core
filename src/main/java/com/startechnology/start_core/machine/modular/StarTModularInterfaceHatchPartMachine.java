@@ -101,7 +101,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         GTRecipe modifiedRecipe = super.modifyRecipe(recipe);
 
         /* Should be impossible to get a recipe without having a controller right? */
-        if (this.controllers == null || this.controllers.size() == 0) {
+        if (this.controllers == null || this.controllers.isEmpty()) {
             return modifiedRecipe;
         }
 
@@ -142,7 +142,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     public void updateSupportedModule() {
         /* We need the controller of this machine to get the ID */
         SortedSet<IMultiController> controllers = getControllers();
-        if (controllers == null || controllers.size() == 0) {
+        if (controllers.isEmpty()) {
             setUnsupported();
             return;
         }
@@ -237,11 +237,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             return false;
         }
 
-        if (!moduleTickPredicate.test(controller)) {
-            return false;
-        }
-
-        return true;
+        return moduleTickPredicate.test(controller);
     }
 
     @Override
@@ -327,11 +323,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             return true;
         }
 
-        if (this.io == IO.OUT && this.isSupportedModule && getOffsetTimer() < (lastCheckTime + MODULAR_CHECK_DURATION + 5)) {
-            return true;
-        }
-
-        return false;
+        return this.io == IO.OUT && this.isSupportedModule && getOffsetTimer() < (lastCheckTime + MODULAR_CHECK_DURATION + 5);
     }
 
     public boolean isTerminal() {

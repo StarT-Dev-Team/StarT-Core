@@ -23,7 +23,6 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -342,7 +341,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             super(metaTileEntity);
         }
 
-        @NotNull
         @Override
         public StarTSolarMachine getMachine() {
             return (StarTSolarMachine) super.getMachine();

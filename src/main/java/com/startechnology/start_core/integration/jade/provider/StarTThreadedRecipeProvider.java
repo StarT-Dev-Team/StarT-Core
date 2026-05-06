@@ -70,10 +70,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
 
-        if (capability != null)
-            return capability;
-
-        return null;
+        return capability;
     }
 
     @Override

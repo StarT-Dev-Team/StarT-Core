@@ -6,7 +6,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import java.util.Objects;
 
 public class StarTDreamWidgetGroup extends WidgetGroup {
-        private Runnable removedCallback;
+        private final Runnable removedCallback;
 
         public StarTDreamWidgetGroup(int x, int y, int width, int height, Runnable removedCallback) {
             super(x, y, width, height);

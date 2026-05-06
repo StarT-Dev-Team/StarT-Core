@@ -43,5 +43,5 @@ public class StarTDimensionMarkers {
                 .register();
     }
 
-    public static final void init() {}
+    public static void init() {}
 }

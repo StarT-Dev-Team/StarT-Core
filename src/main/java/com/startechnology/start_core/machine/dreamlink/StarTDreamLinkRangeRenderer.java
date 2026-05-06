@@ -42,7 +42,7 @@ public class StarTDreamLinkRangeRenderer {
             final int prime = 31;
             int result = 1;
             result = prime * result + ((position == null) ? 0 : position.hashCode());
-            result = prime * result + ((range == null) ? 0 : range.hashCode());
+            result = prime * result + ((range == 0) ? 0 : Integer.hashCode(range));
             return result;
         }
 
@@ -52,20 +52,16 @@ public class StarTDreamLinkRangeRenderer {
                 return true;
             if (obj == null)
                 return false;
-            if (!(obj instanceof ActiveBoxData))
+            if (!(obj instanceof ActiveBoxData other))
                 return false;
-            ActiveBoxData other = (ActiveBoxData) obj;
             if (position == null) {
                 if (other.position != null)
                     return false;
             } else if (!position.equals(other.position))
                 return false;
-            if (range == null) {
-                if (other.range != null)
-                    return false;
-            } else if (!range.equals(other.range))
-                return false;
-            return true;
+            if (range == 0) {
+                return other.range == 0;
+            } else return range == other.range;
         }
     }
 
@@ -84,17 +80,13 @@ public class StarTDreamLinkRangeRenderer {
     public static void toggleOnBoxAtPositionWithRange(BlockPos position, int range) {
         ActiveBoxData boxData = new ActiveBoxData(position, range);
 
-        if (!activeBoxes.contains(boxData)) {
-            activeBoxes.add(boxData);
-        }
+        activeBoxes.add(boxData);
     }
 
     public static void toggleOffBoxAtPositionWithRange(BlockPos position, int range) {
         ActiveBoxData boxData = new ActiveBoxData(position, range);
 
-        if (activeBoxes.contains(boxData)) {
-            activeBoxes.remove(boxData);
-        }
+        activeBoxes.remove(boxData);
     }
 
     private static final RenderStateShard.TransparencyStateShard TRANSLUCENT_TRANSPARENCY =

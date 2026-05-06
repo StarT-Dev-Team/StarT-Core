@@ -7,9 +7,9 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implements IHPCACoolantProvider {
 
-    private ResourceTexture componentIcon;
-    private int upkeepEUt;
-    private int coolingAmount;
+    private final ResourceTexture componentIcon;
+    private final int upkeepEUt;
+    private final int coolingAmount;
 
     public StarTHPCAPassiveCoolingPart(IMachineBlockEntity holder, ResourceTexture componentIcon, int upkeepEUt,
             int coolingAmount) {

@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
-import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
@@ -34,7 +33,7 @@ public class StarTSteamParallelMultiblockMachine extends SteamParallelMultiblock
         return CONVERSION_RATE;
     }
 
-    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (!(machine instanceof StarTSteamParallelMultiblockMachine steamMachine)) {
             return RecipeModifier.nullWrongType(StarTSteamParallelMultiblockMachine.class, machine);
         }

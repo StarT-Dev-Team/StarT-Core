@@ -18,6 +18,8 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReciev
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 import com.startechnology.start_core.item.StarTItems;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -38,9 +40,11 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
         CoverBehavior.MANAGED_FIELD_HOLDER);
 
-    private int tier;
-    private int amperage;
+    private final int tier;
+    private final int amperage;
 
+    @Getter
+    @Setter
     @Persisted
     private String network;
     private TickableSubscription addTickSubscription;
@@ -191,7 +195,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     }
 
     @Override
-    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, Boolean checkDimension) {
+    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
         if (!Objects.equals(this.network, tower.getNetwork()))
             return false;
 
@@ -205,8 +209,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         }
 
         if (checkDimension) {
-            if (!Objects.equals(coverHolder.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId()))
-                return false;
+            return Objects.equals(coverHolder.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId());
         }
 
         return true;
@@ -256,7 +259,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
                     new TextFieldWidget(4, 32, 182 - 8, 12, this::getNetwork, this::setNetwork)
                         .setMaxStringLength(64)
                         .setValidator(input -> {
-                            if (input == null || input.isBlank()) return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK + "";
+                            if (input == null || input.isBlank()) return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
                             return input;
                         })
                         .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
@@ -264,13 +267,6 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
         );
         
         return group;
-    }   
-    
-    public void setNetwork(String network) {
-        this.network = network;
     }
 
-    public String getNetwork() {
-        return this.network;
-    }
 }

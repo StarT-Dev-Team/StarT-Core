@@ -62,7 +62,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected ConditionalSubscriptionHandler tickSubscription;
     protected TickableSubscription tryTickSub;
 
-    private ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
+    private final ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
     private boolean isReadyToTransmit;
 
     @Persisted
@@ -71,12 +71,12 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Getter @Setter
     protected String tempNetwork;
 
-    private int range;
-    private int connections;
+    private final int range;
+    private final int connections;
     private int receiverCount;
-    private Boolean checkDimension;
+    private final boolean checkDimension;
 
-    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, int range, int connections, Boolean checkDimension) {
+    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, int range, int connections, boolean checkDimension) {
         super(holder);
         this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferEnergyTick, this::isFormed);
         this.isReadyToTransmit = false;
@@ -413,7 +413,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
     @Override
     public List<IFancyUIProvider> getSubTabs() {
-        return getParts().stream().filter(IFancyUIProvider.class::isInstance).map(IFancyUIProvider.class::cast)
+        return getParts().stream().filter(Objects::nonNull).map(IFancyUIProvider.class::cast)
                 .toList();
     }
 

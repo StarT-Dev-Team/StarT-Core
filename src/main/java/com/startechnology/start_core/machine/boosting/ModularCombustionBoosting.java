@@ -39,20 +39,20 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     public static final int T3_COMBUSTION_MODULE = GTValues.UV;
     public static final int T4_COMBUSTION_MODULE = GTValues.UEV;
 
-    private int tier;
+    private final int tier;
     private boolean isActiveBoosting;
     @Persisted
     private int runningTimer = 0;
 
     private final List<ResourceLocation> acceptedFrameIds;
 
-    private Material LUBRICANT = GTMaterials.get("lubricant");
-    private Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");//t2 Lube
+    private final Material LUBRICANT = GTMaterials.get("lubricant");
+    private final Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");//t2 Lube
 
-    private Material T1COXIDIZER = GTMaterials.get("white_fuming_nitric_acid");
-    private Material T2COXIDIZER = GTMaterials.get("red_fuming_nitric_acid");
-    private Material T1ROXIDIZER = GTMaterials.get("dioxygen_difluoride");
-    private Material T2ROXIDIZER = GTMaterials.get("ferrocenium_superoxide");
+    private final Material T1COXIDIZER = GTMaterials.get("white_fuming_nitric_acid");
+    private final Material T2COXIDIZER = GTMaterials.get("red_fuming_nitric_acid");
+    private final Material T1ROXIDIZER = GTMaterials.get("dioxygen_difluoride");
+    private final Material T2ROXIDIZER = GTMaterials.get("ferrocenium_superoxide");
 
     public ModularCombustionBoosting(IMachineBlockEntity holder, int tier, ResourceLocation... acceptedFrameIds) {
         super(holder, tier);
@@ -199,7 +199,6 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             boolean oxidizerBoosted = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
             if (oxidizerBoosted) {
                 String key = switch (this.tier) {
-                    case T1_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t1";
                     case T2_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t2";
                     case T3_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t3";
                     case T4_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t4";

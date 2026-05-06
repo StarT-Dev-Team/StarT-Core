@@ -40,7 +40,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
-    private HashMap<String, StarTThreadingStatsPredicate.ThreadingStatsBlockTracker> stats;
+    private final HashMap<String, StarTThreadingStatsPredicate.ThreadingStatsBlockTracker> stats;
 
     @Persisted
     @DescSynced
@@ -146,8 +146,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private int getEffectiveDurationReduction() {
-        if (this.assignedSpeed == null) this.assignedSpeed = 0;
-        if (this.speed == null) this.speed = 0;
         return this.assignedSpeed + this.speed;
     }
 
@@ -162,8 +160,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private int getEffectivePowerReduction() {
-        if (this.assignedEfficiency == null) this.assignedEfficiency = 0;
-        if (this.efficiency == null) this.efficiency = 0;
+
         return this.assignedEfficiency + this.efficiency;
     }
 
@@ -178,8 +175,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private int getEffectiveParallels() {
-        if (this.assignedParallels == null) this.assignedParallels = 0;
-        if (this.parallels == null) this.parallels = 0;
+
         return Math.floorDiv(this.assignedParallels + this.parallels, 20) + 1;
     }
 
@@ -189,8 +185,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private int getEffectiveThreads() {
-        if (this.assignedThreading == null) this.assignedThreading = 0;
-        if (this.threading == null) this.threading = 0;
         return Math.floorDiv(this.assignedThreading + this.threading, 5);
     }
 
@@ -211,48 +205,36 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public int getStatAssigned(String stat) {
-        switch (stat) {
-            case "speed":
-                return this.assignedSpeed;
-            case "efficiency":
-                return this.assignedEfficiency;
-            case "parallels":
-                return this.assignedParallels;
-            case "threading":
-                return this.assignedThreading;
-        }
+        return switch (stat) {
+            case "speed" -> this.assignedSpeed;
+            case "efficiency" -> this.assignedEfficiency;
+            case "parallels" -> this.assignedParallels;
+            case "threading" -> this.assignedThreading;
+            default -> -1;
+        };
 
-        return -1;
     }
 
     public int getStatTotal(String stat) {
-        switch (stat) {
-            case "speed":
-                return this.assignedSpeed + this.speed;
-            case "efficiency":
-                return this.assignedEfficiency + this.efficiency;
-            case "parallels":
-                return this.assignedParallels + this.parallels;
-            case "threading":
-                return this.assignedThreading + this.threading;
-        }
+        return switch (stat) {
+            case "speed" -> this.assignedSpeed + this.speed;
+            case "efficiency" -> this.assignedEfficiency + this.efficiency;
+            case "parallels" -> this.assignedParallels + this.parallels;
+            case "threading" -> this.assignedThreading + this.threading;
+            default -> -1;
+        };
 
-        return -1;
     }
 
     public MutableComponent getPrettyFormat(String stat) {
-        switch (stat) {
-            case "speed":
-                return getSpeedPrettyFormat();
-            case "efficiency":
-                return getEfficiencyPrettyFormat();
-            case "parallels":
-                return getParallelsPrettyFormat();
-            case "threading":
-                return getThreadsPrettyFormat();
-        }
+        return switch (stat) {
+            case "speed" -> getSpeedPrettyFormat();
+            case "efficiency" -> getEfficiencyPrettyFormat();
+            case "parallels" -> getParallelsPrettyFormat();
+            case "threading" -> getThreadsPrettyFormat();
+            default -> Component.literal("Invalid");
+        };
 
-        return Component.literal("Invalid");
     }
 
     public void assignStat(String stat, int amount) {
@@ -404,12 +386,10 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             }
         });
 
-        if (Objects.isNull(this.threadTickableSubscription)) {
-            threadTickableSubscription = subscribeServerTick(this::tickThreads);
-        } else {
+        if (Objects.nonNull(this.threadTickableSubscription)) {
             threadTickableSubscription.unsubscribe();
-            threadTickableSubscription  = subscribeServerTick(this::tickThreads);
         }
+        threadTickableSubscription = subscribeServerTick(this::tickThreads);
     }
 
     @Override
@@ -445,7 +425,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             textList.add(getParallelsPrettyFormat());
             textList.add(getThreadsPrettyFormat());
 
-            if (activeThreads.size() > 0) {
+            if (!activeThreads.isEmpty()) {
                 textList.add(Component.empty());
                 textList.add(Component.translatable("start_core.machine.threading_controller.active_threads"));
 
@@ -482,21 +462,18 @@ private List<GTRecipe> findThreadedRecipes() {
         }
 
         var recipeType = recipeLogic.machine.getRecipeType();
-        if (recipeType == null) {
-            return List.of();
-        }
 
         Set<ResourceLocation> excludedIds = new HashSet<>(maxThreads + 4);
 
         GTRecipe lastRecipe = recipeLogic.getLastRecipe();
-        if (lastRecipe != null && lastRecipe.getId() != null) {
+        if (lastRecipe != null) {
             excludedIds.add(lastRecipe.getId());
         }
 
         if (activeThreads != null && !activeThreads.isEmpty()) {
             for (ThreadedRecipeExecution thread : activeThreads) {
                 GTRecipe r = thread.recipe;
-                if (r != null && r.getId() != null) {
+                if (r != null) {
                     excludedIds.add(r.getId());
                 }
             }
@@ -511,7 +488,7 @@ private List<GTRecipe> findThreadedRecipes() {
         for (GTRecipe candidate : allMatches) {
             if (candidate == null) continue;
             ResourceLocation id = candidate.getId();
-            if (id == null || excludedIds.contains(id)) continue;
+            if (excludedIds.contains(id)) continue;
 
             if (canConsumeRecipeInputs(candidate)) {
                 result.add(candidate);
@@ -576,17 +553,15 @@ private List<GTRecipe> findThreadedRecipes() {
     private void setupThreadedExecution() {
         List<GTRecipe> recipes = findThreadedRecipes();
         
-        if (recipes.size() < 1) {
+        if (recipes.isEmpty()) {
             return; 
         }
 
-        for (int i = 0; i < recipes.size(); i++) {
-            GTRecipe recipe = recipes.get(i);
-            
+        for (GTRecipe recipe : recipes) {
             if (!canConsumeRecipeInputs(recipe)) {
                 continue;
             }
-            
+
             GTRecipe modifiedRecipe = this.fullModifyRecipe(recipe);
 
             try {

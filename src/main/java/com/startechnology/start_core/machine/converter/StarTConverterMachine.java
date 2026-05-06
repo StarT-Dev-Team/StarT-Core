@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 public class StarTConverterMachine {
     
     public static MachineDefinition[] registerConverter(int amperage, int startTier, int endTier) {
-        MachineDefinition[] converters = StarTMachineUtils.registerTieredMachines(amperage + "a_energy_converter",
+        return StarTMachineUtils.registerTieredMachines(amperage + "a_energy_converter",
                 (holder, tier) -> new ConverterMachine(holder, tier, amperage),
                 (tier, builder) -> builder
                         .rotationState(RotationState.ALL)
@@ -35,7 +35,6 @@ public class StarTConverterMachine {
                                                 FeCompat.ratio(false))))
                         .register(),
                         GTValues.tiersBetween(startTier, endTier));
-        return converters;
     }
 
     public static final MachineDefinition[] ENERGY_CONVERTER_64A = registerConverter(64, GTValues.EV, GTValues.MAX);

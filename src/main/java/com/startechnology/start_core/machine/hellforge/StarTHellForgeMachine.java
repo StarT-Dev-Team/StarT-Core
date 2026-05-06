@@ -38,10 +38,10 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     /* The hell forge cannot go below this base Temperature */
     @Getter
-    private int baseTemperature;
+    private final int baseTemperature;
 
-    private int baseTempLoss;
-    private int dormantTempLoss;
+    private final int baseTempLoss;
+    private final int dormantTempLoss;
 
     protected TickableSubscription tryTickSub;
     private boolean startHeatLoss;

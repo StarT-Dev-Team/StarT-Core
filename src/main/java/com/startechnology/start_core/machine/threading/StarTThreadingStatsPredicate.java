@@ -38,20 +38,15 @@ public class StarTThreadingStatsPredicate {
         }
 
         public int getStatString(String stat) {
-            switch (stat) {
-                case "general":
-                    return this.general;
-                case "speed":
-                    return this.speed;
-                case "efficiency":
-                    return this.efficiency;
-                case "parallels":
-                    return this.parallels;
-                case "threading":
-                    return this.threading;
-            }
+            return switch (stat) {
+                case "general" -> this.general;
+                case "speed" -> this.speed;
+                case "efficiency" -> this.efficiency;
+                case "parallels" -> this.parallels;
+                case "threading" -> this.threading;
+                default -> -1;
+            };
 
-            return -1;
         }
 
     }

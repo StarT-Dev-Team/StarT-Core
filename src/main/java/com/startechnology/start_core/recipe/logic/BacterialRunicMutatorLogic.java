@@ -95,13 +95,10 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
             
             if (!existingBacteria.isEmpty()) break;
 
-            if (itemInSlot == null) continue;
-
             if (!itemInSlot.isEmpty()) {
                 // Check for bacteria
                 if (existingBacteria.isEmpty() && StarTBacteriaBehaviour.getBacteriaBehaviour(itemInSlot) != null) {
                     existingBacteria = itemInSlot;
-                    continue;
                 }
             }
         }
@@ -111,13 +108,10 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
 
             if (!existingNaq.isEmpty()) break;
 
-            if (fluidInSlot == null) continue;
-
             if (!fluidInSlot.isEmpty()) {
                 // Check for naquadah
                 if (existingNaq.isEmpty() && isNaq(fluidInSlot)) {
                     existingNaq = fluidInSlot;
-                    continue;
                 }
             }
         }
@@ -213,7 +207,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
     public void buildRepresentativeRecipes() {
         ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
-        BACTERIA_ITEMS.stream().forEach(
+        BACTERIA_ITEMS.forEach(
             bacteria -> {
                     ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
                     StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(), 
@@ -234,7 +228,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                     ));
 
                     GTRecipe affinityRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                        .recipeBuilder(bacteria.getId().getPath().toString() + "_affinity")
+                        .recipeBuilder(bacteria.getId().getPath() + "_affinity")
                         .inputItems(bacteriaInput.copyWithCount(1))
                         .chancedInput(netherStar, 10_00 ,0)
                         .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
@@ -245,7 +239,7 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                         .buildRawRecipe();
 
                     GTRecipe totalRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                        .recipeBuilder(bacteria.getId().getPath().toString() + "_total")
+                        .recipeBuilder(bacteria.getId().getPath() + "_total")
                         .inputItems(bacteriaInput.copyWithCount(1))
                         .chancedInput(netherStar, 10_00 ,0)
                         .inputFluids(GTMaterials.DistilledWater.getFluid(8000))

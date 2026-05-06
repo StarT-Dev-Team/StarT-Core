@@ -15,7 +15,7 @@ public class WeightedRandomList<T extends Object> {
     public WeightedRandomList() {
     }
 
-    private List<Entry> entries = new ArrayList<>();
+    private final List<Entry> entries = new ArrayList<>();
     private double accumulatedWeight;
 
     public void addEntry(T object, double weight) {

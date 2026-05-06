@@ -25,7 +25,7 @@ import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITE
 
 public class BacteriaVatLogic implements ICustomRecipeLogic {
     public static void bacterialBreeding() {
-        BACTERIA_ITEMS.stream()
+        BACTERIA_ITEMS
             .forEach(
                 bacteria -> {
                     ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
@@ -75,7 +75,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                 .filter(NotifiableItemStackHandler.class::isInstance)
                 .map(NotifiableItemStackHandler.class::cast)
                 .filter(i -> i.getSlots() >= 1)
-                .collect(Collectors.toList());
+                .toList();
     
         if (handlers.isEmpty()) return null;
 
@@ -91,8 +91,6 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
     private GTRecipe createBacteriaRecipe(NotifiableItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); ++i) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
-            
-            if (itemInSlot == null) continue;
 
             if (itemInSlot.isEmpty()) continue;
 
@@ -139,18 +137,13 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
     }
 
     private static List<Double> getMutationWeights(int mutability) {
-        switch (mutability) {
-            case 1:
-                return Arrays.asList(0.0, 5.0, 90.0, 5.0, 0.0);
-            case 2:
-                return Arrays.asList(2.0, 8.0, 80.0, 8.0, 2.0);
-            case 3:
-                return Arrays.asList(5.0, 15.0, 60.0, 15.0, 5.0);
-            case 4:
-                return Arrays.asList(12.0, 18.0, 40.0, 18.0, 12.0);
-            default:
-                return Arrays.asList(20.0, 20.0, 20.0, 20.0, 20.0);
-        }
+        return switch (mutability) {
+            case 1 -> Arrays.asList(0.0, 5.0, 90.0, 5.0, 0.0);
+            case 2 -> Arrays.asList(2.0, 8.0, 80.0, 8.0, 2.0);
+            case 3 -> Arrays.asList(5.0, 15.0, 60.0, 15.0, 5.0);
+            case 4 -> Arrays.asList(12.0, 18.0, 40.0, 18.0, 12.0);
+            default -> Arrays.asList(20.0, 20.0, 20.0, 20.0, 20.0);
+        };
     }
 
     private static WeightedRandomList<Integer> getStatWeightedList(int stat, List<Double> weights) {

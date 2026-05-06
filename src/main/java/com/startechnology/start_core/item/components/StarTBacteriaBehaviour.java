@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaManager;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
+import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
@@ -22,17 +23,10 @@ import java.util.stream.Collectors;
 
 public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
 
-    private Material superfluid;
-
-    private List<Material> possibleBacteriaAffinities;
-
-    public List<Material> getPossibleBacteriaAffinities() {
-        return possibleBacteriaAffinities;
-    }
-
-    public Material getSuperfluid() {
-        return superfluid;
-    }
+    @Getter
+    private final Material superfluid;
+    @Getter
+    private final List<Material> possibleBacteriaAffinities;
 
     public List<Fluid> getBehaviourAffinityFluids() {
         return possibleBacteriaAffinities
@@ -62,15 +56,15 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
     }
 
     public MutableComponent prettyPossibleBacteriaAffinities() {
-        List<Component> translatableAffinities = possibleBacteriaAffinities.stream()
+        var translatableAffinities = possibleBacteriaAffinities.stream()
             .map(
                 material -> Component.translatable(
                     material.getFluid().getFluidType().getDescriptionId()
                 ).withStyle(ChatFormatting.DARK_PURPLE)
             )
-            .collect(Collectors.toList());
+            .toArray();
 
-        return Component.translatable("behaviour.start_core.bacteria.possible_affinities", translatableAffinities.toArray());
+        return Component.translatable("behaviour.start_core.bacteria.possible_affinities", translatableAffinities);
     }
 
     @Override
@@ -87,9 +81,9 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_primary", stats.getFluidPretty(stats.getPrimary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", stats.getFluidPretty(stats.getSecondary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", stats.getFluidPretty(stats.getTertiary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable(""));
+            tooltipComponents.add(Component.literal(""));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super", stats.getFluidPretty(stats.getSuperFluid()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable(""));
+            tooltipComponents.add(Component.literal(""));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", stats.getProductionPretty()));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", stats.getMetabolismPretty()));

@@ -156,7 +156,7 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
             int linked = countLinkedModules();
             double boost = getFrameBoost();
 
-            long avgEuIn = (long)(this.outputPerSec / 60L / boost);
+            long avgEuIn = (long)(this.outputPerSec / 60d / boost);
             long avgEuOut = this.outputPerSec / 60L;
 
             textList.add(Component.translatable("start_core.multiblock.frame.avg_eu_in",
