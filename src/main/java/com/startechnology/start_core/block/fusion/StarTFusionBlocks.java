@@ -1,7 +1,5 @@
 package com.startechnology.start_core.block.fusion;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.IFusionCasingType;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
@@ -23,6 +21,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.client.model.generators.ModelFile;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTFusionBlocks {
     public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockstateProvider> createFusionCasingModel(String name,

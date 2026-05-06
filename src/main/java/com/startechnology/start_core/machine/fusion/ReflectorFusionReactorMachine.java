@@ -21,8 +21,9 @@ import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import lombok.Getter;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.world.level.block.Block;
 
 public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 

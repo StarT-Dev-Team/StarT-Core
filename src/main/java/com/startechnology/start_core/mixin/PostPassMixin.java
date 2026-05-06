@@ -1,10 +1,11 @@
 package com.startechnology.start_core.mixin;
 
 import com.startechnology.start_core.machine.komaru.client.ReplaceablePostPass;
-import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+
+import net.minecraft.client.renderer.PostPass;
 
 import java.util.List;
 import java.util.function.IntSupplier;

@@ -1,11 +1,5 @@
 package com.startechnology.start_core.machine.hellforge;
 
-import java.util.List;
-import java.util.Map;
-
-import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -17,13 +11,18 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
-
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
+
+import java.util.List;
+import java.util.Map;
 
 public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
     /*

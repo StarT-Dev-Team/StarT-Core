@@ -1,10 +1,9 @@
 package com.startechnology.start_core.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(value=FusionReactorMachine.class, remap=false)
 public class FusionEnergyPowerMixin {

@@ -5,13 +5,14 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.startechnology.start_core.integration.ponder.PonderJSUtils;
 import net.createmod.catnip.data.Couple;
 import net.createmod.ponder.foundation.registration.PonderLocalization;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.throwables.MixinException;
+
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 

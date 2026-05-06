@@ -1,14 +1,5 @@
 package com.startechnology.start_core.recipe.logic;
 
-import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
@@ -22,13 +13,19 @@ import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
 public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 

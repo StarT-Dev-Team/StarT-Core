@@ -1,10 +1,5 @@
 package com.startechnology.start_core.machine.threading;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
@@ -16,9 +11,9 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-
 import lombok.Getter;
 import lombok.Setter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
@@ -30,6 +25,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTThreadingStatBlocks {
 

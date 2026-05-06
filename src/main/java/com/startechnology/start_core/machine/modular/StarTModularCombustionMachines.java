@@ -1,12 +1,12 @@
 package com.startechnology.start_core.machine.modular;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -18,8 +18,8 @@ import com.startechnology.start_core.machine.boosting.ModularCombustionBoosting;
 import com.startechnology.start_core.machine.boosting.ModularFrameBoosting;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
-import net.minecraft.network.chat.Component;
 
+import net.minecraft.network.chat.Component;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 

@@ -4,9 +4,14 @@ import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.api.GTValues.EV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plateDouble;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ring;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.NaquadahAlloy;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.NaquadahEnriched;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Osmiridium;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.startechnology.start_core.item.StarTItems.FLUID_CELL_LARGE_ENRICHED_NAQUADAH;
 import static com.startechnology.start_core.item.StarTItems.FLUID_CELL_LARGE_NEUTRONIUM;

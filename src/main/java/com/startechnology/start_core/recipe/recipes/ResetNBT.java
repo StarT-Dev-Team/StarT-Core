@@ -1,12 +1,15 @@
 package com.startechnology.start_core.recipe.recipes;
 
-import java.util.function.Consumer;
-
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
-import static com.startechnology.start_core.item.StarTItems.*;
+import java.util.function.Consumer;
+
+import static com.startechnology.start_core.item.StarTItems.MECHANICAL_MEMORY_CARD;
+import static com.startechnology.start_core.item.StarTItems.TOOL_COMPONENT_DATA_CORE;
+import static com.startechnology.start_core.item.StarTItems.TOOL_DATA_DNA_DISK;
+import static com.startechnology.start_core.item.StarTItems.TOOL_DREAM_COPY_ITEM;
 
 public class ResetNBT {
 

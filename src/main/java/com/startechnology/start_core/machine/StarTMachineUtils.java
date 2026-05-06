@@ -1,10 +1,5 @@
 package com.startechnology.start_core.machine;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import java.util.Locale;
-import java.util.function.BiFunction;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -14,10 +9,15 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
-
 import dev.latvian.mods.kubejs.KubeJS;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Locale;
+import java.util.function.BiFunction;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTMachineUtils {
     

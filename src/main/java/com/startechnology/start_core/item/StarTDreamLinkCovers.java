@@ -1,8 +1,5 @@
 package com.startechnology.start_core.item;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -10,22 +7,19 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.client.renderer.cover.ICoverRenderer;
 import com.gregtechceu.gtceu.client.renderer.cover.SimpleCoverRenderer;
-import com.gregtechceu.gtceu.common.cover.voiding.AdvancedFluidVoidingCover;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
-import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkCover;
-import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDreamLinkCovers {
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {

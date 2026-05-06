@@ -1,17 +1,17 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
-
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
 import com.github.davidmoten.rtree.geometry.Geometries;
 import com.github.davidmoten.rtree.geometry.Geometry;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import rx.Observable;
 
 import net.minecraft.core.BlockPos;
-import rx.Observable;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class StarTDreamLinkManager {
     private HashMap<UUID, RTree<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> DREAM_LINK_TREE = new HashMap<>();

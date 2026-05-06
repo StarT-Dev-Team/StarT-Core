@@ -1,7 +1,5 @@
 package com.startechnology.start_core.api.capability;
 
-import java.util.UUID;
-
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
@@ -11,6 +9,8 @@ import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMa
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
 
 import net.minecraft.core.Direction;
+
+import java.util.UUID;
 
 public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer {
 

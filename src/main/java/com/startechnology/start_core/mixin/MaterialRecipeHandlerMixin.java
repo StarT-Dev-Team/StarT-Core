@@ -1,4 +1,5 @@
 package com.startechnology.start_core.mixin;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.AlloyBlastProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
@@ -8,6 +9,8 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.generated.MaterialRecipeHandler;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -16,14 +19,18 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
+import static com.gregtechceu.gtceu.api.GTValues.MV;
+import static com.gregtechceu.gtceu.api.GTValues.UV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingotHot;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Helium;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Helium3;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Silicon;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.get;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.VACUUM_RECIPES;
 
 
 @Mixin(value = MaterialRecipeHandler.class, remap = false)

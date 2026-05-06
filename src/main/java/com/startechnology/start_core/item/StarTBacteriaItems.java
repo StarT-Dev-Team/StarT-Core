@@ -1,6 +1,5 @@
 package com.startechnology.start_core.item;
 
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -14,10 +13,10 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import java.util.Arrays;
 import java.util.List;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTBacteriaItems {
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {

@@ -1,12 +1,13 @@
 package com.startechnology.start_core.mixin;
 
 import com.startechnology.start_core.machine.komaru.client.v2.DelayedRenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 
 @Mixin(MultiBufferSource.BufferSource.class)
 public class MultiBufferSourceBufferSourceMixin {

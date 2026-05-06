@@ -1,10 +1,10 @@
 package com.startechnology.start_core.machine.fusion;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.startechnology.start_core.api.StarTAPI;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.Comparator;

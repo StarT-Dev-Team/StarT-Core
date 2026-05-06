@@ -1,12 +1,13 @@
 package com.startechnology.start_core.integration.jade;
 
 import com.startechnology.start_core.integration.jade.provider.*;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
 import snownee.jade.api.WailaPlugin;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 @WailaPlugin
 public class StarTJadePlugin implements IWailaPlugin {

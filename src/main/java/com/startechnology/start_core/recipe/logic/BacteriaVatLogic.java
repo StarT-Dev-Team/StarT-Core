@@ -1,28 +1,27 @@
 package com.startechnology.start_core.recipe.logic;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaManager;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
-import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
 public class BacteriaVatLogic implements ICustomRecipeLogic {
     public static void bacterialBreeding() {

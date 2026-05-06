@@ -1,20 +1,17 @@
 package com.startechnology.start_core.data;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import java.util.function.Supplier;
-
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
 
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+
+import java.util.function.Supplier;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDimensionMarkers {
     

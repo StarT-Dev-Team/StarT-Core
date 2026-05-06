@@ -2,9 +2,7 @@ package com.startechnology.start_core.machine.parallel;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.mixin.ParallelHatchPartMachineAccessor;
 
 public class StarTAbsoluteParallelHatchMachine extends ParallelHatchPartMachine {

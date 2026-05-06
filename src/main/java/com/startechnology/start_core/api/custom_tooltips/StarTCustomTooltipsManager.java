@@ -1,11 +1,11 @@
 package com.startechnology.start_core.api.custom_tooltips;
 
-import java.util.Arrays;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+
+import java.util.Arrays;
 
 public class StarTCustomTooltipsManager {
     public static final String CUSTOM_TOOLTIPS_NBT_TAG = "custom_tooltips";

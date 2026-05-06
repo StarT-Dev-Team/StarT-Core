@@ -1,9 +1,9 @@
 package com.startechnology.start_core.recipe.logic;
 
+import com.startechnology.start_core.StarTCore;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.startechnology.start_core.StarTCore;
 
 public class WeightedRandomList<T extends Object> {
 

@@ -10,23 +10,20 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
-import com.startechnology.start_core.machine.bacteria.BacterialRunicMutator;
 import com.startechnology.start_core.recipe.StarTRecipeModifiers;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
-
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import dev.latvian.mods.kubejs.KubeJS;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTHellForgeMachines {
 

@@ -1,7 +1,5 @@
 package com.startechnology.start_core.machine.modular;
 
-import java.util.function.Function;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -19,9 +17,12 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import lombok.Getter;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
+
+import java.util.function.Function;
 
 public class StarTModularConnectionHatches {
     public static String getModularConnectionHatchIOName(IO io) {

@@ -1,8 +1,8 @@
 package com.startechnology.start_core.machine.solar.cell;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.startechnology.start_core.StarTCore;
 import lombok.Getter;
+
 import net.minecraft.resources.ResourceLocation;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;

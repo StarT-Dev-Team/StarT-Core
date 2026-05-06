@@ -1,7 +1,6 @@
 package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionTowers;
 
 import net.minecraft.core.BlockPos;
 

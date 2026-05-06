@@ -1,14 +1,14 @@
 package com.startechnology.start_core.integration.jade.provider;
 
-import java.util.Optional;
-
-import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
+import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,9 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
+
+import java.util.Optional;
 
 public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<RedstoneInterfacePartMachine> {
 

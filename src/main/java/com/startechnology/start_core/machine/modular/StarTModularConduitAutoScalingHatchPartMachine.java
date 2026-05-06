@@ -1,8 +1,5 @@
 package com.startechnology.start_core.machine.modular;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -16,6 +13,9 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModularConduitHatchPartMachine {
 

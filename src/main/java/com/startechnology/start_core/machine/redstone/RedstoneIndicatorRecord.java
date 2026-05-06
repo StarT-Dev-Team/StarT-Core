@@ -4,11 +4,12 @@ import com.lowdragmc.lowdraglib.syncdata.payload.ObjectTypedPayload;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.experimental.Accessors;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ExtraCodecs;
-import org.jetbrains.annotations.Nullable;
 
 
 @Accessors(fluent = true)

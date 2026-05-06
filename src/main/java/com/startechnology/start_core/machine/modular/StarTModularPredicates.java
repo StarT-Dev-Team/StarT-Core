@@ -1,10 +1,5 @@
 package com.startechnology.start_core.machine.modular;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -13,6 +8,10 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Predicate;
 
 public class StarTModularPredicates {
     private static Predicate<MultiblockState> createKeyedAutoScalingConduitPredicate(String storageKey, IO io) {

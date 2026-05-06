@@ -1,10 +1,5 @@
 package com.startechnology.start_core.item;
 
-import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
-import static com.gregtechceu.gtceu.common.data.GTItems.materialInfo;
-import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import com.google.common.base.Preconditions;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -31,6 +26,11 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidType;
+
+import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
+import static com.gregtechceu.gtceu.common.data.GTItems.materialInfo;
+import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTItems {
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {

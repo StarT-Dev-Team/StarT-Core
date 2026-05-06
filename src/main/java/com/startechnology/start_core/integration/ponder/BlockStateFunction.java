@@ -4,8 +4,9 @@ import dev.latvian.mods.kubejs.block.predicate.BlockIDPredicate;
 import dev.latvian.mods.rhino.BaseFunction;
 import dev.latvian.mods.rhino.Context;
 import dev.latvian.mods.rhino.NativeJavaObject;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Function;
 import java.util.function.UnaryOperator;

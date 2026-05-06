@@ -1,24 +1,24 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-
 import dev.latvian.mods.kubejs.KubeJS;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTAbyssalharvesterMachines {
     

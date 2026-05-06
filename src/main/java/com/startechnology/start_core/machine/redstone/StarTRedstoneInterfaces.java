@@ -1,7 +1,5 @@
 package com.startechnology.start_core.machine.redstone;
 
-import java.util.function.Function;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -14,6 +12,8 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTPartAbility;
 
 import net.minecraft.network.chat.Component;
+
+import java.util.function.Function;
 
 public class StarTRedstoneInterfaces {
 

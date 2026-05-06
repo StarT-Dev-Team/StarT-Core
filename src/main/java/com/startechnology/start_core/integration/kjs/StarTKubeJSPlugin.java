@@ -1,7 +1,7 @@
 package com.startechnology.start_core.integration.kjs;
 
-import com.startechnology.start_core.integration.ponder.PonderEvents;
 import com.startechnology.start_core.integration.ponder.BlockStateFunction;
+import com.startechnology.start_core.integration.ponder.PonderEvents;
 import com.startechnology.start_core.integration.ponder.PonderJSUtils;
 import com.startechnology.start_core.integration.ponder.PonderTickingInstruction;
 import dev.latvian.mods.kubejs.KubeJS;
@@ -14,6 +14,7 @@ import net.createmod.catnip.math.Pointing;
 import net.createmod.ponder.api.PonderPalette;
 import net.createmod.ponder.api.scene.Selection;
 import net.createmod.ponder.foundation.PonderTag;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
 

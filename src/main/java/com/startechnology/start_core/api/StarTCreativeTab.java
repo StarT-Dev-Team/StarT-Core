@@ -1,7 +1,5 @@
 package com.startechnology.start_core.api;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.item.StarTItems;
@@ -9,6 +7,8 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTCreativeTab {
     public static RegistryEntry<CreativeModeTab> START_CORE = START_REGISTRATE.defaultCreativeTab(StarTCore.MOD_ID,

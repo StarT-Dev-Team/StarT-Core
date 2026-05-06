@@ -10,10 +10,11 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import dev.latvian.mods.kubejs.KubeJS;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 
 @Mixin(value = FluidDrillMachine.class, remap = false)
 public class FluidDrillMachineMixin {

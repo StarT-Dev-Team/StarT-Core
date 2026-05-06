@@ -1,7 +1,6 @@
 package com.startechnology.start_core.api.bacteria;
-import org.apache.commons.lang3.StringUtils;
 
-import com.gregtechceu.gtceu.GTCEu;
+import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

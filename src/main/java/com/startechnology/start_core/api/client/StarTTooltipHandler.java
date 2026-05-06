@@ -1,13 +1,13 @@
 package com.startechnology.start_core.api.client;
 
-import java.util.List;
-
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltip;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+
+import java.util.List;
 
 public class StarTTooltipHandler {
 
