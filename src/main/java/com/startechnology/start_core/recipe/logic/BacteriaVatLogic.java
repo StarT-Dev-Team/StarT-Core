@@ -139,7 +139,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
         return null;
     }
 
-    private static List<Double> getMutationWeights(Integer mutability) {
+    private static List<Double> getMutationWeights(int mutability) {
         switch (mutability) {
             case 1:
                 return Arrays.asList(0.0, 5.0, 90.0, 5.0, 0.0);
@@ -154,7 +154,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
         }
     }
 
-    private static WeightedRandomList<Integer> getStatWeightedList(Integer stat, List<Double> weights) {
+    private static WeightedRandomList<Integer> getStatWeightedList(int stat, List<Double> weights) {
         WeightedRandomList<Integer> statOutput = new WeightedRandomList<>();
         
         statOutput.addEntry(Math.max(1, stat - 2),  weights.get(0));

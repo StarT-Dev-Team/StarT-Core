@@ -24,7 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class StarTDreamLinkTransmissionTowers {
-    public static MultiblockMachineBuilder makeDreamlinkNode(String name, Integer range, Integer connections, Boolean checkDimension) {
+    public static MultiblockMachineBuilder makeDreamlinkNode(String name, int range, int connections, Boolean checkDimension) {
         var multiBuilder = START_REGISTRATE
             .multiblock(name, (holder) -> new StarTDreamLinkTransmissionMachine(holder, range, connections, checkDimension))
             .tooltips(

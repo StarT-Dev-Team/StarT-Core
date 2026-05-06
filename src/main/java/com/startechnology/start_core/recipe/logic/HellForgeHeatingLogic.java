@@ -45,7 +45,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
             (material, heat) -> {
                     FluidStack heatingFluidInput = material.getFluid(1000);
 
-                    Integer temperature = heatingFluidInput.getFluid().getFluidType().getTemperature();
+                    int temperature = heatingFluidInput.getFluid().getFluidType().getTemperature();
 
                     StarTCustomTooltipsManager.writeCustomTooltipsToItem(
                         heatingFluidInput.getOrCreateTag(), 

@@ -30,9 +30,9 @@ public class StarTDreamLinkRangeRenderer {
     
     private static class ActiveBoxData {
         public BlockPos position;
-        public Integer range;
+        public int range;
 
-        public ActiveBoxData(BlockPos position, Integer range) {
+        public ActiveBoxData(BlockPos position, int range) {
             this.position = position;
             this.range = range;
         }
@@ -71,7 +71,7 @@ public class StarTDreamLinkRangeRenderer {
 
     private static final Set<ActiveBoxData> activeBoxes = new HashSet<>();
 
-    public static void toggleBoxAtPositionWithRange(BlockPos position, Integer range) {
+    public static void toggleBoxAtPositionWithRange(BlockPos position, int range) {
         ActiveBoxData boxData = new ActiveBoxData(position, range);
 
         if (activeBoxes.contains(boxData)) {
@@ -81,7 +81,7 @@ public class StarTDreamLinkRangeRenderer {
         }
     }
 
-    public static void toggleOnBoxAtPositionWithRange(BlockPos position, Integer range) {
+    public static void toggleOnBoxAtPositionWithRange(BlockPos position, int range) {
         ActiveBoxData boxData = new ActiveBoxData(position, range);
 
         if (!activeBoxes.contains(boxData)) {
@@ -89,7 +89,7 @@ public class StarTDreamLinkRangeRenderer {
         }
     }
 
-    public static void toggleOffBoxAtPositionWithRange(BlockPos position, Integer range) {
+    public static void toggleOffBoxAtPositionWithRange(BlockPos position, int range) {
         ActiveBoxData boxData = new ActiveBoxData(position, range);
 
         if (activeBoxes.contains(boxData)) {

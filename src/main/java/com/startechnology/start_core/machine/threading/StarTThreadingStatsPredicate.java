@@ -41,7 +41,7 @@ public class StarTThreadingStatsPredicate {
             this.amount += 1;
         }
 
-        public Integer getStatString(String stat) {
+        public int getStatString(String stat) {
             switch (stat) {
                 case "general":
                     return this.general;

@@ -94,9 +94,9 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
             if (itemInSlot == null) continue;
 
             if (!itemInSlot.isEmpty()) {
-                Integer production = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
-                Integer metabolism = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
-                Integer mutability = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);    
+                int production = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
+                int metabolism = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
+                int mutability = StarTCore.RNG.nextIntBetweenInclusive(1,  StarTBacteriaStats.MAX_STAT_VALUE);
 
                 ItemEntry<ComponentItem> nextType = StarTBacteriaItems.BACTERIA_ITEMS.get(
                     StarTCore.RNG.nextIntBetweenInclusive(0, StarTBacteriaItems.BACTERIA_ITEMS.size() - 1)

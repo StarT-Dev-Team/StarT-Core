@@ -42,7 +42,7 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
         if (blockAccessor.getServerData().contains("minParallel")) {
-            Integer minParallels = blockAccessor.getServerData().getInt("minParallel");
+            int minParallels = blockAccessor.getServerData().getInt("minParallel");
 
             if (minParallels > 1) {
                 Component minParallelComponent = Component.literal(FormattingUtil.formatNumbers(minParallels))

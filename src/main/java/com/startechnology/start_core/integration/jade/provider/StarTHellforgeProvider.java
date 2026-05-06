@@ -55,7 +55,7 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
             BlockEntity blockEntity, IPluginConfig config) {
         if (capData.contains("temperature") && capData.contains("uiKey"))
         {
-            Integer temperature = capData.getInt("temperature");
+            int temperature = capData.getInt("temperature");
             String uiKey = capData.getString("uiKey");
             tooltip.add(Component.translatable(uiKey, temperature));
         }

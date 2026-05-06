@@ -19,25 +19,25 @@ public class StarTBacteriaStats {
     public static final String BACTERIA_SECONDARY_NBT_TAG = "bacteria_secondary";
     public static final String BACTERIA_TERTIARY_NBT_TAG = "bacteria_tertiary";
     public static final String BACTERIA_SUPERFLUID_NBT_TAG = "bacteria_superFluid";
-    public static final Integer MAX_STAT_VALUE = 5;
+    public static final int MAX_STAT_VALUE = 5;
 
-    private Integer production;
-    private Integer metabolism;
-    private Integer mutability;
+    private int production;
+    private int metabolism;
+    private int mutability;
     private Fluid primary;
     private Fluid secondary;
     private Fluid tertiary;
     private Fluid superFluid;
 
-    public Integer getProduction() {
+    public int getProduction() {
         return production;
     }
 
-    public Integer getMetabolism() {
+    public int getMetabolism() {
         return metabolism;
     }
 
-    public Integer getMutability() {
+    public int getMutability() {
         return mutability;
     }
 
@@ -76,7 +76,7 @@ public class StarTBacteriaStats {
         return String.format("§f%s§r", StarTBacteriaStats.getStatRectangleForm(mutability));
     }
 
-    public static String getPrettyStatHighBias(Integer stat) {
+    public static String getPrettyStatHighBias(int stat) {
         String colourCode = switch (stat) {
             case 1 -> "§4";
             case 2 -> "§c";
@@ -90,7 +90,7 @@ public class StarTBacteriaStats {
     }
 
 
-    public static String getPrettyStatLowBias(Integer stat) {
+    public static String getPrettyStatLowBias(int stat) {
         String colourCode = switch (stat) {
             case 5 -> "§4";
             case 4 -> "§c";
@@ -103,11 +103,11 @@ public class StarTBacteriaStats {
         return String.format("%s%s§r", colourCode, StarTBacteriaStats.getStatRectangleForm(stat));
     }
 
-    public static String getStatRectangleForm(Integer stat) {
+    public static String getStatRectangleForm(int stat) {
         return StringUtils.repeat('■', stat) + StringUtils.repeat('□', MAX_STAT_VALUE - stat);
     }
 
-    public StarTBacteriaStats(Integer production, Integer metabolism, Integer mutability, Fluid primary, Fluid secondary, Fluid tertiary, Fluid superFluid) {
+    public StarTBacteriaStats(int production, int metabolism, int mutability, Fluid primary, Fluid secondary, Fluid tertiary, Fluid superFluid) {
         this.production = production;
         this.metabolism = metabolism;
         this.mutability = mutability;

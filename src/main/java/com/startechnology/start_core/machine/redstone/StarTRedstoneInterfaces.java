@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 
 public class StarTRedstoneInterfaces {
 
-    public static final Integer REDSTONE_INTERFACE_TIER = GTValues.LuV;
+    public static final int REDSTONE_INTERFACE_TIER = GTValues.LuV;
 
     public static Function<IMachineBlockEntity, MetaMachine> getHolder(IO io) {
         return holder -> new RedstoneInterfacePartMachine(holder, REDSTONE_INTERFACE_TIER, io);

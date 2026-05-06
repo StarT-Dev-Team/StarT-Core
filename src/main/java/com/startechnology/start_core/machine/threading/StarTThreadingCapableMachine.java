@@ -53,39 +53,39 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     @Persisted
     @DescSynced
-    private Integer generalTotal;
+    private int generalTotal;
 
     @Persisted
     @DescSynced
-    private Integer assignedSpeed;
+    private int assignedSpeed;
 
     @Persisted
     @DescSynced
-    private Integer speed;
+    private int speed;
 
     @Persisted
     @DescSynced
-    private Integer assignedEfficiency;
+    private int assignedEfficiency;
 
     @Persisted
     @DescSynced
-    private Integer efficiency;
+    private int efficiency;
 
     @Persisted
     @DescSynced
-    private Integer assignedParallels;
+    private int assignedParallels;
 
     @Persisted
     @DescSynced
-    private Integer parallels;
+    private int parallels;
 
     @Persisted
     @DescSynced
-    private Integer assignedThreading;
+    private int assignedThreading;
 
     @Persisted
     @DescSynced
-    private Integer threading;
+    private int threading;
 
     @Persisted
     @DescSynced
@@ -117,30 +117,30 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public void ensureAssignment() {
-        Integer remaining = getRemainingAssignable();
+        int remaining = getRemainingAssignable();
         if (remaining < 0) {
-            Integer deficit = Math.abs(remaining);
+            int deficit = Math.abs(remaining);
             
             if (this.assignedSpeed > 0) {
-                Integer toSubtract = Math.min(deficit, this.assignedSpeed);
+                int toSubtract = Math.min(deficit, this.assignedSpeed);
                 this.assignedSpeed -= toSubtract;
                 deficit -= toSubtract;
             }
             
             if (deficit > 0 && this.assignedEfficiency > 0) {
-                Integer toSubtract = Math.min(deficit, this.assignedEfficiency);
+                int toSubtract = Math.min(deficit, this.assignedEfficiency);
                 this.assignedEfficiency -= toSubtract;
                 deficit -= toSubtract;
             }
             
             if (deficit > 0 && this.assignedParallels > 0) {
-                Integer toSubtract = Math.min(deficit, this.assignedParallels);
+                int toSubtract = Math.min(deficit, this.assignedParallels);
                 this.assignedParallels -= toSubtract;
                 deficit -= toSubtract;
             }
             
             if (deficit > 0 && this.assignedThreading > 0) {
-                Integer toSubtract = Math.min(deficit, this.assignedThreading);
+                int toSubtract = Math.min(deficit, this.assignedThreading);
                 this.assignedThreading -= toSubtract;
                 deficit -= toSubtract;
             }
@@ -149,12 +149,12 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         this.activeThreads = new ArrayList<>(this.activeThreads.subList(0, Math.min(getEffectiveThreads(), this.activeThreads.size())));
     }
 
-    public Integer getRemainingAssignable() {
+    public int getRemainingAssignable() {
         return this.generalTotal
                 - (this.assignedEfficiency + this.assignedParallels + this.assignedSpeed + this.assignedThreading);
     }
 
-    private Integer getEffectiveDurationReduction() {
+    private int getEffectiveDurationReduction() {
         if (this.assignedSpeed == null) this.assignedSpeed = 0;
         if (this.speed == null) this.speed = 0;
         return this.assignedSpeed + this.speed;
@@ -170,7 +170,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         );
     }
 
-    private Integer getEffectivePowerReduction() {
+    private int getEffectivePowerReduction() {
         if (this.assignedEfficiency == null) this.assignedEfficiency = 0;
         if (this.efficiency == null) this.efficiency = 0;
         return this.assignedEfficiency + this.efficiency;
@@ -186,7 +186,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         );
     }
 
-    private Integer getEffectiveParallels() {
+    private int getEffectiveParallels() {
         if (this.assignedParallels == null) this.assignedParallels = 0;
         if (this.parallels == null) this.parallels = 0;
         return Math.floorDiv(this.assignedParallels + this.parallels, 20) + 1;
@@ -197,7 +197,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 Component.literal(FormattingUtil.formatNumbers(getEffectiveParallels())).withStyle(ChatFormatting.RED));
     }
 
-    private Integer getEffectiveThreads() {
+    private int getEffectiveThreads() {
         if (this.assignedThreading == null) this.assignedThreading = 0;
         if (this.threading == null) this.threading = 0;
         return Math.floorDiv(this.assignedThreading + this.threading, 5);
@@ -219,7 +219,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             );
     }
 
-    public Integer getStatAssigned(String stat) {
+    public int getStatAssigned(String stat) {
         switch (stat) {
             case "speed":
                 return this.assignedSpeed;
@@ -234,7 +234,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         return -1;
     }
 
-    public Integer getStatTotal(String stat) {
+    public int getStatTotal(String stat) {
         switch (stat) {
             case "speed":
                 return this.assignedSpeed + this.speed;

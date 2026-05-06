@@ -78,12 +78,12 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Getter @Setter
     protected String tempNetwork;
 
-    private Integer range;
-    private Integer connections;
-    private Integer receiverCount;
+    private int range;
+    private int connections;
+    private int receiverCount;
     private Boolean checkDimension;
 
-    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Integer connections, Boolean checkDimension) {
+    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, int range, int connections, Boolean checkDimension) {
         super(holder);
         this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferEnergyTick, this::isFormed);
         this.isReadyToTransmit = false;
@@ -224,7 +224,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         receiverCount = receiverCache.size();
     }
 
-    private Double getSquaredDistanceToThis(BlockPos otherPos) {
+    private double getSquaredDistanceToThis(BlockPos otherPos) {
         Vec3 thisCenter = this.getPos().getCenter();
         Vec3 otherCenter = otherPos.getCenter();
         return thisCenter.distanceToSqr(otherCenter);

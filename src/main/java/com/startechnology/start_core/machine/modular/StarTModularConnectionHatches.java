@@ -41,7 +41,7 @@ public class StarTModularConnectionHatches {
         @Getter
         private final ResourceLocation outPartEmissive;
 
-        public StarTModularEnergyOverlay(Integer amperage) {
+        public StarTModularEnergyOverlay(int amperage) {
             this.tintedPart = StarTCore.resourceLocation("block/overlay/modular/overlay_energy_" + amperage + "a_tinted");
 
             /* This can be the same since the emmissive will cover it up ^^ */
@@ -177,7 +177,7 @@ public class StarTModularConnectionHatches {
                 tiers);
     }
 
-    public static final Integer MODULAR_CONDUIT_BASE_TIER = GTValues.EV;
+    public static final int MODULAR_CONDUIT_BASE_TIER = GTValues.EV;
 
     public static Function<IMachineBlockEntity, MetaMachine> getNonPoweredHolder(IO io) {
         return holder -> new StarTModularInterfaceHatchPartMachine(holder, io, MODULAR_CONDUIT_BASE_TIER);

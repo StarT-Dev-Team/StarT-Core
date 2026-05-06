@@ -113,7 +113,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
      * @return The Material representing the heating fluid, or null if no fluid can
      * meet the required temperature.
      */
-    public static Material getHellforgeHeatingLiquid(Integer temperature) {
+    public static Material getHellforgeHeatingLiquid(int temperature) {
         Material selectedFluid = null;
         int smallestCapAboveTemperature = Integer.MAX_VALUE;
 
@@ -210,13 +210,13 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
             Material material = ChemicalHelper.getMaterial(ingredientFluid.getFluid());
 
             if (fluidsMap.containsKey(material)) {
-                Integer maxHeat = fluidsMap.get(material);
+                int maxHeat = fluidsMap.get(material);
 
                 if (this.temperature < maxHeat) {
 
-                    Integer addTemperature = ingredientFluid.getFluid().getFluidType().getTemperature() / 1_000_000;
+                    int addTemperature = ingredientFluid.getFluid().getFluidType().getTemperature() / 1_000_000;
 
-                    Integer amountToAdd = (int) (double) (ingredientFluid.getAmount() / 1000);
+                    int amountToAdd = (int) (double) (ingredientFluid.getAmount() / 1000);
                     this.temperature = Math.min(temperature + addTemperature * amountToAdd, maxHeat);
                     this.temperatureChanged();
 
