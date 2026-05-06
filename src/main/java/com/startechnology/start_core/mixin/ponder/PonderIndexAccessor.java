@@ -9,15 +9,15 @@ import org.spongepowered.asm.mixin.throwables.MixinException;
 
 import java.util.List;
 
-@Mixin(PonderIndex.class)
+@Mixin(value = PonderIndex.class, remap = false)
 public interface PonderIndexAccessor {
 
-    @Accessor(value = "TAGS", remap = false)
+    @Accessor(value = "TAGS")
     static PonderTagRegistry getTags() {
         throw new MixinException("Cannot access PonderIndex.TAGS directly!");
     }
 
-    @Accessor(value = "plugins", remap = false)
+    @Accessor(value = "plugins")
     static List<PonderPlugin> getPlugins() {
         throw new MixinException("Cannot access PonderIndex.plugins directly!");
     }

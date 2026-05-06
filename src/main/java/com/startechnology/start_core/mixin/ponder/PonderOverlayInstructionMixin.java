@@ -6,10 +6,10 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(PonderSceneBuilder.PonderOverlayInstructions.class)
+@Mixin(value = PonderSceneBuilder.PonderOverlayInstructions.class, remap = false)
 public abstract class PonderOverlayInstructionMixin implements OverlayInstructionsExtension {
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     PonderSceneBuilder this$0;
 

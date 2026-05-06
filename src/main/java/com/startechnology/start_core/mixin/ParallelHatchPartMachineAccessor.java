@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 
-@Mixin(ParallelHatchPartMachine.class)
+@Mixin(value = ParallelHatchPartMachine.class, remap = false)
 public interface ParallelHatchPartMachineAccessor {
     @Accessor("maxParallel")
     void start_core$maxParallel(int maxParallel);

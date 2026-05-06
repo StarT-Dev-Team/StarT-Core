@@ -26,10 +26,12 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.get;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = WireRecipeHandler.class, remap = false)
 public class WireRecipeHandlerMixin {
 
+    @Unique
     private static final Reference2IntMap<TagPrefix> INSULATION_AMOUNT = Util.make(new Reference2IntOpenHashMap<>(),
             map -> {
                 map.put(cableGtSingle, 1);
@@ -39,9 +41,10 @@ public class WireRecipeHandlerMixin {
                 map.put(cableGtHex, 5);
             });
 
-    private static void generateManualRecipe(@NotNull Consumer<FinishedRecipe> provider, @NotNull TagPrefix wirePrefix,
-                                             @NotNull TagPrefix cablePrefix, int cableAmount,
-                                             @NotNull Material material) {
+    @Unique
+    private static void starT_Core$generateManualRecipe(@NotNull Consumer<FinishedRecipe> provider, @NotNull TagPrefix wirePrefix,
+                                                        @NotNull TagPrefix cablePrefix, int cableAmount,
+                                                        @NotNull Material material) {
         int insulationAmount = INSULATION_AMOUNT.getInt(cablePrefix);
         Object[] ingredients = new Object[insulationAmount + 1];
         ingredients[0] = new MaterialEntry(wirePrefix, material);
@@ -81,7 +84,7 @@ public class WireRecipeHandlerMixin {
 
         // Generate hand-crafting recipes for ULV and LV cables
         if (voltageTier <= LV) {
-            generateManualRecipe(provider, prefix, cablePrefix, cableAmount, material);
+            starT_Core$generateManualRecipe(provider, prefix, cablePrefix, cableAmount, material);
         }
 
         // Rubber Recipe (ULV-EV cables)
@@ -142,7 +145,7 @@ public class WireRecipeHandlerMixin {
             }
 
             // Apply Polyamide Foil if UHV or above.
-            if (voltageTier >= UHV) {
+            if (voltageTier == UHV) {
                 builder.inputItems(foil, get("polyimide"), insulationAmount);
             }
 

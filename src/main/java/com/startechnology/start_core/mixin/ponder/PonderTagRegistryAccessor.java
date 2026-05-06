@@ -11,22 +11,22 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import java.util.List;
 import java.util.Map;
 
-@Mixin(PonderTagRegistry.class)
+@Mixin(value = PonderTagRegistry.class, remap = false)
 public interface PonderTagRegistryAccessor {
 
-    @Accessor(value = "MISSING", remap = false)
+    @Accessor(value = "MISSING")
     PonderTag getMissing();
 
-    @Accessor(value = "localization", remap = false)
+    @Accessor(value = "localization")
     PonderLocalization getLocalization();
 
-    @Accessor(value = "componentTagMap", remap = false)
+    @Accessor(value = "componentTagMap")
     Multimap<ResourceLocation, ResourceLocation> getComponentTagMap();
 
-    @Accessor(value = "registeredTags", remap = false)
+    @Accessor(value = "registeredTags")
     Map<ResourceLocation, PonderTag> getRegisteredTags();
 
-    @Accessor(value = "listedTags", remap = false)
+    @Accessor(value = "listedTags")
     List<PonderTag> getListedTags();
 
 }

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 import java.util.function.IntSupplier;
 
-@Mixin(value = PostPass.class)
+@Mixin(PostPass.class)
 public abstract class PostPassMixin implements ReplaceablePostPass {
 
     @Shadow

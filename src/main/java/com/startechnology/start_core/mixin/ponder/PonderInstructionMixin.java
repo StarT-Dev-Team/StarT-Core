@@ -12,13 +12,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Consumer;
 
-@Mixin(targets = "net.createmod.ponder.foundation.instruction.PonderInstruction$Simple")
+@Mixin(targets = "net.createmod.ponder.foundation.instruction.PonderInstruction$Simple", remap = false)
 public class PonderInstructionMixin {
 
-    @Shadow(remap = false)
+    @Shadow
     private Consumer<PonderScene> callback;
 
-    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
+    @Inject(method = "<init>", at = @At("RETURN"))
     private void init(Consumer<PonderScene> argCallback, CallbackInfo ci) {
         callback = ponderScene -> {
             try {

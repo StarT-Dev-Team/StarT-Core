@@ -17,22 +17,22 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(PonderIndex.class)
+@Mixin(value = PonderIndex.class, remap = false)
 public class PonderIndexMixin {
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private static PonderSceneRegistry SCENES;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private static PonderTagRegistry TAGS;
 
-    @Shadow(remap = false)
+    @Shadow
     @Final
     private static PonderLocalization LOCALIZATION;
 
-    @Inject(method = "registerAll", at = @At("RETURN"), remap = false)
+    @Inject(method = "registerAll", at = @At("RETURN"))
     private static void injectRegisterAll(CallbackInfo ci) {
         PonderJSUtils.TRANSLATED_TAGS.clear();
         PonderJSUtils.TRANSLATED_SCENES.clear();

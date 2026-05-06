@@ -17,10 +17,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraftforge.fluids.FluidStack;
 
-@Mixin(TooltipsHandler.class)
+@Mixin(value = TooltipsHandler.class, remap = false)
 public class CustomStackTooltipsHandlerMixin {
     
-    @Inject(method = "appendTooltips", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = "appendTooltips", at = @At("HEAD"), cancellable = true)
     private static void onAppendTooltips(ItemStack stack, TooltipFlag flag, List<Component> tooltips, CallbackInfo ci) {
         if (stack == null || stack.isEmpty() || !stack.hasTag()) return;
         
@@ -29,16 +29,15 @@ public class CustomStackTooltipsHandlerMixin {
         }
     }
 
-    @Inject(method = "appendFluidTooltips", at = @At("HEAD"), remap = false, cancellable = true)
+    @Inject(method = "appendFluidTooltips", at = @At("HEAD"), cancellable = true)
     private static void onAppendFluidTooltips(FluidStack fluidStack, Consumer<Component> tooltips, TooltipFlag flag, CallbackInfo ci) {
         if (fluidStack == null || fluidStack.isEmpty() || !fluidStack.hasTag()) return;
         
         if (StarTCustomTooltipsManager.hasCustomTooltip(fluidStack.getOrCreateTag())) {
             StarTCustomTooltip customTooltips = StarTCustomTooltipsManager.customTooltipFromTag(fluidStack.getOrCreateTag());
 
-            customTooltips.getTooltips().forEach(
-                tooltip -> tooltips.accept(tooltip)
-            );
+            assert customTooltips != null;
+            customTooltips.getTooltips().forEach(tooltips);
 
             ci.cancel();
         }

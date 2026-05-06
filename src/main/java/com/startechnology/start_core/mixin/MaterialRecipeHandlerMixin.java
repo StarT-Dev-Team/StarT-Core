@@ -6,11 +6,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.generated.MaterialRecipeHandler;
 
-import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.Overwrite;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
@@ -19,6 +17,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -42,6 +41,10 @@ public class MaterialRecipeHandlerMixin {
     }
 
 
+    /**
+     * @author trulyno
+     * @reason .
+     */
     @Overwrite
     private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output,
                                          Consumer<FinishedRecipe> provider) {

@@ -25,14 +25,14 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
      public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.getMetaMachine() instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
-                compoundTag.putInt("minParallel", minimumParallelHatch.getMinimumParallels());
+                compoundTag.putInt("minParallel", minimumParallelHatch.starT_Core$getMinimumParallels());
             } else if (blockEntity.getMetaMachine() instanceof IMultiController controller) {
 
                 /* this will let us view the minimum display on the machine controller too not just the hatch */
                 controller.getParallelHatch()
                         .ifPresent(parallelHatch -> {
                             if (parallelHatch instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
-                                compoundTag.putInt("minParallel", minimumParallelHatch.getMinimumParallels());
+                                compoundTag.putInt("minParallel", minimumParallelHatch.starT_Core$getMinimumParallels());
                             }
                         });
             }

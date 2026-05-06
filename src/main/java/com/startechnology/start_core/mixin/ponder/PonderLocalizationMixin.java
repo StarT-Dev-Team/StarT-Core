@@ -20,10 +20,6 @@ public abstract class PonderLocalizationMixin {
 
     @Shadow
     @Final
-    public Map<ResourceLocation, Map<String, String>> specific;
-
-    @Shadow
-    @Final
     public Map<ResourceLocation, Couple<String>> tag;
 
     @Shadow
