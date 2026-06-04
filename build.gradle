@@ -88,11 +88,8 @@ repositories {
     }
     mavenCentral()
     maven {
-        url = uri("https://repo.expandium.net/private")
-        credentials {
-            username = project.findProperty("MAVEN_USERNAME") as String ?: ""
-            password = project.findProperty("MAVEN_TOKEN") as String ?: ""
-        }
+        name "expandiumReleases"
+        url "https://repo.expandium.net/releases"
         content {
             includeGroup 'com.gregtechceu.gtceu'
             includeGroup 'com.tterrag.registrate'
