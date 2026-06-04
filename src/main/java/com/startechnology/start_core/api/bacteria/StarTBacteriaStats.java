@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
-
 public class StarTBacteriaStats {
+
     public static final String BACTERIA_PRODUCTION_NBT_TAG = "bacteria_production";
     public static final String BACTERIA_METABOLISM_NBT_TAG = "bacteria_metabolism";
     public static final String BACTERIA_MUTABILITY_NBT_TAG = "bacteria_mutability";
@@ -68,7 +68,6 @@ public class StarTBacteriaStats {
         return String.format("%s%s§r", colourCode, StarTBacteriaStats.getStatRectangleForm(stat));
     }
 
-
     public static String getPrettyStatLowBias(int stat) {
         String colourCode = switch (stat) {
             case 5 -> "§4";
@@ -86,7 +85,8 @@ public class StarTBacteriaStats {
         return StringUtils.repeat('■', stat) + StringUtils.repeat('□', MAX_STAT_VALUE - stat);
     }
 
-    public StarTBacteriaStats(int production, int metabolism, int mutability, Fluid primary, Fluid secondary, Fluid tertiary, Fluid superFluid) {
+    public StarTBacteriaStats(int production, int metabolism, int mutability, Fluid primary, Fluid secondary,
+                              Fluid tertiary, Fluid superFluid) {
         this.production = production;
         this.metabolism = metabolism;
         this.mutability = mutability;
@@ -100,11 +100,11 @@ public class StarTBacteriaStats {
         this.production = bacteriaStatsCompound.getInt(BACTERIA_PRODUCTION_NBT_TAG);
         this.metabolism = bacteriaStatsCompound.getInt(BACTERIA_METABOLISM_NBT_TAG);
         this.mutability = bacteriaStatsCompound.getInt(BACTERIA_MUTABILITY_NBT_TAG);
-        
+
         String affinityString = bacteriaStatsCompound.getString(BACTERIA_PRIMARY_NBT_TAG);
         String[] resourceSplit = affinityString.split(":");
         ResourceLocation bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
-        
+
         if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
             this.primary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
         }
@@ -112,7 +112,7 @@ public class StarTBacteriaStats {
         affinityString = bacteriaStatsCompound.getString(BACTERIA_SECONDARY_NBT_TAG);
         resourceSplit = affinityString.split(":");
         bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
-        
+
         if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
             this.secondary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
         }
@@ -120,7 +120,7 @@ public class StarTBacteriaStats {
         affinityString = bacteriaStatsCompound.getString(BACTERIA_TERTIARY_NBT_TAG);
         resourceSplit = affinityString.split(":");
         bacteriaAffinityLocation = new ResourceLocation(resourceSplit[0], resourceSplit[1]);
-        
+
         if (ForgeRegistries.FLUIDS.containsKey(bacteriaAffinityLocation)) {
             this.tertiary = ForgeRegistries.FLUIDS.getValue(bacteriaAffinityLocation);
         }
@@ -143,30 +143,26 @@ public class StarTBacteriaStats {
 
         if (primary != null) {
             bacteriaStatsCompound.putString(
-                BACTERIA_PRIMARY_NBT_TAG, 
-                ForgeRegistries.FLUIDS.getKey(primary).toString()
-            );
+                    BACTERIA_PRIMARY_NBT_TAG,
+                    ForgeRegistries.FLUIDS.getKey(primary).toString());
         }
 
         if (secondary != null) {
             bacteriaStatsCompound.putString(
-                BACTERIA_SECONDARY_NBT_TAG, 
-                ForgeRegistries.FLUIDS.getKey(secondary).toString()
-            );
+                    BACTERIA_SECONDARY_NBT_TAG,
+                    ForgeRegistries.FLUIDS.getKey(secondary).toString());
         }
 
         if (tertiary != null) {
             bacteriaStatsCompound.putString(
-                BACTERIA_TERTIARY_NBT_TAG, 
-                ForgeRegistries.FLUIDS.getKey(tertiary).toString()
-            );
+                    BACTERIA_TERTIARY_NBT_TAG,
+                    ForgeRegistries.FLUIDS.getKey(tertiary).toString());
         }
 
         if (superFluid != null) {
             bacteriaStatsCompound.putString(
                     BACTERIA_SUPERFLUID_NBT_TAG,
-                    ForgeRegistries.FLUIDS.getKey(superFluid).toString()
-            );
+                    ForgeRegistries.FLUIDS.getKey(superFluid).toString());
         }
 
         return bacteriaStatsCompound;

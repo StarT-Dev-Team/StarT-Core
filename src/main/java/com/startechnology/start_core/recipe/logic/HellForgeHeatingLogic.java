@@ -25,44 +25,46 @@ import java.util.List;
 import java.util.Objects;
 
 public class HellForgeHeatingLogic implements ICustomRecipeLogic {
+
     @Override
     public void buildRepresentativeRecipes() {
         StarTHellForgeMachine.fluidsMap.forEach(
-            (material, heat) -> {
+                (material, heat) -> {
                     FluidStack heatingFluidInput = material.getFluid(1000);
 
                     int temperature = heatingFluidInput.getFluid().getFluidType().getTemperature();
 
                     StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                        heatingFluidInput.getOrCreateTag(), 
-                        LocalizationUtils.format("behaviour.start_core.hellforge.input_heat", FormattingUtil.formatNumbers(temperature / 1_000_000)),
-                        LocalizationUtils.format("behaviour.start_core.hellforge.max_heat", FormattingUtil.formatNumbers(heat))
-                    );
+                            heatingFluidInput.getOrCreateTag(),
+                            LocalizationUtils.format("behaviour.start_core.hellforge.input_heat",
+                                    FormattingUtil.formatNumbers(temperature / 1_000_000)),
+                            LocalizationUtils.format("behaviour.start_core.hellforge.max_heat",
+                                    FormattingUtil.formatNumbers(heat)));
 
                     GTRecipe heatingRecipe = StarTRecipeTypes.HELL_FORGE_RECIPES
-                        .recipeBuilder(material.getName() + "_hellforge_heating")
-                        .inputFluids(heatingFluidInput)
-                        .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
-                        .duration(64)
-                        .EUt(GTValues.V[GTValues.UEV])
-                        .buildRawRecipe();
-                
+                            .recipeBuilder(material.getName() + "_hellforge_heating")
+                            .inputFluids(heatingFluidInput)
+                            .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
+                            .duration(64)
+                            .EUt(GTValues.V[GTValues.UEV])
+                            .buildRawRecipe();
+
                     heatingRecipe.setId(heatingRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.HELL_FORGE_RECIPES.addToCategoryMap(GTRecipeCategories.get("hellforge_heating"), heatingRecipe);
-            }
-        );
+                    StarTRecipeTypes.HELL_FORGE_RECIPES.addToCategoryMap(GTRecipeCategories.get("hellforge_heating"),
+                            heatingRecipe);
+                });
     }
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<NotifiableFluidTank> handlers = Objects
-            .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP),
-                    Collections::emptyList)
-            .stream()
-            .filter(NotifiableFluidTank.class::isInstance)
-            .map(NotifiableFluidTank.class::cast)
-            .filter(i -> i.getTanks() >= 1)
-            .toList();
+                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP),
+                        Collections::emptyList)
+                .stream()
+                .filter(NotifiableFluidTank.class::isInstance)
+                .map(NotifiableFluidTank.class::cast)
+                .filter(i -> i.getTanks() >= 1)
+                .toList();
 
         if (handlers.isEmpty()) return null;
 
@@ -87,12 +89,12 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                     fluidInput.setAmount(1000);
 
                     return StarTRecipeTypes.HELL_FORGE_RECIPES
-                        .recipeBuilder("heating")
-                        .inputFluids(fluidInput)
-                        .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
-                        .duration(64)
-                        .EUt(GTValues.V[GTValues.UEV])
-                        .buildRawRecipe();
+                            .recipeBuilder("heating")
+                            .inputFluids(fluidInput)
+                            .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
+                            .duration(64)
+                            .EUt(GTValues.V[GTValues.UEV])
+                            .buildRawRecipe();
                 }
             }
         }

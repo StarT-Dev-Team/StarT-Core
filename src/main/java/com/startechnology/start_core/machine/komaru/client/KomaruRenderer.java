@@ -30,7 +30,8 @@ public class KomaruRenderer extends DynamicRender<StarTKomaruFrameMachine, Komar
     public static final int CLOSING_ANIMATION_DURATION = 5 * 20;
 
     public static final Codec<KomaruRenderer> CODEC = Codec.unit(KomaruRenderer::new);
-    public static final DynamicRenderType<StarTKomaruFrameMachine, KomaruRenderer> TYPE = new DynamicRenderType<>(KomaruRenderer.CODEC);
+    public static final DynamicRenderType<StarTKomaruFrameMachine, KomaruRenderer> TYPE = new DynamicRenderType<>(
+            KomaruRenderer.CODEC);
 
     public KomaruRenderer() {}
 
@@ -40,14 +41,20 @@ public class KomaruRenderer extends DynamicRender<StarTKomaruFrameMachine, Komar
     }
 
     @Override
-    public @NotNull List<BakedQuad> getRenderQuads(@Nullable StarTKomaruFrameMachine machine, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, @Nullable BlockState blockState, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData modelData, @Nullable RenderType renderType) {
+    public @NotNull List<BakedQuad> getRenderQuads(@Nullable StarTKomaruFrameMachine machine,
+                                                   @Nullable BlockAndTintGetter level, @Nullable BlockPos pos,
+                                                   @Nullable BlockState blockState, @Nullable Direction side,
+                                                   @NotNull RandomSource rand, @NotNull ModelData modelData,
+                                                   @Nullable RenderType renderType) {
         return super.getRenderQuads(machine, level, pos, blockState, side, rand, modelData, renderType);
     }
 
     @Override
-    public void render(@NotNull StarTKomaruFrameMachine machine, float partialTicks, @NotNull PoseStack stack, @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(@NotNull StarTKomaruFrameMachine machine, float partialTicks, @NotNull PoseStack stack,
+                       @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
         if (machine.getRendererAnimationType() == 0) return;
-        if (machine.getRendererAnimationType() == 2 && machine.getRendererAnimationTicks() > CLOSING_ANIMATION_DURATION) {
+        if (machine.getRendererAnimationType() == 2 &&
+                machine.getRendererAnimationTicks() > CLOSING_ANIMATION_DURATION) {
             // not active, no need to render
             return;
         }
@@ -80,14 +87,15 @@ public class KomaruRenderer extends DynamicRender<StarTKomaruFrameMachine, Komar
         var centerOffset = 31;
         var beamHeight = 133;
 
-        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset, back.getStepZ() * centerOffset)
+        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset,
+                back.getStepZ() * centerOffset)
                 .offset(up.getStepX() * 2, up.getStepY() * 2, up.getStepZ() * 2);
         var top = center.offset(up.getStepX() * beamHeight, up.getStepY() * beamHeight, up.getStepZ() * beamHeight);
 
-        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f, top.getY() + 0.5f, top.getZ() + 0.5f);
+        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f,
+                top.getY() + 0.5f, top.getZ() + 0.5f);
         aabb = aabb.inflate(128, 20, 128);
 
         return aabb;
     }
-
 }

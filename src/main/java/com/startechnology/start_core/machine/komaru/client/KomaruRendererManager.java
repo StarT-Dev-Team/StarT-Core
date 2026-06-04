@@ -45,7 +45,7 @@ public final class KomaruRendererManager {
 
     public static void onRenderLevelStageEvent(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
-            //noinspection StatementWithEmptyBody
+            // noinspection StatementWithEmptyBody
             if (Minecraft.useShaderTransparency()) {
                 // TODO: readd
                 // updateKomaruFancyPostEffect();
@@ -63,12 +63,14 @@ public final class KomaruRendererManager {
 
         GlStateManager._glBindFramebuffer(GlConst.GL_READ_FRAMEBUFFER, rtMain.frameBufferId);
         GlStateManager._glBindFramebuffer(GlConst.GL_DRAW_FRAMEBUFFER, rtBase.frameBufferId);
-        GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height, GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
+        GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height,
+                GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
         GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, rtMain.frameBufferId);
     }
 
     private static PostEffect makeKomaruPostEffect() {
         return new PostEffect(new ResourceLocation("start_core", "komaru")) {
+
             public boolean isEnabled() {
                 return super.isEnabled() && !Minecraft.useShaderTransparency();
             }
@@ -126,7 +128,8 @@ public final class KomaruRendererManager {
 
         GlStateManager._glBindFramebuffer(GlConst.GL_READ_FRAMEBUFFER, rtMain.frameBufferId);
         GlStateManager._glBindFramebuffer(GlConst.GL_DRAW_FRAMEBUFFER, rtBase.frameBufferId);
-        GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height, GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
+        GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height,
+                GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
         GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0);
 
         var translucentTarget = levelRenderer.getTranslucentTarget();
@@ -139,46 +142,57 @@ public final class KomaruRendererManager {
             chain.customRenderTargets.put("translucent", translucentTarget);
             for (var pass1 : chain.passes) {
                 var pass = (ReplaceablePostPass) pass1;
-                pass.startcore$replaceAuxAsset("TranslucentSampler", translucentTarget::getColorTextureId, translucentTarget.width, translucentTarget.height);
-                pass.startcore$replaceAuxAsset("TranslucentDepthSampler", translucentTarget::getDepthTextureId, translucentTarget.width, translucentTarget.height);
+                pass.startcore$replaceAuxAsset("TranslucentSampler", translucentTarget::getColorTextureId,
+                        translucentTarget.width, translucentTarget.height);
+                pass.startcore$replaceAuxAsset("TranslucentDepthSampler", translucentTarget::getDepthTextureId,
+                        translucentTarget.width, translucentTarget.height);
             }
         }
         if (itemEntityTarget != null && chain.customRenderTargets.get("itemEntity") != itemEntityTarget) {
             chain.customRenderTargets.put("itemEntity", itemEntityTarget);
             for (var pass1 : chain.passes) {
                 var pass = (ReplaceablePostPass) pass1;
-                pass.startcore$replaceAuxAsset("ItemEntitySampler", itemEntityTarget::getColorTextureId, itemEntityTarget.width, itemEntityTarget.height);
-                pass.startcore$replaceAuxAsset("ItemEntityDepthSampler", itemEntityTarget::getDepthTextureId, itemEntityTarget.width, itemEntityTarget.height);
+                pass.startcore$replaceAuxAsset("ItemEntitySampler", itemEntityTarget::getColorTextureId,
+                        itemEntityTarget.width, itemEntityTarget.height);
+                pass.startcore$replaceAuxAsset("ItemEntityDepthSampler", itemEntityTarget::getDepthTextureId,
+                        itemEntityTarget.width, itemEntityTarget.height);
             }
         }
         if (particlesTarget != null && chain.customRenderTargets.get("particles") != particlesTarget) {
             chain.customRenderTargets.put("particles", particlesTarget);
             for (var pass1 : chain.passes) {
                 var pass = (ReplaceablePostPass) pass1;
-                pass.startcore$replaceAuxAsset("ParticlesSampler", particlesTarget::getColorTextureId, particlesTarget.width, particlesTarget.height);
-                pass.startcore$replaceAuxAsset("ParticlesDepthSampler", particlesTarget::getDepthTextureId, particlesTarget.width, particlesTarget.height);
+                pass.startcore$replaceAuxAsset("ParticlesSampler", particlesTarget::getColorTextureId,
+                        particlesTarget.width, particlesTarget.height);
+                pass.startcore$replaceAuxAsset("ParticlesDepthSampler", particlesTarget::getDepthTextureId,
+                        particlesTarget.width, particlesTarget.height);
             }
         }
         if (cloudsTarget != null && chain.customRenderTargets.get("clouds") != cloudsTarget) {
             chain.customRenderTargets.put("clouds", cloudsTarget);
             for (var pass1 : chain.passes) {
                 var pass = (ReplaceablePostPass) pass1;
-                pass.startcore$replaceAuxAsset("CloudsSampler", cloudsTarget::getColorTextureId, cloudsTarget.width, cloudsTarget.height);
-                pass.startcore$replaceAuxAsset("CloudsDepthSampler", cloudsTarget::getDepthTextureId, cloudsTarget.width, cloudsTarget.height);
+                pass.startcore$replaceAuxAsset("CloudsSampler", cloudsTarget::getColorTextureId, cloudsTarget.width,
+                        cloudsTarget.height);
+                pass.startcore$replaceAuxAsset("CloudsDepthSampler", cloudsTarget::getDepthTextureId,
+                        cloudsTarget.width, cloudsTarget.height);
             }
         }
         if (weatherTarget != null && chain.customRenderTargets.get("weather") != weatherTarget) {
             chain.customRenderTargets.put("weather", weatherTarget);
             for (var pass1 : chain.passes) {
                 var pass = (ReplaceablePostPass) pass1;
-                pass.startcore$replaceAuxAsset("WeatherSampler", weatherTarget::getColorTextureId, weatherTarget.width, weatherTarget.height);
-                pass.startcore$replaceAuxAsset("WeatherDepthSampler", weatherTarget::getDepthTextureId, weatherTarget.width, weatherTarget.height);
+                pass.startcore$replaceAuxAsset("WeatherSampler", weatherTarget::getColorTextureId, weatherTarget.width,
+                        weatherTarget.height);
+                pass.startcore$replaceAuxAsset("WeatherDepthSampler", weatherTarget::getDepthTextureId,
+                        weatherTarget.width, weatherTarget.height);
             }
         }
     }
 
     public static PostEffect makeKomaruFancyPostEffect() {
         return new PostEffect(new ResourceLocation("start_core", "komaru_fancy")) {
+
             public boolean isEnabled() {
                 return false;
                 // return super.isEnabled() && Minecraft.useShaderTransparency();
@@ -254,5 +268,4 @@ public final class KomaruRendererManager {
         instance.safeGetUniform("CameraPosition").set(cameraPosition);
         instance.safeGetUniform("GameTime").set(RenderSystem.getShaderGameTime());
     }
-
 }

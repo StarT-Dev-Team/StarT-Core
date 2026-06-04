@@ -14,8 +14,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class StarTThreadedStatBlockProvider implements IBlockComponentProvider {
-    public StarTThreadedStatBlockProvider() {
-    }
+
+    public StarTThreadedStatBlockProvider() {}
 
     @Override
     public ResourceLocation getUid() {
@@ -34,11 +34,13 @@ public class StarTThreadedStatBlockProvider implements IBlockComponentProvider {
                     case "threading" -> ChatFormatting.BLUE;         // §9
                     default -> ChatFormatting.WHITE;                 // §f
                 };
-                tooltip.add(Component.translatable("block.start_core.stat." + stat + ".display", 
-                    Component.translatable("start_core.machine.threading.stat." + stat), 
-                    Component.literal(FormattingUtil.formatNumbers(threadingBlock.getThreadingStats().getStatString(stat))).withStyle(color)));
+                tooltip.add(Component.translatable("block.start_core.stat." + stat + ".display",
+                        Component.translatable("start_core.machine.threading.stat." + stat),
+                        Component
+                                .literal(FormattingUtil
+                                        .formatNumbers(threadingBlock.getThreadingStats().getStatString(stat)))
+                                .withStyle(color)));
             }
         }
-
     }
 }

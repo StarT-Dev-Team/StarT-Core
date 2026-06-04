@@ -16,14 +16,19 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(value = MaintenanceHatchPartMachine.class, remap = false)
 public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements ICopyInteractable {
+
     @Unique
     private final String start$nbtDuration = "duration";
 
-    @Shadow @Final private boolean isConfigurable;
+    @Shadow
+    @Final
+    private boolean isConfigurable;
 
-    @Shadow private float durationMultiplier;
+    @Shadow
+    private float durationMultiplier;
 
-    @Shadow protected abstract void updateMaintenanceSubscription();
+    @Shadow
+    protected abstract void updateMaintenanceSubscription();
 
     public MaintenanceHatchPartMachineMixin(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -47,7 +52,8 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
             var tag = new CompoundTag();
             tag.putFloat(start$nbtDuration, this.durationMultiplier);
             card.setTag(tag);
-            card.setHoverName(card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
+            card.setHoverName(
+                    card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
             player.sendSystemMessage(pasteSettings);
         }
         return InteractionResult.SUCCESS;

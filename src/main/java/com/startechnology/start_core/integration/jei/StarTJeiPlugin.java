@@ -32,26 +32,22 @@ public class StarTJeiPlugin implements IModPlugin {
         if (GTCEu.Mods.isREILoaded() || GTCEu.Mods.isEMILoaded()) return;
 
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_BREEDING_VAT.asStack(),
-            GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.getCategory())
-        );
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.getCategory()));
 
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_HYDROCARBON_HARVESTER.asStack(),
-                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES.getCategory())
-            );
+                GTRecipeJEICategory.TYPES
+                        .apply(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES.getCategory()));
 
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_RUNIC_MUTATOR.asStack(),
-            GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.getCategory())
-        );
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.getCategory()));
 
         registration.addRecipeCatalyst(StarTHellForgeMachines.HELL_FORGE.asStack(),
-            GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
-            GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
-        );
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
+                GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating")));
 
         registration.addRecipeCatalyst(StarTHellForgeMachines.BOOSTED_HELL_FORGE.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
-                GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating"))
-        );
+                GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating")));
 
         for (MultiblockMachineDefinition multiBlockDefinition : FLUID_DRILLING_RIGS) {
             if (multiBlockDefinition != null) {

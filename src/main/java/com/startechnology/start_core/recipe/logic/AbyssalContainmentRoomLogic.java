@@ -6,7 +6,8 @@ import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalCon
 
 public class AbyssalContainmentRoomLogic extends CleanroomLogic {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(AbyssalContainmentRoomLogic.class,
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            AbyssalContainmentRoomLogic.class,
             CleanroomLogic.MANAGED_FIELD_HOLDER);
 
     StarTAbyssalContainmentMachine abyssalContainmentMachine;

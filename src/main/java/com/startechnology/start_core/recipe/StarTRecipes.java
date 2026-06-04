@@ -7,6 +7,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import java.util.function.Consumer;
 
 public class StarTRecipes {
+
     public static final void init(Consumer<FinishedRecipe> provider) {
         ResetNBT.init(provider);
         AkreyriumLine.init(provider);

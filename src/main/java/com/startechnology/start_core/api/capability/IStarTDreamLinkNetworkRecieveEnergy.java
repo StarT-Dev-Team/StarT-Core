@@ -5,6 +5,7 @@ import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissio
 import net.minecraft.core.BlockPos;
 
 public interface IStarTDreamLinkNetworkRecieveEnergy {
+
     /* Recieve energy from the network returning how much was recieved */
     long recieveEnergy(long recieved);
 

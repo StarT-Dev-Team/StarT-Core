@@ -23,7 +23,6 @@ public class FluidCellRecipes {
     }
 
     public static void customDrumRecipes(Consumer<FinishedRecipe> provider) {
-
         ASSEMBLER_RECIPES.recipeBuilder("fluid_cell_large_enriched_naquadah")
                 .inputItems(plateDouble, NaquadahEnriched, 6)
                 .inputItems(ring, Osmiridium, 6)
@@ -40,5 +39,4 @@ public class FluidCellRecipes {
                 .EUt(VA[EV])
                 .save(provider);
     }
-
 }

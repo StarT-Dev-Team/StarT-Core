@@ -44,6 +44,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @SuppressWarnings("unused")
 @Mod(StarTCore.MOD_ID)
 public class StarTCore {
+
     public static final String MOD_ID = "start_core";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final GTRegistrate START_REGISTRATE = GTRegistrate.create(StarTCore.MOD_ID);
@@ -87,8 +88,7 @@ public class StarTCore {
         CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
-    }
+    private void clientSetup(final FMLClientSetupEvent event) {}
 
     // You MUST have this for custom materials.
     // Remember to register them not to GT's namespace, but your own.
@@ -103,10 +103,10 @@ public class StarTCore {
 
     // This is optional, though.
     private void modifyMaterials(PostMaterialEvent event) {
-
         // Prevent crash from KubeJS
         if (!GTMaterials.NaquadahEnriched.hasProperty(PropertyKey.FLUID_PIPE)) {
-            GTMaterials.NaquadahEnriched.setProperty(PropertyKey.FLUID_PIPE, new FluidPipeProperties(8000, 500, true, true, true, false));
+            GTMaterials.NaquadahEnriched.setProperty(PropertyKey.FLUID_PIPE,
+                    new FluidPipeProperties(8000, 500, true, true, true, false));
         }
     }
 

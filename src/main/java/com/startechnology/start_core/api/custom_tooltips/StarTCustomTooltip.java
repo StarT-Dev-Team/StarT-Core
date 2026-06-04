@@ -9,6 +9,7 @@ import java.util.ArrayList;
 // This is bad, But it works! And adding custom UI elements to JEI recipes
 // is an UTTER pain. So I'm going to do this instead.
 public class StarTCustomTooltip {
+
     private final ArrayList<MutableComponent> tooltipsList = new ArrayList<>();
 
     public ArrayList<MutableComponent> getTooltips() {
@@ -17,10 +18,8 @@ public class StarTCustomTooltip {
 
     public StarTCustomTooltip(ListTag tooltips) {
         tooltips.forEach(tooltip -> {
-                tooltipsList.add(
-                    Component.translatable(tooltip.getAsString())
-                );
-            }
-        );
+            tooltipsList.add(
+                    Component.translatable(tooltip.getAsString()));
+        });
     }
 }

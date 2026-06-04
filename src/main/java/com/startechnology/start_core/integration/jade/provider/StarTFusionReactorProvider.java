@@ -27,17 +27,20 @@ public class StarTFusionReactorProvider extends CapabilityBlockProvider<Reflecto
     }
 
     @Override
-    protected @Nullable ReflectorFusionReactorMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
+    protected @Nullable ReflectorFusionReactorMachine getCapability(Level level, BlockPos pos,
+                                                                    @Nullable Direction side) {
         return StarTCapabilityHelper.getFusionReactorMachine(level, pos, side);
     }
 
     @Override
     protected void write(CompoundTag data, ReflectorFusionReactorMachine capability) {
-        data.putInt("reflector_tier", Optional.ofNullable(capability.getReflectorType()).map(FusionReflectorType::getTier).orElse(0));
+        data.putInt("reflector_tier",
+                Optional.ofNullable(capability.getReflectorType()).map(FusionReflectorType::getTier).orElse(0));
     }
 
     @Override
-    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
+    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
+                              BlockEntity blockEntity, IPluginConfig config) {
         if (!capData.contains("reflector_tier")) return;
         int tier = capData.getInt("reflector_tier");
         if (tier <= 0) return;

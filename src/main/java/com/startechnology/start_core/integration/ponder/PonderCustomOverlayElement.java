@@ -73,10 +73,7 @@ public class PonderCustomOverlayElement extends AnimatedOverlayElementBase {
     }
 
     public record RenderContext(PonderElement getElement, PonderScene getScene, PonderUI getScreen,
-                                GuiGraphics getGraphics, float getPartialTicks, float getFade) {
-    }
+                                GuiGraphics getGraphics, float getPartialTicks, float getFade) {}
 
-    public record ActionContext(PonderElement getElement, PonderScene getScene) {
-    }
-
+    public record ActionContext(PonderElement getElement, PonderScene getScene) {}
 }

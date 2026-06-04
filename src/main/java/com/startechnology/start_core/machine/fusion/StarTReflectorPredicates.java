@@ -19,7 +19,8 @@ public class StarTReflectorPredicates {
                     var stats = entry.getKey();
                     var currentReflector = blockWorldState.getMatchContext().getOrPut("ReflectorType", stats);
                     if (!currentReflector.equals(stats)) {
-                        blockWorldState.setError(new PatternStringError("start_core.multiblock.pattern.error.reflector"));
+                        blockWorldState
+                                .setError(new PatternStringError("start_core.multiblock.pattern.error.reflector"));
                         return false;
                     }
                     return true;

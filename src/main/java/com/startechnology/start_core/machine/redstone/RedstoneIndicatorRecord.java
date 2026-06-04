@@ -11,23 +11,22 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ExtraCodecs;
 
-
 @Accessors(fluent = true)
-public record RedstoneIndicatorRecord(String indicatorKey, Component indicatorComponent, Component descriptionComponent, int redstoneLevel, int ordering) {
+public record RedstoneIndicatorRecord(String indicatorKey, Component indicatorComponent, Component descriptionComponent,
+                                      int redstoneLevel, int ordering) {
 
     public static final Codec<RedstoneIndicatorRecord> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.fieldOf("indicatorKey").forGetter(RedstoneIndicatorRecord::indicatorKey),
             ExtraCodecs.COMPONENT.fieldOf("indicatorComponent").forGetter(RedstoneIndicatorRecord::indicatorComponent),
-            ExtraCodecs.COMPONENT.fieldOf("descriptionComponent").forGetter(RedstoneIndicatorRecord::descriptionComponent),
+            ExtraCodecs.COMPONENT.fieldOf("descriptionComponent")
+                    .forGetter(RedstoneIndicatorRecord::descriptionComponent),
             Codec.INT.fieldOf("redstoneLevel").forGetter(RedstoneIndicatorRecord::redstoneLevel),
-            Codec.INT.fieldOf("ordering").forGetter(RedstoneIndicatorRecord::ordering)
-    ).apply(instance, RedstoneIndicatorRecord::new));
-
-
+            Codec.INT.fieldOf("ordering").forGetter(RedstoneIndicatorRecord::ordering))
+            .apply(instance, RedstoneIndicatorRecord::new));
 
     /*
      * ======================
-     *        NOTE
+     * NOTE
      * ======================
      *
      * For the indicatorComponent read these things !!:
@@ -81,5 +80,4 @@ public record RedstoneIndicatorRecord(String indicatorKey, Component indicatorCo
             payload = RedstoneIndicatorRecord.CODEC.parse(NbtOps.INSTANCE, tag).result().orElseThrow();
         }
     }
-
 }

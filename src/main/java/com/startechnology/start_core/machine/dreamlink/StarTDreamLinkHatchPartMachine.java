@@ -38,14 +38,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.List;
 import java.util.Objects;
 
-public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine, IStarTDreamLinkNetworkRecieveEnergy, IMachineLife {
+public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine,
+                                            IStarTDreamLinkNetworkRecieveEnergy, IMachineLife {
 
     /*
      * As far as i can understand, the Managed Field Holder allows this class
      * to persist/save data onto the world using NBT with the @Persisted field annotation
      */
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkHatchPartMachine.class,
-        TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTDreamLinkHatchPartMachine.class,
+            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     /* This will persist the NotifiableDreamLinkContainer using nbt. */
     @Persisted
@@ -55,7 +57,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     @Persisted
     protected String network;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String tempNetwork;
 
     public StarTDreamLinkHatchPartMachine(IMachineBlockEntity holder, int tier, int amperage) {
@@ -63,7 +66,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
         this.container = StarTNotifiableDreamLinkContainer.receiverContainer(this, GTValues.V[tier] * 64L * amperage,
                 GTValues.V[tier], amperage);
-            
+
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.tempNetwork = network;
     }
@@ -87,58 +90,58 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     private void addComponentPanelText(List<Component> componentList) {
-        if (this.container.getInputPerSec() > 0) 
+        if (this.container.getInputPerSec() > 0)
             componentList.add(Component.translatable("start_core.machine.dream_link.active"));
         else
             componentList.add(Component.translatable("start_core.machine.dream_link.not_active"));
-        
+
         if (this.getOwner() != null) {
             componentList.add(Component
-            .translatable("start_core.machine.dream_link.owned_title")
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
+                    .translatable("start_core.machine.dream_link.owned_title")
+                    .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
 
             MutableComponent ownerComponent = Component.literal(this.getOwner().getName());
 
             componentList.add(Component
-                .translatable("start_core.machine.dream_link.owner", ownerComponent)
-                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
-    
+                    .translatable("start_core.machine.dream_link.owner", ownerComponent)
+                    .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
+
         }
 
-        MutableComponent inAmountComponent = Component.literal(FormattingUtil.formatNumbers(this.container.getInputPerSec() / 20))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
+        MutableComponent inAmountComponent = Component
+                .literal(FormattingUtil.formatNumbers(this.container.getInputPerSec() / 20))
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
         componentList.add(Component
                 .translatable("start_core.machine.dream_link.input_per_sec", inAmountComponent)
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         Component.translatable("start_core.machine.dream_link.hatch.input_per_sec_hover")))));
-    }   
+    }
 
     @Override
     public Widget createUIWidget() {
         this.tempNetwork = network;
         StarTDreamWidgetGroup group = new StarTDreamWidgetGroup(0, 0, 182 + 8, 117 + 8, this::closeUI);
         group.addWidget(
-            new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                .addWidget(new LabelWidget(4, 5, "Dream-Link Hatch"))
-                .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
-                .addWidget(
-                    new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
-                        .setMaxStringLength(64)
-                        .setValidator(input -> {
-                            if (input == null ) return "";
-                            return input;
-                        })
-                        .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
-                ).addWidget(new ComponentPanelWidget(4, 52, this::addComponentPanelText)
-                )
-        );
-        
+                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
+                        .addWidget(new LabelWidget(4, 5, "Dream-Link Hatch"))
+                        .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
+                        .addWidget(
+                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
+                                        .setMaxStringLength(64)
+                                        .setValidator(input -> {
+                                            if (input == null) return "";
+                                            return input;
+                                        })
+                                        .setHoverTooltips(Component
+                                                .translatable("start_core.machine.dream_link.network_set_hover")))
+                        .addWidget(new ComponentPanelWidget(4, 52, this::addComponentPanelText)));
+
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
-    
+
     private void closeUI() {
         this.network = this.tempNetwork;
         if (this.tempNetwork.isBlank()) this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
@@ -153,7 +156,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     public void setNetwork(String network) {
         this.network = network;
     }
-    
+
     @Override
     public String getNetwork() {
         return this.network;
@@ -178,7 +181,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
             copyItem.setTag(tag);
-            copyItem.setHoverName(Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
+            copyItem.setHoverName(
+                    Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
             player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
         }
         return InteractionResult.SUCCESS;
@@ -206,7 +210,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
     @Override
     public long recieveEnergy(long recieved) {
-        return this.container.changeEnergy(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()));
+        return this.container
+                .changeEnergy(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()));
     }
 
     @Override
@@ -219,7 +224,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
         if (!Objects.equals(this.getNetwork(), tower.getNetwork()))
             return false;
 
-        if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this), IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+        if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
+                IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
             return false;
 
         if (checkDimension) {

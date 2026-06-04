@@ -22,15 +22,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class StarTModularInterfaceHatchPartMachineProvider extends CapabilityBlockProvider<StarTModularInterfaceHatchPartMachine> {
-    
+public class StarTModularInterfaceHatchPartMachineProvider extends
+                                                           CapabilityBlockProvider<StarTModularInterfaceHatchPartMachine> {
+
     public StarTModularInterfaceHatchPartMachineProvider() {
         super(StarTCore.resourceLocation("modular_interface_hatch_part_machine"));
     }
 
     @Override
     protected @Nullable StarTModularInterfaceHatchPartMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                                            @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getModularInterfaceHatchPartMachine(level, pos, side);
 
         if (capability != null)
@@ -70,26 +71,29 @@ public class StarTModularInterfaceHatchPartMachineProvider extends CapabilityBlo
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("is_terminal"))
-        {
+                              BlockEntity blockEntity, IPluginConfig config) {
+        if (capData.contains("is_terminal")) {
             boolean isTerminal = capData.getBoolean("is_terminal");
             boolean isLinked = capData.getBoolean("is_linked");
-            
+
             if (capData.contains("scaled_voltage") && capData.contains("scaled_amperage")) {
                 long scaledVoltage = capData.getLong("scaled_voltage");
                 long scaledAmperage = capData.getLong("scaled_amperage");
 
-                StarTModularConduitAutoScalingHatchPartMachine.addDisplayTextToList((component) -> tooltip.add(component), scaledVoltage, scaledAmperage);
-             }
+                StarTModularConduitAutoScalingHatchPartMachine
+                        .addDisplayTextToList((component) -> tooltip.add(component), scaledVoltage, scaledAmperage);
+            }
 
             if (isLinked) {
                 tooltip.add(Component.translatable("modular.start_core.has_link").withStyle(ChatFormatting.GREEN));
-                
-                if (isTerminal && capData.contains("linked_module_namespace") && capData.contains("linked_module_path")) {
+
+                if (isTerminal && capData.contains("linked_module_namespace") &&
+                        capData.contains("linked_module_path")) {
                     tooltip.add(Component.empty());
-                    tooltip.add(Component.translatable("modular.start_core.linked_type").withStyle(ChatFormatting.GOLD));
-                    tooltip.add(Component.translatable("block." + capData.getString("linked_module_namespace") + "." + capData.getString("linked_module_path")));
+                    tooltip.add(
+                            Component.translatable("modular.start_core.linked_type").withStyle(ChatFormatting.GOLD));
+                    tooltip.add(Component.translatable("block." + capData.getString("linked_module_namespace") + "." +
+                            capData.getString("linked_module_path")));
                 }
 
             } else {
@@ -98,5 +102,4 @@ public class StarTModularInterfaceHatchPartMachineProvider extends CapabilityBlo
 
         }
     }
-    
 }

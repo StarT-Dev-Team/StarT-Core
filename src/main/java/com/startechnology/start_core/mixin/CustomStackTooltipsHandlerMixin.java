@@ -18,22 +18,24 @@ import java.util.function.Consumer;
 
 @Mixin(value = TooltipsHandler.class, remap = false)
 public class CustomStackTooltipsHandlerMixin {
-    
+
     @Inject(method = "appendTooltips", at = @At("HEAD"), cancellable = true)
     private static void onAppendTooltips(ItemStack stack, TooltipFlag flag, List<Component> tooltips, CallbackInfo ci) {
         if (stack == null || stack.isEmpty() || !stack.hasTag()) return;
-        
+
         if (StarTCustomTooltipsManager.hasCustomTooltip(stack.getOrCreateTag())) {
             ci.cancel();
         }
     }
 
     @Inject(method = "appendFluidTooltips", at = @At("HEAD"), cancellable = true)
-    private static void onAppendFluidTooltips(FluidStack fluidStack, Consumer<Component> tooltips, TooltipFlag flag, CallbackInfo ci) {
+    private static void onAppendFluidTooltips(FluidStack fluidStack, Consumer<Component> tooltips, TooltipFlag flag,
+                                              CallbackInfo ci) {
         if (fluidStack == null || fluidStack.isEmpty() || !fluidStack.hasTag()) return;
-        
+
         if (StarTCustomTooltipsManager.hasCustomTooltip(fluidStack.getOrCreateTag())) {
-            StarTCustomTooltip customTooltips = StarTCustomTooltipsManager.customTooltipFromTag(fluidStack.getOrCreateTag());
+            StarTCustomTooltip customTooltips = StarTCustomTooltipsManager
+                    .customTooltipFromTag(fluidStack.getOrCreateTag());
 
             assert customTooltips != null;
             customTooltips.getTooltips().forEach(tooltips);

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public enum StarTSolarCells implements StarTSolarCellType {
+
     EV_SOLAR_CELL("ev_solar_cell", EV, 2, 1024, 350, 1),
     IV_SOLAR_CELL("iv_solar_cell", IV, 2, 1024, 370, 0.95),
     LUV_SOLAR_CELL("luv_solar_cell", LuV, 3, 1024, 390, 0.9),
@@ -30,7 +31,8 @@ public enum StarTSolarCells implements StarTSolarCellType {
     @Getter
     public final int euT;
 
-    StarTSolarCells(String name, int tier, int harvestLevel, int durability, int maxTemperature, double temperatureScale) {
+    StarTSolarCells(String name, int tier, int harvestLevel, int durability, int maxTemperature,
+                    double temperatureScale) {
         this.name = name;
         this.tier = tier;
         this.harvestLevel = harvestLevel;

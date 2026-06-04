@@ -23,41 +23,40 @@ import java.util.Objects;
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
 public class BacteriaVatLogic implements ICustomRecipeLogic {
+
     public static void bacterialBreeding() {
         BACTERIA_ITEMS
-            .forEach(
-                bacteria -> {
-                    ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(), 
-                        "behaviour.start_core.bacteria.input");
+                .forEach(
+                        bacteria -> {
+                            ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
+                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
+                                    "behaviour.start_core.bacteria.input");
 
-                    ItemStack bacteriaMutationOutput = new ItemStack(bacteria.asItem(), 16);
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaMutationOutput.getOrCreateTag(), 
-                        "behaviour.start_core.bacteria.vat_same_output"
-                    );
+                            ItemStack bacteriaMutationOutput = new ItemStack(bacteria.asItem(), 16);
+                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                                    bacteriaMutationOutput.getOrCreateTag(),
+                                    "behaviour.start_core.bacteria.vat_same_output");
 
-                    ItemStack bacteriaReplicationOutput = new ItemStack(bacteria.asItem(), 16);
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaReplicationOutput.getOrCreateTag(), 
-                        "behaviour.start_core.bacteria.vat_mutated_output"
-                    );
-                    
+                            ItemStack bacteriaReplicationOutput = new ItemStack(bacteria.asItem(), 16);
+                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                                    bacteriaReplicationOutput.getOrCreateTag(),
+                                    "behaviour.start_core.bacteria.vat_mutated_output");
 
-                    GTRecipe recipe = StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES
-                        .recipeBuilder(bacteria.getId().getPath())
-                        .inputItems(bacteriaInput)
-                        .inputFluids(GTMaterials.Water.getFluid(8000))
-                        .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
-                        .outputItems(bacteriaMutationOutput)
-                        .outputItems(bacteriaReplicationOutput)
-                        .duration(1800)
-                        .EUt(GTValues.V[GTValues.ZPM])
-                        .buildRawRecipe();
+                            GTRecipe recipe = StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES
+                                    .recipeBuilder(bacteria.getId().getPath())
+                                    .inputItems(bacteriaInput)
+                                    .inputFluids(GTMaterials.Water.getFluid(8000))
+                                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                                    .outputItems(bacteriaMutationOutput)
+                                    .outputItems(bacteriaReplicationOutput)
+                                    .duration(1800)
+                                    .EUt(GTValues.V[GTValues.ZPM])
+                                    .buildRawRecipe();
 
-                     // for EMI to detect it's a synthetic recipe (not ever in JSON)
-                    recipe.setId(recipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.addToMainCategory(recipe);
-                }
-            );
+                            // for EMI to detect it's a synthetic recipe (not ever in JSON)
+                            recipe.setId(recipe.getId().withPrefix("/"));
+                            StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.addToMainCategory(recipe);
+                        });
     }
 
     @Override
@@ -75,7 +74,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                 .map(NotifiableItemStackHandler.class::cast)
                 .filter(i -> i.getSlots() >= 1)
                 .toList();
-    
+
         if (handlers.isEmpty()) return null;
 
         // Return for the first recipe found
@@ -110,26 +109,26 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
             WeightedRandomList<Integer> mutabilityOutputs = getStatWeightedList(stats.getMutability(), weights);
 
             StarTBacteriaStats newStats = new StarTBacteriaStats(
-                productionOutputs.getRandom(),
-                metabolismOutputs.getRandom(),
-                mutabilityOutputs.getRandom(),
-                stats.getPrimary(),
-                stats.getSecondary(),
-                stats.getTertiary(),
-                stats.getSuperFluid()
-            );
+                    productionOutputs.getRandom(),
+                    metabolismOutputs.getRandom(),
+                    mutabilityOutputs.getRandom(),
+                    stats.getPrimary(),
+                    stats.getSecondary(),
+                    stats.getTertiary(),
+                    stats.getSuperFluid());
 
             StarTBacteriaManager.writeBacteriaStatsToItem(outputMutatedBacteria.getOrCreateTag(), newStats);
 
-            return StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.recipeBuilder(itemInSlot.getItem().getDescriptionId())
-                .inputItems(itemInSlot.copyWithCount(1))
-                .outputItems(outputReplicatedBacteria)
-                .outputItems(outputMutatedBacteria)
-                .inputFluids(GTMaterials.Water.getFluid(8000))
-                .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
-                .duration(1800)
-                .EUt(GTValues.V[GTValues.ZPM])
-                .buildRawRecipe();
+            return StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES
+                    .recipeBuilder(itemInSlot.getItem().getDescriptionId())
+                    .inputItems(itemInSlot.copyWithCount(1))
+                    .outputItems(outputReplicatedBacteria)
+                    .outputItems(outputMutatedBacteria)
+                    .inputFluids(GTMaterials.Water.getFluid(8000))
+                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                    .duration(1800)
+                    .EUt(GTValues.V[GTValues.ZPM])
+                    .buildRawRecipe();
         }
 
         return null;
@@ -147,14 +146,13 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
 
     private static WeightedRandomList<Integer> getStatWeightedList(int stat, List<Double> weights) {
         WeightedRandomList<Integer> statOutput = new WeightedRandomList<>();
-        
-        statOutput.addEntry(Math.max(1, stat - 2),  weights.get(0));
-        statOutput.addEntry(Math.max(1, stat - 1),  weights.get(1));
-        statOutput.addEntry(stat,                   weights.get(2));
-        statOutput.addEntry(Math.min(5, stat + 1),  weights.get(3));
-        statOutput.addEntry(Math.min(5, stat + 2),  weights.get(4));
+
+        statOutput.addEntry(Math.max(1, stat - 2), weights.get(0));
+        statOutput.addEntry(Math.max(1, stat - 1), weights.get(1));
+        statOutput.addEntry(stat, weights.get(2));
+        statOutput.addEntry(Math.min(5, stat + 1), weights.get(3));
+        statOutput.addEntry(Math.min(5, stat + 2), weights.get(4));
 
         return statOutput;
     }
-
 }

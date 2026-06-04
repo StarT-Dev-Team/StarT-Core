@@ -12,7 +12,7 @@ public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implem
     private final int coolingAmount;
 
     public StarTHPCAPassiveCoolingPart(IMachineBlockEntity holder, ResourceTexture componentIcon, int upkeepEUt,
-            int coolingAmount) {
+                                       int coolingAmount) {
         super(holder);
         this.componentIcon = componentIcon;
         this.upkeepEUt = upkeepEUt;
@@ -21,7 +21,7 @@ public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implem
 
     @Override
     public int getUpkeepEUt() {
-       return upkeepEUt;
+        return upkeepEUt;
     }
 
     @Override
@@ -48,5 +48,4 @@ public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implem
     public boolean isAdvanced() {
         return true;
     }
-    
 }

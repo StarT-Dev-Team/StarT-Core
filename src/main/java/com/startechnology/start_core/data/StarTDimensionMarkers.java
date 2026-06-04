@@ -14,11 +14,11 @@ import java.util.function.Supplier;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDimensionMarkers {
-    
+
     public static final BlockEntry<Block> ABYDOS_MARKER = createMarker("abydos");
 
     public static final DimensionMarker OVERWORLD = createAndRegister(ResourceLocation.of("sgjourney:abydos", ':'), 0,
-        () -> ABYDOS_MARKER, null);
+            () -> ABYDOS_MARKER, null);
 
     public static DimensionMarker createAndRegister(ResourceLocation dim, int tier, Supplier<ItemLike> supplier,
                                                     String overrideName) {

@@ -41,18 +41,18 @@ import java.util.List;
 public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, KomaruRendererV2> {
 
     private static final List<RenderData> TO_RENDER = Collections.synchronizedList(new ArrayList<>());
-    private static final BufferBuilder BUFFER_BUILDER = new BufferBuilder(256); // also this shouldn't be allocated each frame
+    private static final BufferBuilder BUFFER_BUILDER = new BufferBuilder(256); // also this shouldn't be allocated each
+                                                                                // frame
     private static final ByteBuf BYTE_BUFFER = Unpooled.buffer(512);
 
-    record RenderData(StarTKomaruFrameMachine machine, float partialTick, Matrix4f transform, Matrix4f modelViewTransform) {
-    }
+    record RenderData(StarTKomaruFrameMachine machine, float partialTick, Matrix4f transform,
+                      Matrix4f modelViewTransform) {}
 
     public static final Codec<KomaruRendererV2> CODEC = Codec.unit(KomaruRendererV2::new);
-    public static final DynamicRenderType<StarTKomaruFrameMachine, KomaruRendererV2> TYPE = new DynamicRenderType<>(KomaruRendererV2.CODEC);
+    public static final DynamicRenderType<StarTKomaruFrameMachine, KomaruRendererV2> TYPE = new DynamicRenderType<>(
+            KomaruRendererV2.CODEC);
 
-
-    public KomaruRendererV2() {
-    }
+    public KomaruRendererV2() {}
 
     @Override
     public DynamicRenderType<StarTKomaruFrameMachine, KomaruRendererV2> getType() {
@@ -87,18 +87,21 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
         var centerOffset = 31;
         var beamHeight = 133;
 
-        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset, back.getStepZ() * centerOffset)
+        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset,
+                back.getStepZ() * centerOffset)
                 .offset(up.getStepX() * 2, up.getStepY() * 2, up.getStepZ() * 2);
         var top = center.offset(up.getStepX() * beamHeight, up.getStepY() * beamHeight, up.getStepZ() * beamHeight);
 
-        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f, top.getY() + 0.5f, top.getZ() + 0.5f);
+        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f,
+                top.getY() + 0.5f, top.getZ() + 0.5f);
         aabb = aabb.inflate(10, 5, 10);
 
         return aabb;
     }
 
     @Override
-    public void render(StarTKomaruFrameMachine machine, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(StarTKomaruFrameMachine machine, float partialTick, PoseStack poseStack,
+                       MultiBufferSource buffer, int packedLight, int packedOverlay) {
         var transform = poseStack.last().pose().get(new Matrix4f());
         var mvTransform = RenderSystem.getModelViewMatrix().get(new Matrix4f());
         var data = new RenderData(machine, partialTick, transform, mvTransform);
@@ -115,15 +118,18 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
         var centerOffset = 31;
         var beamHeight = 133;
 
-        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset, back.getStepZ() * centerOffset)
+        var center = new Vec3i(back.getStepX() * centerOffset, back.getStepY() * centerOffset,
+                back.getStepZ() * centerOffset)
                 .offset(up.getStepX() * 2, up.getStepY() * 2, up.getStepZ() * 2);
         var top = center.offset(up.getStepX() * beamHeight, up.getStepY() * beamHeight, up.getStepZ() * beamHeight);
 
-        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f, top.getY() + 0.5f, top.getZ() + 0.5f);
+        var aabb = new AABB(center.getX() + 0.5f, center.getY() + 0.5f, center.getZ() + 0.5f, top.getX() + 0.5f,
+                top.getY() + 0.5f, top.getZ() + 0.5f);
         aabb = aabb.inflate(10, 5, 10);
 
         BUFFER_BUILDER.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION);
-        renderCube(data, (float) aabb.minX, (float) aabb.minY, (float) aabb.minZ, (float) aabb.maxX, (float) aabb.maxY, (float) aabb.maxZ);
+        renderCube(data, (float) aabb.minX, (float) aabb.minY, (float) aabb.minZ, (float) aabb.maxX, (float) aabb.maxY,
+                (float) aabb.maxZ);
         var renderedBuffer = BUFFER_BUILDER.end();
 
         RenderTypes.KOMARU_RENDER.setupRenderState();
@@ -136,7 +142,8 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
         RenderTypes.KOMARU_RENDER.clearRenderState();
     }
 
-    private static void renderCube(RenderData data, float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    private static void renderCube(RenderData data, float minX, float minY, float minZ, float maxX, float maxY,
+                                   float maxZ) {
         renderCubeFace(data, minX, maxY, minZ, minX, maxY, maxZ, maxX, maxY, maxZ, maxX, maxY, minZ);
         renderCubeFace(data, minX, minY, minZ, maxX, minY, minZ, maxX, minY, maxZ, minX, minY, maxZ);
         renderCubeFace(data, minX, minY, minZ, minX, maxY, minZ, maxX, maxY, minZ, maxX, minY, minZ);
@@ -160,15 +167,19 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
 
     @Mod.EventBusSubscriber(modid = StarTCore.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ModEvents {
+
         @SubscribeEvent
         public static void shaderRegistry(RegisterShadersEvent event) throws IOException {
-            event.registerShader(new KomaruShaderInstance(event.getResourceProvider(), new ResourceLocation("start_core:komaru_v2"), DefaultVertexFormat.POSITION),
-                    shaderInstance -> RenderTypes.KOMARU_SHADER = (KomaruShaderInstance)shaderInstance);
+            event.registerShader(
+                    new KomaruShaderInstance(event.getResourceProvider(), new ResourceLocation("start_core:komaru_v2"),
+                            DefaultVertexFormat.POSITION),
+                    shaderInstance -> RenderTypes.KOMARU_SHADER = (KomaruShaderInstance) shaderInstance);
         }
     }
 
     @Mod.EventBusSubscriber(modid = StarTCore.MOD_ID, value = Dist.CLIENT)
     public static class ForgeEvents {
+
         @SubscribeEvent
         public static void onRenderLevelStageEvent(RenderLevelStageEvent event) {
             if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
@@ -182,7 +193,8 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
 
                 GlStateManager._glBindFramebuffer(GlConst.GL_READ_FRAMEBUFFER, rtMain.frameBufferId);
                 GlStateManager._glBindFramebuffer(GlConst.GL_DRAW_FRAMEBUFFER, rtBase.frameBufferId);
-                GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height, GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
+                GlStateManager._glBlitFrameBuffer(0, 0, rtMain.width, rtMain.height, 0, 0, rtBase.width, rtBase.height,
+                        GlConst.GL_DEPTH_BUFFER_BIT | GlConst.GL_COLOR_BUFFER_BIT, GlConst.GL_NEAREST);
                 GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0);
             }
 
@@ -220,7 +232,8 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
 
         public static KomaruShaderInstance KOMARU_SHADER;
 
-        public static final RenderStateShard.ShaderStateShard KOMARU_RENDERTYPE_SHADER = new RenderStateShard.ShaderStateShard(() -> KOMARU_SHADER);
+        public static final RenderStateShard.ShaderStateShard KOMARU_RENDERTYPE_SHADER = new RenderStateShard.ShaderStateShard(
+                () -> KOMARU_SHADER);
 
         public static final DelayedRenderType KOMARU_RENDER = new DelayedRenderType("komaru_render_type",
                 DefaultVertexFormat.POSITION, VertexFormat.Mode.TRIANGLES, 256, false, false,
@@ -233,9 +246,9 @@ public class KomaruRendererV2 extends DynamicRender<StarTKomaruFrameMachine, Kom
                         .createCompositeState(false));
 
         // protected access hack
-        private RenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
+        private RenderTypes(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize,
+                            boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
             super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
         }
     }
-
 }

@@ -22,8 +22,10 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDrumMachines {
 
-    public static MachineDefinition ENRICHED_NAQUADAH_DRUM = registerDrum(GTMaterials.NaquadahEnriched, (2048 * FluidType.BUCKET_VOLUME), "Enriched Naquadah Drum");
-    public static MachineDefinition NEUTRONIUM_DRUM = registerDrum(GTMaterials.Neutronium, (4096 * FluidType.BUCKET_VOLUME), "Neutronium Drum");
+    public static MachineDefinition ENRICHED_NAQUADAH_DRUM = registerDrum(GTMaterials.NaquadahEnriched,
+            (2048 * FluidType.BUCKET_VOLUME), "Enriched Naquadah Drum");
+    public static MachineDefinition NEUTRONIUM_DRUM = registerDrum(GTMaterials.Neutronium,
+            (4096 * FluidType.BUCKET_VOLUME), "Neutronium Drum");
 
     public static MachineDefinition registerDrum(Material material, int capacity, String lang) {
         var definition = START_REGISTRATE
@@ -52,6 +54,5 @@ public class StarTDrumMachines {
         return definition;
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

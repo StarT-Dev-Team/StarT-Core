@@ -16,8 +16,7 @@ public class StarTNBTTooltipsBehaviour implements IAddInformation {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
-            TooltipFlag isAdvanced) {
-        
+                                TooltipFlag isAdvanced) {
         if (stack == null) return;
         if (stack.isEmpty()) return;
         if (!stack.hasTag()) return;
@@ -29,5 +28,4 @@ public class StarTNBTTooltipsBehaviour implements IAddInformation {
             tooltipComponents.addAll(tooltips.getTooltips());
         }
     }
-    
 }

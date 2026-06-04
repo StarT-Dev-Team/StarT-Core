@@ -14,26 +14,23 @@ import net.minecraft.world.level.material.Fluids;
 
 @Mixin(value = EmiApi.class, remap = false)
 public class EmiApiMixin {
+
     @ModifyVariable(
-            method = "displayUses",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ldev/emi/emi/api/stack/EmiIngredient;isEmpty()Z"
-            ),
-            argsOnly = true
-    )
+                    method = "displayUses",
+                    at = @At(
+                             value = "INVOKE",
+                             target = "Ldev/emi/emi/api/stack/EmiIngredient;isEmpty()Z"),
+                    argsOnly = true)
     private static EmiIngredient modifyUses(EmiIngredient original) {
         return original.isEmpty() ? original : start$bucketFluid(original);
     }
 
     @ModifyVariable(
-            method = "displayRecipes",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/util/List;size()I"
-            ),
-            argsOnly = true
-    )
+                    method = "displayRecipes",
+                    at = @At(
+                             value = "INVOKE",
+                             target = "Ljava/util/List;size()I"),
+                    argsOnly = true)
     private static EmiIngredient modifyRecipes(EmiIngredient original) {
         return original.getEmiStacks().isEmpty() ? original : start$bucketFluid(original);
     }

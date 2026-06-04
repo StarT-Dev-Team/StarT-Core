@@ -29,5 +29,4 @@ public interface PonderTagRegistryAccessor {
 
     @Accessor("listedTags")
     List<PonderTag> getListedTags();
-
 }

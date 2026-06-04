@@ -30,7 +30,8 @@ import java.util.Set;
 @MethodsReturnNonnullByDefault
 public class RedstoneInterfacePartMachine extends TieredIOPartMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced

@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
 
     public StarTPrioritiseCustomLogicRecipeType(ResourceLocation registryName, String group,
-            RecipeType<?>[] proxyRecipes) {
+                                                RecipeType<?>[] proxyRecipes) {
         super(registryName, group, proxyRecipes);
     }
 
@@ -44,5 +44,4 @@ public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
 
         return Collections.emptyIterator();
     }
-    
 }

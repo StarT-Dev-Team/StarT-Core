@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(targets = "appeng.integration.modules.jeirei.DropTargets$FakeSlotDropTarget", remap = false)
 public abstract class FakeSlotDropTargetMixin {
+
     @Shadow
     private static ItemStack wrapFilterAsItem(GenericStack genericStack) {
         throw new AssertionError();
@@ -30,15 +31,13 @@ public abstract class FakeSlotDropTargetMixin {
     @Inject(
             method = "drop",
             at = @At("HEAD"),
-            cancellable = true
-    )
+            cancellable = true)
     private void start$drop(GenericStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (slot instanceof RequestSlot requestSlot) {
             Platform.sendDragAndDrop(
                     requestSlot.getRequesterReference().getRequesterId(),
                     requestSlot.getSlot(),
-                    wrapFilterAsItem(stack)
-            );
+                    wrapFilterAsItem(stack));
             cir.setReturnValue(true);
         }
     }

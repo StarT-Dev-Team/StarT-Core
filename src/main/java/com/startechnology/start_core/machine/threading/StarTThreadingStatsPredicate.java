@@ -11,9 +11,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Predicate;
 
 public class StarTThreadingStatsPredicate {
+
     public static String THREADING_STATS_HEADER = "threading_stats_";
 
     public static class ThreadingStatsBlockTracker {
+
         public int general;
         public int speed;
         public int efficiency;
@@ -24,7 +26,8 @@ public class StarTThreadingStatsPredicate {
         public int tier;
         public String type;
 
-        public ThreadingStatsBlockTracker(String name, int tier, String type, int general, int speed, int efficiency, int parallels,
+        public ThreadingStatsBlockTracker(String name, int tier, String type, int general, int speed, int efficiency,
+                                          int parallels,
                                           int threading) {
             this.general = general;
             this.name = THREADING_STATS_HEADER + name;
@@ -50,9 +53,7 @@ public class StarTThreadingStatsPredicate {
                 case "threading" -> this.threading;
                 default -> -1;
             };
-
         }
-
     }
 
     public static boolean traceThreadingStatBlocks(MultiblockState blockWorldState) {
@@ -62,8 +63,9 @@ public class StarTThreadingStatsPredicate {
                 ThreadingStatsBlockTracker stats = blockEntry.get().getThreadingStats();
 
                 ThreadingStatsBlockTracker currentStats = blockWorldState.getMatchContext().getOrDefault(stats.name,
-                    new ThreadingStatsBlockTracker(stats.name, stats.tier, stats.type, stats.general, stats.speed, stats.efficiency,
-                        stats.parallels, stats.threading));
+                        new ThreadingStatsBlockTracker(stats.name, stats.tier, stats.type, stats.general, stats.speed,
+                                stats.efficiency,
+                                stats.parallels, stats.threading));
 
                 currentStats.increment();
                 blockWorldState.getMatchContext().set(stats.name, currentStats);
@@ -76,8 +78,9 @@ public class StarTThreadingStatsPredicate {
     public static Predicate<MultiblockState> threadingStatBlocksPredicate = StarTThreadingStatsPredicate::traceThreadingStatBlocks;
 
     public static TraceabilityPredicate threadingStatBlocks() {
-        return new TraceabilityPredicate(threadingStatBlocksPredicate, () -> StarTThreadingStatBlocks.statBlocks.stream()
-            .map(entry -> new BlockInfo(entry.get().defaultBlockState(), null))
-            .toArray(BlockInfo[]::new));
+        return new TraceabilityPredicate(threadingStatBlocksPredicate,
+                () -> StarTThreadingStatBlocks.statBlocks.stream()
+                        .map(entry -> new BlockInfo(entry.get().defaultBlockState(), null))
+                        .toArray(BlockInfo[]::new));
     }
 }

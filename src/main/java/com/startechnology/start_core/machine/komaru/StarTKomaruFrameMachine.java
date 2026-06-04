@@ -377,26 +377,25 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
         textList.add(Component.empty());
         textList.add(Component.translatable("ui.start_core.komaru.stabilization"));
-        textList.add(Component.translatable(stabilizationPaid
-                ? "ui.start_core.komaru.stabilization_paid"
-                : "ui.start_core.komaru.stabilization_unpaid"));
+        textList.add(Component.translatable(stabilizationPaid ? "ui.start_core.komaru.stabilization_paid" :
+                "ui.start_core.komaru.stabilization_unpaid"));
         textList.add(Component.translatable("ui.start_core.komaru.modules",
-                        Component.literal(Integer.toString(lastBasicModules)),
-                        Component.literal(Integer.toString(lastAdvancedModules)))
+                Component.literal(Integer.toString(lastBasicModules)),
+                Component.literal(Integer.toString(lastAdvancedModules)))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.c",
-                        formatted(currentC))
+                formatted(currentC))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.previous_c",
-                        formatted(previousCycleC))
+                formatted(previousCycleC))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.required_faematter",
-                        Component.literal(Integer.toString(lastFaematterRequired)),
-                        formatted(lastFaematterRequired / 1000.0))
+                Component.literal(Integer.toString(lastFaematterRequired)),
+                formatted(lastFaematterRequired / 1000.0))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.consumed_faematter",
-                        Component.literal(Integer.toString(lastFaematterConsumed)),
-                        formatted(lastFaematterConsumed / 1000.0))
+                Component.literal(Integer.toString(lastFaematterConsumed)),
+                formatted(lastFaematterConsumed / 1000.0))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.fae_scaling",
                 formatted(currentFaeScaling)).withStyle(ChatFormatting.GRAY));
@@ -405,16 +404,17 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
                 Component.literal(Integer.toString(lastFilamentCount)),
                 displayTier(lastFilamentTier)).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.scaling",
-                        formatted(lastModuleScaling),
-                        formatted(lastFilamentScaling),
-                        formatted(currentFaeScaling))
+                formatted(lastModuleScaling),
+                formatted(lastFilamentScaling),
+                formatted(currentFaeScaling))
                 .withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable("ui.start_core.komaru.eu_multiplier",
-                        formatted(currentC / 11.0))
+                formatted(currentC / 11.0))
                 .withStyle(ChatFormatting.GRAY));
     }
 
     private static class KomaruMath {
+
         private static double moduleScaling(int basicModules, int advancedModules) {
             return Math.pow(0.99, basicModules) * Math.pow(0.98, advancedModules);
         }
@@ -445,10 +445,8 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
         private static double consumption(FilamentStats filaments, int basicModules,
                                           int advancedModules, double requiredFaeMatter) {
-            var consumption = requiredFaeMatter
-                    * moduleScaling(basicModules, advancedModules)
-                    * filamentStabilizing(filaments)
-                    * faeScaling(basicModules, advancedModules);
+            var consumption = requiredFaeMatter * moduleScaling(basicModules, advancedModules) *
+                    filamentStabilizing(filaments) * faeScaling(basicModules, advancedModules);
             return Mth.clamp(consumption, 10.0, 50.0);
         }
     }
@@ -606,7 +604,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     }
 
     private static int getFilamentTier(ItemStack stack) {
-        int[] highestTier = {-1};
+        int[] highestTier = { -1 };
         stack.getTags().forEach(tag -> {
             Matcher matcher = FILAMENT_TAG_PATTERN.matcher(tag.location().toString());
             if (matcher.matches()) {
@@ -621,6 +619,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     }
 
     private record FilamentStats(int count, int highestTier, Map<Integer, Integer> countsByTier) {
+
         private FilamentStats {
             countsByTier = new TreeMap<>(countsByTier);
         }

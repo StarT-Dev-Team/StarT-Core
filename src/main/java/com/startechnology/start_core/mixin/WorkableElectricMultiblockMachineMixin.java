@@ -25,14 +25,15 @@ public class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMa
     }
 
     /* this is scary */
-    @WrapOperation(method = "addDisplayText", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockDisplayText$Builder;addParallelsLine(IZ)Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockDisplayText$Builder;"))
+    @WrapOperation(method = "addDisplayText",
+                   at = @At(value = "INVOKE",
+                            target = "Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockDisplayText$Builder;addParallelsLine(IZ)Lcom/gregtechceu/gtceu/api/machine/multiblock/MultiblockDisplayText$Builder;"))
     private MultiblockDisplayText.Builder wrapAddParallelsLine(
-            MultiblockDisplayText.Builder builder,
-            int numParallels,
-            boolean exact,
-            Operation<MultiblockDisplayText.Builder> original,
-            @Local(argsOnly = true) List<Component> textList) {
-                
+                                                               MultiblockDisplayText.Builder builder,
+                                                               int numParallels,
+                                                               boolean exact,
+                                                               Operation<MultiblockDisplayText.Builder> original,
+                                                               @Local(argsOnly = true) List<Component> textList) {
         this.getParallelHatch().ifPresent(parallelHatch -> {
             if (parallelHatch instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
 

@@ -21,21 +21,20 @@ import java.util.List;
 public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMachine {
 
     /// Mapped item inventory looks something like this:
-    /// 
-    /// 
-    ///         5           6
-    ///     2         3         4
-    ///         0           1
-    /// 
+    ///
+    ///
+    /// 5 6
+    /// 2 3 4
+    /// 0 1
+    ///
     private static final List<Integer> RECIPE_INPUT_MAP = List.of(
-        3,
-        5,
-        6,
-        2,
-        4,
-        0,
-        1
-    );
+            3,
+            5,
+            6,
+            2,
+            4,
+            0,
+            1);
 
     public StarTDraconicInfusionMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -44,11 +43,11 @@ public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMach
     public static Comparator<IMultiPart> partSorter(MultiblockControllerMachine mc) {
         // Sort first by going back and then going right.
         Comparator<IMultiPart> backSort = Comparator.comparing(p -> p.self().getPos(),
-                    RelativeDirection.BACK.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
-        
+                RelativeDirection.BACK.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
+
         Comparator<IMultiPart> leftSort = Comparator.comparing(p -> p.self().getPos(),
-                    RelativeDirection.LEFT.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
-        
+                RelativeDirection.LEFT.getSorter(mc.getFrontFacing(), mc.getUpwardsFacing(), mc.isFlipped()));
+
         return backSort.thenComparing(leftSort);
     }
 

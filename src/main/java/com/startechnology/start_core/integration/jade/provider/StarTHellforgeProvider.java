@@ -25,12 +25,12 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
 
     @Override
     protected @Nullable StarTHellForgeMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                            @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getHellforgeMachine(level, pos, side);
 
         if (capability != null)
             return capability;
-            
+
         return null;
     }
 
@@ -44,13 +44,11 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("temperature") && capData.contains("uiKey"))
-        {
+                              BlockEntity blockEntity, IPluginConfig config) {
+        if (capData.contains("temperature") && capData.contains("uiKey")) {
             int temperature = capData.getInt("temperature");
             String uiKey = capData.getString("uiKey");
             tooltip.add(Component.translatable(uiKey, temperature));
         }
     }
-    
 }

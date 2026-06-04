@@ -24,7 +24,7 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 public class StarTDrillingRigs {
 
     public static final MultiblockMachineDefinition[] FLUID_DRILLING_RIGS = StarTMachineUtils.registerTieredMultis(
-                "fluid_drilling_rig", FluidDrillMachine::new, (tier, builder) -> builder
+            "fluid_drilling_rig", FluidDrillMachine::new, (tier, builder) -> builder
                     .rotationState(RotationState.ALL)
                     .langValue("%s Fluid Drilling Rig %s".formatted(VLVH[tier], VLVT[tier]))
                     .recipeType(DUMMY_RECIPES)
@@ -56,8 +56,5 @@ public class StarTDrillingRigs {
                     .register(),
             ZPM);
 
-    public static void init() {
-
-    }
-
+    public static void init() {}
 }

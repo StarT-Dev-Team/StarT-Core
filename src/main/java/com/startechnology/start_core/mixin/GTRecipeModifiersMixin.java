@@ -18,13 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class GTRecipeModifiersMixin {
 
     @Inject(method = "hatchParallel", at = @At("HEAD"), cancellable = true)
-    private static void injectHatchParallel(MetaMachine machine, GTRecipe recipe, CallbackInfoReturnable<ModifierFunction> cir) {
+    private static void injectHatchParallel(MetaMachine machine, GTRecipe recipe,
+                                            CallbackInfoReturnable<ModifierFunction> cir) {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             var hatch = controller.getParallelHatch().orElse(null);
             var maximumParallels = hatch instanceof StarTAbsoluteParallelHatchMachine ?
                     ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel()) :
                     hatch != null ? ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()) : 1;
-            var minimumParallels = hatch instanceof IStarTMinimumParallelHatch minHatch ? minHatch.starT_Core$getMinimumParallels() : 1;
+            var minimumParallels = hatch instanceof IStarTMinimumParallelHatch minHatch ?
+                    minHatch.starT_Core$getMinimumParallels() : 1;
 
             if (maximumParallels < minimumParallels) cir.setReturnValue(ModifierFunction.NULL);
             if (maximumParallels == 1) cir.setReturnValue(ModifierFunction.IDENTITY);

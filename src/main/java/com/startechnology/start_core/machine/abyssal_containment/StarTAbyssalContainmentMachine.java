@@ -40,7 +40,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.List;
 import java.util.Set;
 
-public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
+public class StarTAbyssalContainmentMachine extends CleanroomMachine {
 
     public StarTAbyssalContainmentMachine(IMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
@@ -49,7 +49,8 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
     private Material END_AIR = GTMaterials.EnderAir;
     private Material DRAGON_BREATH = GTMaterials.get("dragon_breath");
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTAbyssalContainmentMachine.class,
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTAbyssalContainmentMachine.class,
             CleanroomMachine.MANAGED_FIELD_HOLDER);
 
     public static final CleanroomType ABYSSAL_CONTAINMENT_ROOM = new CleanroomType("abyssal_containment_room",
@@ -82,72 +83,159 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
         super.onStructureFormed();
 
         BlockPos controller = getPos();
-        Direction front = getFrontFacing(); 
-        Direction up = getUpwardsFacing();      
+        Direction front = getFrontFacing();
+        Direction up = getUpwardsFacing();
 
         BlockPos minWorld = RelativeDirection.offsetPos(controller, front, up, false,
                 -9, 7, -14);
         BlockPos maxWorld = RelativeDirection.offsetPos(controller, front, up, false,
                 +9, -7, 0);
 
-        this.cleanroomBoundingBox = new AABB(minWorld.getX(), minWorld.getY(), minWorld.getZ(), maxWorld.getX(), maxWorld.getY(), maxWorld.getZ());
+        this.cleanroomBoundingBox = new AABB(minWorld.getX(), minWorld.getY(), minWorld.getZ(), maxWorld.getX(),
+                maxWorld.getY(), maxWorld.getZ());
 
         // Store effect for later.
         this.abyssalDrain = ForgeRegistries.MOB_EFFECTS.getValue(KubeJS.id("abyssal_drain"));
-    
+
         this.cleanroomType = ABYSSAL_CONTAINMENT_ROOM;
         this.getRecipeLogic().setDuration(4000);
     }
 
     @Override
-    public void updateStructureDimensions() {
-    }
+    public void updateStructureDimensions() {}
 
     @Override
     public @NotNull BlockPattern getPattern() {
         return FactoryBlockPattern.start()
-            .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A", "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA=============AA", "A=============##A", "A=============##A", "A=============##A", "A=============##A", "A=============##A", "AA=============AA", "A#A###########A#A", "A#A###########A#A", "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A", "AAAAAAAAAAAAAAAAA") 
-            .aisle("A######A#A######A", "#BBBBBBCDCBBBBBB#", "#BBBBCCCDCCCBBBB#", "#BBBCCCCDCCCCBBB#", "#BBCCCCEEECCCCBB#", "#BCCCEEEEEEECCCB#", "#BCCCEEFFFEECCCB#", "ACCCEEFFDFFEECCCA", "#CCCEEFFFFFEECCC#", "#CCEEFFFDFFFEECC#", "#DDEEFDFDFDFEEDD#", "#CCEEFFFDFFFEECC#", "#CCCEEFFFFFEECCC#", "ACCCEEFFDFFEECCCA", "#BCCCEEFFFEECCCB#", "#BCCCEEEEEEECCCB#", "#BBCCCCEEECCCCBB#", "#BBBCCCCDCCCCBBB#", "#BBBBCCCDCCCBBBB#", "#BBBBBBCDCBBBBBB#", "A######A#A######A") 
-            .aisle("A####AA###AA####A", "#BBBBCCCDCCCBBBB#", "#B=============B#", "#B=============B#", "#B=============B#", "AC=============CA", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#D=============D#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "AC=============CA", "#B=============B#", "#B=============B#", "#B=============B#", "#BBBBCCCDCCCBBBB#", "A####AA###AA####A") 
-            .aisle("A###A#######A###A", "#BBBCCCCDCCCCBBB#", "#B=============B#", "#B=============B#", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "#B=============B#", "#B=============B#", "#BBBCCCCDCCCCBBB#", "A###A#######A###A") 
-            .aisle("A##A#########A##A", "#BBCCCCEEECCCCBB#", "#B=============B#", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "#B=============B#", "#BBCCCCEEECCCCBB#", "A##A#########A##A") 
-            .aisle("A#A###########A#A", "#BCCCEEEEEEECCCB#", "AC=============CA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEEEEEECCCB#", "A#A###########A#A") 
-            .aisle("A#A###########A#A", "#BCCCEEFFFEECCCB#", "AC=============CA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#D=============D#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEFFFEECCCB#", "A#A###########A#A") 
-            .aisle("AA#############AA", "ACCCEEFFFFFEECCCA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "ACCCEEFFFFFEECCCA", "AA#############AA") 
-            .aisle("A###############A", "#DDDEEFFDFFEEDDD#", "#D=============D#", "#D=============D#", "#E=============E#", "#E=============E#", "#F=============F#", "#D=============D#", "#F=============F#", "#D=============D#", "#D=============D#", "#D=============D#", "#F=============F#", "#D=============D#", "#F=============F#", "#E=============E#", "#E=============E#", "#D=============D#", "#D=============D#", "#DDDEEFFDFFEEDDD#", "A###############A") 
-            .aisle("AA#############AA", "ACCCEEFFFFFEECCCA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "ACCCEEFFFFFEECCCA", "AA#############AA") 
-            .aisle("A#A###########A#A", "#BCCCEEFFFEECCCB#", "AC=============CA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#D=============D#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEFFFEECCCB#", "A#A###########A#A") 
-            .aisle("A#A###########A#A", "#BCCCEEEEEEECCCB#", "AC=============CA", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEEEEEECCCB#", "A#A###########A#A") 
-            .aisle("A##A#########A##A", "#BBCCCCEEECCCCBB#", "#B=============B#", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "#B=============B#", "#BBCCCCEEECCCCBB#", "A##A#########A##A") 
-            .aisle("A###A#######A###A", "#BBBCCCCDCCCCBBB#", "#B=============B#", "#B=============B#", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "#B=============B#", "#B=============B#", "#BBBCCCCDCCCCBBB#", "A###A#######A###A") 
-            .aisle("A####AA###AA####A", "#BBBBCCCDCCCBBBB#", "#B=============B#", "#B=============B#", "#B=============B#", "AC=============CA", "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#", "#D=============D#", "#C=============C#", "#C=============C#", "#C=============C#", "AC=============CA", "AC=============CA", "#B=============B#", "#B=============B#", "#B=============B#", "#BBBBCCCDCCCBBBB#", "A####AA###AA####A") 
-            .aisle("A######A#A######A", "#BBBBBBCDCBBBBBB#", "#BBBBCCCDCCCBBBB#", "#BBBCCCCDCCCCBBB#", "#BBCCCCEEECCCCBB#", "#BCCCEEEEEEECCCB#", "#BCCCEEFFFEECCCB#", "ACCCEEFFDFFEECCCA", "#CCCEEFFFFFEECCC#", "#CCEEFFFDFFFEECC#", "#DDEEFDF@FDFEEDD#", "#CCEEFFFDFFFEECC#", "#CCCEEFFFFFEECCC#", "ACCCEEFFDFFEECCCA", "#BCCCEEFFFEECCCB#", "#BCCCEEEEEEECCCB#", "#BBCCCCEEECCCCBB#", "#BBBCCCCDCCCCBBB#", "#BBBBCCCDCCCBBBB#", "#BBBBBBCDCBBBBBB#", "A######A#A######A") 
-            .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A", "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA=============AA", "A=============##A", "A=============##A", "A=============##A", "A=============##A", "A=============##A", "AA=============AA", "A#A###########A#A", "A#A###########A#A", "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A", "AAAAAAAAAAAAAAAAA") 
-            .where("A",  Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("abyssal_alloy"))))
-            .where("#", Predicates.any())
-            .where("=", innerPredicate())
-            .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing")))
-            .where("C", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
-            .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_ware_casing"))
-                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-            .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("abyssal_inductor_hull")))
-            .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")))
-            .where("@",Predicates.controller(Predicates.blocks(this.getDefinition().get())))
-            .build();
+                .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A",
+                        "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA=============AA",
+                        "A=============##A", "A=============##A", "A=============##A", "A=============##A",
+                        "A=============##A", "AA=============AA", "A#A###########A#A", "A#A###########A#A",
+                        "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A",
+                        "AAAAAAAAAAAAAAAAA")
+                .aisle("A######A#A######A", "#BBBBBBCDCBBBBBB#", "#BBBBCCCDCCCBBBB#", "#BBBCCCCDCCCCBBB#",
+                        "#BBCCCCEEECCCCBB#", "#BCCCEEEEEEECCCB#", "#BCCCEEFFFEECCCB#", "ACCCEEFFDFFEECCCA",
+                        "#CCCEEFFFFFEECCC#", "#CCEEFFFDFFFEECC#", "#DDEEFDFDFDFEEDD#", "#CCEEFFFDFFFEECC#",
+                        "#CCCEEFFFFFEECCC#", "ACCCEEFFDFFEECCCA", "#BCCCEEFFFEECCCB#", "#BCCCEEEEEEECCCB#",
+                        "#BBCCCCEEECCCCBB#", "#BBBCCCCDCCCCBBB#", "#BBBBCCCDCCCBBBB#", "#BBBBBBCDCBBBBBB#",
+                        "A######A#A######A")
+                .aisle("A####AA###AA####A", "#BBBBCCCDCCCBBBB#", "#B=============B#", "#B=============B#",
+                        "#B=============B#", "AC=============CA", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#C=============C#", "#D=============D#", "#C=============C#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "AC=============CA",
+                        "#B=============B#", "#B=============B#", "#B=============B#", "#BBBBCCCDCCCBBBB#",
+                        "A####AA###AA####A")
+                .aisle("A###A#######A###A", "#BBBCCCCDCCCCBBB#", "#B=============B#", "#B=============B#",
+                        "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#",
+                        "AC=============CA", "#B=============B#", "#B=============B#", "#BBBCCCCDCCCCBBB#",
+                        "A###A#######A###A")
+                .aisle("A##A#########A##A", "#BBCCCCEEECCCCBB#", "#B=============B#", "AC=============CA",
+                        "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#",
+                        "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#",
+                        "#C=============C#", "AC=============CA", "#B=============B#", "#BBCCCCEEECCCCBB#",
+                        "A##A#########A##A")
+                .aisle("A#A###########A#A", "#BCCCEEEEEEECCCB#", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#",
+                        "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEEEEEECCCB#",
+                        "A#A###########A#A")
+                .aisle("A#A###########A#A", "#BCCCEEFFFEECCCB#", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#D=============D#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEFFFEECCCB#",
+                        "A#A###########A#A")
+                .aisle("AA#############AA", "ACCCEEFFFFFEECCCA", "#C=============C#", "#C=============C#",
+                        "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#",
+                        "#E=============E#", "#C=============C#", "#C=============C#", "ACCCEEFFFFFEECCCA",
+                        "AA#############AA")
+                .aisle("A###############A", "#DDDEEFFDFFEEDDD#", "#D=============D#", "#D=============D#",
+                        "#E=============E#", "#E=============E#", "#F=============F#", "#D=============D#",
+                        "#F=============F#", "#D=============D#", "#D=============D#", "#D=============D#",
+                        "#F=============F#", "#D=============D#", "#F=============F#", "#E=============E#",
+                        "#E=============E#", "#D=============D#", "#D=============D#", "#DDDEEFFDFFEEDDD#",
+                        "A###############A")
+                .aisle("AA#############AA", "ACCCEEFFFFFEECCCA", "#C=============C#", "#C=============C#",
+                        "#E=============E#", "#E=============E#", "#F=============F#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#F=============F#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#F=============F#", "#E=============E#",
+                        "#E=============E#", "#C=============C#", "#C=============C#", "ACCCEEFFFFFEECCCA",
+                        "AA#############AA")
+                .aisle("A#A###########A#A", "#BCCCEEFFFEECCCB#", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#D=============D#", "#F=============F#",
+                        "#F=============F#", "#F=============F#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEFFFEECCCB#",
+                        "A#A###########A#A")
+                .aisle("A#A###########A#A", "#BCCCEEEEEEECCCB#", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#E=============E#", "#F=============F#", "#F=============F#", "#F=============F#",
+                        "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "#BCCCEEEEEEECCCB#",
+                        "A#A###########A#A")
+                .aisle("A##A#########A##A", "#BBCCCCEEECCCCBB#", "#B=============B#", "AC=============CA",
+                        "#C=============C#", "#C=============C#", "#C=============C#", "#E=============E#",
+                        "#E=============E#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#E=============E#", "#E=============E#", "#C=============C#", "#C=============C#",
+                        "#C=============C#", "AC=============CA", "#B=============B#", "#BBCCCCEEECCCCBB#",
+                        "A##A#########A##A")
+                .aisle("A###A#######A###A", "#BBBCCCCDCCCCBBB#", "#B=============B#", "#B=============B#",
+                        "AC=============CA", "#C=============C#", "#C=============C#", "#C=============C#",
+                        "#C=============C#", "#E=============E#", "#E=============E#", "#E=============E#",
+                        "#C=============C#", "#C=============C#", "#C=============C#", "#C=============C#",
+                        "AC=============CA", "#B=============B#", "#B=============B#", "#BBBCCCCDCCCCBBB#",
+                        "A###A#######A###A")
+                .aisle("A####AA###AA####A", "#BBBBCCCDCCCBBBB#", "#B=============B#", "#B=============B#",
+                        "#B=============B#", "AC=============CA", "AC=============CA", "#C=============C#",
+                        "#C=============C#", "#C=============C#", "#D=============D#", "#C=============C#",
+                        "#C=============C#", "#C=============C#", "AC=============CA", "AC=============CA",
+                        "#B=============B#", "#B=============B#", "#B=============B#", "#BBBBCCCDCCCBBBB#",
+                        "A####AA###AA####A")
+                .aisle("A######A#A######A", "#BBBBBBCDCBBBBBB#", "#BBBBCCCDCCCBBBB#", "#BBBCCCCDCCCCBBB#",
+                        "#BBCCCCEEECCCCBB#", "#BCCCEEEEEEECCCB#", "#BCCCEEFFFEECCCB#", "ACCCEEFFDFFEECCCA",
+                        "#CCCEEFFFFFEECCC#", "#CCEEFFFDFFFEECC#", "#DDEEFDF@FDFEEDD#", "#CCEEFFFDFFFEECC#",
+                        "#CCCEEFFFFFEECCC#", "ACCCEEFFDFFEECCCA", "#BCCCEEFFFEECCCB#", "#BCCCEEEEEEECCCB#",
+                        "#BBCCCCEEECCCCBB#", "#BBBCCCCDCCCCBBB#", "#BBBBCCCDCCCBBBB#", "#BBBBBBCDCBBBBBB#",
+                        "A######A#A######A")
+                .aisle("AAAAAAAAAAAAAAAAA", "A######A#A######A", "A####AA###AA####A", "A###A#######A###A",
+                        "A##A#########A##A", "A#A###########A#A", "A#A###########A#A", "AA=============AA",
+                        "A=============##A", "A=============##A", "A=============##A", "A=============##A",
+                        "A=============##A", "AA=============AA", "A#A###########A#A", "A#A###########A#A",
+                        "A##A#########A##A", "A###A#######A###A", "A####AA###AA####A", "A######A#A######A",
+                        "AAAAAAAAAAAAAAAAA")
+                .where("A",
+                        Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                GTCEuAPI.materialManager.getMaterial("abyssal_alloy"))))
+                .where("#", Predicates.any())
+                .where("=", innerPredicate())
+                .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing")))
+                .where("C", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_ware_casing"))
+                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
+                        .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                        .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("abyssal_inductor_hull")))
+                .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")))
+                .where("@", Predicates.controller(Predicates.blocks(this.getDefinition().get())))
+                .build();
     }
 
     @Override
     public boolean shouldAddPartToController(IMultiPart part) {
-       return true;
+        return true;
     }
 
     private GTRecipe getAbyssalContainmentRecipe() {
-        return  GTRecipeBuilder.ofRaw()
-            .inputFluids(END_AIR.getFluid(100000))
-            .inputFluids(DRAGON_BREATH.getFluid(50))
-            .buildRawRecipe();
+        return GTRecipeBuilder.ofRaw()
+                .inputFluids(END_AIR.getFluid(100000))
+                .inputFluids(DRAGON_BREATH.getFluid(50))
+                .buildRawRecipe();
     }
 
     private static final String endArmourId(String pieceName) {
@@ -163,9 +251,11 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             // passive boosting recipe.
             GTRecipe abyssalContainmentRecipe = getAbyssalContainmentRecipe();
             this.isSuppliedFluids = RecipeHelper.matchRecipe(this, abyssalContainmentRecipe).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, abyssalContainmentRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                    RecipeHelper
+                            .handleRecipeIO(this, abyssalContainmentRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                            .isSuccess();
 
-            List<Player> playersInside =  this.getLevel().getEntitiesOfClass(Player.class, this.cleanroomBoundingBox);
+            List<Player> playersInside = this.getLevel().getEntitiesOfClass(Player.class, this.cleanroomBoundingBox);
 
             // Give all players inside the abyssal drain effect
             playersInside.forEach(player -> {
@@ -177,12 +267,10 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
                 String feetId = player.kjs$getFeetArmorItem().kjs$getId();
 
                 // Armour check.
-                if  (
-                    endArmourId("helmet").equals(headId) && 
-                    endArmourId("chestplate").equals(chestId) && 
-                    endArmourId("leggings").equals(legsId) &&
-                    endArmourId("boots").equals(feetId)  
-                ) {
+                if (endArmourId("helmet").equals(headId) &&
+                        endArmourId("chestplate").equals(chestId) &&
+                        endArmourId("leggings").equals(legsId) &&
+                        endArmourId("boots").equals(feetId)) {
                     player.removeEffect(abyssalDrain);
                     return;
                 }
@@ -203,16 +291,14 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
         return value;
     }
 
-    
     /////////////////////////////////
     /// Initialisation
-    
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
 
-    
     // gui stuff
     @Override
     public void addDisplayText(List<Component> textList) {
@@ -221,13 +307,14 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
         if (isFormed()) {
 
             if (!this.isSuppliedFluids) {
-                textList.add(Component.translatable("start_core.abyssal_containment_room.not_provided_fluids").withStyle(ChatFormatting.RED));
+                textList.add(Component.translatable("start_core.abyssal_containment_room.not_provided_fluids")
+                        .withStyle(ChatFormatting.RED));
             } else {
-                 textList.add(Component.translatable("start_core.abyssal_containment_room.provided_fluids").withStyle(ChatFormatting.GREEN));
+                textList.add(Component.translatable("start_core.abyssal_containment_room.provided_fluids")
+                        .withStyle(ChatFormatting.GREEN));
             }
         }
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 }

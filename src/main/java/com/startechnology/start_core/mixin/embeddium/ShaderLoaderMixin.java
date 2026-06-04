@@ -12,11 +12,11 @@ import net.minecraft.resources.ResourceLocation;
 public class ShaderLoaderMixin {
 
     @ModifyReturnValue(method = "getShaderSource", at = @At("RETURN"))
-    private static String injectLoadShaderGetShaderSource(String contents, @Local(argsOnly = true) ResourceLocation name) {
+    private static String injectLoadShaderGetShaderSource(String contents,
+                                                          @Local(argsOnly = true) ResourceLocation name) {
         if (name.getPath().equals("include/chunk_material.glsl")) {
             contents = contents.replace("float[4](0.0, 0.1, 0.5, 1.0)", "float[4](0.05, 0.1, 0.5, 1.0)");
         }
         return contents;
     }
-
 }

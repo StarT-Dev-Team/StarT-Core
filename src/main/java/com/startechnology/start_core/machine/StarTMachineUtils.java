@@ -20,7 +20,7 @@ import java.util.function.BiFunction;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTMachineUtils {
-    
+
     public static MultiblockMachineDefinition[] registerTieredMultis(String name,
                                                                      BiFunction<IMachineBlockEntity, Integer, MultiblockControllerMachine> factory,
                                                                      BiFunction<Integer, MultiblockMachineBuilder, MultiblockMachineDefinition> builder,
@@ -54,6 +54,7 @@ public class StarTMachineUtils {
     public static Block getKjsBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
     }
+
     public static Block getGTCEuBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(GTCEu.id(block));
     }

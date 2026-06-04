@@ -18,14 +18,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class StarTAbyssalHarvesterProvider extends CapabilityBlockProvider<StarTAbyssalHarvesterMachine> {
-    
+
     public StarTAbyssalHarvesterProvider() {
         super(StarTCore.resourceLocation("abyssal_harvester_info"));
     }
 
     @Override
     protected @Nullable StarTAbyssalHarvesterMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                                   @Nullable Direction side) {
         return StarTCapabilityHelper.getAbyssalHarvesterMachine(level, pos, side);
     }
 
@@ -36,17 +36,15 @@ public class StarTAbyssalHarvesterProvider extends CapabilityBlockProvider<StarT
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("saturation"))
-        {
+                              BlockEntity blockEntity, IPluginConfig config) {
+        if (capData.contains("saturation")) {
 
             int saturation = capData.getInt("saturation");
             double percent = saturation / 100.0;
 
-            tooltip.add(Component.translatable("ui.start_core.abyssal_harvester", 
-            String.format("%.2f", percent)));
+            tooltip.add(Component.translatable("ui.start_core.abyssal_harvester",
+                    String.format("%.2f", percent)));
 
         }
     }
-    
 }

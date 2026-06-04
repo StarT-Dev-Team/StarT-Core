@@ -25,12 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+
     /*
      * persist/save data onto the world using NBT with the @Persisted field
      * annotation
      */
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTHellForgeMachine.class,
-        WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @Getter
@@ -48,7 +49,8 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     private boolean isWorking;
 
-    public StarTHellForgeMachine(IMachineBlockEntity holder, int baseTemperature, int baseTempLoss, int dormantTempLoss, Object... args) {
+    public StarTHellForgeMachine(IMachineBlockEntity holder, int baseTemperature, int baseTempLoss, int dormantTempLoss,
+                                 Object... args) {
         super(holder, args);
         this.temperature = baseTemperature;
         this.baseTemperature = baseTemperature;
@@ -61,14 +63,14 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     /* A map of fluids to their maximum heat cap for the Hell Forge */
     public static Map<Material, Integer> fluidsMap = Map.of(
-        StarTHellForgeHeatingLiquids.FlamewakeSolvent, 900,
-        StarTHellForgeHeatingLiquids.EmberheartNectar, 1800,
-        StarTHellForgeHeatingLiquids.IgniferousElixir, 2700,
-        StarTHellForgeHeatingLiquids.BlazingPhlogiston, 3600,
-        StarTHellForgeHeatingLiquids.CinderbrewSolvent, 1350,
-        StarTHellForgeHeatingLiquids.CorefireNectar, 2250,
-        StarTHellForgeHeatingLiquids.InfernumElixir, 3150,
-        StarTHellForgeHeatingLiquids.HellfireEssence, 4050);
+            StarTHellForgeHeatingLiquids.FlamewakeSolvent, 900,
+            StarTHellForgeHeatingLiquids.EmberheartNectar, 1800,
+            StarTHellForgeHeatingLiquids.IgniferousElixir, 2700,
+            StarTHellForgeHeatingLiquids.BlazingPhlogiston, 3600,
+            StarTHellForgeHeatingLiquids.CinderbrewSolvent, 1350,
+            StarTHellForgeHeatingLiquids.CorefireNectar, 2250,
+            StarTHellForgeHeatingLiquids.InfernumElixir, 3150,
+            StarTHellForgeHeatingLiquids.HellfireEssence, 4050);
 
     @Override
     public void onStructureFormed() {
@@ -76,7 +78,6 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         this.isWorking = false;
         this.startHeatLoss = true;
         this.temperatureChanged();
-
     }
 
     @Override
@@ -99,7 +100,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         super.addDisplayText(textList);
 
         textList.add(
-            Component.translatable(getCrucibleUIKey(), this.temperature));
+                Component.translatable(getCrucibleUIKey(), this.temperature));
     }
 
     /**
@@ -110,7 +111,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
      *
      * @param temperature The required temperature of the Hellforge.
      * @return The Material representing the heating fluid, or null if no fluid can
-     * meet the required temperature.
+     *         meet the required temperature.
      */
     public static Material getHellforgeHeatingLiquid(int temperature) {
         Material selectedFluid = null;
@@ -186,12 +187,9 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     private void temperatureChanged() {
-        fluidsMap.forEach((key1, temperature) ->
-            this.setIndicatorValue(
+        fluidsMap.forEach((key1, temperature) -> this.setIndicatorValue(
                 "variadic.start_core.indicator.hellforge." + temperature.toString(),
-                (int) Math.floor(redstonePercentageOfTemp(temperature))
-            )
-        );
+                (int) Math.floor(redstonePercentageOfTemp(temperature))));
     }
 
     @Override
@@ -234,12 +232,13 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
             String temperatureString = temperature.toString();
 
             return new RedstoneIndicatorRecord(
-                "variadic.start_core.indicator.hellforge." + temperatureString,
-                Component.translatable("variadic.start_core.indicator.hellforge", Component.literal(temperatureString + "MK").withStyle(ChatFormatting.RED)),
-                Component.translatable("variadic.start_core.description.hellforge", temperatureString).withStyle(ChatFormatting.GRAY),
-                (int) Math.floor(redstonePercentageOfTemp(temperature)),
-                temperature
-            );
+                    "variadic.start_core.indicator.hellforge." + temperatureString,
+                    Component.translatable("variadic.start_core.indicator.hellforge",
+                            Component.literal(temperatureString + "MK").withStyle(ChatFormatting.RED)),
+                    Component.translatable("variadic.start_core.description.hellforge", temperatureString)
+                            .withStyle(ChatFormatting.GRAY),
+                    (int) Math.floor(redstonePercentageOfTemp(temperature)),
+                    temperature);
         }).toList();
     }
 }

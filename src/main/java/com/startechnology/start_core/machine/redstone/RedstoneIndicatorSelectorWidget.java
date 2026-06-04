@@ -49,7 +49,8 @@ public class RedstoneIndicatorSelectorWidget extends SelectorWidget {
 
     private void updateButtonDisplay() {
         if (RedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
-            textTexture.updateText(escapeFormatSpecifiers(RedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
+            textTexture.updateText(
+                    escapeFormatSpecifiers(RedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
             return;
         }
 

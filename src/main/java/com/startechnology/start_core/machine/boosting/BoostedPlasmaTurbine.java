@@ -77,10 +77,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     /* Passive boosting recipe */
     private GTRecipe getPassiveBoostingRecipe() {
         return switch (this.tier) {
-            case SUPREME_TURBINE_TIER ->
-                    GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1000)).buildRawRecipe();
-            case NYINSANE_TURBINE_TIER ->
-                    GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(2500)).buildRawRecipe();
+            case SUPREME_TURBINE_TIER -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(1000)).buildRawRecipe();
+            case NYINSANE_TURBINE_TIER -> GTRecipeBuilder.ofRaw().inputFluids(WS2_FLUID.getFluid(2500))
+                    .buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
@@ -88,10 +87,10 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     /* Active boosting recipe */
     private GTRecipe getActiveBoostingRecipe() {
         return switch (this.tier) {
-            case SUPREME_TURBINE_TIER ->
-                    GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(2500)).buildRawRecipe();
-            case NYINSANE_TURBINE_TIER ->
-                    GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(800)).buildRawRecipe();
+            case SUPREME_TURBINE_TIER -> GTRecipeBuilder.ofRaw().inputFluids(SS_HE3_FLUID.getFluid(2500))
+                    .buildRawRecipe();
+            case NYINSANE_TURBINE_TIER -> GTRecipeBuilder.ofRaw().inputFluids(BEC_OG_FLUID.getFluid(800))
+                    .buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
@@ -113,30 +112,32 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
 
     public ModifierFunction getModifierFunction() {
         return ModifierFunction.builder()
-            .eutMultiplier(this.getBonus())
-            .build();
+                .eutMultiplier(this.getBonus())
+                .build();
     }
 
     /* return component for description of active boosting being ran */
     private MutableComponent getActiveBoostingComponent() {
         return switch (this.tier) {
-            case SUPREME_TURBINE_TIER ->
-                    Component.translatable("start_core.multiblock.supreme_turbine.ss_h32_boosting").withStyle(ChatFormatting.YELLOW);
-            case NYINSANE_TURBINE_TIER ->
-                    Component.translatable("start_core.multiblock.nyinsane_turbine.bec_og_boosting").withStyle(ChatFormatting.LIGHT_PURPLE);
+            case SUPREME_TURBINE_TIER -> Component.translatable("start_core.multiblock.supreme_turbine.ss_h32_boosting")
+                    .withStyle(ChatFormatting.YELLOW);
+            case NYINSANE_TURBINE_TIER -> Component
+                    .translatable("start_core.multiblock.nyinsane_turbine.bec_og_boosting")
+                    .withStyle(ChatFormatting.LIGHT_PURPLE);
             default -> Component.empty();
         };
     }
 
-
     /* return component for description of passive boosting being ran */
     private MutableComponent getPassiveBoostingComponent() {
-        return Component.translatable("start_core.multiblock.boosted_plasma_turbine.ws2_boosting").withStyle(ChatFormatting.GREEN);
+        return Component.translatable("start_core.multiblock.boosted_plasma_turbine.ws2_boosting")
+                .withStyle(ChatFormatting.GREEN);
     }
 
     /* return component for description of noot passive boosting being ran */
     private MutableComponent getNotPassiveBoostingComponent() {
-        return Component.translatable("start_core.multiblock.boosted_plasma_turbine.no_ws2_boosting").withStyle(ChatFormatting.RED);
+        return Component.translatable("start_core.multiblock.boosted_plasma_turbine.no_ws2_boosting")
+                .withStyle(ChatFormatting.RED);
     }
 
     /**
@@ -153,7 +154,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
 
         // Output of this plasma turbine
         EnergyStack EUt = recipe.getOutputEUt();
-        
+
         if (!EUt.isEmpty()) {
             var turbineModifier = MachineModifiers.LARGE_TURBINE;
             return turbineModifier.getModifier(machine, recipe).andThen(turbine.getModifierFunction());
@@ -171,13 +172,16 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
             // passive boosting recipe.
             GTRecipe passiveBoosterRecipe = getPassiveBoostingRecipe();
             this.isPassiveBoosting = RecipeHelper.matchRecipe(this, passiveBoosterRecipe).isSuccess() &&
-                    RecipeHelper.handleRecipeIO(this, passiveBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                    RecipeHelper.handleRecipeIO(this, passiveBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                            .isSuccess();
 
             // active boosting recipe, only if passive is running
             if (this.isPassiveBoosting) {
-                GTRecipe activeBoosterRecipe  = getActiveBoostingRecipe();
+                GTRecipe activeBoosterRecipe = getActiveBoostingRecipe();
                 this.isActiveBoosting = RecipeHelper.matchRecipe(this, activeBoosterRecipe).isSuccess() &&
-                        RecipeHelper.handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                        RecipeHelper
+                                .handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                                .isSuccess();
             }
         }
 
@@ -188,7 +192,7 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
     }
 
     /// gui stuff
-    
+
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
@@ -196,14 +200,15 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         if (isFormed()) {
 
             if (isActive()) {
-                long maxProduction = (long)((double)getOverclockVoltage() * this.getBonus());
-                long currentProduction = isActive() && recipeLogic.getLastRecipe() != null ? (recipeLogic.getLastRecipe().getOutputEUt()).getTotalEU() : 0;
+                long maxProduction = (long) ((double) getOverclockVoltage() * this.getBonus());
+                long currentProduction = isActive() && recipeLogic.getLastRecipe() != null ?
+                        (recipeLogic.getLastRecipe().getOutputEUt()).getTotalEU() : 0;
 
                 // glglglblglblgblgblglblgblglblgblgb
                 textList.remove(3);
-                textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick", FormattingUtil.formatNumbers(currentProduction), FormattingUtil.formatNumbers(maxProduction)));
+                textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick",
+                        FormattingUtil.formatNumbers(currentProduction), FormattingUtil.formatNumbers(maxProduction)));
             }
-
 
             if (isPassiveBoosting) {
                 textList.add(getPassiveBoostingComponent());

@@ -22,10 +22,10 @@ import net.minecraft.network.chat.Component;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDreamLinkCovers {
+
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
-
 
     public final static ItemEntry<ComponentItem> UV_DREAM_LINK_COVER = registerDreamLink(GTValues.UV, 2);
     public final static ItemEntry<ComponentItem> UHV_DREAM_LINK_COVER = registerDreamLink(GTValues.UHV, 2);
@@ -35,28 +35,31 @@ public class StarTDreamLinkCovers {
     public final static ItemEntry<ComponentItem> OPV_DREAM_LINK_COVER = registerDreamLink(GTValues.OpV, 2);
     public final static ItemEntry<ComponentItem> MAX_DREAM_LINK_COVER = registerDreamLink(GTValues.MAX, 2);
 
-
     public static ItemEntry<ComponentItem> registerDreamLink(int tier, int amperage) {
-        var coverDefResLocation = StarTCore.resourceLocation(GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_dream_link_cover");
+        var coverDefResLocation = StarTCore
+                .resourceLocation(GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_dream_link_cover");
 
-        var definition = new CoverDefinition(coverDefResLocation, 
-            (CoverDefinition coverDef, ICoverable coverHolder, Direction attachedSide) -> new StarTDreamLinkCover(coverDef, coverHolder, attachedSide, tier, amperage),
-                () -> () -> new SimpleCoverRenderer(StarTCore.resourceLocation("block/dreamlink/" + GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch/overlay_front"))
-        );
+        var definition = new CoverDefinition(coverDefResLocation,
+                (CoverDefinition coverDef, ICoverable coverHolder, Direction attachedSide) -> new StarTDreamLinkCover(
+                        coverDef, coverHolder, attachedSide, tier, amperage),
+                () -> () -> new SimpleCoverRenderer(StarTCore.resourceLocation("block/dreamlink/" +
+                        GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_energy_hatch/overlay_front")));
 
         /* Unfreeze to allow adding */
         GTRegistries.COVERS.register(coverDefResLocation, definition);
 
-        return START_REGISTRATE.item(GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_dream_link_cover_item", ComponentItem::create)
-            .lang(GTValues.VNF[tier] + "§r " + FormattingUtil.formatNumbers(amperage) + "§eA§r Dream-Link Energy Cover")
-            .onRegister(attach(new CoverPlaceBehavior(definition)))
-            .onRegister(attach(new TooltipBehavior(lines -> {
-                lines.add(Component.translatable("start_core.dream_link.cover.tooltip", FormattingUtil.formatNumbers(GTValues.V[tier]), GTValues.VNF[tier]));
-            })))
-            .register();
+        return START_REGISTRATE
+                .item(GTValues.VN[tier].toLowerCase() + "_" + amperage + "a_dream_link_cover_item",
+                        ComponentItem::create)
+                .lang(GTValues.VNF[tier] + "§r " + FormattingUtil.formatNumbers(amperage) +
+                        "§eA§r Dream-Link Energy Cover")
+                .onRegister(attach(new CoverPlaceBehavior(definition)))
+                .onRegister(attach(new TooltipBehavior(lines -> {
+                    lines.add(Component.translatable("start_core.dream_link.cover.tooltip",
+                            FormattingUtil.formatNumbers(GTValues.V[tier]), GTValues.VNF[tier]));
+                })))
+                .register();
     }
-
-    
 
     public static void init() {}
 }

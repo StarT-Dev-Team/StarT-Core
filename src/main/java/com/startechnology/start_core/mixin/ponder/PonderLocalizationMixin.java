@@ -38,28 +38,38 @@ public abstract class PonderLocalizationMixin {
         throw new MixinException("not implemented");
     }
 
-    @WrapOperation(method = "getTagName", at = @At(value = "INVOKE", target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
+    @WrapOperation(method = "getTagName",
+                   at = @At(value = "INVOKE",
+                            target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
     public boolean injectGetTagName(Operation<Boolean> original, ResourceLocation key) {
-        //noinspection ConstantValue
+        // noinspection ConstantValue
         return original.call() || (PonderJSUtils.TRANSLATED_TAGS.contains(key) && !I18n.exists(langKeyForTag(key)));
     }
 
-    @WrapOperation(method = "getTagDescription", at = @At(value = "INVOKE", target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
+    @WrapOperation(method = "getTagDescription",
+                   at = @At(value = "INVOKE",
+                            target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
     public boolean injectGetTagDescription(Operation<Boolean> original, ResourceLocation tagId) {
-        //noinspection ConstantValue
-        return original.call() || (PonderJSUtils.TRANSLATED_TAGS.contains(tagId) && !I18n.exists(langKeyForTagDescription(tagId)));
+        // noinspection ConstantValue
+        return original.call() ||
+                (PonderJSUtils.TRANSLATED_TAGS.contains(tagId) && !I18n.exists(langKeyForTagDescription(tagId)));
     }
 
-    @WrapOperation(method = "getSpecific(Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;)Ljava/lang/String;", at = @At(value = "INVOKE", target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
+    @WrapOperation(method = "getSpecific(Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;)Ljava/lang/String;",
+                   at = @At(value = "INVOKE",
+                            target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
     public boolean injectGetSpecific(Operation<Boolean> original, ResourceLocation sceneId, String k) {
-        //noinspection ConstantValue
-        return original.call() || (PonderJSUtils.TRANSLATED_SCENES.contains(sceneId) && !I18n.exists(langKeyForSpecific(sceneId, k)));
+        // noinspection ConstantValue
+        return original.call() ||
+                (PonderJSUtils.TRANSLATED_SCENES.contains(sceneId) && !I18n.exists(langKeyForSpecific(sceneId, k)));
     }
 
-    @WrapOperation(method = "getSpecific(Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", at = @At(value = "INVOKE", target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
+    @WrapOperation(method = "getSpecific(Lnet/minecraft/resources/ResourceLocation;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",
+                   at = @At(value = "INVOKE",
+                            target = "Lnet/createmod/ponder/foundation/PonderIndex;editingModeActive()Z"))
     public boolean injectGetSpecific(Operation<Boolean> original, ResourceLocation sceneId, String k, Object[] params) {
-        //noinspection ConstantValue
-        return original.call() || (PonderJSUtils.TRANSLATED_SCENES.contains(sceneId) && !I18n.exists(langKeyForSpecific(sceneId, k)));
+        // noinspection ConstantValue
+        return original.call() ||
+                (PonderJSUtils.TRANSLATED_SCENES.contains(sceneId) && !I18n.exists(langKeyForSpecific(sceneId, k)));
     }
-
 }

@@ -36,8 +36,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine implements IStarTModularSupportedModules {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTModularInterfaceHatchPartMachine.class,
+public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
+                                                   implements IStarTModularSupportedModules {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTModularInterfaceHatchPartMachine.class,
             TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     private List<ResourceLocation> supportedModules;
@@ -129,7 +132,8 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         /* Update neighbouring if this is an out interface */
         if (!this.isTerminal()) return;
         BlockPos offsetPos = getPos().relative(getFrontFacing());
-        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper.getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
+        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper
+                .getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
         if (modulesSupportedContainer != null) {
             modulesSupportedContainer.invalidateSupportedModule();
         }
@@ -148,18 +152,19 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         }
 
         /* Sharing is not supported */
-        IMultiController controller = controllers.first() ;
+        IMultiController controller = controllers.first();
         if (!(controller instanceof MultiblockControllerMachine)) {
             setUnsupported();
             return;
         }
 
-        MultiblockControllerMachine multiblockControllerMachine = (MultiblockControllerMachine)(controller);
+        MultiblockControllerMachine multiblockControllerMachine = (MultiblockControllerMachine) (controller);
         ResourceLocation multiblockId = multiblockControllerMachine.getDefinition().getId();
 
         /* Get capability from in front to get if we are supported or not! */
         BlockPos offsetPos = getPos().relative(getFrontFacing());
-        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper.getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
+        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper
+                .getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
         if (modulesSupportedContainer == null) {
             setUnsupported();
             return;
@@ -231,8 +236,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     public boolean testRecipeTick(IWorkableMultiController controller) {
         if (!this.isSupportedModule) {
             controller.getRecipeLogic().setWaiting(
-                    Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.GRAY)
-            );
+                    Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.GRAY));
 
             return false;
         }
@@ -249,15 +253,16 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         return super.beforeWorking(controller);
     }
 
-
     protected void addComponentPanelText(List<Component> componentList) {
         if (this.isCurrentlyLinked()) {
             componentList.add(Component.translatable("modular.start_core.has_link").withStyle(ChatFormatting.GREEN));
 
             if (this.io == IO.OUT && lastSupportedModuleName != null) {
                 componentList.add(Component.empty());
-                componentList.add(Component.translatable("modular.start_core.linked_type").withStyle(ChatFormatting.GOLD));
-                componentList.add(Component.translatable("block." + lastSupportedModuleName.getNamespace() + "." + lastSupportedModuleName.getPath()));
+                componentList
+                        .add(Component.translatable("modular.start_core.linked_type").withStyle(ChatFormatting.GOLD));
+                componentList.add(Component.translatable(
+                        "block." + lastSupportedModuleName.getNamespace() + "." + lastSupportedModuleName.getPath()));
             }
 
         } else {
@@ -266,8 +271,8 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             if (!this.isFormed()) {
                 componentList.add(Component.translatable("modular.start_core.not_formed")
                         .withStyle(Style.EMPTY.withColor(ChatFormatting.GRAY).withHoverEvent(
-                                new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("modular.start_core.not_formed_description"))
-                        )));
+                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                        Component.translatable("modular.start_core.not_formed_description")))));
             }
         }
 
@@ -275,9 +280,10 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         List<ResourceLocation> thisSupportedModules = this.getSupportedModules();
 
         if (this.io == IO.OUT && thisSupportedModules != null) {
-            componentList.add(Component.translatable("modular.start_core.supported_list_title").withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD).withHoverEvent(
-                    new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("modular.start_core.supported_list_description"))
-            )));
+            componentList.add(Component.translatable("modular.start_core.supported_list_title")
+                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GOLD).withHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                    Component.translatable("modular.start_core.supported_list_description")))));
 
             for (ResourceLocation module : thisSupportedModules) {
                 componentList.add(Component.translatable("block." + module.getNamespace() + "." + module.getPath()));
@@ -285,15 +291,13 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
         }
     }
 
-
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
         group.addWidget(
                 new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
                         .addWidget(new LabelWidget(4, 5, this.getTitle()))
-                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText))
-        );
+                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText)));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
@@ -302,11 +306,9 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
     @Override
     public boolean isSupportedMultiblockId(ResourceLocation id, BlockPos fromPos) {
         // Ensure its coming from the "front" block relatively
-        boolean test = fromPos.compareTo(getPos().relative(getFrontFacing())) == 0
-                && this.extraSupportedCondition.test(id)
-                && (this.getSupportedModules() != null)
-                && this.getSupportedModules().stream().anyMatch(otherId -> otherId.compareTo(id) == 0)
-                && this.isFormed();
+        boolean test = fromPos.compareTo(getPos().relative(getFrontFacing())) == 0 &&
+                this.extraSupportedCondition.test(id) && (this.getSupportedModules() != null) &&
+                this.getSupportedModules().stream().anyMatch(otherId -> otherId.compareTo(id) == 0) && this.isFormed();
 
         /* We also want the out to display if it was a supported module */
         if (this.io == IO.OUT) {
@@ -323,7 +325,8 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
             return true;
         }
 
-        return this.io == IO.OUT && this.isSupportedModule && getOffsetTimer() < (lastCheckTime + MODULAR_CHECK_DURATION + 5);
+        return this.io == IO.OUT && this.isSupportedModule &&
+                getOffsetTimer() < (lastCheckTime + MODULAR_CHECK_DURATION + 5);
     }
 
     public boolean isTerminal() {
@@ -352,13 +355,12 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine i
                         () -> StarTGuiTextures.MODULAR_INTERFACE_MISSING,
                         () -> {
                             var tooltips = new ArrayList<Component>();
-                            tooltips.add(Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.RED));
+                            tooltips.add(
+                                    Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.RED));
                             return tooltips;
                         },
                         () -> !this.isTerminal() && !this.isCurrentlyLinked(),
-                        () -> null
-                )
-        );
+                        () -> null));
     }
 
     @Override

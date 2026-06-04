@@ -27,7 +27,8 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
     }
 
     @Override
-    protected @Nullable RedstoneInterfacePartMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
+    protected @Nullable RedstoneInterfacePartMachine getCapability(Level level, BlockPos pos,
+                                                                   @Nullable Direction side) {
         return StarTCapabilityHelper.getRedstoneInterfacePartMachine(level, pos, side);
     }
 
@@ -41,7 +42,7 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
+                              BlockEntity blockEntity, IPluginConfig config) {
         if (!capData.contains("signal_level") || !capData.contains("indicator")) return;
 
         var signalLevel = capData.getInt("signal_level");
@@ -54,5 +55,4 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
         tooltip.add(Component.translatable("ui.start_core.redstone_signal", signalLevel));
         tooltip.add(Component.translatable("ui.start_core.indicator", indicatorComponent));
     }
-
 }

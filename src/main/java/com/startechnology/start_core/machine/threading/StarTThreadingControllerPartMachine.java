@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTThreadingControllerPartMachine.class,
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);
@@ -71,7 +72,8 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
                         .translatable(
                                 "start_core.machine.threading_controller.stat.display_general_remaining",
                                 Component.translatable("start_core.machine.threading.stat.general"),
-                                Component.literal(FormattingUtil.formatNumbers(machine.getRemainingAssignable())).withStyle(ChatFormatting.YELLOW))
+                                Component.literal(FormattingUtil.formatNumbers(machine.getRemainingAssignable()))
+                                        .withStyle(ChatFormatting.YELLOW))
                         .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component
                                         .translatable("start_core.machine.threading_controller.stat.general_hover")))));
@@ -81,8 +83,10 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             var statPointLine = Component
                     .translatable("start_core.machine.threading_controller.stat.display_assign",
                             Component.translatable("start_core.machine.threading.stat." + stat),
-                            Component.literal(FormattingUtil.formatNumbers(machine.getStatAssigned(stat))).withStyle(ChatFormatting.YELLOW),
-                            Component.literal(FormattingUtil.formatNumbers(machine.getStatTotal(stat))).withStyle(ChatFormatting.YELLOW))
+                            Component.literal(FormattingUtil.formatNumbers(machine.getStatAssigned(stat)))
+                                    .withStyle(ChatFormatting.YELLOW),
+                            Component.literal(FormattingUtil.formatNumbers(machine.getStatTotal(stat)))
+                                    .withStyle(ChatFormatting.YELLOW))
                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             Component.translatable(
                                     "start_core.machine.threading_controller.stat." + stat + ".hover"))));
@@ -123,27 +127,26 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         machine.getStats().forEach((name, stats) -> {
             Component component = Component.translatable(
                     "start_core.machine.threading_controller.component_format",
-                            Component.translatable("block.start_core." + name).withStyle(ChatFormatting.GRAY),
-                            Component.literal(FormattingUtil.formatNumbers(stats.amount)).withStyle(ChatFormatting.AQUA));
+                    Component.translatable("block.start_core." + name).withStyle(ChatFormatting.GRAY),
+                    Component.literal(FormattingUtil.formatNumbers(stats.amount)).withStyle(ChatFormatting.AQUA));
             componentList.add(component);
         });
 
         componentList.add(Component.literal(""));
     }
 
-    
     /* Handle the click inside of the component panel above */
-    public void onThreadingControllerPanelClick(String componentData, ClickData clickData) {        
+    public void onThreadingControllerPanelClick(String componentData, ClickData clickData) {
         // Check if machine is for some reason null
         if (machineSupplier == null) {
             return;
         }
 
         StarTThreadingCapableMachine machine = machineSupplier.get();
-        
+
         if (!clickData.isRemote) {
-			int amount = 1;
-            
+            int amount = 1;
+
             if (clickData.isShiftClick && !clickData.isCtrlClick) {
                 amount = 5;
             } else if (clickData.isCtrlClick && !clickData.isShiftClick) {
@@ -162,17 +165,19 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             }
         }
     }
+
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 242 + 8, 117 + 8);
         group.addWidget(
                 new DraggableScrollableWidgetGroup(4, 4, 242, 117).setBackground(GuiTextures.DISPLAY)
                         .addWidget(
-                                new LabelWidget(4, 5, Component.translatable("block.start_core.threading_controller").getString()))
-                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText).clickHandler(this::onThreadingControllerPanelClick)));
+                                new LabelWidget(4, 5,
+                                        Component.translatable("block.start_core.threading_controller").getString()))
+                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText)
+                                .clickHandler(this::onThreadingControllerPanelClick)));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
     }
-
 }

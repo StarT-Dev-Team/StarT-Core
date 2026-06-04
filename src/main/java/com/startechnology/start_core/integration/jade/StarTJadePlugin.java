@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 @WailaPlugin
 public class StarTJadePlugin implements IWailaPlugin {
+
     @Override
     public void register(IWailaCommonRegistration registration) {
         registration.registerBlockDataProvider(new StarTDreamLinkNetworkBlockProvider(), BlockEntity.class);

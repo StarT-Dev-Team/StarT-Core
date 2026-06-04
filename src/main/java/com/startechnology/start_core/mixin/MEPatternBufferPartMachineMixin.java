@@ -23,9 +23,16 @@ import net.minecraft.world.item.ItemStack;
 
 @Mixin(value = MEPatternBufferPartMachine.class, remap = false)
 public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements ICopyInteractable {
-    @Shadow @Final private CustomItemStackHandler patternInventory;
-    @Shadow @Final private InternalInventory internalPatternInventory;
-    @Shadow @Final protected static int MAX_PATTERN_COUNT;
+
+    @Shadow
+    @Final
+    private CustomItemStackHandler patternInventory;
+    @Shadow
+    @Final
+    private InternalInventory internalPatternInventory;
+    @Shadow
+    @Final
+    protected static int MAX_PATTERN_COUNT;
 
     @Unique
     private final String start$nbtPatterns = "patterns";
@@ -46,11 +53,13 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
             var desiredPatterns = new CustomItemStackHandler(MAX_PATTERN_COUNT);
             desiredPatterns.deserializeNBT(tag.getCompound(start$nbtPatterns));
             var playerInv = player.getInventory();
-            var blankPatternsAvailable = player.getAbilities().instabuild ? Integer.MAX_VALUE : playerInv.countItem(AEItems.BLANK_PATTERN.asItem());
+            var blankPatternsAvailable = player.getAbilities().instabuild ? Integer.MAX_VALUE :
+                    playerInv.countItem(AEItems.BLANK_PATTERN.asItem());
             var blankPatternsUsed = 0;
 
             for (int slot = 0; slot < desiredPatterns.getSlots(); ++slot) {
-                var pattern = PatternDetailsHelper.decodePattern(desiredPatterns.getStackInSlot(slot), this.getLevel(), true);
+                var pattern = PatternDetailsHelper.decodePattern(desiredPatterns.getStackInSlot(slot), this.getLevel(),
+                        true);
                 if (pattern != null) {
                     ++blankPatternsUsed;
                     if (blankPatternsAvailable >= blankPatternsUsed) {
@@ -60,11 +69,13 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
             }
 
             if (blankPatternsUsed > 0 && !player.getAbilities().instabuild) {
-                new PlayerInternalInventory(playerInv).removeItems(blankPatternsUsed, AEItems.BLANK_PATTERN.stack(), null);
+                new PlayerInternalInventory(playerInv).removeItems(blankPatternsUsed, AEItems.BLANK_PATTERN.stack(),
+                        null);
             }
 
             if (blankPatternsUsed > blankPatternsAvailable) {
-                player.sendSystemMessage(PlayerMessages.MissingBlankPatterns.text(blankPatternsUsed - blankPatternsAvailable));
+                player.sendSystemMessage(
+                        PlayerMessages.MissingBlankPatterns.text(blankPatternsUsed - blankPatternsAvailable));
             }
 
             player.sendSystemMessage(pasteSettings);
@@ -104,7 +115,8 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
             var tag = new CompoundTag();
             tag.put(start$nbtPatterns, this.patternInventory.serializeNBT());
             card.setTag(tag);
-            card.setHoverName(card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
+            card.setHoverName(
+                    card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
             player.sendSystemMessage(copySettings);
         }
         return InteractionResult.SUCCESS;

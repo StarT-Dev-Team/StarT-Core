@@ -16,7 +16,7 @@ public class StarTTooltipHandler {
         if (stack == null) return;
         if (stack.isEmpty()) return;
         if (!stack.hasTag()) return;
-        
+
         if (StarTCustomTooltipsManager.hasCustomTooltip(stack.getOrCreateTag())) {
             StarTCustomTooltip customTooltips = StarTCustomTooltipsManager.customTooltipFromTag(stack.getOrCreateTag());
 

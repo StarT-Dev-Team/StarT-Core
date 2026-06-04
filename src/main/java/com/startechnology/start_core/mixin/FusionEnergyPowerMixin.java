@@ -5,8 +5,9 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMac
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(value=FusionReactorMachine.class, remap=false)
+@Mixin(value = FusionReactorMachine.class, remap = false)
 public class FusionEnergyPowerMixin {
+
     /**
      * @author stellaurora
      * @reason change fusion reactor energy storage formula
@@ -17,7 +18,7 @@ public class FusionEnergyPowerMixin {
             case 0 -> 1;
             default -> 2L * (tier - GTValues.LuV);
         };
-        
+
         return energyInputAmount * energyFactor * 10000000L;
     }
 }

@@ -35,6 +35,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.*;
 
 public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMachine {
+
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTThreadingCapableMachine.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -111,25 +112,25 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         int remaining = getRemainingAssignable();
         if (remaining < 0) {
             int deficit = Math.abs(remaining);
-            
+
             if (this.assignedSpeed > 0) {
                 int toSubtract = Math.min(deficit, this.assignedSpeed);
                 this.assignedSpeed -= toSubtract;
                 deficit -= toSubtract;
             }
-            
+
             if (deficit > 0 && this.assignedEfficiency > 0) {
                 int toSubtract = Math.min(deficit, this.assignedEfficiency);
                 this.assignedEfficiency -= toSubtract;
                 deficit -= toSubtract;
             }
-            
+
             if (deficit > 0 && this.assignedParallels > 0) {
                 int toSubtract = Math.min(deficit, this.assignedParallels);
                 this.assignedParallels -= toSubtract;
                 deficit -= toSubtract;
             }
-            
+
             if (deficit > 0 && this.assignedThreading > 0) {
                 int toSubtract = Math.min(deficit, this.assignedThreading);
                 this.assignedThreading -= toSubtract;
@@ -137,12 +138,13 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             }
         }
 
-        this.activeThreads = new ArrayList<>(this.activeThreads.subList(0, Math.min(getEffectiveThreads(), this.activeThreads.size())));
+        this.activeThreads = new ArrayList<>(
+                this.activeThreads.subList(0, Math.min(getEffectiveThreads(), this.activeThreads.size())));
     }
 
     public int getRemainingAssignable() {
-        return this.generalTotal
-                - (this.assignedEfficiency + this.assignedParallels + this.assignedSpeed + this.assignedThreading);
+        return this.generalTotal -
+                (this.assignedEfficiency + this.assignedParallels + this.assignedSpeed + this.assignedThreading);
     }
 
     private int getEffectiveDurationReduction() {
@@ -155,12 +157,10 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         return Component.translatable(
                 "start_core.machine.threading_controller.speed.pretty_format",
                 Component.literal(FormattingUtil.formatNumber2Places(reductionPercent)).withStyle(ChatFormatting.GREEN),
-                Component.literal("%").withStyle(ChatFormatting.GREEN)
-        );
+                Component.literal("%").withStyle(ChatFormatting.GREEN));
     }
 
     private int getEffectivePowerReduction() {
-
         return this.assignedEfficiency + this.efficiency;
     }
 
@@ -169,13 +169,12 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         double reductionPercent = (1 - multiplier) * 100.0;
         return Component.translatable(
                 "start_core.machine.threading_controller.efficiency.pretty_format",
-                Component.literal(FormattingUtil.formatNumber2Places(reductionPercent)).withStyle(ChatFormatting.LIGHT_PURPLE),
-                Component.literal("%").withStyle(ChatFormatting.LIGHT_PURPLE)
-        );
+                Component.literal(FormattingUtil.formatNumber2Places(reductionPercent))
+                        .withStyle(ChatFormatting.LIGHT_PURPLE),
+                Component.literal("%").withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 
     private int getEffectiveParallels() {
-
         return Math.floorDiv(this.assignedParallels + this.parallels, 20) + 1;
     }
 
@@ -199,9 +198,9 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         double actualDurationMultiplier = efficiencyMultiplier * parallelMultiplier * 100.0;
         return Component.translatable(
                 "start_core.machine.threading_controller.duration.pretty_format",
-                Component.literal(FormattingUtil.formatNumber2Places(actualDurationMultiplier)).withStyle(ChatFormatting.GREEN),
-                Component.literal("%").withStyle(ChatFormatting.GREEN)
-            );
+                Component.literal(FormattingUtil.formatNumber2Places(actualDurationMultiplier))
+                        .withStyle(ChatFormatting.GREEN),
+                Component.literal("%").withStyle(ChatFormatting.GREEN));
     }
 
     public int getStatAssigned(String stat) {
@@ -212,7 +211,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             case "threading" -> this.assignedThreading;
             default -> -1;
         };
-
     }
 
     public int getStatTotal(String stat) {
@@ -223,7 +221,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             case "threading" -> this.assignedThreading + this.threading;
             default -> -1;
         };
-
     }
 
     public MutableComponent getPrettyFormat(String stat) {
@@ -234,7 +231,6 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             case "threading" -> getThreadsPrettyFormat();
             default -> Component.literal("Invalid");
         };
-
     }
 
     public void assignStat(String stat, int amount) {
@@ -326,33 +322,37 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private double calculateDurationMultiplier() {
-        int spdPointsPerMark = 100; //scaler
+        int spdPointsPerMark = 100; // scaler
         int speedPoints = getEffectiveDurationReduction();
         double amountSpdMark = (double) speedPoints / spdPointsPerMark;
-        double timesDurationHalved = (-1 + Math.sqrt(1 + 8 * amountSpdMark)) / 2; //to reach each halving you need sum of that metric, example 6 points for 1/8, 6 = sum(3), 1/8 = 2^-3
+        double timesDurationHalved = (-1 + Math.sqrt(1 + 8 * amountSpdMark)) / 2; // to reach each halving you need sum
+                                                                                  // of that metric, example 6 points
+                                                                                  // for 1/8, 6 = sum(3), 1/8 = 2^-3
         return Math.pow(2, -1 * timesDurationHalved);
     }
 
     private double calculateEnergyMultiplier() {
-        int effPointsPerMark = 30; //1 more thread worth of efficiency per 30 points (linearly scales efficiency to get threads since EUt cost scales linearly)
+        int effPointsPerMark = 30; // 1 more thread worth of efficiency per 30 points (linearly scales efficiency to get
+                                   // threads since EUt cost scales linearly)
         int efficiencyPoints = getEffectivePowerReduction();
         return (double) effPointsPerMark / (effPointsPerMark + efficiencyPoints);
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof StarTThreadingCapableMachine controller && controller.isFormed()) {
-            int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, controller.getEffectiveParallels());
+            int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe,
+                    controller.getEffectiveParallels());
             double durationMultiplier = controller.calculateDurationMultiplier();
             double energyMultiplier = controller.calculateEnergyMultiplier();
 
             double finalDurationMultiplier = durationMultiplier * Math.sqrt((int) parallels);
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(parallels))
-                .durationMultiplier(finalDurationMultiplier)
-                .eutMultiplier(energyMultiplier)
-                .parallels(parallels)
-                .build();
+                    .modifyAllContents(ContentModifier.multiplier(parallels))
+                    .durationMultiplier(finalDurationMultiplier)
+                    .eutMultiplier(energyMultiplier)
+                    .parallels(parallels)
+                    .build();
         }
         return ModifierFunction.IDENTITY;
     }
@@ -416,7 +416,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        
+
         if (isFormed()) {
             textList.add(Component.empty());
             textList.add(Component.translatable("start_core.machine.threading_controller.header"));
@@ -432,25 +432,28 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                 int threadNum = 1;
                 for (ThreadedRecipeExecution thread : this.activeThreads) {
                     textList.add(Component.empty());
-                    textList.add(Component.translatable("start_core.machine.threading_controller.thread_header", Component.literal(FormattingUtil.formatNumbers(threadNum)).withStyle(ChatFormatting.GOLD)));
-                    
+                    textList.add(Component.translatable("start_core.machine.threading_controller.thread_header",
+                            Component.literal(FormattingUtil.formatNumbers(threadNum)).withStyle(ChatFormatting.GOLD)));
+
                     MultiblockDisplayText.builder(textList, true)
                             .setWorkingStatus(true, true)
                             .addProgressLine(thread.totalDuration - thread.ticksRemaining, thread.totalDuration,
-                                    (double)(thread.totalDuration - thread.ticksRemaining) / ((double)thread.totalDuration))
+                                    (double) (thread.totalDuration - thread.ticksRemaining) /
+                                            ((double) thread.totalDuration))
                             .addOutputLines(thread.recipe);
-                    
+
                     threadNum++;
                 }
-            } 
-            
+            }
+
             textList.add(Component.empty());
             textList.add(Component.translatable("start_core.machine.threading_controller.threads_available",
-                    Component.literal(FormattingUtil.formatNumbers(getEffectiveThreads() - activeThreads.size())).withStyle(ChatFormatting.RED)));
+                    Component.literal(FormattingUtil.formatNumbers(getEffectiveThreads() - activeThreads.size()))
+                            .withStyle(ChatFormatting.RED)));
         }
     }
 
-private List<GTRecipe> findThreadedRecipes() {
+    private List<GTRecipe> findThreadedRecipes() {
         int maxThreads = getEffectiveThreads();
         if (maxThreads < 1 || recipeLogic == null) {
             return List.of();
@@ -501,10 +504,9 @@ private List<GTRecipe> findThreadedRecipes() {
 
     private boolean canConsumeRecipeInputs(GTRecipe recipe) {
         if (recipe == null) return false;
-        return 
-            RecipeHelper.matchRecipe(this, recipe).isSuccess() && 
-            RecipeHelper.matchTickRecipe(this, recipe).isSuccess() &&
-            RecipeHelper.checkConditions(recipe, this.recipeLogic).isSuccess();
+        return RecipeHelper.matchRecipe(this, recipe).isSuccess() &&
+                RecipeHelper.matchTickRecipe(this, recipe).isSuccess() &&
+                RecipeHelper.checkConditions(recipe, this.recipeLogic).isSuccess();
     }
 
     private void consumeRecipeInputs(GTRecipe recipe) {
@@ -517,10 +519,10 @@ private List<GTRecipe> findThreadedRecipes() {
         if (!this.isWorkingEnabled() || this.getLevel().isClientSide || !isFormed()) {
             return;
         }
-        
+
         if (activeThreads != null && !activeThreads.isEmpty()) {
             List<ThreadedRecipeExecution> completedThreads = new ArrayList<>();
-            
+
             for (ThreadedRecipeExecution thread : activeThreads) {
                 GTRecipe recipe = thread.recipe;
                 if (RecipeHelper.matchTickRecipe(this, recipe).isSuccess()) {
@@ -544,7 +546,7 @@ private List<GTRecipe> findThreadedRecipes() {
                 activeThreads.remove(completed);
             }
         }
-        
+
         if (getEffectiveThreads() > 0 && (activeThreads.size() < getEffectiveThreads())) {
             setupThreadedExecution();
         }
@@ -552,9 +554,9 @@ private List<GTRecipe> findThreadedRecipes() {
 
     private void setupThreadedExecution() {
         List<GTRecipe> recipes = findThreadedRecipes();
-        
+
         if (recipes.isEmpty()) {
-            return; 
+            return;
         }
 
         for (GTRecipe recipe : recipes) {
@@ -591,11 +593,11 @@ private List<GTRecipe> findThreadedRecipes() {
     @Override
     public void afterWorking() {
         super.afterWorking();
-        
+
         if (this.getLevel().isClientSide) {
             return;
         }
-        
+
         if (this.recipeLogic.getProgress() == 0) {
             if (activeThreads != null) {
                 activeThreads.clear();
@@ -604,6 +606,7 @@ private List<GTRecipe> findThreadedRecipes() {
     }
 
     public static class ThreadedRecipeExecution {
+
         public GTRecipe recipe;
         public int ticksRemaining;
         public int totalDuration;

@@ -27,8 +27,9 @@ public class StarTDreamLinkRangeRenderer {
     /* Renderer helper for displaying the range of the dream-links */
     /* Should only be called client side not server side. */
     /* Credit to Noby656 for initial buffer wall rendering code. */
-    
+
     private static class ActiveBoxData {
+
         public BlockPos position;
         public int range;
 
@@ -89,21 +90,17 @@ public class StarTDreamLinkRangeRenderer {
         activeBoxes.remove(boxData);
     }
 
-    private static final RenderStateShard.TransparencyStateShard TRANSLUCENT_TRANSPARENCY =
-            new RenderStateShard.TransparencyStateShard(
-                    "translucent",
-                    () -> {
-                        RenderSystem.enableBlend();
-                        RenderSystem.defaultBlendFunc();
-                    },
-                    RenderSystem::disableBlend
-            );
+    private static final RenderStateShard.TransparencyStateShard TRANSLUCENT_TRANSPARENCY = new RenderStateShard.TransparencyStateShard(
+            "translucent",
+            () -> {
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+            },
+            RenderSystem::disableBlend);
 
-    private static final RenderStateShard.WriteMaskStateShard CUSTOM_COLOR_DEPTH_WRITE =
-            new RenderStateShard.WriteMaskStateShard(true, true);
+    private static final RenderStateShard.WriteMaskStateShard CUSTOM_COLOR_DEPTH_WRITE = new RenderStateShard.WriteMaskStateShard(
+            true, true);
 
-    
-        
     private static final RenderType TRANSLUCENT_FILL = RenderType.create(
             "bounding_box_fill",
             DefaultVertexFormat.POSITION_COLOR,
@@ -116,8 +113,7 @@ public class StarTDreamLinkRangeRenderer {
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                     .setWriteMaskState(CUSTOM_COLOR_DEPTH_WRITE)
                     .setCullState(new RenderStateShard.CullStateShard(false))
-                    .createCompositeState(true)
-    );
+                    .createCompositeState(true));
 
     @SubscribeEvent
     public static void onRenderWorld(RenderLevelStageEvent event) {
@@ -147,10 +143,10 @@ public class StarTDreamLinkRangeRenderer {
         for (ActiveBoxData boxData : activeBoxes) {
             BlockPos pos = boxData.position;
             /* Tiny bit smaller to not z-fight with blocks at that range. */
-            double radius = (double)boxData.range - 0.01f;
+            double radius = (double) boxData.range - 0.01f;
             double x1 = pos.getX() - radius;
             double z1 = pos.getZ() - radius;
-            double x2 = pos.getX() + radius + 1; // [min,max)  (exclusive max)
+            double x2 = pos.getX() + radius + 1; // [min,max) (exclusive max)
             double z2 = pos.getZ() + radius + 1;
             double minY = mc.level.getMinBuildHeight();
             double maxY = mc.level.getMaxBuildHeight();
@@ -165,7 +161,6 @@ public class StarTDreamLinkRangeRenderer {
         RenderSystem.disableBlend();
         poseStack.popPose();
     }
-
 
     private static void renderWalls(PoseStack poseStack, VertexConsumer buffer,
                                     double x1, double y1, double z1,
@@ -182,13 +177,26 @@ public class StarTDreamLinkRangeRenderer {
             float x = c * (1 - Math.abs(((h * 6) % 2) - 1));
             float m = v - c;
             float r = 0, g = 0, b = 0;
-            if (h < 1f / 6f) { r = c; g = x; }
-            else if (h < 2f / 6f) { r = x; g = c; }
-            else if (h < 3f / 6f) { g = c; b = x; }
-            else if (h < 4f / 6f) { g = x; b = c; }
-            else if (h < 5f / 6f) { r = x; b = c; }
-            else { r = c; b = x; }
-            return new float[]{r + m, g + m, b + m};
+            if (h < 1f / 6f) {
+                r = c;
+                g = x;
+            } else if (h < 2f / 6f) {
+                r = x;
+                g = c;
+            } else if (h < 3f / 6f) {
+                g = c;
+                b = x;
+            } else if (h < 4f / 6f) {
+                g = x;
+                b = c;
+            } else if (h < 5f / 6f) {
+                r = x;
+                b = c;
+            } else {
+                r = c;
+                b = x;
+            }
+            return new float[] { r + m, g + m, b + m };
         };
 
         float hueStep = 1f / 8f;
@@ -198,29 +206,42 @@ public class StarTDreamLinkRangeRenderer {
         }
 
         // Wall 1 (x1 -> x2 at z1)
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(colors[0][0], colors[0][1], colors[0][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y1, (float) z1).color(colors[1][0], colors[1][1], colors[1][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z1).color(colors[2][0], colors[2][1], colors[2][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y2, (float) z1).color(colors[3][0], colors[3][1], colors[3][2], a).endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(colors[0][0], colors[0][1], colors[0][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y1, (float) z1).color(colors[1][0], colors[1][1], colors[1][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z1).color(colors[2][0], colors[2][1], colors[2][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y2, (float) z1).color(colors[3][0], colors[3][1], colors[3][2], a)
+                .endVertex();
 
         // Wall 2 (x2 -> x1 at z2)
-        buffer.vertex(matrix, (float) x2, (float) y1, (float) z2).color(colors[4][0], colors[4][1], colors[4][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z2).color(colors[5][0], colors[5][1], colors[5][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y2, (float) z2).color(colors[6][0], colors[6][1], colors[6][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(colors[7][0], colors[7][1], colors[7][2], a).endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y1, (float) z2).color(colors[4][0], colors[4][1], colors[4][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z2).color(colors[5][0], colors[5][1], colors[5][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y2, (float) z2).color(colors[6][0], colors[6][1], colors[6][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(colors[7][0], colors[7][1], colors[7][2], a)
+                .endVertex();
 
         // Walls 3 and 4 reuse existing vertex colors for continuity
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z2).color(colors[5][0], colors[5][1], colors[5][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(colors[0][0], colors[0][1], colors[0][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y2, (float) z1).color(colors[3][0], colors[3][1], colors[3][2], a).endVertex();
-        buffer.vertex(matrix, (float) x1, (float) y2, (float) z2).color(colors[6][0], colors[6][1], colors[6][2], a).endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z2).color(colors[5][0], colors[5][1], colors[5][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y1, (float) z1).color(colors[0][0], colors[0][1], colors[0][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y2, (float) z1).color(colors[3][0], colors[3][1], colors[3][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x1, (float) y2, (float) z2).color(colors[6][0], colors[6][1], colors[6][2], a)
+                .endVertex();
 
-        buffer.vertex(matrix, (float) x2, (float) y1, (float) z1).color(colors[1][0], colors[1][1], colors[1][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y1, (float) z2).color(colors[4][0], colors[4][1], colors[4][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(colors[7][0], colors[7][1], colors[7][2], a).endVertex();
-        buffer.vertex(matrix, (float) x2, (float) y2, (float) z1).color(colors[2][0], colors[2][1], colors[2][2], a).endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y1, (float) z1).color(colors[1][0], colors[1][1], colors[1][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y1, (float) z2).color(colors[4][0], colors[4][1], colors[4][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z2).color(colors[7][0], colors[7][1], colors[7][2], a)
+                .endVertex();
+        buffer.vertex(matrix, (float) x2, (float) y2, (float) z1).color(colors[2][0], colors[2][1], colors[2][2], a)
+                .endVertex();
     }
-
-
-
 }

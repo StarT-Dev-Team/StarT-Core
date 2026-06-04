@@ -59,7 +59,8 @@ public class PonderRegistryEventJS extends EventJS {
             return scene(name, title, BASIC_STRUCTURE, scene, tags.toArray(new ResourceLocation[0]));
         }
 
-        public Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard, ResourceLocation... tags) {
+        public Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard,
+                             ResourceLocation... tags) {
             var id = StarTKubeJSPlugin.getKubeId(name);
             PonderJSUtils.TRANSLATED_SCENES.add(id);
 
@@ -67,7 +68,7 @@ public class PonderRegistryEventJS extends EventJS {
                 scene.title(id.getPath(), title);
                 try {
                     storyBoard.program(scene, util);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     PonderErrorHelper.reportJsPonderError(e);
                 }
             };
@@ -81,5 +82,4 @@ public class PonderRegistryEventJS extends EventJS {
             return this;
         }
     }
-
 }

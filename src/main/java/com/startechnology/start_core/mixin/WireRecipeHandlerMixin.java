@@ -42,7 +42,8 @@ public class WireRecipeHandlerMixin {
             });
 
     @Unique
-    private static void starT_Core$generateManualRecipe(@NotNull Consumer<FinishedRecipe> provider, @NotNull TagPrefix wirePrefix,
+    private static void starT_Core$generateManualRecipe(@NotNull Consumer<FinishedRecipe> provider,
+                                                        @NotNull TagPrefix wirePrefix,
                                                         @NotNull TagPrefix cablePrefix, int cableAmount,
                                                         @NotNull Material material) {
         int insulationAmount = INSULATION_AMOUNT.getInt(cablePrefix);
@@ -62,16 +63,15 @@ public class WireRecipeHandlerMixin {
                 .duration(100).EUt(VA[ULV])
                 .save(provider);
     }
-    
+
     /**
      * @author trulyno
      * @reason more materials
      */
     @Overwrite
     private static void generateCableCovering(@NotNull Consumer<FinishedRecipe> provider,
-                                             @NotNull WireProperties property,
-                                             @NotNull TagPrefix prefix, @NotNull Material material) {
-
+                                              @NotNull WireProperties property,
+                                              @NotNull TagPrefix prefix, @NotNull Material material) {
         if (!material.shouldGenerateRecipesFor(prefix) || property.isSuperconductor()) {
             // Superconductors have no Cables, so exit early
             return;
@@ -105,10 +105,10 @@ public class WireRecipeHandlerMixin {
         if (voltageTier <= UV) {
             // Silicone Rubber Recipe (all cables)
             GTRecipeBuilder builder = ASSEMBLER_RECIPES
-                .recipeBuilder("cover_" + material.getName() + "_" + prefix + "_silicone")
-                .EUt(VA[ULV]).duration(100)
-                .inputItems(prefix, material)
-                .outputItems(cablePrefix, material);
+                    .recipeBuilder("cover_" + material.getName() + "_" + prefix + "_silicone")
+                    .EUt(VA[ULV]).duration(100)
+                    .inputItems(prefix, material)
+                    .outputItems(cablePrefix, material);
 
             // Insulation
             // Apply a PVC Foil if EV or above.
@@ -120,18 +120,18 @@ public class WireRecipeHandlerMixin {
             if (voltageTier >= LuV) {
                 builder.inputItems(foil, PolyphenyleneSulfide, insulationAmount);
             }
-            
+
             builder.inputFluids(SiliconeRubber.getFluid(L * insulationAmount / 2))
                     .save(provider);
         }
-        
+
         if (voltageTier <= UHV) {
             // Styrene Butadiene Rubber Recipe (all cables)
             GTRecipeBuilder builder = ASSEMBLER_RECIPES
-                .recipeBuilder("cover_" + material.getName() + "_" + prefix + "_styrene_butadiene")
-                .EUt(VA[ULV]).duration(100)
-                .inputItems(prefix, material)
-                .outputItems(cablePrefix, material);
+                    .recipeBuilder("cover_" + material.getName() + "_" + prefix + "_styrene_butadiene")
+                    .EUt(VA[ULV]).duration(100)
+                    .inputItems(prefix, material)
+                    .outputItems(cablePrefix, material);
 
             // Insulation
             // Apply a PVC Foil if EV or above.
@@ -152,7 +152,7 @@ public class WireRecipeHandlerMixin {
             builder.inputFluids(StyreneButadieneRubber.getFluid(L * insulationAmount / 4))
                     .save(provider);
         }
-        
+
         // Perfluoroelastomer Rubber Recipe (all cables)
         GTRecipeBuilder builder = ASSEMBLER_RECIPES
                 .recipeBuilder("cover_" + material.getName() + "_" + prefix + "_perfluoroelastomer")

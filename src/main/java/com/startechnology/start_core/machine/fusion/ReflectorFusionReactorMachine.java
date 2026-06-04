@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.Block;
 public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
     public static final OverclockingLogic FUSION_OC = OverclockingLogic.create(
-        OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
+            OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
 
     private int tier;
 
@@ -74,8 +74,8 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         // normal fusion logic
 
         if (RecipeHelper.getRecipeEUtTier(recipe) > reactor.getTier() ||
-            !recipe.data.contains("eu_to_start") ||
-            recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
+                !recipe.data.contains("eu_to_start") ||
+                recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
             return ModifierFunction.NULL;
         }
 
@@ -186,5 +186,4 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
         last.setSelfPositionY(group.getSizeHeight() - 8);
     }
-
 }

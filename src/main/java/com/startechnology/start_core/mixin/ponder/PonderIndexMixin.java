@@ -41,5 +41,4 @@ public class PonderIndexMixin {
         var tagRegHelper = new DefaultPonderTagRegistrationHelper(StarTCore.MOD_ID, TAGS, LOCALIZATION);
         PonderEvents.TAGS.post(new PonderItemTagEventJS(tagRegHelper));
     }
-
 }

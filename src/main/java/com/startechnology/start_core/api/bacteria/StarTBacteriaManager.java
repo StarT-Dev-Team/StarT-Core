@@ -5,6 +5,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
 public class StarTBacteriaManager {
+
     public static final String BACTERIA_STATS_NBT_TAG = "bacteria_stats";
 
     public static void writeBacteriaStatsToItem(CompoundTag bacteriaCompound, StarTBacteriaStats bacteriaStats) {
@@ -18,8 +19,8 @@ public class StarTBacteriaManager {
 
     public static StarTBacteriaStats bacteriaStatsFromTag(ItemStack stack) {
         if (!stack.hasTag()) return null;
-        
-        CompoundTag bacteriaCompound =  stack.getOrCreateTag();
+
+        CompoundTag bacteriaCompound = stack.getOrCreateTag();
 
         if (!hasBacteriaStats(bacteriaCompound)) {
             return null;

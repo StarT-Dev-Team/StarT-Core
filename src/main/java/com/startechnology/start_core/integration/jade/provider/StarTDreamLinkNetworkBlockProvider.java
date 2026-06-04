@@ -25,7 +25,7 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
 
     @Override
     protected @Nullable IStarTDreamLinkNetworkMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                                    @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getDreamLinkNetworkMachine(level, pos, side);
 
         if (capability != null)
@@ -44,9 +44,8 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("network") && capData.contains("dreaming"))
-        {
+                              BlockEntity blockEntity, IPluginConfig config) {
+        if (capData.contains("network") && capData.contains("dreaming")) {
             String network = capData.getString("network");
             boolean dreaming = capData.getBoolean("dreaming");
 
@@ -56,5 +55,4 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
                 tooltip.add(Component.translatable("start_core.machine.dream_link.inactive_network", network));
         }
     }
-    
 }

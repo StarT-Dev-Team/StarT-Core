@@ -27,7 +27,5 @@ public class StarTThreadingControllerMachines {
                 .abilities(StarTPartAbility.THREADING_CONTROLLER);
     }
 
-    public static void init() {
-    }
-
+    public static void init() {}
 }

@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = WorkableElectricMultiblockMachine.class, remap = false)
 public interface WorkableElectricMultiblockMachineAccessor {
+
     @Accessor("tier")
     void start_core$setTier(int tier);
 }

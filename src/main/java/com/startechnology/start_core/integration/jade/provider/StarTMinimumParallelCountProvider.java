@@ -23,7 +23,7 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
         return StarTCore.resourceLocation("min_parallel");
     }
 
-     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
+    public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
         if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.getMetaMachine() instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
                 compoundTag.putInt("minParallel", minimumParallelHatch.starT_Core$getMinimumParallels());
@@ -33,7 +33,8 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
                 controller.getParallelHatch()
                         .ifPresent(parallelHatch -> {
                             if (parallelHatch instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
-                                compoundTag.putInt("minParallel", minimumParallelHatch.starT_Core$getMinimumParallels());
+                                compoundTag.putInt("minParallel",
+                                        minimumParallelHatch.starT_Core$getMinimumParallels());
                             }
                         });
             }
@@ -48,10 +49,9 @@ public class StarTMinimumParallelCountProvider implements IBlockComponentProvide
             if (minParallels > 1) {
                 Component minParallelComponent = Component.literal(FormattingUtil.formatNumbers(minParallels))
                         .withStyle(ChatFormatting.DARK_PURPLE);
-                iTooltip.add(1, Component.translatable("start_core.parallel_hatch.jade_min_parallel", minParallelComponent));
+                iTooltip.add(1,
+                        Component.translatable("start_core.parallel_hatch.jade_min_parallel", minParallelComponent));
             }
         }
     }
-
-
 }

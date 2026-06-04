@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMac
 import com.startechnology.start_core.mixin.ParallelHatchPartMachineAccessor;
 
 public class StarTAbsoluteParallelHatchMachine extends ParallelHatchPartMachine {
+
     public StarTAbsoluteParallelHatchMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
         int absoluteMaxParallels = 4 * (int) Math.pow(2, tier - GTValues.UHV);
@@ -14,4 +15,4 @@ public class StarTAbsoluteParallelHatchMachine extends ParallelHatchPartMachine 
         ((ParallelHatchPartMachineAccessor) this).start_core$maxParallel(absoluteMaxParallels);
         this.setCurrentParallel(absoluteMaxParallels);
     }
-}   
+}

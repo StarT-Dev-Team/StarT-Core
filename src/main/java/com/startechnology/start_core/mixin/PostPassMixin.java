@@ -43,5 +43,4 @@ public abstract class PostPassMixin implements ReplaceablePostPass {
         }
         addAuxAsset(auxName, auxFramebuffer, width, height);
     }
-
 }

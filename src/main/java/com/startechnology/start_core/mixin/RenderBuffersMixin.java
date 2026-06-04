@@ -23,7 +23,7 @@ public class RenderBuffersMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void injectConstructor(CallbackInfo ci) {
-        fixedBuffers.put(KomaruRendererV2.RenderTypes.KOMARU_RENDER, new BufferBuilder(KomaruRendererV2.RenderTypes.KOMARU_RENDER.bufferSize()));
+        fixedBuffers.put(KomaruRendererV2.RenderTypes.KOMARU_RENDER,
+                new BufferBuilder(KomaruRendererV2.RenderTypes.KOMARU_RENDER.bufferSize()));
     }
-
 }

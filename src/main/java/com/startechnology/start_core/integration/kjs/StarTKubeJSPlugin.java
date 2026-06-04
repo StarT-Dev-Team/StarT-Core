@@ -27,7 +27,8 @@ public class StarTKubeJSPlugin extends KubeJSPlugin {
     @Override
     public void init() {
         super.init();
-        RegistryInfo.BLOCK.addType("gtceu:fusion_reflector", FusionReflectorBlockBuilder.class, FusionReflectorBlockBuilder::new);
+        RegistryInfo.BLOCK.addType("gtceu:fusion_reflector", FusionReflectorBlockBuilder.class,
+                FusionReflectorBlockBuilder::new);
     }
 
     @Override

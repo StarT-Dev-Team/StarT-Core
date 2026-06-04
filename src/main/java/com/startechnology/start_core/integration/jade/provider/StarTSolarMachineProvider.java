@@ -25,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSolarMachine> {
+
     public StarTSolarMachineProvider() {
         super(StarTCore.resourceLocation("solar_machine_info"));
     }
@@ -45,7 +46,8 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("euT") && capData.contains("formed") && capData.contains("totalCells") && capData.contains("brokenCells")) {
+        if (capData.contains("euT") && capData.contains("formed") && capData.contains("totalCells") &&
+                capData.contains("brokenCells")) {
             if (!capData.getBoolean("formed")) return;
 
             int euT = capData.getInt("euT");
@@ -58,16 +60,19 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
                 MutableComponent text;
                 MutableComponent voltageTier;
 
-                text = Component.translatable("gtceu.recipe.eu.total", FormattingUtil.formatNumbers(euT)).withStyle(ChatFormatting.RED);
+                text = Component.translatable("gtceu.recipe.eu.total", FormattingUtil.formatNumbers(euT))
+                        .withStyle(ChatFormatting.RED);
 
                 if (tier < GTValues.TIER_COUNT - 1) {
-                    voltageTier = Component.literal(GTValues.VNF[tier]).withStyle(style -> style.withColor(GTValues.VC[tier]));
+                    voltageTier = Component.literal(GTValues.VNF[tier])
+                            .withStyle(style -> style.withColor(GTValues.VC[tier]));
                 } else {
                     int calculatedSpeed = Mth.ceil(Math.log((double) euT / GTValues.V[GTValues.MAX]) / Math.log(4));
                     int speed = Mth.clamp(calculatedSpeed, 0, GTValues.TIER_COUNT);
 
                     if (speed == 0) {
-                        voltageTier = Component.literal(GTValues.VNF[tier]).withStyle(style -> style.withColor(GTValues.VC[tier]));
+                        voltageTier = Component.literal(GTValues.VNF[tier])
+                                .withStyle(style -> style.withColor(GTValues.VC[tier]));
                     } else {
                         minAmperage = (float) (minAmperage / Math.pow(4, speed));
                         voltageTier = Component.literal("MAX")
@@ -87,7 +92,8 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
                 tooltip.add(2, Component.translatable("gtceu.top.energy_production").append(" ").append(text));
             }
 
-            tooltip.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip", totalCells - capData.getInt("brokenCells"), totalCells));
+            tooltip.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip",
+                    totalCells - capData.getInt("brokenCells"), totalCells));
         }
     }
 }

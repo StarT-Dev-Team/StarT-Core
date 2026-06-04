@@ -29,22 +29,25 @@ import java.util.regex.Pattern;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTFusionBlocks {
+
     public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockstateProvider> createFusionCasingModel(String name,
                                                                                                                                     IFusionCasingType casingType) {
         return (ctx, prov) -> {
             ActiveBlock block = ctx.getEntry();
             ModelFile inactive = prov.models().cubeAll(name, casingType.getTexture());
-            ModelFile active = prov.models().withExistingParent(name + "_active", StarTCore.resourceLocation("block/cube_2_layer/all"))
+            ModelFile active = prov.models()
+                    .withExistingParent(name + "_active", StarTCore.resourceLocation("block/cube_2_layer/all"))
                     .texture("bot_all", casingType.getTexture())
                     .texture("top_all", new ResourceLocation(casingType.getTexture() + "_bloom"));
             prov.getVariantBuilder(block)
-                    .partialState().with(GTBlockStateProperties.ACTIVE, false).modelForState().modelFile(inactive).addModel()
-                    .partialState().with(GTBlockStateProperties.ACTIVE, true).modelForState().modelFile(active).addModel();
+                    .partialState().with(GTBlockStateProperties.ACTIVE, false).modelForState().modelFile(inactive)
+                    .addModel()
+                    .partialState().with(GTBlockStateProperties.ACTIVE, true).modelForState().modelFile(active)
+                    .addModel();
         };
     }
 
     private static BlockEntry<FusionCasingBlock> createFusionCasing(IFusionCasingType casingType) {
-
         String langValue = Pattern.compile("\\d+")
                 .matcher(StarTStringUtils.snakeCaseToSentence(casingType.getSerializedName()))
                 .replaceAll(m -> FormattingUtil.toRomanNumeral(Integer.parseInt(m.group())))
@@ -54,7 +57,8 @@ public class StarTFusionBlocks {
                 .block(casingType.getSerializedName(), p -> new FusionCasingBlock(p, casingType))
                 .lang(langValue)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
-                .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL).isValidSpawn((state, level, pos, ent) -> false))
+                .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL)
+                        .isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(() -> RenderType::cutoutMipped)
                 .blockstate(createFusionCasingModel(casingType.getSerializedName(), casingType))
                 .tag(GTToolType.WRENCH.harvestTags.get(0), CustomTags.TOOL_TIERS[casingType.getHarvestLevel()])
@@ -66,22 +70,22 @@ public class StarTFusionBlocks {
     }
 
     public static final BlockEntry<FusionCasingBlock> AUXILIARY_BOOSTED_FUSION_CASING_MK1 = createFusionCasing(
-        StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK1);
+            StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK1);
 
     public static final BlockEntry<FusionCasingBlock> AUXILIARY_FUSION_COIL_MK1 = createFusionCasing(
-        StarTFusionCasings.AUXILIARY_FUSION_COIL_MK1);
+            StarTFusionCasings.AUXILIARY_FUSION_COIL_MK1);
 
     public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK4 = createFusionCasing(
-        StarTFusionCasings.FUSION_CASING_MK4);
+            StarTFusionCasings.FUSION_CASING_MK4);
 
     public static final BlockEntry<FusionCasingBlock> ADVANCED_FUSION_COIL = createFusionCasing(
-        StarTFusionCasings.ADVANCED_FUSION_COIL);
+            StarTFusionCasings.ADVANCED_FUSION_COIL);
 
     public static final BlockEntry<FusionCasingBlock> AUXILIARY_BOOSTED_FUSION_CASING_MK2 = createFusionCasing(
-        StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK2);
+            StarTFusionCasings.AUXILIARY_BOOSTED_FUSION_CASING_MK2);
 
     public static final BlockEntry<FusionCasingBlock> AUXILIARY_FUSION_COIL_MK2 = createFusionCasing(
-        StarTFusionCasings.AUXILIARY_FUSION_COIL_MK2);
+            StarTFusionCasings.AUXILIARY_FUSION_COIL_MK2);
 
     public static void init() {}
 }

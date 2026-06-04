@@ -24,10 +24,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine
+                                          implements IRedstoneIndicatorMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTAbyssalHarvesterMachine.class,
-        WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTAbyssalHarvesterMachine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
@@ -37,7 +39,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private boolean startSaturationGain;
 
     private boolean isWorking;
-
 
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -62,13 +63,13 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         }
 
         if ((1750 <= machineSaturation && machineSaturation <= 2750) ||
-            (4750 <= machineSaturation && machineSaturation <= 5750) ||
-            (7750 <= machineSaturation && machineSaturation <= 8750)) {
+                (4750 <= machineSaturation && machineSaturation <= 5750) ||
+                (7750 <= machineSaturation && machineSaturation <= 8750)) {
             int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
-                .parallels(maxPossibleParallels)
-                .build();
+                    .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+                    .parallels(maxPossibleParallels)
+                    .build();
         }
 
         return ModifierFunction.IDENTITY;
@@ -78,7 +79,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         textList.add(Component.translatable("ui.start_core.abyssal_harvester",
-            String.format("%.2f", this.getSaturation() / 100.0)));
+                String.format("%.2f", this.getSaturation() / 100.0)));
     }
 
     @Override
@@ -108,10 +109,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     }
 
     private static final List<Integer> redstoneSaturationMarkers = List.of(
-        12000, // 120.00%
-        9000,  // 90.00%
-        6000,  // 60.00%
-        3000   // 30.00%
+            12000, // 120.00%
+            9000,  // 90.00%
+            6000,  // 60.00%
+            3000   // 30.00%
     );
 
     private void saturationChanged() {
@@ -174,16 +175,18 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     @Override
     public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return redstoneSaturationMarkers.stream().map(
-            marker -> {
-                BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                return new RedstoneIndicatorRecord(
-                    "variadic.start_core.indicator.abyssal_harvester." + label,
-                    Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
-                    Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY),
-                    (int) Math.floor(calculatePercentageSaturation(marker)),
-                    marker
-                );
-            }
-        ).toList();
+                marker -> {
+                    BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2,
+                            RoundingMode.HALF_UP);
+                    return new RedstoneIndicatorRecord(
+                            "variadic.start_core.indicator.abyssal_harvester." + label,
+                            Component.translatable("variadic.start_core.indicator.abyssal_harvester",
+                                    Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
+                            Component
+                                    .translatable("variadic.start_core.description.abyssal_harvester", label.toString())
+                                    .withStyle(ChatFormatting.GRAY),
+                            (int) Math.floor(calculatePercentageSaturation(marker)),
+                            marker);
+                }).toList();
     }
 }

@@ -88,7 +88,7 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
                 for (var controller : this.controllers) {
                     controller.onPartUnload();
                     controller.onStructureFormed();
-                    
+
                     /* Hopefully this invokes recipe finding logic so the machine doesnt just halt */
                     if (controller instanceof WorkableMultiblockMachine workableMultiblock) {
                         workableMultiblock.getRecipeLogic().serverTick();
@@ -104,8 +104,8 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
         this.energyContainer.setEnergyStored(Math.min(this.energyContainer.getEnergyStored(), maxCapacity));
     }
 
-
-    public static void addDisplayTextToList(Consumer<Component> componentAdder, long scaledVoltage, long scaledAmperage) {
+    public static void addDisplayTextToList(Consumer<Component> componentAdder, long scaledVoltage,
+                                            long scaledAmperage) {
         if (scaledVoltage > BASE_VOLTAGE && scaledAmperage > 0) {
             var tier = GTUtil.getTierByVoltage(scaledVoltage);
 
@@ -120,7 +120,8 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
                     .withStyle(ChatFormatting.YELLOW));
 
         } else {
-            componentAdder.accept(Component.translatable("modular.start_core.no_scaling").withStyle(ChatFormatting.RED));
+            componentAdder
+                    .accept(Component.translatable("modular.start_core.no_scaling").withStyle(ChatFormatting.RED));
         }
     }
 

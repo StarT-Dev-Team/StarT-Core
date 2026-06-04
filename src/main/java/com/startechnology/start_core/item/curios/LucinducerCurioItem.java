@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class LucinducerCurioItem implements ICurioItem {
+
     private static final String SLOT_ID = "lucinducer";
     private static final String DREAM_NETWORK_KEY = "dream_network";
     private static final Map<ReceiverKey, InventoryChargingReceiver> RECEIVERS = new HashMap<>();
@@ -152,12 +153,14 @@ public class LucinducerCurioItem implements ICurioItem {
     }
 
     private record ReceiverKey(UUID playerId, String identifier, int index) {
+
         private static ReceiverKey from(SlotContext slotContext) {
             return new ReceiverKey(slotContext.entity().getUUID(), slotContext.identifier(), slotContext.index());
         }
     }
 
     private static final class InventoryChargingReceiver implements IStarTDreamLinkNetworkRecieveEnergy {
+
         private ServerPlayer player;
         private ItemStack lucinducer = ItemStack.EMPTY;
         private BlockPos position = BlockPos.ZERO;

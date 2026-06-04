@@ -61,13 +61,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTThreadingCapableMachine> {
+
     public StarTThreadedRecipeProvider() {
         super(StarTCore.resourceLocation("threading_recipes"));
     }
 
     @Override
     protected @Nullable StarTThreadingCapableMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                                   @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
 
         return capability;
@@ -177,8 +178,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-
+                              BlockEntity blockEntity, IPluginConfig config) {
         int threadAmount = capData.getInt("thread_amount");
         for (int i = 0; i < threadAmount; i++) {
             tooltip.add(Component
@@ -344,7 +344,6 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             }
         }
     }
-
 
     private void addFluidTooltips(ITooltip iTooltip, List<FluidIngredient> outputFluids) {
         for (FluidIngredient fluidOutput : outputFluids) {

@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = ParallelHatchPartMachine.class, remap = false)
 public interface ParallelHatchPartMachineAccessor {
+
     @Accessor("maxParallel")
     void start_core$maxParallel(int maxParallel);
 }

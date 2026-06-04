@@ -8,6 +8,7 @@ import net.minecraft.nbt.Tag;
 import java.util.Arrays;
 
 public class StarTCustomTooltipsManager {
+
     public static final String CUSTOM_TOOLTIPS_NBT_TAG = "custom_tooltips";
 
     public static boolean hasCustomTooltip(CompoundTag customTooltipTag) {
@@ -21,7 +22,7 @@ public class StarTCustomTooltipsManager {
         Arrays.asList(tooltips).forEach(tooltip -> {
             tooltipsList.add(StringTag.valueOf(tooltip));
         });
-        
+
         tooltipsTag.put(CUSTOM_TOOLTIPS_NBT_TAG, tooltipsList);
     }
 
@@ -33,5 +34,4 @@ public class StarTCustomTooltipsManager {
         ListTag tooltipTags = customTooltipTag.getList(CUSTOM_TOOLTIPS_NBT_TAG, 8);
         return new StarTCustomTooltip(tooltipTags);
     }
-
 }

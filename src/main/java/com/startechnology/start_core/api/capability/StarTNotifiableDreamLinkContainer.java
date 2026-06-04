@@ -15,18 +15,18 @@ import java.util.UUID;
 public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-        StarTNotifiableDreamLinkContainer .class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
+            StarTNotifiableDreamLinkContainer.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
 
     private TickableSubscription addTickSubscription;
 
     public StarTNotifiableDreamLinkContainer(MetaMachine machine, long maxCapacity, long maxInputVoltage,
-            long maxInputAmperage, long maxOutputVoltage, long maxOutputAmperage) {
+                                             long maxInputAmperage, long maxOutputVoltage, long maxOutputAmperage) {
         super(machine, maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
     }
 
     /* Shorthand for reciever version constructor */
     public static StarTNotifiableDreamLinkContainer receiverContainer(MetaMachine machine, long maxCapacity,
-                                                             long maxInputVoltage, long maxInputAmperage) {
+                                                                      long maxInputVoltage, long maxInputAmperage) {
         return new StarTNotifiableDreamLinkContainer(machine, maxCapacity, maxInputVoltage, maxInputAmperage, 0L, 0L);
     }
 
@@ -43,7 +43,7 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
     protected void addToTreeSubscription() {
         if (machine.getOffsetTimer() % 5 == 0) {
             UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
-            StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
+            StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine) getMachine(), ownerUUID);
 
             this.addTickSubscription.unsubscribe();
             this.addTickSubscription = null;
@@ -58,7 +58,7 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
             return;
 
         UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
-        StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine)getMachine(), ownerUUID);
+        StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine) getMachine(), ownerUUID);
     }
 
     /* Disable input from all sides */
@@ -66,6 +66,4 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
     public boolean inputsEnergy(Direction side) {
         return false;
     }
-
-
 }

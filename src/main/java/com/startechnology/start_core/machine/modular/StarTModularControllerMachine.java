@@ -31,12 +31,12 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
 
     protected boolean readyToUpdate;
 
-
     public StarTModularControllerMachine(IMachineBlockEntity holder, ResourceLocation... supportedMultiblockIds) {
         super(holder);
         this.supportedMultiblockIds = Arrays.asList(supportedMultiblockIds);
         this.readyToUpdate = false;
-        this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferModuleInterfacesTick, this::isFormed);
+        this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferModuleInterfacesTick,
+                this::isFormed);
     }
 
     @Override
@@ -164,7 +164,8 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
 
     private boolean isModularConduitContainer(IEnergyContainer container) {
         for (var part : getParts()) {
-            if (part instanceof StarTModularConduitHatchPartMachine conduit && conduit.getEnergyContainer() == container) {
+            if (part instanceof StarTModularConduitHatchPartMachine conduit &&
+                    conduit.getEnergyContainer() == container) {
                 return true;
             }
         }

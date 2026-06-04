@@ -35,7 +35,8 @@ public class PonderItemTagEventJS extends EventJS {
         builder.fin(helper);
     }
 
-    public void createTag(String id, Item displayItem, String title, String description, @Nullable Ingredient ingredient) {
+    public void createTag(String id, Item displayItem, String title, String description,
+                          @Nullable Ingredient ingredient) {
         createTag(id, builder -> {
             builder.icon(displayItem);
             builder.title(title);
@@ -109,6 +110,5 @@ public class PonderItemTagEventJS extends EventJS {
                 helper.addTagToComponent(itemId, id);
             }
         }
-
     }
 }

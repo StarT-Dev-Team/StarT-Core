@@ -17,10 +17,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHatchPartMachine implements IDataInfoProvider  {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTModularConduitHatchPartMachine.class,
-        StarTModularInterfaceHatchPartMachine.MANAGED_FIELD_HOLDER);
-    
+public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHatchPartMachine
+                                                 implements IDataInfoProvider {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTModularConduitHatchPartMachine.class,
+            StarTModularInterfaceHatchPartMachine.MANAGED_FIELD_HOLDER);
+
     @Persisted
     @Nullable
     @Getter
@@ -33,10 +36,12 @@ public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHa
         long maxIOVoltage = GTValues.V[tier];
 
         if (this.io == IO.IN) {
-            this.energyContainer = NotifiableEnergyContainer.receiverContainer(this, maxCapacity, maxIOVoltage, amperage);
+            this.energyContainer = NotifiableEnergyContainer.receiverContainer(this, maxCapacity, maxIOVoltage,
+                    amperage);
             this.energyContainer.setSideInputCondition(s -> s == getFrontFacing());
         } else {
-            this.energyContainer = NotifiableEnergyContainer.emitterContainer(this, maxCapacity, maxIOVoltage, amperage);
+            this.energyContainer = NotifiableEnergyContainer.emitterContainer(this, maxCapacity, maxIOVoltage,
+                    amperage);
             this.energyContainer.setSideOutputCondition(s -> s == getFrontFacing());
         }
     }

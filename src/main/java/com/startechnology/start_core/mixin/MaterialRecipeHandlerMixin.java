@@ -33,7 +33,6 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.get;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.BLAST_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.VACUUM_RECIPES;
 
-
 @Mixin(value = MaterialRecipeHandler.class, remap = false)
 public class MaterialRecipeHandlerMixin {
 
@@ -48,7 +47,6 @@ public class MaterialRecipeHandlerMixin {
         EBF_GASES.put(BlastProperty.GasTier.HIGHER, FluidIngredient.of(GTMaterials.Neon.getFluid(), 25));
         EBF_GASES.put(BlastProperty.GasTier.HIGHEST, FluidIngredient.of(GTMaterials.Krypton.getFluid(), 10));
     }
-
 
     /**
      * @author trulyno
@@ -126,7 +124,7 @@ public class MaterialRecipeHandlerMixin {
                         .save(provider);
             }
         }
-        
+
         // this generates ABS recipes
         // dont remove unless you hate the ABS !!!
         AlloyBlastProperty alloyBlastProperty = material.getProperty(PropertyKey.ALLOY_BLAST);
