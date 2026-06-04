@@ -1,6 +1,7 @@
 package com.startechnology.start_core.mixin;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
@@ -22,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.util.Mth;
 
 @Mixin(value = ParallelHatchPartMachine.class, remap = false)
-public class ParallelHatchPartMachineMixin extends TieredPartMachine implements IFancyUIMachine, IStarTMinimumParallelHatch {
+public abstract class ParallelHatchPartMachineMixin extends TieredPartMachine implements IFancyUIMachine, IStarTMinimumParallelHatch {
 
     public ParallelHatchPartMachineMixin(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
@@ -40,9 +41,15 @@ public class ParallelHatchPartMachineMixin extends TieredPartMachine implements 
     @Shadow
     private int currentParallel;
 
+    @Shadow
+    public abstract void setCurrentParallel(int parallelAmount);
+
+    @Shadow
+    public abstract int getCurrentParallel();
+
     @Unique
-    @Persisted
-    private int starT_Core$minimumRunParallel;
+    @Persisted(key = "minimumRunParallel")
+    private int start_core$minimumRunParallel;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void modifyMaxParallel(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
@@ -65,18 +72,29 @@ public class ParallelHatchPartMachineMixin extends TieredPartMachine implements 
         }
     }
 
+    @Unique
+    private void start_core$setUIMaxParallel(int newMax) {
+        var prevMin = start_core$getMinimumParallels();
+        setCurrentParallel(Math.max(newMax, 1));
+        start_core$setMinimumRunParallel(Mth.clamp(prevMin, 1, newMax));
+    }
+
+    @Unique
+    private void start_core$setUIMinParallel(int newMin) {
+        var prevMax = getCurrentParallel();
+        start_core$setMinimumRunParallel(Mth.clamp(newMin, 1, prevMax));
+    }
+
     @Override
     public Widget createUIWidget() {
-        ParallelHatchPartMachine thisParallel = ((ParallelHatchPartMachine)(Object)this);
-
         WidgetGroup parallelAmountGroup = new WidgetGroup(0, 0, 100, 80);
         parallelAmountGroup.addWidget(new LabelWidget(-14, 4, "start_core.parallel_hatch.max_parallel"));
-        parallelAmountGroup.addWidget(new IntInputWidget(new Position(0, 18), thisParallel::getCurrentParallel, thisParallel::setCurrentParallel)
+        parallelAmountGroup.addWidget(new IntInputWidget(new Position(0, 18), this::getCurrentParallel, this::start_core$setUIMaxParallel)
                 .setMin(MIN_PARALLEL)
                 .setMax(maxParallel));
 
         parallelAmountGroup.addWidget(new LabelWidget(-10, 50, "start_core.parallel_hatch.min_parallel"));
-        parallelAmountGroup.addWidget(new IntInputWidget(new Position(0, 64), this::starT_Core$getMinimumParallels, this::starT_Core$setMinimumRunParallel)
+        parallelAmountGroup.addWidget(new IntInputWidget(new Position(0, 64), this::start_core$getMinimumParallels, this::start_core$setUIMinParallel)
                 .setMin(MIN_PARALLEL)
                 .setMax(maxParallel));
 
@@ -84,7 +102,7 @@ public class ParallelHatchPartMachineMixin extends TieredPartMachine implements 
     }
 
     @Override
-    public int starT_Core$getMinimumParallels() {
-        return this.starT_Core$minimumRunParallel;
+    public int start_core$getMinimumParallels() {
+        return this.start_core$minimumRunParallel;
     }
 }

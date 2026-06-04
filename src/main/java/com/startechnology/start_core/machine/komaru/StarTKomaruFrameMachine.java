@@ -40,6 +40,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,13 +98,42 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
     @Persisted
     @DescSynced
+    private String lastFilamentBreakdown = "-";
+
+    @Persisted
+    @DescSynced
+    private int lastBasicModules = 0;
+
+    @Persisted
+    @DescSynced
+    private int lastAdvancedModules = 0;
+
+    @Persisted
+    @DescSynced
+    private int lastFaematterRequired = 0;
+
+    @Persisted
+    @DescSynced
+    private int lastFaematterConsumed = 0;
+
+    @Persisted
+    @DescSynced
+    private double lastModuleScaling = 1.0;
+
+    @Persisted
+    @DescSynced
+    private double lastFilamentScaling = 1.0;
+
+    @Persisted
+    @DescSynced
     private boolean stabilizationPaid = false;
 
     // client only
     @Getter
-    private int rendererAnimationType = 0;
+    private int rendererAnimationType;
     @Getter
-    private int rendererAnimationTicks = 0;
+    private int rendererAnimationTicks;
+    private int formedStatus = -1;
 
     public StarTKomaruFrameMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -111,14 +142,23 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     @Override
     public void clientTick() {
         super.clientTick();
-        if (isFormed && rendererAnimationType != 1) {
-            // formed but we are not opening
-            rendererAnimationType = 1;
-            rendererAnimationTicks = -1;
-        } else if (!isFormed && rendererAnimationType != 2) {
-            // not formed but we are not opening
-            rendererAnimationType = 2;
-            rendererAnimationTicks = -1;
+        if (formedStatus == -1) {
+            // start opened or closed
+            formedStatus = isFormed ? 1 : 0;
+            rendererAnimationType = isFormed ? 1 : 2;
+            rendererAnimationTicks = 5 * 20;
+        } else {
+            if (isFormed && formedStatus != 1) {
+                // start open animation
+                rendererAnimationType = 1;
+                rendererAnimationTicks = -1;
+                formedStatus = 1;
+            } else if (!isFormed && formedStatus != 0) {
+                // start closing animation
+                rendererAnimationType = 2;
+                rendererAnimationTicks = -1;
+                formedStatus = 0;
+            }
         }
         rendererAnimationTicks++;
     }
@@ -166,6 +206,13 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
         this.currentFaeScaling = 1.0;
         this.lastFilamentCount = 0;
         this.lastFilamentTier = -1;
+        this.lastFilamentBreakdown = "-";
+        this.lastBasicModules = 0;
+        this.lastAdvancedModules = 0;
+        this.lastFaematterRequired = 0;
+        this.lastFaematterConsumed = 0;
+        this.lastModuleScaling = 1.0;
+        this.lastFilamentScaling = 1.0;
         this.stabilizationPaid = false;
         updateStabilizationIndicators();
     }
@@ -334,17 +381,41 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
 
         textList.add(Component.empty());
         textList.add(Component.translatable("ui.start_core.komaru.stabilization"));
-        textList.add(Component.translatable("ui.start_core.komaru.c",
-                        Component.literal(String.format(Locale.ROOT, "%.2f", currentC)))
-                .withStyle(ChatFormatting.GRAY));
-        textList.add(Component.translatable("ui.start_core.komaru.fae_scaling",
-                Component.literal(String.format(Locale.ROOT, "%.2f", currentFaeScaling))).withStyle(ChatFormatting.GRAY));
-        textList.add(Component.translatable("ui.start_core.komaru.filaments",
-                Component.literal(Integer.toString(lastFilamentCount)),
-                Component.literal(Integer.toString(lastFilamentTier))).withStyle(ChatFormatting.GRAY));
         textList.add(Component.translatable(stabilizationPaid
                 ? "ui.start_core.komaru.stabilization_paid"
                 : "ui.start_core.komaru.stabilization_unpaid"));
+        textList.add(Component.translatable("ui.start_core.komaru.modules",
+                        Component.literal(Integer.toString(lastBasicModules)),
+                        Component.literal(Integer.toString(lastAdvancedModules)))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.c",
+                        formatted(currentC))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.previous_c",
+                        formatted(previousCycleC))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.required_faematter",
+                        Component.literal(Integer.toString(lastFaematterRequired)),
+                        formatted(lastFaematterRequired / 1000.0))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.consumed_faematter",
+                        Component.literal(Integer.toString(lastFaematterConsumed)),
+                        formatted(lastFaematterConsumed / 1000.0))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.fae_scaling",
+                formatted(currentFaeScaling)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.filaments",
+                Component.literal(lastFilamentBreakdown),
+                Component.literal(Integer.toString(lastFilamentCount)),
+                displayTier(lastFilamentTier)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.scaling",
+                        formatted(lastModuleScaling),
+                        formatted(lastFilamentScaling),
+                        formatted(currentFaeScaling))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.komaru.eu_multiplier",
+                        formatted(currentC / 11.0))
+                .withStyle(ChatFormatting.GRAY));
     }
 
     private static class KomaruMath {
@@ -353,7 +424,22 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
         }
 
         private static double filamentStabilizing(int filamentTier, int availableFilament) {
-            return Math.pow(1.0 - 0.025 * filamentTier, availableFilament * 0.2);
+            if (availableFilament <= 0) {
+                return 1.0;
+            }
+
+            var base = Math.max(0.0, 1.0 - 0.025 * filamentTier);
+            return Math.pow(base, availableFilament * 0.2);
+        }
+
+        private static double filamentStabilizing(FilamentStats filaments) {
+            var scaling = 1.0;
+
+            for (var entry : filaments.countsByTier().entrySet()) {
+                scaling *= filamentStabilizing(entry.getKey() - 1, entry.getValue());
+            }
+
+            return scaling;
         }
 
         private static double faeScaling(int basicModules, int advancedModules) {
@@ -361,11 +447,11 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
             return Math.pow(1.025, weightedModules);
         }
 
-        private static double consumption(int filamentTier, int availableFilament, int basicModules,
+        private static double consumption(FilamentStats filaments, int basicModules,
                                           int advancedModules, double requiredFaeMatter) {
             var consumption = requiredFaeMatter
                     * moduleScaling(basicModules, advancedModules)
-                    * filamentStabilizing(filamentTier, availableFilament)
+                    * filamentStabilizing(filaments)
                     * faeScaling(basicModules, advancedModules);
             return Mth.clamp(consumption, 10.0, 50.0);
         }
@@ -382,21 +468,36 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
             this.currentFaeScaling = 1.0;
             this.lastFilamentCount = 0;
             this.lastFilamentTier = -1;
+            this.lastFilamentBreakdown = "-";
+            this.lastBasicModules = 0;
+            this.lastAdvancedModules = 0;
+            this.lastFaematterRequired = 0;
+            this.lastFaematterConsumed = 0;
+            this.lastModuleScaling = 1.0;
+            this.lastFilamentScaling = 1.0;
             this.stabilizationPaid = true;
             updateStabilizationIndicators();
             return;
         }
 
-        FilamentStats availableFilaments = findFilaments(false);
-        double nextFaeScaling = KomaruMath.faeScaling(basicModules, advancedModules);
-        double nextC = KomaruMath.consumption(availableFilaments.tierOffset(), availableFilaments.count(),
-                basicModules, advancedModules, previousCycleC);
-        int faematterRequired = (int) Math.ceil(nextC * 1000.0);
+        var availableFilaments = findFilaments(false);
+        var nextModuleScaling = KomaruMath.moduleScaling(basicModules, advancedModules);
+        var nextFilamentScaling = KomaruMath.filamentStabilizing(availableFilaments);
+        var nextFaeScaling = KomaruMath.faeScaling(basicModules, advancedModules);
+        var nextC = KomaruMath.consumption(availableFilaments, basicModules, advancedModules, previousCycleC);
+        var faematterRequired = (int) Math.ceil(nextC * 1000.0);
 
         this.currentC = nextC;
         this.currentFaeScaling = nextFaeScaling;
+        this.lastBasicModules = basicModules;
+        this.lastAdvancedModules = advancedModules;
+        this.lastFaematterRequired = faematterRequired;
+        this.lastFaematterConsumed = 0;
+        this.lastModuleScaling = nextModuleScaling;
+        this.lastFilamentScaling = nextFilamentScaling;
         this.lastFilamentCount = availableFilaments.count();
         this.lastFilamentTier = availableFilaments.highestTier();
+        this.lastFilamentBreakdown = availableFilaments.formatBreakdown();
 
         if (drainFaematter(faematterRequired, FluidAction.SIMULATE) < faematterRequired) {
             this.stabilizationPaid = false;
@@ -405,10 +506,11 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
             return;
         }
 
-        drainFaematter(faematterRequired, FluidAction.EXECUTE);
-        FilamentStats consumedFilaments = findFilaments(true);
+        this.lastFaematterConsumed = drainFaematter(faematterRequired, FluidAction.EXECUTE);
+        var consumedFilaments = findFilaments(true);
         this.lastFilamentCount = consumedFilaments.count();
         this.lastFilamentTier = consumedFilaments.highestTier();
+        this.lastFilamentBreakdown = consumedFilaments.formatBreakdown();
         this.previousCycleC = nextC;
         this.stabilizationPaid = true;
         updateStabilizationIndicators();
@@ -465,30 +567,38 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     }
 
     private FilamentStats findFilaments(boolean consume) {
-        int count = 0;
-        int highestTier = -1;
+        var count = 0;
+        var highestTier = -1;
+        var countsByTier = new TreeMap<Integer, Integer>();
 
-        for (NotifiableItemStackHandler handler : getInputItemHandlers()) {
-            for (int slot = 0; slot < handler.getSlots(); slot++) {
-                ItemStack stack = handler.getStackInSlot(slot);
+        for (var handler : getInputItemHandlers()) {
+            for (var slot = 0; slot < handler.getSlots(); slot++) {
+                var stack = handler.getStackInSlot(slot);
                 if (stack.isEmpty()) {
                     continue;
                 }
 
-                int tier = getFilamentTier(stack);
+                var tier = getFilamentTier(stack);
                 if (tier < 0) {
                     continue;
                 }
 
-                count += stack.getCount();
-                highestTier = Math.max(highestTier, tier);
+                var stackCount = stack.getCount();
                 if (consume) {
-                    handler.extractItemInternal(slot, stack.getCount(), false);
+                    stackCount = handler.extractItemInternal(slot, stackCount, false).getCount();
                 }
+
+                if (stackCount <= 0) {
+                    continue;
+                }
+
+                count += stackCount;
+                highestTier = Math.max(highestTier, tier);
+                countsByTier.merge(tier, stackCount, Integer::sum);
             }
         }
 
-        return new FilamentStats(count, highestTier);
+        return new FilamentStats(count, highestTier, countsByTier);
     }
 
     private List<NotifiableItemStackHandler> getInputItemHandlers() {
@@ -500,7 +610,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     }
 
     private static int getFilamentTier(ItemStack stack) {
-        int[] highestTier = { -1 };
+        int[] highestTier = {-1};
         stack.getTags().forEach(tag -> {
             Matcher matcher = FILAMENT_TAG_PATTERN.matcher(tag.location().toString());
             if (matcher.matches()) {
@@ -514,10 +624,30 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
         return highestTier[0];
     }
 
-    private record FilamentStats(int count, int highestTier) {
-        private int tierOffset() {
-            return highestTier < 0 ? -1 : highestTier - 1;
+    private record FilamentStats(int count, int highestTier, Map<Integer, Integer> countsByTier) {
+        private FilamentStats {
+            countsByTier = new TreeMap<>(countsByTier);
         }
+
+        private String formatBreakdown() {
+            if (count <= 0 || countsByTier.isEmpty()) {
+                return "-";
+            }
+
+            var parts = new ArrayList<String>();
+            for (var entry : countsByTier.entrySet()) {
+                parts.add("T" + entry.getKey() + " x" + entry.getValue());
+            }
+            return String.join(", ", parts);
+        }
+    }
+
+    private static Component formatted(double value) {
+        return Component.literal(String.format(Locale.ROOT, "%.2f", value));
+    }
+
+    private static Component displayTier(int tier) {
+        return Component.literal(tier < 0 ? "-" : Integer.toString(tier));
     }
 
     private void updateStabilizationIndicators() {

@@ -8,6 +8,7 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
+import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
@@ -44,6 +45,7 @@ public class StarTSolarCellBlocks {
     public static BlockEntry<StarTSolarCell> createSolarCellBlock(StarTSolarCellType solarCellType) {
         BlockEntry<StarTSolarCell> block = START_REGISTRATE
             .block(solarCellType.getSerializedName(), p -> new StarTSolarCell(p, solarCellType))
+            .lang(String.format("%s Solar Cell", GTValues.VNF[solarCellType.getTier()] + "§r"))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false).noOcclusion())
             .blockstate(createSolarCellModel(solarCellType))

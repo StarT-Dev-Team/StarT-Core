@@ -25,7 +25,7 @@ public class StarTAbyssalharvesterMachines {
     public static MultiblockMachineDefinition ABYSSAL_HARVESTER = START_REGISTRATE
         .multiblock("abyssal_harvester", StarTAbyssalHarvesterMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("draneko_casing")))
-        .langValue("Abyssal Harvester")
+        .langValue("Abyssal Harvester [AH]")
         .tooltips(
             Component.translatable("start_core.machine.abyssal_harvester.line"),
             Component.translatable("start_core.machine.abyssal_harvester.description"),

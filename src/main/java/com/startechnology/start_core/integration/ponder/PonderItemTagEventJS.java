@@ -101,9 +101,7 @@ public class PonderItemTagEventJS extends EventJS {
             if (description == null) throw new RuntimeException("Description cannot be null for tag " + id);
 
             var tagBuilder = helper.registerTag(id).title(title).description(description);
-            if (!index) {
-                tagBuilder.addToIndex();
-            }
+            if (index) tagBuilder.addToIndex();
             tagBuilder.item(icon, true, addItemIconToItems);
             tagBuilder.register();
 

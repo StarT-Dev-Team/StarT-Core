@@ -56,10 +56,10 @@ public class PonderRegistryEventJS extends EventJS {
         }
 
         public Builder scene(String name, String title, PonderStoryBoard scene) {
-            return scene(name, title, BASIC_STRUCTURE, scene);
+            return scene(name, title, BASIC_STRUCTURE, scene, tags.toArray(new ResourceLocation[0]));
         }
 
-        private Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard, ResourceLocation... tags) {
+        public Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard, ResourceLocation... tags) {
             var id = StarTKubeJSPlugin.getKubeId(name);
             PonderJSUtils.TRANSLATED_SCENES.add(id);
 

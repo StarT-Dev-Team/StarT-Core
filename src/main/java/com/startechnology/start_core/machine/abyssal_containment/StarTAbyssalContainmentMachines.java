@@ -22,7 +22,7 @@ public class StarTAbyssalContainmentMachines {
         .multiblock("abyssal_containment_room", StarTAbyssalContainmentMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("draco_ware_casing")))
         .recipeType(StarTRecipeTypes.ABYSSAL_CONTAINMENT_RECIPE_TYPE)
-        .langValue("Abyssal Isolation Chamber")
+        .langValue("Abyssal Isolation Chamber [AIS]")
         .tooltips(
             Component.translatable("block.start_core.abyssal_containment_room_line"),
             Component.translatable("start_core.abyssal_containment_room.acr0"),

@@ -53,7 +53,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine  {
             CleanroomMachine.MANAGED_FIELD_HOLDER);
 
     public static final CleanroomType ABYSSAL_CONTAINMENT_ROOM = new CleanroomType("abyssal_containment_room",
-            "start_core:abyssal_containment_room.display_name");
+            "start_core.abyssal_containment_room.display_name");
 
     private ItemStack talismanStack = new ItemStack(ForgeRegistries.ITEMS.getValue(KubeJS.id("end_talisman")));
     private CleanroomType cleanroomType;

@@ -109,7 +109,7 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
 
         for (var part : redstoneParts) {
             if (part.getIndicatorKey() == null || !part.getIndicatorKey().equals(indicatorKey)) continue;
-            if (part.getRedstoneValue() != redstoneLevel) continue;
+            if (part.getRedstoneValue() == redstoneLevel) continue;
             part.setRedstoneValue(redstoneLevel);
         }
     }

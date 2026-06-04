@@ -29,7 +29,7 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 public class StarTKomaruFrameMachines {
     public static final MultiblockMachineDefinition KOMARU = START_REGISTRATE
         .multiblock("komaru", StarTKomaruFrameMachine::new)
-        .langValue("Komaru")
+        .langValue("Kaleidoscopically Omnipotent Mystically Ascendant Rift Umbliclus [K.O.M.A.R.U]")
         .tooltips(
             Component.translatable("block.start_core.komaru.tooltip1")
         )
@@ -41,30 +41,33 @@ public class StarTKomaruFrameMachines {
             ),
             List.of(
                 Component.translatable("block.start_core.modular_combustion_frame_d3"),
-                Component.empty(),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("block.start_core.komaru.paginated2.1"),
                 Component.translatable("block.start_core.komaru.paginated2.2"),
-                Component.empty(),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("block.start_core.komaru.paginated2.3"),
                 Component.translatable("block.start_core.komaru.paginated2.4"),
                 Component.translatable("block.start_core.komaru.paginated2.5"),
+                Component.empty(),
                 Component.translatable("block.start_core.komaru.paginated2.6")
             ),
             List.of(
                 Component.translatable("block.start_core.komaru.paginated3.1"),
                 Component.translatable("block.start_core.komaru.paginated3.2"),
                 Component.translatable("block.start_core.komaru.paginated3.3"),
-                Component.empty(),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("block.start_core.komaru.paginated3.4"),
                 Component.translatable("block.start_core.komaru.paginated3.5"),
                 Component.translatable("block.start_core.komaru.paginated3.6"),
-                Component.translatable("block.start_core.komaru.paginated3.7")
+                Component.translatable("block.start_core.komaru.paginated3.7"),
+                Component.translatable("block.start_core.komaru.paginated3.8")
             ),
             List.of(
                 Component.translatable("block.start_core.komaru.paginated4.1"),
                 Component.translatable("block.start_core.komaru.paginated4.2"),
                 Component.translatable("block.start_core.komaru.paginated4.3"),
                 Component.translatable("block.start_core.komaru.paginated4.4"),
+                Component.translatable("block.start_core.breaker_line"),
                 Component.translatable("block.start_core.komaru.paginated4.5")
             )
         ))

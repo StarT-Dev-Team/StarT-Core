@@ -21,11 +21,15 @@ public class StarTThreadingStatsPredicate {
         public int threading;
         public int amount;
         public String name;
+        public int tier;
+        public String type;
 
-        public ThreadingStatsBlockTracker(String name, int general, int speed, int efficiency, int parallels,
-                int threading) {
+        public ThreadingStatsBlockTracker(String name, int tier, String type, int general, int speed, int efficiency, int parallels,
+                                          int threading) {
             this.general = general;
             this.name = THREADING_STATS_HEADER + name;
+            this.tier = tier;
+            this.type = type;
             this.speed = speed;
             this.efficiency = efficiency;
             this.parallels = parallels;
@@ -50,7 +54,7 @@ public class StarTThreadingStatsPredicate {
         }
 
     }
-    
+
     public static boolean traceThreadingStatBlocks(MultiblockState blockWorldState) {
         BlockState state = blockWorldState.getBlockState();
         for (BlockEntry<StarTThreadingStatBlock> blockEntry : StarTThreadingStatBlocks.statBlocks) {
@@ -58,9 +62,9 @@ public class StarTThreadingStatsPredicate {
                 ThreadingStatsBlockTracker stats = blockEntry.get().getThreadingStats();
 
                 ThreadingStatsBlockTracker currentStats = blockWorldState.getMatchContext().getOrDefault(stats.name,
-                        new ThreadingStatsBlockTracker(stats.name, stats.general, stats.speed, stats.efficiency,
-                                stats.parallels, stats.threading));
-                
+                    new ThreadingStatsBlockTracker(stats.name, stats.tier, stats.type, stats.general, stats.speed, stats.efficiency,
+                        stats.parallels, stats.threading));
+
                 currentStats.increment();
                 blockWorldState.getMatchContext().set(stats.name, currentStats);
                 return true;
@@ -73,7 +77,7 @@ public class StarTThreadingStatsPredicate {
 
     public static TraceabilityPredicate threadingStatBlocks() {
         return new TraceabilityPredicate(threadingStatBlocksPredicate, () -> StarTThreadingStatBlocks.statBlocks.stream()
-                .map(entry -> new BlockInfo(entry.get().defaultBlockState(), null))
-                .toArray(BlockInfo[]::new));
+            .map(entry -> new BlockInfo(entry.get().defaultBlockState(), null))
+            .toArray(BlockInfo[]::new));
     }
 }

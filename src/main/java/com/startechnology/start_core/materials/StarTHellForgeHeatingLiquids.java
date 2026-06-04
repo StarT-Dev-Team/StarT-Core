@@ -21,6 +21,7 @@ public class StarTHellForgeHeatingLiquids {
 
     public static void register() {
         BlazingPhlogiston = new Material.Builder(StarTCore.resourceLocation("blazing_phlogiston"))
+            .langValue("§6Blazing Phlogiston")
             .liquid(new FluidBuilder().temperature(125_000_000))
             .color(0xff4500)
             .formula("🔥🔥🔥🔥")
@@ -28,6 +29,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         HellfireEssence = new Material.Builder(StarTCore.resourceLocation("hellfire_essence"))
+            .langValue("§6Hellfire Essence")
             .liquid(new FluidBuilder().temperature(25_000_000))
             .color(0xce3700)
             .formula("🔥🔥🔥🔥+")
@@ -35,6 +37,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         IgniferousElixir = new Material.Builder(StarTCore.resourceLocation("igniferous_elixir"))
+            .langValue("§6Igniferous Elixir")
             .liquid(new FluidBuilder().temperature(100_000_000))
             .color(0xff6E40)
             .formula("🔥🔥🔥")
@@ -42,6 +45,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         InfernumElixir = new Material.Builder(StarTCore.resourceLocation("infernum_elixir"))
+            .langValue("§6Infernum Elixir")
             .liquid(new FluidBuilder().temperature(20_000_000))
             .color(0xbe502f)
             .formula("🔥🔥🔥+")
@@ -49,6 +53,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         EmberheartNectar = new Material.Builder(StarTCore.resourceLocation("emberheart_nectar"))
+            .langValue("§6Emberheart Nectar")
             .liquid(new FluidBuilder().temperature(75_000_000))
             .color(0xff3C28)
             .formula("🔥🔥")
@@ -56,6 +61,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         CorefireNectar = new Material.Builder(StarTCore.resourceLocation("corefire_nectar"))
+            .langValue("§6Corefire Nectar")
             .liquid(new FluidBuilder().temperature(15_000_000))
             .color(0xba2312)
             .formula("🔥🔥+")
@@ -63,6 +69,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
     
         FlamewakeSolvent = new Material.Builder(StarTCore.resourceLocation("flamewake_solvent"))
+            .langValue("§6Flamewake Solvent")
             .liquid(new FluidBuilder().temperature(50_000_000))
             .color(0xff9933)
             .formula("🔥")
@@ -70,6 +77,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         CinderbrewSolvent = new Material.Builder(StarTCore.resourceLocation("cinderbrew_solvent"))
+            .langValue("§6Cinderbrew Solvent")
             .liquid(new FluidBuilder().temperature(10_000_000))
             .color(0xdd7208)
             .formula("🔥+")
@@ -77,6 +85,7 @@ public class StarTHellForgeHeatingLiquids {
             .buildAndRegister();
 
         InfernalTar = new Material.Builder(StarTCore.resourceLocation("infernal_tar"))
+            .langValue("§8Infernal Tar")
             .liquid(new FluidBuilder().temperature(50_000))
             .color(0x3e0000)
             .formula("🔥-")

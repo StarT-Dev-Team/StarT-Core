@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(value=FusionReactorMachine.class, remap=false)
 public class FusionEnergyPowerMixin {
     /**
-     * @author stella
-     * @reason changing the energy storage factor
+     * @author stellaurora
+     * @reason change fusion reactor energy storage formula
      */
     @Overwrite
     public static long calculateEnergyStorageFactor(int tier, int energyInputAmount) {

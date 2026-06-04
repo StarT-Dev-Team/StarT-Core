@@ -12,12 +12,12 @@ import java.util.List;
 @Mixin(value = PonderIndex.class, remap = false)
 public interface PonderIndexAccessor {
 
-    @Accessor(value = "TAGS")
+    @Accessor("TAGS")
     static PonderTagRegistry getTags() {
         throw new MixinException("Cannot access PonderIndex.TAGS directly!");
     }
 
-    @Accessor(value = "plugins")
+    @Accessor("plugins")
     static List<PonderPlugin> getPlugins() {
         throw new MixinException("Cannot access PonderIndex.plugins directly!");
     }

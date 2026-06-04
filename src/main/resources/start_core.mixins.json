@@ -21,7 +21,8 @@
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
     "WorkableElectricMultiblockMachineAccessor",
-    "WorkableElectricMultiblockMachineMixin"
+    "WorkableElectricMultiblockMachineMixin",
+    "compat.FakeSlotDropTargetMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",
@@ -29,6 +30,8 @@
     "MultiBufferSourceBufferSourceMixin",
     "PostPassMixin",
     "RenderBuffersMixin",
+    "embeddium.ChunkShaderOptionsMixin",
+    "embeddium.ShaderLoaderMixin",
     "ponder.PonderIndexAccessor",
     "ponder.PonderIndexMixin",
     "ponder.PonderInstructionMixin",

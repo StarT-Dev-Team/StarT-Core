@@ -1,5 +1,16 @@
 package com.startechnology.start_core;
 
+import com.startechnology.start_core.lang.LangHandler;
+import com.tterrag.registrate.providers.ProviderType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
+import com.startechnology.start_core.item.StarTItems;
+import com.startechnology.start_core.item.curios.LucinducerCurioItem;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
@@ -33,6 +44,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import top.theillusivec4.curios.api.CuriosApi;
 
 @SuppressWarnings("unused")
 @Mod(StarTCore.MOD_ID)
@@ -40,17 +52,21 @@ public class StarTCore {
     public static final String MOD_ID = "start_core";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final GTRegistrate START_REGISTRATE = GTRegistrate.create(StarTCore.MOD_ID);
+    @SuppressWarnings("deprecation")
     public static final RandomSource RNG = RandomSource.createThreadSafe();
 
     public static ResourceLocation resourceLocation(String path) {
         return new ResourceLocation(StarTCore.MOD_ID, path);
     }
 
-    public StarTCore() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public StarTCore(FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
+
+        StarTConfig.init();
 
         StarTCreativeTab.init();
         START_REGISTRATE.creativeModeTab(() -> StarTCreativeTab.START_CORE);
+        START_REGISTRATE.addDataGenerator(ProviderType.LANG, LangHandler::init);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
@@ -73,6 +89,7 @@ public class StarTCore {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         StarTAbyssalContainmentMachine.init();
+        CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
@@ -114,5 +131,21 @@ public class StarTCore {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         StarTMachines.init();
+    }
+
+    @SubscribeEvent
+    public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
+        LucinducerCurioItem.removeAllFor(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        LucinducerCurioItem.removeAllFor(event.getOriginal());
+        LucinducerCurioItem.removeAllFor(event.getEntity());
+    }
+
+    @SubscribeEvent
+    public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        LucinducerCurioItem.removeAllFor(event.getEntity());
     }
 }

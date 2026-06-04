@@ -46,11 +46,12 @@ public class KomaruRenderer extends DynamicRender<StarTKomaruFrameMachine, Komar
 
     @Override
     public void render(@NotNull StarTKomaruFrameMachine machine, float partialTicks, @NotNull PoseStack stack, @NotNull MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        if (machine.getRendererAnimationType() == 0) return;
         if (machine.getRendererAnimationType() == 2 && machine.getRendererAnimationTicks() > CLOSING_ANIMATION_DURATION) {
             // not active, no need to render
             return;
         }
-        // HookLevelRenderer.COLLECTED_RENDERS.add(machine);
+        KomaruRendererManager.addRenderer(machine);
     }
 
     @Override

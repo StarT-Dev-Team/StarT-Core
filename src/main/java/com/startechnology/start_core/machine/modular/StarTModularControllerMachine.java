@@ -135,7 +135,7 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         return false;
     }
 
-    private boolean transferToOutputs() {
+    protected boolean transferToOutputs() {
         if (getLevel().isClientSide || !this.readyToUpdate || !isWorkingEnabled()) return false;
 
         long outputEnergy = outputConduits.getEnergyStored();
@@ -150,15 +150,25 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
         return false;
     }
 
-    private EnergyContainerList getOutputs() {
+    protected EnergyContainerList getOutputs() {
         List<IEnergyContainer> containers = new ArrayList<>();
         List<IRecipeHandler<?>> handlers = this.getCapabilitiesFlat(IO.OUT, EURecipeCapability.CAP);
 
         for (var handler : handlers) {
-            if (handler instanceof IEnergyContainer container) {
+            if (handler instanceof IEnergyContainer container && !isModularConduitContainer(container)) {
                 containers.add(container);
             }
         }
         return new EnergyContainerList(containers);
+    }
+
+    private boolean isModularConduitContainer(IEnergyContainer container) {
+        for (var part : getParts()) {
+            if (part instanceof StarTModularConduitHatchPartMachine conduit && conduit.getEnergyContainer() == container) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

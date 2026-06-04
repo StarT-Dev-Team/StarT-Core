@@ -45,9 +45,9 @@ public class StarTTagPrefixes {
             .materialAmount(GTValues.M * 36)
             .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_DENSE));
 
-    public static final TagPrefix ballBearing = generateItemTagPrefix("ball_bearing", StarTMaterialIconTypes.ballBearing    )
-            .materialAmount(GTValues.M)
-            .generationCondition(material -> material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING));
+//    public static final TagPrefix ballBearing = generateItemTagPrefix("ball_bearing", StarTMaterialIconTypes.ballBearing    )
+//            .materialAmount(GTValues.M)
+//            .generationCondition(material -> material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING));
 
 
     public static void init() {

@@ -169,12 +169,12 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
     public static String getControllerName(int tier) {
         return switch (tier) {
-            case GTValues.LuV -> "Fusion Reactor MK I";
-            case GTValues.ZPM -> "Fusion Reactor MK II";
-            case GTValues.UV -> "Fusion Reactor MK III";
-            case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I";
-            case GTValues.UEV -> "Fusion Reactor MK IV";
-            case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
+            case GTValues.LuV -> "Fusion Reactor MK I [FRC I]";
+            case GTValues.ZPM -> "Fusion Reactor MK II [FRC II]";
+            case GTValues.UV -> "Fusion Reactor MK III [FRC III]";
+            case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I [AUX I]";
+            case GTValues.UEV -> "Fusion Reactor MK IV [FRC IV]";
+            case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II [AUX II]";
             default -> "Fusion Reactor";
         };
     }

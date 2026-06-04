@@ -19,13 +19,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class StarTSteamParallelMultiblockMachine extends SteamParallelMultiblockMachine {
 
-    public int maxParallels = 6;
-
     // if in millibuckets, this is 3.0, Meaning 3mb of steam -> 1 EU
     public static final double CONVERSION_RATE = 3.0;
 
     public StarTSteamParallelMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+        this.setMaxParallels(6);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class StarTSteamParallelMultiblockMachine extends SteamParallelMultiblock
         if (RecipeHelper.getRecipeEUtTier(recipe) > GTValues.LV) return ModifierFunction.NULL;
 
         long eut = recipe.getInputEUt().getTotalEU();
-        int parallelAmount = ParallelLogic.getParallelAmount(machine, recipe, steamMachine.maxParallels);
+        int parallelAmount = ParallelLogic.getParallelAmount(machine, recipe, steamMachine.getMaxParallels());
         double eutMultiplier = (eut * 0.8888 * parallelAmount <= 32) ? (0.8888 * parallelAmount) : (32.0 / eut);
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallelAmount))

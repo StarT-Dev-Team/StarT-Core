@@ -26,7 +26,7 @@ public class StarTBacteriaMachines {
     public static final MultiblockMachineDefinition BACTERIAL_BREEDING_VAT = START_REGISTRATE
         .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
-        .langValue("Bacterial Breeding Vat")
+        .langValue("Bacterial Breeding Vat [BBV]")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
             Component.translatable("block.start_core.vat_description"),
@@ -83,7 +83,7 @@ public class StarTBacteriaMachines {
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
         .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
         .appearanceBlock(GTBlocks.ADVANCED_COMPUTER_CASING)
-        .langValue("Bacterial Runic Mutator")
+        .langValue("Bacterial Runic Mutator [BRM]")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
             Component.translatable("block.start_core.runic_mutator_description"),
@@ -133,7 +133,7 @@ public class StarTBacteriaMachines {
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
         .multiblock("bacterial_hydrocarbon_harvester", WorkableElectricMultiblockMachine::new)
         .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
-        .langValue("Bacterial Hydrocarbon Harvester")
+        .langValue("Bacterial Hydrocarbon Harvester [BHH]")
         .tooltips(
             Component.translatable("block.start_core.bacteria_multiblock_line"),
             Component.translatable("block.start_core.harvester_description"),

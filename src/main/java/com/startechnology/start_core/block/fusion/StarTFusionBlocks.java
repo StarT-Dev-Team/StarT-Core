@@ -7,8 +7,11 @@ import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.gregtechceu.gtceu.utils.GTStringUtils;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.fusion.StarTFusionCasings;
+import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -23,6 +26,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.client.model.generators.ModelFile;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
+
+import java.util.regex.Pattern;
 
 public class StarTFusionBlocks {
     public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockstateProvider> createFusionCasingModel(String name,
@@ -40,10 +45,17 @@ public class StarTFusionBlocks {
     }
 
     private static BlockEntry<FusionCasingBlock> createFusionCasing(IFusionCasingType casingType) {
+
+        String langValue = Pattern.compile("\\d+")
+                .matcher(StarTStringUtils.snakeCaseToSentence(casingType.getSerializedName()))
+                .replaceAll(m -> FormattingUtil.toRomanNumeral(Integer.parseInt(m.group())))
+                .replace("Mk", "MK ");
+
         BlockEntry<FusionCasingBlock> casingBlock = START_REGISTRATE
                 .block(casingType.getSerializedName(), p -> new FusionCasingBlock(p, casingType))
+                .lang(langValue)
                 .initialProperties(() -> Blocks.IRON_BLOCK)
-                .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL))
+                .properties(properties -> properties.strength(5.0f, 10.0f).sound(SoundType.METAL).isValidSpawn((state, level, pos, ent) -> false))
                 .addLayer(() -> RenderType::cutoutMipped)
                 .blockstate(createFusionCasingModel(casingType.getSerializedName(), casingType))
                 .tag(GTToolType.WRENCH.harvestTags.get(0), CustomTags.TOOL_TIERS[casingType.getHarvestLevel()])

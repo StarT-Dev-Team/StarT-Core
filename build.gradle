@@ -152,6 +152,13 @@ repositories {
             includeGroup "appeng"
         }
     }
+    maven { // GuideME
+        name = 'sonatype Central'
+        url = 'https://central.sonatype.com/repository/maven-snapshots/'
+        content {
+            includeModule('org.appliedenergistics', 'guideme')
+        }
+    }
 
     maven {
         url "https://maven.ftb.dev/releases"
@@ -177,13 +184,15 @@ dependencies {
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
-    modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version") { transitive = false }
+    modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$project.gtceu_version") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("curse.maven:architectury-api-419699:5137938")
     modImplementation("curse.maven:rhino-416294:6186971")
-    modImplementation("appeng:appliedenergistics2-forge:15.3.3")
+    modImplementation("appeng:appliedenergistics2-forge:15.4.10")
+    modImplementation("org.appliedenergistics:guideme:20.1.14")
+    modImplementation("curse.maven:merequester-688367:5689932")
     modImplementation("curse.maven:jade-324717:6106101")
     modImplementation("curse.maven:embeddium-908741:5681725")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
@@ -198,10 +207,13 @@ dependencies {
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
     modImplementation("curse.maven:cofh-core-69162:5374122")
 
-    modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
+    modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
     modRuntimeOnly("curse.maven:spark-361579:4738952")
     modImplementation("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
+
+    modCompileOnly("top.theillusivec4.curios:curios-forge:$project.curios_version:api")
+    modRuntimeOnly("top.theillusivec4.curios:curios-forge:$project.curios_version")
 
     // Mixin Extras
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

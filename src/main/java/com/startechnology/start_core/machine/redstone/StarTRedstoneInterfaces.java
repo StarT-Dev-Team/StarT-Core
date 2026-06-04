@@ -25,6 +25,7 @@ public class StarTRedstoneInterfaces {
 
     public static MachineBuilder<MachineDefinition> buildRedstoneHatch(String name, IO io) {
         return StarTCore.START_REGISTRATE.machine(name, getHolder(io))
+                .langValue("§cRedstone §rVariadic Interface")
                 .tooltips(Component.translatable("start_core.redstone_hatch.d0"), Component.translatable("start_core.redstone_hatch.d1"))
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .rotationState(RotationState.ALL)

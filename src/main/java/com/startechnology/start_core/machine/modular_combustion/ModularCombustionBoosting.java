@@ -1,4 +1,4 @@
-package com.startechnology.start_core.machine.boosting;
+package com.startechnology.start_core.machine.modular_combustion;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -39,9 +39,16 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     public static final int T3_COMBUSTION_MODULE = GTValues.UV;
     public static final int T4_COMBUSTION_MODULE = GTValues.UEV;
 
-    private final int tier;
-    private boolean isActiveBoosting;
     @Persisted
+    @DescSynced
+    private final int tier;
+
+    @Persisted
+    @DescSynced
+    private boolean isActiveBoosting;
+
+    @Persisted
+    @DescSynced
     private int runningTimer = 0;
 
     private final List<ResourceLocation> acceptedFrameIds;

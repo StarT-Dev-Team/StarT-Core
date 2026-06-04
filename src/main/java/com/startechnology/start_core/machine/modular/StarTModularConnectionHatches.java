@@ -165,7 +165,7 @@ public class StarTModularConnectionHatches {
                                 Component.translatable(
                                         "gtceu.universal.tooltip.voltage_" + (io == IO.IN ? "in" : "out"),
                                         FormattingUtil.formatNumbers(GTValues.V[tier]), GTValues.VNF[tier]),
-                                Component.translatable("gtceu.universal.tooltip.amperage_in", amperage),
+                                Component.translatable("gtceu.universal.tooltip.amperage_" + (io == IO.IN ? "in" : "out"), amperage),
                                 Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
                                         FormattingUtil
                                                 .formatNumbers(

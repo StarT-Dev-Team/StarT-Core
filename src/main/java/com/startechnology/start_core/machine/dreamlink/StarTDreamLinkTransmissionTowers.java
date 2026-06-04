@@ -20,9 +20,10 @@ import net.minecraft.network.chat.Component;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTDreamLinkTransmissionTowers {
-    public static MultiblockMachineBuilder makeDreamlinkNode(String name, int range, int connections, boolean checkDimension) {
+    public static MultiblockMachineBuilder makeDreamlinkNode(String name, String langValue, int range, int connections, boolean checkDimension) {
         var multiBuilder = START_REGISTRATE
             .multiblock(name, (holder) -> new StarTDreamLinkTransmissionMachine(holder, range, connections, checkDimension))
+            .langValue(langValue)
             .tooltips(
                 Component.translatable("start_core.machine.dream_link_tower.line"),
                 Component.translatable("start_core.machine." + name + ".description"),
@@ -65,7 +66,7 @@ public class StarTDreamLinkTransmissionTowers {
         return multiBuilder;
     }
 
-        public static final MultiblockMachineDefinition DREAM_LINK_NODE = makeDreamlinkNode("dream_link_node", 16, 16, true)
+        public static final MultiblockMachineDefinition DREAM_LINK_NODE = makeDreamlinkNode("dream_link_node", "Dream-Link Node", 16, 16, true)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("         ", "         ", "         ", "     B   ", "    B    ", "   B     ", "         ", "         ", "         ", "         ", "         ")
                 .aisle("   CCC   ", "  B      ", "      B  ", "         ", "         ", "         ", "  BCCC   ", "      B  ", "         ", "         ", "         ")
@@ -87,7 +88,7 @@ public class StarTDreamLinkTransmissionTowers {
                 .build())
             .register();
 
-        public static final MultiblockMachineDefinition ONEIRIC_RELAY = makeDreamlinkNode("oneiric_relay", 32, 64, true)
+        public static final MultiblockMachineDefinition ONEIRIC_RELAY = makeDreamlinkNode("oneiric_relay", "Oneiric Relay", 32, 64, true)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("         ", "         ", "         ", "     B   ", "    B    ", "   B     ", "         ", "         ", "     B   ", "    B    ", "   B     ", "         ", "         ", "         ", "         ", "         ")
                     .aisle("   CCC   ", "  B      ", "      B  ", "         ", "         ", "         ", "  BCCC   ", "      B  ", "         ", "         ", "         ", "  B      ", "   CCCB  ", "         ", "    D    ", " D     D ")
@@ -109,7 +110,7 @@ public class StarTDreamLinkTransmissionTowers {
                 .build())
             .register();
 
-        public static final MultiblockMachineDefinition DAYDREAM_SPIRE = makeDreamlinkNode("daydream_spire", 64, -1, true)
+        public static final MultiblockMachineDefinition DAYDREAM_SPIRE = makeDreamlinkNode("daydream_spire", "Daydream Spire", 64, -1, true)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "          BBBBB          ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                 .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "        BB     BB        ", "                         ", "                         ", "                         ", "                         ", "            B            ", "         B     B         ")
@@ -135,7 +136,7 @@ public class StarTDreamLinkTransmissionTowers {
                 .build())
             .register();
 
-        public static final MultiblockMachineDefinition BEACON_OF_LUCIDITY = makeDreamlinkNode("beacon_of_lucidity", -1, -1, true)
+        public static final MultiblockMachineDefinition BEACON_OF_LUCIDITY = makeDreamlinkNode("beacon_of_lucidity", "Beacon of Lucidity", -1, -1, true)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("CA")
                 .where("C", Predicates.controller(Predicates.blocks(definition.get())))
@@ -144,7 +145,7 @@ public class StarTDreamLinkTransmissionTowers {
             )
             .register();
                     
-        public static final MultiblockMachineDefinition PARAGON_OF_THE_VEIL = makeDreamlinkNode("paragon_of_the_veil", -1, -1, false)
+        public static final MultiblockMachineDefinition PARAGON_OF_THE_VEIL = makeDreamlinkNode("paragon_of_the_veil", "§eParagon of the Veil", -1, -1, false)
             .pattern(definition -> FactoryBlockPattern.start()
                 .aisle("CA")
                 .where("C", Predicates.controller(Predicates.blocks(definition.get())))

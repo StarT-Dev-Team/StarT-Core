@@ -15,19 +15,19 @@ import java.util.Map;
 @Mixin(value = PonderTagRegistry.class, remap = false)
 public interface PonderTagRegistryAccessor {
 
-    @Accessor(value = "MISSING")
+    @Accessor("MISSING")
     PonderTag getMissing();
 
-    @Accessor(value = "localization")
+    @Accessor("localization")
     PonderLocalization getLocalization();
 
-    @Accessor(value = "componentTagMap")
+    @Accessor("componentTagMap")
     Multimap<ResourceLocation, ResourceLocation> getComponentTagMap();
 
-    @Accessor(value = "registeredTags")
+    @Accessor("registeredTags")
     Map<ResourceLocation, PonderTag> getRegisteredTags();
 
-    @Accessor(value = "listedTags")
+    @Accessor("listedTags")
     List<PonderTag> getListedTags();
 
 }
