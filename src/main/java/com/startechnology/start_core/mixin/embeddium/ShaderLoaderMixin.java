@@ -3,9 +3,10 @@ package com.startechnology.start_core.mixin.embeddium;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.jellysquid.mods.sodium.client.gl.shader.ShaderLoader;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+
+import net.minecraft.resources.ResourceLocation;
 
 @Mixin(value = ShaderLoader.class, remap = false)
 public class ShaderLoaderMixin {

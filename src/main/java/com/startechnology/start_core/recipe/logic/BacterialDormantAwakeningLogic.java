@@ -27,7 +27,6 @@ import net.minecraft.world.level.material.Fluid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_DORMANT;
 

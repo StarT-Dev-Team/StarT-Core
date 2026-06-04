@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gregtechceu.gtceu.utils.GTStringUtils;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.fusion.StarTFusionCasings;
 import com.startechnology.start_core.utils.StarTStringUtils;
@@ -25,9 +24,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.client.model.generators.ModelFile;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import java.util.regex.Pattern;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTFusionBlocks {
     public static NonNullBiConsumer<DataGenContext<Block, FusionCasingBlock>, RegistrateBlockstateProvider> createFusionCasingModel(String name,

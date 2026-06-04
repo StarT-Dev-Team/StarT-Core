@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.client.renderer.PostPass;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
