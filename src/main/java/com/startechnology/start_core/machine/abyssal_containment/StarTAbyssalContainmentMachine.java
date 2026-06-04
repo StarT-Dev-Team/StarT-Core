@@ -24,6 +24,8 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.logic.AbyssalContainmentRoomLogic;
 import dev.latvian.mods.kubejs.KubeJS;
+import dev.latvian.mods.kubejs.core.ItemStackKJS;
+import dev.latvian.mods.kubejs.core.PlayerKJS;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.ChatFormatting;
@@ -261,10 +263,10 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
             playersInside.forEach(player -> {
                 // KJS methods to match kjs better.. ULTRA YOU BETTER NOT CHANGE THIS OR I WILL
                 // violence...
-                String headId = player.kjs$getHeadArmorItem().kjs$getId();
-                String chestId = player.kjs$getChestArmorItem().kjs$getId();
-                String legsId = player.kjs$getLegsArmorItem().kjs$getId();
-                String feetId = player.kjs$getFeetArmorItem().kjs$getId();
+                String headId = ((ItemStackKJS) (Object) ((PlayerKJS) player).kjs$getHeadArmorItem()).kjs$getId();
+                String chestId = ((ItemStackKJS) (Object) ((PlayerKJS) player).kjs$getChestArmorItem()).kjs$getId();
+                String legsId = ((ItemStackKJS) (Object) ((PlayerKJS) player).kjs$getLegsArmorItem()).kjs$getId();
+                String feetId = ((ItemStackKJS) (Object) ((PlayerKJS) player).kjs$getFeetArmorItem()).kjs$getId();
 
                 // Armour check.
                 if (endArmourId("helmet").equals(headId) &&

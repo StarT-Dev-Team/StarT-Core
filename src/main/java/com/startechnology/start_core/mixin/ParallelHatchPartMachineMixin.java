@@ -59,12 +59,12 @@ public abstract class ParallelHatchPartMachineMixin extends TieredPartMachine
         this.maxParallel = (tier <= GTValues.UHV) ? (int) Math.pow(4, tier - GTValues.EV) :
                 (int) Math.pow(2, tier + 1);
         this.currentParallel = maxParallel;
-        this.starT_Core$minimumRunParallel = MIN_PARALLEL;
+        this.start_core$minimumRunParallel = MIN_PARALLEL;
     }
 
     @Unique
-    private void starT_Core$setMinimumRunParallel(int parallelAmount) {
-        this.starT_Core$minimumRunParallel = Mth.clamp(parallelAmount, MIN_PARALLEL, this.maxParallel);
+    private void start_core$setMinimumRunParallel(int parallelAmount) {
+        this.start_core$minimumRunParallel = Mth.clamp(parallelAmount, MIN_PARALLEL, this.maxParallel);
         for (IMultiController controller : this.getControllers()) {
             if (controller instanceof IRecipeLogicMachine rlm) {
                 rlm.getRecipeLogic().markLastRecipeDirty();
