@@ -20,13 +20,14 @@ import java.util.List;
 
 public class StarTDraconicInfusionMachine extends WorkableElectricMultiblockMachine {
 
-    /// Mapped item inventory looks something like this:
-    ///
-    ///
-    /// 5 6
-    /// 2 3 4
-    /// 0 1
-    ///
+    // Mapped item inventory looks something like this:
+    // spotless:off
+    //
+    //         5           6
+    //     2         3         4
+    //         0           1
+    // 
+    // spotless:on
     private static final List<Integer> RECIPE_INPUT_MAP = List.of(
             3,
             5,
