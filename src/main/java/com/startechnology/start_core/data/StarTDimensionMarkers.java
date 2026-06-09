@@ -1,27 +1,24 @@
 package com.startechnology.start_core.data;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import java.util.function.Supplier;
-
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
 
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
+import java.util.function.Supplier;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
+
 public class StarTDimensionMarkers {
-    
+
     public static final BlockEntry<Block> ABYDOS_MARKER = createMarker("abydos");
 
     public static final DimensionMarker OVERWORLD = createAndRegister(ResourceLocation.of("sgjourney:abydos", ':'), 0,
-        () -> ABYDOS_MARKER, null);
+            () -> ABYDOS_MARKER, null);
 
     public static DimensionMarker createAndRegister(ResourceLocation dim, int tier, Supplier<ItemLike> supplier,
                                                     String overrideName) {
@@ -46,5 +43,5 @@ public class StarTDimensionMarkers {
                 .register();
     }
 
-    public static final void init() {}
+    public static void init() {}
 }

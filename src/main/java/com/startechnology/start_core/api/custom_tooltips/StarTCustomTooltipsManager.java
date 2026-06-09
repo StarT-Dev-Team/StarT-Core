@@ -1,13 +1,14 @@
 package com.startechnology.start_core.api.custom_tooltips;
 
-import java.util.Arrays;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 
+import java.util.Arrays;
+
 public class StarTCustomTooltipsManager {
+
     public static final String CUSTOM_TOOLTIPS_NBT_TAG = "custom_tooltips";
 
     public static boolean hasCustomTooltip(CompoundTag customTooltipTag) {
@@ -21,7 +22,7 @@ public class StarTCustomTooltipsManager {
         Arrays.asList(tooltips).forEach(tooltip -> {
             tooltipsList.add(StringTag.valueOf(tooltip));
         });
-        
+
         tooltipsTag.put(CUSTOM_TOOLTIPS_NBT_TAG, tooltipsList);
     }
 
@@ -33,5 +34,4 @@ public class StarTCustomTooltipsManager {
         ListTag tooltipTags = customTooltipTag.getList(CUSTOM_TOOLTIPS_NBT_TAG, 8);
         return new StarTCustomTooltip(tooltipTags);
     }
-
 }

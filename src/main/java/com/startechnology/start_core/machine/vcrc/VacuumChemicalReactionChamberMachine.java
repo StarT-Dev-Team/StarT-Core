@@ -15,15 +15,17 @@ import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.vacuum_pump.IVacuumPump;
 import com.startechnology.start_core.machine.vacuum_pump.VacuumPumpPartMachine;
 import lombok.Getter;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+
 import java.util.List;
 
-public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine
+                                                  implements IRedstoneIndicatorMachine {
 
     @Persisted
     @Getter
@@ -49,12 +51,18 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
         textList.add(Component.empty());
         textList.add(Component.translatable("ui.start_core.vcrc.info"));
-        textList.add(Component.translatable("ui.start_core.vcrc.vacuum_status", formatVacuumStatus(vacuumStatus)).withStyle(ChatFormatting.GRAY));
-        textList.add(Component.translatable("ui.start_core.vcrc.vacuum_amount", formatVacuumAmount(vacuumAmount)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.vcrc.vacuum_status", formatVacuumStatus(vacuumStatus))
+                .withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("ui.start_core.vcrc.vacuum_amount", formatVacuumAmount(vacuumAmount))
+                .withStyle(ChatFormatting.GRAY));
         if (isFormed) {
-            textList.add(Component.translatable("ui.start_core.vcrc.pump_type.cap", VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpCap()))
+            textList.add(Component
+                    .translatable("ui.start_core.vcrc.pump_type.cap",
+                            VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpCap()))
                     .withStyle(ChatFormatting.GRAY));
-            textList.add(Component.translatable("ui.start_core.vcrc.pump_type.rate", VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpRate()))
+            textList.add(Component
+                    .translatable("ui.start_core.vcrc.pump_type.rate",
+                            VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpRate()))
                     .withStyle(ChatFormatting.GRAY));
         }
     }
@@ -124,7 +132,8 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     }
 
     private boolean shouldUpdateVacuum() {
-        return (getRecipeLogic().isIdle() || !isWorkingEnabled() || (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && vacuumAmount > 0.0f;
+        return (getRecipeLogic().isIdle() || !isWorkingEnabled() ||
+                (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && vacuumAmount > 0.0f;
     }
 
     private void updateVacuumSubscription() {
@@ -169,7 +178,8 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     private void setVacuumAmount(float vacuumAmount) {
         this.vacuumAmount = Mth.clamp(vacuumAmount, 0f, (float) pump.getPumpCap());
 
-        this.setIndicatorValue("variadic.start_core.indicator.vcrc.vac_to_capacity", redstoneOutputVacPercentToPumpCapacity());
+        this.setIndicatorValue("variadic.start_core.indicator.vcrc.vac_to_capacity",
+                redstoneOutputVacPercentToPumpCapacity());
     }
 
     @Override
@@ -178,10 +188,10 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
                 new RedstoneIndicatorRecord(
                         "variadic.start_core.indicator.vcrc.vac_to_capacity",
                         Component.translatable("variadic.start_core.indicator.vcrc.vac_to_capacity"),
-                        Component.translatable("variadic.start_core.description.vcrc.vac_to_capacity", FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
+                        Component.translatable("variadic.start_core.description.vcrc.vac_to_capacity",
+                                FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
                         redstoneOutputVacPercentToPumpCapacity(),
-                        0)
-        );
+                        0));
     }
 
     public static Component formatVacuumStatus(Status status) {
@@ -189,11 +199,13 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
     }
 
     public static Component formatVacuumAmount(float vacuumAmount) {
-        var status = vacuumAmount >= (100.0f - Mth.EPSILON) ? Status.FULL_VACUUM : vacuumAmount >= (80.0f - Mth.EPSILON) ? Status.PARTIAL_VACUUM : Status.PRESSURE_LOSS;
+        var status = vacuumAmount >= (100.0f - Mth.EPSILON) ? Status.FULL_VACUUM :
+                vacuumAmount >= (80.0f - Mth.EPSILON) ? Status.PARTIAL_VACUUM : Status.PRESSURE_LOSS;
         return Component.literal(FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumAmount) + "%").withStyle(status.color);
     }
 
     public enum Status {
+
         PUMPING_DOWN("ui.start_core.vcrc.vacuum_status.pumping_down", ChatFormatting.YELLOW),
         PARTIAL_VACUUM("ui.start_core.vcrc.vacuum_status.partial_vacuum", ChatFormatting.GREEN),
         FULL_VACUUM("ui.start_core.vcrc.vacuum_status.full_vacuum", ChatFormatting.DARK_GREEN),
@@ -220,6 +232,3 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         }
     }
 }
-
-
-

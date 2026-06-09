@@ -1,11 +1,5 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
-
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.geometry.Geometry;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
@@ -20,29 +14,24 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
-
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import lombok.Getter;
 import lombok.Setter;
+import rx.Observable;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -58,32 +47,40 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import rx.Observable;
 
-public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkTransmissionMachine.class,
-        WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements
+                                               IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTDreamLinkTransmissionMachine.class,
+            WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private EnergyContainerList inputHatches;
     protected ConditionalSubscriptionHandler tickSubscription;
     protected TickableSubscription tryTickSub;
 
-    private ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
+    private final ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
     private boolean isReadyToTransmit;
 
     @Persisted
     protected String network;
 
-    @Getter @Setter
+    @Getter
+    @Setter
     protected String tempNetwork;
 
-    private Integer range;
-    private Integer connections;
-    private Integer receiverCount;
-    private Boolean checkDimension;
+    private final int range;
+    private final int connections;
+    private int receiverCount;
+    private final boolean checkDimension;
 
-    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, Integer range, Integer connections, Boolean checkDimension) {
+    public StarTDreamLinkTransmissionMachine(IMachineBlockEntity holder, int range, int connections,
+                                             boolean checkDimension) {
         super(holder);
         this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferEnergyTick, this::isFormed);
         this.isReadyToTransmit = false;
@@ -135,7 +132,8 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         super.onStructureInvalid();
 
         // Toggle off render on structure invalid if it exists
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> StarTDreamLinkRangeRenderer.toggleOffBoxAtPositionWithRange(this.getPos(), this.range));
     }
 
     @Override
@@ -151,7 +149,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Override
     public void onUnload() {
         super.onUnload();
-    
+
         if (getLevel().isClientSide)
             return;
 
@@ -168,7 +166,8 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     protected void tryTransferEnergy() {
-        // Transfer energy tick only every 3 seconds, should keep up fine just averaged over 3 seconds instead of every tick/second
+        // Transfer energy tick only every 3 seconds, should keep up fine just averaged over 3 seconds instead of every
+        // tick/second
         // and help save TPS a bit due to GTM update handlers on recipe logic
         // from hatches recieving power very often?
         if (getOffsetTimer() % 60 == 0 && this.isReadyToTransmit) {
@@ -180,7 +179,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     private void updateTransferCache() {
         if (getLevel().isClientSide || !this.isReadyToTransmit || !isWorkingEnabled())
             return;
-       
+
         BlockPos centre = getPos();
         int x = centre.getX();
         int z = centre.getZ();
@@ -197,10 +196,10 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
         // Convert Observable to List once and cache it
         List<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> deviceEntries = machines
-            .filter(machine -> machine.value().canRecieve(this, this.checkDimension))
-            .toList()
-            .toBlocking()
-            .single();
+                .filter(machine -> machine.value().canRecieve(this, this.checkDimension))
+                .toList()
+                .toBlocking()
+                .single();
 
         // Sort by distance (squared distance for performance)
         deviceEntries.sort((entryA, entryB) -> {
@@ -224,7 +223,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         receiverCount = receiverCache.size();
     }
 
-    private Double getSquaredDistanceToThis(BlockPos otherPos) {
+    private double getSquaredDistanceToThis(BlockPos otherPos) {
         Vec3 thisCenter = this.getPos().getCenter();
         Vec3 otherCenter = otherPos.getCenter();
         return thisCenter.distanceToSqr(otherCenter);
@@ -240,23 +239,23 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         long energyStored = inputHatches.getEnergyStored();
         if (energyStored <= 0) return;
 
-        //  Batch energy removal to reduce method calls over iteration 
+        // Batch energy removal to reduce method calls over iteration
         long totalEnergyTransferred = 0;
-        
+
         // Cache the array reference for fastest possible access
         final Object[] receivers = receiverCache.toArray();
-        
+
         // Use array access with type casting
         for (int i = 0; i < receiverCount && energyStored > 0; i++) {
             IStarTDreamLinkNetworkRecieveEnergy device = (IStarTDreamLinkNetworkRecieveEnergy) receivers[i];
-            
+
             long energyToTransfer = device.recieveEnergy(energyStored);
             if (energyToTransfer > 0) {
                 totalEnergyTransferred += energyToTransfer;
                 energyStored -= energyToTransfer;
             }
         }
-        
+
         // Single batch energy removal at the end
         if (totalEnergyTransferred > 0) {
             inputHatches.removeEnergy(totalEnergyTransferred);
@@ -268,12 +267,12 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         IDisplayUIMachine.super.addDisplayText(textList);
 
         if (isFormed() && this.isReadyToTransmit) {
-            if (this.inputHatches.getOutputPerSec() > 0) 
+            if (this.inputHatches.getOutputPerSec() > 0)
                 textList.add(Component.translatable("start_core.machine.dream_link.active"));
             else
                 textList.add(Component.translatable("start_core.machine.dream_link.not_active"));
 
-            addTowerStatsDisplay(textList); 
+            addTowerStatsDisplay(textList);
         }
 
         getDefinition().getAdditionalDisplay().accept(this, textList);
@@ -281,47 +280,50 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
     private void addTowerStatsDisplay(List<Component> textList) {
         MutableComponent ownerComponent = Component.literal(this.getOwner().getName());
-        
-        textList.add(Component
-            .translatable("start_core.machine.dream_link.owner_title")
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.owner_hover")))));
 
         textList.add(Component
-            .translatable("start_core.machine.dream_link.owner", ownerComponent)
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.owner_hover")))));
+                .translatable("start_core.machine.dream_link.owner_title")
+                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        Component.translatable("start_core.machine.dream_link.tower.owner_hover")))));
 
-        MutableComponent inAmountComponent = Component.literal(FormattingUtil.formatNumbers(this.inputHatches.getInputPerSec() / 20))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
+        textList.add(Component
+                .translatable("start_core.machine.dream_link.owner", ownerComponent)
+                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        Component.translatable("start_core.machine.dream_link.tower.owner_hover")))));
+
+        MutableComponent inAmountComponent = Component
+                .literal(FormattingUtil.formatNumbers(this.inputHatches.getInputPerSec() / 20))
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
         textList.add(Component
                 .translatable("start_core.machine.dream_link.input_per_sec", inAmountComponent)
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         Component.translatable("start_core.machine.dream_link.tower.input_per_sec_hover")))));
 
-        MutableComponent outAmountComponent = Component.literal(FormattingUtil.formatNumbers(this.inputHatches.getOutputPerSec() / 20))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
+        MutableComponent outAmountComponent = Component
+                .literal(FormattingUtil.formatNumbers(this.inputHatches.getOutputPerSec() / 20))
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.RED));
         textList.add(Component
                 .translatable("start_core.machine.dream_link.output_per_sec", outAmountComponent)
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         Component.translatable("start_core.machine.dream_link.tower.output_per_sec_hover")))));
 
-        MutableComponent totalBufferComponent = Component.literal(FormattingUtil.formatNumbers(this.inputHatches.getEnergyStored()))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
+        MutableComponent totalBufferComponent = Component
+                .literal(FormattingUtil.formatNumbers(this.inputHatches.getEnergyStored()))
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
 
         textList.add(Component
-            .translatable("start_core.machine.dream_link.total_buffer")
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.total_buffer_hover")))));
+                .translatable("start_core.machine.dream_link.total_buffer")
+                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        Component.translatable("start_core.machine.dream_link.tower.total_buffer_hover")))));
 
         textList.add(
-            Component.translatable("start_core.machine.dream_link.total_buffer_value", totalBufferComponent)
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                    Component.translatable("start_core.machine.dream_link.tower.total_buffer_hover")))));
+                Component.translatable("start_core.machine.dream_link.total_buffer_value", totalBufferComponent)
+                        .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.translatable("start_core.machine.dream_link.tower.total_buffer_hover")))));
 
         if (this.range != -1) {
             MutableComponent rangeComponent = Component.literal(FormattingUtil.formatNumbers(this.range))
-                .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
+                    .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD));
 
             textList.add(Component
                     .translatable("start_core.machine.dream_link.range", rangeComponent)
@@ -329,9 +331,13 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                             Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
 
             /* Button for showing the range of the dream-link, no need on unlimited range stuff. */
-            textList.add(ComponentPanelWidget.withButton(Component.translatable("start_core.machine.dream_link.tower.range_show").withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            Component.translatable("start_core.machine.dream_link.tower.range_button_hover")))
-            ), "range"));
+            textList.add(
+                    ComponentPanelWidget.withButton(
+                            Component.translatable("start_core.machine.dream_link.tower.range_show")
+                                    .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                            Component.translatable(
+                                                    "start_core.machine.dream_link.tower.range_button_hover")))),
+                            "range"));
         } else {
             if (this.checkDimension) {
                 textList.add(Component
@@ -340,37 +346,37 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                                 Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
             } else {
                 textList.add(Component
-                .translatable("start_core.machine.dream_link.paragon_range")
-                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
+                        .translatable("start_core.machine.dream_link.paragon_range")
+                        .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.translatable("start_core.machine.dream_link.tower.range_hover")))));
             }
         }
 
         MutableComponent currentConnections = Component.literal(FormattingUtil.formatNumbers(this.receiverCount))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.LIGHT_PURPLE));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.LIGHT_PURPLE));
 
         MutableComponent maxConnections = Component.literal(
                 this.connections == -1 ? "∞" : FormattingUtil.formatNumbers(this.connections))
-            .setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
 
         MutableComponent connectionsDisplay = Component.literal("")
-            .append(currentConnections)
-            .append(Component.literal(" / ").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
-            .append(maxConnections);
+                .append(currentConnections)
+                .append(Component.literal(" / ").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
+                .append(maxConnections);
 
         textList.add(Component
-            .translatable("start_core.machine.dream_link.connections_display", connectionsDisplay)
-            .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Component.translatable("start_core.machine.dream_link.tower.connections_display_hover")))));
-
+                .translatable("start_core.machine.dream_link.connections_display", connectionsDisplay)
+                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        Component.translatable("start_core.machine.dream_link.tower.connections_display_hover")))));
     }
 
     /* Triggered by clicking on anything that is a button in the component panel. */
     public void onDreamLinkComponentPanelClicked(String componentData, ClickData clickData) {
         if (clickData.isRemote) {
             if (Objects.equals(componentData, "range")) {
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range));
+                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer
+                        .toggleBoxAtPositionWithRange(this.getPos(), this.range));
             }
         }
     }
@@ -379,22 +385,20 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
         group.addWidget(
-            new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                .addWidget(new LabelWidget(4, 5, "Dream-link Transmission Node"))
-                .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
-                .addWidget(
-                    new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
-                        .setMaxStringLength(64)
-                        .setValidator(input -> {
-                            if (input == null) return "";
-                            return input;
-                        })
-                        .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
-                )
-                .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText)
-                    .clickHandler(this::onDreamLinkComponentPanelClicked)
-                )
-        );
+                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
+                        .addWidget(new LabelWidget(4, 5, "Dream-link Transmission Node"))
+                        .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
+                        .addWidget(
+                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
+                                        .setMaxStringLength(64)
+                                        .setValidator(input -> {
+                                            if (input == null) return "";
+                                            return input;
+                                        })
+                                        .setHoverTooltips(Component
+                                                .translatable("start_core.machine.dream_link.network_set_hover")))
+                        .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText)
+                                .clickHandler(this::onDreamLinkComponentPanelClicked)));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
@@ -420,7 +424,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
     @Override
     public List<IFancyUIProvider> getSubTabs() {
-        return getParts().stream().filter(IFancyUIProvider.class::isInstance).map(IFancyUIProvider.class::cast)
+        return getParts().stream().filter(Objects::nonNull).map(IFancyUIProvider.class::cast)
                 .toList();
     }
 
@@ -440,14 +444,15 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     public String getNetwork() {
         return this.network;
     }
-    
+
     @Override
     public final InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
             copyItem.setTag(tag);
-            copyItem.setHoverName(Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
+            copyItem.setHoverName(
+                    Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
             player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
         }
         return InteractionResult.SUCCESS;

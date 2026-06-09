@@ -5,16 +5,18 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
 public class StarTSolarCellProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
+
     @Override
     public ResourceLocation getUid() {
         return StarTCore.resourceLocation("solar_cells");
@@ -38,8 +40,11 @@ public class StarTSolarCellProvider implements IBlockComponentProvider, IServerD
             } else if (block.getBlock() instanceof StarTSolarCell solarBlock) {
                 StarTSolarCellType solarCellType = solarBlock.getSolarCellType();
 
-                tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(serverData.getDouble("temperature")), solarCellType.getMaxTemperature()));
-                tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", serverData.getInt("durability"), solarCellType.getMaxDurability()));
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip",
+                        FormattingUtil.formatNumbers(serverData.getDouble("temperature")),
+                        solarCellType.getMaxTemperature()));
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip",
+                        serverData.getInt("durability"), solarCellType.getMaxDurability()));
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.startechnology.start_core.item.curios;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
-import com.gregtechceu.gtceu.api.capability.IElectricItem;
 import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
@@ -10,8 +9,12 @@ import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -19,22 +22,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.EmptyHandler;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.type.capability.ICurioItem;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
 public class LucinducerCurioItem implements ICurioItem {
+
     private static final String SLOT_ID = "lucinducer";
     private static final String DREAM_NETWORK_KEY = "dream_network";
     private static final Map<ReceiverKey, InventoryChargingReceiver> RECEIVERS = new HashMap<>();
@@ -156,12 +153,14 @@ public class LucinducerCurioItem implements ICurioItem {
     }
 
     private record ReceiverKey(UUID playerId, String identifier, int index) {
+
         private static ReceiverKey from(SlotContext slotContext) {
             return new ReceiverKey(slotContext.entity().getUUID(), slotContext.identifier(), slotContext.index());
         }
     }
 
     private static final class InventoryChargingReceiver implements IStarTDreamLinkNetworkRecieveEnergy {
+
         private ServerPlayer player;
         private ItemStack lucinducer = ItemStack.EMPTY;
         private BlockPos position = BlockPos.ZERO;
@@ -232,7 +231,7 @@ public class LucinducerCurioItem implements ICurioItem {
         }
 
         @Override
-        public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, Boolean checkDimension) {
+        public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
             if (!isActive()) {
                 return false;
             }

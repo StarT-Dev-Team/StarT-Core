@@ -1,25 +1,26 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.UUID;
-
 import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
 import com.github.davidmoten.rtree.geometry.Geometries;
 import com.github.davidmoten.rtree.geometry.Geometry;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
-
-import net.minecraft.core.BlockPos;
 import rx.Observable;
 
+import net.minecraft.core.BlockPos;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
+
 public class StarTDreamLinkManager {
-    private HashMap<UUID, RTree<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> DREAM_LINK_TREE = new HashMap<>();
-    private HashSet<IStarTDreamLinkNetworkRecieveEnergy> INSERTED_SET = new HashSet<>();
+
+    private final HashMap<UUID, RTree<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> DREAM_LINK_TREE = new HashMap<>();
+    private final HashSet<IStarTDreamLinkNetworkRecieveEnergy> INSERTED_SET = new HashSet<>();
 
     // Singleton for management
     private static final StarTDreamLinkManager MANAGER = new StarTDreamLinkManager();
-    
+
     private StarTDreamLinkManager() {}
 
     public static void addDevice(IStarTDreamLinkNetworkRecieveEnergy machine, UUID machineOwner) {
@@ -36,9 +37,8 @@ public class StarTDreamLinkManager {
         MANAGER.DREAM_LINK_TREE.putIfAbsent(machineOwner, RTree.create());
 
         MANAGER.INSERTED_SET.add(machine);
-        MANAGER.DREAM_LINK_TREE.compute(machineOwner, (owner, tree) -> {
-            return tree.add(machine, Geometries.point(x, z));
-        });
+        MANAGER.DREAM_LINK_TREE.computeIfPresent(machineOwner,
+                (owner, tree) -> tree.add(machine, Geometries.point(x, z)));
     }
 
     public static void removeDevice(IStarTDreamLinkNetworkRecieveEnergy machine, UUID machineOwner) {
@@ -52,12 +52,13 @@ public class StarTDreamLinkManager {
 
         // Delete from the set and tree.
         MANAGER.INSERTED_SET.remove(machine);
-        MANAGER.DREAM_LINK_TREE.compute(machineOwner, (owner, tree) -> {
-            return tree.delete(machine, Geometries.point(x, z));
-        });
+        MANAGER.DREAM_LINK_TREE.computeIfPresent(machineOwner,
+                (owner, tree) -> tree.delete(machine, Geometries.point(x, z)));
     }
 
-    public static Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getDevices(int tx, int tz, int bx, int bz, UUID machineOwner) {
+    public static Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getDevices(int tx, int tz, int bx,
+                                                                                              int bz,
+                                                                                              UUID machineOwner) {
         MANAGER.DREAM_LINK_TREE.putIfAbsent(machineOwner, RTree.create());
         var tree = MANAGER.DREAM_LINK_TREE.get(machineOwner);
         return tree.search(Geometries.rectangle(bx, bz, tx, tz));

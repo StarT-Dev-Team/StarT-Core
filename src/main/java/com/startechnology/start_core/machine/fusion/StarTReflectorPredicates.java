@@ -1,10 +1,10 @@
 package com.startechnology.start_core.machine.fusion;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.startechnology.start_core.api.StarTAPI;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.Comparator;
@@ -19,7 +19,8 @@ public class StarTReflectorPredicates {
                     var stats = entry.getKey();
                     var currentReflector = blockWorldState.getMatchContext().getOrPut("ReflectorType", stats);
                     if (!currentReflector.equals(stats)) {
-                        blockWorldState.setError(new PatternStringError("start_core.multiblock.pattern.error.reflector"));
+                        blockWorldState
+                                .setError(new PatternStringError("start_core.multiblock.pattern.error.reflector"));
                         return false;
                     }
                     return true;

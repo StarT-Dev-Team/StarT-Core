@@ -10,10 +10,11 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import dev.latvian.mods.kubejs.KubeJS;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 
 @Mixin(value = FluidDrillMachine.class, remap = false)
 public class FluidDrillMachineMixin {
@@ -24,7 +25,7 @@ public class FluidDrillMachineMixin {
      */
     @Overwrite
     public static int getDepletionChance(int tier) {
-        return switch(tier) {
+        return switch (tier) {
             case GTValues.HV -> 2;
             case GTValues.EV -> 8;
             case GTValues.ZPM -> 64;
@@ -38,7 +39,7 @@ public class FluidDrillMachineMixin {
      */
     @Overwrite
     public static int getRigMultiplier(int tier) {
-        return switch(tier) {
+        return switch (tier) {
             case GTValues.HV -> 16;
             case GTValues.EV -> 64;
             case GTValues.ZPM -> 256;
@@ -66,7 +67,7 @@ public class FluidDrillMachineMixin {
      */
     @Overwrite
     public static Block getFrameState(int tier) {
-        Material material = switch(tier) {
+        Material material = switch (tier) {
             case GTValues.HV -> GTMaterials.Titanium;
             case GTValues.EV -> GTMaterials.TungstenSteel;
             case GTValues.ZPM -> GTMaterials.NaquadahEnriched;
@@ -81,7 +82,7 @@ public class FluidDrillMachineMixin {
      */
     @Overwrite
     public static ResourceLocation getBaseTexture(int tier) {
-        String path = switch(tier) {
+        String path = switch (tier) {
             case GTValues.HV -> "block/casings/solid/machine_casing_stable_titanium";
             case GTValues.EV -> "block/casings/solid/machine_casing_robust_tungstensteel";
             case GTValues.ZPM -> "block/casings/naquadah/casing";
@@ -89,5 +90,4 @@ public class FluidDrillMachineMixin {
         };
         return (tier > GTValues.EV) ? KubeJS.id(path) : GTCEu.id(path);
     }
-
 }

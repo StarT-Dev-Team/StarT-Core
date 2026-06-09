@@ -9,8 +9,9 @@ import net.createmod.ponder.api.element.PonderElement;
 import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.element.AnimatedOverlayElementBase;
 import net.createmod.ponder.foundation.ui.PonderUI;
-import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.client.gui.GuiGraphics;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -72,10 +73,7 @@ public class PonderCustomOverlayElement extends AnimatedOverlayElementBase {
     }
 
     public record RenderContext(PonderElement getElement, PonderScene getScene, PonderUI getScreen,
-                                GuiGraphics getGraphics, float getPartialTicks, float getFade) {
-    }
+                                GuiGraphics getGraphics, float getPartialTicks, float getFade) {}
 
-    public record ActionContext(PonderElement getElement, PonderScene getScene) {
-    }
-
+    public record ActionContext(PonderElement getElement, PonderScene getScene) {}
 }

@@ -1,55 +1,52 @@
 package com.startechnology.start_core.api.capability;
 
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.gregtechceu.gtceu.common.machine.owner.PlayerOwner;
-
 import dev.ftb.mods.ftbteams.FTBTeamsAPIImpl;
 import dev.ftb.mods.ftbteams.api.Team;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
 public class IStarTGetMachineUUIDSafe {
-    
+
     /**
      * Safely get's the UUID from this machine, or returns the nearest player
      */
     public static final UUID getUUIDSafeMetaMachine(MetaMachine machine) {
         return getUUIDSafe(
-            machine.getOwner(),
-            machine.getPos(),
-            machine.getLevel(),
-            owner -> machine.setOwnerUUID(owner.getUUID())
-        );
+                machine.getOwner(),
+                machine.getPos(),
+                machine.getLevel(),
+                owner -> machine.setOwnerUUID(owner.getUUID()));
     }
 
     public static final UUID getUUIDSafeMetaMachineBlockEntity(MetaMachineBlockEntity machine) {
         return getUUIDSafe(
-            machine.getMetaMachine().getOwner(),
-            machine.getBlockPos(),
-            machine.getLevel(),
-            owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID())
-        );
+                machine.getMetaMachine().getOwner(),
+                machine.getBlockPos(),
+                machine.getLevel(),
+                owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID()));
     }
 
     /**
      * Core logic for safely getting UUID from a machine
      */
     private static UUID getUUIDSafe(
-            MachineOwner currentOwner,
-            BlockPos machinePos, 
-            Level level,
-            OwnerSetter ownerSetter) {
-        
+                                    MachineOwner currentOwner,
+                                    BlockPos machinePos,
+                                    Level level,
+                                    OwnerSetter ownerSetter) {
         // Safe case: get from the machine's owner since it exists
         try {
             if (!Objects.isNull(currentOwner) && !Objects.isNull(currentOwner.getUUID())) {
@@ -58,9 +55,8 @@ public class IStarTGetMachineUUIDSafe {
         } catch (NullPointerException e) {
             if (!e.getMessage().contains("dev.ftb.mods.ftbteams.api.Team.getId()")) {
                 throw new RuntimeException("Blame stellaurora or GTM for this one: " + e.getMessage());
-            } 
+            }
         }
-        
 
         // OOoOOHOOHOHOH Spooky territory: Try to find nearest player
 
@@ -71,19 +67,18 @@ public class IStarTGetMachineUUIDSafe {
         }
 
         Player nearestPlayer = level.getNearestPlayer(
-            machinePos.getX(), 
-            machinePos.getY(), 
-            machinePos.getZ(), 
-            10, 
-            (_player) -> true
-        );
-        
+                machinePos.getX(),
+                machinePos.getY(),
+                machinePos.getZ(),
+                10,
+                (_player) -> true);
+
         if (Objects.isNull(nearestPlayer)) {
             if (!level.isClientSide()) {
                 level.getServer().getPlayerList().broadcastSystemMessage(
-                    Component.translatable("start_core.uuid_safe.fail_nearest_player", "x: " + machinePos.getX() + " y: " + machinePos.getY() + " z: "  + machinePos.getZ()), 
-                    false
-                );
+                        Component.translatable("start_core.uuid_safe.fail_nearest_player",
+                                "x: " + machinePos.getX() + " y: " + machinePos.getY() + " z: " + machinePos.getZ()),
+                        false);
             }
             return UUID.randomUUID();
         }
@@ -113,6 +108,7 @@ public class IStarTGetMachineUUIDSafe {
      */
     @FunctionalInterface
     private interface OwnerSetter {
+
         void setOwner(MachineOwner owner);
     }
 }
