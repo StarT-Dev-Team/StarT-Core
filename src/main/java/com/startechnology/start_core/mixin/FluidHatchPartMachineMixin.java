@@ -6,24 +6,29 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import com.startechnology.start_core.api.copy.ICopyInteractable;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
+
 @Mixin(value = FluidHatchPartMachine.class, remap = false)
 public abstract class FluidHatchPartMachineMixin extends TieredIOPartMachine implements ICopyInteractable {
+
     @Unique
     private final String start$nbtFilterFluid = "filterFluid";
 
-    @Shadow @Final public NotifiableFluidTank tank;
+    @Shadow
+    @Final
+    public NotifiableFluidTank tank;
 
-    @Shadow protected abstract void updateTankSubscription();
+    @Shadow
+    protected abstract void updateTankSubscription();
 
     public FluidHatchPartMachineMixin(IMachineBlockEntity holder, int tier, IO io) {
         super(holder, tier, io);
@@ -47,7 +52,8 @@ public abstract class FluidHatchPartMachineMixin extends TieredIOPartMachine imp
             var tag = new CompoundTag();
             tag.put(start$nbtFilterFluid, this.tank.getLockedFluid().getFluid().writeToNBT(new CompoundTag()));
             card.setTag(tag);
-            card.setHoverName(card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
+            card.setHoverName(
+                    card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
             player.sendSystemMessage(copySettings);
         }
         return InteractionResult.SUCCESS;

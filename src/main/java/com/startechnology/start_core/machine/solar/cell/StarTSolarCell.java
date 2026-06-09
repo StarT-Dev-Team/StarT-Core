@@ -3,6 +3,8 @@ package com.startechnology.start_core.machine.solar.cell;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -22,7 +24,6 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 import static com.startechnology.start_core.block.solar.StarTSolarCellBlocks.START_SOLAR_CELL_BLOCK_ENTITY;
 
 public class StarTSolarCell extends Block implements EntityBlock {
+
     @Getter
     private final StarTSolarCellType solarCellType;
 
@@ -41,7 +43,8 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new StarTSolarCellBlockEntity(START_SOLAR_CELL_BLOCK_ENTITY.get(), pos, state, solarCellType.getMaxDurability());
+        return new StarTSolarCellBlockEntity(START_SOLAR_CELL_BLOCK_ENTITY.get(), pos, state,
+                solarCellType.getMaxDurability());
     }
 
     @Override
@@ -61,8 +64,8 @@ public class StarTSolarCell extends Block implements EntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
+                            ItemStack stack) {
         if (stack.hasTag() && stack.getTag().contains("BlockEntityTag")) {
 
             BlockEntity be = level.getBlockEntity(pos);
@@ -95,17 +98,21 @@ public class StarTSolarCell extends Block implements EntityBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> tooltip,
+                                TooltipFlag flag) {
         StarTSolarCellType solarCellType = getSolarCellType();
 
         CompoundTag tag = stack.getTag();
 
-        tooltip.add(Component.translatable("block.start_core.solar_cell_line").setStyle(Style.EMPTY.withColor(TextColor.parseColor("#FDB813"))));
+        tooltip.add(Component.translatable("block.start_core.solar_cell_line")
+                .setStyle(Style.EMPTY.withColor(TextColor.parseColor("#FDB813"))));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip1"));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip2"));
         tooltip.add(Component.translatable("solar.start_core.solar_cell.tooltip3"));
-        tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_scale_tooltip", solarCellType.getTemperatureScale()));
-        tooltip.add(Component.translatable("gtceu.universal.tooltip.voltage_out", FormattingUtil.formatNumbers(solarCellType.getEuT()), GTValues.VNF[solarCellType.getTier() - 1]));
+        tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_scale_tooltip",
+                solarCellType.getTemperatureScale()));
+        tooltip.add(Component.translatable("gtceu.universal.tooltip.voltage_out",
+                FormattingUtil.formatNumbers(solarCellType.getEuT()), GTValues.VNF[solarCellType.getTier() - 1]));
 
         if (tag != null && tag.contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
             CompoundTag beTag = tag.getCompound("BlockEntityTag");
@@ -113,12 +120,17 @@ public class StarTSolarCell extends Block implements EntityBlock {
             if (beTag.getBoolean("broken")) {
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.is_broken"));
             } else {
-                tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", FormattingUtil.formatNumbers(beTag.getDouble("temperature")), this.solarCellType.getMaxTemperature()));
-                tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", beTag.getInt("durability"), this.solarCellType.getMaxDurability()));
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip",
+                        FormattingUtil.formatNumbers(beTag.getDouble("temperature")),
+                        this.solarCellType.getMaxTemperature()));
+                tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip",
+                        beTag.getInt("durability"), this.solarCellType.getMaxDurability()));
             }
         } else {
-            tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", 300, this.solarCellType.getMaxTemperature()));
-            tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip", this.solarCellType.getMaxDurability(), this.solarCellType.getMaxDurability()));
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.temperature_tooltip", 300,
+                    this.solarCellType.getMaxTemperature()));
+            tooltip.add(Component.translatable("solar.start_core.solar_cell.durability_tooltip",
+                    this.solarCellType.getMaxDurability(), this.solarCellType.getMaxDurability()));
         }
 
         super.appendHoverText(stack, level, tooltip, flag);

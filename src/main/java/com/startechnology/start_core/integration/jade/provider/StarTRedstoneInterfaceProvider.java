@@ -1,14 +1,14 @@
 package com.startechnology.start_core.integration.jade.provider;
 
-import java.util.Optional;
-
-import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
+import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,9 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
+
+import java.util.Optional;
 
 public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<RedstoneInterfacePartMachine> {
 
@@ -28,7 +27,8 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
     }
 
     @Override
-    protected @Nullable RedstoneInterfacePartMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
+    protected @Nullable RedstoneInterfacePartMachine getCapability(Level level, BlockPos pos,
+                                                                   @Nullable Direction side) {
         return StarTCapabilityHelper.getRedstoneInterfacePartMachine(level, pos, side);
     }
 
@@ -42,7 +42,7 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
     /* Adds a new tooltip under the Jade stuff */
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
+                              BlockEntity blockEntity, IPluginConfig config) {
         if (!capData.contains("signal_level") || !capData.contains("indicator")) return;
 
         var signalLevel = capData.getInt("signal_level");
@@ -55,5 +55,4 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
         tooltip.add(Component.translatable("ui.start_core.redstone_signal", signalLevel));
         tooltip.add(Component.translatable("ui.start_core.indicator", indicatorComponent));
     }
-
 }

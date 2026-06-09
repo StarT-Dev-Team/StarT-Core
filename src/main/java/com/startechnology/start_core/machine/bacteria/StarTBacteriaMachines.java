@@ -23,32 +23,31 @@ import java.util.List;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTBacteriaMachines {
+
     public static final MultiblockMachineDefinition BACTERIAL_BREEDING_VAT = START_REGISTRATE
-        .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
-        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
-        .langValue("Bacterial Breeding Vat [BBV]")
-        .tooltips(
-            Component.translatable("block.start_core.bacteria_multiblock_line"),
-            Component.translatable("block.start_core.vat_description"),
-            Component.translatable("block.start_core.breaker_line")
-        )
-        .paginatedTooltips(
-            List.of(
-                List.of(
-                    Component.translatable("block.start_core.vat1"),
-                    Component.translatable("block.start_core.vat2"),
-                    Component.empty(),
-                    Component.translatable("block.start_core.vat3"),
-                    Component.empty(),
-                    Component.translatable("block.start_core.vat4"),
-                    Component.translatable("block.start_core.breaker_line")
-                )
-            )
-        )
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
-        .recipeTypes(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES)
-        .pattern(definition -> FactoryBlockPattern.start()
+            .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
+            .langValue("Bacterial Breeding Vat [BBV]")
+            .tooltips(
+                    Component.translatable("block.start_core.bacteria_multiblock_line"),
+                    Component.translatable("block.start_core.vat_description"),
+                    Component.translatable("block.start_core.breaker_line"))
+            .paginatedTooltips(
+                    List.of(
+                            List.of(
+                                    Component.translatable("block.start_core.vat1"),
+                                    Component.translatable("block.start_core.vat2"),
+                                    Component.empty(),
+                                    Component.translatable("block.start_core.vat3"),
+                                    Component.empty(),
+                                    Component.translatable("block.start_core.vat4"),
+                                    Component.translatable("block.start_core.breaker_line"))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT,
+                    GTRecipeModifiers.BATCH_MODE)
+            .recipeTypes(StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
             .aisle("    BBBBB    ", "             ", "             ", "             ", "     C C     ", "      C      ", "     CCC     ")
             .aisle("  BBBDDDBBB  ", "     EEE     ", "   C EEE C   ", "    C   C    ", "             ", "     EEE     ", "   CC   CC   ")
             .aisle(" BBDDDDDDDBB ", "  CEEDDDEEC  ", "   EEDDDEE   ", "     EEE     ", "     EEE     ", "   EEEEEEE   ", "  C       C  ")
@@ -62,42 +61,45 @@ public class StarTBacteriaMachines {
             .aisle(" BBDDDDDDDBB ", "  CEEDDDEEC  ", "   EEDDDEE   ", "     EEE     ", "     EEE     ", "   EEEEEEE   ", "  C       C  ")
             .aisle("  BBBDDDBBB  ", "     EEE     ", "   C E@E C   ", "    C   C    ", "             ", "     EEE     ", "   CC   CC   ")
             .aisle("    BBBBB    ", "             ", "             ", "             ", "     C C     ", "      C      ", "     CCC     ")
-            .where(" ", Predicates.any())
-            .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_firebox_casing")))
-            .where("C", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
-            .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing")))
-            .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing"))
-                .setMinGlobalLimited(164)
-                .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
-            .where("F", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
-            .where("G", Predicates.blocks(GTBlocks.CASING_PTFE_INERT.get()))
-            .where("H", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"), GTCEu.id("block/machines/brewery"))
-        .register();
+                // spotless:on
+                    .where(" ", Predicates.any())
+                    .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_firebox_casing")))
+                    .where("C",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                    .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing")))
+                    .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing"))
+                            .setMinGlobalLimited(164)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
+                    .where("F", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
+                    .where("G", Predicates.blocks(GTBlocks.CASING_PTFE_INERT.get()))
+                    .where("H", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),
+                    GTCEu.id("block/machines/brewery"))
+            .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
-        .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
-        .appearanceBlock(GTBlocks.ADVANCED_COMPUTER_CASING)
-        .langValue("Bacterial Runic Mutator [BRM]")
-        .tooltips(
-            Component.translatable("block.start_core.bacteria_multiblock_line"),
-            Component.translatable("block.start_core.runic_mutator_description"),
-            Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.rm0"),
-            Component.translatable("block.start_core.rm1"),
-            Component.translatable("block.start_core.breaker_line"),
-            Component.translatable("block.start_core.rm3"),
-            Component.translatable("block.start_core.rm4")
-        )
-        .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeTypes(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES)
-        .pattern(definition -> FactoryBlockPattern.start()
+            .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
+            .appearanceBlock(GTBlocks.ADVANCED_COMPUTER_CASING)
+            .langValue("Bacterial Runic Mutator [BRM]")
+            .tooltips(
+                    Component.translatable("block.start_core.bacteria_multiblock_line"),
+                    Component.translatable("block.start_core.runic_mutator_description"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.rm0"),
+                    Component.translatable("block.start_core.rm1"),
+                    Component.translatable("block.start_core.breaker_line"),
+                    Component.translatable("block.start_core.rm3"),
+                    Component.translatable("block.start_core.rm4"))
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeTypes(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
             .aisle("               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "     BBBBB     ", "               ", "               ", "               ")
             .aisle("    CCCCCCC    ", "      CCC      ", "               ", "               ", "               ", "               ", "               ", "               ", "     DDDDD     ", "     D   D     ", "  BBBBEEEBBBB  ", "      BBB      ", "               ", "               ")
             .aisle("   CCCCCCCCC   ", "    CCCECCC    ", "    D     D    ", "               ", "               ", "               ", "               ", "   D       D   ", "   DD     DD   ", "  D         D  ", " BB    E    BB ", "   BBBBBBBBB   ", "       B       ", "               ")
@@ -113,72 +115,74 @@ public class StarTBacteriaMachines {
             .aisle("   CCCCCCCCC   ", "    CCCECCC    ", "    D     D    ", "               ", "               ", "               ", "               ", "   D       D   ", "   DD     DD   ", "  D         D  ", " BB    E    BB ", "   BBBBBBBBB   ", "       B       ", "               ")
             .aisle("    CCCCCCC    ", "      CCC      ", "               ", "               ", "               ", "               ", "               ", "               ", "     DDDDD     ", "     D   D     ", "  BBBBEEEBBBB  ", "      BBB      ", "               ", "               ")
             .aisle("               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "     BBBBB     ", "               ", "               ", "               ")
-            .where(" ", Predicates.any())
-            .where("B", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
-            .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing")))
-            .where("D", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
-            .where("E", Predicates.blocks(GTBlocks.COMPUTER_CASING.get()))
-            .where("F", Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get())
-                .setMinGlobalLimited(25)
-                .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-            .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
-            .where("H", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .sidedWorkableCasingModel(GTCEu.id("block/casings/hpca/advanced_computer_casing"), GTCEu.id("block/multiblock/implosion_compressor"))
-        .register();
+                // spotless:on
+                    .where(" ", Predicates.any())
+                    .where("B", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing")))
+                    .where("D",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                    .where("E", Predicates.blocks(GTBlocks.COMPUTER_CASING.get()))
+                    .where("F", Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get())
+                            .setMinGlobalLimited(25)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                    .where("G", Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                    .where("H", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .sidedWorkableCasingModel(GTCEu.id("block/casings/hpca/advanced_computer_casing"),
+                    GTCEu.id("block/multiblock/implosion_compressor"))
+            .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_HYDROCARBON_HARVESTER = START_REGISTRATE
-        .multiblock("bacterial_hydrocarbon_harvester", WorkableElectricMultiblockMachine::new)
-        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
-        .langValue("Bacterial Hydrocarbon Harvester [BHH]")
-        .tooltips(
-            Component.translatable("block.start_core.bacteria_multiblock_line"),
-            Component.translatable("block.start_core.harvester_description"),
-            Component.translatable("block.start_core.breaker_line")
-        )
-        .paginatedTooltips(
-            List.of(
-                List.of(
-                    Component.translatable("block.start_core.hv0"),
-                    Component.translatable("block.start_core.hv1"),
-                    Component.empty(),
-                    Component.translatable("block.start_core.hv2"),
-                    Component.empty(),
-                    Component.translatable("block.start_core.hv3"),
-                    Component.translatable("block.start_core.breaker_line")
-                )
-            )
-        )
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
-        .recipeTypes(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES)
-        .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("THHHT", "TKKKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
-            .aisle("HKKKH", "K   K", " KKK ", " KMK ", " KKK ", "K   K", "XSSSX")
-            .aisle("HKKKH", "K P K", " KPK ", " MPM ", " KPK ", "K P K", "XSSSX")
-            .aisle("HKKKH", "K   K", " KKK ", " KMK ", " KKK ", "K P K", "XSSSX")
-            .aisle("THHHT", "TKCKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
-            .where("C", Predicates.controller(Predicates.blocks(definition.get())))
-            .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock(("peek_casing")))
-                .setMinGlobalLimited(38)
-                .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
-            .where("S", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))
-            .where("P", Predicates.blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
-            .where("M", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
-            .where("H", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
-            .where("X", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
-            .where("T", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
-            .where(" ", Predicates.any())
-            .build()
-        )
-        .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"), GTCEu.id("block/machines/distillery"))
-        .register();
+            .multiblock("bacterial_hydrocarbon_harvester", WorkableElectricMultiblockMachine::new)
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
+            .langValue("Bacterial Hydrocarbon Harvester [BHH]")
+            .tooltips(
+                    Component.translatable("block.start_core.bacteria_multiblock_line"),
+                    Component.translatable("block.start_core.harvester_description"),
+                    Component.translatable("block.start_core.breaker_line"))
+            .paginatedTooltips(
+                    List.of(
+                            List.of(
+                                    Component.translatable("block.start_core.hv0"),
+                                    Component.translatable("block.start_core.hv1"),
+                                    Component.empty(),
+                                    Component.translatable("block.start_core.hv2"),
+                                    Component.empty(),
+                                    Component.translatable("block.start_core.hv3"),
+                                    Component.translatable("block.start_core.breaker_line"))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_NON_PERFECT,
+                    GTRecipeModifiers.BATCH_MODE)
+            .recipeTypes(StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("THHHT", "TKKKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
+                    .aisle("HKKKH", "K   K", " KKK ", " KMK ", " KKK ", "K   K", "XSSSX")
+                    .aisle("HKKKH", "K P K", " KPK ", " MPM ", " KPK ", "K P K", "XSSSX")
+                    .aisle("HKKKH", "K   K", " KKK ", " KMK ", " KKK ", "K P K", "XSSSX")
+                    .aisle("THHHT", "TKCKT", "T   T", "T   T", "T   T", "TKKKT", "TXXXT")
+                    .where("C", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where("K", Predicates.blocks(StarTMachineUtils.getKjsBlock(("peek_casing")))
+                            .setMinGlobalLimited(38)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
+                    .where("S", Predicates.blocks(GTBlocks.FILTER_CASING_STERILE.get()))
+                    .where("P", Predicates.blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where("M", Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
+                    .where("H", Predicates.blocks(GCYMBlocks.HEAT_VENT.get()))
+                    .where("X",
+                            Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
+                    .where("T",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                    .where(" ", Predicates.any())
+                    .build())
+            .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),
+                    GTCEu.id("block/machines/distillery"))
+            .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }

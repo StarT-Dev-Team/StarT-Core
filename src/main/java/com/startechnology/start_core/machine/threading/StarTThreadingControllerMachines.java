@@ -1,7 +1,6 @@
 package com.startechnology.start_core.machine.threading;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
@@ -28,7 +27,5 @@ public class StarTThreadingControllerMachines {
                 .abilities(StarTPartAbility.THREADING_CONTROLLER);
     }
 
-    public static void init() {
-    }
-
+    public static void init() {}
 }

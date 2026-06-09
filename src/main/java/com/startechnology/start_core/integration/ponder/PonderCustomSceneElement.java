@@ -9,13 +9,13 @@ import net.createmod.ponder.api.element.PonderElement;
 import net.createmod.ponder.api.level.PonderLevel;
 import net.createmod.ponder.foundation.PonderScene;
 import net.createmod.ponder.foundation.element.AnimatedSceneElementBase;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Consumer;
 
 @Accessors(fluent = true, chain = true)
 @ParametersAreNonnullByDefault
@@ -74,7 +74,6 @@ public class PonderCustomSceneElement extends AnimatedSceneElementBase {
         }
     }
 
-
     @HideFromJS
     @Override
     public void renderFirst(PonderLevel world, MultiBufferSource buffer, GuiGraphics graphics, float fade, float pt) {
@@ -87,7 +86,8 @@ public class PonderCustomSceneElement extends AnimatedSceneElementBase {
 
     @HideFromJS
     @Override
-    public void renderLayer(PonderLevel world, MultiBufferSource buffer, RenderType type, GuiGraphics graphics, float fade, float pt) {
+    public void renderLayer(PonderLevel world, MultiBufferSource buffer, RenderType type, GuiGraphics graphics,
+                            float fade, float pt) {
         super.renderLayer(world, buffer, type, graphics, fade, pt);
         if (onRenderWorldLayer != null) {
             var ctx = new LayerRenderContext(this, world, buffer, type, graphics, pt, fade);
@@ -106,14 +106,11 @@ public class PonderCustomSceneElement extends AnimatedSceneElementBase {
     }
 
     public record LayerRenderContext(PonderElement getElement, PonderLevel getWorld, MultiBufferSource getBuffer,
-                         RenderType getType, GuiGraphics getGraphics, float getPartialTicks, float getFade) {
-    }
+                                     RenderType getType, GuiGraphics getGraphics, float getPartialTicks,
+                                     float getFade) {}
 
     public record RenderContext(PonderElement getElement, PonderLevel getWorld, MultiBufferSource getBuffer,
-                         GuiGraphics getGraphics, float getPartialTicks, float getFade) {
-    }
+                                GuiGraphics getGraphics, float getPartialTicks, float getFade) {}
 
-    public record ActionContext(PonderElement getElement, PonderScene getScene) {
-    }
-
+    public record ActionContext(PonderElement getElement, PonderScene getScene) {}
 }

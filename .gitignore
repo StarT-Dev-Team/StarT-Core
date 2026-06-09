@@ -32,3 +32,4 @@ src/generated/resources/.cache/
 # fabric
 
 run/
+libs/

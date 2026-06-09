@@ -18,6 +18,10 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReciev
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 import com.startechnology.start_core.item.StarTItems;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -26,26 +30,28 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.UUID;
 
+public class StarTDreamLinkCover extends CoverBehavior
+                                 implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
 
-public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
-    
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
-        CoverBehavior.MANAGED_FIELD_HOLDER);
+            CoverBehavior.MANAGED_FIELD_HOLDER);
 
-    private int tier;
-    private int amperage;
+    private final int tier;
+    private final int amperage;
 
+    @Getter
+    @Setter
     @Persisted
     private String network;
     private TickableSubscription addTickSubscription;
     private UUID ownerUUID;
 
-    public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier, int amperage) {
+    public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier,
+                               int amperage) {
         super(definition, coverHolder, attachedSide);
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.tier = tier;
@@ -95,7 +101,7 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
             return;
 
         StarTDreamLinkManager.removeDevice(this, ownerUUID);
-    
+
         if (Objects.nonNull(this.addTickSubscription)) {
             this.addTickSubscription.unsubscribe();
         }
@@ -107,21 +113,21 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
 
     public void stupidExplosion(IExplosionMachine machine, BlockPos centrePos) {
         double gap = 20.0;
-        double maxRadius = (((this.tier - GTValues.UV) + 1) * gap)/2;
+        double maxRadius = (((this.tier - GTValues.UV) + 1) * gap) / 2;
         int explosionPower = 128;
-        
+
         for (double radius = 0; radius <= maxRadius; radius += gap) {
             if (radius == 0) {
                 // Central explosion
                 machine.doExplosion(centrePos, explosionPower);
                 continue;
             }
-        
+
             // Vertical divisions (latitude-like)
             int latSteps = (int) Math.ceil(Math.PI * radius / gap);
             for (int i = 0; i <= latSteps; i++) {
                 double theta = Math.PI * i / latSteps; // 0 (top) to π (bottom)
-        
+
                 // Horizontal divisions at this latitude (longitude-like)
                 double sinTheta = Math.sin(theta);
                 if (sinTheta == 0) {
@@ -133,20 +139,20 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
                     machine.doExplosion(pos, explosionPower);
                     continue;
                 }
-        
+
                 int lonSteps = (int) Math.ceil(2 * Math.PI * radius * sinTheta / gap);
                 for (int j = 0; j < lonSteps; j++) {
                     double phi = 2 * Math.PI * j / lonSteps;
-        
+
                     int x = centrePos.getX() + (int) Math.round(radius * sinTheta * Math.cos(phi));
                     int y = centrePos.getY() + (int) Math.round(radius * Math.cos(theta));
                     int z = centrePos.getZ() + (int) Math.round(radius * sinTheta * Math.sin(phi));
-        
+
                     BlockPos pos = new BlockPos(x, y, z);
                     machine.doExplosion(pos, explosionPower);
                 }
             }
-        }        
+        }
     }
 
     @Override
@@ -180,8 +186,9 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
             }
         }
 
-
-        return container.changeEnergy(Math.min(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()), this.amperage * GTValues.V[this.tier]));
+        return container
+                .changeEnergy(Math.min(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()),
+                        this.amperage * GTValues.V[this.tier]));
     }
 
     @Override
@@ -190,22 +197,22 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     }
 
     @Override
-    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, Boolean checkDimension) {
+    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
         if (!Objects.equals(this.network, tower.getNetwork()))
             return false;
 
         var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (entity instanceof MetaMachineBlockEntity machine) {
-            if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine), IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
-                return false;            
+            if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine),
+                    IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+                return false;
         } else {
             return false;
         }
 
         if (checkDimension) {
-            if (!Objects.equals(coverHolder.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId()))
-                return false;
+            return Objects.equals(coverHolder.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId());
         }
 
         return true;
@@ -222,12 +229,12 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
             CompoundTag tag = new CompoundTag();
             tag.putString("dream_network", this.getNetwork());
             copyItem.setTag(tag);
-            copyItem.setHoverName(Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
+            copyItem.setHoverName(
+                    Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
             player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
         }
         return InteractionResult.SUCCESS;
     }
-
 
     @Override
     public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
@@ -248,28 +255,20 @@ public class StarTDreamLinkCover extends CoverBehavior implements IStarTDreamLin
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
         group.addWidget(
-            new DraggableScrollableWidgetGroup(4, 4, 182, 117)
-                .addWidget(new LabelWidget(4, 5, "Dream-Link Cover"))
-                .addWidget(new LabelWidget(4, 20, "Dream-Network Identifier"))
-                .addWidget(
-                    new TextFieldWidget(4, 32, 182 - 8, 12, this::getNetwork, this::setNetwork)
-                        .setMaxStringLength(64)
-                        .setValidator(input -> {
-                            if (input == null || input.isBlank()) return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK + "";
-                            return input;
-                        })
-                        .setHoverTooltips(Component.translatable("start_core.machine.dream_link.network_set_hover"))
-                )
-        );
-        
-        return group;
-    }   
-    
-    public void setNetwork(String network) {
-        this.network = network;
-    }
+                new DraggableScrollableWidgetGroup(4, 4, 182, 117)
+                        .addWidget(new LabelWidget(4, 5, "Dream-Link Cover"))
+                        .addWidget(new LabelWidget(4, 20, "Dream-Network Identifier"))
+                        .addWidget(
+                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getNetwork, this::setNetwork)
+                                        .setMaxStringLength(64)
+                                        .setValidator(input -> {
+                                            if (input == null || input.isBlank())
+                                                return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
+                                            return input;
+                                        })
+                                        .setHoverTooltips(Component
+                                                .translatable("start_core.machine.dream_link.network_set_hover"))));
 
-    public String getNetwork() {
-        return this.network;
+        return group;
     }
 }
