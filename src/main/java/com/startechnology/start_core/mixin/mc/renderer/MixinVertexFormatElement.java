@@ -1,4 +1,4 @@
-package com.startechnology.start_core.mixin;
+package com.startechnology.start_core.mixin.mc.renderer;
 
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,8 +11,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(VertexFormatElement.class)
 public class MixinVertexFormatElement {
+
     @Inject(method = "supportsUsage", at = @At("HEAD"), cancellable = true)
-    private void iris$fixGenericAttributes(int index, VertexFormatElement.Usage type, CallbackInfoReturnable<Boolean> cir) {
+    private void iris$fixGenericAttributes(int index, VertexFormatElement.Usage type,
+                                           CallbackInfoReturnable<Boolean> cir) {
         if (type == VertexFormatElement.Usage.GENERIC || type == VertexFormatElement.Usage.PADDING) {
             cir.setReturnValue(true);
         }
