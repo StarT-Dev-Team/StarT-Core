@@ -122,14 +122,6 @@ repositories {
             includeGroup "dev.latvian.apps"
         }
     }
-    maven { // Registrate
-        url = "https://maven.tterrag.com/"
-        content {
-            // need to be specific here due to version overlaps
-            includeGroup("com.jozufozu.flywheel")
-            includeGroup("com.simibubi.create")
-        }
-    }
     maven {
         // Patchouli, JEI
         name = "BlameJared"
@@ -189,6 +181,7 @@ dependencies {
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
+    modImplementation("dev.ftb.mods:ftb-ultimine-forge:2001.1.8")
     modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$project.gtceu_version") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
@@ -202,6 +195,7 @@ dependencies {
     modImplementation("curse.maven:embeddium-908741:5681725")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
     modImplementation("curse.maven:cofh-core-69162:5374122")
+    modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
 
     modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
