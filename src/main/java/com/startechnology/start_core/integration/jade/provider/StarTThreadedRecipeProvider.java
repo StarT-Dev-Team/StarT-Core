@@ -87,7 +87,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 var function = recipe.getType().getChanceFunction();
                 var itemContents = recipe.getOutputContents(ItemRecipeCapability.CAP);
                 var fluidContents = recipe.getOutputContents(FluidRecipeCapability.CAP);
-                int runs = recipe.getTotalRuns();
+                int runs = recipe.parallels;
 
                 ListTag itemTags = new ListTag();
                 for (var item : itemContents) {

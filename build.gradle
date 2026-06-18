@@ -185,6 +185,7 @@ dependencies {
 
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
+    modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:$project.flywheel_version")
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
@@ -200,7 +201,9 @@ dependencies {
     modImplementation("curse.maven:jade-324717:6106101")
     modImplementation("curse.maven:embeddium-908741:5681725")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
+    modImplementation("curse.maven:cofh-core-69162:5374122")
 
+    modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
     modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
     modRuntimeOnly("com.teamcofh:thermal_core:1.20.1-11.0.7+")
@@ -209,7 +212,6 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-    modImplementation("curse.maven:cofh-core-69162:5374122")
 
     modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }

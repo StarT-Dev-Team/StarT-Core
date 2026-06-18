@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.common.data.GTParallelTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.parallel.StarTAbsoluteParallelHatchMachine;
 import net.minecraft.network.chat.Component;
@@ -39,7 +40,7 @@ public class GTRecipeModifiersMixin {
 
         cir.setReturnValue(ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(maximumParallels))
-                .parallels(maximumParallels)
+                .parallels(maximumParallels, GTParallelTypes.HATCH)
                 .build());
     }
 }

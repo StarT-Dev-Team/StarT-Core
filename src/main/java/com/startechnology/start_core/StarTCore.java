@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProp
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ParallelType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -21,6 +22,7 @@ import com.startechnology.start_core.lang.LangHandler;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.tterrag.registrate.providers.ProviderType;
@@ -73,6 +75,7 @@ public class StarTCore {
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(GTRecipeCategory.class, this::registerRecipeCategories);
         modEventBus.addGenericListener(DimensionMarker.class, this::registerDimensionalMarkers);
+        modEventBus.addGenericListener(ParallelType.class, this::registerParallelTypes);
         START_REGISTRATE.registerRegistrate();
 
         // Most other events are fired on Forge's bus.
@@ -126,6 +129,10 @@ public class StarTCore {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         StarTMachines.init();
+    }
+
+    private void registerParallelTypes(GTCEuAPI.RegisterEvent<String, ParallelType> event) {
+        StarTParallelTypes.init();
     }
 
     @SubscribeEvent
