@@ -1,4 +1,4 @@
-package com.startechnology.start_core.mixin;
+package com.startechnology.start_core.mixin.mc.renderer;
 
 import com.startechnology.start_core.machine.komaru.client.ReplaceablePostPass;
 import org.spongepowered.asm.mixin.Final;
@@ -33,7 +33,7 @@ public abstract class PostPassMixin implements ReplaceablePostPass {
     public void addAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {}
 
     @Override
-    public void startcore$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {
+    public void start_core$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {
         var index = auxNames.indexOf(auxName);
         if (index >= 0) {
             auxAssets.set(index, auxFramebuffer);
