@@ -17,7 +17,9 @@ import com.startechnology.start_core.machine.threading.StarTThreadingCapableMach
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 
 public class StarTRecipeModifiers {
-    public static final RecipeModifier ABSOLUTE_PARALLEL = new IdentifiedRecipeModifier("absolute_parallel", GTRecipeModifiers::hatchParallel);
+
+    public static final RecipeModifier ABSOLUTE_PARALLEL = new IdentifiedRecipeModifier("absolute_parallel",
+            GTRecipeModifiers::hatchParallel);
 
     public static final RecipeModifier HELL_FORGE_OC = StarTRecipeModifiers::hellforgeOverclock;
 
@@ -33,66 +35,68 @@ public class StarTRecipeModifiers {
         if (!recipe.data.contains("ebf_temp")) {
             return ModifierFunction.IDENTITY;
         }
-        
+
         if (recipeTemp > hellforgeTemp) {
             return ModifierFunction.NULL;
         }
 
         double timesScaled = Math.floor(Math.max(0.0, (hellforgeTemp - recipeTemp) / 450.0));
         int hellforgeParallels = (int) Math.pow(2.0, timesScaled);
-        
+
         int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hellforgeParallels);
 
         // Runs largest 2^n parallels that it can. 1,2,4,8,16,etc.
         return ModifierFunction.builder()
-            .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
-            .parallels(maxPossibleParallels)
-            .build();
-        }
+                .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+                .parallels(maxPossibleParallels, StarTParallelTypes.HELLFORGE)
+                .build();
+    }
 
-    public static final RecipeModifier BULK_PROCESSING = new IdentifiedRecipeModifier("bulk_processing", StarTRecipeModifiers::bulkThroughputProcessing);
+    public static final RecipeModifier BULK_PROCESSING = new IdentifiedRecipeModifier("bulk_processing",
+            StarTRecipeModifiers::bulkThroughputProcessing);
 
     public static ModifierFunction bulkThroughputProcessing(MetaMachine machine, GTRecipe recipe) {
         int throughputModifier = 16;
         int durationModifier = 13;
 
-        var parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
+        var parallelsAvailable = Math.max(0,
+                ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
 
         if (parallelsAvailable >= throughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(throughputModifier))
-                .durationMultiplier(durationModifier)
-                .parallels(throughputModifier)
-                .build();
+                    .modifyAllContents(ContentModifier.multiplier(throughputModifier))
+                    .durationMultiplier(durationModifier)
+                    .parallels(throughputModifier, StarTParallelTypes.BULK_PROCESSING)
+                    .build();
         }
-        
+
         return ModifierFunction.IDENTITY;
-  
     }
 
-    public static final RecipeModifier THROUGHPUT_BOOSTING = new IdentifiedRecipeModifier("throughput_boosting", StarTRecipeModifiers::throughputBoosting);
+    public static final RecipeModifier THROUGHPUT_BOOSTING = new IdentifiedRecipeModifier("throughput_boosting",
+            StarTRecipeModifiers::throughputBoosting);
 
     public static ModifierFunction throughputBoosting(MetaMachine machine, GTRecipe recipe) {
         int throughputModifier = 4;
         double durationModifier = 1.6;
         double eutModifier = 0.95;
 
-        int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
+        int parallelsAvailable = Math.max(0,
+                ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
 
         if (parallelsAvailable >= throughputModifier) {
 
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(throughputModifier))
-                .durationMultiplier(durationModifier)
-                .eutMultiplier(eutModifier)
-                .parallels(throughputModifier)
-                .build();
+                    .modifyAllContents(ContentModifier.multiplier(throughputModifier))
+                    .durationMultiplier(durationModifier)
+                    .eutMultiplier(eutModifier)
+                    .parallels(throughputModifier, StarTParallelTypes.THROUGHPUT_BOOSTING)
+                    .build();
 
         }
-        
+
         return ModifierFunction.IDENTITY;
-  
     }
 
     public static ModifierFunction fakeFusionOverclock(MetaMachine machine, GTRecipe recipe) {
@@ -109,7 +113,9 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier VACUUM_CHEMICAL_REACTION_CHAMBER = VacuumChemicalReactionChamberMachine::recipeModifier;
 
-    public static final RecipeModifier FAKE_FUSION_OVERCLOCK = new IdentifiedRecipeModifier("fake_fusion_overclock", StarTRecipeModifiers::fakeFusionOverclock);
+    public static final RecipeModifier FAKE_FUSION_OVERCLOCK = new IdentifiedRecipeModifier("fake_fusion_overclock",
+            StarTRecipeModifiers::fakeFusionOverclock);
 
-    public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier("reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
+    public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
+            "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
 }

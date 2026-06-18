@@ -22,6 +22,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
 import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lombok.Getter;
@@ -351,7 +352,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
                     .modifyAllContents(ContentModifier.multiplier(parallels))
                     .durationMultiplier(finalDurationMultiplier)
                     .eutMultiplier(energyMultiplier)
-                    .parallels(parallels)
+                    .parallels(parallels, StarTParallelTypes.THREADING)
                     .build();
         }
         return ModifierFunction.IDENTITY;

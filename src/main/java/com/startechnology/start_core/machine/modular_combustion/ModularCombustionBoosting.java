@@ -21,6 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.ChatFormatting;
@@ -147,7 +148,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
                 .inputModifier(ContentModifier.multiplier(parallels))
                 .outputModifier(ContentModifier.multiplier(parallels))
                 .eutMultiplier(parallels * getBoostingBonus())
-                .parallels(parallels * boostingParallels())
+                .parallels(parallels * boostingParallels(), StarTParallelTypes.MODULAR_COMBUSTION)
                 .build();
     }
 
