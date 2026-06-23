@@ -196,6 +196,7 @@ dependencies {
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
     modImplementation("curse.maven:cofh-core-69162:5374122")
     modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
+    modImplementation("curse.maven:framedblocks-441647:7386520")
 
     modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")

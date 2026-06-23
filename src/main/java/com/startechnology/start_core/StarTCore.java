@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
 import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
+import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPlugin;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.item.curios.LucinducerCurioItem;
 import com.startechnology.start_core.lang.LangHandler;
@@ -85,6 +86,7 @@ public class StarTCore {
         MinecraftForge.EVENT_BUS.register(this);
 
         UltimineCreatePlugin.init();
+        UltimineFramedBlocksPlugin.init();
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> StarTCoreClient::init);
     }

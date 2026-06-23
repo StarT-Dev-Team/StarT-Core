@@ -7,12 +7,15 @@ import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.content.kinetics.deployer.ManualApplicationRecipe;
 import dev.ftb.mods.ftbultimine.FTBUltiminePlayerData;
 import dev.ftb.mods.ftbultimine.api.rightclick.RegisterRightClickHandlerEvent;
-import dev.ftb.mods.ftbultimine.api.rightclick.RightClickHandler;
+import dev.ftb.mods.ftbultimine.integration.FTBUltiminePlugin;
 import dev.ftb.mods.ftbultimine.shape.ShapeContext;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -25,8 +28,39 @@ import java.util.Collection;
 public class UltimineCreatePlugin {
 
     public static void init() {
+        FTBUltiminePlugin.register(new FTBUltiminePlugin() {
+
+            @Override
+            public boolean canUltimine(Player player) {
+                return UltimineCreatePlugin.canUltimine(player);
+            }
+        });
+
         RegisterRightClickHandlerEvent.REGISTER
-                .register(dispatcher -> dispatcher.registerHandler(FramedBlocksRightClickHandler.INSTANCE));
+                .register(dispatcher -> dispatcher.registerHandler(UltimineCreatePlugin::handleRightClickBlock));
+    }
+
+    private static final ReferenceSet<Player> disabledUltimineWhenWrenching = new ReferenceOpenHashSet<>();
+
+    private static boolean canUltimine(Player player) {
+        return !disabledUltimineWhenWrenching.contains(player);
+    }
+
+    private static int handleRightClickBlock(ShapeContext shapeContext, InteractionHand hand,
+                                             Collection<BlockPos> positions) {
+        var player = shapeContext.player();
+        var blockState = shapeContext.block(shapeContext.pos());
+        var heldItem = player.getItemInHand(hand);
+
+        if (isManualApplication(player, blockState, heldItem)) {
+            return handleManualApplicationRightClick(player, hand, positions);
+        }
+
+        if (isWrenchRightClick(heldItem)) {
+            return handleWrenchRightClick(player, hand, heldItem, positions);
+        }
+
+        return 0;
     }
 
     private static boolean isManualApplication(ServerPlayer player, BlockState blockState, ItemStack heldItem) {
@@ -49,10 +83,11 @@ public class UltimineCreatePlugin {
     }
 
     private static boolean isWrenchRightClick(ItemStack heldItem) {
-        return AllItems.WRENCH.isIn(heldItem) && AllTags.AllItemTags.WRENCH.matches(heldItem.getItem());
+        return AllItems.WRENCH.isIn(heldItem) || AllTags.AllItemTags.WRENCH.matches(heldItem.getItem());
     }
 
-    private static boolean wrenchBlock(BlockState state, ServerPlayer player, BlockHitResult hitVec, InteractionHand hand) {
+    private static boolean wrenchBlock(BlockState state, ServerPlayer player, BlockHitResult hitVec,
+                                       InteractionHand hand) {
         var block = state.getBlock();
         if (!(block instanceof IWrenchable actor))
             return false;
@@ -69,32 +104,16 @@ public class UltimineCreatePlugin {
         @SuppressWarnings("resource")
         var level = player.serverLevel();
 
-        return (int) positions.stream().filter(pos -> {
-            var state = level.getBlockState(pos);
-            return wrenchBlock(state, player, blockHitResult.withPosition(pos), hand);
-        }).count();
-    }
+        var shift = player.isShiftKeyDown();
+        if (shift) disabledUltimineWhenWrenching.add(player);
 
-    enum FramedBlocksRightClickHandler implements RightClickHandler {
-
-        INSTANCE;
-
-        @Override
-        public int handleRightClickBlock(ShapeContext shapeContext, InteractionHand hand,
-                                         Collection<BlockPos> positions) {
-            var player = shapeContext.player();
-            var blockState = shapeContext.block(shapeContext.pos());
-            var heldItem = player.getItemInHand(hand);
-
-            if (isManualApplication(player, blockState, heldItem)) {
-                return handleManualApplicationRightClick(player, hand, positions);
-            }
-
-            if (isWrenchRightClick(heldItem)) {
-                return handleWrenchRightClick(player, hand, heldItem, positions);
-            }
-
-            return 0;
+        try {
+            return (int) positions.stream().filter(pos -> {
+                var state = level.getBlockState(pos);
+                return wrenchBlock(state, player, blockHitResult.withPosition(pos), hand);
+            }).count();
+        } finally {
+            if (shift) disabledUltimineWhenWrenching.remove(player);
         }
     }
 }
