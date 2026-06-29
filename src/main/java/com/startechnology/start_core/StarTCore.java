@@ -100,6 +100,7 @@ public class StarTCore {
         if (gtceu == null) {
             LOGGER.error("GTm is not installed! Please install it!");
             // let forge handle the crash
+            return;
         }
 
         Object forkProperty = gtceu.getModInfo().getModProperties().get("isStarTFork");
