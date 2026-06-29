@@ -40,6 +40,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -61,6 +63,8 @@ public class StarTCore {
 
     public StarTCore(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
+
+        checkGTMCompatibility();
 
         StarTConfig.init();
 
@@ -89,6 +93,20 @@ public class StarTCore {
         UltimineFramedBlocksPlugin.init();
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> StarTCoreClient::init);
+    }
+
+    private void checkGTMCompatibility() {
+        ModContainer gtceu = ModList.get().getModContainerById("gtceu").orElse(null);
+        if (gtceu == null) {
+            LOGGER.error("GTm is not installed! Please install it!");
+            // let forge handle the crash
+        }
+
+        Object forkProperty = gtceu.getModInfo().getModProperties().get("isStarTFork");
+
+        if (!Boolean.TRUE.equals(forkProperty)) {
+            throw new IllegalStateException("StarT Core requires the StarT GTm fork to be installed!");
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
