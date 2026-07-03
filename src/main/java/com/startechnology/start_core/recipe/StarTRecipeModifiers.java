@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
+import com.startechnology.start_core.machine.compound_generator.CompoundGeneratorMachine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
@@ -118,4 +119,6 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
+    
+    public static final RecipeModifier COMPOUND_GENERATOR = CompoundGeneratorMachine::recipeModifier;
 }
