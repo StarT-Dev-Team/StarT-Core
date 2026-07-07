@@ -62,7 +62,7 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
                         .build();
 
             } else if (bulkingMachine.isForcedBulking()) {
-                return ModifierFunction.cancel(Component.literal("Not enough inputs to force bulk!"));
+                return ModifierFunction.cancel(Component.translatable("start_core.recipe_modifier.cannot_bulk"));
             }
         }
         return ModifierFunction.IDENTITY;
@@ -71,18 +71,18 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.literal(
-                    "Throughput multiplier: " + ChatFormatting.GREEN + this.getBulkingType().throughputModifier));
-            textList.add(Component
-                    .literal("Duration multiplier: " + ChatFormatting.GREEN + this.getBulkingType().durationModifier));
+            textList.add(Component.translatable("start_core.bulking.throughput_multiplier",
+                    this.getBulkingType().throughputModifier));
+            textList.add(Component.translatable("start_core.bulking.duration_multiplier",
+                    this.getBulkingType().durationModifier));
 
-            MutableComponent forcedBulkingText = Component.literal("Forced bulking: " +
-                    ((this.isForcedBulking()) ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled"));
-            forcedBulkingText.append(" ");
-            forcedBulkingText.append(ComponentPanelWidget.withButton(Component.literal("[switch]"), "forced"));
+            MutableComponent forcedBulkingText = Component.translatable("start_core.bulking.forced");
+            forcedBulkingText.append(ComponentPanelWidget.withButton(Component
+                    .translatable((this.isForcedBulking()) ? "start_core.util.enabled" : "start_core.util.disabled")
+                    .withStyle(ChatFormatting.UNDERLINE), "forced"));
             textList.add(forcedBulkingText);
 
-            MutableComponent buttonText = Component.literal("Bulking type: ");
+            MutableComponent buttonText = Component.translatable("start_core.bulking.type");
             buttonText.append(" ");
             buttonText.append(ComponentPanelWidget.withButton(Component.literal("[<<]"), "prev"));
             buttonText.append(" ");
