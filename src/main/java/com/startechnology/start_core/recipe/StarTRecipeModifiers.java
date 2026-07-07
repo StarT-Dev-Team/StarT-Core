@@ -1,6 +1,9 @@
 package com.startechnology.start_core.recipe;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.IdentifiedRecipeModifier;
@@ -10,11 +13,15 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
+import com.startechnology.start_core.machine.bulking.BulkingType;
+import com.startechnology.start_core.machine.bulking.IBulking;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
+
+import net.minecraft.network.chat.Component;
 
 public class StarTRecipeModifiers {
 
@@ -74,6 +81,35 @@ public class StarTRecipeModifiers {
 
         return ModifierFunction.IDENTITY;
     }
+
+    public static ModifierFunction bulkingRecipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (machine instanceof WorkableElectricMultiblockMachine multiblock && multiblock.isFormed()) {
+            if (machine instanceof IBulking bulkingMachine) {
+                BulkingType type = bulkingMachine.getBulkingType();
+                int throughputModifier = type.throughputModifier;
+                double durationModifier = type.durationModifier;
+
+                var parallelsAvailable = Math.max(0,
+                        ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
+
+                if (parallelsAvailable >= throughputModifier) {
+
+                    return ModifierFunction.builder()
+                            .modifyAllContents(ContentModifier.multiplier(throughputModifier))
+                            .durationMultiplier(durationModifier)
+                            .parallels(throughputModifier, StarTParallelTypes.BULK_PROCESSING)
+                            .build();
+
+                } else if (bulkingMachine.isForcedBulking()) {
+                    return ModifierFunction.cancel(Component.translatable("start_core.recipe_modifier.cannot_bulk"));
+                }
+            }
+        }
+        return ModifierFunction.IDENTITY;
+    }
+
+    public static final RecipeModifier BULKING = new IdentifiedRecipeModifier("bulking",
+            StarTRecipeModifiers::bulkingRecipeModifier);
 
     public static final RecipeModifier THROUGHPUT_BOOSTING = new IdentifiedRecipeModifier("throughput_boosting",
             StarTRecipeModifiers::throughputBoosting);
