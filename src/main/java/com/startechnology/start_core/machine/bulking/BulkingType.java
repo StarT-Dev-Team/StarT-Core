@@ -15,7 +15,7 @@ public enum BulkingType {
     private BulkingType(int throughputModifier, double durationModifier) {
         this.throughputModifier = throughputModifier;
         this.durationModifier = durationModifier;
-        this.name = String.format("%d:%d", throughputModifier, durationModifier);
+        this.name = String.format("%s:%s", throughputModifier, durationModifier);
     }
 
     public BulkingType next() {
