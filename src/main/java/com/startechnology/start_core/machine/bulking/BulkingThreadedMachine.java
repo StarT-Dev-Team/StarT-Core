@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.IdentifiedRecipeModifier;
@@ -17,6 +16,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 
 import lombok.Getter;
@@ -28,7 +28,7 @@ import net.minecraft.network.chat.MutableComponent;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class BulkingMachine extends WorkableElectricMultiblockMachine {
+public class BulkingThreadedMachine extends StarTThreadingCapableMachine {
 
     @Persisted
     @Getter
@@ -40,16 +40,16 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
     @Setter
     private boolean forcedBulking;
 
-    public BulkingMachine(IMachineBlockEntity holder, Object... args) {
+    public BulkingThreadedMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.bulkingType = BulkingType.BUKLING_4_3;
         this.forcedBulking = false;
     }
 
-    private static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
-        if (machine instanceof BulkingMachine bulkingMachine && bulkingMachine.isFormed()) {
-            int throughputModifier = bulkingMachine.getBulkingType().throughputModifier;
-            double durationModifier = bulkingMachine.getBulkingType().durationModifier;
+    private static ModifierFunction rm(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (machine instanceof BulkingThreadedMachine bulkingThreadedMachine && bulkingThreadedMachine.isFormed()) {
+            int throughputModifier = bulkingThreadedMachine.getBulkingType().throughputModifier;
+            double durationModifier = bulkingThreadedMachine.getBulkingType().durationModifier;
 
             var parallelsAvailable = Math.max(0,
                     ParallelLogic.getParallelAmountWithoutEU(machine, recipe, throughputModifier));
@@ -62,7 +62,7 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
                         .parallels(throughputModifier, StarTParallelTypes.BULK_PROCESSING)
                         .build();
 
-            } else if (bulkingMachine.isForcedBulking()) {
+            } else if (bulkingThreadedMachine.isForcedBulking()) {
                 return ModifierFunction.cancel(Component.translatable("start_core.recipe_modifier.cannot_bulk"));
             }
         }
@@ -70,7 +70,7 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
     }
 
     public IdentifiedRecipeModifier recipeModifier = new IdentifiedRecipeModifier("bulking",
-            BulkingMachine::recipeModifier);
+            BulkingThreadedMachine::rm);
 
     @Override
     public void addDisplayText(List<Component> textList) {
