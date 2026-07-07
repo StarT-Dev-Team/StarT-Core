@@ -46,7 +46,7 @@ public class BulkingThreadedMachine extends StarTThreadingCapableMachine {
         this.forcedBulking = false;
     }
 
-    private static ModifierFunction rm(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction bulkingRecipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof BulkingThreadedMachine bulkingThreadedMachine && bulkingThreadedMachine.isFormed()) {
             int throughputModifier = bulkingThreadedMachine.getBulkingType().throughputModifier;
             double durationModifier = bulkingThreadedMachine.getBulkingType().durationModifier;
@@ -69,8 +69,8 @@ public class BulkingThreadedMachine extends StarTThreadingCapableMachine {
         return ModifierFunction.IDENTITY;
     }
 
-    public IdentifiedRecipeModifier recipeModifier = new IdentifiedRecipeModifier("bulking",
-            BulkingThreadedMachine::rm);
+    public IdentifiedRecipeModifier modifier = new IdentifiedRecipeModifier("bulking",
+            BulkingThreadedMachine::bulkingRecipeModifier);
 
     @Override
     public void addDisplayText(List<Component> textList) {

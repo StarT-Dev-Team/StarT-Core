@@ -46,7 +46,7 @@ public class BulkingCoiledMachine extends CoilWorkableElectricMultiblockMachine 
         this.forcedBulking = false;
     }
 
-    private static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof BulkingCoiledMachine bulkingCoiledMachine && bulkingCoiledMachine.isFormed()) {
             int throughputModifier = bulkingCoiledMachine.getBulkingType().throughputModifier;
             double durationModifier = bulkingCoiledMachine.getBulkingType().durationModifier;
@@ -69,7 +69,7 @@ public class BulkingCoiledMachine extends CoilWorkableElectricMultiblockMachine 
         return ModifierFunction.IDENTITY;
     }
 
-    public IdentifiedRecipeModifier recipeModifier = new IdentifiedRecipeModifier("bulking",
+    public IdentifiedRecipeModifier modifier = new IdentifiedRecipeModifier("bulking",
             BulkingCoiledMachine::recipeModifier);
 
     @Override

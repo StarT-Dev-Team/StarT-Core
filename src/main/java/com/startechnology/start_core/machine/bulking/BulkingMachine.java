@@ -46,7 +46,7 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
         this.forcedBulking = false;
     }
 
-    private static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    public static ModifierFunction recipeModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof BulkingMachine bulkingMachine && bulkingMachine.isFormed()) {
             int throughputModifier = bulkingMachine.getBulkingType().throughputModifier;
             double durationModifier = bulkingMachine.getBulkingType().durationModifier;
@@ -69,7 +69,7 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine {
         return ModifierFunction.IDENTITY;
     }
 
-    public IdentifiedRecipeModifier recipeModifier = new IdentifiedRecipeModifier("bulking",
+    public IdentifiedRecipeModifier modifier = new IdentifiedRecipeModifier("bulking",
             BulkingMachine::recipeModifier);
 
     @Override
