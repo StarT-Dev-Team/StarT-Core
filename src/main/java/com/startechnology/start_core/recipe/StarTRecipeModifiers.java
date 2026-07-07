@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
+import com.startechnology.start_core.machine.bulking.BulkingMachine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
@@ -51,6 +52,8 @@ public class StarTRecipeModifiers {
                 .parallels(maxPossibleParallels, StarTParallelTypes.HELLFORGE)
                 .build();
     }
+
+    public static final IdentifiedRecipeModifier BULKING = new IdentifiedRecipeModifier("bulking", BulkingMachine::recipeModifier);
 
     @Deprecated
     public static final RecipeModifier BULK_PROCESSING = new IdentifiedRecipeModifier("bulk_processing",
