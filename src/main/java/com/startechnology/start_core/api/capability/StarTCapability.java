@@ -1,6 +1,7 @@
 package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
+import com.startechnology.start_core.machine.bulking.IBulking;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
@@ -13,30 +14,36 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
 public class StarTCapability {
+
     public static final Capability<IStarTDreamLinkNetworkMachine> CAPABILITY_DREAM_LINK_NETWORK_MACHINE = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTHellForgeMachine> CAPABILITY_HELL_FORGE_MACHINE = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<RedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTAbyssalHarvesterMachine> CAPABILITY_ABYSSAL_HARVESTER = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTThreadingCapableMachine> CAPABILITY_THREADING_CAPABLE_MACHINE = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<IStarTModularSupportedModules> CAPABILITY_SUPPORTED_MODULES = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
     public static final Capability<StarTModularInterfaceHatchPartMachine> CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE = CapabilityManager
-        .get(new CapabilityToken<>() {});
+            .get(new CapabilityToken<>() {});
 
-    public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = CapabilityManager
+            .get(new CapabilityToken<>() {});
 
-    public static final Capability<StarTSolarMachine>  CAPABILITY_SOLAR = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<StarTSolarMachine> CAPABILITY_SOLAR = CapabilityManager
+            .get(new CapabilityToken<>() {});
 
-    public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = CapabilityManager
+            .get(new CapabilityToken<>() {});
+
+    public static final Capability<IBulking> BULKING = CapabilityManager.get(new CapabilityToken<>() {});
 }

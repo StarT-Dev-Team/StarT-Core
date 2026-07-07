@@ -642,6 +642,7 @@ public class LangHandler {
         provider.add("start_core.bulking.duration_multiplier", "Duration multiplier: %dx");
         provider.add("start_core.bulking.forced", "Forced bulking: ");
         provider.add("start_core.bulking.type", "Bulking type: ");
+        provider.add("ui.start_core.bulking.type", "Bulking type: %s");
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
