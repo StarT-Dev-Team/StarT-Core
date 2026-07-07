@@ -52,6 +52,7 @@ public class StarTRecipeModifiers {
                 .build();
     }
 
+    @Deprecated
     public static final RecipeModifier BULK_PROCESSING = new IdentifiedRecipeModifier("bulk_processing",
             StarTRecipeModifiers::bulkThroughputProcessing);
 
