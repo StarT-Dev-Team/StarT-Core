@@ -11,7 +11,7 @@
   "gtceu.modifier.bulk_processing.description.0": "  §7If possible, the machine will run exactly 16 parallels.",
   "gtceu.modifier.bulk_processing.description.1": "  §7The recipe duration will be increased by 13x",
   "gtceu.modifier.bulking.name": "%sBulk Processing:",
-  "gtceu.modifier.bulking.description.0": "  §7Based on the selected bulking type, the machine will run, if possible, an increased number of parallels at a reduced total duration.",
+  "gtceu.modifier.bulking.description.0": "  §7Based on the selected bulking type, the machine will run, if possible, at a higher throughput with a reduced total duration compared to if it didn't bulk.",
   "gtceu.modifier.bulking.description.1": "  §7If forced bulking is enabled, then the machine will not run unless it has enough inputs to bulk.",
   "gtceu.modifier.bulking.description.2": "  §7Bulking types available (throughput:duration multiplier ration): 4:3.25, 8:6.5, 16:13, 32:26, 64:52",
   "gtceu.modifier.throughput_boosting.name": "%sThroughput Boosting:",
