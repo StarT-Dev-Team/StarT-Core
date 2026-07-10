@@ -1,5 +1,7 @@
 package com.startechnology.start_core.machine.bulking;
 
+import java.text.DecimalFormat;
+
 public enum BulkingType {
 
     BUKLING_4_3(4, 3.25),
@@ -15,7 +17,7 @@ public enum BulkingType {
     private BulkingType(int throughputModifier, double durationModifier) {
         this.throughputModifier = throughputModifier;
         this.durationModifier = durationModifier;
-        this.name = String.format("%s:%s", throughputModifier, durationModifier);
+        this.name = String.format("%s:%s", throughputModifier, new DecimalFormat("0.##").format(durationModifier));
     }
 
     public BulkingType next() {

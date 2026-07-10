@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.bulking;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -29,11 +30,13 @@ public interface IBulking {
         this.setForcedBulking(false);
     }
 
+    final static DecimalFormat df = new DecimalFormat("0.##");
+
     default List<Component> controllerDisplayText(List<Component> textList) {
         textList.add(Component.translatable("start_core.bulking.throughput_multiplier",
                 this.getBulkingType().throughputModifier));
         textList.add(Component.translatable("start_core.bulking.duration_multiplier",
-                this.getBulkingType().durationModifier));
+                df.format(this.getBulkingType().durationModifier)));
 
         MutableComponent forcedBulkingText = Component.translatable("start_core.bulking.forced");
         forcedBulkingText.append(ComponentPanelWidget.withButton(Component
