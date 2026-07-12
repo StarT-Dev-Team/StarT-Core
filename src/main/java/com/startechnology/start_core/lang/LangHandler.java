@@ -636,5 +636,15 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.threading", "- %dx from Threading");
         provider.add("gtceu.parallel_type.modular_combustion", "- %dx from Combustion Boosting");
         provider.add("gtceu.parallel_type.abyssal_harvester", "- %dx from Abyssal Stabilization");
+
+        provider.add("start_core.recipe_modifier.cannot_bulk", "Not enough inputs to force bulk!");
+        provider.add("start_core.bulking.throughput_multiplier", "Throughput multiplier: %dx");
+        provider.add("start_core.bulking.duration_multiplier", "Duration multiplier: %dx");
+        provider.add("start_core.bulking.forced", "Forced bulking: ");
+        provider.add("start_core.bulking.type", "Bulking type: ");
+        provider.add("ui.start_core.bulking.type", "Bulking type: %s");
+
+        provider.add("start_core.util.enabled", "§aEnabled§r");
+        provider.add("start_core.util.disabled", "§4Disabled§r");
     }
 }
