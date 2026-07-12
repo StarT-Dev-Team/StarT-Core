@@ -1,16 +1,28 @@
 package com.startechnology.start_core.data;
 
+import com.startechnology.start_core.data.gcrops.traits.*;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class StarTGCropTraits {
-    StarTGCropTrait TRAIT_CHARRED = new StarTGCropTrait("Charred", "Ch", 0);
+    public static void init() {
+        Tier0Traits.register();
+        Tier1Traits.register();
+        Tier2Traits.register();
+    }
 
-    StarTGCropTrait TRAIT_VIBRANT = new StarTGCropTrait("Vibrant", "Vi", 0);
+    // Tier 0
+    public static StarTGCropTrait Charred;
+    public static StarTGCropTrait Vibrant;
+    public static StarTGCropTrait Tough;
+    public static StarTGCropTrait Fluorescent;
 
-    StarTGCropTrait TRAIT_TOUGH = new StarTGCropTrait("TOUGH", "Th", 0);
+    // tier 1
+    public static StarTGCropTrait Metallic;
+    public static StarTGCropTrait Crystalline;
+    public static StarTGCropTrait Dusty;
+    public static StarTGCropTrait Woody;
 
-    StarTGCropTrait TRAIT_FLUORESCENT = new StarTGCropTrait("Fluorescent", "Fl", 0);
+    // tier 2
+    public static StarTGCropTrait Coarse;
+    public static StarTGCropTrait Shiny;
 }

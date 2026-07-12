@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropPlants;
+import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -22,7 +23,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
     private Integer tier;
 
-    private List<Trait> gcropTraits;
+    private List<StarTGCropTrait> gcropTraits;
 
     private Material resource;
 
@@ -30,10 +31,10 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return tier;
     }
 
-    public StarTGCropBehaviour(Integer tier, List<Trait> traits, Material resource) {
+    public StarTGCropBehaviour(Integer tier, Material resource, StarTGCropTrait... traits) {
         this.tier = tier;
-        this.gcropTraits = Arrays.asList(traits);
         this.resource = resource;
+        this.gcropTraits = Arrays.asList(traits);
     }
 
     public static StarTGCropBehaviour getBacteriaBehaviour(ItemStack bacteria) {

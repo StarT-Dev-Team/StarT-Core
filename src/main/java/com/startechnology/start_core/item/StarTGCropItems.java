@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
+import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
@@ -36,8 +37,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeBlack
+                    GTMaterials.DyeBlack,
+                    StarTGCropTrait.Charred
             )))
             .register();
 
@@ -46,8 +47,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeRed
+                    GTMaterials.DyeRed,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Tough
             )))
             .register();
 
@@ -56,8 +57,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeGreen
+                    GTMaterials.DyeGreen,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -66,8 +67,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeBrown
+                    GTMaterials.DyeBrown,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Tough
             )))
             .register();
 
@@ -76,8 +77,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeBlue
+                    GTMaterials.DyeBlue,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant
             )))
             .register();
 
@@ -86,8 +87,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyePurple
+                    GTMaterials.DyePurple,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -96,8 +97,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeCyan
+                    GTMaterials.DyeCyan,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -106,8 +107,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeLightGray
+                    GTMaterials.DyeLightGray,
+                    StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -116,8 +117,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeGray
+                    GTMaterials.DyeGray,
+                    StarTGCropTrait.Charred, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -126,8 +127,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyePink
+                    GTMaterials.DyePink,
+                    StarTGCropTrait.Vibrant, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -136,8 +137,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeLime
+                    GTMaterials.DyeLime,
+                    StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -146,8 +147,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeYellow
+                    GTMaterials.DyeYellow,
+                    StarTGCropTrait.Tough
             )))
             .register();
 
@@ -156,8 +157,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeLightBlue
+                    GTMaterials.DyeLightBlue,
+                    StarTGCropTrait.Vibrant
             )))
             .register();
 
@@ -166,8 +167,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeMagenta
+                    GTMaterials.DyeMagenta,
+                    StarTGCropTrait.Vibrant, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
             )))
             .register();
 
@@ -176,8 +177,8 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
-                    GTMaterials.DyeOrange
+                    GTMaterials.DyeOrange,
+                    StarTGCropTrait.Vibrant, StarTGCropTrait.Tough
             )))
             .register();
 
@@ -186,7 +187,6 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
-                    new List<Trait>(),
                     GTMaterials.DyeWhite
             )))
             .register();
