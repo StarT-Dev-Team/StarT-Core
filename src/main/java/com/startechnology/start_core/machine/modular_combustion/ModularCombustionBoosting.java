@@ -1,34 +1,36 @@
-package com.startechnology.start_core.machine.boosting;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+package com.startechnology.start_core.machine.modular_combustion;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
+import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
@@ -39,20 +41,27 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     public static final int T3_COMBUSTION_MODULE = GTValues.UV;
     public static final int T4_COMBUSTION_MODULE = GTValues.UEV;
 
-    private int tier;
-    private boolean isActiveBoosting;
     @Persisted
+    @DescSynced
+    private final int tier;
+
+    @Persisted
+    @DescSynced
+    private boolean isActiveBoosting;
+
+    @Persisted
+    @DescSynced
     private int runningTimer = 0;
 
     private final List<ResourceLocation> acceptedFrameIds;
 
-    private Material LUBRICANT = GTMaterials.get("lubricant");
-    private Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");//t2 Lube
+    private final Material LUBRICANT = GTMaterials.get("lubricant");
+    private final Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");// t2 Lube
 
-    private Material T1COXIDIZER = GTMaterials.get("white_fuming_nitric_acid");
-    private Material T2COXIDIZER = GTMaterials.get("red_fuming_nitric_acid");
-    private Material T1ROXIDIZER = GTMaterials.get("dioxygen_difluoride");
-    private Material T2ROXIDIZER = GTMaterials.get("ferrocenium_superoxide");
+    private final Material T1COXIDIZER = GTMaterials.get("white_fuming_nitric_acid");
+    private final Material T2COXIDIZER = GTMaterials.get("red_fuming_nitric_acid");
+    private final Material T1ROXIDIZER = GTMaterials.get("dioxygen_difluoride");
+    private final Material T2ROXIDIZER = GTMaterials.get("ferrocenium_superoxide");
 
     public ModularCombustionBoosting(IMachineBlockEntity holder, int tier, ResourceLocation... acceptedFrameIds) {
         super(holder, tier);
@@ -81,7 +90,7 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     }
 
     private double getBoostingBonus() {
-        return switch (this.tier){
+        return switch (this.tier) {
             case T1_COMBUSTION_MODULE -> isActiveBoosting ? 5.0 : 1; // 5A Luv || 1A Luv
             case T2_COMBUSTION_MODULE -> isActiveBoosting ? 6.0 : 1; // 6A ZPM || 1A ZPM
             case T3_COMBUSTION_MODULE -> isActiveBoosting ? 8.0 : 2; // 8A UV || 2A UV
@@ -92,10 +101,14 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     private GTRecipe getActiveBoostingRecipe() {
         return switch (this.tier) {
-            case T1_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(324)).buildRawRecipe();
-            case T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(432)).buildRawRecipe();
-            case T3_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(756)).buildRawRecipe();
-            case T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(864)).buildRawRecipe();
+            case T1_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1COXIDIZER.getFluid(324))
+                    .buildRawRecipe();
+            case T2_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2COXIDIZER.getFluid(432))
+                    .buildRawRecipe();
+            case T3_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T1ROXIDIZER.getFluid(756))
+                    .buildRawRecipe();
+            case T4_COMBUSTION_MODULE -> GTRecipeBuilder.ofRaw().inputFluids(T2ROXIDIZER.getFluid(864))
+                    .buildRawRecipe();
             default -> GTRecipeBuilder.ofRaw().buildRawRecipe();
         };
     }
@@ -112,11 +125,13 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
     }
 
     private int boostingParallels() {
-        return switch (this.tier){
-            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE, T3_COMBUSTION_MODULE, T4_COMBUSTION_MODULE -> isActiveBoosting ? 2 : 1;
+        return switch (this.tier) {
+            case T1_COMBUSTION_MODULE, T2_COMBUSTION_MODULE, T3_COMBUSTION_MODULE, T4_COMBUSTION_MODULE -> isActiveBoosting ?
+                    2 : 1;
             default -> 1;
         };
     }
+
     @Override
     public String getRecipeFluidInputInfo() {
         GTRecipe recipe = recipeLogic.getLastRecipe();
@@ -125,14 +140,15 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         int displayAmount = isActiveBoosting ? baseFluid * 2 : baseFluid;
         return ChatFormatting.RED + FormattingUtil.formatNumbers(displayAmount) + "mB";
     }
-    //one could say Crazyman
+
+    // one could say Crazyman
     public ModifierFunction getModifierFunction(long recipeEUt) {
-        int parallels = (int)(GTValues.V[tier] / recipeEUt);
+        int parallels = (int) (GTValues.V[tier] / recipeEUt);
         return ModifierFunction.builder()
                 .inputModifier(ContentModifier.multiplier(parallels))
                 .outputModifier(ContentModifier.multiplier(parallels))
                 .eutMultiplier(parallels * getBoostingBonus())
-                .parallels(parallels * boostingParallels())
+                .parallels(parallels * boostingParallels(), StarTParallelTypes.MODULAR_COMBUSTION)
                 .build();
     }
 
@@ -155,7 +171,6 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         return ModifierFunction.NULL;
     }
 
-
     @Override
     public boolean onWorking() {
         boolean value = super.onWorking();
@@ -163,13 +178,16 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         // check every 3.6s 1000 times = 1hr
         if (runningTimer % 72 == 0) {
             GTRecipe lubeRecipe = getLubricantRecipe();
-            //o_o
-            boolean lubed = RecipeHelper.matchRecipe(this, lubeRecipe).isSuccess(); // active boosting recipe, only if passive is running
+            // o_o
+            boolean lubed = RecipeHelper.matchRecipe(this, lubeRecipe).isSuccess(); // active boosting recipe, only if
+                                                                                    // passive is running
 
             if (lubed) {
-                GTRecipe activeBoosterRecipe  = getActiveBoostingRecipe();
+                GTRecipe activeBoosterRecipe = getActiveBoostingRecipe();
                 this.isActiveBoosting = RecipeHelper.matchRecipe(this, activeBoosterRecipe).isSuccess() &&
-                        RecipeHelper.handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches()).isSuccess();
+                        RecipeHelper
+                                .handleRecipeIO(this, activeBoosterRecipe, IO.IN, this.recipeLogic.getChanceCaches())
+                                .isSuccess();
             } else {
                 isActiveBoosting = false;
             }
@@ -181,11 +199,13 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         return value;
     }
 
-    //evil >:(
+    // evil >:(
     @Override
     public void addDisplayText(List<Component> textList) {
-        MultiblockDisplayText.Builder builder = MultiblockDisplayText.builder(textList, this.isFormed()).setWorkingStatus(this.recipeLogic.isWorkingEnabled(), this.recipeLogic.isActive());
-        long lastEUt = this.recipeLogic.getLastRecipe() != null ? this.recipeLogic.getLastRecipe().getOutputEUt().getTotalEU() : 0L;
+        MultiblockDisplayText.Builder builder = MultiblockDisplayText.builder(textList, this.isFormed())
+                .setWorkingStatus(this.recipeLogic.isWorkingEnabled(), this.recipeLogic.isActive());
+        long lastEUt = this.recipeLogic.getLastRecipe() != null ?
+                this.recipeLogic.getLastRecipe().getOutputEUt().getTotalEU() : 0L;
 
         if (this.isActive() && this.isWorkingEnabled()) {
             builder.addCurrentEnergyProductionLine(lastEUt);
@@ -199,7 +219,6 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
             boolean oxidizerBoosted = RecipeHelper.matchRecipe(this, getActiveBoostingRecipe()).isSuccess();
             if (oxidizerBoosted) {
                 String key = switch (this.tier) {
-                    case T1_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t1";
                     case T2_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t2";
                     case T3_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t3";
                     case T4_COMBUSTION_MODULE -> "start_core.multiblock.boosted_combustion_oxidizer_t4";

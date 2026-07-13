@@ -13,15 +13,16 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 public class StarTConverterMachine {
-    
+
     public static MachineDefinition[] registerConverter(int amperage, int startTier, int endTier) {
-        MachineDefinition[] converters = StarTMachineUtils.registerTieredMachines(amperage + "a_energy_converter",
+        return StarTMachineUtils.registerTieredMachines(amperage + "a_energy_converter",
                 (holder, tier) -> new ConverterMachine(holder, tier, amperage),
                 (tier, builder) -> builder
                         .rotationState(RotationState.ALL)
-                        .langValue("%s %s§eA§r Energy Converter".formatted(GTValues.VCF[tier] + GTValues.VN[tier] + ChatFormatting.RESET,
+                        .langValue("%s %s§eA§r Energy Converter".formatted(
+                                GTValues.VCF[tier] + GTValues.VN[tier] + ChatFormatting.RESET,
                                 amperage))
-                        .modelProperty(GTMachineModelProperties.IS_FE_TO_EU, false)
+                        .modelProperty(GTMachineModelProperties.IS_FE_TO_EU, true)
                         .model(GTMachineModels.createConverterModel(amperage))
                         .tooltips(Component.translatable("gtceu.machine.energy_converter.description"),
                                 Component.translatable("gtceu.machine.energy_converter.tooltip_tool_usage"),
@@ -30,16 +31,14 @@ public class StarTConverterMachine {
                                                 FeCompat.ratio(true)),
                                         amperage, GTValues.V[tier], GTValues.VNF[tier]),
                                 Component.translatable("gtceu.machine.energy_converter.tooltip_conversion_eu", amperage,
-                                GTValues.V[tier], GTValues.VNF[tier],
+                                        GTValues.V[tier], GTValues.VNF[tier],
                                         FeCompat.toFeLong(GTValues.V[tier] * amperage,
                                                 FeCompat.ratio(false))))
                         .register(),
-                        GTValues.tiersBetween(startTier, endTier));
-        return converters;
+                GTValues.tiersBetween(startTier, endTier));
     }
 
     public static final MachineDefinition[] ENERGY_CONVERTER_64A = registerConverter(64, GTValues.EV, GTValues.MAX);
 
-    public static void init() {
-    }   
+    public static void init() {}
 }

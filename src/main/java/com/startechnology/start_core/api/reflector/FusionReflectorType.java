@@ -2,8 +2,9 @@ package com.startechnology.start_core.api.reflector;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import lombok.Getter;
-import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
 

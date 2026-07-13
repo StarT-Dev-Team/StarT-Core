@@ -21,13 +21,14 @@ import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import lombok.Getter;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+
+import net.minecraft.world.level.block.Block;
 
 public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
     public static final OverclockingLogic FUSION_OC = OverclockingLogic.create(
-        OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
+            OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
 
     private int tier;
 
@@ -73,8 +74,8 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         // normal fusion logic
 
         if (RecipeHelper.getRecipeEUtTier(recipe) > reactor.getTier() ||
-            !recipe.data.contains("eu_to_start") ||
-            recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
+                !recipe.data.contains("eu_to_start") ||
+                recipe.data.getLong("eu_to_start") > reactor.energyContainer.getEnergyCapacity()) {
             return ModifierFunction.NULL;
         }
 
@@ -168,12 +169,12 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
 
     public static String getControllerName(int tier) {
         return switch (tier) {
-            case GTValues.LuV -> "Fusion Reactor MK I";
-            case GTValues.ZPM -> "Fusion Reactor MK II";
-            case GTValues.UV -> "Fusion Reactor MK III";
-            case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I";
-            case GTValues.UEV -> "Fusion Reactor MK IV";
-            case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II";
+            case GTValues.LuV -> "Fusion Reactor MK I [FRC I]";
+            case GTValues.ZPM -> "Fusion Reactor MK II [FRC II]";
+            case GTValues.UV -> "Fusion Reactor MK III [FRC III]";
+            case GTValues.UHV -> "Auxiliary Boosted Fusion Reactor MK I [AUX I]";
+            case GTValues.UEV -> "Fusion Reactor MK IV [FRC IV]";
+            case GTValues.UIV -> "Auxiliary Boosted Fusion Reactor MK II [AUX II]";
             default -> "Fusion Reactor";
         };
     }
@@ -185,5 +186,4 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
         last.setSelfPositionY(group.getSizeHeight() - 8);
     }
-
 }

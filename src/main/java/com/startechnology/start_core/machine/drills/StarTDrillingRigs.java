@@ -8,17 +8,23 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.machine.StarTMachineUtils;
+
 import net.minecraft.network.chat.Component;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.VLVH;
+import static com.gregtechceu.gtceu.api.GTValues.VLVT;
 import static com.gregtechceu.gtceu.api.GTValues.VNF;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.api.GTValues.ZPM;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.any;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.controller;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 
 public class StarTDrillingRigs {
 
     public static final MultiblockMachineDefinition[] FLUID_DRILLING_RIGS = StarTMachineUtils.registerTieredMultis(
-                "fluid_drilling_rig", FluidDrillMachine::new, (tier, builder) -> builder
+            "fluid_drilling_rig", FluidDrillMachine::new, (tier, builder) -> builder
                     .rotationState(RotationState.ALL)
                     .langValue("%s Fluid Drilling Rig %s".formatted(VLVH[tier], VLVT[tier]))
                     .recipeType(DUMMY_RECIPES)
@@ -50,8 +56,5 @@ public class StarTDrillingRigs {
                     .register(),
             ZPM);
 
-    public static void init() {
-
-    }
-
+    public static void init() {}
 }

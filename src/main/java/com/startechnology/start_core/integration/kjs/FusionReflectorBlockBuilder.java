@@ -11,9 +11,10 @@ import dev.latvian.mods.kubejs.client.VariantBlockStateGenerator;
 import dev.latvian.mods.kubejs.generator.AssetJsonGenerator;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 

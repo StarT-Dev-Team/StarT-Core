@@ -16,10 +16,11 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -29,7 +30,8 @@ import java.util.Set;
 @MethodsReturnNonnullByDefault
 public class RedstoneInterfacePartMachine extends TieredIOPartMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced

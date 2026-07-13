@@ -1,7 +1,7 @@
 #version 330
 
-uniform mat4 GameInvProjMat;
 uniform mat4 GameInvViewRotMat;
+uniform mat4 InvProjViewRotMat;
 uniform vec3 CameraPosition;
 uniform float CameraNearPlane;
 uniform float CameraFarPlane;
@@ -62,16 +62,25 @@ float fbm(vec3 p) {
     return f;
 }
 
-vec3 ro, rd, cd;
-void computeRay() {
-    vec2 ndc = uv * 2.0 - 1.0; // ndc.y = -ndc.y;
-    vec4 clip = vec4(ndc, -1.0, 1.0);
-    vec4 view = GameInvProjMat * clip;
-    rd = normalize(mat3(GameInvViewRotMat) * view.xyz);
-    ro = CameraPosition;
+float linearizeDepth01(float depth) {
+    return CameraNearPlane * CameraFarPlane / (CameraFarPlane + depth * (CameraNearPlane - CameraFarPlane));
+}
 
-    vec4 cameraView = GameInvProjMat * vec4(0, 0, -1, 1);
-    cd = normalize(mat3(GameInvViewRotMat) * cameraView.xyz);
+vec3 ro, rd, cd, wp;
+void computeRay() {
+    float depth = texture(DiffuseDepthSampler, uv).r;
+    vec2 ndc = uv * 2.0 - 1.0;
+    vec4 world = InvProjViewRotMat * vec4(ndc, depth * 2.0 - 1.0, 1.0);
+    vec4 nearPoint = InvProjViewRotMat * vec4(ndc, -1.0, 1.0);
+    vec4 farPoint  = InvProjViewRotMat * vec4(ndc, 1.0, 1.0);
+    world /= world.w;
+    nearPoint /= nearPoint.w;
+    farPoint /= farPoint.w;
+
+    ro = nearPoint.xyz + CameraPosition;
+    rd = normalize(farPoint.xyz - nearPoint.xyz);
+    cd = normalize(mat3(GameInvViewRotMat) * vec3(0.0, 0.0, -1.0));
+    wp = world.xyz;
 }
 
 float dot2(in vec2 v) { return dot(v, v); }
@@ -221,10 +230,6 @@ float calcHitDepth(float distance) {
     float z = distance * dot(cd, rd);
     float ndcDepth = -((CameraFarPlane + CameraNearPlane) / (CameraNearPlane - CameraFarPlane)) + ((2.0 * CameraFarPlane * CameraNearPlane) / (CameraNearPlane - CameraFarPlane)) / z;
     return (ndcDepth + 1.) / 2.;
-}
-
-float linearizeDepth01(float depth) {
-    return CameraNearPlane * CameraFarPlane / (CameraFarPlane + depth * (CameraNearPlane - CameraFarPlane));
 }
 
 float linearizeDepth11(float depth) {

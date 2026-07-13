@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "size": 1,
+  "operation": "SET",
+  "order": 500,
+  "icon": "start_core:slot/lucinducer",
+  "add_cosmetic": false,
+  "use_native_gui": true,
+  "render_toggle": false
+}

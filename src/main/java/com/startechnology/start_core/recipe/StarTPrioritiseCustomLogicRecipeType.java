@@ -1,9 +1,5 @@
 package com.startechnology.start_core.recipe;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.function.Predicate;
-
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -12,10 +8,14 @@ import com.gregtechceu.gtceu.api.recipe.lookup.RecipeIterator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.function.Predicate;
+
 public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
 
     public StarTPrioritiseCustomLogicRecipeType(ResourceLocation registryName, String group,
-            RecipeType<?>[] proxyRecipes) {
+                                                RecipeType<?>[] proxyRecipes) {
         super(registryName, group, proxyRecipes);
     }
 
@@ -44,5 +44,4 @@ public class StarTPrioritiseCustomLogicRecipeType extends GTRecipeType {
 
         return Collections.emptyIterator();
     }
-    
 }

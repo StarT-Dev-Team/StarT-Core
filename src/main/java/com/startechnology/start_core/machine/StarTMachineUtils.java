@@ -1,10 +1,5 @@
 package com.startechnology.start_core.machine;
 
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
-import java.util.Locale;
-import java.util.function.BiFunction;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -14,13 +9,18 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
-
 import dev.latvian.mods.kubejs.KubeJS;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Locale;
+import java.util.function.BiFunction;
+
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
+
 public class StarTMachineUtils {
-    
+
     public static MultiblockMachineDefinition[] registerTieredMultis(String name,
                                                                      BiFunction<IMachineBlockEntity, Integer, MultiblockControllerMachine> factory,
                                                                      BiFunction<Integer, MultiblockMachineBuilder, MultiblockMachineDefinition> builder,
@@ -54,6 +54,7 @@ public class StarTMachineUtils {
     public static Block getKjsBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
     }
+
     public static Block getGTCEuBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(GTCEu.id(block));
     }

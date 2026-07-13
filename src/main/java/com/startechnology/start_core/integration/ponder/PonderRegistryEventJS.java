@@ -6,6 +6,7 @@ import dev.latvian.mods.kubejs.event.EventJS;
 import net.createmod.ponder.api.scene.PonderStoryBoard;
 import net.createmod.ponder.foundation.PonderStoryBoardEntry;
 import net.createmod.ponder.foundation.registration.PonderSceneRegistry;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -55,10 +56,11 @@ public class PonderRegistryEventJS extends EventJS {
         }
 
         public Builder scene(String name, String title, PonderStoryBoard scene) {
-            return scene(name, title, BASIC_STRUCTURE, scene);
+            return scene(name, title, BASIC_STRUCTURE, scene, tags.toArray(new ResourceLocation[0]));
         }
 
-        private Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard, ResourceLocation... tags) {
+        public Builder scene(String name, String title, ResourceLocation structure, PonderStoryBoard storyBoard,
+                             ResourceLocation... tags) {
             var id = StarTKubeJSPlugin.getKubeId(name);
             PonderJSUtils.TRANSLATED_SCENES.add(id);
 
@@ -66,7 +68,7 @@ public class PonderRegistryEventJS extends EventJS {
                 scene.title(id.getPath(), title);
                 try {
                     storyBoard.program(scene, util);
-                } catch(Exception e) {
+                } catch (Exception e) {
                     PonderErrorHelper.reportJsPonderError(e);
                 }
             };
@@ -80,5 +82,4 @@ public class PonderRegistryEventJS extends EventJS {
             return this;
         }
     }
-
 }

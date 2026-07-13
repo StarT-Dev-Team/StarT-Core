@@ -1,10 +1,5 @@
 package com.startechnology.start_core.item;
 
-import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
-import static com.gregtechceu.gtceu.common.data.GTItems.materialInfo;
-import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
-import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-
 import com.google.common.base.Preconditions;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -32,51 +27,68 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidType;
 
+import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
+import static com.gregtechceu.gtceu.common.data.GTItems.materialInfo;
+import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
+import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
+
 public class StarTItems {
+
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
 
-    public static final ItemEntry<ComponentItem> TOOL_DATA_DNA_DISK = START_REGISTRATE.item("data_dna_disk", ComponentItem::create)
-        .lang("Data DNA Disk")
-        .onRegister(attach(new DataItemBehavior(true, 320)))
-        .onRegister(attach(new TooltipBehavior(lines -> {
-            lines.add(Component.translatable("item.start_core.data_dna_disk.tooltip"));
-        })))
-        .register();
+    public static final ItemEntry<ComponentItem> TOOL_DATA_DNA_DISK = START_REGISTRATE
+            .item("data_dna_disk", ComponentItem::create)
+            .lang("§dData DNA Disk")
+            .onRegister(attach(new DataItemBehavior(true, 320)))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.start_core.data_dna_disk.tooltip"));
+            })))
+            .register();
 
-    public static final ItemEntry<ComponentItem> TOOL_COMPONENT_DATA_CORE = START_REGISTRATE.item("component_data_core", ComponentItem::create)
-        .lang("Component Data Core")
-        .onRegister(attach(new DataItemBehavior(true, 500)))
-        .onRegister(attach(new TooltipBehavior(lines -> {
-            lines.add(Component.translatable("item.start_core.component_data_core.tooltip"));
-        })))
-        .register();
+    public static final ItemEntry<ComponentItem> TOOL_COMPONENT_DATA_CORE = START_REGISTRATE
+            .item("component_data_core", ComponentItem::create)
+            .lang("§dComponent Data Core")
+            .onRegister(attach(new DataItemBehavior(true, 500)))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.start_core.component_data_core.tooltip"));
+            })))
+            .register();
 
-    public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE.item("lucinducer", ComponentItem::create)
-        .lang("Lucinducer")
-        .onRegister(attach(new StarTDreamCopyBehaviour()))
-        .onRegister(attach(new TooltipBehavior(lines -> {
-            lines.add(Component.translatable("item.start_core.lucinducer.tooltip1"));
-            lines.add(Component.translatable("item.start_core.lucinducer.tooltip2"));
-        })))
-        .register();
+    public static final ItemEntry<ComponentItem> TOOL_DREAM_COPY_ITEM = START_REGISTRATE
+            .item("lucinducer", ComponentItem::create)
+            .lang("Lucinducer")
+            .onRegister(attach(new StarTDreamCopyBehaviour()))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.start_core.lucinducer.tooltip1"));
+                lines.add(Component.translatable("item.start_core.lucinducer.tooltip2"));
+                lines.add(Component.translatable("item.start_core.lucinducer.tooltip3"));
+            })))
+            .register();
 
-    public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE.item("mechanical_memory_card", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> MECHANICAL_MEMORY_CARD = START_REGISTRATE
+            .item("mechanical_memory_card", ComponentItem::create)
             .lang("Mechanical Memory Card")
             .onRegister(attach(new CopyBehavior()))
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip"));
-                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", Component.translatable("gui.start_core.tooltips.fluid_output_hatches")));
-                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.getBlock().getName()));
-                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported", GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
+                        Component.translatable("gui.start_core.tooltips.fluid_output_hatches")));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
+                        GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.getBlock().getName()));
+                lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
+                        GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
             })))
             .register();
 
-    public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(GTMaterials.NaquadahEnriched, 768, 12, 16, true, true, false);
-    public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_NEUTRONIUM = createFluidCell(GTMaterials.Neutronium, 1024, 16, 8, true, true, true);
+    public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(
+            GTMaterials.NaquadahEnriched, 768, 12, 16, true, true, false);
+    public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_NEUTRONIUM = createFluidCell(GTMaterials.Neutronium, 1024,
+            16, 8, true, true, true);
 
-    public static ItemEntry<ComponentItem> createFluidCell(Material mat, int capacity, int matSize, int stackSize, boolean acidProof, boolean cryoProof, boolean plasmaProof) {
+    public static ItemEntry<ComponentItem> createFluidCell(Material mat, int capacity, int matSize, int stackSize,
+                                                           boolean acidProof, boolean cryoProof, boolean plasmaProof) {
         var prop = mat.getProperty(PropertyKey.FLUID_PIPE);
         Preconditions.checkArgument(prop != null,
                 "Material { %s } does not have Fluid Pipe properties, but is being used to create a Fluid Cell",

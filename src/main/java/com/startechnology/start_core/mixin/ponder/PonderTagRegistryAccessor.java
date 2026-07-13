@@ -4,29 +4,29 @@ import com.google.common.collect.Multimap;
 import net.createmod.ponder.foundation.PonderTag;
 import net.createmod.ponder.foundation.registration.PonderLocalization;
 import net.createmod.ponder.foundation.registration.PonderTagRegistry;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
+
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Map;
 
-@Mixin(PonderTagRegistry.class)
+@Mixin(value = PonderTagRegistry.class, remap = false)
 public interface PonderTagRegistryAccessor {
 
-    @Accessor(value = "MISSING", remap = false)
+    @Accessor("MISSING")
     PonderTag getMissing();
 
-    @Accessor(value = "localization", remap = false)
+    @Accessor("localization")
     PonderLocalization getLocalization();
 
-    @Accessor(value = "componentTagMap", remap = false)
+    @Accessor("componentTagMap")
     Multimap<ResourceLocation, ResourceLocation> getComponentTagMap();
 
-    @Accessor(value = "registeredTags", remap = false)
+    @Accessor("registeredTags")
     Map<ResourceLocation, PonderTag> getRegisteredTags();
 
-    @Accessor(value = "listedTags", remap = false)
+    @Accessor("listedTags")
     List<PonderTag> getListedTags();
-
 }

@@ -6,12 +6,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.createmod.ponder.foundation.PonderTag;
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,7 +35,8 @@ public class PonderItemTagEventJS extends EventJS {
         builder.fin(helper);
     }
 
-    public void createTag(String id, Item displayItem, String title, String description, @Nullable Ingredient ingredient) {
+    public void createTag(String id, Item displayItem, String title, String description,
+                          @Nullable Ingredient ingredient) {
         createTag(id, builder -> {
             builder.icon(displayItem);
             builder.title(title);
@@ -100,9 +102,7 @@ public class PonderItemTagEventJS extends EventJS {
             if (description == null) throw new RuntimeException("Description cannot be null for tag " + id);
 
             var tagBuilder = helper.registerTag(id).title(title).description(description);
-            if (!index) {
-                tagBuilder.addToIndex();
-            }
+            if (index) tagBuilder.addToIndex();
             tagBuilder.item(icon, true, addItemIconToItems);
             tagBuilder.register();
 
@@ -110,6 +110,5 @@ public class PonderItemTagEventJS extends EventJS {
                 helper.addTagToComponent(itemId, id);
             }
         }
-
     }
 }
