@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
@@ -58,12 +57,25 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             .orElse(null);
     }
 
+    private static String getPrettyTraitSymbol(String symbol, Integer tier) {
+        String colourCode = switch (tier) {
+            case 1 -> "§9";
+            case 2 -> "§1";
+            case 3 -> "§5";
+            case 4 -> "§2";
+            case 5 -> "§a";
+            default -> "§7";
+        };
+
+        return String.format("%s%s§r", colourCode, symbol);
+    }
+
     public MutableComponent prettyRequiredGCropTraits() {
         Component translatableTraits = gcropTraits.stream()
                 .map(
-                        trait -> Component.translatable(
-                                        trait.getTraitSymbol()
-                                ).withStyle(ChatFormatting.BLUE)
+                    trait -> Component.translatable(
+                            getPrettyTraitSymbol(trait.getTraitSymbol(), trait.getTraitTier())
+                    )
                 ).reduce(Component.literal(""), (a, b) -> a.append(b));
 
         return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableTraits);
