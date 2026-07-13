@@ -133,7 +133,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
 
     private boolean shouldUpdateVacuum() {
         return (getRecipeLogic().isIdle() || !isWorkingEnabled() ||
-                (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && vacuumAmount > 0.0f;
+                (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && vacuumAmount > Mth.EPSILON;
     }
 
     private void updateVacuumSubscription() {
