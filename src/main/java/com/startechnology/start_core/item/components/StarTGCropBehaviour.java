@@ -49,12 +49,12 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         if (!(gCropItem instanceof ComponentItem)) return null;
 
         List<IItemComponent> components = ((ComponentItem) gCropItem).getComponents();
-        
+
         return components.stream()
-            .filter(StarTGCropBehaviour.class::isInstance)
-            .map(StarTGCropBehaviour.class::cast)
-            .findFirst()
-            .orElse(null);
+                .filter(StarTGCropBehaviour.class::isInstance)
+                .map(StarTGCropBehaviour.class::cast)
+                .findFirst()
+                .orElse(null);
     }
 
     private static String getPrettyTraitSymbol(String symbol, int tier) {
@@ -73,19 +73,18 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
     public MutableComponent prettyRequiredGCropTraits() {
         Component translatableTraits = gcropTraits.stream()
                 .map(
-                    trait -> Component.translatable(
-                            getPrettyTraitSymbol(trait.getTraitSymbol(), trait.getTraitTier())
-                    )
-                ).reduce(Component.literal(""), (a, b) -> a.append(b));
+                        trait -> Component.translatable(
+                                getPrettyTraitSymbol(trait.symbol(), trait.tier())))
+                .reduce(Component.literal(""), (a, b) -> a.append(b));
 
         return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableTraits);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
-            TooltipFlag isAdvanced) {
+                                TooltipFlag isAdvanced) {
         StarTGCropPlant stats = StarTGCropManager.gcropGenomeFromTag(stack);
-            
+
         if (stats == null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.literal(""));

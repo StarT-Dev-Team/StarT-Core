@@ -5,6 +5,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
 public class StarTGCropManager {
+
     public static final String GCROP_GENOME_NBT_TAG = "gcrop_genome";
 
     public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlant bacteriaStats) {
@@ -18,8 +19,8 @@ public class StarTGCropManager {
 
     public static StarTGCropPlant gcropGenomeFromTag(ItemStack stack) {
         if (stack.hasTag() == false) return null;
-        
-        CompoundTag gcropCompound =  stack.getOrCreateTag();
+
+        CompoundTag gcropCompound = stack.getOrCreateTag();
 
         if (!hasGCropGenome(gcropCompound)) {
             return null;

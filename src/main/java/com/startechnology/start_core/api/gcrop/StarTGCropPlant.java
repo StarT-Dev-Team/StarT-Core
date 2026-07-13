@@ -3,6 +3,7 @@ package com.startechnology.start_core.api.gcrop;
 import net.minecraft.nbt.CompoundTag;
 
 public class StarTGCropPlant {
+
     public static final String GCROP_RESOURCE_GENOME_NBT_TAG = "gcrop_resource_genome";
     public static final String GCROP_PRODUCTION_GENOME_NBT_TAG = "gcrop_production_genome";
     public static final String GCROP_AUXILIARY_GENOME_NBT_TAG = "gcrop_auxiliary_genome";

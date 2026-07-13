@@ -3,6 +3,7 @@ package com.startechnology.start_core.data.gcrops;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 
 public class StarTGCropTraits {
+
     public static void init() {
         Charred = new StarTGCropTrait("Charred", "Ch", 0, 3000);
 
