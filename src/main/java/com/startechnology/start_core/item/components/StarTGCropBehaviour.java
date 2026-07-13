@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
-import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
