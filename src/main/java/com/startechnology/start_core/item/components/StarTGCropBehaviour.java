@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropPlants;
+import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
@@ -31,18 +30,26 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return tier;
     }
 
+    public List<StarTGCropTrait> getCropTraits() {
+        return gcropTraits;
+    }
+
+    public Material getCropMaterial() {
+        return resource;
+    }
+
     public StarTGCropBehaviour(Integer tier, Material resource, StarTGCropTrait... traits) {
         this.tier = tier;
         this.resource = resource;
         this.gcropTraits = Arrays.asList(traits);
     }
 
-    public static StarTGCropBehaviour getBacteriaBehaviour(ItemStack bacteria) {
-        Item bacteriaItem = bacteria.getItem();
+    public static StarTGCropBehaviour getGCropBehaviour(ItemStack gCrop) {
+        Item gCropItem = gCrop.getItem();
 
-        if (!(bacteriaItem instanceof ComponentItem)) return null;
+        if (!(gCropItem instanceof ComponentItem)) return null;
 
-        List<IItemComponent> components = ((ComponentItem) bacteriaItem).getComponents();
+        List<IItemComponent> components = ((ComponentItem) gCropItem).getComponents();
         
         return components.stream()
             .filter(StarTGCropBehaviour.class::isInstance)
@@ -51,39 +58,38 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             .orElse(null);
     }
 
-    public MutableComponent prettyPossibleBacteriaAffinities() {
-        List<Component> translatableAffinities = possibleBacteriaAffinities.stream()
-            .map(
-                material -> Component.translatable(
-                    material.getFluid().getFluidType().getDescriptionId()
-                ).withStyle(ChatFormatting.DARK_PURPLE)
-            )
-            .collect(Collectors.toList());
+    public MutableComponent prettyRequiredGCropTraits() {
+        Component translatableTraits = gcropTraits.stream()
+                .map(
+                        trait -> Component.translatable(
+                                        trait.getTraitSymbol()
+                                ).withStyle(ChatFormatting.BLUE)
+                ).reduce(Component.literal(""), (a, b) -> a.append(b));
 
-        return Component.translatable("behaviour.start_core.bacteria.possible_affinities", translatableAffinities.toArray());
+        return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableTraits);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
             TooltipFlag isAdvanced) {
-        StarTGCropPlants stats = StarTGCropManager.gcropGenomeFromTag(stack);
+        StarTGCropPlant stats = StarTGCropManager.gcropGenomeFromTag(stack);
             
         if (stats == null) {
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.no_stats"));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.literal(""));
-            tooltipComponents.add(this.prettyPossibleBacteriaAffinities());
+            tooltipComponents.add(this.prettyRequiredGCropTraits());
         } else {
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinities_header"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_primary", stats.getFluidPretty(stats.getPrimary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", stats.getFluidPretty(stats.getSecondary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", stats.getFluidPretty(stats.getTertiary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable(""));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super", stats.getFluidPretty(stats.getSuperFluid()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.translatable(""));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_primary", tier));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", tier));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", tier));
+            tooltipComponents.add(Component.translatable("lang.start_core.empty"));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super", tier));
+            tooltipComponents.add(Component.translatable("lang.start_core.empty"));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", stats.getProductionPretty()));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", stats.getMetabolismPretty()));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_mutability", stats.getMutabilityPretty()));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", tier));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", tier));
+            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_mutability", tier));
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

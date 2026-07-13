@@ -1,4 +1,4 @@
-package com.startechnology.start_core.data;
+package com.startechnology.start_core.data.gcrops;
 
 import com.startechnology.start_core.data.gcrops.traits.*;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;

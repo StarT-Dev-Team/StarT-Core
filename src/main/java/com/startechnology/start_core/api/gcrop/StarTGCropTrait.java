@@ -7,6 +7,8 @@ public class StarTGCropTrait {
 
     private Integer tier;
 
+    private Integer frequency;
+
     public String getTraitName() {
         return name;
     }
@@ -19,9 +21,14 @@ public class StarTGCropTrait {
         return tier;
     }
 
-    public StarTGCropTrait(String name, String symbol, Integer tier) {
+    public Integer getTraitFrequency() {
+        return frequency;
+    }
+
+    public StarTGCropTrait(String name, String symbol, Integer tier, Integer frequency) {
         this.name = name;
         this.symbol = symbol;
         this.tier = tier;
+        this.frequency = frequency;
     }
 }

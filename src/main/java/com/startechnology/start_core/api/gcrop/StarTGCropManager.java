@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 public class StarTGCropManager {
     public static final String GCROP_GENOME_NBT_TAG = "gcrop_genome";
 
-    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlants bacteriaStats) {
+    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlant bacteriaStats) {
         gcropCompound.put(GCROP_GENOME_NBT_TAG, bacteriaStats.toCompoundTag());
     }
 
@@ -16,7 +16,7 @@ public class StarTGCropManager {
         return gcropCompound.contains(GCROP_GENOME_NBT_TAG, Tag.TAG_COMPOUND);
     }
 
-    public static StarTGCropPlants gcropGenomeFromTag(ItemStack stack) {
+    public static StarTGCropPlant gcropGenomeFromTag(ItemStack stack) {
         if (stack.hasTag() == false) return null;
         
         CompoundTag gcropCompound =  stack.getOrCreateTag();
@@ -26,6 +26,6 @@ public class StarTGCropManager {
         }
 
         CompoundTag statsTag = gcropCompound.getCompound(GCROP_GENOME_NBT_TAG);
-        return new StarTGCropPlants(statsTag);
+        return new StarTGCropPlant(statsTag);
     }
 }
