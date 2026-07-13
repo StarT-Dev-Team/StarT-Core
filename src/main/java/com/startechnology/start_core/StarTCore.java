@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
@@ -48,6 +49,8 @@ public class StarTCore {
     }
 
     public StarTCore() {
+        StarTGCropTraits.init();
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         StarTCreativeTab.init();

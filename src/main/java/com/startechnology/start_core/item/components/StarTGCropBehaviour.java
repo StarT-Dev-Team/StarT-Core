@@ -19,13 +19,13 @@ import java.util.List;
 
 public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
-    private Integer tier;
+    private int tier;
 
     private List<StarTGCropTrait> gcropTraits;
 
     private Material resource;
 
-    public Integer getCropTier() {
+    public int getCropTier() {
         return tier;
     }
 
@@ -37,7 +37,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return resource;
     }
 
-    public StarTGCropBehaviour(Integer tier, Material resource, StarTGCropTrait... traits) {
+    public StarTGCropBehaviour(int tier, Material resource, StarTGCropTrait... traits) {
         this.tier = tier;
         this.resource = resource;
         this.gcropTraits = Arrays.asList(traits);
@@ -57,7 +57,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             .orElse(null);
     }
 
-    private static String getPrettyTraitSymbol(String symbol, Integer tier) {
+    private static String getPrettyTraitSymbol(String symbol, int tier) {
         String colourCode = switch (tier) {
             case 1 -> "§9";
             case 2 -> "§1";

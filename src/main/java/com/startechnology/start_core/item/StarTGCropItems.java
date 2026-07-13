@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
-import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
@@ -38,7 +38,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeBlack,
-                    StarTGCropTrait.Charred
+                    StarTGCropTraits.Charred
             )))
             .register();
 
@@ -48,7 +48,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeRed,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Tough
+                    StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough
             )))
             .register();
 
@@ -58,7 +58,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeGreen,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Charred, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -68,7 +68,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeBrown,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Tough
+                    StarTGCropTraits.Charred, StarTGCropTraits.Tough
             )))
             .register();
 
@@ -78,7 +78,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeBlue,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant
+                    StarTGCropTraits.Charred, StarTGCropTraits.Vibrant
             )))
             .register();
 
@@ -88,7 +88,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyePurple,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -98,7 +98,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeCyan,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Vibrant, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -108,7 +108,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeLightGray,
-                    StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -118,7 +118,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeGray,
-                    StarTGCropTrait.Charred, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Charred, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -128,7 +128,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyePink,
-                    StarTGCropTrait.Vibrant, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -138,7 +138,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeLime,
-                    StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -148,7 +148,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeYellow,
-                    StarTGCropTrait.Tough
+                    StarTGCropTraits.Tough
             )))
             .register();
 
@@ -158,7 +158,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeLightBlue,
-                    StarTGCropTrait.Vibrant
+                    StarTGCropTraits.Vibrant
             )))
             .register();
 
@@ -168,7 +168,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeMagenta,
-                    StarTGCropTrait.Vibrant, StarTGCropTrait.Tough, StarTGCropTrait.Fluorescent
+                    StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent
             )))
             .register();
 
@@ -178,7 +178,7 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTGCropBehaviour(
                     0,
                     GTMaterials.DyeOrange,
-                    StarTGCropTrait.Vibrant, StarTGCropTrait.Tough
+                    StarTGCropTraits.Vibrant, StarTGCropTraits.Tough
             )))
             .register();
 
