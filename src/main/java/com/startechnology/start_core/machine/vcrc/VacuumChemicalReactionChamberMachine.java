@@ -110,7 +110,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
                 setVacuumAmount(vacuumAmount * 0.5f);
             }
             // check next tick
-            subscribeServerTick(vacuumSubscription, this::updateVacuum);
+            vacuumSubscription = subscribeServerTick(vacuumSubscription, this::updateVacuum);
         }
     }
 
@@ -119,7 +119,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         super.onWaiting();
         if (!isRemote()) {
             // check next tick
-            subscribeServerTick(vacuumSubscription, this::updateVacuum);
+            vacuumSubscription = subscribeServerTick(vacuumSubscription, this::updateVacuum);
         }
     }
 
