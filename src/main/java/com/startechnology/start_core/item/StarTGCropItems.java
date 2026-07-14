@@ -21,7 +21,7 @@ import java.util.List;
 
 public class StarTGCropItems {
 
-    public static final List<ItemEntry<ComponentItem>> GCROP_ITEMS = new ArrayList();
+    public static final List<ItemEntry<ComponentItem>> GCROP_ITEMS = new ArrayList<>();
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
@@ -41,7 +41,7 @@ public class StarTGCropItems {
                                       StarTGCropTraits.StarTGCropTrait... traits) {
         var gCropItem = START_REGISTRATE
                 .item(String.format("%s_gcrop", id), ComponentItem::create)
-                .lang(String.format("§3%s GCrop", name))
+                .lang(String.format("Arcanthus §3%s GCrop", name))
                 .properties(prop -> prop.stacksTo(16))
                 .onRegister(attach(new StarTGCropBehaviour(
                         tier,
@@ -52,53 +52,53 @@ public class StarTGCropItems {
     }
 
     static {
-        registerGCrop("black_dye", "Black", 0, GTMaterials.DyeBlack, StarTGCropTraits.Charred);
+        registerGCrop("black_dye", "Tinctoria Umbra", 0, GTMaterials.DyeBlack, StarTGCropTraits.Charred);
 
-        registerGCrop("red_dye", "Red", 0, GTMaterials.DyeRed,
+        registerGCrop("red_dye", "Tinctoria Ignis", 0, GTMaterials.DyeRed,
                 StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough);
 
-        registerGCrop("green_dye", "Green", 0,
+        registerGCrop("green_dye", "Tinctoria Sylva", 0,
                 GTMaterials.DyeGreen, StarTGCropTraits.Charred, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("brown_dye", "Brown", 0,
+        registerGCrop("brown_dye", "Tinctoria Terra", 0,
                 GTMaterials.DyeBrown, StarTGCropTraits.Charred, StarTGCropTraits.Tough);
 
-        registerGCrop("blue_dye", "Blue", 0,
+        registerGCrop("blue_dye", "Tinctoria Tempestas", 0,
                 GTMaterials.DyeBlue, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant);
 
-        registerGCrop("purple_dye", "Purple", 0,
+        registerGCrop("purple_dye", "Tinctoria Nyxia", 0,
                 GTMaterials.DyePurple, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant,
                 StarTGCropTraits.Fluorescent);
 
-        registerGCrop("cyan_dye", "Cyan", 0,
+        registerGCrop("cyan_dye", "Tinctoria Maris", 0,
                 GTMaterials.DyeCyan, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
                 StarTGCropTraits.Fluorescent);
 
-        registerGCrop("light_gray_dye", "Light Gray", 0,
+        registerGCrop("light_gray_dye", "Tinctoria Bruma", 0,
                 GTMaterials.DyeLightGray, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("gray_dye", "Gray", 0,
+        registerGCrop("gray_dye", "Tinctoria Petra", 0,
                 GTMaterials.DyeGray, StarTGCropTraits.Charred, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("pink_dye", "Pink", 0,
+        registerGCrop("pink_dye", "Tinctoria Aurora", 0,
                 GTMaterials.DyePink, StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("lime_dye", "Lime", 0,
+        registerGCrop("lime_dye", "Tinctoria Vitae", 0,
                 GTMaterials.DyeLime, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("yellow_dye", "Yellow", 0,
+        registerGCrop("yellow_dye", "Tinctoria Solis", 0,
                 GTMaterials.DyeYellow, StarTGCropTraits.Tough);
 
-        registerGCrop("light_blue_dye", "Light Blue", 0,
+        registerGCrop("light_blue_dye", "Tinctoria Caelum", 0,
                 GTMaterials.DyeLightBlue, StarTGCropTraits.Vibrant);
 
-        registerGCrop("magenta_dye", "Magenta", 0,
+        registerGCrop("magenta_dye", "Tinctoria Arcana", 0,
                 GTMaterials.DyeMagenta, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
 
-        registerGCrop("orange_dye", "Orange", 0,
+        registerGCrop("orange_dye", "Tinctoria Phoenicis", 0,
                 GTMaterials.DyeOrange, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough);
 
-        registerGCrop("white_dye", "White", 0,
+        registerGCrop("white_dye", "Tinctoria Lucis", 0,
                 GTMaterials.DyeWhite);
     }
 
