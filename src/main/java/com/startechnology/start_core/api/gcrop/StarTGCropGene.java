@@ -21,11 +21,15 @@ public class StarTGCropGene {
         this.dominantAlleles = dominantAlleles;
     };
 
-    /*
-     * Converts genes into raw string data for NBT storage
-     * <Trait>-<DominantCount>
+    /**
+     * Converts a gene object into a string for NBT.
+     * 
+     * <pre>
      * Example:
-     * StarTGCropTrait Charred, int 1; => "Charred-1";
+     *   StarTGCropTrait Charred, int 1;    -> "Charred-1"
+     * </pre>
+     *
+     * @return Gene object formatted as a string for NBT Storage
      */
     public String toRawGene() {
         return String.format("%s-%s", this.trait.name(), String.valueOf(this.dominantAlleles));

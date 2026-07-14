@@ -85,7 +85,7 @@ public class StarTRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GCROP_MUTATOR_RECIPES = GTRecipeTypes
-            .register("bacterial_runic_mutator", GTRecipeTypes.MULTIBLOCK)
+            .register("gcrop_runic_mutator", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 1, 3, 0)
             .setEUIO(IO.IN)
             // .addCustomRecipeLogic(new GCropMutatorLogic())
