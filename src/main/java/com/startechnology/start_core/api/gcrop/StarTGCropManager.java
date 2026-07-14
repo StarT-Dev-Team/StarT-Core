@@ -1,5 +1,7 @@
 package com.startechnology.start_core.api.gcrop;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +10,7 @@ public class StarTGCropManager {
 
     public static final String GCROP_GENOME_NBT_TAG = "gcrop_genome";
 
-    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlant gCropGenome) {
+    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, @NotNull StarTGCropPlant gCropGenome) {
         gcropCompound.put(GCROP_GENOME_NBT_TAG, gCropGenome.toCompoundTag());
     }
 
