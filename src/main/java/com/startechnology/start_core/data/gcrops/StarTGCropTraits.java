@@ -1,14 +1,33 @@
 package com.startechnology.start_core.data.gcrops;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class StarTGCropTraits {
 
-    private enum GenomeType {
+    public enum GenomeType {
         RESOURCE,
         PRODUCTION,
         AUXILIARY
     }
 
-    public record StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {}
+    public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
+
+    public record StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
+
+        public StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
+            this.name = name;
+            this.symbol = symbol;
+            this.tier = tier;
+            this.frequency = frequency;
+            this.genomeType = genomeType;
+            TRAITS.put(name, this);
+        }
+    }
+
+    public static StarTGCropTrait getTrait(String name) {
+        return TRAITS.get(name);
+    }
 
     public static void init() {
         Charred = new StarTGCropTrait("Charred", "Ch", 0, 3000, GenomeType.RESOURCE);

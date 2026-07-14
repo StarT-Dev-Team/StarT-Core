@@ -41,7 +41,7 @@ public class StarTGCropItems {
                                       StarTGCropTraits.StarTGCropTrait... traits) {
         var gCropItem = START_REGISTRATE
                 .item(String.format("%s_gcrop", id), ComponentItem::create)
-                .lang(String.format("Arcanthus §3%s GCrop", name))
+                .lang(String.format("§3Arcanthus %s GCrop", name))
                 .properties(prop -> prop.stacksTo(16))
                 .onRegister(attach(new StarTGCropBehaviour(
                         tier,

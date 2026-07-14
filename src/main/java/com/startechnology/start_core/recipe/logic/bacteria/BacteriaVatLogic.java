@@ -1,4 +1,4 @@
-package com.startechnology.start_core.recipe.logic;
+package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -13,6 +13,7 @@ import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
+import com.startechnology.start_core.recipe.logic.WeightedRandomList;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;

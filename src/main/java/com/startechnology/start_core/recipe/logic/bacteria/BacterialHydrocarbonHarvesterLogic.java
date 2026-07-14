@@ -1,4 +1,4 @@
-package com.startechnology.start_core.recipe.logic;
+package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

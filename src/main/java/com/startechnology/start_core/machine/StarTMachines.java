@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine;
 
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
@@ -22,6 +23,9 @@ import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingControllerMachines;
 import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
 import com.startechnology.start_core.machine.vacuum_pump.StarTVacuumPumpMachines;
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
+
+import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.registerSimpleMachines;
 
 public class StarTMachines {
 
@@ -48,5 +52,8 @@ public class StarTMachines {
         StarTDrillingRigs.init();
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
+
+        MachineDefinition[] GCROP_MUTATOR = registerSimpleMachines("gcrop_mutator",
+                StarTRecipeTypes.GCROP_MUTATOR_RECIPES);
     }
 }

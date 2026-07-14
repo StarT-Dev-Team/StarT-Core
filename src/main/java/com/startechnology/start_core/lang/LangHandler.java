@@ -103,12 +103,23 @@ public class LangHandler {
 
         provider.add("tab.start_core.creative", "Star Technology Core");
 
-        provider.add("lang.start_core.empty", "");
-
         provider.add("item.start_core.gcrop_malformed.tooltip", "§7A Malformed crop, unable to produce resources");
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop without an unidentified genome");
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: {0}");
+
+        provider.add("behaviour.start_core.gcrop.resource_genome",
+                "§7This gCrop has the following resource traits:§r {0}");
+        provider.add("behaviour.start_core.gcrop.production_genome",
+                "§7This gCrop has the following production traits:§r {0}");
+        provider.add("behaviour.start_core.gcrop.auxiliary_genome",
+                "§7This gCrop has the following auxiliary traits:§r {0}");
+        provider.add("behaviour.start_core.gcrop.genome_header",
+                "§7Your gCrop has the following three genome types:");
+
+        provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
+        provider.add("behaviour.start_core.gcrop.random_crop",
+                "§6Mutated §gCrop with random genome.");
 
         provider.add("start_core.machine.auxiliary_boosted_fusion_reactor.description",
                 "§7A high-efficiency fusion reactor that utilises auxiliary fusion coils to enhance fusion reactions, enabling for higher density of fusion reactions taking place within the chamber at once");

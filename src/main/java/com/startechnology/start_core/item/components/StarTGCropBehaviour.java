@@ -3,6 +3,7 @@ package com.startechnology.start_core.item.components;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
+import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
@@ -19,11 +20,11 @@ import java.util.List;
 
 public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
-    private int tier;
+    private final int tier;
 
-    private List<StarTGCropTrait> gcropTraits;
+    private final List<StarTGCropTrait> gcropTraits;
 
-    private Material resource;
+    private final Material resource;
 
     public int getCropTier() {
         return tier;
@@ -70,37 +71,48 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return String.format("%s%s§r", colourCode, symbol);
     }
 
-    public MutableComponent prettyRequiredGCropTraits() {
-        Component translatableTraits = gcropTraits.stream()
+    public Component prettyRequiredGCropTraits() {
+        return gcropTraits.stream()
                 .map(
                         trait -> Component.translatable(
                                 getPrettyTraitSymbol(trait.symbol(), trait.tier())))
-                .reduce(Component.literal(""), (a, b) -> a.append(b));
+                .reduce(Component.literal(""), MutableComponent::append);
+    }
 
-        return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableTraits);
+    public Component prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
+        return genome.stream()
+                .map(
+                        gene -> {
+                            StarTGCropTrait trait = gene.getTrait();
+                            return Component
+                                    .translatable(
+                                            getPrettyTraitSymbol(full ? trait.name() : trait.symbol(), trait.tier()));
+                        })
+                .reduce(Component.literal(full ? ", " : ""), MutableComponent::append);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        StarTGCropPlant stats = StarTGCropManager.gcropGenomeFromTag(stack);
+        StarTGCropPlant gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
 
-        if (stats == null) {
+        if (gCropGenome == null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.literal(""));
-            tooltipComponents.add(this.prettyRequiredGCropTraits());
+            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.required_traits",
+                    this.prettyRequiredGCropTraits()));
         } else {
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinities_header"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_primary", tier));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_secondary", tier));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary", tier));
-            tooltipComponents.add(Component.translatable("lang.start_core.empty"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super", tier));
-            tooltipComponents.add(Component.translatable("lang.start_core.empty"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production", tier));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_metabolism", tier));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_mutability", tier));
+            Component prettyResourceGenome = prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false);
+            Component prettyProductionGenome = prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false);
+            Component prettyAuxiliaryGenome = prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false);
+
+            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
+            tooltipComponents
+                    .add(Component.translatable("behaviour.start_core.gcrop.resource_genome", prettyResourceGenome));
+            tooltipComponents.add(
+                    Component.translatable("behaviour.start_core.gcrop.production_genome", prettyProductionGenome));
+            tooltipComponents
+                    .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome", prettyAuxiliaryGenome));
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

@@ -8,8 +8,8 @@ public class StarTGCropManager {
 
     public static final String GCROP_GENOME_NBT_TAG = "gcrop_genome";
 
-    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlant bacteriaStats) {
-        gcropCompound.put(GCROP_GENOME_NBT_TAG, bacteriaStats.toCompoundTag());
+    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, StarTGCropPlant gCropGenome) {
+        gcropCompound.put(GCROP_GENOME_NBT_TAG, gCropGenome.toCompoundTag());
     }
 
     public static boolean hasGCropGenome(CompoundTag gcropCompound) {
@@ -18,15 +18,13 @@ public class StarTGCropManager {
     }
 
     public static StarTGCropPlant gcropGenomeFromTag(ItemStack stack) {
-        if (stack.hasTag() == false) return null;
+        if (!stack.hasTag()) return null;
 
         CompoundTag gcropCompound = stack.getOrCreateTag();
 
-        if (!hasGCropGenome(gcropCompound)) {
-            return null;
-        }
+        if (!hasGCropGenome(gcropCompound)) return null;
 
-        CompoundTag statsTag = gcropCompound.getCompound(GCROP_GENOME_NBT_TAG);
-        return new StarTGCropPlant(statsTag);
+        CompoundTag genomeTag = gcropCompound.getCompound(GCROP_GENOME_NBT_TAG);
+        return new StarTGCropPlant(genomeTag);
     }
 }
