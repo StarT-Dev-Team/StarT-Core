@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
@@ -81,7 +82,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
     private int runTraitFrequencyRandomGene(int frequency, int alleleCount) {
         int traitCount = 0;
         for (int i = 0; i < alleleCount; i++) {
-            int randomLargePercent = Math.toIntExact(Math.round(Math.random() * 10000));
+            int randomLargePercent = StarTCore.RNG.nextIntBetweenInclusive(1, 10000);
             if (randomLargePercent < frequency) traitCount++;
         }
         return traitCount;
@@ -100,7 +101,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 for (StarTGCropTraits.StarTGCropTrait trait : StarTGCropTraits.TRAITS.values()) {
                     if (trait.tier() == 0) {
                         int alleleCount = runTraitFrequencyRandomGene(trait.frequency(), 2);
-                        if (alleleCount <= 1) {
+                        if (alleleCount >= 1) {
                             if (trait.genomeType() == StarTGCropTraits.GenomeType.RESOURCE) {
                                 newResourceGenome.add(new StarTGCropGene(trait, alleleCount));
                                 allTraits.add(trait);
@@ -131,8 +132,6 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                         break;
                     } ;
                 }
-
-                StarTGCropBehaviour newGCropBehaviour = StarTGCropBehaviour.getGCropBehaviour(gCropRandomSeed);
 
                 StarTGCropPlant newGCropGenome = new StarTGCropPlant(newResourceGenome, newProductionGenome,
                         newAuxiliaryGenome);
