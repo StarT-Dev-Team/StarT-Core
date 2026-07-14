@@ -44,7 +44,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 
         GTRecipe discoveryRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                 .recipeBuilder("seed_discovery")
-                .inputItems(StarTTagUtils.easyTagBuilder("forge:seeds"))
+                .inputItems(StarTTagUtils.getTag("forge:seeds"))
                 .inputFluids(GTMaterials.Air.getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(120)
@@ -141,7 +141,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 
                 return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                         .recipeBuilder("seed_discovery")
-                        .inputItems(StarTTagUtils.easyTagBuilder("forge:seeds"))
+                        .inputItems(StarTTagUtils.getTag("forge:seeds"))
                         .inputFluids(GTMaterials.Air.getFluid(1000))
                         .outputItems(gCropRandomSeed)
                         .duration(120)

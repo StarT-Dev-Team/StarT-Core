@@ -1,10 +1,15 @@
 package com.startechnology.start_core.utils;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class StarTTagUtils {
 
     /**
@@ -14,10 +19,7 @@ public class StarTTagUtils {
      * @return the converted tag as a recipe input
      * @throws NullPointerException if {@code tagString} is {@code null}
      */
-    public static String easyTagBuilder(String tagString) {
-        var seperatedTag = tagString.split(":");
-        TagKey<Item> tagKey = ForgeRegistries.ITEMS.tags()
-                .createTagKey(new ResourceLocation(seperatedTag[0], seperatedTag[1]));
-        return ForgeRegistries.ITEMS.tags().getTag(tagKey);
+    public static TagKey<Item> getTag(String tagString) {
+        return ForgeRegistries.ITEMS.tags().createTagKey(new ResourceLocation(tagString));
     }
 }
