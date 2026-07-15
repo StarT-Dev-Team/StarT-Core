@@ -81,7 +81,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableAffinities);
     }
 
-    public Component prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
+    public MutableComponent prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
         return genome.stream()
                 .map(
                         gene -> {
@@ -103,17 +103,16 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.literal(""));
             tooltipComponents.add(this.prettyRequiredGCropTraits());
         } else {
-            Component prettyResourceGenome = prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false);
-            Component prettyProductionGenome = prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false);
-            Component prettyAuxiliaryGenome = prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false);
-
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
             tooltipComponents
-                    .add(Component.translatable("behaviour.start_core.gcrop.resource_genome", prettyResourceGenome));
+                    .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
+                            prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false)));
             tooltipComponents.add(
-                    Component.translatable("behaviour.start_core.gcrop.production_genome", prettyProductionGenome));
+                    Component.translatable("behaviour.start_core.gcrop.production_genome",
+                            prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
             tooltipComponents
-                    .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome", prettyAuxiliaryGenome));
+                    .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
+                            prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
