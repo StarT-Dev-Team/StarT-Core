@@ -71,12 +71,14 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return String.format("%s%s§r", colourCode, symbol);
     }
 
-    public Component prettyRequiredGCropTraits() {
-        return gcropTraits.stream()
+    public MutableComponent prettyRequiredGCropTraits() {
+        var translatableAffinities = gcropTraits.stream()
                 .map(
                         trait -> Component.translatable(
                                 getPrettyTraitSymbol(trait.symbol(), trait.tier())))
                 .reduce(Component.literal(""), MutableComponent::append);
+
+        return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableAffinities);
     }
 
     public Component prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
@@ -99,8 +101,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         if (gCropGenome == null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.literal(""));
-            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.required_traits",
-                    this.prettyRequiredGCropTraits()));
+            tooltipComponents.add(this.prettyRequiredGCropTraits());
         } else {
             Component prettyResourceGenome = prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false);
             Component prettyProductionGenome = prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false);
