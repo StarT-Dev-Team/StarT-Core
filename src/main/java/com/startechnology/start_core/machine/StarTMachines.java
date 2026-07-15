@@ -70,11 +70,6 @@ public class StarTMachines {
                             StarTRecipeTypes.GCROP_MUTATOR_RECIPES))
                         .rotationState(RotationState.NON_Y_AXIS)
                         .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
-                        .addOutputLimit(ItemRecipeCapability.CAP, switch (tier) {
-                            case 1, 2 -> 1;
-                            case 3 -> 3;
-                            default -> 4;
-                        })
                         .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
                         .workableTieredHullModel(GTCEu.id("block/machines/macerator"))
                         .register(),
