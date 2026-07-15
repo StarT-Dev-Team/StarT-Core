@@ -61,10 +61,10 @@ public class StarTMachines {
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
 
-        MachineDefinition[] GCROP_MUTATOR = GTMachineUtils.registerTieredMachines("gcrop_mutator",
+        MachineDefinition[] GCROP_MUTATOR = StarTMachineUtils.registerTieredMachines("gcrop_mutator",
                 (holder, tier) -> new SimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
                 (tier, builder) -> builder
-                        .langValue("%s Macerator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                        .langValue("%s Crop Mutator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
                         .rotationState(RotationState.NON_Y_AXIS)
                         .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
                         .addOutputLimit(ItemRecipeCapability.CAP, switch (tier) {

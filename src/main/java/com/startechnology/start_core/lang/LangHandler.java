@@ -103,7 +103,6 @@ public class LangHandler {
 
         provider.add("tab.start_core.creative", "Star Technology Core");
 
-        provider.add("item.start_core.malformed_gcrop", "§3Malformed Arcanthus GCrop");
         provider.add("item.start_core.malformed_gcrop.tooltip", "§7A malformed gCrop, unable to produce resources.");
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop without an unidentified genome");
