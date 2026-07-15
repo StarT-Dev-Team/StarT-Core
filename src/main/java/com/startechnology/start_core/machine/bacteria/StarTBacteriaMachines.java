@@ -98,7 +98,7 @@ public class StarTBacteriaMachines {
                     Component.translatable("block.start_core.rm4"))
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES, StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
+            .recipeTypes(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
             .aisle("               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "     BBBBB     ", "               ", "               ", "               ")

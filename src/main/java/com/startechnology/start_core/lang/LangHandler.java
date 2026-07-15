@@ -117,6 +117,9 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.genome_header",
                 "§7Your gCrop has the following three genome types:");
 
+        provider.add("gtceu.gcrop_mutator",
+                "gCrop Mutator");
+
         provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
         provider.add("behaviour.start_core.gcrop.random_crop",
                 "§6Mutated §gCrop with random genome.");
