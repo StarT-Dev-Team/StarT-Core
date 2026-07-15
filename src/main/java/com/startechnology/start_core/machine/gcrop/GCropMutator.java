@@ -1,19 +1,39 @@
 package com.startechnology.start_core.machine.gcrop;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.startechnology.start_core.machine.DirtySimpleTieredMachine;
 import com.startechnology.start_core.machine.DirtyWorkableElectricMultiblockMachine;
+import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
+import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.ELECTRIC_TIERS;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class GCropMutator {
+
+    public static final MachineDefinition[] GCROP_MUTATOR = StarTMachineUtils.registerTieredMachines("gcrop_mutator",
+            (holder, tier) -> new DirtySimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
+            (tier, builder) -> builder
+                    .langValue("%s Crop Mutator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_mutator"),
+                            StarTRecipeTypes.GCROP_MUTATOR_RECIPES))
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
+                    .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+                    .workableTieredHullModel(GTCEu.id("block/machines/cutter"))
+                    .register(),
+            ELECTRIC_TIERS);
 
     public static final MultiblockMachineDefinition GCROP_MUTATION_STATION = START_REGISTRATE
             .multiblock("gcrop_mutator", DirtyWorkableElectricMultiblockMachine::new)

@@ -109,10 +109,10 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
                             prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false)));
             tooltipComponents.add(
                     Component.translatable("behaviour.start_core.gcrop.production_genome",
-                            prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
+                            prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
-                            prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
+                            prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

@@ -6,8 +6,8 @@ import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 
 public class DirtySimpleTieredMachine extends SimpleTieredMachine {
 
-    DirtySimpleTieredMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction,
-                             Object... args) {
+    public DirtySimpleTieredMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction,
+                                    Object... args) {
         super(holder, tier, tankScalingFunction, args);
     }
 
