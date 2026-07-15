@@ -16,7 +16,6 @@ import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.item.StarTGCropItems;
-import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTTagUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -28,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Comparator;
 
 import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
 
@@ -81,6 +79,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 
     /**
      * Generates a random number between 0 and 2, inclusive based on the frequency of the trait.
+     * 
      * @param frequency
      * @return int
      */
@@ -104,44 +103,28 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 List<StarTGCropTraits.StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
 
                 for (var trait : tier0Traits) {
-                        int alleleCount = runTraitFrequencyRandomGene(trait.frequency());
-                        if (alleleCount >= 1) {
-                            switch (trait.genomeType()) {
-                                case RESOURCE -> {
-                                    newResourceGenome.add(new StarTGCropGene(trait, alleleCount));
-                                    allTraits.add(trait);
-                                }
-                                case PRODUCTION -> {
-                                    newProductionGenome.add(new StarTGCropGene(trait, alleleCount));
-                                    allTraits.add(trait);
-                                }
-                                case AUXILIARY -> {
-                                    newAuxiliaryGenome.add(new StarTGCropGene(trait, alleleCount));
-                                    allTraits.add(trait);
-                                }
+                    int alleleCount = runTraitFrequencyRandomGene(trait.frequency());
+                    if (alleleCount >= 1) {
+                        switch (trait.genomeType()) {
+                            case RESOURCE -> {
+                                newResourceGenome.add(new StarTGCropGene(trait, alleleCount));
+                                allTraits.add(trait);
+                            }
+                            case PRODUCTION -> {
+                                newProductionGenome.add(new StarTGCropGene(trait, alleleCount));
+                            }
+                            case AUXILIARY -> {
+                                newAuxiliaryGenome.add(new StarTGCropGene(trait, alleleCount));
                             }
                         }
+                    }
                 }
 
                 allTraits.sort(StarTGCropTraits.TRAIT_COMPARATOR);
 
                 ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allTraits);
-                ItemStack gCropRandomSeed = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
-
-                // for (ItemEntry<ComponentItem> gCropItemEntry : StarTGCropItems.GCROP_ITEMS) {
-                //     ItemStack gCropItem = new ItemStack(gCropItemEntry.get());
-                //     StarTGCropBehaviour gCropBehaviour = StarTGCropBehaviour.getGCropBehaviour(gCropItem);
-
-                //     if (gCropBehaviour == null) continue;
-
-                //     List<StarTGCropTraits.StarTGCropTrait> gCropTraits = gCropBehaviour.getCropTraits();
-                //     gCropTraits.sort(StarTGCropTraits.TRAIT_COMPARATOR);
-
-                //     if (gCropTraits.equals(allTraits)) {
-                //         gCropRandomSeed = gCropItem;
-                //         break;
-                //     }
-                // }
+                ItemStack gCropRandomSeed = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) :
+                        gCropItem.asStack();
 
                 StarTGCropPlant newGCropGenome = new StarTGCropPlant(newResourceGenome, newProductionGenome,
                         newAuxiliaryGenome);
