@@ -107,16 +107,17 @@ public class StarTGCropItems {
     }
 
     public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTraits.StarTGCropTrait> traits) {
-        return GCROP_ITEMS.stream()
-                .filter(item -> item.get().getComponents().stream()
-                        .filter(behaviour -> behaviour instanceof StarTGCropBehaviour)
-                        .map(behaviour -> (StarTGCropBehaviour) behaviour)
-                        .anyMatch(behaviour -> {
-                                behaviour.getCropTraits().sort(StarTGCropTraits.TRAIT_COMPARATOR);
-                                return behaviour.getCropTraits().equals(traits);
-                        }))
-                .findFirst()
-                .orElse(null);
+        for (var gCrop : GCROP_ITEMS) {
+            var behaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop.asStack());
+            if (behaviour == null) continue;
+            behaviour.getCropTraits().sort(StarTGCropTraits.TRAIT_COMPARATOR);
+            var resourceTraits = behaviour.getCropTraits().stream()
+                    .filter(trait -> trait.genomeType() == StarTGCropTraits.GenomeType.RESOURCE).toList();
+            if (resourceTraits.equals(traits)) {
+                return gCrop;
+            }
+        }
+        return null;
     }
 
     public static void init() {}

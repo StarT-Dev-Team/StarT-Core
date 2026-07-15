@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class StarTGCropTraits {
 
-    public static final Comparator<StarTGCropTraits.StarTGCropTrait> TRAIT_COMPARATOR =
-            Comparator.comparing(StarTGCropTraits.StarTGCropTrait::name);
+    public static final Comparator<StarTGCropTraits.StarTGCropTrait> TRAIT_COMPARATOR = Comparator
+            .comparing(StarTGCropTraits.StarTGCropTrait::name);
 
     public enum GenomeType {
         RESOURCE,
