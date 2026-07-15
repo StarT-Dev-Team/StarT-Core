@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
@@ -65,6 +66,8 @@ public class StarTMachines {
                 (holder, tier) -> new SimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
                 (tier, builder) -> builder
                         .langValue("%s Crop Mutator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                        .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_mutator"),
+                            StarTRecipeTypes.GCROP_MUTATOR_RECIPES))
                         .rotationState(RotationState.NON_Y_AXIS)
                         .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
                         .addOutputLimit(ItemRecipeCapability.CAP, switch (tier) {
