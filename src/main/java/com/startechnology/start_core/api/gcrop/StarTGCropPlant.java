@@ -17,11 +17,11 @@ public class StarTGCropPlant {
     public static final String GCROP_AUXILIARY_GENOME_NBT_TAG = "gcrop_auxiliary_genome";
 
     @NotNull
-    private List<StarTGCropGene> resourceGenome;
+    private List<StarTGCropGene> resourceGenome = new ArrayList<>();
     @NotNull
-    private List<StarTGCropGene> productionGenome;
+    private List<StarTGCropGene> productionGenome = new ArrayList<>();
     @NotNull
-    private List<StarTGCropGene> auxiliaryGenome;
+    private List<StarTGCropGene> auxiliaryGenome = new ArrayList<>();
 
     public List<StarTGCropGene> getResourceGenome() {
         return resourceGenome;
@@ -43,17 +43,14 @@ public class StarTGCropPlant {
     }
 
     public StarTGCropPlant(CompoundTag gCropGenomeCompound) {
-        this.resourceGenome = new ArrayList<>();
-        this.productionGenome = new ArrayList<>();
-        this.auxiliaryGenome = new ArrayList<>();
-        ListTag resourceGenomeList = gCropGenomeCompound.getList(GCROP_RESOURCE_GENOME_NBT_TAG, Tag.TAG_LIST);
+        ListTag resourceGenomeList = gCropGenomeCompound.getList(GCROP_RESOURCE_GENOME_NBT_TAG, Tag.TAG_STRING);
         resourceGenomeList.forEach(gene -> this.resourceGenome.add(new StarTGCropGene(gene.getAsString())));
 
         ListTag productionGenomeList = gCropGenomeCompound.getList(GCROP_PRODUCTION_GENOME_NBT_TAG,
-                Tag.TAG_LIST);
+                Tag.TAG_STRING);
         productionGenomeList.forEach(gene -> this.productionGenome.add(new StarTGCropGene(gene.getAsString())));
 
-        ListTag auxiliaryGenomeList = gCropGenomeCompound.getList(GCROP_AUXILIARY_GENOME_NBT_TAG, Tag.TAG_LIST);
+        ListTag auxiliaryGenomeList = gCropGenomeCompound.getList(GCROP_AUXILIARY_GENOME_NBT_TAG, Tag.TAG_STRING);
         auxiliaryGenomeList.forEach(gene -> this.auxiliaryGenome.add(new StarTGCropGene(gene.getAsString())));
     }
 

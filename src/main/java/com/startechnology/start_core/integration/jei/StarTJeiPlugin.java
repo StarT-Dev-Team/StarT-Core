@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.integration.jei.orevein.GTBedrockOreInfoCategory;
 import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
+import com.startechnology.start_core.machine.gcrop.*;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
@@ -55,5 +56,8 @@ public class StarTJeiPlugin implements IModPlugin {
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockOreInfoCategory.RECIPE_TYPE);
             }
         }
+
+        registration.addRecipeCatalyst(GCropMutator.GCROP_MUTATION_STATION.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.GCROP_MUTATOR_RECIPES.getCategory()));
     }
 }

@@ -100,7 +100,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
         if (gCropGenome == null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
-            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.empty());
             tooltipComponents.add(this.prettyRequiredGCropTraits());
         } else {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));

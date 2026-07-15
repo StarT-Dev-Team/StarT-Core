@@ -41,6 +41,7 @@ public class StarTGCropTraits {
     }
 
     public static void init() {
+        // Resource Traits
         Charred = new StarTGCropTrait("Charred", "Ch", 0, 3000, GenomeType.RESOURCE);
 
         Vibrant = new StarTGCropTrait("Vibrant", "Vi", 0, 3000, GenomeType.RESOURCE);
@@ -60,6 +61,9 @@ public class StarTGCropTraits {
         Coarse = new StarTGCropTrait("Coarse", "Co", 2, 3000, GenomeType.RESOURCE);
 
         Shiny = new StarTGCropTrait("Shiny", "Sh", 2, 3000, GenomeType.RESOURCE);
+
+        // Production Traits
+        Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 3000, GenomeType.PRODUCTION);
     }
 
     // Tier 0
@@ -68,13 +72,15 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Tough;
     public static StarTGCropTrait Fluorescent;
 
-    // tier 1
+    public static StarTGCropTrait Speedy;
+
+    // Tier 1
     public static StarTGCropTrait Metallic;
     public static StarTGCropTrait Crystalline;
     public static StarTGCropTrait Dusty;
     public static StarTGCropTrait Woody;
 
-    // tier 2
+    // Tier 2
     public static StarTGCropTrait Coarse;
     public static StarTGCropTrait Shiny;
 }

@@ -1,10 +1,11 @@
-package com.startechnology.start_core.machine.bacteria;
+package com.startechnology.start_core.machine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 
-public class BacterialVatMachine extends WorkableElectricMultiblockMachine {
-    public BacterialVatMachine(IMachineBlockEntity holder, Object... args) {
+public class DirtyWorkableElectricMultiblockMachine extends WorkableElectricMultiblockMachine {
+
+    public DirtyWorkableElectricMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
