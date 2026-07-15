@@ -103,7 +103,8 @@ public class LangHandler {
 
         provider.add("tab.start_core.creative", "Star Technology Core");
 
-        provider.add("item.start_core.gcrop_malformed.tooltip", "§7A Malformed crop, unable to produce resources");
+        provider.add("item.start_core.malformed_gcrop", "§3Malformed Arcanthus GCrop");
+        provider.add("item.start_core.malformed_gcrop.tooltip", "§7A malformed gCrop, unable to produce resources.");
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop without an unidentified genome");
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: {0}");
@@ -661,6 +662,8 @@ public class LangHandler {
         provider.add("start_core.bulking.forced", "Forced bulking: ");
         provider.add("start_core.bulking.type", "Bulking type: ");
         provider.add("ui.start_core.bulking.type", "Bulking type: %s");
+        provider.add("config.jade.plugin_start_core.bulking_info", "[Star Technology] Bulking Info");
+        provider.add("config.jade.plugin_start_core.forced_bulking", "Forced Bulking %s");
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
