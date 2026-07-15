@@ -19,6 +19,10 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
+import org.jetbrains.annotations.NotNull;
+
 public class StarTGCropItems {
 
     public static final List<ItemEntry<ComponentItem>> GCROP_ITEMS = new ArrayList<>();
@@ -100,6 +104,19 @@ public class StarTGCropItems {
 
         registerGCrop("white_dye", "Tinctoria Lucis", 0,
                 GTMaterials.DyeWhite);
+    }
+
+    public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTraits.StarTGCropTrait> traits) {
+        return GCROP_ITEMS.stream()
+                .filter(item -> item.get().getComponents().stream()
+                        .filter(behaviour -> behaviour instanceof StarTGCropBehaviour)
+                        .map(behaviour -> (StarTGCropBehaviour) behaviour)
+                        .anyMatch(behaviour -> {
+                                behaviour.getCropTraits().sort(StarTGCropTraits.TRAIT_COMPARATOR);
+                                return behaviour.getCropTraits().equals(traits);
+                        }))
+                .findFirst()
+                .orElse(null);
     }
 
     public static void init() {}

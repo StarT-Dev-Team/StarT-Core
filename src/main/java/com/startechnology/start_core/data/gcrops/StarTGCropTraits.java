@@ -1,9 +1,14 @@
 package com.startechnology.start_core.data.gcrops;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StarTGCropTraits {
+
+    public static final Comparator<StarTGCropTraits.StarTGCropTrait> TRAIT_COMPARATOR =
+            Comparator.comparing(StarTGCropTraits.StarTGCropTrait::name);
 
     public enum GenomeType {
         RESOURCE,
@@ -27,6 +32,12 @@ public class StarTGCropTraits {
 
     public static StarTGCropTrait getTrait(String name) {
         return TRAITS.get(name);
+    }
+
+    public static List<StarTGCropTrait> getTraitsByTier(int tier) {
+        return TRAITS.values().stream()
+                .filter(trait -> trait.tier() == tier)
+                .toList();
     }
 
     public static void init() {
