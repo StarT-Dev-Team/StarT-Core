@@ -64,12 +64,16 @@ public class StarTGCropTraits {
                 .toList();
     }
 
-    public static int runTraitFrequencyRandomGene(StarTGCropTrait trait, int alleleCount) {
-        int traitCount = 0;
-        for (int i = 0; i < alleleCount; i++) {
-            if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < trait.frequency()) traitCount++;
-        }
-        return traitCount;
+    public static List<StarTGCropTrait> getTraitsByType(GenomeType genomeType) {
+        return TRAITS.values().stream()
+                .filter(trait -> trait.genomeType == genomeType)
+                .toList();
+    }
+
+    public static List<StarTGCropTrait> getTraitsByType(GenomeType genomeType, List<StarTGCropTrait> traits) {
+        return traits.stream()
+                .filter(trait -> trait.genomeType == genomeType)
+                .toList();
     }
 
     public static void init() {
@@ -96,6 +100,11 @@ public class StarTGCropTraits {
 
         // Production Traits
         Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 3000, GenomeType.PRODUCTION);
+
+        // Auxiliary Traits
+        Dry = new StarTGCropTrait("Dry", "Dy", 0, 3000, GenomeType.AUXILIARY);
+
+        Nocturnal = new StarTGCropTrait("Nocturnal", "Nc", 2, 2000, GenomeType.AUXILIARY);
     }
 
     // Tier 0
@@ -106,6 +115,8 @@ public class StarTGCropTraits {
 
     public static StarTGCropTrait Speedy;
 
+    public static StarTGCropTrait Dry;
+
     // Tier 1
     public static StarTGCropTrait Metallic;
     public static StarTGCropTrait Crystalline;
@@ -115,4 +126,6 @@ public class StarTGCropTraits {
     // Tier 2
     public static StarTGCropTrait Coarse;
     public static StarTGCropTrait Shiny;
+
+    public static StarTGCropTrait Nocturnal;
 }
