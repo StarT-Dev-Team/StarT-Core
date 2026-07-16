@@ -1,14 +1,10 @@
 package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -18,6 +14,7 @@ import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import net.minecraft.network.chat.Component;
@@ -28,9 +25,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
@@ -40,23 +34,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
 
     @Override
     public GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        Map<Boolean, List<NotifiableItemStackHandler>> itemHandlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .collect(Collectors.groupingBy(NotifiableRecipeHandlerTrait::isDistinct));
+        var itemHandlers = StarTCustomLogicUtils.getItemHandlersMap(holder);
 
-        Map<Boolean, List<NotifiableFluidTank>> fluidHandlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableFluidTank.class::isInstance)
-                .map(NotifiableFluidTank.class::cast)
-                .filter(i -> i.getTanks() >= 1)
-                .collect(Collectors.groupingBy(NotifiableRecipeHandlerTrait::isDistinct));
+        var fluidHandlers = StarTCustomLogicUtils.getFluidHandlersMap(holder);
 
         if (itemHandlers.isEmpty() || fluidHandlers.isEmpty()) return null;
 
@@ -242,12 +222,10 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                             .EUt(GTValues.V[GTValues.UV])
                             .buildRawRecipe();
 
-                    // for EMI to detect it's a synthetic recipe (not ever in JSON)
-                    affinityRecipe.setId(affinityRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.addToMainCategory(affinityRecipe);
-
-                    totalRecipe.setId(totalRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.addToMainCategory(totalRecipe);
+                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                            "runic_mutator_total", totalRecipe);
+                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                            "runic_mutator_affinity", affinityRecipe);
                 });
     }
 }

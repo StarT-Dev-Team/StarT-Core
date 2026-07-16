@@ -16,6 +16,7 @@ import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.item.StarTGCropItems;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.startechnology.start_core.utils.StarTTagUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.network.chat.Component;
@@ -49,31 +50,15 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 .EUt(GTValues.V[GTValues.MV])
                 .buildRawRecipe();
 
-        // for EMI to detect it's a synthetic recipe (not ever in JSON)
-        discoveryRecipe.setId(discoveryRecipe.getId().withPrefix("/"));
-        StarTRecipeTypes.GCROP_MUTATOR_RECIPES.addToMainCategory(discoveryRecipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, discoveryRecipe);
     }
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        List<NotifiableItemStackHandler> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .toList();
+        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
 
-        if (handlers.isEmpty()) return null;
-
-        // Return for the first recipe found
-        for (NotifiableItemStackHandler handler : handlers) {
-            GTRecipe recipe = createSeedDiscoveryRecipe(handler);
-            if (recipe != null) return recipe;
-        }
-
-        return null;
+        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers,
+                this::createSeedDiscoveryRecipe);
     }
 
     private GTRecipe createSeedDiscoveryRecipe(NotifiableItemStackHandler handler) {

@@ -1,9 +1,7 @@
 package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
@@ -14,12 +12,12 @@ import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsMana
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import com.startechnology.start_core.recipe.logic.WeightedRandomList;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
+
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
@@ -54,9 +52,8 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                                     .EUt(GTValues.V[GTValues.ZPM])
                                     .buildRawRecipe();
 
-                            // for EMI to detect it's a synthetic recipe (not ever in JSON)
-                            recipe.setId(recipe.getId().withPrefix("/"));
-                            StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES.addToMainCategory(recipe);
+                            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
+                                    StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES, recipe);
                         });
     }
 
@@ -67,24 +64,9 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
 
     @Override
     public GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        List<NotifiableItemStackHandler> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .toList();
+        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
 
-        if (handlers.isEmpty()) return null;
-
-        // Return for the first recipe found
-        for (NotifiableItemStackHandler handler : handlers) {
-            GTRecipe recipe = createBacteriaRecipe(handler);
-            if (recipe != null) return recipe;
-        }
-
-        return null;
+        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers, this::createBacteriaRecipe);
     }
 
     private GTRecipe createBacteriaRecipe(NotifiableItemStackHandler handler) {

@@ -1,9 +1,7 @@
 package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
@@ -13,6 +11,8 @@ import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +20,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
@@ -30,24 +28,9 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        List<NotifiableItemStackHandler> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .toList();
+        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
 
-        if (handlers.isEmpty()) return null;
-
-        // Return for the first recipe found
-        for (NotifiableItemStackHandler handler : handlers) {
-            GTRecipe recipe = createHarvesterRecipe(handler);
-            if (recipe != null) return recipe;
-        }
-
-        return null;
+        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers, this::createHarvesterRecipe);
     }
 
     private GTRecipe createHarvesterRecipe(NotifiableItemStackHandler handler) {
@@ -194,8 +177,8 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                             .EUt(GTValues.VH[GTValues.ZPM])
                             .buildRawRecipe();
 
-                    harvesterRecipe.setId(harvesterRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES.addToMainCategory(harvesterRecipe);
+                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
+                            StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES, "harvesting", harvesterRecipe);
                 });
     }
 }

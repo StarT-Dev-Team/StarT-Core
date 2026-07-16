@@ -1,9 +1,7 @@
 package com.startechnology.start_core.recipe.logic.bacteria;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -16,6 +14,7 @@ import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsMana
 import com.startechnology.start_core.item.StarTBacteriaItems;
 import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,7 +25,6 @@ import net.minecraft.world.level.material.Fluid;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_DORMANT;
 
@@ -54,31 +52,16 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
                 .EUt(GTValues.V[GTValues.UV])
                 .buildRawRecipe();
 
-        // for EMI to detect it's a synthetic recipe (not ever in JSON)
-        dormantRecipe.setId(dormantRecipe.getId().withPrefix("/"));
-        StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.addToMainCategory(dormantRecipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                "dormant_awakening", dormantRecipe);
     }
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        List<NotifiableItemStackHandler> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableItemStackHandler.class::isInstance)
-                .map(NotifiableItemStackHandler.class::cast)
-                .filter(i -> i.getSlots() >= 1)
-                .toList();
+        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
 
-        if (handlers.isEmpty()) return null;
-
-        // Return for the first recipe found
-        for (NotifiableItemStackHandler handler : handlers) {
-            GTRecipe recipe = createDormantAwakeningRecipe(handler);
-            if (recipe != null) return recipe;
-        }
-
-        return null;
+        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers,
+                this::createDormantAwakeningRecipe);
     }
 
     private GTRecipe createDormantAwakeningRecipe(NotifiableItemStackHandler handler) {
