@@ -39,7 +39,7 @@
   "behaviour.start_core.gcrop.production_genome": "§7This gCrop has the following production traits:§r %s",
   "behaviour.start_core.gcrop.random_crop": "§6Mutated §gCrop with random genome.",
   "behaviour.start_core.gcrop.random_crop_name": "§3Arcanthus ????? GCrop",
-  "behaviour.start_core.gcrop.required_traits": "§7This variant needs the following traits: %1$",
+  "behaviour.start_core.gcrop.required_traits": "§7This variant needs the following traits: %s",
   "behaviour.start_core.gcrop.resource_genome": "§7This gCrop has the following resource traits:§r %s",
   "behaviour.start_core.hellforge.input_heat": "§fAdds §l%sMK§r§f to the Hadean Crucible",
   "behaviour.start_core.hellforge.max_heat": "§cMaximum temperature of this heating fluid is §l%sMK",

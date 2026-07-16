@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
@@ -77,19 +76,6 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
         return null;
     }
 
-    /**
-     * Generates a random number between 0 and 2, inclusive based on the frequency of the trait.
-     * 
-     * @param frequency
-     * @return int
-     */
-    private int runTraitFrequencyRandomGene(int frequency) {
-        int traitCount = 0;
-        if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < frequency) traitCount++;
-        if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < frequency) traitCount++;
-        return traitCount;
-    }
-
     private GTRecipe createSeedDiscoveryRecipe(NotifiableItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); ++i) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
@@ -104,7 +90,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
             List<StarTGCropTraits.StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
 
             for (var trait : tier0Traits) {
-                int alleleCount = runTraitFrequencyRandomGene(trait.frequency());
+                int alleleCount = trait.runTraitFrequencyRandomGene(2);
                 if (alleleCount >= 1) {
                     switch (trait.genomeType()) {
                         case RESOURCE -> {

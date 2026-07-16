@@ -1,5 +1,7 @@
 package com.startechnology.start_core.data.gcrops;
 
+import com.startechnology.start_core.StarTCore;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,20 @@ public class StarTGCropTraits {
             this.genomeType = genomeType;
             TRAITS.put(name, this);
         }
+
+        /**
+         * Generates a random number between 0 and alleleCount (inclusive), based on the frequency of the trait.
+         *
+         * @param alleleCount int
+         * @return int
+         */
+        public int runTraitFrequencyRandomGene(int alleleCount) {
+            int traitCount = 0;
+            for (int i = 0; i < alleleCount; i++) {
+                if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < this.frequency) traitCount++;
+            }
+            return traitCount;
+        }
     }
 
     public static StarTGCropTrait getTrait(String name) {
@@ -35,9 +51,25 @@ public class StarTGCropTraits {
     }
 
     public static List<StarTGCropTrait> getTraitsByTier(int tier) {
+        return getTraitsBetweenTiersInclusive(tier, tier);
+    }
+
+    public static List<StarTGCropTrait> getTraitsBelowTierInclusive(int tier) {
+        return getTraitsBetweenTiersInclusive(0, tier);
+    }
+
+    public static List<StarTGCropTrait> getTraitsBetweenTiersInclusive(int lower, int upper) {
         return TRAITS.values().stream()
-                .filter(trait -> trait.tier() == tier)
+                .filter(trait -> trait.tier() <= upper && trait.tier() >= lower)
                 .toList();
+    }
+
+    public static int runTraitFrequencyRandomGene(StarTGCropTrait trait, int alleleCount) {
+        int traitCount = 0;
+        for (int i = 0; i < alleleCount; i++) {
+            if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < trait.frequency()) traitCount++;
+        }
+        return traitCount;
     }
 
     public static void init() {

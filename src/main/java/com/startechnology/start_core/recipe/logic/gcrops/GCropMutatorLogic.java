@@ -5,34 +5,27 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.bacteria.StarTBacteriaManager;
-import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
+import com.startechnology.start_core.api.gcrop.*;
+import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
-import com.tterrag.registrate.util.entry.ItemEntry;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
 
 public class GCropMutatorLogic implements ICustomRecipeLogic {
 
@@ -63,11 +56,11 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         // Distinct first, reset our stacks for every inventory
         for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
             for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
-                GTRecipe recipe = createBacteriaRecipe(itemHandler, fluidHandler);
+                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
                 if (recipe != null) return recipe;
             }
             for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
-                GTRecipe recipe = createBacteriaRecipe(itemHandler, fluidHandler);
+                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
                 if (recipe != null) return recipe;
             }
         }
@@ -75,11 +68,11 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         // Non-distinct, return as soon as we find valid items
         for (var itemHandler : itemHandlers.getOrDefault(false, Collections.emptyList())) {
             for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
-                GTRecipe recipe = createBacteriaRecipe(itemHandler, fluidHandler);
+                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
                 if (recipe != null) return recipe;
             }
             for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
-                GTRecipe recipe = createBacteriaRecipe(itemHandler, fluidHandler);
+                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
                 if (recipe != null) return recipe;
             }
         }
@@ -87,18 +80,42 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         return null;
     }
 
-    public static GTRecipe createBacteriaRecipe(NotifiableItemStackHandler itemHandler,
-                                                NotifiableFluidTank fluidHandler) {
-        ItemStack existingBacteria = ItemStack.EMPTY;
-        FluidStack existingNaq = FluidStack.EMPTY;
+    public static boolean hasItemMatch(ItemStack item, List<ItemStack> itemList) {
+        for (ItemStack newItem : itemList) {
+            if (item.copyWithCount(1).equals(newItem)) return true;
+        }
+        return false;
+    }
 
-        // Find first items that match the mutation requirements
+    public static boolean hasFluidMatch(FluidStack fluid, List<FluidStack> fluidList) {
+        for (FluidStack newFluid : fluidList) {
+            if (fluid.isFluidEqual(newFluid)) return true;
+        }
+        return false;
+    }
+
+    public static GTRecipe createGCropRecipe(NotifiableItemStackHandler itemHandler,
+                                             NotifiableFluidTank fluidHandler) {
+        ItemStack foundGCrop = ItemStack.EMPTY;
+
+        final List<ItemStack> validMutationItemList = List.of(
+                ChemicalHelper.get(dust, Thorium),
+                ChemicalHelper.get(dust, Uranium238));
+
+        final List<FluidStack> validMutationFluidList = List.of(
+                GTMaterials.Radon.getFluid(1000),
+                GTMaterials.Naquadria.getFluid(1000));
+
+        List<ItemStack> validMutationItems = new ArrayList<>();
+        List<FluidStack> validMutationFluids = new ArrayList<>();
+
         for (int i = 0; i < itemHandler.getSlots(); ++i) {
             ItemStack itemInSlot = itemHandler.getStackInSlot(i);
             if (!itemInSlot.isEmpty()) {
-                // Check for bacteria
-                if (StarTBacteriaBehaviour.getBacteriaBehaviour(itemInSlot) != null) {
-                    existingBacteria = itemInSlot;
+                if (StarTGCropBehaviour.getGCropBehaviour(itemInSlot) != null) {
+                    foundGCrop = itemInSlot;
+                } else if (hasItemMatch(itemInSlot, validMutationItemList)) {
+                    validMutationItems.add(itemInSlot);
                 }
             }
         }
@@ -106,148 +123,65 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         for (int i = 0; i < fluidHandler.getTanks(); ++i) {
             FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
             if (!fluidInSlot.isEmpty()) {
-                // Check for naquadah
-                if (isNaq(fluidInSlot)) {
-                    existingNaq = fluidInSlot;
+                if (hasFluidMatch(fluidInSlot, validMutationFluidList)) {
+                    validMutationFluids.add(fluidInSlot);
                 }
             }
         }
 
-        if (existingBacteria.isEmpty() || existingNaq.isEmpty()) return null;
+        if (foundGCrop.isEmpty() || (validMutationItems.isEmpty() && validMutationFluids.isEmpty())) return null;
 
-        StarTBacteriaBehaviour bacteriaBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(existingBacteria);
-
-        if (bacteriaBehaviour == null) return null;
-
-        // Current stat for mutability
-        StarTBacteriaStats existingStats = StarTBacteriaManager.bacteriaStatsFromTag(existingBacteria);
+        StarTGCropPlant existingStats = StarTGCropManager.gcropGenomeFromTag(foundGCrop);
 
         if (existingStats == null) return null;
 
-        Fluid superFluid = bacteriaBehaviour.getSuperfluid().getFluid();
+        List<StarTGCropGene> existingResourceGenome = existingStats.getResourceGenome();
+        List<StarTGCropGene> existingProductionGenome = existingStats.getProductionGenome();
+        List<StarTGCropGene> existingAuxiliaryGenome = existingStats.getAuxiliaryGenome();
 
-        List<Fluid> possibleAffinityFluids = bacteriaBehaviour.getBehaviourAffinityFluids();
-        Collections.shuffle(possibleAffinityFluids);
+        ItemStack newGCrop = foundGCrop.copyWithCount(1);
 
-        // Affinity & stats are mutated always, so generate that
-        int production = StarTCore.RNG.nextIntBetweenInclusive(1, StarTBacteriaStats.MAX_STAT_VALUE);
-        int metabolism = StarTCore.RNG.nextIntBetweenInclusive(1, StarTBacteriaStats.MAX_STAT_VALUE);
-        int mutability = StarTCore.RNG.nextIntBetweenInclusive(1, StarTBacteriaStats.MAX_STAT_VALUE);
+        if (hasFluidMatch(GTMaterials.Radon.getFluid(1000), validMutationFluids)) {
+            StarTGCropPlant newGenome = new StarTGCropPlant(existingResourceGenome, existingProductionGenome,
+                    existingAuxiliaryGenome);
 
-        StarTBacteriaStats mutatedStats = new StarTBacteriaStats(production, metabolism, mutability,
-                possibleAffinityFluids.get(0), possibleAffinityFluids.get(1), possibleAffinityFluids.get(2),
-                superFluid);
+            StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);
 
-        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
-        ItemStack newBacteria = existingBacteria.copyWithCount(1);
-
-        if (existingNaq.isFluidEqual(GTMaterials.NaquadahEnriched.getFluid(1))) {
-            // Affinity & stat mutation only.
-            StarTBacteriaManager.writeBacteriaStatsToItem(newBacteria.getOrCreateTag(), mutatedStats);
-
-            FluidStack enrichedNaq = existingNaq.copy();
-            enrichedNaq.setAmount(400);
-
-            return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
+            return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("runic_mutator_pathway")
-                    .inputItems(existingBacteria.copyWithCount(1))
-                    .chancedInput(netherStar, 10_00, 0)
-                    .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                    .inputFluids(enrichedNaq)
-                    .outputItems(newBacteria.copyWithCount(1))
+                    .inputItems(foundGCrop.copyWithCount(1))
+                    .inputFluids(GTMaterials.Radon.getFluid(1000))
+                    .outputItems(newGCrop.copyWithCount(1))
                     .duration(400)
-                    .EUt(GTValues.V[GTValues.UV])
+                    .EUtV(GTValues.MV)
                     .buildRawRecipe();
         }
 
-        // Total mutation
-        ItemEntry<ComponentItem> nextType = BACTERIA_ITEMS.get(
-                StarTCore.RNG.nextIntBetweenInclusive(0, BACTERIA_ITEMS.size() - 1));
-
-        ItemStack output = new ItemStack(nextType.get());
-        List<Fluid> possibleNewAffinities = StarTBacteriaBehaviour.getBacteriaBehaviour(output)
-                .getBehaviourAffinityFluids();
-        Collections.shuffle(possibleNewAffinities);
-
-        Fluid newSuperFluid = StarTBacteriaBehaviour.getBacteriaBehaviour(output).getSuperfluid().getFluid();
-
-        StarTBacteriaStats newStats = new StarTBacteriaStats(production, metabolism, mutability,
-                possibleNewAffinities.get(0), possibleNewAffinities.get(1), possibleNewAffinities.get(2),
-                newSuperFluid);
-        StarTBacteriaManager.writeBacteriaStatsToItem(output.getOrCreateTag(), newStats);
-
-        FluidStack naquadria = existingNaq.copy();
-        naquadria.setAmount(400);
-
-        return StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                .recipeBuilder("runic_mutator_total")
-                .inputItems(existingBacteria.copyWithCount(1))
-                .chancedInput(netherStar, 10_00, 0)
-                .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                .inputFluids(naquadria)
-                .outputItems(output)
-                .duration(640)
-                .EUt(GTValues.V[GTValues.UV])
-                .buildRawRecipe();
-    }
-
-    public static boolean isNaq(FluidStack potentialNaq) {
-        return potentialNaq.isFluidEqual(
-                GTMaterials.NaquadahEnriched.getFluid(1)) ||
-                potentialNaq.isFluidEqual(
-                        GTMaterials.Naquadria.getFluid(1));
+        return null;
     }
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
+        ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
+        StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
+                "behaviour.start_core.bacteria.input");
 
-        BACTERIA_ITEMS.forEach(
-                bacteria -> {
-                    ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.input");
+        ItemStack bacteriaAffinityMutationOutput = new ItemStack(GCROP_MALFORMED.get());
+        StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                bacteriaAffinityMutationOutput.getOrCreateTag(),
+                "behaviour.start_core.bacteria.mutator_affinity_output");
 
-                    ItemStack bacteriaAffinityMutationOutput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                            bacteriaAffinityMutationOutput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.mutator_affinity_output");
+        GTRecipe affinityRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
+                .recipeBuilder("gcrop_copying")
+                .inputItems(gCropInput.copyWithCount(1))
+                .inputFluids(GTMaterials.Radon.getFluid(1000))
+                .outputItems(bacteriaAffinityMutationOutput)
+                .duration(400)
+                .EUtV(GTValues.MV)
+                .buildRawRecipe();
 
-                    ItemStack bacteriaTotalMutationOutput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaTotalMutationOutput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.mutator_total_output");
-
-                    bacteriaTotalMutationOutput.setHoverName(Component.translatable(
-                            "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"));
-
-                    GTRecipe affinityRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                            .recipeBuilder(bacteria.getId().getPath() + "_affinity")
-                            .inputItems(bacteriaInput.copyWithCount(1))
-                            .chancedInput(netherStar, 10_00, 0)
-                            .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                            .inputFluids(GTMaterials.NaquadahEnriched.getFluid(400))
-                            .outputItems(bacteriaAffinityMutationOutput)
-                            .duration(400)
-                            .EUt(GTValues.V[GTValues.UV])
-                            .buildRawRecipe();
-
-                    GTRecipe totalRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                            .recipeBuilder(bacteria.getId().getPath() + "_total")
-                            .inputItems(bacteriaInput.copyWithCount(1))
-                            .chancedInput(netherStar, 10_00, 0)
-                            .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                            .inputFluids(GTMaterials.Naquadria.getFluid(800))
-                            .outputItems(bacteriaTotalMutationOutput)
-                            .duration(640)
-                            .EUt(GTValues.V[GTValues.UV])
-                            .buildRawRecipe();
-
-                    // for EMI to detect it's a synthetic recipe (not ever in JSON)
-                    affinityRecipe.setId(affinityRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.addToMainCategory(affinityRecipe);
-
-                    totalRecipe.setId(totalRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES.addToMainCategory(totalRecipe);
-                });
+        // for EMI to detect it's a synthetic recipe (not ever in JSON)
+        affinityRecipe.setId(affinityRecipe.getId().withPrefix("/"));
+        StarTRecipeTypes.GCROP_MUTATOR_RECIPES.addToMainCategory(affinityRecipe);
     }
 }

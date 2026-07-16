@@ -106,7 +106,7 @@ public class LangHandler {
         provider.add("item.start_core.malformed_gcrop.tooltip", "§7A malformed gCrop, unable to produce resources.");
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome");
-        provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %1$");
+        provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
 
         provider.add("behaviour.start_core.gcrop.resource_genome",
                 "§7This gCrop has the following resource traits:§r %s");

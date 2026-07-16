@@ -88,7 +88,7 @@ public class StarTRecipeTypes {
             .register("gcrop_mutator", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 1, 3, 0)
             .setEUIO(IO.IN)
-            // .addCustomRecipeLogic(new GCropMutatorLogic())
+            .addCustomRecipeLogic(new GCropMutatorLogic())
             .addCustomRecipeLogic(new GCropSeedDiscoveryLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 

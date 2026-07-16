@@ -37,7 +37,7 @@ public class StarTGCropItems {
             .properties(prop -> prop.stacksTo(16))
             .onRegister(attach(new StarTNBTTooltipsBehaviour()))
             .onRegister(attach(new TooltipBehavior(lines -> {
-                lines.add(Component.translatable("item.start_core.malformed_gcrop"));
+                lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
             })))
             // .model((ctx, prov) -> prov.generated(ctx::GetEntry, prov.modLoc("item/gcrop/malformed_gcrop")))
             .register();
