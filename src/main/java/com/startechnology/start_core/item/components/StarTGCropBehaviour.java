@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
+
 public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
     private final int tier;
@@ -98,11 +100,9 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
                                 TooltipFlag isAdvanced) {
         StarTGCropPlant gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
 
-        if (gCropGenome == null) {
-            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
-            tooltipComponents.add(Component.empty());
-            tooltipComponents.add(this.prettyRequiredGCropTraits());
-        } else {
+        boolean malformed = stack.is(GCROP_MALFORMED.asItem());
+
+        if (gCropGenome != null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
@@ -113,6 +113,10 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
                             prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
+        } else if (!malformed) {
+            tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
+            tooltipComponents.add(Component.empty());
+            tooltipComponents.add(this.prettyRequiredGCropTraits());
         }
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

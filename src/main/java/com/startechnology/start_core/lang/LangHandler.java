@@ -109,13 +109,13 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
 
         provider.add("behaviour.start_core.gcrop.resource_genome",
-                "§7This gCrop has the following resource traits:§r %s");
+                "§6Resource§7 traits:§r %s");
         provider.add("behaviour.start_core.gcrop.production_genome",
-                "§7This gCrop has the following production traits:§r %s");
+                "§9Production§7 traits:§r %s");
         provider.add("behaviour.start_core.gcrop.auxiliary_genome",
-                "§7This gCrop has the following auxiliary traits:§r %s");
+                "§6Auxiliary§7 traits:§r %s");
         provider.add("behaviour.start_core.gcrop.genome_header",
-                "§7Your gCrop has the following three genome types:");
+                "§aYour gCrop has the following genome traits:");
 
         provider.add("gtceu.gcrop_mutator",
                 "gCrop Mutator");

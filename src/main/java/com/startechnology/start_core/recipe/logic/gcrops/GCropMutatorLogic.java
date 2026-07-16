@@ -68,7 +68,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
     public static boolean hasItemMatch(ItemStack item, List<ItemStack> itemList) {
         for (ItemStack newItem : itemList) {
-            if (item.copyWithCount(1).equals(newItem)) return true;
+            if (ItemStack.isSameItem(item, newItem)) return true;
         }
         return false;
     }
@@ -162,9 +162,6 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 hasFluidMatch(GTMaterials.Air.getFluid(1), validMutationFluids)) {
             // Mutate tier 0-1 full genome
             List<StarTGCropTraits.StarTGCropTrait> lowTierTraits = StarTGCropTraits.getTraitsBelowTierInclusive(1);
-
-            List<StarTGCropTraits.StarTGCropTrait> lowTierAuxTraits = StarTGCropTraits
-                    .getTraitsByType(StarTGCropTraits.GenomeType.AUXILIARY, lowTierTraits);
 
             List<StarTGCropGene> newResourceGenome = new ArrayList<>();
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();

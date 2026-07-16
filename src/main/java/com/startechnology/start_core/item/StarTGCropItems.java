@@ -39,7 +39,9 @@ public class StarTGCropItems {
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
             })))
-            // .model((ctx, prov) -> prov.generated(ctx::GetEntry, prov.modLoc("item/gcrop/malformed_gcrop")))
+            .onRegister(attach(new StarTGCropBehaviour(
+                    -1,
+                    GTMaterials.Stone)))
             .register();
 
     private static void registerGCrop(String id, String name, int tier, Material material,
