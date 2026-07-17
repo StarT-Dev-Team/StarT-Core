@@ -704,6 +704,8 @@
   "start_core.recipe.min_vacuum_amount_full": "Requires Full Vacuum (§2%s%%§f)",
   "start_core.recipe.temperature": "Temp: 🔥 %sMK",
   "start_core.recipe_modifier.cannot_bulk": "Not enough inputs to force bulk!",
+  "start_core.recipe_modifier.leaves_and_logs_dont_match": "Leaves and logs don't match on the structure!",
+  "start_core.recipe_modifier.wrong_tree_type": "Wrong tree type!",
   "start_core.redstone_hatch.d0": "Provides access to redstone indicators for multiblock automation",
   "start_core.redstone_hatch.d1": "§6Functionality depends on the multiblock to interface with",
   "start_core.redstone_interface.select": "Select Redstone Indicator",

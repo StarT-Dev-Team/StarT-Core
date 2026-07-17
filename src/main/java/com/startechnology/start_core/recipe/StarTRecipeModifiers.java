@@ -163,14 +163,15 @@ public class StarTRecipeModifiers {
         }
 
         if (!arborealExtractorMachine.typesMatch()) {
-            return ModifierFunction.cancel(Component.literal("Leaves and logs don't match on the structure!"));
+            return ModifierFunction
+                    .cancel(Component.translatable("start_core.recipe_modifier.leaves_and_logs_dont_match"));
         }
 
         var availableType = arborealExtractorMachine.getTreeType();
         var recipeType = recipe.data.getString("treeVariant");
 
         if (!recipeType.equals(availableType)) {
-            return ModifierFunction.cancel(Component.literal("Wrong tree type!"));
+            return ModifierFunction.cancel(Component.translatable("start_core.recipe_modifier.wrong_tree_type"));
         }
 
         return ModifierFunction.IDENTITY;

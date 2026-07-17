@@ -15,6 +15,11 @@ public class GTRecipeJSMixin {
         return null;
     }
 
+    @Shadow
+    public GTRecipeSchema.GTRecipeJS addData(String key, String data) {
+        return null;
+    }
+
     @Unique
     public GTRecipeSchema.GTRecipeJS kjs$reflectorTier(int tier) {
         return addData("reflector_tier", tier);
@@ -30,4 +35,8 @@ public class GTRecipeJSMixin {
         return addData(key, value);
     }
 
+    @Unique
+    public GTRecipeSchema.GTRecipeJS kjs$treeType(String type) {
+        return addData("treeVariant", type);
+    }
 }

@@ -49,5 +49,4 @@ public class ArborealExtractorMachine extends WorkableElectricMultiblockMachine 
         this.leavesType = null;
         this.logType = null;
     }
-    
 }

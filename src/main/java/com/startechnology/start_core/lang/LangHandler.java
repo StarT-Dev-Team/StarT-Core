@@ -648,5 +648,9 @@ public class LangHandler {
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
+
+        provider.add("start_core.recipe_modifier.leaves_and_logs_dont_match",
+                "Leaves and logs don't match on the structure!");
+        provider.add("start_core.recipe_modifier.wrong_tree_type", "Wrong tree type!");
     }
 }

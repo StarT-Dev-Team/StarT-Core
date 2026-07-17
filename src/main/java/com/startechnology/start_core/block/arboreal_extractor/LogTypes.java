@@ -2,13 +2,9 @@ package com.startechnology.start_core.block.arboreal_extractor;
 
 public enum LogTypes implements LogType {
 
-    OAK("oak"),
-    SPRUCE("spruce"),
-    BIRCH("birch"),
-    JUNGLE("jungle"),
-    ACACIA("acacia"),
-    DARK_OAK("dark_oak"),
-    MANGROVE("mangrove");
+    RESIN_PRODUCING("resin"),
+    LATEX_PRODUCING("latex"),
+    SAP_PRODUCING("other");
 
     private final String name;
 
@@ -20,5 +16,4 @@ public enum LogTypes implements LogType {
     public String getName() {
         return this.name;
     }
-    
 }
