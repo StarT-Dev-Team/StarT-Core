@@ -94,7 +94,7 @@ public class StarTRecipeTypes {
 
     public static final GTRecipeType GCROP_BREEDER_RECIPES = GTRecipeTypes
             .register("gcrop_breeder", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(2, 1, 2, 0)
+            .setMaxIOSize(4, 1, 2, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GCropBreederLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);

@@ -1,6 +1,5 @@
 package com.startechnology.start_core.item.components;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
@@ -26,8 +25,6 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
     private final List<StarTGCropTrait> gcropTraits;
 
-    private final Material resource;
-
     public int getCropTier() {
         return tier;
     }
@@ -36,13 +33,8 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return gcropTraits;
     }
 
-    public Material getCropMaterial() {
-        return resource;
-    }
-
-    public StarTGCropBehaviour(int tier, Material resource, StarTGCropTrait... traits) {
+    public StarTGCropBehaviour(int tier, StarTGCropTrait... traits) {
         this.tier = tier;
-        this.resource = resource;
         this.gcropTraits = Arrays.asList(traits);
     }
 

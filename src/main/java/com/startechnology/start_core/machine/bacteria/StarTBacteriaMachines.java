@@ -13,7 +13,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.startechnology.start_core.machine.DirtyWorkableElectricMultiblockMachine;
+import com.startechnology.start_core.machine.random_custom_logic.DirtyWorkableElectricMultiblockMachine;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;

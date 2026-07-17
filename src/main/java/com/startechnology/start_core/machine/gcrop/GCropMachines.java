@@ -12,15 +12,14 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
-import com.startechnology.start_core.machine.DirtySimpleTieredMachine;
-import com.startechnology.start_core.machine.DirtyWorkableElectricMultiblockMachine;
+import com.startechnology.start_core.machine.random_custom_logic.*;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import static com.gregtechceu.gtceu.common.data.machines.GTMachineUtils.ELECTRIC_TIERS;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
-public class GCropMutator {
+public class GCropMachines {
 
     public static final MachineDefinition[] GCROP_MUTATOR = StarTMachineUtils.registerTieredMachines("gcrop_mutator",
             (holder, tier) -> new DirtySimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),

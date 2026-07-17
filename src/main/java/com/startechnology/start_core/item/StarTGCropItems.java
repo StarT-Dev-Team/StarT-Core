@@ -6,15 +6,18 @@ import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.startechnology.start_core.data.gcrops.StarTGCropItemType;
+import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
+import static com.startechnology.start_core.data.gcrops.StarTGCropItemType.*;
+import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,157 +43,167 @@ public class StarTGCropItems {
                 lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
             })))
             .onRegister(attach(new StarTGCropBehaviour(
-                    -1,
-                    GTMaterials.Stone)))
+                    -1)))
             .register();
 
     private static void registerGCrop(String id, String name, int tier, Material material,
-                                      StarTGCropTraits.StarTGCropTrait... traits) {
-        var gCropItem = START_REGISTRATE
+                                      StarTGCropItemType materialType,
+                                      StarTGCropTrait... traits) {
+        ItemEntry<ComponentItem> gCropItem = START_REGISTRATE
                 .item(String.format("%s_gcrop", id), ComponentItem::create)
                 .lang(String.format("§3Arcanthus %s GCrop", name))
                 .properties(prop -> prop.stacksTo(16))
                 .onRegister(attach(new StarTGCropBehaviour(
                         tier,
-                        material,
                         traits)))
                 .register();
+
+        ItemEntry<ComponentItem> gCropFruit = START_REGISTRATE
+                .item(String.format("%s_fruit", id), ComponentItem::create)
+                .lang(String.format("§3Arcanthus %s Fruit", name))
+                .properties(prop -> prop.stacksTo(64))
+                .onRegister(attach(new StarTFruitBehaviour(
+                        tier,
+                        material,
+                        materialType)))
+                .register();
+
         GCROP_ITEMS.add(gCropItem);
     }
 
     static {
-        registerGCrop("black_dye", "Tinctoria Umbra", 0, GTMaterials.DyeBlack, StarTGCropTraits.Charred);
+        registerGCrop("black_dye", "Tinctoria Umbra", 0, GTMaterials.DyeBlack, DYE, Charred);
 
-        registerGCrop("red_dye", "Tinctoria Ignis", 0, GTMaterials.DyeRed,
-                StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough);
+        registerGCrop("red_dye", "Tinctoria Ignis", 0, GTMaterials.DyeRed, DYE,
+                Charred, Vibrant, Tough);
 
         registerGCrop("green_dye", "Tinctoria Sylva", 0,
-                GTMaterials.DyeGreen, StarTGCropTraits.Charred, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeGreen, DYE, Charred, Tough, Fluorescent);
 
         registerGCrop("brown_dye", "Tinctoria Terra", 0,
-                GTMaterials.DyeBrown, StarTGCropTraits.Charred, StarTGCropTraits.Tough);
+                GTMaterials.DyeBrown, DYE, Charred, Tough);
 
         registerGCrop("blue_dye", "Tinctoria Tempestas", 0,
-                GTMaterials.DyeBlue, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant);
+                GTMaterials.DyeBlue, DYE, Charred, Vibrant);
 
         registerGCrop("purple_dye", "Tinctoria Nyxia", 0,
-                GTMaterials.DyePurple, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant,
-                StarTGCropTraits.Fluorescent);
+                GTMaterials.DyePurple, DYE, Charred, Vibrant,
+                Fluorescent);
 
         registerGCrop("cyan_dye", "Tinctoria Maris", 0,
-                GTMaterials.DyeCyan, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
-                StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeCyan, DYE, Charred, Vibrant, Tough,
+                Fluorescent);
 
         registerGCrop("light_gray_dye", "Tinctoria Bruma", 0,
-                GTMaterials.DyeLightGray, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeLightGray, DYE, Fluorescent);
 
         registerGCrop("gray_dye", "Tinctoria Petra", 0,
-                GTMaterials.DyeGray, StarTGCropTraits.Charred, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeGray, DYE, Charred, Fluorescent);
 
         registerGCrop("pink_dye", "Tinctoria Aurora", 0,
-                GTMaterials.DyePink, StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyePink, DYE, Vibrant, Fluorescent);
 
         registerGCrop("lime_dye", "Tinctoria Vitae", 0,
-                GTMaterials.DyeLime, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeLime, DYE, Tough, Fluorescent);
 
         registerGCrop("yellow_dye", "Tinctoria Solis", 0,
-                GTMaterials.DyeYellow, StarTGCropTraits.Tough);
+                GTMaterials.DyeYellow, DYE, Tough);
 
         registerGCrop("light_blue_dye", "Tinctoria Caelum", 0,
-                GTMaterials.DyeLightBlue, StarTGCropTraits.Vibrant);
+                GTMaterials.DyeLightBlue, DYE, Vibrant);
 
         registerGCrop("magenta_dye", "Tinctoria Arcana", 0,
-                GTMaterials.DyeMagenta, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent);
+                GTMaterials.DyeMagenta, DYE, Vibrant, Tough, Fluorescent);
 
         registerGCrop("orange_dye", "Tinctoria Phoenicis", 0,
-                GTMaterials.DyeOrange, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough);
+                GTMaterials.DyeOrange, DYE, Vibrant, Tough);
 
         registerGCrop("white_dye", "Tinctoria Lucis", 0,
-                GTMaterials.DyeWhite);
+                GTMaterials.DyeWhite, DYE);
 
         // Tier 1
         registerGCrop("iron", "Thumbergia Ferro", 1,
-                GTMaterials.Iron, StarTGCropTraits.Fluorescent, StarTGCropTraits.Metallic);
+                GTMaterials.Iron, DUST, Fluorescent, Metallic);
 
         registerGCrop("copper", "Thumbergia Aeris", 1,
-                GTMaterials.Copper, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Metallic);
+                GTMaterials.Copper, DUST, Vibrant, Tough, Metallic);
 
         registerGCrop("zinc", "Thumbergia Cadmiae", 1,
-                GTMaterials.Zinc, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic);
+                GTMaterials.Zinc, DUST, Vibrant, Metallic);
 
         registerGCrop("tin", "Thumbergia Stagni", 1,
-                GTMaterials.Tin, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic);
+                GTMaterials.Tin, DUST, Vibrant, Metallic);
 
         registerGCrop("lead", "Thumbergia Plumbum", 1,
-                GTMaterials.Lead, StarTGCropTraits.Charred, StarTGCropTraits.Metallic);
+                GTMaterials.Lead, DUST, Charred, Metallic);
 
         registerGCrop("quartz", "Thumbergia Petram", 1,
-                GTMaterials.NetherQuartz, StarTGCropTraits.Crystalline);
+                GTMaterials.NetherQuartz, GEM, Crystalline);
 
         registerGCrop("diamond", "Thumbergia Adamas", 1,
-                GTMaterials.Diamond, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline);
+                GTMaterials.Diamond, GEM, Vibrant, Crystalline);
 
         registerGCrop("amethyst", "Thumbergia Hyacintho", 1,
-                GTMaterials.Amethyst, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent,
-                StarTGCropTraits.Crystalline);
+                GTMaterials.Amethyst, GEM, Charred, Vibrant, Fluorescent,
+                Crystalline);
 
         registerGCrop("lapis", "Thumbergia Pristis", 1,
-                GTMaterials.Lapis, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline);
+                GTMaterials.Lapis, GEM, Charred, Vibrant, Crystalline);
 
         registerGCrop("emerald", "Thumbergia Smaragd", 1,
-                GTMaterials.Emerald, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent,
-                StarTGCropTraits.Crystalline);
+                GTMaterials.Emerald, GEM, Tough, Fluorescent,
+                Crystalline);
 
         registerGCrop("redstone", "Thumbergia Rubrum", 1,
-                GTMaterials.Redstone, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
-                StarTGCropTraits.Dusty);
+                GTMaterials.Redstone, DUST, Charred, Vibrant, Tough,
+                Dusty);
 
         registerGCrop("sulfur", "Thumbergia Vulcanus", 1,
-                GTMaterials.Sulfur, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Dusty);
+                GTMaterials.Sulfur, DUST, Vibrant, Tough, Dusty);
 
         registerGCrop("glowstone", "Thumbergia Solaris", 1,
-                GTMaterials.Glowstone, StarTGCropTraits.Dusty);
+                GTMaterials.Glowstone, DUST, Dusty);
 
         registerGCrop("ender", "Thumbergia Marganis", 1,
-                GTMaterials.EnderPearl, StarTGCropTraits.Charred, StarTGCropTraits.Fluorescent,
-                StarTGCropTraits.Crystalline);
+                GTMaterials.EnderPearl, GEM, Charred, Fluorescent,
+                Crystalline);
 
         registerGCrop("gold", "Potentilla Aurum", 2,
-                GTMaterials.Gold, StarTGCropTraits.Tough, StarTGCropTraits.Metallic, StarTGCropTraits.Shiny);
+                GTMaterials.Gold, DUST, Tough, Metallic, Shiny);
 
         registerGCrop("silver", "Potentilla Argentum", 2,
-                GTMaterials.Silver, StarTGCropTraits.Fluorescent, StarTGCropTraits.Metallic, StarTGCropTraits.Shiny);
+                GTMaterials.Silver, DUST, Fluorescent, Metallic, Shiny);
 
         registerGCrop("coal", "Potentilla Calculus", 2,
-                GTMaterials.Coal, StarTGCropTraits.Charred, StarTGCropTraits.Crystalline, StarTGCropTraits.Coarse);
+                GTMaterials.Coal, GEM, Charred, Crystalline, Coarse);
 
         registerGCrop("sodalite", "Potentilla Azura", 2,
-                GTMaterials.Sodalite, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic,
-                StarTGCropTraits.Coarse);
+                GTMaterials.Sodalite, ORE, Charred, Vibrant, Metallic,
+                Coarse);
 
         registerGCrop("pentlandite", "Potentilla Aurantiaco", 2,
-                GTMaterials.Pentlandite, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Metallic,
-                StarTGCropTraits.Coarse);
+                GTMaterials.Pentlandite, ORE, Vibrant, Tough, Metallic,
+                Coarse);
 
         registerGCrop("realgar", "Potentilla Coccineum", 2,
-                GTMaterials.Realgar, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
-                StarTGCropTraits.Crystalline, StarTGCropTraits.Coarse);
+                GTMaterials.Realgar, GEM, Charred, Vibrant, Tough,
+                Crystalline, Coarse);
 
         registerGCrop("ruby", "Potentilla Rubore", 2,
-                GTMaterials.Ruby, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
-                StarTGCropTraits.Crystalline, StarTGCropTraits.Shiny);
+                GTMaterials.Ruby, GEM, Charred, Vibrant, Tough,
+                Crystalline, Shiny);
 
         registerGCrop("sapphire", "Potentilla Sapphirus", 2,
-                GTMaterials.Sapphire, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline, StarTGCropTraits.Shiny);
+                GTMaterials.Sapphire, GEM, Vibrant, Crystalline, Shiny);
     }
 
-    public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTraits.StarTGCropTrait> traits) {
+    public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
         for (var gCrop : GCROP_ITEMS) {
             var behaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop.asStack());
             if (behaviour == null) continue;
-            behaviour.getCropTraits().sort(StarTGCropTraits.TRAIT_COMPARATOR);
+            behaviour.getCropTraits().sort(TRAIT_COMPARATOR);
             var resourceTraits = behaviour.getCropTraits().stream()
-                    .filter(trait -> trait.genomeType() == StarTGCropTraits.GenomeType.RESOURCE).toList();
+                    .filter(trait -> trait.genomeType() == GenomeType.RESOURCE).toList();
             if (resourceTraits.equals(traits)) {
                 return gCrop;
             }

@@ -1,4 +1,4 @@
-package com.startechnology.start_core.machine;
+package com.startechnology.start_core.machine.random_custom_logic;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;

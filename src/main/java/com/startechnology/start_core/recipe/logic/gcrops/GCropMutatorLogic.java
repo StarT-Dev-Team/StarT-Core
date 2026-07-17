@@ -3,7 +3,6 @@ package com.startechnology.start_core.recipe.logic.gcrops;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -12,12 +11,10 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
-import com.startechnology.start_core.item.StarTGCropItems;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
-import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -98,7 +95,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         List<ItemStack> validMutationItems = new ArrayList<>();
         List<FluidStack> validMutationFluids = new ArrayList<>();
 
-        for (int i = 0; i < itemHandler.getSlots(); ++i) {
+        for (int i = 1; i < itemHandler.getSlots(); i++) {
             ItemStack itemInSlot = itemHandler.getStackInSlot(i);
             if (!itemInSlot.isEmpty()) {
                 if (StarTGCropBehaviour.getGCropBehaviour(itemInSlot) != null) {
@@ -109,7 +106,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             }
         }
 
-        for (int i = 0; i < fluidHandler.getTanks(); ++i) {
+        for (int i = 1; i < fluidHandler.getTanks(); i++) {
             FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
             if (!fluidInSlot.isEmpty()) {
                 if (hasFluidMatch(fluidInSlot, validMutationFluidList)) {
@@ -121,8 +118,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         if (foundGCrop.isEmpty() || (validMutationItems.isEmpty() && validMutationFluids.isEmpty())) return null;
 
         StarTGCropPlant existingStats = StarTGCropManager.gcropGenomeFromTag(foundGCrop);
-
-        if (existingStats == null) return null;
+        assert existingStats != null;
 
         List<StarTGCropGene> existingResourceGenome = existingStats.getResourceGenome();
         List<StarTGCropGene> existingProductionGenome = existingStats.getProductionGenome();
@@ -144,10 +140,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 if (alleleCount >= 1) newAuxiliaryGenome.add(new StarTGCropGene(trait, alleleCount));
             }
 
-            StarTGCropPlant newGenome = new StarTGCropPlant(existingResourceGenome, existingProductionGenome,
+            newGCrop = StarTGCropTraits.getCropWithTraits(existingResourceGenome, existingProductionGenome,
                     newAuxiliaryGenome);
-
-            StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);
 
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("aux_mutation_0_to_3")
@@ -168,15 +162,12 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
 
-            List<StarTGCropTraits.StarTGCropTrait> allTraits = new ArrayList<>();
-
             for (var trait : lowTierTraits) {
                 int alleleCount = trait.runTraitFrequencyRandomGene(2);
                 if (alleleCount >= 1) {
                     switch (trait.genomeType()) {
                         case RESOURCE -> {
                             newResourceGenome.add(new StarTGCropGene(trait, alleleCount));
-                            allTraits.add(trait);
                         }
                         case PRODUCTION -> {
                             newProductionGenome.add(new StarTGCropGene(trait, alleleCount));
@@ -187,16 +178,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                     }
                 }
             }
-
-            allTraits.sort(StarTGCropTraits.TRAIT_COMPARATOR);
-
-            ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allTraits);
-            newGCrop = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
-
-            StarTGCropPlant newGenome = new StarTGCropPlant(newResourceGenome, newProductionGenome,
+            newGCrop = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
                     newAuxiliaryGenome);
-
-            StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);
 
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("full_mutation_0_to_1")

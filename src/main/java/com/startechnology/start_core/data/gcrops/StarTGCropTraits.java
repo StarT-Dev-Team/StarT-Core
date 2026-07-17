@@ -1,11 +1,17 @@
 package com.startechnology.start_core.data.gcrops;
 
+import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.api.gcrop.StarTGCropGene;
+import com.startechnology.start_core.api.gcrop.StarTGCropManager;
+import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
+import com.startechnology.start_core.item.StarTGCropItems;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.world.item.ItemStack;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
 
 public class StarTGCropTraits {
 
@@ -94,6 +100,26 @@ public class StarTGCropTraits {
                 .toList();
     }
 
+    public static ItemStack getCropWithTraits(List<StarTGCropGene> resourceGenome,
+                                              List<StarTGCropGene> productionGenome,
+                                              List<StarTGCropGene> auxiliaryGenome) {
+        List<StarTGCropTrait> allResourceTraits = new ArrayList<>();
+
+        for (StarTGCropGene gene : resourceGenome) {
+            allResourceTraits.add(gene.getTrait());
+        }
+
+        ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allResourceTraits);
+        ItemStack newGCrop = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
+
+        StarTGCropPlant newGenome = new StarTGCropPlant(resourceGenome, productionGenome,
+                auxiliaryGenome);
+
+        StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);
+
+        return newGCrop;
+    }
+
     public static void init() {
         // Resource Traits
         Charred = new StarTGCropTrait("Charred", "Ch", 0, 3000, GenomeType.RESOURCE);
@@ -108,16 +134,16 @@ public class StarTGCropTraits {
 
         Crystalline = new StarTGCropTrait("Crystalline", "Cr", 1, 3000, GenomeType.RESOURCE);
 
-        Dusty = new StarTGCropTrait("Dusty", "Du", 1, 3000, GenomeType.RESOURCE);
+        Dusty = new StarTGCropTrait("Dusty", "Du", 1, 2000, GenomeType.RESOURCE);
 
-        Woody = new StarTGCropTrait("Woody", "Wo", 1, 3000, GenomeType.RESOURCE);
+        Woody = new StarTGCropTrait("Woody", "Wo", 1, 2000, GenomeType.RESOURCE);
 
-        Coarse = new StarTGCropTrait("Coarse", "Co", 2, 3000, GenomeType.RESOURCE);
+        Coarse = new StarTGCropTrait("Coarse", "Co", 2, 2000, GenomeType.RESOURCE);
 
-        Shiny = new StarTGCropTrait("Shiny", "Sh", 2, 3000, GenomeType.RESOURCE);
+        Shiny = new StarTGCropTrait("Shiny", "Sh", 2, 2000, GenomeType.RESOURCE);
 
         // Production Traits
-        Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 3000, GenomeType.PRODUCTION);
+        Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 2000, GenomeType.PRODUCTION);
 
         // Auxiliary Traits
         Dry = new StarTGCropTrait("Dry", "Dy", 0, 3000, GenomeType.AUXILIARY);

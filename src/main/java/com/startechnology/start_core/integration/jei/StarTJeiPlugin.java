@@ -57,7 +57,7 @@ public class StarTJeiPlugin implements IModPlugin {
             }
         }
 
-        registration.addRecipeCatalyst(GCropMutator.GCROP_MUTATION_STATION.asStack(),
+        registration.addRecipeCatalyst(GCropMachines.GCROP_MUTATION_STATION.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.GCROP_MUTATOR_RECIPES.getCategory()));
     }
 }

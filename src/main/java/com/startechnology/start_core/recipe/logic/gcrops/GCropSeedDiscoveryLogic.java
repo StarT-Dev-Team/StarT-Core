@@ -2,21 +2,16 @@ package com.startechnology.start_core.recipe.logic.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
-import com.startechnology.start_core.item.StarTGCropItems;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.startechnology.start_core.utils.StarTTagUtils;
-import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +53,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
     }
 
     private GTRecipe createSeedDiscoveryRecipe(NotifiableItemStackHandler handler) {
-        for (int i = 0; i < handler.getSlots(); ++i) {
+        for (int i = 1; i < handler.getSlots(); i++) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
 
             if (itemInSlot.isEmpty()) continue;
@@ -88,16 +83,8 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 }
             }
 
-            allTraits.sort(StarTGCropTraits.TRAIT_COMPARATOR);
-
-            ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allTraits);
-            ItemStack gCropRandomSeed = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) :
-                    gCropItem.asStack();
-
-            StarTGCropPlant newGCropGenome = new StarTGCropPlant(newResourceGenome, newProductionGenome,
+            ItemStack gCropRandomSeed = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
                     newAuxiliaryGenome);
-
-            StarTGCropManager.writeGCRopGenomeToItem(gCropRandomSeed.getOrCreateTag(), newGCropGenome);
 
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("seed_discovery")
