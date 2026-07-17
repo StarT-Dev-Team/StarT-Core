@@ -12,10 +12,8 @@ import lombok.Getter;
 public class ArborealExtractorMachine extends WorkableMultiblockMachine {
 
     @Getter
-    @NotNull
     private LeavesType leavesType;
     @Getter
-    @NotNull
     private LogType logType;
 
     public ArborealExtractorMachine(IMachineBlockEntity holder, Object... args) {
