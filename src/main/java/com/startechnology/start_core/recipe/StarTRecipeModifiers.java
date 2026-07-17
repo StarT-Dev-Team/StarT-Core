@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
+import com.startechnology.start_core.machine.arboreal_extractor.ArborealExtractorMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.bulking.BulkingType;
 import com.startechnology.start_core.machine.bulking.IBulking;
@@ -155,4 +156,26 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
+
+    private static ModifierFunction arborealExtractorModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof ArborealExtractorMachine arborealExtractorMachine)) {
+            return RecipeModifier.nullWrongType(ArborealExtractorMachine.class, machine);
+        }
+
+        if (!arborealExtractorMachine.typesMatch()) {
+            return ModifierFunction.cancel(Component.literal("Leaves and logs don't match on the structure!"));
+        }
+
+        var availableType = arborealExtractorMachine.getTreeType();
+        var recipeType = recipe.data.getString("treeVariant");
+
+        if (!recipeType.equals(availableType)) {
+            return ModifierFunction.cancel(Component.literal("Wrong tree type!"));
+        }
+
+        return ModifierFunction.IDENTITY;
+    }
+
+    public static final RecipeModifier ARBOREAL_EXTRACTOR = new IdentifiedRecipeModifier("arboreal_extractor",
+            StarTRecipeModifiers::arborealExtractorModifier);
 }
