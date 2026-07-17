@@ -107,6 +107,81 @@ public class StarTGCropItems {
 
         registerGCrop("white_dye", "Tinctoria Lucis", 0,
                 GTMaterials.DyeWhite);
+
+        // Tier 1
+        registerGCrop("iron", "Thumbergia Ferro", 1,
+                GTMaterials.Iron, StarTGCropTraits.Fluorescent, StarTGCropTraits.Metallic);
+
+        registerGCrop("copper", "Thumbergia Aeris", 1,
+                GTMaterials.Copper, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Metallic);
+
+        registerGCrop("zinc", "Thumbergia Cadmiae", 1,
+                GTMaterials.Zinc, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic);
+
+        registerGCrop("tin", "Thumbergia Stagni", 1,
+                GTMaterials.Tin, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic);
+
+        registerGCrop("lead", "Thumbergia Plumbum", 1,
+                GTMaterials.Lead, StarTGCropTraits.Charred, StarTGCropTraits.Metallic);
+
+        registerGCrop("quartz", "Thumbergia Petram", 1,
+                GTMaterials.NetherQuartz, StarTGCropTraits.Crystalline);
+
+        registerGCrop("diamond", "Thumbergia Adamas", 1,
+                GTMaterials.Diamond, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline);
+
+        registerGCrop("amethyst", "Thumbergia Hyacintho", 1,
+                GTMaterials.Amethyst, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Fluorescent,
+                StarTGCropTraits.Crystalline);
+
+        registerGCrop("lapis", "Thumbergia Pristis", 1,
+                GTMaterials.Lapis, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline);
+
+        registerGCrop("emerald", "Thumbergia Smaragd", 1,
+                GTMaterials.Emerald, StarTGCropTraits.Tough, StarTGCropTraits.Fluorescent,
+                StarTGCropTraits.Crystalline);
+
+        registerGCrop("redstone", "Thumbergia Rubrum", 1,
+                GTMaterials.Redstone, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
+                StarTGCropTraits.Dusty);
+
+        registerGCrop("sulfur", "Thumbergia Vulcanus", 1,
+                GTMaterials.Sulfur, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Dusty);
+
+        registerGCrop("glowstone", "Thumbergia Solaris", 1,
+                GTMaterials.Glowstone, StarTGCropTraits.Dusty);
+
+        registerGCrop("ender", "Thumbergia Marganis", 1,
+                GTMaterials.EnderPearl, StarTGCropTraits.Charred, StarTGCropTraits.Fluorescent,
+                StarTGCropTraits.Crystalline);
+
+        registerGCrop("gold", "Potentilla Aurum", 2,
+                GTMaterials.Gold, StarTGCropTraits.Tough, StarTGCropTraits.Metallic, StarTGCropTraits.Shiny);
+
+        registerGCrop("silver", "Potentilla Argentum", 2,
+                GTMaterials.Silver, StarTGCropTraits.Fluorescent, StarTGCropTraits.Metallic, StarTGCropTraits.Shiny);
+
+        registerGCrop("coal", "Potentilla Calculus", 2,
+                GTMaterials.Coal, StarTGCropTraits.Charred, StarTGCropTraits.Crystalline, StarTGCropTraits.Coarse);
+
+        registerGCrop("sodalite", "Potentilla Azura", 2,
+                GTMaterials.Sodalite, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Metallic,
+                StarTGCropTraits.Coarse);
+
+        registerGCrop("pentlandite", "Potentilla Aurantiaco", 2,
+                GTMaterials.Pentlandite, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough, StarTGCropTraits.Metallic,
+                StarTGCropTraits.Coarse);
+
+        registerGCrop("realgar", "Potentilla Coccineum", 2,
+                GTMaterials.Realgar, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
+                StarTGCropTraits.Crystalline, StarTGCropTraits.Coarse);
+
+        registerGCrop("ruby", "Potentilla Rubore", 2,
+                GTMaterials.Ruby, StarTGCropTraits.Charred, StarTGCropTraits.Vibrant, StarTGCropTraits.Tough,
+                StarTGCropTraits.Crystalline, StarTGCropTraits.Shiny);
+
+        registerGCrop("sapphire", "Potentilla Sapphirus", 2,
+                GTMaterials.Sapphire, StarTGCropTraits.Vibrant, StarTGCropTraits.Crystalline, StarTGCropTraits.Shiny);
     }
 
     public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTraits.StarTGCropTrait> traits) {

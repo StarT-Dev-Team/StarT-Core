@@ -20,15 +20,33 @@ public class StarTGCropTraits {
 
     public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
 
-    public record StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
+    public record StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount,
+                                  boolean recessive, GenomeType genomeType) {
 
-        public StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
+        public StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount, boolean recessive,
+                               GenomeType genomeType) {
             this.name = name;
             this.symbol = symbol;
             this.tier = tier;
             this.frequency = frequency;
+            this.alleleCount = alleleCount;
+            this.recessive = recessive;
             this.genomeType = genomeType;
             TRAITS.put(name, this);
+        }
+
+        public StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount,
+                               GenomeType genomeType) {
+            this(name, symbol, tier, frequency, alleleCount, false, genomeType);
+        }
+
+        public StarTGCropTrait(String name, String symbol, int tier, int frequency, boolean recessive,
+                               GenomeType genomeType) {
+            this(name, symbol, tier, frequency, 2, recessive, genomeType);
+        }
+
+        public StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
+            this(name, symbol, tier, frequency, 2, false, genomeType);
         }
 
         /**

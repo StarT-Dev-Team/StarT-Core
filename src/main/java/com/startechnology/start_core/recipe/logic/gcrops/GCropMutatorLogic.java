@@ -18,6 +18,7 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -213,20 +214,22 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
+        ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
+        StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropRandomSeed.getOrCreateTag(),
+                "behaviour.start_core.gcrop.random_crop");
+
+        gCropRandomSeed.setHoverName(Component.translatable(
+                "behaviour.start_core.gcrop.random_crop_name"));
+
         ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
                 "behaviour.start_core.bacteria.input");
-
-        ItemStack bacteriaAffinityMutationOutput = new ItemStack(GCROP_MALFORMED.get());
-        StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                bacteriaAffinityMutationOutput.getOrCreateTag(),
-                "behaviour.start_core.bacteria.mutator_affinity_output");
 
         GTRecipe AuxMutation0_3Recipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                 .recipeBuilder("aux_mutation_0_to_3")
                 .inputItems(gCropInput.copyWithCount(1))
                 .inputFluids(GTMaterials.Radon.getFluid(1000))
-                .outputItems(bacteriaAffinityMutationOutput)
+                .outputItems(gCropRandomSeed)
                 .duration(400)
                 .EUtV(GTValues.MV)
                 .buildRawRecipe();
@@ -236,12 +239,12 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 .inputItems(gCropInput.copyWithCount(1))
                 .inputFluids(GTMaterials.Air.getFluid(1000))
                 .inputItems(ChemicalHelper.get(dust, EnderPearl).copyWithCount(4))
-                .outputItems(bacteriaAffinityMutationOutput)
+                .outputItems(gCropRandomSeed)
                 .duration(400)
                 .EUtV(GTValues.MV)
                 .buildRawRecipe();
 
         StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, AuxMutation0_3Recipe);
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, AuxMutation0_3Recipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, fullMutation0_1Recipe);
     }
 }
