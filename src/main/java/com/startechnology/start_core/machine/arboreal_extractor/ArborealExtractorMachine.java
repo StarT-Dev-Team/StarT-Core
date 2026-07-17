@@ -3,13 +3,13 @@ package com.startechnology.start_core.machine.arboreal_extractor;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.startechnology.start_core.block.arboreal_extractor.LeavesType;
 import com.startechnology.start_core.block.arboreal_extractor.LogType;
 
 import lombok.Getter;
 
-public class ArborealExtractorMachine extends WorkableElectricMultiblockMachine {
+public class ArborealExtractorMachine extends WorkableMultiblockMachine {
 
     @Getter
     @NotNull
