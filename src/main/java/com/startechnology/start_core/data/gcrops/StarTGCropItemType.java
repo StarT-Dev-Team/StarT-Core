@@ -2,7 +2,7 @@ package com.startechnology.start_core.data.gcrops;
 
 public enum StarTGCropItemType {
 
-    FLUID("fluid"),
+    LIQUID("liquid"),
     DUST("dust"),
     ORE("ore"),
     DYE("dye"),

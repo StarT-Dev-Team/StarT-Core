@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.data.gcrops.StarTGCropItemType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -39,7 +40,7 @@ public class StarTFruitBehaviour extends StarTNBTTooltipsBehaviour {
         this.materialType = materialType;
     }
 
-    public static StarTFruitBehaviour getGCropBehaviour(ItemStack fruit) {
+    public static StarTFruitBehaviour getFruitBehaviour(ItemStack fruit) {
         Item fruitItem = fruit.getItem();
 
         if (!(fruitItem instanceof ComponentItem)) return null;
@@ -56,10 +57,16 @@ public class StarTFruitBehaviour extends StarTNBTTooltipsBehaviour {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
+        MutableComponent fruitResource = Component.translatable(
+                String.format("behaviour.start_core.gcrop.type.%s", this.materialType.getName()),
+                Component.translatable(String.format("material.gtceu.%s", this.resource.getName())));
+
+        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.fruit_header"));
         tooltipComponents
-                .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
-                        Component.literal("[0-0]")));
+                .add(Component.translatable("behaviour.start_core.gcrop.fruit_resource", fruitResource));
+        tooltipComponents
+                .add(Component.translatable("behaviour.start_core.gcrop.fruit_tier",
+                        Component.literal(Integer.toString(this.tier))));
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
     }

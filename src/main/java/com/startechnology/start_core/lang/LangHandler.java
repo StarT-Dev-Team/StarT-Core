@@ -107,18 +107,23 @@ public class LangHandler {
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome");
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
+        provider.add("behaviour.start_core.gcrop.genome_header", "§aYour gCrop has the following genome traits:");
+        provider.add("behaviour.start_core.gcrop.resource_genome", "  §6Resource§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.production_genome", "  §9Production§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §2Auxiliary§7:§r %s");
 
-        provider.add("behaviour.start_core.gcrop.resource_genome",
-                "§6Resource§7 traits:§r %s");
-        provider.add("behaviour.start_core.gcrop.production_genome",
-                "§9Production§7 traits:§r %s");
-        provider.add("behaviour.start_core.gcrop.auxiliary_genome",
-                "§6Auxiliary§7 traits:§r %s");
-        provider.add("behaviour.start_core.gcrop.genome_header",
-                "§aYour gCrop has the following genome traits:");
+        provider.add("behaviour.start_core.gcrop.fruit_header", "§aA gCrop Fruiting body");
+        provider.add("behaviour.start_core.gcrop.fruit_resource", "  §6Contains: §2%s");
+        provider.add("behaviour.start_core.gcrop.fruit_tier", "  §9Grade: §2%s");
 
-        provider.add("gtceu.gcrop_mutator",
-                "gCrop Mutator");
+        provider.add("behaviour.start_core.gcrop.type.liquid", "Liquid %s");
+        provider.add("behaviour.start_core.gcrop.type.dust", "%s Dust");
+        provider.add("behaviour.start_core.gcrop.type.gem", "%s Gems");
+        provider.add("behaviour.start_core.gcrop.type.ore", "%s Ore");
+        provider.add("behaviour.start_core.gcrop.type.dye", "%s");
+
+        provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
+        provider.add("gtceu.gcrop_breeder", "gCrop Breeder");
 
         provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
         provider.add("behaviour.start_core.gcrop.random_crop",

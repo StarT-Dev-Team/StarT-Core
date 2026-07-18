@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "start_core:item/orange_dye_gcrop"
+    "layer0": "start_core:item/gcrops/seed_one"
   }
 }
