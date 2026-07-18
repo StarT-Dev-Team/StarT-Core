@@ -124,6 +124,7 @@ public class LangHandler {
 
         provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
         provider.add("gtceu.gcrop_breeder", "gCrop Breeder");
+        provider.add("gtceu.gcrop_harvester", "gCrop Harvester");
 
         provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
         provider.add("behaviour.start_core.gcrop.random_crop",

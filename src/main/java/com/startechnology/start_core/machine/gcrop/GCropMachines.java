@@ -80,5 +80,28 @@ public class GCropMachines {
                     GTCEu.id("block/machines/extruder"))
             .register();
 
+    public static final MultiblockMachineDefinition GCROP_HARVESTING_PLANT = START_REGISTRATE
+            .multiblock("gcrop_harvester", DirtyWorkableElectricMultiblockMachine::new)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .langValue("gCrop Harvesting Plant [gCHP]")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
+            .recipeTypes(StarTRecipeTypes.GCROP_HARVESTER_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
+                    .aisle("CCC", "CCC", "CCC")
+                    .aisle("CCC", "C C", "CCC")
+                    .aisle("CCC", "C@C", "CCC")
+                    // spotless:on
+                    .where(" ", Predicates.any())
+                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/machines/bender"))
+            .register();
+
     public static void init() {}
 }

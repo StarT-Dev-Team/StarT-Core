@@ -99,6 +99,13 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new GCropBreederLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType GCROP_HARVESTER_RECIPES = GTRecipeTypes
+            .register("gcrop_harvester", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 1, 2, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GCropHarvesterLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 2)

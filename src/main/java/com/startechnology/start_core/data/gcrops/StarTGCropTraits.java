@@ -109,6 +109,8 @@ public class StarTGCropTraits {
             allResourceTraits.add(gene.getTrait());
         }
 
+        allResourceTraits.sort(TRAIT_COMPARATOR);
+
         ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allResourceTraits);
         ItemStack newGCrop = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
 
