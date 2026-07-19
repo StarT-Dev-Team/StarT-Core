@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
+import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -90,7 +90,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        StarTGCropPlant gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
+        StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
 
         boolean malformed = stack.is(GCROP_MALFORMED.asItem());
 

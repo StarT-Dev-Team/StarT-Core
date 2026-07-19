@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
+import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.item.StarTGCropItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.ItemStack;
@@ -114,7 +114,7 @@ public class StarTGCropTraits {
         ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allResourceTraits);
         ItemStack newGCrop = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
 
-        StarTGCropPlant newGenome = new StarTGCropPlant(resourceGenome, productionGenome,
+        StarTGCropGenome newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
                 auxiliaryGenome);
 
         StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);

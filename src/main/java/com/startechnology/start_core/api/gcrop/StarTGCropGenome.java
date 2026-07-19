@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-public class StarTGCropPlant {
+public class StarTGCropGenome {
 
     public static final String GCROP_RESOURCE_GENOME_NBT_TAG = "gcrop_resource_genome";
     public static final String GCROP_PRODUCTION_GENOME_NBT_TAG = "gcrop_production_genome";
@@ -35,14 +35,15 @@ public class StarTGCropPlant {
         return auxiliaryGenome;
     }
 
-    public StarTGCropPlant(@NotNull List<StarTGCropGene> resourceGenome, @NotNull List<StarTGCropGene> productionGenome,
-                           @NotNull List<StarTGCropGene> auxiliaryGenome) {
+    public StarTGCropGenome(@NotNull List<StarTGCropGene> resourceGenome,
+                            @NotNull List<StarTGCropGene> productionGenome,
+                            @NotNull List<StarTGCropGene> auxiliaryGenome) {
         this.resourceGenome = resourceGenome;
         this.productionGenome = productionGenome;
         this.auxiliaryGenome = auxiliaryGenome;
     }
 
-    public StarTGCropPlant(CompoundTag gCropGenomeCompound) {
+    public StarTGCropGenome(CompoundTag gCropGenomeCompound) {
         ListTag resourceGenomeList = gCropGenomeCompound.getList(GCROP_RESOURCE_GENOME_NBT_TAG, Tag.TAG_STRING);
         resourceGenomeList.forEach(gene -> this.resourceGenome.add(new StarTGCropGene(gene.getAsString())));
 

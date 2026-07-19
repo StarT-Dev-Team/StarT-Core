@@ -7,9 +7,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
-import com.startechnology.start_core.api.gcrop.StarTGCropGene;
-import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropPlant;
+import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.item.StarTGCropItems;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
@@ -43,7 +41,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(itemInSlot);
             if (cropBehaviour == null) continue;
 
-            StarTGCropPlant gCropGenomes = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
+            StarTGCropGenome gCropGenomes = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
             assert gCropGenomes != null;
 
             List<StarTGCropTraits.StarTGCropTrait> allResourceTraits = new ArrayList<>();

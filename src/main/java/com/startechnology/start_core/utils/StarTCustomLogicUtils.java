@@ -1,14 +1,13 @@
 package com.startechnology.start_core.utils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -66,6 +65,70 @@ public class StarTCustomLogicUtils {
                 .map(NotifiableFluidTank.class::cast)
                 .filter(i -> i.getTanks() >= 1)
                 .collect(Collectors.groupingBy(NotifiableRecipeHandlerTrait::isDistinct));
+    }
+
+    public static List<ItemStack> getAllItems(List<NotifiableItemStackHandler> itemHandlers) {
+        List<ItemStack> allItems = new ArrayList<>();
+
+        for (var itemHandler : itemHandlers) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack itemInSlot = itemHandler.getStackInSlot(i);
+                if (!itemInSlot.isEmpty()) allItems.add(itemInSlot);
+            }
+        }
+        return allItems;
+    }
+
+    // overload for maps
+    public static List<ItemStack> getAllItems(Map<Boolean, List<NotifiableItemStackHandler>> itemHandlers) {
+        List<ItemStack> allItems = new ArrayList<>();
+
+        // How to properly account for distinct? This just ignores it
+        for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack itemInSlot = itemHandler.getStackInSlot(i);
+                if (!itemInSlot.isEmpty()) allItems.add(itemInSlot);
+            }
+        }
+        for (var itemHandler : itemHandlers.getOrDefault(false, Collections.emptyList())) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack itemInSlot = itemHandler.getStackInSlot(i);
+                if (!itemInSlot.isEmpty()) allItems.add(itemInSlot);
+            }
+        }
+        return allItems;
+    }
+
+    public static List<FluidStack> getAllFluids(List<NotifiableFluidTank> fluidHandlers) {
+        List<FluidStack> allFluids = new ArrayList<>();
+
+        for (var fluidHandler : fluidHandlers) {
+            for (int i = 0; i < fluidHandler.getTanks(); i++) {
+                FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
+                if (!fluidInSlot.isEmpty()) allFluids.add(fluidInSlot);
+            }
+        }
+        return allFluids;
+    }
+
+    // overload for maps
+    public static List<FluidStack> getAllFluids(Map<Boolean, List<NotifiableFluidTank>> fluidHandlers) {
+        List<FluidStack> allFluids = new ArrayList<>();
+
+        // How to properly account for distinct? This just ignores it
+        for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
+            for (int i = 0; i < fluidHandler.getTanks(); i++) {
+                FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
+                if (!fluidInSlot.isEmpty()) allFluids.add(fluidInSlot);
+            }
+        }
+        for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
+            for (int i = 0; i < fluidHandler.getTanks(); i++) {
+                FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
+                if (!fluidInSlot.isEmpty()) allFluids.add(fluidInSlot);
+            }
+        }
+        return allFluids;
     }
 
     public static @Nullable GTRecipe createCustomlogicRecipeWithItemHandlers(List<NotifiableItemStackHandler> handlers,

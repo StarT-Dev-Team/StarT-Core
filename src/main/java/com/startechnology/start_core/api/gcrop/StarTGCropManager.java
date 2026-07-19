@@ -10,7 +10,7 @@ public class StarTGCropManager {
 
     public static final String GCROP_GENOME_NBT_TAG = "gcrop_genome";
 
-    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, @NotNull StarTGCropPlant gCropGenome) {
+    public static void writeGCRopGenomeToItem(CompoundTag gcropCompound, @NotNull StarTGCropGenome gCropGenome) {
         gcropCompound.put(GCROP_GENOME_NBT_TAG, gCropGenome.toCompoundTag());
     }
 
@@ -19,7 +19,7 @@ public class StarTGCropManager {
         return gcropCompound.contains(GCROP_GENOME_NBT_TAG, Tag.TAG_COMPOUND);
     }
 
-    public static StarTGCropPlant gcropGenomeFromTag(ItemStack stack) {
+    public static StarTGCropGenome gcropGenomeFromTag(ItemStack stack) {
         if (!stack.hasTag()) return null;
 
         CompoundTag gcropCompound = stack.getOrCreateTag();
@@ -27,6 +27,6 @@ public class StarTGCropManager {
         if (!hasGCropGenome(gcropCompound)) return null;
 
         CompoundTag genomeTag = gcropCompound.getCompound(GCROP_GENOME_NBT_TAG);
-        return new StarTGCropPlant(genomeTag);
+        return new StarTGCropGenome(genomeTag);
     }
 }

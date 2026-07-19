@@ -11,6 +11,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import net.minecraft.network.chat.Component;
@@ -39,8 +40,10 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
             if (itemInSlot.isEmpty()) continue;
 
-            StarTGCropPlant existingStats = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(itemInSlot);
+            if (cropBehaviour == null) continue;
 
+            StarTGCropGenome existingStats = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
             if (existingStats == null) continue;
 
             foundCrops.add(itemInSlot);
@@ -80,7 +83,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
             // Go over both crops
             for (ItemStack crop : foundCrops) {
-                StarTGCropPlant cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
+                StarTGCropGenome cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
                 assert cropStats != null;
 
                 // Apply Meiosis mimicry to all traits for harvesting the new traits
@@ -143,12 +146,12 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                     newAuxiliaryGenome);
 
             ItemStack firstCrop = foundCrops.get(0).copyWithCount(1);
-            StarTGCropPlant firstGenome = StarTGCropManager.gcropGenomeFromTag(foundCrops.get(0));
+            StarTGCropGenome firstGenome = StarTGCropManager.gcropGenomeFromTag(foundCrops.get(0));
             assert firstGenome != null;
             StarTGCropManager.writeGCRopGenomeToItem(firstCrop.getOrCreateTag(), firstGenome);
 
             ItemStack secondCrop = foundCrops.get(1).copyWithCount(1);
-            StarTGCropPlant secondGenome = StarTGCropManager.gcropGenomeFromTag(foundCrops.get(1));
+            StarTGCropGenome secondGenome = StarTGCropManager.gcropGenomeFromTag(foundCrops.get(1));
             assert secondGenome != null;
             StarTGCropManager.writeGCRopGenomeToItem(secondCrop.getOrCreateTag(), secondGenome);
 
@@ -166,7 +169,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
         } else if (foundCrops.size() == 1) {
             ItemStack crop = foundCrops.get(0).copyWithCount(1);
 
-            StarTGCropPlant cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
+            StarTGCropGenome cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
             assert cropStats != null;
 
             List<StarTGCropGene> existingResourceGenome = cropStats.getResourceGenome();

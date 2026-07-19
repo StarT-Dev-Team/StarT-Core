@@ -3,8 +3,6 @@ package com.startechnology.start_core.recipe.logic.gcrops;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -37,31 +35,10 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
         if (itemHandlers.isEmpty() || fluidHandlers.isEmpty()) return null;
 
-        // Distinct first, reset our stacks for every inventory
-        for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
-            for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
-                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
-                if (recipe != null) return recipe;
-            }
-            for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
-                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
-                if (recipe != null) return recipe;
-            }
-        }
+        List<ItemStack> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
+        List<FluidStack> allFluids = StarTCustomLogicUtils.getAllFluids(fluidHandlers);
 
-        // Non-distinct, return as soon as we find valid items
-        for (var itemHandler : itemHandlers.getOrDefault(false, Collections.emptyList())) {
-            for (var fluidHandler : fluidHandlers.getOrDefault(true, Collections.emptyList())) {
-                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
-                if (recipe != null) return recipe;
-            }
-            for (var fluidHandler : fluidHandlers.getOrDefault(false, Collections.emptyList())) {
-                GTRecipe recipe = createGCropRecipe(itemHandler, fluidHandler);
-                if (recipe != null) return recipe;
-            }
-        }
-
-        return null;
+        return createGCropRecipe(allItems, allFluids);
     }
 
     public static boolean hasItemMatch(ItemStack item, List<ItemStack> itemList) {
@@ -78,8 +55,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         return false;
     }
 
-    public static GTRecipe createGCropRecipe(NotifiableItemStackHandler itemHandler,
-                                             NotifiableFluidTank fluidHandler) {
+    public static GTRecipe createGCropRecipe(List<ItemStack> allItems, List<FluidStack> allFluids) {
         ItemStack foundGCrop = ItemStack.EMPTY;
 
         final List<ItemStack> validMutationItemList = List.of(
@@ -95,29 +71,23 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         List<ItemStack> validMutationItems = new ArrayList<>();
         List<FluidStack> validMutationFluids = new ArrayList<>();
 
-        for (int i = 1; i < itemHandler.getSlots(); i++) {
-            ItemStack itemInSlot = itemHandler.getStackInSlot(i);
-            if (!itemInSlot.isEmpty()) {
-                if (StarTGCropBehaviour.getGCropBehaviour(itemInSlot) != null) {
-                    foundGCrop = itemInSlot;
-                } else if (hasItemMatch(itemInSlot, validMutationItemList)) {
-                    validMutationItems.add(itemInSlot);
-                }
+        for (ItemStack item : allItems) {
+            if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
+                foundGCrop = item;
+            } else if (hasItemMatch(item, validMutationItemList)) {
+                validMutationItems.add(item);
             }
         }
 
-        for (int i = 1; i < fluidHandler.getTanks(); i++) {
-            FluidStack fluidInSlot = fluidHandler.getFluidInTank(i);
-            if (!fluidInSlot.isEmpty()) {
-                if (hasFluidMatch(fluidInSlot, validMutationFluidList)) {
-                    validMutationFluids.add(fluidInSlot);
-                }
+        for (FluidStack fluid : allFluids) {
+            if (hasFluidMatch(fluid, validMutationFluidList)) {
+                validMutationFluids.add(fluid);
             }
         }
 
         if (foundGCrop.isEmpty() || (validMutationItems.isEmpty() && validMutationFluids.isEmpty())) return null;
 
-        StarTGCropPlant existingStats = StarTGCropManager.gcropGenomeFromTag(foundGCrop);
+        StarTGCropGenome existingStats = StarTGCropManager.gcropGenomeFromTag(foundGCrop);
         assert existingStats != null;
 
         List<StarTGCropGene> existingResourceGenome = existingStats.getResourceGenome();

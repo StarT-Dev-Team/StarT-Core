@@ -61,7 +61,6 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
             List<StarTGCropGene> newResourceGenome = new ArrayList<>();
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
-            List<StarTGCropTraits.StarTGCropTrait> allTraits = new ArrayList<>();
 
             List<StarTGCropTraits.StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
 
@@ -71,7 +70,6 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                     switch (trait.genomeType()) {
                         case RESOURCE -> {
                             newResourceGenome.add(new StarTGCropGene(trait, alleleCount));
-                            allTraits.add(trait);
                         }
                         case PRODUCTION -> {
                             newProductionGenome.add(new StarTGCropGene(trait, alleleCount));
