@@ -16,7 +16,7 @@ public class GTRecipeJSMixin {
     }
 
     @Shadow
-    public GTRecipeSchema.GTRecipeJS addData(String key, String data) {
+    public GTRecipeSchema.GTRecipeJS addDataString(String key, String data) {
         return null;
     }
 
@@ -37,6 +37,6 @@ public class GTRecipeJSMixin {
 
     @Unique
     public GTRecipeSchema.GTRecipeJS kjs$treeType(String type) {
-        return addData("treeVariant", type);
+        return addDataString("treeVariant", type);
     }
 }
