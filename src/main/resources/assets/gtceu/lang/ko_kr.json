@@ -28,5 +28,6 @@
   "gtceu.modifier.reflector_fusion_reactor.description.0": "  §7융합 반응로 컴퓨터는 \"융합 반사판\"을 이용해 강화할 수 있습니다.",
   "gtceu.modifier.reflector_fusion_reactor.description.1": "  §7더 높은 등급의 융합 반응로 컴퓨터를 얻는 것 대신 반사판을 강화해 더 빠른 제작을 가능하게 할 수 있습니다.",
   "gtceu.modifier.reflector_fusion_reactor.description.2": "  §7반사판의 등급이 올라가면 제작법에 걸리는 시간이 반으로 줄어들며 대신 전력을 두 배로 소모합니다. 이는 다른 요인과 독립적입니다. §b[2:2]",
-  "gtceu.modifier.reflector_fusion_reactor.description.3": "  §7반사판 오버클록은 융합 반응로 컴퓨터 오버클록과 동시에 적용 가능하며, 전력 사용량은 증가하지만 등급이 낮은 융합 반응로 컴퓨터에서 제작법 등급을 올리진 않습니다."
+  "gtceu.modifier.reflector_fusion_reactor.description.3": "  §7반사판 오버클록은 융합 반응로 컴퓨터 오버클록과 동시에 적용 가능하며, 전력 사용량은 증가하지만 등급이 낮은 융합 반응로 컴퓨터에서 제작법 등급을 올리진 않습니다.",
+  "gtceu.machine.parallel_hatch_mk5.tooltip": "8x 병렬 처리가 가능하게 해줍니다."
 }
