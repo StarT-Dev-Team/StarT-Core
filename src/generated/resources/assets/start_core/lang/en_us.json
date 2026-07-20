@@ -685,6 +685,7 @@
   "start_core.multiblock.frame.not_cooled": "§7Coolant: §cNone",
   "start_core.multiblock.luv_fusion_reactor.description": "The Fusion Reactor MK I is a large multiblock structure used for fusing elements into heavier ones. It can only use §dLuV§r Energy Hatches. For every Hatch it has, its buffer increases by 10M EU, and has a maximum of 160M.",
   "start_core.multiblock.nyinsane_turbine.bec_og_boosting": "Oganesson Stabilised Bose-Einstein Condensate Boosted",
+  "start_core.multiblock.pattern.error.arboreal_tree": "§cThe leaves and logs must be all of the same type§r",
   "start_core.multiblock.pattern.error.reflector": "§cAll fusion reflectors must be the same§r",
   "start_core.multiblock.pattern.error.vacuumpump": "§cAll vacuum pumps must be the same§r",
   "start_core.multiblock.supreme_turbine.ss_h32_boosting": "Superstate Helium 3 Boosted",

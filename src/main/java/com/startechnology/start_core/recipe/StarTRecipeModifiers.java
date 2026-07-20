@@ -157,26 +157,6 @@ public class StarTRecipeModifiers {
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
 
-    private static ModifierFunction arborealExtractorModifier(MetaMachine machine, GTRecipe recipe) {
-        if (!(machine instanceof ArborealExtractorMachine arborealExtractorMachine)) {
-            return RecipeModifier.nullWrongType(ArborealExtractorMachine.class, machine);
-        }
-
-        if (!arborealExtractorMachine.typesMatch()) {
-            return ModifierFunction
-                    .cancel(Component.translatable("start_core.recipe_modifier.leaves_and_logs_dont_match"));
-        }
-
-        var availableType = arborealExtractorMachine.getTreeType();
-        var recipeType = recipe.data.getString("treeVariant");
-
-        if (!recipeType.equals(availableType)) {
-            return ModifierFunction.cancel(Component.translatable("start_core.recipe_modifier.wrong_tree_type"));
-        }
-
-        return ModifierFunction.IDENTITY;
-    }
-
     public static final RecipeModifier ARBOREAL_EXTRACTOR = new IdentifiedRecipeModifier("arboreal_extractor",
-            StarTRecipeModifiers::arborealExtractorModifier);
+            ArborealExtractorMachine::recipeModifier);
 }

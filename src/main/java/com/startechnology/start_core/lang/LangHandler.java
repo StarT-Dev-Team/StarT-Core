@@ -652,5 +652,8 @@ public class LangHandler {
         provider.add("start_core.recipe_modifier.leaves_and_logs_dont_match",
                 "Leaves and logs don't match on the structure!");
         provider.add("start_core.recipe_modifier.wrong_tree_type", "Wrong tree type!");
+
+        provider.add("start_core.multiblock.pattern.error.arboreal_tree",
+                "§cThe leaves and logs must be all of the same type§r");
     }
 }
