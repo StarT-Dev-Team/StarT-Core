@@ -196,6 +196,11 @@ dependencies {
     modImplementation("curse.maven:cofh-core-69162:5374122")
     modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
     modImplementation("curse.maven:framedblocks-441647:7386520")
+    modImplementation("curse.maven:codechicken-lib-1-8-242818:5753868")
+    modImplementation("curse.maven:cb-multipart-258426:5311521")
+    modImplementation("curse.maven:project-red-core-228702:6868143")
+    modImplementation("curse.maven:project-red-integration-229045:6868148")
+    modImplementation("curse.maven:project-red-transmission-478939:6868149")
 
     modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
