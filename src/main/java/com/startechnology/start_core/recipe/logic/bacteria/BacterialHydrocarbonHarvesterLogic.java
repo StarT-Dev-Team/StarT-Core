@@ -48,10 +48,10 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
             if (existingStats == null) continue;
 
             FluidStack biomass = GTMaterials.Biomass.getFluid(
-                    100 * (2 << (existingStats.getMetabolism() - 1)));
+                    100 << existingStats.getMetabolism()); // is 100 * 2^n
 
             ItemStack sugar = new ItemStack(Items.SUGAR,
-                    (2 << (existingStats.getMetabolism() - 1)));
+                    1 << existingStats.getMetabolism()); // is 2^n
 
             FluidStack primaryOutput = new FluidStack(
                     existingStats.getPrimary(),
@@ -101,7 +101,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                     List<Fluid> affinities = inputBehaviour.getBehaviourAffinityFluids();
 
                     FluidStack biomass = GTMaterials.Biomass.getFluid(
-                            100 * (2 << (StarTBacteriaStats.MAX_STAT_VALUE - 1)));
+                            100 << StarTBacteriaStats.MAX_STAT_VALUE);
 
                     StarTCustomTooltipsManager.writeCustomTooltipsToItem(
                             biomass.getOrCreateTag(),
@@ -109,7 +109,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                             "behaviour.start_core.bacteria.harvester_biomass_input");
 
                     ItemStack sugar = new ItemStack(Items.SUGAR,
-                            (2 << (StarTBacteriaStats.MAX_STAT_VALUE - 1)));
+                            1 << StarTBacteriaStats.MAX_STAT_VALUE);
 
                     StarTCustomTooltipsManager.writeCustomTooltipsToItem(
                             sugar.getOrCreateTag(),

@@ -3,6 +3,7 @@ package com.startechnology.start_core.item;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
+import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -14,6 +15,7 @@ import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
+import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.common.data.models.GTModels.createTextureModel;
@@ -34,7 +36,7 @@ public class StarTGCropItems {
     public static final List<ItemEntry<ComponentItem>> GCROP_ITEMS = new ArrayList<>();
     public static final List<ItemEntry<ComponentItem>> GCROP_FRUITS = new ArrayList<>();
 
-    public static final HashMap<ItemEntry<ComponentItem>, ItemEntry<ComponentItem>> GCROP_FRUITMAP = new HashMap<>();;
+    public static final HashMap<Material, ItemEntry<ComponentItem>> GCROP_FRUITMAP = new HashMap<>();;
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
@@ -48,8 +50,7 @@ public class StarTGCropItems {
             .onRegister(attach(new TooltipBehavior(lines -> {
                 lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
             })))
-            .onRegister(attach(new StarTGCropBehaviour(
-                    -1)))
+            .onRegister(attach(new StarTGCropBehaviour(-1, GTMaterials.Stone)))
             .model((ctx, prov) -> createTextureModel(ctx, prov,
                     StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
             .register();
@@ -57,15 +58,19 @@ public class StarTGCropItems {
     private static void registerGCrop(String id, String name, int tier, Material material,
                                       StarTGCropItemType materialType, String flowerType,
                                       StarTGCropTrait... traits) {
+        ItemColor itemColor = TagPrefixItem.tintColor(material);
+
         ItemEntry<ComponentItem> gCropItem = START_REGISTRATE
                 .item(String.format("%s_gcrop", id), ComponentItem::create)
                 .lang(String.format("§3Arcanthus %s GCrop", name))
                 .properties(prop -> prop.stacksTo(16))
                 .onRegister(attach(new StarTGCropBehaviour(
                         tier,
+                        material,
                         traits)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/seed_%s", flowerType))))
+                .color(() -> () -> itemColor)
                 .register();
 
         ItemEntry<ComponentItem> gCropFruit = START_REGISTRATE
@@ -78,11 +83,12 @@ public class StarTGCropItems {
                         materialType)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/fruit_%s", flowerType))))
+                .color(() -> () -> itemColor)
                 .register();
 
         GCROP_ITEMS.add(gCropItem);
         GCROP_FRUITS.add(gCropFruit);
-        GCROP_FRUITMAP.put(gCropItem, gCropFruit);
+        GCROP_FRUITMAP.put(material, gCropFruit);
     }
 
     static {

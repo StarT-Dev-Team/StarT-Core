@@ -1,11 +1,13 @@
 package com.startechnology.start_core.item.components;
 
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
+import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
@@ -22,6 +24,8 @@ import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED
 public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
     private final int tier;
+    @Getter
+    private final Material material;
 
     private final List<StarTGCropTrait> gcropTraits;
 
@@ -29,12 +33,17 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return tier;
     }
 
+    public Material getCropMaterial() {
+        return material;
+    }
+
     public List<StarTGCropTrait> getCropTraits() {
         return gcropTraits;
     }
 
-    public StarTGCropBehaviour(int tier, StarTGCropTrait... traits) {
+    public StarTGCropBehaviour(int tier, Material material, StarTGCropTrait... traits) {
         this.tier = tier;
+        this.material = material;
         this.gcropTraits = Arrays.asList(traits);
     }
 

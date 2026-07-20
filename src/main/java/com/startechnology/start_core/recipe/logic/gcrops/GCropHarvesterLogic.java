@@ -7,9 +7,9 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
-import com.startechnology.start_core.item.StarTGCropItems;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
@@ -17,11 +17,10 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.TRAIT_COMPARATOR;
 import static com.startechnology.start_core.item.StarTGCropItems.GCROP_FRUITMAP;
+import static com.startechnology.start_core.item.StarTGCropItems.GCROP_ITEMS;
 
 public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
@@ -39,34 +38,40 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             if (itemInSlot.isEmpty()) continue;
 
             StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(itemInSlot);
+
             if (cropBehaviour == null) continue;
 
-            StarTGCropGenome gCropGenomes = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
-            assert gCropGenomes != null;
+            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
 
-            List<StarTGCropTraits.StarTGCropTrait> allResourceTraits = new ArrayList<>();
+            if (gCropGenome == null) continue;
 
-            for (StarTGCropGene gene : gCropGenomes.getResourceGenome()) {
-                allResourceTraits.add(gene.getTrait());
-            }
+            int cropTier = cropBehaviour.getCropTier();
 
-            allResourceTraits.sort(TRAIT_COMPARATOR);
+            int duration = (cropTier == 0) ? 160 : 160 * cropTier;
 
-            ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allResourceTraits);
-            var fruit = GCROP_FRUITMAP.get(gCropItem);
+            int EUt = GTValues.MV + cropTier;
+
+            int fertilizerAmount = 1 << cropTier;
+
+            int fruitAmount = 1;
+
+            ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
 
             if (fruit == null) continue;
 
-            ItemStack gCropFruit = new ItemStack(fruit.asItem());
+            if (gCropGenome.hasTrait("speedy")) duration = (int) Math.round(duration * 0.9);
 
-            return StarTRecipeTypes.GCROP_HARVESTER_RECIPES
+            GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
                     .inputItems(itemInSlot.copyWithCount(1))
-                    .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
-                    .outputItems(gCropFruit.copyWithCount(1))
-                    .duration(160)
-                    .EUtV(GTValues.MV)
-                    .buildRawRecipe();
+                    .inputItems(new ItemStack(GTItems.FERTILIZER, fertilizerAmount))
+                    .outputItems(new ItemStack(fruit.asItem(), fruitAmount))
+                    .duration(duration)
+                    .EUtVA(EUt);
+
+            if (!gCropGenome.hasTrait("diurnal")) harvestRecipe.daytime(gCropGenome.hasTrait("nocturnal"));
+
+            return harvestRecipe.buildRawRecipe();
         }
 
         return null;
@@ -74,24 +79,26 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        GCROP_FRUITMAP.keySet().forEach(
-                crop -> {
-                    var fruit = GCROP_FRUITMAP.get(crop);
+        for (var crop : GCROP_ITEMS) {
+            ItemStack gCrop = new ItemStack(crop.asItem());
 
-                    ItemStack gCrop = new ItemStack(crop.asItem());
-                    ItemStack gCropFruit = new ItemStack(fruit.asItem());
+            var cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop);
+            if (cropBehaviour == null) continue;
 
-                    GTRecipe harvesterRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
-                            .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                            .inputItems(gCrop.copyWithCount(1))
-                            .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
-                            .outputItems(gCropFruit.copyWithCount(1))
-                            .duration(160)
-                            .EUtV(GTValues.MV)
-                            .buildRawRecipe();
+            var fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
+            ItemStack gCropFruit = new ItemStack(fruit.asItem());
 
-                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
-                            StarTRecipeTypes.GCROP_HARVESTER_RECIPES, "harvesting", harvesterRecipe);
-                });
+            GTRecipe harvesterRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
+                    .recipeBuilder(fruit.getId().getPath() + "_harvest")
+                    .inputItems(gCrop)
+                    .inputItems(new ItemStack(GTItems.FERTILIZER))
+                    .outputItems(gCropFruit)
+                    .duration(160)
+                    .EUtV(GTValues.MV)
+                    .buildRawRecipe();
+
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
+                    StarTRecipeTypes.GCROP_HARVESTER_RECIPES, "harvesting", harvesterRecipe);
+        }
     }
 }

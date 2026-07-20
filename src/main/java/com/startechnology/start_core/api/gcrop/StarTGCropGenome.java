@@ -1,5 +1,6 @@
 package com.startechnology.start_core.api.gcrop;
 
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.ListTag;
@@ -41,6 +42,30 @@ public class StarTGCropGenome {
         this.resourceGenome = resourceGenome;
         this.productionGenome = productionGenome;
         this.auxiliaryGenome = auxiliaryGenome;
+    }
+
+    public boolean hasTrait(StarTGCropTraits.StarTGCropTrait trait) {
+        StarTGCropTraits.GenomeType genomeType = trait.genomeType();
+        List<StarTGCropGene> necessaryGenome = new ArrayList<>();
+
+        switch (genomeType) {
+            case RESOURCE -> necessaryGenome = resourceGenome;
+            case PRODUCTION -> necessaryGenome = productionGenome;
+            case AUXILIARY-> necessaryGenome = auxiliaryGenome;
+        }
+
+        if (necessaryGenome.isEmpty()) return false;
+
+        for (StarTGCropGene gene : necessaryGenome) {
+            if (gene.getTrait().equals(trait)) return true;
+        }
+        return false;
+    }
+
+    public boolean hasTrait(String traitName) {
+        var trait = StarTGCropTraits.getTrait(traitName);
+        if (trait == null) return false;
+        return this.hasTrait(trait);
     }
 
     public StarTGCropGenome(CompoundTag gCropGenomeCompound) {

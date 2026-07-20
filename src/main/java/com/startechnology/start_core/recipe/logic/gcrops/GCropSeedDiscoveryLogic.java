@@ -53,7 +53,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
     }
 
     private GTRecipe createSeedDiscoveryRecipe(NotifiableItemStackHandler handler) {
-        for (int i = 1; i < handler.getSlots(); i++) {
+        for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
 
             if (itemInSlot.isEmpty()) continue;

@@ -35,7 +35,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
         if (itemHandlers.isEmpty() || fluidHandlers.isEmpty()) return null;
 
-        List<ItemStack> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
+        List<List<ItemStack>> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
         List<FluidStack> allFluids = StarTCustomLogicUtils.getAllFluids(fluidHandlers);
 
         return createGCropRecipe(allItems, allFluids);
@@ -55,9 +55,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         return false;
     }
 
-    public static GTRecipe createGCropRecipe(List<ItemStack> allItems, List<FluidStack> allFluids) {
-        ItemStack foundGCrop = ItemStack.EMPTY;
-
+    public static GTRecipe createGCropRecipe(List<List<ItemStack>> allItemSets, List<FluidStack> allFluids) {
         final List<ItemStack> validMutationItemList = List.of(
                 ChemicalHelper.get(dust, Thorium),
                 ChemicalHelper.get(dust, Uranium238),
@@ -68,21 +66,32 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 GTMaterials.Naquadria.getFluid(1),
                 GTMaterials.Air.getFluid(1));
 
+        ItemStack foundGCrop = ItemStack.EMPTY;
+
         List<ItemStack> validMutationItems = new ArrayList<>();
         List<FluidStack> validMutationFluids = new ArrayList<>();
 
-        for (ItemStack item : allItems) {
-            if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
-                foundGCrop = item;
-            } else if (hasItemMatch(item, validMutationItemList)) {
-                validMutationItems.add(item);
+        for (List<ItemStack> itemSet : allItemSets) {
+            for (ItemStack item : itemSet) {
+                if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
+                    foundGCrop = item;
+                } else if (hasItemMatch(item, validMutationItemList)) {
+                    validMutationItems.add(item);
+                }
             }
-        }
 
-        for (FluidStack fluid : allFluids) {
-            if (hasFluidMatch(fluid, validMutationFluidList)) {
-                validMutationFluids.add(fluid);
+            for (FluidStack fluid : allFluids) {
+                if (hasFluidMatch(fluid, validMutationFluidList)) {
+                    validMutationFluids.add(fluid);
+                }
             }
+
+            if (!foundGCrop.isEmpty() && (!validMutationItems.isEmpty() || !validMutationFluids.isEmpty())) break;
+
+            // Reset found items after distinct item set has been handled
+            foundGCrop = ItemStack.EMPTY;
+            validMutationItems = new ArrayList<>();
+            validMutationFluids = new ArrayList<>();
         }
 
         if (foundGCrop.isEmpty() || (validMutationItems.isEmpty() && validMutationFluids.isEmpty())) return null;

@@ -80,23 +80,27 @@ public class StarTCustomLogicUtils {
     }
 
     // overload for maps
-    public static List<ItemStack> getAllItems(Map<Boolean, List<NotifiableItemStackHandler>> itemHandlers) {
-        List<ItemStack> allItems = new ArrayList<>();
+    public static List<List<ItemStack>> getAllItems(Map<Boolean, List<NotifiableItemStackHandler>> itemHandlers) {
+        List<ItemStack> allNonDistinctItems = new ArrayList<>();
+        List<List<ItemStack>> allDistinctItemSets = new ArrayList<>();
 
-        // How to properly account for distinct? This just ignores it
-        for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                ItemStack itemInSlot = itemHandler.getStackInSlot(i);
-                if (!itemInSlot.isEmpty()) allItems.add(itemInSlot);
-            }
-        }
         for (var itemHandler : itemHandlers.getOrDefault(false, Collections.emptyList())) {
             for (int i = 0; i < itemHandler.getSlots(); i++) {
                 ItemStack itemInSlot = itemHandler.getStackInSlot(i);
-                if (!itemInSlot.isEmpty()) allItems.add(itemInSlot);
+                if (!itemInSlot.isEmpty()) allNonDistinctItems.add(itemInSlot);
             }
         }
-        return allItems;
+
+        for (var itemHandler : itemHandlers.getOrDefault(true, Collections.emptyList())) {
+            List<ItemStack> distinctItemset = new ArrayList<>(allNonDistinctItems);
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack itemInSlot = itemHandler.getStackInSlot(i);
+                if (!itemInSlot.isEmpty()) distinctItemset.add(itemInSlot);
+            }
+            allDistinctItemSets.add(distinctItemset);
+        }
+
+        return allDistinctItemSets;
     }
 
     public static List<FluidStack> getAllFluids(List<NotifiableFluidTank> fluidHandlers) {
