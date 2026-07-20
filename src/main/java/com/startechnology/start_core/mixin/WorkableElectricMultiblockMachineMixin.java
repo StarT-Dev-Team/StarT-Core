@@ -37,7 +37,7 @@ public class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMa
         this.getParallelHatch().ifPresent(parallelHatch -> {
             if (parallelHatch instanceof IStarTMinimumParallelHatch minimumParallelHatch) {
 
-                int minParallels = minimumParallelHatch.starT_Core$getMinimumParallels();
+                int minParallels = minimumParallelHatch.start_core$getMinimumParallels();
 
                 if (minParallels > 1) {
                     Component minParallelComponent = Component.literal(

@@ -26,7 +26,7 @@ public class GTRecipeModifiersMixin {
                     ParallelLogic.getParallelAmountWithoutEU(machine, recipe, hatch.getCurrentParallel()) :
                     hatch != null ? ParallelLogic.getParallelAmount(machine, recipe, hatch.getCurrentParallel()) : 1;
             var minimumParallels = hatch instanceof IStarTMinimumParallelHatch minHatch ?
-                    minHatch.starT_Core$getMinimumParallels() : 1;
+                    minHatch.start_core$getMinimumParallels() : 1;
 
             if (maximumParallels < minimumParallels) cir.setReturnValue(ModifierFunction.NULL);
             if (maximumParallels == 1) cir.setReturnValue(ModifierFunction.IDENTITY);
