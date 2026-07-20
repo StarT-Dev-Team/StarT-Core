@@ -31,11 +31,12 @@ tasks.named("compileJava") {
     dependsOn(tasks.named("spotlessApply"))
 }
 
-def generatedResources = file("src/generated")
+def generatedResources = file("src/generated/resources")
 
 sourceSets {
     main {
         resources.srcDir generatedResources
+        resources.exclude("src/generated/**/.cache")
         ext.refMap = "${mod_id}.mixins.refmap.json"
     }
 }
@@ -77,7 +78,7 @@ legacyForge {
 
             sourceSet = sourceSets.main
 
-            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
+            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
             programArguments.addAll('--existing-mod', 'gtceu', '--existing', file('run/kubejs').absolutePath, '--existing', file('src/main/resources/').absolutePath)
         }
     }
