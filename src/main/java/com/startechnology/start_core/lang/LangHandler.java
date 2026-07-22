@@ -476,5 +476,21 @@ public class LangHandler {
 
         provider.add("variadic.start_core.indicator.solar_machine", "Percentage to %s K");
         provider.add("variadic.start_core.description.solar_machine", "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)");
+
+        provider.add("behaviour.start_core.orefactory.duration","Duration Multi %sx");
+        provider.add("behaviour.start_core.orefactory.eut","EU/T Multi %sx");
+
+        provider.add("ui.start_core.orefactory.ore_factory.mercury_boost", "50mb per cycle\n1.2x Time Duration. 0.8x EU/T discount");
+        provider.add("ui.start_core.orefactory.ore_factory.water_boost", "100mb per cycle\n1x Time Duration. 1x EU/T discount");
+        provider.add("ui.start_core.orefactory.ore_factory.distilled_water_boost", "80mb per cycle\n.9x Time Duration. 1.1x EU/T discount");
+        provider.add("ui.start_core.orefactory.ore_factory.sodium_persulfate_boost", "25mb per cycle\n.75x Time Duration. 1.25x EU/T discount");
+        provider.add("ui.start_core.orefactory.ore_factory.no_boost", "No Active Boost");
+
+        provider.add("ui.start_core.orefactory.ore_factory.mercury", "Active Fluid Mercury");
+        provider.add("ui.start_core.orefactory.ore_factory.sodium_persulfate", "Active Fluid Sodium Persulfate");
+        provider.add("ui.start_core.orefactory.ore_factory.water", "Active Fluid  Water");
+        provider.add("ui.start_core.orefactory.ore_factory.distilled_water", "Active Fluid  Distilled Water");
+        provider.add("ui.start_core.orefactory.ore_factory.no_fluid", "Active Fluid  No Fluid Provided");
+
     }
 }

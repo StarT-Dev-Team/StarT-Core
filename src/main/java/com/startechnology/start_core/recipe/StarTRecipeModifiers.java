@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMac
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.ore_factory.OreFactoryMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
@@ -112,4 +113,6 @@ public class StarTRecipeModifiers {
     public static final RecipeModifier FAKE_FUSION_OVERCLOCK = new IdentifiedRecipeModifier("fake_fusion_overclock", StarTRecipeModifiers::fakeFusionOverclock);
 
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier("reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
+
+    public static final RecipeModifier ORE_FACTORY = new IdentifiedRecipeModifier("ore_factory", OreFactoryMachine::recipeModifier);
 }

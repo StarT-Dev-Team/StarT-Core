@@ -161,6 +161,10 @@ public class StarTRecipeTypes {
     public static final GTRecipeType COMBUSTION_FRAME_RECIPE_TYPE = GTRecipeTypes.register("modular_combustion_frame", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0,0,1,0)
             .setEUIO(IO.OUT);
+    public static final GTRecipeType ORE_FACTORY_RECIPE = GTRecipeTypes.register("ore_factory", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3,3,3,3)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new OreFactoryLogic());
 
     public static final void init() {
 
