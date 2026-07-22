@@ -1,6 +1,7 @@
 package com.startechnology.start_core.utils;
 
 public class StarTColorUtils {
+
     /**
      * Generate a vibrant color for a thread based on its index
      * 

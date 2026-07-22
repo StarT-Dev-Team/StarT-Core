@@ -84,5 +84,4 @@ public class StarTJadeUtils {
         }
         return text;
     }
-
 }
