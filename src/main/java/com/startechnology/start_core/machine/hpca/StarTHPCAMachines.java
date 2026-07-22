@@ -30,6 +30,8 @@ public class StarTHPCAMachines {
                     .aisle("VA", "XV", "XV", "XV", "XV", "XV", "VA")
                     .aisle("VA", "XV", "XV", "XV", "XV", "XV", "VA")
                     .aisle("VA", "XV", "XV", "XV", "XV", "XV", "VA")
+                    .aisle("VA", "XV", "XV", "XV", "XV", "XV", "VA")
+                    .aisle("VA", "XV", "XV", "XV", "XV", "XV", "VA")
                     .aisle("SA", "CC", "CC", "CC", "CC", "CC", "AA")
                     .where('S', Predicates.controller(Predicates.blocks(definition.getBlock())))
                     .where('A', Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
