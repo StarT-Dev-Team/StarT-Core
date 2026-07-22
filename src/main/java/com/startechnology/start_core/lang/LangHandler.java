@@ -657,8 +657,15 @@ public class LangHandler {
                 "§cThe leaves and logs must be all of the same type§r");
 
         provider.add("gtceu.arboreal_extractor", "Arboreal Extractor");
-        provider.add("recipe.arboreal_extractor.tree_type.resin.tooltip", "Tree: Resin Producing");
-        provider.add("recipe.arboreal_extractor.tree_type.latex.tooltip", "Tree: Latex Producing");
-        provider.add("recipe.arboreal_extractor.tree_type.sap.tooltip", "Tree: Sap Producing");
+        provider.add("recipe.arboreal_extractor.tree_type.tooltip", "Tree: %s");
+        provider.add("start_core.tree_types.oak.name", "Oak");
+        provider.add("start_core.tree_types.dark_oak.name", "Dark Oak");
+        provider.add("start_core.tree_types.jungle.name", "Jungle");
+        provider.add("start_core.tree_types.acacia.name", "Acacia");
+        provider.add("start_core.tree_types.azalea.name", "Azalea");
+        provider.add("start_core.tree_types.spruce.name", "Spruce");
+        provider.add("start_core.tree_types.birch.name", "Birch");
+        provider.add("start_core.tree_types.mangrove.name", "Mangrove");
+        provider.add("start_core.tree_types.cherry.name", "Cherry");
     }
 }

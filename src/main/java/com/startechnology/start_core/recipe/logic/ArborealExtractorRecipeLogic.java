@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.startechnology.start_core.block.arboreal_extractor.ArborealBlocks;
+import com.startechnology.start_core.block.arboreal_extractor.TreeDefinition;
 import com.startechnology.start_core.block.arboreal_extractor.TreeType;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.arboreal_extractor.ArborealExtractorMachine;
@@ -100,7 +102,18 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
     }
 
     public static String getDataInfo(CompoundTag tag) {
-        var treeType = tag.getString("treeType");
-        return LocalizationUtils.format("recipe.arboreal_extractor.tree_type." + treeType + ".tooltip");
+        var rawTreeType = tag.getString("treeType");
+        var treeType = TreeType.of(rawTreeType);
+        var treeTypes = "None";
+
+        if (treeType != null) {
+            treeTypes = ArborealBlocks.TREES.stream()
+                    .filter(tree -> treeType == tree.getTreeType())
+                    .map(TreeDefinition::getName)
+                    .map(name -> LocalizationUtils.format("start_core.tree_types." + name + ".name"))
+                    .reduce((left, right) -> left + ", " + right)
+                    .orElse("None");
+        }
+        return LocalizationUtils.format("recipe.arboreal_extractor.tree_type.tooltip", treeTypes);
     }
 }
