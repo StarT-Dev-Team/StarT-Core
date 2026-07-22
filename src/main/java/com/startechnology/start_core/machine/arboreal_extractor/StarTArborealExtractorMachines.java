@@ -1,5 +1,6 @@
 package com.startechnology.start_core.machine.arboreal_extractor;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.editor.EditableMachineUI;
@@ -8,16 +9,22 @@ import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.machine.multiblock.primitive.PrimitiveWorkableMachine;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.block.arboreal_extractor.ArborealBlocks;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.ArrayList;
 
 public class StarTArborealExtractorMachines {
 
@@ -41,6 +48,28 @@ public class StarTArborealExtractorMachines {
                     .where('D', Predicates.blocks(Blocks.DIRT))
                     .where(' ', Predicates.any())
                     .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        .aisle("BIB", "BCB", "SSS", "   ", "   ", " L ", "   ")
+                        .aisle("BDB", "BGB", " G ", " G ", " G ", "LGL", " L ")
+                        .aisle("BOB", "SSS", "   ", "   ", "   ", " L ", "   ")
+                        .where('C', definition, Direction.NORTH)
+                        .where('B', Blocks.BRICKS.defaultBlockState())
+                        .where('I', GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV], Direction.NORTH)
+                        .where('O', GTMachines.FLUID_EXPORT_HATCH[GTValues.ULV], Direction.SOUTH)
+                        .where('S', Blocks.BRICK_SLAB.defaultBlockState())
+                        .where('D', Blocks.DIRT.defaultBlockState())
+                        .where(' ', Blocks.AIR.defaultBlockState());
+
+                for (var tree : ArborealBlocks.TREES) {
+                    shapes.add(pattern.shallowCopy()
+                            .where('L', tree.getLeaves().get())
+                            .where('G', tree.getLog().get())
+                            .build());
+                }
+                return shapes;
+            })
             .workableCasingModel(new ResourceLocation("minecraft:block/bricks"),
                     new ResourceLocation("gtceu:block/machines/extractor"))
             .editableUI(new EditableMachineUI("primitive", new ResourceLocation("gtceu:arboreal_extractor"),

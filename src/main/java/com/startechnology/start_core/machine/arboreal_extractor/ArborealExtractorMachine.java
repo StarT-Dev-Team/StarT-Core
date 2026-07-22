@@ -2,7 +2,6 @@ package com.startechnology.start_core.machine.arboreal_extractor;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.primitive.PrimitiveFancyUIWorkableMachine;
-import com.startechnology.start_core.block.arboreal_extractor.TreeDefinition;
 import com.startechnology.start_core.block.arboreal_extractor.TreeType;
 import lombok.Getter;
 
@@ -18,13 +17,12 @@ public class ArborealExtractorMachine extends PrimitiveFancyUIWorkableMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        var leavesType = getMultiblockState().getMatchContext().get(StarTArborealPredicates.CONTEXT_KEY_TREE_TYPE);
-        if (!(leavesType instanceof TreeDefinition treeDefinition)) {
+        var treeTypeCandidate = StarTArborealPredicates.getTreeTypeCandidates(getMultiblockState());
+        if (treeTypeCandidate == null || treeTypeCandidate.size() != 1) {
             onStructureInvalid();
             return;
         }
-
-        this.treeType = treeDefinition.getTreeType();
+        this.treeType = treeTypeCandidate.iterator().next().getTreeType();
     }
 
     @Override

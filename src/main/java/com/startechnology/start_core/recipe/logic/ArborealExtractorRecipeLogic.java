@@ -64,7 +64,7 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
             builder.notConsumable(WOOD_SCREW.get());
         }
 
-        return builder.id(builder.id.withPrefix("/")).buildRawRecipe();
+        return builder.buildRawRecipe();
     }
 
     @Override
@@ -96,6 +96,7 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
         for (var i = 0; i < FERTILIZERS.size() + 1; ++i) {
             for (var treeType : TreeType.values()) {
                 var recipe = makeRecipe(i, treeType);
+                recipe.setId(recipe.getId().withPrefix("/"));
                 StarTRecipeTypes.ARBOREAL_EXTRACTOR_RECIPES.addToMainCategory(recipe);
             }
         }
