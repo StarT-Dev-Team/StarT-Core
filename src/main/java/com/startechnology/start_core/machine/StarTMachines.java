@@ -2,6 +2,7 @@ package com.startechnology.start_core.machine;
 
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
+import com.startechnology.start_core.machine.arboreal_extractor.StarTArborealExtractorMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.crates.StarTCrates;
@@ -48,5 +49,6 @@ public class StarTMachines {
         StarTDrillingRigs.init();
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
+        StarTArborealExtractorMachines.init();
     }
 }

@@ -11,22 +11,22 @@ public class ArborealBlocks {
 
     public static void init() {
         TREES.add(new TreeDefinition.Simple("oak", () -> Blocks.OAK_LEAVES, () -> Blocks.OAK_LOG,
-                TreeTypes.RESIN_PRODUCING));
+                TreeType.RESIN_PRODUCING));
         TREES.add(new TreeDefinition.Simple("dark_oak", () -> Blocks.DARK_OAK_LEAVES, () -> Blocks.DARK_OAK_LOG,
-                TreeTypes.RESIN_PRODUCING));
+                TreeType.RESIN_PRODUCING));
         TREES.add(new TreeDefinition.Simple("jungle", () -> Blocks.JUNGLE_LEAVES, () -> Blocks.JUNGLE_LOG,
-                TreeTypes.LATEX_PRODUCING));
+                TreeType.LATEX_PRODUCING));
         TREES.add(new TreeDefinition.Simple("azalea", () -> Blocks.AZALEA_LEAVES, () -> Blocks.OAK_LOG,
-                TreeTypes.RESIN_PRODUCING));
+                TreeType.RESIN_PRODUCING));
         TREES.add(new TreeDefinition.Simple("acacia", () -> Blocks.ACACIA_LEAVES, () -> Blocks.ACACIA_LOG,
-                TreeTypes.SAP_PRODUCING));
+                TreeType.SAP_PRODUCING));
         TREES.add(new TreeDefinition.Simple("spruce", () -> Blocks.SPRUCE_LEAVES, () -> Blocks.SPRUCE_LOG,
-                TreeTypes.SAP_PRODUCING));
+                TreeType.SAP_PRODUCING));
         TREES.add(new TreeDefinition.Simple("birch", () -> Blocks.BIRCH_LEAVES, () -> Blocks.BIRCH_LOG,
-                TreeTypes.SAP_PRODUCING));
+                TreeType.SAP_PRODUCING));
         TREES.add(new TreeDefinition.Simple("mangrove", () -> Blocks.MANGROVE_LEAVES, () -> Blocks.MANGROVE_LOG,
-                TreeTypes.SAP_PRODUCING));
+                TreeType.SAP_PRODUCING));
         TREES.add(new TreeDefinition.Simple("cherry", () -> Blocks.CHERRY_LEAVES, () -> Blocks.CHERRY_LOG,
-                TreeTypes.SAP_PRODUCING));
+                TreeType.SAP_PRODUCING));
     }
 }

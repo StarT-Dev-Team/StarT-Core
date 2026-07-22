@@ -8,17 +8,13 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = GTRecipeSchema.GTRecipeJS.class, remap = false)
 @RemapPrefixForJS("kjs$")
-public class GTRecipeJSMixin {
+public abstract class GTRecipeJSMixin {
 
     @Shadow
-    public GTRecipeSchema.GTRecipeJS addData(String key, int data) {
-        return null;
-    }
+    public abstract GTRecipeSchema.GTRecipeJS addData(String key, int data);
 
     @Shadow
-    public GTRecipeSchema.GTRecipeJS addDataString(String key, String data) {
-        return null;
-    }
+    public abstract GTRecipeSchema.GTRecipeJS addDataString(String key, String data);
 
     @Unique
     public GTRecipeSchema.GTRecipeJS kjs$reflectorTier(int tier) {
@@ -33,10 +29,5 @@ public class GTRecipeJSMixin {
     @Unique
     public GTRecipeSchema.GTRecipeJS kjs$addDataInt(String key, int value) {
         return addData(key, value);
-    }
-
-    @Unique
-    public GTRecipeSchema.GTRecipeJS kjs$treeType(String type) {
-        return addDataString("treeVariant", type);
     }
 }

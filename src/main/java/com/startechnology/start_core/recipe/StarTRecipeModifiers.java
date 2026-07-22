@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
-import com.startechnology.start_core.machine.arboreal_extractor.ArborealExtractorMachine;
 import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
 import com.startechnology.start_core.machine.bulking.BulkingType;
 import com.startechnology.start_core.machine.bulking.IBulking;
@@ -156,7 +155,4 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
-
-    public static final RecipeModifier ARBOREAL_EXTRACTOR = new IdentifiedRecipeModifier("arboreal_extractor",
-            ArborealExtractorMachine::recipeModifier);
 }
