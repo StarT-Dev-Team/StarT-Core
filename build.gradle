@@ -192,6 +192,7 @@ dependencies {
     modImplementation("curse.maven:merequester-688367:5689932")
     modImplementation("curse.maven:jade-324717:6106101")
     modImplementation("curse.maven:embeddium-908741:5681725")
+    modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
     modImplementation("curse.maven:cofh-core-69162:5374122")
     modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
@@ -211,8 +212,6 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-
-    modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("curse.maven:spark-361579:4738952")
 
     // comment out the recipe viewer you don't want
