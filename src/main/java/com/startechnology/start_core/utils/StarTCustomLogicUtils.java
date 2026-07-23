@@ -163,7 +163,7 @@ public class StarTCustomLogicUtils {
                                                   @NotNull GTRecipe recipe) {
         // for EMI to detect it's a synthetic recipe (not ever in JSON)
         recipe.setId(recipe.getId().withPrefix("/"));
-        recipeType.addToCategoryMap(GTRecipeCategories.get(categoryId), recipe);
+        recipeType.addToCategoryMap(Objects.requireNonNull(GTRecipeCategories.get(categoryId)), recipe);
     }
 
     public static void handleCustomRecipeLogicEMI(@NotNull GTRecipeType recipeType, @NotNull GTRecipe recipe) {
