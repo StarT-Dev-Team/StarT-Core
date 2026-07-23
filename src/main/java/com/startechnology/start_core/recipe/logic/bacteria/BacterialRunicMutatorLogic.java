@@ -182,50 +182,49 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
     public void buildRepresentativeRecipes() {
         ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
 
-        BACTERIA_ITEMS.forEach(
-                bacteria -> {
-                    ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.input");
+        BACTERIA_ITEMS.forEach(bacteria -> {
+            ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.input");
 
-                    ItemStack bacteriaAffinityMutationOutput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                            bacteriaAffinityMutationOutput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.mutator_affinity_output");
+            ItemStack bacteriaAffinityMutationOutput = new ItemStack(bacteria.asItem());
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                    bacteriaAffinityMutationOutput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.mutator_affinity_output");
 
-                    ItemStack bacteriaTotalMutationOutput = new ItemStack(bacteria.asItem());
-                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaTotalMutationOutput.getOrCreateTag(),
-                            "behaviour.start_core.bacteria.mutator_total_output");
+            ItemStack bacteriaTotalMutationOutput = new ItemStack(bacteria.asItem());
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaTotalMutationOutput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.mutator_total_output");
 
-                    bacteriaTotalMutationOutput.setHoverName(Component.translatable(
-                            "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"));
+            bacteriaTotalMutationOutput.setHoverName(Component.translatable(
+                    "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"));
 
-                    GTRecipe affinityRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                            .recipeBuilder(bacteria.getId().getPath() + "_affinity")
-                            .inputItems(bacteriaInput.copyWithCount(1))
-                            .chancedInput(netherStar, 10_00, 0)
-                            .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                            .inputFluids(GTMaterials.NaquadahEnriched.getFluid(400))
-                            .outputItems(bacteriaAffinityMutationOutput)
-                            .duration(400)
-                            .EUt(GTValues.V[GTValues.UV])
-                            .buildRawRecipe();
+            GTRecipe affinityRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
+                    .recipeBuilder(bacteria.getId().getPath() + "_affinity")
+                    .inputItems(bacteriaInput.copyWithCount(1))
+                    .chancedInput(netherStar, 10_00, 0)
+                    .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
+                    .inputFluids(GTMaterials.NaquadahEnriched.getFluid(400))
+                    .outputItems(bacteriaAffinityMutationOutput)
+                    .duration(400)
+                    .EUt(GTValues.V[GTValues.UV])
+                    .buildRawRecipe();
 
-                    GTRecipe totalRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                            .recipeBuilder(bacteria.getId().getPath() + "_total")
-                            .inputItems(bacteriaInput.copyWithCount(1))
-                            .chancedInput(netherStar, 10_00, 0)
-                            .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
-                            .inputFluids(GTMaterials.Naquadria.getFluid(800))
-                            .outputItems(bacteriaTotalMutationOutput)
-                            .duration(640)
-                            .EUt(GTValues.V[GTValues.UV])
-                            .buildRawRecipe();
+            GTRecipe totalRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
+                    .recipeBuilder(bacteria.getId().getPath() + "_total")
+                    .inputItems(bacteriaInput.copyWithCount(1))
+                    .chancedInput(netherStar, 10_00, 0)
+                    .inputFluids(GTMaterials.DistilledWater.getFluid(8000))
+                    .inputFluids(GTMaterials.Naquadria.getFluid(800))
+                    .outputItems(bacteriaTotalMutationOutput)
+                    .duration(640)
+                    .EUt(GTValues.V[GTValues.UV])
+                    .buildRawRecipe();
 
-                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
-                            totalRecipe);
-                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
-                            affinityRecipe);
-                });
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                    "bacteria", totalRecipe);
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                    "bacteria", affinityRecipe);
+        });
     }
 }

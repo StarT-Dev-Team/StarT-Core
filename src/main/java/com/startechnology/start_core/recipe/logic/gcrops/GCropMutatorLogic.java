@@ -214,7 +214,9 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 .EUtV(GTValues.MV)
                 .buildRawRecipe();
 
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, AuxMutation0_3Recipe);
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, fullMutation0_1Recipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                AuxMutation0_3Recipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                fullMutation0_1Recipe);
     }
 }

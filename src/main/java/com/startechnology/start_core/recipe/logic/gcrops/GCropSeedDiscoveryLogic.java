@@ -41,7 +41,8 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 .EUt(GTValues.V[GTValues.MV])
                 .buildRawRecipe();
 
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, discoveryRecipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                discoveryRecipe);
     }
 
     @Override

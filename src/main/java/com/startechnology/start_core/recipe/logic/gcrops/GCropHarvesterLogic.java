@@ -89,7 +89,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                     break;
                 }
             }
-            int fluidAmount = 100 << foundTierFluid;
+            int fluidAmount = 100 << (cropTier - foundTierFluid);
 
             int fruitAmount = 1;
 
@@ -123,6 +123,20 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
+        final HashMap<Integer, Fluid> tieredGrowthFluids = new HashMap<>() {
+
+            {
+                put(1, GTMaterials.Water.getFluid());
+            }
+        };
+
+        final HashMap<Integer, Item> tieredGrowthItems = new HashMap<>() {
+
+            {
+                put(0, GTItems.FERTILIZER.asItem());
+            }
+        };
+
         for (var crop : GCROP_ITEMS) {
             ItemStack gCrop = new ItemStack(crop.asItem());
 
@@ -132,17 +146,52 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             var fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
             ItemStack gCropFruit = new ItemStack(fruit.asItem());
 
-            GTRecipe harvesterRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
+            int cropTier = cropBehaviour.getCropTier();
+
+            int duration = (cropTier == 0) ? 160 : 160 * cropTier;
+
+            int EUt = GTValues.MV + cropTier;
+
+            Item fertilizerItem = null;
+            int foundTierItem = 0;
+            for (int j = cropTier; j >= 0; j--) {
+                if (tieredGrowthItems.containsKey(j)) {
+                    fertilizerItem = tieredGrowthItems.get(j);
+                    foundTierItem = j;
+                    break;
+                }
+            }
+            int fertilizerAmount = 1 << (cropTier - foundTierItem);
+            assert fertilizerItem != null;
+
+            Fluid growthFluid = null;
+            int foundTierFluid = 0;
+            for (int j = cropTier; j >= 0; j--) {
+                if (tieredGrowthFluids.containsKey(j)) {
+                    growthFluid = tieredGrowthFluids.get(j);
+                    foundTierFluid = j;
+                    break;
+                }
+            }
+            int fluidAmount = 100 << (cropTier - foundTierFluid);
+
+            int fruitAmount = 1;
+
+            GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .inputItems(gCrop)
-                    .inputItems(new ItemStack(GTItems.FERTILIZER))
-                    .outputItems(gCropFruit)
-                    .duration(160)
-                    .EUtV(GTValues.MV)
-                    .buildRawRecipe();
+                    .inputItems(gCrop.copyWithCount(1))
+                    .inputItems(new ItemStack(fertilizerItem, fertilizerAmount))
+                    .outputItems(new ItemStack(fruit.asItem(), fruitAmount))
+                    .duration(duration)
+                    .daytime()
+                    .EUtVA(EUt);
+
+            if (growthFluid != null) {
+                harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
+            }
 
             StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
-                    StarTRecipeTypes.GCROP_HARVESTER_RECIPES, harvesterRecipe);
+                    StarTRecipeTypes.GCROP_HARVESTER_RECIPES, "gcrops", harvestRecipe.buildRawRecipe());
         }
     }
 }

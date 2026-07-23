@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,8 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
+
+import static com.startechnology.start_core.StarTCore.LOGGER;
 
 public class StarTCustomLogicUtils {
 
@@ -163,7 +166,13 @@ public class StarTCustomLogicUtils {
                                                   @NotNull GTRecipe recipe) {
         // for EMI to detect it's a synthetic recipe (not ever in JSON)
         recipe.setId(recipe.getId().withPrefix("/"));
-        recipeType.addToCategoryMap(Objects.requireNonNull(GTRecipeCategories.get(categoryId)), recipe);
+
+        GTRecipeCategory recipeCategory = GTRecipeCategories.get(categoryId);
+
+        if (recipeCategory == null) {
+            recipeType.addToMainCategory(recipe);
+            LOGGER.debug("Could not find recipe category for recipe type: " + recipeType + "; category: " + categoryId);
+        } else recipeType.addToCategoryMap(recipeCategory, recipe);
     }
 
     public static void handleCustomRecipeLogicEMI(@NotNull GTRecipeType recipeType, @NotNull GTRecipe recipe) {

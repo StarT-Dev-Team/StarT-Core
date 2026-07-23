@@ -178,7 +178,7 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
                             .buildRawRecipe();
 
                     StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
-                            StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES, harvesterRecipe);
+                            StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES, "bacteria", harvesterRecipe);
                 });
     }
 }

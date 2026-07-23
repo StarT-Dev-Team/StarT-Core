@@ -31,31 +31,6 @@ import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_DOR
 public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
 
     @Override
-    public void buildRepresentativeRecipes() {
-        ItemStack bacteriaDormantMutation = new ItemStack(BACTERIA_DORMANT.asItem());
-        StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaDormantMutation.getOrCreateTag(),
-                "behaviour.start_core.bacteria.mutator_total_output");
-
-        bacteriaDormantMutation.setHoverName(Component.translatable(
-                "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"));
-
-        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
-
-        GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
-                .recipeBuilder("dormant_awakening")
-                .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
-                .inputItems(netherStar)
-                .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
-                .inputFluids(GTMaterials.Naquadria.getFluid(8000))
-                .outputItems(bacteriaDormantMutation)
-                .duration(1200)
-                .EUt(GTValues.V[GTValues.UV])
-                .buildRawRecipe();
-
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES, dormantRecipe);
-    }
-
-    @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
 
@@ -105,5 +80,31 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
         }
 
         return null;
+    }
+
+    @Override
+    public void buildRepresentativeRecipes() {
+        ItemStack bacteriaDormantMutation = new ItemStack(BACTERIA_DORMANT.asItem());
+        StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaDormantMutation.getOrCreateTag(),
+                "behaviour.start_core.bacteria.mutator_total_output");
+
+        bacteriaDormantMutation.setHoverName(Component.translatable(
+                "behaviour.start_core.bacteria.mutator_total_output_generic_bacteria"));
+
+        ItemStack netherStar = new ItemStack(Items.NETHER_STAR);
+
+        GTRecipe dormantRecipe = StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES
+                .recipeBuilder("dormant_awakening")
+                .inputItems(new ItemStack(BACTERIA_DORMANT.asItem()))
+                .inputItems(netherStar)
+                .inputFluids(GTMaterials.DistilledWater.getFluid(32000))
+                .inputFluids(GTMaterials.Naquadria.getFluid(8000))
+                .outputItems(bacteriaDormantMutation)
+                .duration(1200)
+                .EUt(GTValues.V[GTValues.UV])
+                .buildRawRecipe();
+
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
+                "bacteria", dormantRecipe);
     }
 }

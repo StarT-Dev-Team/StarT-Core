@@ -23,45 +23,6 @@ import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITE
 
 public class BacteriaVatLogic implements ICustomRecipeLogic {
 
-    public static void bacterialBreeding() {
-        BACTERIA_ITEMS
-                .forEach(
-                        bacteria -> {
-                            ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
-                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
-                                    "behaviour.start_core.bacteria.input");
-
-                            ItemStack bacteriaMutationOutput = new ItemStack(bacteria.asItem(), 16);
-                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                                    bacteriaMutationOutput.getOrCreateTag(),
-                                    "behaviour.start_core.bacteria.vat_same_output");
-
-                            ItemStack bacteriaReplicationOutput = new ItemStack(bacteria.asItem(), 16);
-                            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                                    bacteriaReplicationOutput.getOrCreateTag(),
-                                    "behaviour.start_core.bacteria.vat_mutated_output");
-
-                            GTRecipe recipe = StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES
-                                    .recipeBuilder(bacteria.getId().getPath())
-                                    .inputItems(bacteriaInput)
-                                    .inputFluids(GTMaterials.Water.getFluid(8000))
-                                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
-                                    .outputItems(bacteriaMutationOutput)
-                                    .outputItems(bacteriaReplicationOutput)
-                                    .duration(1800)
-                                    .EUt(GTValues.V[GTValues.ZPM])
-                                    .buildRawRecipe();
-
-                            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
-                                    StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES, recipe);
-                        });
-    }
-
-    @Override
-    public void buildRepresentativeRecipes() {
-        bacterialBreeding();
-    }
-
     @Override
     public GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
@@ -137,5 +98,38 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
         statOutput.addEntry(Math.min(5, stat + 2), weights.get(4));
 
         return statOutput;
+    }
+
+    @Override
+    public void buildRepresentativeRecipes() {
+        BACTERIA_ITEMS.forEach(bacteria -> {
+            ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.input");
+
+            ItemStack bacteriaMutationOutput = new ItemStack(bacteria.asItem(), 16);
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                    bacteriaMutationOutput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.vat_same_output");
+
+            ItemStack bacteriaReplicationOutput = new ItemStack(bacteria.asItem(), 16);
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                    bacteriaReplicationOutput.getOrCreateTag(),
+                    "behaviour.start_core.bacteria.vat_mutated_output");
+
+            GTRecipe recipe = StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES
+                    .recipeBuilder(bacteria.getId().getPath())
+                    .inputItems(bacteriaInput)
+                    .inputFluids(GTMaterials.Water.getFluid(8000))
+                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                    .outputItems(bacteriaMutationOutput)
+                    .outputItems(bacteriaReplicationOutput)
+                    .duration(1800)
+                    .EUt(GTValues.V[GTValues.ZPM])
+                    .buildRawRecipe();
+
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
+                    StarTRecipeTypes.BACTERIAL_BREEDING_VAT_RECIPES, "bacteria", recipe);
+        });
     }
 }

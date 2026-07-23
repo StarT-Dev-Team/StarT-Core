@@ -225,8 +225,9 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 .EUtV(GTValues.MV)
                 .buildRawRecipe();
 
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_BREEDER_RECIPES, crossBreedingRecipe);
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_BREEDER_RECIPES,
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_BREEDER_RECIPES, "gcrops",
+                crossBreedingRecipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_BREEDER_RECIPES, "gcrops",
                 selfFertilizationRecipe);
     }
 }
