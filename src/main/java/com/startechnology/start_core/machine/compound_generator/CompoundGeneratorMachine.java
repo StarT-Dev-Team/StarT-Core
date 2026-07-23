@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.startechnology.start_core.utils.StarTMath;
 
 import lombok.Getter;
 
@@ -30,19 +31,21 @@ public class CompoundGeneratorMachine extends WorkableElectricMultiblockMachine 
         BlockPattern pattern = this.getPattern();
         int[] dimensions = pattern.getDimensions();
         if (pattern != null) {
-            this.slices = Math.max(dimensions[0], Math.max(dimensions[1], dimensions[2])) - 2;
+            this.slices = StarTMath.max(dimensions) - 2;
         }
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof CompoundGeneratorMachine controller && controller.isFormed()) {
-            int tier = controller.getTier();
-            int slices = controller.getSlices();
-            int parallels = Math.min(ParallelLogic.getParallelAmountWithoutEU(machine, recipe, slices), slices * 2);
-            return ModifierFunction.builder()
+            int tier = controller.getTier(); // Voltage tier (0, 1, 2)
+            int slices = controller.getSlices(); // 1 slice = 2 parallels
+            int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, slices * 2);
+            if (parallels > 0) {
+                return ModifierFunction.builder()
                     .parallels(parallels)
                     .eutMultiplier(parallels * Math.pow(4, tier))
                     .build();
+            }
         }
         return ModifierFunction.IDENTITY;
     }
