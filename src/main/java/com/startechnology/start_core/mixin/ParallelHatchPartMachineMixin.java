@@ -28,8 +28,8 @@ public abstract class ParallelHatchPartMachineMixin {
         // Change the maxParallel calculation from Math.pow(4, tier - GTValues.EV)
         // to a custom expression: 2 * (int) Math.pow(4, tier - GTValues.EV)
         // This doubles the parallel capacity compared to the original
-        this.maxParallel = (tier <= GTValues.UHV) ? (int) Math.pow(4, tier - GTValues.EV) :
-                (int) Math.pow(2, tier + 1);
+        this.maxParallel = (tier == GTValues.IV) ? 8 : ((tier <= GTValues.UHV) ? (int) Math.pow(4, tier - GTValues.EV) :
+                (int) Math.pow(2, tier + 1));
         this.currentParallel = maxParallel;
     }
 }

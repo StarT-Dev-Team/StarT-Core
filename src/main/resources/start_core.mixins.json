@@ -20,7 +20,8 @@
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
-    "compat.FakeSlotDropTargetMixin"
+    "compat.FakeSlotDropTargetMixin",
+    "pr.GTToolItemMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",
