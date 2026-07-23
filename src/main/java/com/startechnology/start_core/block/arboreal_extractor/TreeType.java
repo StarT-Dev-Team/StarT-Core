@@ -3,6 +3,7 @@ package com.startechnology.start_core.block.arboreal_extractor;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.material.Fluid;
 
@@ -33,6 +34,10 @@ public enum TreeType implements StringRepresentable {
     @Override
     public String getSerializedName() {
         return name;
+    }
+
+    public Component getTranslatedName() {
+        return Component.translatable("start_core.tree_type." + name);
     }
 
     private static final Map<String, TreeType> treeTypeMap = Arrays.stream(values())

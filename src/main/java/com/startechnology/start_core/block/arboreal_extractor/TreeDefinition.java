@@ -1,6 +1,7 @@
 package com.startechnology.start_core.block.arboreal_extractor;
 
 import lombok.Getter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
@@ -14,6 +15,10 @@ public interface TreeDefinition {
     Supplier<Block> getLog();
 
     TreeType getTreeType();
+
+    default Component getTranslatedName() {
+        return Component.translatable("start_core.tree_definition." + getName());
+    }
 
     class Simple implements TreeDefinition {
 

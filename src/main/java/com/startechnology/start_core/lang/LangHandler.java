@@ -657,15 +657,21 @@ public class LangHandler {
                 "§cThe leaves and logs must be all of the same type§r");
 
         provider.add("gtceu.arboreal_extractor", "Arboreal Extractor");
-        provider.add("recipe.arboreal_extractor.tree_type.tooltip", "Tree: %s");
-        provider.add("start_core.tree_types.oak.name", "Oak");
-        provider.add("start_core.tree_types.dark_oak.name", "Dark Oak");
-        provider.add("start_core.tree_types.jungle.name", "Jungle");
-        provider.add("start_core.tree_types.acacia.name", "Acacia");
-        provider.add("start_core.tree_types.azalea.name", "Azalea");
-        provider.add("start_core.tree_types.spruce.name", "Spruce");
-        provider.add("start_core.tree_types.birch.name", "Birch");
-        provider.add("start_core.tree_types.mangrove.name", "Mangrove");
-        provider.add("start_core.tree_types.cherry.name", "Cherry");
+        provider.add("recipe.arboreal_extractor.tree_type.tooltip", "%s Producing Tree");
+        provider.add("recipe.arboreal_extractor.tree_definition.tooltip", "Allowed Tree Types:");
+
+        provider.add("start_core.tree_type.resin", "Resin");
+        provider.add("start_core.tree_type.sap", "Sap");
+        provider.add("start_core.tree_type.latex", "Latex");
+
+        provider.add("start_core.tree_definition.oak", "Oak");
+        provider.add("start_core.tree_definition.dark_oak", "Dark Oak");
+        provider.add("start_core.tree_definition.jungle", "Jungle");
+        provider.add("start_core.tree_definition.acacia", "Acacia");
+        provider.add("start_core.tree_definition.azalea", "Azalea");
+        provider.add("start_core.tree_definition.spruce", "Spruce");
+        provider.add("start_core.tree_definition.birch", "Birch");
+        provider.add("start_core.tree_definition.mangrove", "Mangrove");
+        provider.add("start_core.tree_definition.cherry", "Cherry");
     }
 }

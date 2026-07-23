@@ -1,19 +1,25 @@
 package com.startechnology.start_core.recipe.logic;
 
+import com.google.common.collect.Streams;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler;
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.mojang.datafixers.util.Function3;
 import com.startechnology.start_core.block.arboreal_extractor.ArborealBlocks;
-import com.startechnology.start_core.block.arboreal_extractor.TreeDefinition;
 import com.startechnology.start_core.block.arboreal_extractor.TreeType;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.arboreal_extractor.ArborealExtractorMachine;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -22,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -102,19 +109,60 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
         }
     }
 
-    public static String getDataInfo(CompoundTag tag) {
-        var rawTreeType = tag.getString("treeType");
+    public static GTRecipeType.CustomDataInfoResult getDataInfo(GTRecipeType.CustomDataInfoConfiguration config) {
+        var rawTreeType = config.recipe().data.getString("treeType");
         var treeType = TreeType.of(rawTreeType);
-        var treeTypes = "None";
 
-        if (treeType != null) {
-            treeTypes = ArborealBlocks.TREES.stream()
-                    .filter(tree -> treeType == tree.getTreeType())
-                    .map(TreeDefinition::getName)
-                    .map(name -> LocalizationUtils.format("start_core.tree_types." + name + ".name"))
-                    .reduce((left, right) -> left + ", " + right)
-                    .orElse("None");
+        if (treeType == null) {
+            return new GTRecipeType.CustomDataInfoResult(Component.empty(), null);
         }
-        return LocalizationUtils.format("recipe.arboreal_extractor.tree_type.tooltip", treeTypes);
+
+        var tooltips = Streams.concat(
+                Stream.of(Component.translatable("recipe.arboreal_extractor.tree_definition.tooltip")
+                        .withStyle(ChatFormatting.GREEN)),
+                ArborealBlocks.TREES.stream()
+                        .filter(tree -> treeType == tree.getTreeType())
+                        .map(tree -> (Component) Component.literal("- ").append(tree.getTranslatedName())))
+                .toList();
+
+        var info = Component.translatable("recipe.arboreal_extractor.tree_type.tooltip",
+                treeType.getTranslatedName().copy().withStyle(ChatFormatting.GOLD));
+
+        return new GTRecipeType.CustomDataInfoResult(info, (label, widget) -> {
+            label.setHoverTooltips(tooltips);
+        });
+    }
+
+    public static void uiBuilder(GTRecipe recipe, WidgetGroup widgetGroup) {
+        var rawTreeType = recipe.data.getString("treeType");
+        var treeType = TreeType.of(rawTreeType);
+        if (treeType == null) return;
+
+        var treeTypes = ArborealBlocks.TREES.stream().filter(tree -> treeType == tree.getTreeType()).toList();
+
+        var stackHandler = new CycleItemStackHandler(List.of(
+                treeTypes.stream().map(tree -> new ItemStack(tree.getLog().get())).toList(),
+                treeTypes.stream().map(tree -> new ItemStack(tree.getLeaves().get())).toList()));
+
+        var centerX = widgetGroup.getSize().width - 25;
+        var centerY = widgetGroup.getSize().height - 40;
+
+        Function3<Integer, Integer, Integer, Widget> makeSlot = (slot, x,
+                                                                 y) -> {
+            var slotWidget = new SlotWidget(stackHandler, slot, centerX + x,
+                    centerY + y, false, false);
+            slotWidget.setDrawHoverOverlay(false);
+            slotWidget.setBackground(IGuiTexture.EMPTY);
+            return slotWidget;
+        };
+
+        widgetGroup.addWidget(makeSlot.apply(1, -6, -3));
+        widgetGroup.addWidget(makeSlot.apply(1, 6, -3));
+        widgetGroup.addWidget(makeSlot.apply(0, 0, 16));
+        widgetGroup.addWidget(makeSlot.apply(0, 0, 8));
+        widgetGroup.addWidget(makeSlot.apply(0, 0, 0));
+        widgetGroup.addWidget(makeSlot.apply(1, 0, -8));
+        widgetGroup.addWidget(makeSlot.apply(1, -6, 3));
+        widgetGroup.addWidget(makeSlot.apply(1, 6, 3));
     }
 }

@@ -165,8 +165,9 @@ public class StarTRecipeTypes {
             .register("arboreal_extractor", "primitive")
             .setMaxIOSize(3, 0, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .addDataInfo(ArborealExtractorRecipeLogic::getDataInfo)
-            .addCustomRecipeLogic(new ArborealExtractorRecipeLogic());
+            .addDataInfoFull(ArborealExtractorRecipeLogic::getDataInfo)
+            .addCustomRecipeLogic(new ArborealExtractorRecipeLogic())
+            .setUiBuilder(ArborealExtractorRecipeLogic::uiBuilder);
 
     public static void init() {}
 }
