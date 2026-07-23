@@ -28,11 +28,11 @@ import java.util.ArrayList;
 
 public class StarTArborealExtractorMachines {
 
-    public static final MultiblockMachineDefinition ARBOREAL_EXTRACTOR = StarTCore.START_REGISTRATE
+    public static final MultiblockMachineDefinition LARGE_ARBOREAL_EXTRACTOR = StarTCore.START_REGISTRATE
             .multiblock("large_arboreal_extractor", ArborealExtractorMachine::new)
-            .langValue("Arboreal Extractor [AEx]")
+            .langValue("Large Arboreal Extractor [LAE]")
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(StarTRecipeTypes.ARBOREAL_EXTRACTOR_RECIPES)
+            .recipeType(StarTRecipeTypes.ARBOREAL_EXTRACTION_RECIPES)
             .appearanceBlock(GTBlocks.CASING_PRIMITIVE_BRICKS)
             .pattern((definition) -> FactoryBlockPattern.start()
                     .aisle("BOB", "SSS", "   ", "   ", "   ", " L ", "   ")

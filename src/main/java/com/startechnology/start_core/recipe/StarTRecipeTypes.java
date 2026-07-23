@@ -161,13 +161,13 @@ public class StarTRecipeTypes {
             .setMaxIOSize(0, 0, 1, 0)
             .setEUIO(IO.OUT);
 
-    public static final GTRecipeType ARBOREAL_EXTRACTOR_RECIPES = GTRecipeTypes
-            .register("arboreal_extractor", "primitive")
+    public static final GTRecipeType ARBOREAL_EXTRACTION_RECIPES = GTRecipeTypes
+            .register("arboreal_extraction", "primitive")
             .setMaxIOSize(3, 0, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .addDataInfoFull(ArborealExtractorRecipeLogic::getDataInfo)
-            .addCustomRecipeLogic(new ArborealExtractorRecipeLogic())
-            .setUiBuilder(ArborealExtractorRecipeLogic::uiBuilder);
+            .addDataInfoFull(ArborealExtractionRecipeLogic::getDataInfo)
+            .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
+            .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
 
     public static void init() {}
 }

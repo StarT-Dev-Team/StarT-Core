@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeLogic {
+public class ArborealExtractionRecipeLogic implements GTRecipeType.ICustomRecipeLogic {
 
     // Ordered from weakest to strongest
     private static final List<Supplier<Item>> FERTILIZERS = List.of(
@@ -58,7 +58,7 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
         if (fertilizer != null) {
             recipeId += "_" + StarTMachineUtils.getItemId(fertilizer).getPath();
         }
-        var builder = StarTRecipeTypes.ARBOREAL_EXTRACTOR_RECIPES
+        var builder = StarTRecipeTypes.ARBOREAL_EXTRACTION_RECIPES
                 .recipeBuilder(recipeId)
                 .duration(400)
                 .outputFluids(new FluidStack(treeType.getFluid().get(), fluidOutput))
@@ -85,7 +85,7 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
                         .map(ItemStack.class::cast))
                 .toList();
 
-        if (items.stream().noneMatch(ArborealExtractorRecipeLogic::isScrew))
+        if (items.stream().noneMatch(ArborealExtractionRecipeLogic::isScrew))
             return null;
 
         for (var i = 0; i < FERTILIZERS.size(); ++i) {
@@ -104,7 +104,7 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
             for (var treeType : TreeType.values()) {
                 var recipe = makeRecipe(i, treeType);
                 recipe.setId(recipe.getId().withPrefix("/"));
-                StarTRecipeTypes.ARBOREAL_EXTRACTOR_RECIPES.addToMainCategory(recipe);
+                StarTRecipeTypes.ARBOREAL_EXTRACTION_RECIPES.addToMainCategory(recipe);
             }
         }
     }
@@ -118,14 +118,14 @@ public class ArborealExtractorRecipeLogic implements GTRecipeType.ICustomRecipeL
         }
 
         var tooltips = Streams.concat(
-                Stream.of(Component.translatable("recipe.arboreal_extractor.tree_definition.tooltip")
+                Stream.of(Component.translatable("recipe.arboreal_extraction.tree_definition.tooltip")
                         .withStyle(ChatFormatting.GREEN)),
                 ArborealBlocks.TREES.stream()
                         .filter(tree -> treeType == tree.getTreeType())
                         .map(tree -> (Component) Component.literal("- ").append(tree.getTranslatedName())))
                 .toList();
 
-        var info = Component.translatable("recipe.arboreal_extractor.tree_type.tooltip",
+        var info = Component.translatable("recipe.arboreal_extraction.tree_type.tooltip",
                 treeType.getTranslatedName().copy().withStyle(ChatFormatting.GOLD));
 
         return new GTRecipeType.CustomDataInfoResult(info, (label, widget) -> {

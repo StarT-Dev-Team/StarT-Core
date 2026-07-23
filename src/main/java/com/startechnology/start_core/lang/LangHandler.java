@@ -656,9 +656,9 @@ public class LangHandler {
         provider.add("start_core.multiblock.pattern.error.arboreal_tree",
                 "§cThe leaves and logs must be all of the same type§r");
 
-        provider.add("gtceu.arboreal_extractor", "Arboreal Extractor");
-        provider.add("recipe.arboreal_extractor.tree_type.tooltip", "%s Producing Tree");
-        provider.add("recipe.arboreal_extractor.tree_definition.tooltip", "Allowed Tree Types:");
+        provider.add("gtceu.arboreal_extraction", "Arboreal Extraction");
+        provider.add("recipe.arboreal_extraction.tree_type.tooltip", "%s Producing Tree");
+        provider.add("recipe.arboreal_extraction.tree_definition.tooltip", "Allowed Tree Types:");
 
         provider.add("start_core.tree_type.resin", "Resin");
         provider.add("start_core.tree_type.sap", "Sap");
