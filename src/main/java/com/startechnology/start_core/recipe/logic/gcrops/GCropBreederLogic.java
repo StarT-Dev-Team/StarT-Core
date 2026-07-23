@@ -62,7 +62,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
         if (traitExists) {
             int currentCount = geneMap.get(traitName);
-            finalAlleleCount = Math.max(currentCount + alleleAddition, maxAlleleCount);
+            finalAlleleCount = Math.min(currentCount + alleleAddition, maxAlleleCount);
         } else finalAlleleCount = alleleAddition;
 
         return finalAlleleCount;

@@ -51,7 +51,7 @@ public class StarTGCropGenome {
         switch (genomeType) {
             case RESOURCE -> necessaryGenome = resourceGenome;
             case PRODUCTION -> necessaryGenome = productionGenome;
-            case AUXILIARY-> necessaryGenome = auxiliaryGenome;
+            case AUXILIARY -> necessaryGenome = auxiliaryGenome;
         }
 
         if (necessaryGenome.isEmpty()) return false;

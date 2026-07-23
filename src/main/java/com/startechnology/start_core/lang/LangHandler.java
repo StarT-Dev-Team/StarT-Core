@@ -120,7 +120,7 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.type.dust", "%s Dust");
         provider.add("behaviour.start_core.gcrop.type.gem", "%s Gems");
         provider.add("behaviour.start_core.gcrop.type.ore", "%s Ore");
-        provider.add("behaviour.start_core.gcrop.type.dye", "%s");
+        provider.add("behaviour.start_core.gcrop.type.empty", "%s");
 
         provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
         provider.add("gtceu.gcrop_breeder", "gCrop Breeder");

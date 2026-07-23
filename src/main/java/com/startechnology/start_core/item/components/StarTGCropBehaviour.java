@@ -68,6 +68,8 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             case 3 -> "§5";
             case 4 -> "§2";
             case 5 -> "§a";
+            case 6 -> "§c";
+            case 7 -> "§e";
             default -> "§7";
         };
 

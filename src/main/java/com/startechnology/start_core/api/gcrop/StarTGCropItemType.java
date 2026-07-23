@@ -1,4 +1,4 @@
-package com.startechnology.start_core.data.gcrops;
+package com.startechnology.start_core.api.gcrop;
 
 public enum StarTGCropItemType {
 

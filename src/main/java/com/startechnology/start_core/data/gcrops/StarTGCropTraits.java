@@ -38,7 +38,7 @@ public class StarTGCropTraits {
             this.alleleCount = alleleCount;
             this.recessive = recessive;
             this.genomeType = genomeType;
-            TRAITS.put(name, this);
+            TRAITS.put(name.toLowerCase(), this);
         }
 
         public StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount,
@@ -71,7 +71,7 @@ public class StarTGCropTraits {
     }
 
     public static StarTGCropTrait getTrait(String name) {
-        return TRAITS.get(name);
+        return TRAITS.get(name.toLowerCase());
     }
 
     public static List<StarTGCropTrait> getTraitsByTier(int tier) {
@@ -132,17 +132,33 @@ public class StarTGCropTraits {
 
         Fluorescent = new StarTGCropTrait("Fluorescent", "Fl", 0, 3000, GenomeType.RESOURCE);
 
-        Metallic = new StarTGCropTrait("Metallic", "Me", 1, 3000, GenomeType.RESOURCE);
+        Metallic = new StarTGCropTrait("Metallic", "Me", 1, 2500, GenomeType.RESOURCE);
 
-        Crystalline = new StarTGCropTrait("Crystalline", "Cr", 1, 3000, GenomeType.RESOURCE);
+        Crystalline = new StarTGCropTrait("Crystalline", "Cr", 1, 2500, GenomeType.RESOURCE);
 
-        Dusty = new StarTGCropTrait("Dusty", "Du", 1, 2000, GenomeType.RESOURCE);
+        Dusty = new StarTGCropTrait("Dusty", "Du", 1, 2500, GenomeType.RESOURCE);
 
-        Woody = new StarTGCropTrait("Woody", "Wo", 1, 2000, GenomeType.RESOURCE);
+        Woody = new StarTGCropTrait("Woody", "Wo", 1, 500, GenomeType.RESOURCE);
 
         Coarse = new StarTGCropTrait("Coarse", "Co", 2, 2000, GenomeType.RESOURCE);
 
         Shiny = new StarTGCropTrait("Shiny", "Sh", 2, 2000, GenomeType.RESOURCE);
+
+        Illuminating = new StarTGCropTrait("Illuminating", "Il", 3, 2000, GenomeType.RESOURCE);
+
+        Mineralic = new StarTGCropTrait("Mineralic", "Mi", 3, 2000, GenomeType.RESOURCE);
+
+        Sulfuric = new StarTGCropTrait("Sulfuric", "Su", 4, 1500, GenomeType.RESOURCE);
+
+        Aetheric = new StarTGCropTrait("Aetheric", "Ae", 4, 1500, GenomeType.RESOURCE);
+
+        Energetic = new StarTGCropTrait("Energetic", "En", 5, 1000, GenomeType.RESOURCE);
+
+        Adaptive = new StarTGCropTrait("Adaptive", "Ad", 5, 1000, GenomeType.RESOURCE);
+
+        Apothic = new StarTGCropTrait("Apothic", "Ap", 6, 500, GenomeType.RESOURCE);
+
+        Siliceous = new StarTGCropTrait("Siliceous", "Si", 7, 200, GenomeType.RESOURCE);
 
         // Production Traits
         Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 2000, GenomeType.PRODUCTION);
@@ -151,6 +167,8 @@ public class StarTGCropTraits {
         Dry = new StarTGCropTrait("Dry", "Dy", 0, 3000, GenomeType.AUXILIARY);
 
         Nocturnal = new StarTGCropTrait("Nocturnal", "Nc", 2, 2000, GenomeType.AUXILIARY);
+
+        Diurnal = new StarTGCropTrait("Diurnal", "Di", 4, 1500, GenomeType.AUXILIARY);
     }
 
     // Tier 0
@@ -174,4 +192,24 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Shiny;
 
     public static StarTGCropTrait Nocturnal;
+
+    // Tier 3
+    public static StarTGCropTrait Illuminating;
+    public static StarTGCropTrait Mineralic;
+
+    // Tier 4
+    public static StarTGCropTrait Sulfuric;
+    public static StarTGCropTrait Aetheric;
+
+    public static StarTGCropTrait Diurnal;
+
+    // Tier 5
+    public static StarTGCropTrait Energetic;
+    public static StarTGCropTrait Adaptive;
+
+    // Tier 6
+    public static StarTGCropTrait Apothic;
+
+    // Tier 7
+    public static StarTGCropTrait Siliceous;
 }

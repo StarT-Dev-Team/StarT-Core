@@ -223,9 +223,9 @@ public class BacterialRunicMutatorLogic implements ICustomRecipeLogic {
                             .buildRawRecipe();
 
                     StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
-                            "runic_mutator_total", totalRecipe);
+                            totalRecipe);
                     StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
-                            "runic_mutator_affinity", affinityRecipe);
+                            affinityRecipe);
                 });
     }
 }

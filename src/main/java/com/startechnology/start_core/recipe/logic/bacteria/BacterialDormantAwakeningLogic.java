@@ -52,8 +52,7 @@ public class BacterialDormantAwakeningLogic implements ICustomRecipeLogic {
                 .EUt(GTValues.V[GTValues.UV])
                 .buildRawRecipe();
 
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES,
-                "dormant_awakening", dormantRecipe);
+        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.BACTERIAL_RUNIC_MUTATOR_RECIPES, dormantRecipe);
     }
 
     @Override
