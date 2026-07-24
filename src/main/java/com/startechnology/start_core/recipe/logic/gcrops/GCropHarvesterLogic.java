@@ -3,12 +3,12 @@ package com.startechnology.start_core.recipe.logic.gcrops;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -21,20 +21,28 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.List;
 
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_FRUITMAP;
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_ITEMS;
+import static com.startechnology.start_core.item.StarTGCropItems.*;
 
 public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
+        var itemHandlers = StarTCustomLogicUtils.getItemHandlersMap(holder);
+        if (itemHandlers.isEmpty()) return null;
 
-        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers, this::createHarvesterRecipe);
+        List<List<ItemStack>> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
+
+        for (List<ItemStack> itemSet : allItems) {
+            GTRecipe recipe = createHarvesterRecipe(itemSet);
+            if (recipe != null) return recipe;
+        }
+
+        return null;
     }
 
-    private GTRecipe createHarvesterRecipe(NotifiableItemStackHandler handler) {
+    private GTRecipe createHarvesterRecipe(List<ItemStack> itemSet) {
         final HashMap<Integer, Fluid> tieredGrowthFluids = new HashMap<>() {
 
             {
@@ -49,22 +57,28 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
         };
 
-        for (int i = 0; i < handler.getSlots(); ++i) {
-            ItemStack itemInSlot = handler.getStackInSlot(i);
-
-            if (itemInSlot.isEmpty()) continue;
-
-            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(itemInSlot);
-
+        for (ItemStack item : itemSet) {
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(item);
             if (cropBehaviour == null) continue;
 
-            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
-
+            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(item);
             if (gCropGenome == null) continue;
+
+            ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
+            if (fruit == null) continue;
 
             int cropTier = cropBehaviour.getCropTier();
 
             int duration = (cropTier == 0) ? 160 : 160 * cropTier;
+            if (gCropGenome.hasTrait("quickened")) duration = (int) Math.round(duration * 0.9);
+            if (gCropGenome.hasTrait("speedy")) duration = (int) Math.round(duration * 0.9);
+            if (gCropGenome.hasTrait("fast")) duration = (int) Math.round(duration * 0.9);
+
+            if (gCropGenome.hasTrait("early")) {
+                duration = (int) Math.round(duration * 0.7);
+                ItemEntry<ComponentItem> flower = GCROP_FLOWERMAP.get(cropBehaviour.getCropMaterial());
+                if (flower != null) fruit = flower;
+            }
 
             int EUt = GTValues.MV + cropTier;
 
@@ -90,27 +104,26 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 }
             }
             int fluidAmount = 100 << (cropTier - foundTierFluid);
+            if (gCropGenome.hasTrait("dry")) fluidAmount = (int) Math.round(fluidAmount * 1.2);
 
             int fruitAmount = 1;
-
-            ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
-
-            if (fruit == null) continue;
-
-            if (gCropGenome.hasTrait("speedy")) duration = (int) Math.round(duration * 0.9);
-            if (gCropGenome.hasTrait("dry")) fluidAmount = (int) Math.round(fluidAmount * 1.2);
+            if (gCropGenome.hasTrait("enormous")) {
+                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 60) fruitAmount += 1;
+            } ;
+            if (gCropGenome.hasTrait("branching")) {
+                for (int j = 0; j < 3; j++) if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 70) fruitAmount += 1;
+            } ;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .inputItems(itemInSlot.copyWithCount(1))
+                    .inputItems(item.copyWithCount(1))
                     .inputItems(new ItemStack(fertilizerItem, fertilizerAmount))
                     .outputItems(new ItemStack(fruit.asItem(), fruitAmount))
                     .duration(duration)
                     .EUtVA(EUt);
 
             if (growthFluid != null) {
-                if (gCropGenome.hasTrait("x")) duration = 1;
-                else harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
+                harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
             }
 
             if (!gCropGenome.hasTrait("diurnal")) harvestRecipe.daytime(gCropGenome.hasTrait("nocturnal"));
@@ -144,12 +157,9 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             if (cropBehaviour == null) continue;
 
             var fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
-            ItemStack gCropFruit = new ItemStack(fruit.asItem());
 
             int cropTier = cropBehaviour.getCropTier();
-
             int duration = (cropTier == 0) ? 160 : 160 * cropTier;
-
             int EUt = GTValues.MV + cropTier;
 
             Item fertilizerItem = null;

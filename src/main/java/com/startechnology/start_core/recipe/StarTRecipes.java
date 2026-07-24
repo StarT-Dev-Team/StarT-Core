@@ -16,5 +16,6 @@ public class StarTRecipes {
         CrateRecipes.init(provider);
         DustBlockRecipeHandler.init(provider);
         CustomMaterialTypesRecipes.init(provider);
+        GCropRecipes.init(provider);
     }
 }

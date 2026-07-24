@@ -34,9 +34,12 @@ import org.jetbrains.annotations.NotNull;
 public class StarTGCropItems {
 
     public static final List<ItemEntry<ComponentItem>> GCROP_ITEMS = new ArrayList<>();
-    public static final List<ItemEntry<ComponentItem>> GCROP_FRUITS = new ArrayList<>();
 
-    public static final HashMap<Material, ItemEntry<ComponentItem>> GCROP_FRUITMAP = new HashMap<>();;
+    public static final List<ItemEntry<ComponentItem>> GCROP_FLOWERS = new ArrayList<>();
+    public static final HashMap<Material, ItemEntry<ComponentItem>> GCROP_FLOWERMAP = new HashMap<>();
+
+    public static final List<ItemEntry<ComponentItem>> GCROP_FRUITS = new ArrayList<>();
+    public static final HashMap<Material, ItemEntry<ComponentItem>> GCROP_FRUITMAP = new HashMap<>();
 
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
@@ -81,7 +84,22 @@ public class StarTGCropItems {
                 .color(() -> () -> itemColor)
                 .register();
 
+        ItemEntry<ComponentItem> gCropFlower = START_REGISTRATE
+                .item(String.format("%s_flower", id), ComponentItem::create)
+                .lang(String.format("§3Arcanthus %s Fruit", name))
+                .properties(prop -> prop.stacksTo(64))
+                .onRegister(attach(new StarTFruitBehaviour(
+                        highestTier,
+                        newMaterial,
+                        materialType)))
+                .model((ctx, prov) -> createTextureModel(ctx, prov,
+                        StarTCore.resourceLocation(String.format("item/gcrops/flower_%s", flowerType))))
+                .color(() -> () -> itemColor)
+                .register();
+
         GCROP_ITEMS.add(gCropItem);
+        GCROP_FLOWERS.add(gCropFlower);
+        GCROP_FLOWERMAP.put(newMaterial, gCropFlower);
         GCROP_FRUITS.add(gCropFruit);
         GCROP_FRUITMAP.put(newMaterial, gCropFruit);
     }

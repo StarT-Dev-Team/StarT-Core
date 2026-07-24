@@ -103,6 +103,7 @@ public class StarTCustomLogicUtils {
             allDistinctItemSets.add(distinctItemset);
         }
 
+        if (allDistinctItemSets.isEmpty()) allDistinctItemSets.add(allNonDistinctItems);
         return allDistinctItemSets;
     }
 

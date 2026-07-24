@@ -161,14 +161,33 @@ public class StarTGCropTraits {
         Siliceous = new StarTGCropTrait("Siliceous", "Si", 7, 200, GenomeType.RESOURCE);
 
         // Production Traits
-        Speedy = new StarTGCropTrait("Speedy", "Sp", 0, 2000, GenomeType.PRODUCTION);
+        // 10% duration reduction (multiplicative)
+        Quickened = new StarTGCropTrait("Quickened", "Qu", 1, 2000, GenomeType.PRODUCTION);
+
+        // 10% duration reduction (multiplicative)
+        Speedy = new StarTGCropTrait("Speedy", "Sp", 2, 1500, GenomeType.PRODUCTION);
+
+        // 10% duration reduction (multiplicative)
+        Fast = new StarTGCropTrait("Fast", "Fa", 3, 1000, GenomeType.PRODUCTION);
+
+        // 60% chance for +1 fruit (cumulative)
+        Enormous = new StarTGCropTrait("Enormous", "En", 4, 500, GenomeType.PRODUCTION);
 
         // Auxiliary Traits
-        Dry = new StarTGCropTrait("Dry", "Dy", 0, 3000, GenomeType.AUXILIARY);
+        // 20% increase in fluid consumption (multiplicative)
+        Dry = new StarTGCropTrait("Dry", "Dy", 1, 1500, GenomeType.AUXILIARY);
 
+        // nighttime only
         Nocturnal = new StarTGCropTrait("Nocturnal", "Nc", 2, 2000, GenomeType.AUXILIARY);
 
+        // no time requirement
         Diurnal = new StarTGCropTrait("Diurnal", "Di", 4, 1500, GenomeType.AUXILIARY);
+
+        // fruit -> flower, 30% duration reduction (multiplicative)
+        Early = new StarTGCropTrait("Early", "Ea", 4, 100, GenomeType.AUXILIARY);
+
+        // 3x 70% chance for +1 fruit (cumulative)
+        Branching = new StarTGCropTrait("Branching", "Br", 5, 100, GenomeType.AUXILIARY);
     }
 
     // Tier 0
@@ -177,19 +196,21 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Tough;
     public static StarTGCropTrait Fluorescent;
 
-    public static StarTGCropTrait Speedy;
-
-    public static StarTGCropTrait Dry;
-
     // Tier 1
     public static StarTGCropTrait Metallic;
     public static StarTGCropTrait Crystalline;
     public static StarTGCropTrait Dusty;
     public static StarTGCropTrait Woody;
 
+    public static StarTGCropTrait Quickened;
+
+    public static StarTGCropTrait Dry;
+
     // Tier 2
     public static StarTGCropTrait Coarse;
     public static StarTGCropTrait Shiny;
+
+    public static StarTGCropTrait Speedy;
 
     public static StarTGCropTrait Nocturnal;
 
@@ -197,15 +218,22 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Illuminating;
     public static StarTGCropTrait Mineralic;
 
+    public static StarTGCropTrait Fast;
+
     // Tier 4
     public static StarTGCropTrait Sulfuric;
     public static StarTGCropTrait Aetheric;
 
+    public static StarTGCropTrait Enormous;
+
     public static StarTGCropTrait Diurnal;
+    public static StarTGCropTrait Early;
 
     // Tier 5
     public static StarTGCropTrait Energetic;
     public static StarTGCropTrait Adaptive;
+
+    public static StarTGCropTrait Branching;
 
     // Tier 6
     public static StarTGCropTrait Apothic;
