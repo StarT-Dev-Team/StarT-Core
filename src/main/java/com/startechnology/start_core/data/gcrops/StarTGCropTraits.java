@@ -164,8 +164,14 @@ public class StarTGCropTraits {
         // 10% duration reduction (multiplicative)
         Quickened = new StarTGCropTrait("Quickened", "Qu", 1, 2000, GenomeType.PRODUCTION);
 
+        // 20% increase in fluid consumption (multiplicative)
+        // Dry = new StarTGCropTrait("Dry", "Dy", 1, 1500, GenomeType.PRODUCTION);
+
         // 10% duration reduction (multiplicative)
         Speedy = new StarTGCropTrait("Speedy", "Sp", 2, 1500, GenomeType.PRODUCTION);
+
+        // 20% duration increase (multiplicative)
+        Slow = new StarTGCropTrait("Slow", "Sl", 2, 1000, GenomeType.PRODUCTION);
 
         // 10% duration reduction (multiplicative)
         Fast = new StarTGCropTrait("Fast", "Fa", 3, 1000, GenomeType.PRODUCTION);
@@ -173,10 +179,19 @@ public class StarTGCropTraits {
         // 60% chance for +1 fruit (cumulative)
         Enormous = new StarTGCropTrait("Enormous", "En", 4, 500, GenomeType.PRODUCTION);
 
-        // Auxiliary Traits
-        // 20% increase in fluid consumption (multiplicative)
-        Dry = new StarTGCropTrait("Dry", "Dy", 1, 1500, GenomeType.AUXILIARY);
+        // 3x 70% chance for +1 fruit (cumulative)
+        Branching = new StarTGCropTrait("Branching", "Br", 5, 500, GenomeType.PRODUCTION);
 
+        // 2x input consumption, 15% duration increase (multiplicative), +3 fruit (cumulative)
+        Proliferating = new StarTGCropTrait("Proliferating", "Pl", 5, 500, GenomeType.PRODUCTION);
+
+        // -1 energy tier
+        Empowered = new StarTGCropTrait("Empowered", "Em", 6, 100, GenomeType.PRODUCTION);
+
+        // 8x fruit (multiplicative), 60% duration increase (multiplicative), 4x input consumption (multiplicative)
+        Ancient = new StarTGCropTrait("Ancient", "An", 7, 50, GenomeType.PRODUCTION);
+
+        // Auxiliary Traits
         // nighttime only
         Nocturnal = new StarTGCropTrait("Nocturnal", "Nc", 2, 2000, GenomeType.AUXILIARY);
 
@@ -185,9 +200,6 @@ public class StarTGCropTraits {
 
         // fruit -> flower, 30% duration reduction (multiplicative)
         Early = new StarTGCropTrait("Early", "Ea", 4, 100, GenomeType.AUXILIARY);
-
-        // 3x 70% chance for +1 fruit (cumulative)
-        Branching = new StarTGCropTrait("Branching", "Br", 5, 100, GenomeType.AUXILIARY);
     }
 
     // Tier 0
@@ -203,14 +215,14 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Woody;
 
     public static StarTGCropTrait Quickened;
-
-    public static StarTGCropTrait Dry;
+    // public static StarTGCropTrait Dry;
 
     // Tier 2
     public static StarTGCropTrait Coarse;
     public static StarTGCropTrait Shiny;
 
     public static StarTGCropTrait Speedy;
+    public static StarTGCropTrait Slow;
 
     public static StarTGCropTrait Nocturnal;
 
@@ -234,10 +246,15 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Adaptive;
 
     public static StarTGCropTrait Branching;
+    public static StarTGCropTrait Proliferating;
 
     // Tier 6
     public static StarTGCropTrait Apothic;
 
+    public static StarTGCropTrait Empowered;
+
     // Tier 7
     public static StarTGCropTrait Siliceous;
+
+    public static StarTGCropTrait Ancient;
 }
