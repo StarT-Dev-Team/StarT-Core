@@ -648,5 +648,30 @@ public class LangHandler {
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
+
+        provider.add("start_core.recipe_modifier.leaves_and_logs_dont_match",
+                "Leaves and logs don't match on the structure!");
+        provider.add("start_core.recipe_modifier.wrong_tree_type", "Wrong tree type!");
+
+        provider.add("start_core.multiblock.pattern.error.arboreal_tree",
+                "§cThe leaves and logs must be all of the same type§r");
+
+        provider.add("gtceu.arboreal_extraction", "Arboreal Extraction");
+        provider.add("recipe.arboreal_extraction.tree_type.tooltip", "%s Producing Tree");
+        provider.add("recipe.arboreal_extraction.tree_definition.tooltip", "Allowed Tree Types:");
+
+        provider.add("start_core.tree_type.resin", "Resin");
+        provider.add("start_core.tree_type.sap", "Sap");
+        provider.add("start_core.tree_type.latex", "Latex");
+
+        provider.add("start_core.tree_definition.oak", "Oak");
+        provider.add("start_core.tree_definition.dark_oak", "Dark Oak");
+        provider.add("start_core.tree_definition.jungle", "Jungle");
+        provider.add("start_core.tree_definition.acacia", "Acacia");
+        provider.add("start_core.tree_definition.azalea", "Azalea");
+        provider.add("start_core.tree_definition.spruce", "Spruce");
+        provider.add("start_core.tree_definition.birch", "Birch");
+        provider.add("start_core.tree_definition.mangrove", "Mangrove");
+        provider.add("start_core.tree_definition.cherry", "Cherry");
     }
 }

@@ -106,7 +106,8 @@ public class StarTCore {
         Object forkProperty = gtceu.getModInfo().getModProperties().get("isStarTFork");
 
         if (!Boolean.TRUE.equals(forkProperty)) {
-            throw new IllegalStateException("StarT Core requires the StarT GTm fork to be installed! If your instance contains the regular GTm mod, please uninstall it!");
+            throw new IllegalStateException(
+                    "StarT Core requires the StarT GTm fork to be installed! If your instance contains the regular GTm mod, please uninstall it!");
         }
     }
 
