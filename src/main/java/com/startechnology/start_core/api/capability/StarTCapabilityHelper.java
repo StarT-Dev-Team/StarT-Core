@@ -12,9 +12,6 @@ import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
@@ -23,34 +20,11 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
-import static com.startechnology.start_core.api.capability.StarTCapability.*;
-
 public class StarTCapabilityHelper {
-
-    private static final Map<Capability<?>, Class<?>> CAPABILITY_TYPES = new HashMap<>();
-
-    static {
-        register(CAPABILITY_DREAM_LINK_NETWORK_MACHINE, IStarTDreamLinkNetworkMachine.class);
-        register(CAPABILITY_HELL_FORGE_MACHINE, StarTHellForgeMachine.class);
-        register(CAPABILITY_REDSTONE_INTERFACE, RedstoneInterfacePartMachine.class);
-        register(CAPABILITY_ABYSSAL_HARVESTER, StarTAbyssalHarvesterMachine.class);
-        register(CAPABILITY_THREADING_CAPABLE_MACHINE, StarTThreadingCapableMachine.class);
-        register(CAPABILITY_FUSION_REACTOR, ReflectorFusionReactorMachine.class);
-        register(CAPABILITY_SOLAR, StarTSolarMachine.class);
-        register(VACUUM_CHEMICAL_REACTION_CHAMBER, VacuumChemicalReactionChamberMachine.class);
-        register(CAPABILITY_SUPPORTED_MODULES, IStarTModularSupportedModules.class);
-        register(CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE,
-                StarTModularInterfaceHatchPartMachine.class);
-        register(BULKING, IBulking.class);
-    }
-
-    private static <T> void register(Capability<T> capability, Class<T> requiredType) {
-        CAPABILITY_TYPES.put(capability, requiredType);
-    }
 
     @SuppressWarnings("unchecked")
     private static <T> LazyOptional<T> getCapabilityFromMachine(Capability<T> capability, MetaMachine machine) {
-        Class<?> requiredType = CAPABILITY_TYPES.get(capability);
+        var requiredType = StarTCapability.getCapabilityClass(capability);
         if (requiredType != null && requiredType.isInstance(machine)) {
             T casted = (T) machine;
             return capability.orEmpty(capability, LazyOptional.of(() -> casted));
