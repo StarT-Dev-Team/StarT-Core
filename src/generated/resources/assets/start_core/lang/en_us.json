@@ -105,6 +105,7 @@
   "block.start_core.hv1": "§7Extract primary, secondary, and tertiary outputs from bacterial colonies. §7The specific primary, secondary and tertiary outputs are determined by the §5Affinities §7of the bacteria.",
   "block.start_core.hv2": "§7The consumption of the bacteria scales with the §fMetabolism §7of the bacteria.",
   "block.start_core.hv3": "§7The amount fluid of output is base §fProduction§7 of the bacteria multiplied by their individual scalers.",
+  "block.start_core.improved_high_performance_computation_array": "Improved High Performance Computation Array [IHPCA]",
   "block.start_core.iv_1024a_modular_conduit_node": "§9IV§r 1,024§eA§r Modular Conduit Node",
   "block.start_core.iv_1024a_modular_conduit_terminal": "§9IV§r 1,024§eA§r Modular Conduit Terminal",
   "block.start_core.iv_16a_modular_conduit_node": "§9IV§r 16§eA§r Modular Conduit Node",
