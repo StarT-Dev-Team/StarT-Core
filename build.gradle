@@ -164,14 +164,12 @@ repositories {
 }
 
 dependencies {
-    implementation('io.reactivex:rxjava:1.3.8')
-    jarJar('io.reactivex:rxjava:1.3.8')
-
-    implementation('com.github.davidmoten:rtree:0.12')
-    jarJar('com.github.davidmoten:rtree:0.12')
-
-    implementation('com.github.davidmoten:guava-mini:0.1.7')
-    jarJar('com.github.davidmoten:guava-mini:0.1.7')
+    jarJar(implementation('io.reactivex:rxjava:1.3.8'))
+    additionalRuntimeClasspath('io.reactivex:rxjava:1.3.8')
+    jarJar(implementation('com.github.davidmoten:rtree:0.12'))
+    additionalRuntimeClasspath('com.github.davidmoten:rtree:0.12')
+    jarJar(implementation('com.github.davidmoten:guava-mini:0.1.7'))
+    additionalRuntimeClasspath('com.github.davidmoten:guava-mini:0.1.7')
 
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
@@ -192,6 +190,7 @@ dependencies {
     modImplementation("curse.maven:merequester-688367:5689932")
     modImplementation("curse.maven:jade-324717:6106101")
     modImplementation("curse.maven:embeddium-908741:5681725")
+    modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
     modImplementation("curse.maven:cofh-core-69162:5374122")
     modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
@@ -211,8 +210,6 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-
-    modRuntimeOnly("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modRuntimeOnly("curse.maven:spark-361579:4738952")
 
     // comment out the recipe viewer you don't want
