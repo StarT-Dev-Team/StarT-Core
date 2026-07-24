@@ -11,6 +11,7 @@ import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
+import com.startechnology.start_core.machine.hpca.StarTHPCAMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachines;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
@@ -48,5 +49,6 @@ public class StarTMachines {
         StarTDrillingRigs.init();
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
+        StarTHPCAMachines.init();
     }
 }
