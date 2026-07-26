@@ -8,17 +8,20 @@ import com.gregtechceu.gtceu.integration.jei.orevein.GTBedrockOreInfoCategory;
 import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
+import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
-import org.jetbrains.annotations.NotNull;
-
+import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.resources.ResourceLocation;
 
-import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
-
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 @JeiPlugin
 public class StarTJeiPlugin implements IModPlugin {
 
@@ -28,7 +31,21 @@ public class StarTJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
+    public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
+        if (!GTCEu.Mods.isEMILoaded()) {
+            CBMicroblockRecipes.registerCategoryExtension(registration);
+        }
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
+        if (!GTCEu.Mods.isEMILoaded()) {
+            CBMicroblockRecipes.registerRecipes(registration);
+        }
+    }
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         if (GTCEu.Mods.isREILoaded() || GTCEu.Mods.isEMILoaded()) return;
 
         registration.addRecipeCatalyst(StarTBacteriaMachines.BACTERIAL_BREEDING_VAT.asStack(),
@@ -49,7 +66,7 @@ public class StarTJeiPlugin implements IModPlugin {
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.HELL_FORGE_RECIPES.getCategory()),
                 GTRecipeJEICategory.TYPES.apply(GTRecipeCategories.get("hellforge_heating")));
 
-        for (MultiblockMachineDefinition multiBlockDefinition : FLUID_DRILLING_RIGS) {
+        for (MultiblockMachineDefinition multiBlockDefinition : StarTDrillingRigs.FLUID_DRILLING_RIGS) {
             if (multiBlockDefinition != null) {
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockFluidInfoCategory.RECIPE_TYPE);
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockOreInfoCategory.RECIPE_TYPE);
