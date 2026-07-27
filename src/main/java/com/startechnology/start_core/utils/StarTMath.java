@@ -1,7 +1,7 @@
 package com.startechnology.start_core.utils;
 
 public class StarTMath {
-    
+
     public static int max(int... values) {
         int max = Integer.MIN_VALUE;
         for (int value : values) {
@@ -17,5 +17,4 @@ public class StarTMath {
         }
         return min;
     }
-
 }

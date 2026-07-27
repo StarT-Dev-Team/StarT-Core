@@ -156,6 +156,6 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier(
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
-    
+
     public static final RecipeModifier COMPOUND_GENERATOR = CompoundGeneratorMachine::recipeModifier;
 }

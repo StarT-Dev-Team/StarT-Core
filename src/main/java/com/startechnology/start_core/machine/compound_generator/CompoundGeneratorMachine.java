@@ -3,12 +3,11 @@ package com.startechnology.start_core.machine.compound_generator;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.startechnology.start_core.utils.StarTMath;
-
+import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import lombok.Getter;
 
 public class CompoundGeneratorMachine extends WorkableElectricMultiblockMachine {
@@ -28,23 +27,19 @@ public class CompoundGeneratorMachine extends WorkableElectricMultiblockMachine 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        BlockPattern pattern = this.getPattern();
-        int[] dimensions = pattern.getDimensions();
-        if (pattern != null) {
-            this.slices = StarTMath.max(dimensions) - 2;
-        }
+        slices = (int) getParts().stream().filter(EnergyHatchPartMachine.class::isInstance).count();
     }
 
     public static ModifierFunction recipeModifier(MetaMachine machine, GTRecipe recipe) {
         if (machine instanceof CompoundGeneratorMachine controller && controller.isFormed()) {
-            int tier = controller.getTier(); // Voltage tier (0, 1, 2)
+            int tier = controller.getTier(); // Voltage tier (1, 2 or 3)
             int slices = controller.getSlices(); // 1 slice = 2 parallels
             int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, slices * 2);
             if (parallels > 0) {
                 return ModifierFunction.builder()
-                    .parallels(parallels)
-                    .eutMultiplier(parallels * Math.pow(4, tier))
-                    .build();
+                        .parallels(parallels, StarTParallelTypes.COMPOUND_GENERATOR)
+                        .eutMultiplier(parallels * Math.pow(4, tier - 1))
+                        .build();
             }
         }
         return ModifierFunction.IDENTITY;
