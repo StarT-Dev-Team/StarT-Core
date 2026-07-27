@@ -110,7 +110,8 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.genome_header", "§aYour gCrop has the following genome traits:");
         provider.add("behaviour.start_core.gcrop.resource_genome", "  §6Resource§7:§r %s");
         provider.add("behaviour.start_core.gcrop.production_genome", "  §9Production§7:§r %s");
-        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §2Auxiliary§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §cAuxiliary§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.climate_gene", "  §2Climate§7:§r %s");
 
         provider.add("behaviour.start_core.gcrop.fruit_header", "§aA gCrop Fruiting body");
         provider.add("behaviour.start_core.gcrop.fruit_resource", "  §6Contains: §2%s");
@@ -121,6 +122,17 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.type.gem", "%s Gems");
         provider.add("behaviour.start_core.gcrop.type.ore", "%s Ore");
         provider.add("behaviour.start_core.gcrop.type.empty", "%s");
+
+        provider.add("behaviour.start_core.gcrop.harvester.disclaimer",
+                "§7This recipe varies wildly depending on the traits of the crop, which can influence duration, energy usage, input and output amounts, conditions and the output item.");
+        provider.add("behaviour.start_core.gcrop.harvester.gcrop",
+                "§7A gCrop with any production and auxiliary traits can be used.");
+        provider.add("behaviour.start_core.gcrop.harvester.fertilizer",
+                "§7Fertilizer amount varies depending on the traits of the crop.");
+        provider.add("behaviour.start_core.gcrop.harvester.fluid",
+                "§7Fluid amount varies depending on the traits of the crop.");
+        provider.add("behaviour.start_core.gcrop.harvester.fruit",
+                "§7Either a fruit or a flower, in a range, where both depend on the traits of the crop.");
 
         provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
         provider.add("gtceu.gcrop_breeder", "gCrop Breeder");

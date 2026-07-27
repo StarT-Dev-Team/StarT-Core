@@ -1,6 +1,7 @@
 package com.startechnology.start_core.api.gcrop;
 
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.ListTag;
@@ -16,24 +17,29 @@ public class StarTGCropGenome {
     public static final String GCROP_RESOURCE_GENOME_NBT_TAG = "gcrop_resource_genome";
     public static final String GCROP_PRODUCTION_GENOME_NBT_TAG = "gcrop_production_genome";
     public static final String GCROP_AUXILIARY_GENOME_NBT_TAG = "gcrop_auxiliary_genome";
+    public static final String GCROP_CLIMATE_GENOME_NBT_TAG = "gcrop_climate_genome";
 
     @NotNull
+    @Getter
     private List<StarTGCropGene> resourceGenome = new ArrayList<>();
     @NotNull
+    @Getter
     private List<StarTGCropGene> productionGenome = new ArrayList<>();
     @NotNull
+    @Getter
     private List<StarTGCropGene> auxiliaryGenome = new ArrayList<>();
+    @NotNull
+    @Getter
+    private StarTGCropGene climateGene = new StarTGCropGene(StarTGCropTraits.None, 1);
 
-    public List<StarTGCropGene> getResourceGenome() {
-        return resourceGenome;
-    }
-
-    public List<StarTGCropGene> getProductionGenome() {
-        return productionGenome;
-    }
-
-    public List<StarTGCropGene> getAuxiliaryGenome() {
-        return auxiliaryGenome;
+    public StarTGCropGenome(@NotNull List<StarTGCropGene> resourceGenome,
+                            @NotNull List<StarTGCropGene> productionGenome,
+                            @NotNull List<StarTGCropGene> auxiliaryGenome,
+                            @NotNull StarTGCropGene climateGene) {
+        this.resourceGenome = resourceGenome;
+        this.productionGenome = productionGenome;
+        this.auxiliaryGenome = auxiliaryGenome;
+        this.climateGene = climateGene;
     }
 
     public StarTGCropGenome(@NotNull List<StarTGCropGene> resourceGenome,
@@ -52,6 +58,10 @@ public class StarTGCropGenome {
             case RESOURCE -> necessaryGenome = resourceGenome;
             case PRODUCTION -> necessaryGenome = productionGenome;
             case AUXILIARY -> necessaryGenome = auxiliaryGenome;
+            case CLIMATE -> {
+                if (climateGene.getTrait().equals("empty")) return false;
+                return climateGene.getTrait().equals(trait);
+            }
         }
 
         if (necessaryGenome.isEmpty()) return false;
@@ -78,6 +88,9 @@ public class StarTGCropGenome {
 
         ListTag auxiliaryGenomeList = gCropGenomeCompound.getList(GCROP_AUXILIARY_GENOME_NBT_TAG, Tag.TAG_STRING);
         auxiliaryGenomeList.forEach(gene -> this.auxiliaryGenome.add(new StarTGCropGene(gene.getAsString())));
+
+        String climateGenome = gCropGenomeCompound.getString(GCROP_CLIMATE_GENOME_NBT_TAG);
+        this.climateGene = new StarTGCropGene(climateGenome);
     }
 
     public CompoundTag toCompoundTag() {
@@ -101,6 +114,7 @@ public class StarTGCropGenome {
         gCropGenomeCompound.put(GCROP_RESOURCE_GENOME_NBT_TAG, resourceGenomeList);
         gCropGenomeCompound.put(GCROP_PRODUCTION_GENOME_NBT_TAG, productionGenomeList);
         gCropGenomeCompound.put(GCROP_AUXILIARY_GENOME_NBT_TAG, auxiliaryGenomeList);
+        gCropGenomeCompound.put(GCROP_CLIMATE_GENOME_NBT_TAG, StringTag.valueOf(climateGene.toRawGene()));
 
         return gCropGenomeCompound;
     }

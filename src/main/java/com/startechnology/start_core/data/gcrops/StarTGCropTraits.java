@@ -21,7 +21,8 @@ public class StarTGCropTraits {
     public enum GenomeType {
         RESOURCE,
         PRODUCTION,
-        AUXILIARY
+        AUXILIARY,
+        CLIMATE,
     }
 
     public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
@@ -58,10 +59,9 @@ public class StarTGCropTraits {
         /**
          * Generates a random number between 0 and alleleCount (inclusive), based on the frequency of the trait.
          *
-         * @param alleleCount int
          * @return int
          */
-        public int runTraitFrequencyRandomGene(int alleleCount) {
+        public int runTraitFrequencyRandomGene() {
             int traitCount = 0;
             for (int i = 0; i < alleleCount; i++) {
                 if (StarTCore.RNG.nextIntBetweenInclusive(1, 10000) < this.frequency) traitCount++;
@@ -102,7 +102,8 @@ public class StarTGCropTraits {
 
     public static ItemStack getCropWithTraits(List<StarTGCropGene> resourceGenome,
                                               List<StarTGCropGene> productionGenome,
-                                              List<StarTGCropGene> auxiliaryGenome) {
+                                              List<StarTGCropGene> auxiliaryGenome,
+                                              StarTGCropGene climateGene) {
         List<StarTGCropTrait> allResourceTraits = new ArrayList<>();
 
         for (StarTGCropGene gene : resourceGenome) {
@@ -114,12 +115,22 @@ public class StarTGCropTraits {
         ItemEntry<ComponentItem> gCropItem = StarTGCropItems.getGCropByGenome(allResourceTraits);
         ItemStack newGCrop = (gCropItem == null) ? new ItemStack(GCROP_MALFORMED.get()) : gCropItem.asStack();
 
-        StarTGCropGenome newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
+        StarTGCropGenome newGenome;
+
+        if (climateGene.getTrait().equals(None)) newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
                 auxiliaryGenome);
+        else newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
+                auxiliaryGenome, climateGene);
 
         StarTGCropManager.writeGCRopGenomeToItem(newGCrop.getOrCreateTag(), newGenome);
 
         return newGCrop;
+    }
+
+    public static ItemStack getCropWithTraits(List<StarTGCropGene> resourceGenome,
+                                              List<StarTGCropGene> productionGenome,
+                                              List<StarTGCropGene> auxiliaryGenome) {
+        return getCropWithTraits(resourceGenome, productionGenome, auxiliaryGenome, new StarTGCropGene(None, 0));
     }
 
     public static void init() {
@@ -165,7 +176,7 @@ public class StarTGCropTraits {
         Quickened = new StarTGCropTrait("Quickened", "Qu", 1, 2000, GenomeType.PRODUCTION);
 
         // 20% increase in fluid consumption (multiplicative)
-        // Dry = new StarTGCropTrait("Dry", "Dy", 1, 1500, GenomeType.PRODUCTION);
+        Thirsty = new StarTGCropTrait("Dry", "Ti", 1, 1500, GenomeType.PRODUCTION);
 
         // 10% duration reduction (multiplicative)
         Speedy = new StarTGCropTrait("Speedy", "Sp", 2, 1500, GenomeType.PRODUCTION);
@@ -176,20 +187,34 @@ public class StarTGCropTraits {
         // 10% duration reduction (multiplicative)
         Fast = new StarTGCropTrait("Fast", "Fa", 3, 1000, GenomeType.PRODUCTION);
 
-        // 60% chance for +1 fruit (cumulative)
+        // 20% duration increase (multiplicative)
+        Stunted = new StarTGCropTrait("Stunted", "St", 3, 500, GenomeType.PRODUCTION);
+
+        // 20% input consumption increase (multiplicative)
+        Gluttonous = new StarTGCropTrait("Gluttonous", "Gl", 3, 500, GenomeType.PRODUCTION);
+
+        // 60% chance for +2 on max fruit (cumulative)
         Enormous = new StarTGCropTrait("Enormous", "En", 4, 500, GenomeType.PRODUCTION);
 
-        // 3x 70% chance for +1 fruit (cumulative)
+        // -2 on min fruits (cumulative), -3 on max fruits (cumulative)
+        Shriveled = new StarTGCropTrait("Shriveled", "Sr", 4, 400, GenomeType.PRODUCTION);
+
+        // 3x 60% chance for +2 on max fruit (cumulative) and 2x 70% chance for +1 on min fruit (cumulative)
         Branching = new StarTGCropTrait("Branching", "Br", 5, 500, GenomeType.PRODUCTION);
 
-        // 2x input consumption, 15% duration increase (multiplicative), +3 fruit (cumulative)
+        // 2x input consumption, 15% duration increase (multiplicative), +4 on min fruit (cumulative), +2 on max fruit
+        // (cumulative)
         Proliferating = new StarTGCropTrait("Proliferating", "Pl", 5, 500, GenomeType.PRODUCTION);
 
         // -1 energy tier
         Empowered = new StarTGCropTrait("Empowered", "Em", 6, 100, GenomeType.PRODUCTION);
 
-        // 8x fruit (multiplicative), 60% duration increase (multiplicative), 4x input consumption (multiplicative)
-        Ancient = new StarTGCropTrait("Ancient", "An", 7, 50, GenomeType.PRODUCTION);
+        // 8x on min and max fruit (multiplicative), 60% duration increase (multiplicative), 10x input consumption
+        // (multiplicative)
+        Sprawling = new StarTGCropTrait("Sprawling", "An", 7, 50, GenomeType.PRODUCTION);
+
+        // 3x on inputs (multiplicative), 4x on outputs (multiplicative), 5x duration multiplier (multiplicative),
+        Autotroph = new StarTGCropTrait("Autotroph", "Au", 7, 50, GenomeType.PRODUCTION);
 
         // Auxiliary Traits
         // nighttime only
@@ -200,6 +225,19 @@ public class StarTGCropTraits {
 
         // fruit -> flower, 30% duration reduction (multiplicative)
         Early = new StarTGCropTrait("Early", "Ea", 4, 100, GenomeType.AUXILIARY);
+
+        // Climate Traits
+        None = new StarTGCropTrait("None", "X", 1, 5000, 1, GenomeType.CLIMATE);
+
+        Frosty = new StarTGCropTrait("Frost", "Fr", 1, 1000, 1, GenomeType.CLIMATE);
+
+        Scorching = new StarTGCropTrait("Scorching", "Sc", 1, 1000, 1, GenomeType.CLIMATE);
+
+        Tropical = new StarTGCropTrait("Tropical", "Tr", 1, 1000, 1, GenomeType.CLIMATE);
+
+        Desertic = new StarTGCropTrait("Desertic", "De", 1, 1000, 1, GenomeType.CLIMATE);
+
+        Damp = new StarTGCropTrait("Damp", "Da", 1, 1000, 1, GenomeType.CLIMATE);
     }
 
     // Tier 0
@@ -215,7 +253,14 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Woody;
 
     public static StarTGCropTrait Quickened;
-    // public static StarTGCropTrait Dry;
+    public static StarTGCropTrait Thirsty;
+
+    public static StarTGCropTrait None;
+    public static StarTGCropTrait Frosty;
+    public static StarTGCropTrait Scorching;
+    public static StarTGCropTrait Tropical;
+    public static StarTGCropTrait Desertic;
+    public static StarTGCropTrait Damp;
 
     // Tier 2
     public static StarTGCropTrait Coarse;
@@ -231,12 +276,15 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Mineralic;
 
     public static StarTGCropTrait Fast;
+    public static StarTGCropTrait Stunted;
+    public static StarTGCropTrait Gluttonous;
 
     // Tier 4
     public static StarTGCropTrait Sulfuric;
     public static StarTGCropTrait Aetheric;
 
     public static StarTGCropTrait Enormous;
+    public static StarTGCropTrait Shriveled;
 
     public static StarTGCropTrait Diurnal;
     public static StarTGCropTrait Early;
@@ -256,5 +304,6 @@ public class StarTGCropTraits {
     // Tier 7
     public static StarTGCropTrait Siliceous;
 
-    public static StarTGCropTrait Ancient;
+    public static StarTGCropTrait Sprawling;
+    public static StarTGCropTrait Autotroph;
 }

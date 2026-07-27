@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
@@ -110,8 +111,30 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         List<StarTGCropGene> existingResourceGenome = existingStats.getResourceGenome();
         List<StarTGCropGene> existingProductionGenome = existingStats.getProductionGenome();
         List<StarTGCropGene> existingAuxiliaryGenome = existingStats.getAuxiliaryGenome();
+        StarTGCropGene existingClimateGenome = existingStats.getClimateGene();
 
-        ItemStack newGCrop = foundGCrop.copyWithCount(1);
+        StarTGCropTraits.StarTGCropTrait newClimateGenome = StarTGCropTraits.None;
+        List<StarTGCropTraits.StarTGCropTrait> climateTraits = new ArrayList<>(
+                StarTGCropTraits.getTraitsByType(StarTGCropTraits.GenomeType.CLIMATE));
+
+        int totalFrequency = 0;
+        for (var trait : climateTraits) {
+            totalFrequency += trait.frequency();
+        }
+
+        Collections.shuffle(climateTraits);
+
+        int hitFrequency = StarTCore.RNG.nextIntBetweenInclusive(1, totalFrequency);
+        for (var trait : climateTraits) {
+            int frequency = trait.frequency();
+            if (hitFrequency < frequency) {
+                newClimateGenome = trait;
+                break;
+            }
+            hitFrequency -= frequency;
+        }
+
+        ItemStack newGCrop;
 
         if (hasFluidMatch(GTMaterials.Radon.getFluid(1), validMutationFluids)) {
             // Mutate tier 0-3 aux genome
@@ -123,12 +146,12 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
 
             for (var trait : lowTierAuxTraits) {
-                int alleleCount = trait.runTraitFrequencyRandomGene(2);
+                int alleleCount = trait.runTraitFrequencyRandomGene();
                 if (alleleCount >= 1) newAuxiliaryGenome.add(new StarTGCropGene(trait, alleleCount));
             }
 
             newGCrop = StarTGCropTraits.getCropWithTraits(existingResourceGenome, existingProductionGenome,
-                    newAuxiliaryGenome);
+                    newAuxiliaryGenome, existingClimateGenome);
 
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("aux_mutation_0_to_3")
@@ -150,7 +173,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
 
             for (var trait : lowTierTraits) {
-                int alleleCount = trait.runTraitFrequencyRandomGene(2);
+                int alleleCount = trait.runTraitFrequencyRandomGene();
                 if (alleleCount >= 1) {
                     switch (trait.genomeType()) {
                         case RESOURCE -> {
@@ -165,8 +188,9 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                     }
                 }
             }
+
             newGCrop = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
-                    newAuxiliaryGenome);
+                    newAuxiliaryGenome, new StarTGCropGene(newClimateGenome, 1));
 
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("full_mutation_0_to_1")

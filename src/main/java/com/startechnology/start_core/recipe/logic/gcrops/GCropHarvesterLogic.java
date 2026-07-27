@@ -11,11 +11,13 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -84,6 +86,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             if (gCropGenome.hasTrait("fast")) duration = (int) Math.round(duration * 0.9);
 
             if (gCropGenome.hasTrait("slow")) duration = (int) Math.round(duration * 1.2);
+            if (gCropGenome.hasTrait("stunted")) duration = (int) Math.round(duration * 1.2);
 
             if (gCropGenome.hasTrait("early")) {
                 duration = (int) Math.round(duration * 0.7);
@@ -115,36 +118,60 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 }
             }
             int fluidAmount = 100 << (2 * (cropTier - foundTierFluid));
-            // if (gCropGenome.hasTrait("dry")) fluidAmount = (int) Math.round(fluidAmount * 1.2);
+            if (gCropGenome.hasTrait("thirsty")) fluidAmount = (int) Math.round(fluidAmount * 1.2);
 
-            int fruitAmount = 1;
+            if (gCropGenome.hasTrait("gluttonous")) {
+                fertilizerAmount = (int) Math.round(fertilizerAmount * 1.2);
+                fluidAmount = (int) Math.round(fluidAmount * 1.2);
+            }
+
+            int minFruitAmount = 4;
+            int maxFruitAmount = 1;
             if (gCropGenome.hasTrait("enormous")) {
-                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 60) fruitAmount += 1;
+                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 60) maxFruitAmount += 2;
             }
 
             if (gCropGenome.hasTrait("branching")) {
-                for (int j = 0; j < 3; j++) if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 70) fruitAmount += 1;
+                for (int j = 0; j < 3; j++) if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 60) maxFruitAmount += 2;
+                for (int j = 0; j < 2; j++) if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 70) minFruitAmount += 1;
+            }
+
+            if (gCropGenome.hasTrait("shriveled")) {
+                maxFruitAmount -= 3;
+                minFruitAmount -= 2;
             }
 
             if (gCropGenome.hasTrait("proliferating")) {
                 fertilizerAmount = fertilizerAmount * 2;
                 fluidAmount = fluidAmount * 2;
                 duration = (int) Math.round(duration * 1.15);
-                fruitAmount += 3;
+                minFruitAmount += 4;
+                maxFruitAmount += 2;
             }
 
-            if (gCropGenome.hasTrait("ancient")) {
-                fertilizerAmount = fertilizerAmount * 4;
-                fluidAmount = fluidAmount * 4;
+            if (gCropGenome.hasTrait("sprawling")) {
+                fertilizerAmount = fertilizerAmount * 10;
+                fluidAmount = fluidAmount * 10;
                 duration = (int) Math.round(duration * 1.6);
-                fruitAmount = fruitAmount * 8;
+                maxFruitAmount = maxFruitAmount * 8;
+                minFruitAmount = minFruitAmount * 8;
             }
+
+            if (gCropGenome.hasTrait("autotroph")) {
+                fertilizerAmount = fertilizerAmount * 3;
+                fluidAmount = fluidAmount * 3;
+                duration = duration * 5;
+                maxFruitAmount = maxFruitAmount * 4;
+                minFruitAmount = minFruitAmount * 4;
+            }
+
+            int baseChance = 2000 + 500 * cropTier;
+            int chanceIncrease = 1000;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .inputItems(item.copyWithCount(1))
-                    // .outputItemsRanged(new ItemStack(fruit.asItem(), fruitAmount), )
-                    .outputItems(new ItemStack(fruit.asItem(), fruitAmount))
+                    .chancedInput(item.copyWithCount(1), baseChance, chanceIncrease)
+                    .outputItemsRanged(new ItemStack(fruit.asItem()), UniformInt.of(minFruitAmount, maxFruitAmount))
                     .duration(duration)
                     .EUtVA(EUtV);
 
@@ -182,17 +209,23 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
         };
 
-        for (var crop : GCROP_ITEMS) {
+        for (ItemEntry<ComponentItem> crop : GCROP_ITEMS) {
             ItemStack gCrop = new ItemStack(crop.asItem());
 
-            var cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop);
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
+                    "behaviour.start_core.gcrop.harvester.gcrop",
+                    "behaviour.start_core.gcrop.harvester.disclaimer");
+
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop);
             if (cropBehaviour == null) continue;
 
-            var fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
+            ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
+            ItemStack fruitItem = new ItemStack(fruit.asItem());
+
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(fruitItem.getOrCreateTag(),
+                    "behaviour.start_core.gcrop.harvester.fruit");
 
             int cropTier = cropBehaviour.getCropTier();
-            int duration = (cropTier == 0) ? 160 : 160 * cropTier;
-            int EUt = GTValues.MV + cropTier;
 
             Item fertilizerItem = null;
             int foundTierItem = 0;
@@ -216,19 +249,29 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
             int fluidAmount = 100 << (2 * (cropTier - foundTierFluid));
 
-            int fruitAmount = 1;
-
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .inputItems(gCrop.copyWithCount(1))
-                    .outputItems(new ItemStack(fruit.asItem(), fruitAmount))
-                    .duration(duration)
+                    .chancedInput(gCrop, 2000 + 500 * cropTier, 1000)
+                    .outputItemsRanged(fruitItem, UniformInt.of(1, 4))
+                    .duration((cropTier == 0) ? 160 : 160 * cropTier)
                     .daytime()
-                    .EUtVA(EUt);
+                    .EUtVA(GTValues.MV + cropTier);
 
-            if (fertilizerItem != null) harvestRecipe.inputItems(new ItemStack(fertilizerItem, fertilizerAmount));
+            if (fertilizerItem != null) {
+                ItemStack fertilizerItemStack = new ItemStack(fertilizerItem, fertilizerAmount);
+                StarTCustomTooltipsManager.writeCustomTooltipsToItem(fertilizerItemStack.getOrCreateTag(),
+                        "behaviour.start_core.gcrop.harvester.fertilizer");
 
-            if (growthFluid != null) harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
+                harvestRecipe.inputItems(fertilizerItemStack);
+            }
+
+            if (growthFluid != null) {
+                FluidStack growthFluidStack = new FluidStack(growthFluid, fluidAmount);
+                StarTCustomTooltipsManager.writeCustomTooltipsToItem(growthFluidStack.getOrCreateTag(),
+                        "behaviour.start_core.gcrop.harvester.fluid");
+
+                harvestRecipe.inputFluids(growthFluidStack);
+            }
 
             StarTCustomLogicUtils.handleCustomRecipeLogicEMI(
                     StarTRecipeTypes.GCROP_HARVESTER_RECIPES, "gcrops", harvestRecipe.buildRawRecipe());

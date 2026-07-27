@@ -92,6 +92,8 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             HashMap<String, Integer> productionGeneMap = new HashMap<>();
             HashMap<String, Integer> auxiliaryGeneMap = new HashMap<>();
 
+            StarTGCropGene newClimateGenome = new StarTGCropGene(StarTGCropTraits.None, 1);
+
             // Go over both crops
             for (ItemStack crop : foundCrops) {
                 StarTGCropGenome cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
@@ -126,6 +128,10 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                     if (newAlleleCount != 0) auxiliaryGeneMap.put(traitName, newAlleleCount);
                 }
 
+                if (!newClimateGenome.equals(new StarTGCropGene(StarTGCropTraits.None, 1))) continue;
+
+                StarTGCropGene existingClimateGenome = cropStats.getClimateGene();
+                if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newClimateGenome = existingClimateGenome;
             }
 
             // Compose Genomes for all traits
@@ -159,10 +165,12 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             List<StarTGCropGene> existingResourceGenome = cropStats.getResourceGenome();
             List<StarTGCropGene> existingProductionGenome = cropStats.getProductionGenome();
             List<StarTGCropGene> existingAuxiliaryGenome = cropStats.getAuxiliaryGenome();
+            StarTGCropGene existingClimateGenome = cropStats.getClimateGene();
 
             List<StarTGCropGene> newResourceGenome = new ArrayList<>();
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
+            StarTGCropGene newClimateGenome = new StarTGCropGene(StarTGCropTraits.None, 1);
 
             for (StarTGCropGene gene : existingResourceGenome) {
                 if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 2) newResourceGenome.add(gene);
@@ -176,8 +184,10 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 5) newAuxiliaryGenome.add(gene);
             }
 
+            if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 5) newClimateGenome = existingClimateGenome;
+
             ItemStack newGCrop = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
-                    newAuxiliaryGenome);
+                    newAuxiliaryGenome, newClimateGenome);
 
             return StarTRecipeTypes.GCROP_BREEDER_RECIPES
                     .recipeBuilder("gcrop_self_fertilization")

@@ -63,6 +63,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
     private static String getPrettyTraitSymbol(String symbol, int tier) {
         String colourCode = switch (tier) {
+            case -1 -> "§4"; // unknown trait
             case 1 -> "§9";
             case 2 -> "§1";
             case 3 -> "§5";
@@ -91,9 +92,16 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
                 .map(
                         gene -> {
                             StarTGCropTrait trait = gene.getTrait();
-                            return Component
-                                    .translatable(
-                                            getPrettyTraitSymbol(full ? trait.name() : trait.symbol(), trait.tier()));
+                            String traitSymbol;
+                            int traitTier;
+                            if (trait == null) {
+                                traitSymbol = full ? "Unknown" : "??";
+                                traitTier = -1;
+                            } else {
+                                traitSymbol = full ? trait.name() : trait.symbol();
+                                traitTier = trait.tier();
+                            }
+                            return Component.translatable(getPrettyTraitSymbol(traitSymbol, traitTier));
                         })
                 .reduce(Component.literal(full ? ", " : ""), MutableComponent::append);
     }
@@ -116,6 +124,9 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
                             prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
+            tooltipComponents
+                    .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",
+                            prettyGenomeGCropTraits(List.of(gCropGenome.getClimateGene()), false)));
         } else if (!malformed) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.empty());

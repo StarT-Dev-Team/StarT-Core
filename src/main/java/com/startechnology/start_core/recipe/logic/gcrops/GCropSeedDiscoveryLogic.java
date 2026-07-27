@@ -66,7 +66,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
             List<StarTGCropTraits.StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
 
             for (var trait : tier0Traits) {
-                int alleleCount = trait.runTraitFrequencyRandomGene(2);
+                int alleleCount = trait.runTraitFrequencyRandomGene();
                 if (alleleCount >= 1) {
                     switch (trait.genomeType()) {
                         case RESOURCE -> {
