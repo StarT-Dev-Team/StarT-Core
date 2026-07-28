@@ -673,5 +673,7 @@ public class LangHandler {
         provider.add("start_core.tree_definition.birch", "Birch");
         provider.add("start_core.tree_definition.mangrove", "Mangrove");
         provider.add("start_core.tree_definition.cherry", "Cherry");
+
+        provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
     }
 }

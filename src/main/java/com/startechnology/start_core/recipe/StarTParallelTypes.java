@@ -11,6 +11,7 @@ public class StarTParallelTypes {
     public static ParallelType THREADING;
     public static ParallelType MODULAR_COMBUSTION;
     public static ParallelType ABYSSAL_HARVESTER;
+    public static ParallelType COMPOUND_GENERATOR;
 
     public static void init() {
         HELLFORGE = register("hellforge");
@@ -19,6 +20,7 @@ public class StarTParallelTypes {
         THREADING = register("threading");
         MODULAR_COMBUSTION = register("modular_combustion");
         ABYSSAL_HARVESTER = register("abyssal_harvester");
+        COMPOUND_GENERATOR = register("compound_generator");
     }
 
     public static ParallelType register(String name) {
