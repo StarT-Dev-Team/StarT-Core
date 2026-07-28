@@ -766,13 +766,15 @@
   "variadic.start_core.description.hellforge": "ϛƖ * )ʞW%s / ǝɹnʇɐɹǝdɯǝʇ ʇuǝɹɹnɔ( ǝɥʇ ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
   "variadic.start_core.description.komaru.c": "ϛƖ * )%s / Ɔ ʇuǝɹɹnɔ( ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
   "variadic.start_core.description.komaru.fae_scaling": "ϛƖ * )%s / buıןɐɔS ǝɐℲ ʇuǝɹɹnɔ( ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
-  "variadic.start_core.description.solar_machine": ")Ɛㄥᄅ - ʞ 'snısןǝƆ uI( ϛƖ * )ʞ %s / dɯǝʇ bʌɐ( ǝɥʇ ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
+  "variadic.start_core.description.solar_machine.broken_cells": "sןןǝɔ ɹɐןos uǝʞoɹq ɟo ǝbɐʇuǝɔɹǝd ǝɥʇ ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
+  "variadic.start_core.description.solar_machine.temp": ")Ɛㄥᄅ - ʞ 'snısןǝƆ uI( ϛƖ * )ʞ %s / dɯǝʇ bʌɐ( ǝɥʇ ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
   "variadic.start_core.description.vcrc.vac_to_capacity": "ϛƖ * )%s%% / %%ɔɐʌ ʇuǝɹɹnɔ( ǝɥʇ ɟo ϛƖ-0 uǝǝʍʇǝq ǝnןɐʌ pǝdɯɐןɔ Ɐ",
   "variadic.start_core.indicator.abyssal_harvester": "uoıʇɐɹnʇɐS ןɐssʎqⱯɹ§ %sϛ§ ɟo oıʇɐᴚ",
   "variadic.start_core.indicator.default": ")ʎuɐ ɟı( ʇɔǝןǝs oʇ ǝɹǝɥ ʞɔıןƆ",
   "variadic.start_core.indicator.hellforge": "%sɔ§ oʇ ǝbɐʇuǝɔɹǝԀ",
   "variadic.start_core.indicator.komaru.c": "%sǝ§ oʇɹ§ Ɔq§ ɟo oıʇɐᴚ",
   "variadic.start_core.indicator.komaru.fae_scaling": "%sǝ§ oʇɹ§ buıןɐɔS ǝɐℲp§ ɟo oıʇɐᴚ",
-  "variadic.start_core.indicator.solar_machine": "ʞ %s oʇ ǝbɐʇuǝɔɹǝԀ",
+  "variadic.start_core.indicator.solar_machine.broken_cells": "sןןǝɔ ɹɐןos uǝʞoɹq ɟo ǝbɐʇuǝɔɹǝԀ",
+  "variadic.start_core.indicator.solar_machine.temp": "ʞ %s oʇ ǝbɐʇuǝɔɹǝԀ",
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "ʎʇıɔɐdɐƆ %%ɔɐΛ oʇ ǝbɐʇuǝɔɹǝԀ"
 }
