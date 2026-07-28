@@ -200,6 +200,7 @@ dependencies {
     modImplementation("curse.maven:project-red-core-228702:6868143")
     modImplementation("curse.maven:project-red-integration-229045:6868148")
     modImplementation("curse.maven:project-red-transmission-478939:6868149")
+    modImplementation("curse.maven:effortless-building-302113:7944965")
 
     modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
