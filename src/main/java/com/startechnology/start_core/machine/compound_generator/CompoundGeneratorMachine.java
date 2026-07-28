@@ -34,11 +34,13 @@ public class CompoundGeneratorMachine extends WorkableElectricMultiblockMachine 
         if (machine instanceof CompoundGeneratorMachine controller && controller.isFormed()) {
             int tier = controller.getTier(); // Voltage tier (1, 2 or 3)
             int slices = controller.getSlices(); // 1 slice = 2 parallels
-            int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, slices * 2);
-            if (parallels > 0) {
+            int maxParallels = slices * 2 * (int) Math.pow(4, tier - 1);
+            int parallelsAvailable = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, maxParallels);
+            if (parallelsAvailable > 0) {
+                int parallels = Math.min(parallelsAvailable, maxParallels);
                 return ModifierFunction.builder()
                         .parallels(parallels, StarTParallelTypes.COMPOUND_GENERATOR)
-                        .eutMultiplier(parallels * Math.pow(4, tier - 1))
+                        .eutMultiplier(parallels) // 32 * parallels
                         .build();
             }
         }
