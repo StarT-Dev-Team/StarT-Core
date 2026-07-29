@@ -105,17 +105,22 @@ public class LangHandler {
 
         provider.add("item.start_core.malformed_gcrop.tooltip", "§7A malformed gCrop, unable to produce resources.");
 
-        provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome");
+        provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome.");
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
         provider.add("behaviour.start_core.gcrop.genome_header", "§aYour gCrop has the following genome traits:");
         provider.add("behaviour.start_core.gcrop.resource_genome", "  §6Resource§7:§r %s");
         provider.add("behaviour.start_core.gcrop.production_genome", "  §9Production§7:§r %s");
         provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §cAuxiliary§7:§r %s");
         provider.add("behaviour.start_core.gcrop.climate_gene", "  §2Climate§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.inserted_gcrop", "§6A crop with the provided genome.");
 
-        provider.add("behaviour.start_core.gcrop.fruit_header", "§aA gCrop Fruiting body");
-        provider.add("behaviour.start_core.gcrop.fruit_resource", "  §6Contains: §2%s");
-        provider.add("behaviour.start_core.gcrop.fruit_tier", "  §9Grade: §2%s");
+        provider.add("behaviour.start_core.fruit.header", "§aA gCrop Fruiting body");
+        provider.add("behaviour.start_core.fruit.resource", "  §6Contains: §2%s");
+        provider.add("behaviour.start_core.fruit.tier", "  §9Grade: §2%s");
+
+        provider.add("behaviour.start_core.genome_holder.header", "§aThis item has the following genome:");
+        provider.add("behaviour.start_core.genome_holder.no_genome",
+                "§7A genome holder without any genetical information stored inside.");
 
         provider.add("behaviour.start_core.gcrop.type.liquid", "Liquid %s");
         provider.add("behaviour.start_core.gcrop.type.dust", "%s Dust");
@@ -134,13 +139,25 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.harvester.fruit",
                 "§7Either a fruit or a flower, in a range, where both depend on the traits of the crop.");
 
+        provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
+        provider.add("behaviour.start_core.gcrop.new_random_crop", "§6Mutated gCrop with random genome.");
+        provider.add("behaviour.start_core.gcrop.random_crop", "§6A gCrop with any genome.");
+
+        provider.add("behaviour.start_core.gcrop.random_holder", "§6A Genome Holder with any genome.");
+        provider.add("behaviour.start_core.gcrop.copied_holder", "§6A Genome Holder with the inserted genome.");
+        provider.add("behaviour.start_core.gcrop.separated_holder",
+                "§6A Genome Holder with part of the inserted genome.");
+        provider.add("behaviour.start_core.gcrop.combined_holder",
+                "§6A Genome Holder with both of the inserted genomes.");
+
         provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
         provider.add("gtceu.gcrop_breeder", "gCrop Breeder");
         provider.add("gtceu.gcrop_harvester", "gCrop Harvester");
 
-        provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
-        provider.add("behaviour.start_core.gcrop.random_crop",
-                "§6Mutated §gCrop with random genome.");
+        provider.add("gtceu.genome_gathering", "Genome Gathering");
+        provider.add("gtceu.genome_mixing", "Genome Mixing");
+        provider.add("gtceu.genome_separating", "Genome Separating");
+        provider.add("gtceu.genome_insertion", "Genome Insertion");
 
         provider.add("start_core.machine.auxiliary_boosted_fusion_reactor.description",
                 "§7A high-efficiency fusion reactor that utilises auxiliary fusion coils to enhance fusion reactions, enabling for higher density of fusion reactions taking place within the chamber at once");

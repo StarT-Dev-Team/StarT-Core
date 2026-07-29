@@ -11,9 +11,14 @@ public class StarTGCropGene {
     private final int dominantAlleles;
 
     public StarTGCropGene(String rawGene) {
-        var splitGenome = rawGene.split("-");
-        this.trait = StarTGCropTraits.getTrait(splitGenome[0]);
-        this.dominantAlleles = Integer.parseInt(splitGenome[1]);
+        if (rawGene.equals("empty")) {
+            this.trait = null;
+            this.dominantAlleles = 0;
+        } else {
+            var splitGenome = rawGene.split("-");
+            this.trait = StarTGCropTraits.getTrait(splitGenome[0]);
+            this.dominantAlleles = Integer.parseInt(splitGenome[1]);
+        }
     };
 
     public StarTGCropGene(StarTGCropTrait trait, int dominantAlleles) {
@@ -32,6 +37,8 @@ public class StarTGCropGene {
      * @return Gene object formatted as a string for NBT Storage
      */
     public String toRawGene() {
-        return String.format("%s-%s", this.trait.name(), String.valueOf(this.dominantAlleles));
+        if (this.trait == null) {
+            return "empty";
+        } else return String.format("%s-%s", this.trait.name(), String.valueOf(this.dominantAlleles));
     }
 }

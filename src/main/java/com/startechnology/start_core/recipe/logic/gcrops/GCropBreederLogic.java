@@ -92,7 +92,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             HashMap<String, Integer> productionGeneMap = new HashMap<>();
             HashMap<String, Integer> auxiliaryGeneMap = new HashMap<>();
 
-            StarTGCropGene newClimateGenome = new StarTGCropGene(StarTGCropTraits.None, 1);
+            StarTGCropGene newClimateGenome = null;
 
             // Go over both crops
             for (ItemStack crop : foundCrops) {
@@ -128,7 +128,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                     if (newAlleleCount != 0) auxiliaryGeneMap.put(traitName, newAlleleCount);
                 }
 
-                if (!newClimateGenome.equals(new StarTGCropGene(StarTGCropTraits.None, 1))) continue;
+                if (newClimateGenome != null) continue;
 
                 StarTGCropGene existingClimateGenome = cropStats.getClimateGene();
                 if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newClimateGenome = existingClimateGenome;
@@ -170,7 +170,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             List<StarTGCropGene> newResourceGenome = new ArrayList<>();
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
-            StarTGCropGene newClimateGenome = new StarTGCropGene(StarTGCropTraits.None, 1);
+            StarTGCropGene newClimateGenome = null;
 
             for (StarTGCropGene gene : existingResourceGenome) {
                 if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 2) newResourceGenome.add(gene);
@@ -205,11 +205,11 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
     public void buildRepresentativeRecipes() {
         ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
-                "behaviour.start_core.bacteria.input");
+                "behaviour.start_core.gcrop.random_crop");
 
         ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropRandomSeed.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_crop");
+                "behaviour.start_core.gcrop.new_random_crop");
 
         gCropRandomSeed.setHoverName(Component.translatable(
                 "behaviour.start_core.gcrop.random_crop_name"));

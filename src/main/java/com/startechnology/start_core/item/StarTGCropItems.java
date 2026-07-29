@@ -11,6 +11,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
+import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
 import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
@@ -44,6 +45,51 @@ public class StarTGCropItems {
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
+
+    public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
+        for (var gCrop : GCROP_ITEMS) {
+            var behaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop.asStack());
+            if (behaviour == null) continue;
+            behaviour.getCropTraits().sort(TRAIT_COMPARATOR);
+            var resourceTraits = behaviour.getCropTraits().stream()
+                    .filter(trait -> trait.genomeType() == GenomeType.RESOURCE).toList();
+            if (resourceTraits.equals(traits)) {
+                return gCrop;
+            }
+        }
+        return null;
+    }
+
+    public static final ItemEntry<ComponentItem> FILLED_GENOME_HOLDER = START_REGISTRATE
+            .item("filled_genome_holder", ComponentItem::create)
+            .lang("§6Filled Genome Holder")
+            .properties(prop -> prop.stacksTo(16))
+            .onRegister(attach(new StarTNBTTooltipsBehaviour()))
+            .onRegister(attach(new StarTGenomeHolderBehaviour()))
+            .model((ctx, prov) -> createTextureModel(ctx, prov,
+                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
+            .register();
+
+    public static final ItemEntry<ComponentItem> EMPTY_GENOME_HOLDER = START_REGISTRATE
+            .item("empty_genome_holder", ComponentItem::create)
+            .lang("§3Empty Genome Holder")
+            .properties(prop -> prop.stacksTo(64))
+            .model((ctx, prov) -> createTextureModel(ctx, prov,
+                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
+            .register();
+
+    public static final ItemEntry<ComponentItem> GCROP_MALFORMED = START_REGISTRATE
+            .item("malformed_gcrop", ComponentItem::create)
+            .lang("§3Malformed GCrop")
+            .properties(prop -> prop.stacksTo(16))
+            .onRegister(attach(new StarTNBTTooltipsBehaviour()))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
+            })))
+            .onRegister(attach(new StarTGCropBehaviour(-1, GTMaterials.Stone)))
+            .model((ctx, prov) -> createTextureModel(ctx, prov,
+                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
+            .register();
 
     private static void registerGCrop(String id, String name,
                                       StarTGCropItemType materialType, String flowerType,
@@ -103,33 +149,6 @@ public class StarTGCropItems {
         GCROP_FRUITS.add(gCropFruit);
         GCROP_FRUITMAP.put(newMaterial, gCropFruit);
     }
-
-    public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
-        for (var gCrop : GCROP_ITEMS) {
-            var behaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop.asStack());
-            if (behaviour == null) continue;
-            behaviour.getCropTraits().sort(TRAIT_COMPARATOR);
-            var resourceTraits = behaviour.getCropTraits().stream()
-                    .filter(trait -> trait.genomeType() == GenomeType.RESOURCE).toList();
-            if (resourceTraits.equals(traits)) {
-                return gCrop;
-            }
-        }
-        return null;
-    }
-
-    public static final ItemEntry<ComponentItem> GCROP_MALFORMED = START_REGISTRATE
-            .item("malformed_gcrop", ComponentItem::create)
-            .lang("§3Malformed GCrop")
-            .properties(prop -> prop.stacksTo(16))
-            .onRegister(attach(new StarTNBTTooltipsBehaviour()))
-            .onRegister(attach(new TooltipBehavior(lines -> {
-                lines.add(Component.translatable("item.start_core.malformed_gcrop.tooltip"));
-            })))
-            .onRegister(attach(new StarTGCropBehaviour(-1, GTMaterials.Stone)))
-            .model((ctx, prov) -> createTextureModel(ctx, prov,
-                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
-            .register();
 
     static {
         // Tier 0

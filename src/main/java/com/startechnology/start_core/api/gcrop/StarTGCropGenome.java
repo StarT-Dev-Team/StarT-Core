@@ -10,6 +10,8 @@ import net.minecraft.nbt.Tag;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class StarTGCropGenome {
@@ -28,14 +30,13 @@ public class StarTGCropGenome {
     @NotNull
     @Getter
     private List<StarTGCropGene> auxiliaryGenome = new ArrayList<>();
-    @NotNull
     @Getter
-    private StarTGCropGene climateGene = new StarTGCropGene(StarTGCropTraits.None, 1);
+    private StarTGCropGene climateGene = null;
 
     public StarTGCropGenome(@NotNull List<StarTGCropGene> resourceGenome,
                             @NotNull List<StarTGCropGene> productionGenome,
                             @NotNull List<StarTGCropGene> auxiliaryGenome,
-                            @NotNull StarTGCropGene climateGene) {
+                            StarTGCropGene climateGene) {
         this.resourceGenome = resourceGenome;
         this.productionGenome = productionGenome;
         this.auxiliaryGenome = auxiliaryGenome;
@@ -59,7 +60,7 @@ public class StarTGCropGenome {
             case PRODUCTION -> necessaryGenome = productionGenome;
             case AUXILIARY -> necessaryGenome = auxiliaryGenome;
             case CLIMATE -> {
-                if (climateGene.getTrait().equals("empty")) return false;
+                if (climateGene == null) return false;
                 return climateGene.getTrait().equals(trait);
             }
         }
@@ -78,19 +79,72 @@ public class StarTGCropGenome {
         return this.hasTrait(trait);
     }
 
+    public boolean isEmpty() {
+        if (!resourceGenome.isEmpty()) return false;
+        if (!productionGenome.isEmpty()) return false;
+        if (!auxiliaryGenome.isEmpty()) return false;
+        if (climateGene != null) return false;
+
+        return true;
+    }
+
+    public static String getPrettyTraitSymbol(String symbol, int tier) {
+        String colourCode = switch (tier) {
+            case -1 -> "§4"; // unknown trait
+            case 1 -> "§9";
+            case 2 -> "§1";
+            case 3 -> "§5";
+            case 4 -> "§2";
+            case 5 -> "§a";
+            case 6 -> "§c";
+            case 7 -> "§e";
+            default -> "§7";
+        };
+
+        return String.format("%s%s§r", colourCode, symbol);
+    }
+
+    public static MutableComponent prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
+        return genome.stream()
+                .map(
+                        gene -> {
+                            StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
+                            String traitSymbol;
+                            int traitTier;
+                            if (trait == null) {
+                                traitSymbol = full ? "Unknown" : "??";
+                                traitTier = -1;
+                            } else {
+                                traitSymbol = full ? trait.name() : trait.symbol();
+                                traitTier = trait.tier();
+                            }
+                            return Component.translatable(getPrettyTraitSymbol(traitSymbol, traitTier));
+                        })
+                .reduce(Component.literal(full ? ", " : ""), MutableComponent::append);
+    }
+
     public StarTGCropGenome(CompoundTag gCropGenomeCompound) {
         ListTag resourceGenomeList = gCropGenomeCompound.getList(GCROP_RESOURCE_GENOME_NBT_TAG, Tag.TAG_STRING);
-        resourceGenomeList.forEach(gene -> this.resourceGenome.add(new StarTGCropGene(gene.getAsString())));
+        resourceGenomeList.forEach(gene -> {
+            StarTGCropGene newGene = new StarTGCropGene(gene.getAsString());
+            if (newGene.getTrait() != null) this.resourceGenome.add(newGene);
+        });
 
         ListTag productionGenomeList = gCropGenomeCompound.getList(GCROP_PRODUCTION_GENOME_NBT_TAG,
                 Tag.TAG_STRING);
-        productionGenomeList.forEach(gene -> this.productionGenome.add(new StarTGCropGene(gene.getAsString())));
+        productionGenomeList.forEach(gene -> {
+            StarTGCropGene newGene = new StarTGCropGene(gene.getAsString());
+            if (newGene.getTrait() != null) this.productionGenome.add(newGene);
+        });
 
         ListTag auxiliaryGenomeList = gCropGenomeCompound.getList(GCROP_AUXILIARY_GENOME_NBT_TAG, Tag.TAG_STRING);
-        auxiliaryGenomeList.forEach(gene -> this.auxiliaryGenome.add(new StarTGCropGene(gene.getAsString())));
+        auxiliaryGenomeList.forEach(gene -> {
+            StarTGCropGene newGene = new StarTGCropGene(gene.getAsString());
+            if (newGene.getTrait() != null) this.auxiliaryGenome.add(newGene);
+        });
 
         String climateGenome = gCropGenomeCompound.getString(GCROP_CLIMATE_GENOME_NBT_TAG);
-        this.climateGene = new StarTGCropGene(climateGenome);
+        if (!climateGenome.equals("empty")) this.climateGene = new StarTGCropGene(climateGenome);
     }
 
     public CompoundTag toCompoundTag() {
@@ -114,7 +168,9 @@ public class StarTGCropGenome {
         gCropGenomeCompound.put(GCROP_RESOURCE_GENOME_NBT_TAG, resourceGenomeList);
         gCropGenomeCompound.put(GCROP_PRODUCTION_GENOME_NBT_TAG, productionGenomeList);
         gCropGenomeCompound.put(GCROP_AUXILIARY_GENOME_NBT_TAG, auxiliaryGenomeList);
-        gCropGenomeCompound.put(GCROP_CLIMATE_GENOME_NBT_TAG, StringTag.valueOf(climateGene.toRawGene()));
+        if (climateGene != null)
+            gCropGenomeCompound.put(GCROP_CLIMATE_GENOME_NBT_TAG, StringTag.valueOf(climateGene.toRawGene()));
+        else gCropGenomeCompound.put(GCROP_CLIMATE_GENOME_NBT_TAG, StringTag.valueOf("empty"));
 
         return gCropGenomeCompound;
     }

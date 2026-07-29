@@ -69,7 +69,7 @@ public class StarTFruitBehaviour extends StarTNBTTooltipsBehaviour {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
                                 TooltipFlag isAdvanced) {
-        String componentKey = null;
+        String componentKey;
         String resourceType = this.materialType.getName();
 
         if (emptyTypeList.contains(this.resource.getName()) || resourceType.equals("dye")) {
@@ -79,11 +79,11 @@ public class StarTFruitBehaviour extends StarTNBTTooltipsBehaviour {
         Component fruitResource = Component.translatable(String.format("material.gtceu.%s", this.resource.getName()));
         Component namedFruitResource = Component.translatable(componentKey, fruitResource);
 
-        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.fruit_header"));
+        tooltipComponents.add(Component.translatable("behaviour.start_core.fruit.header"));
         tooltipComponents
-                .add(Component.translatable("behaviour.start_core.gcrop.fruit_resource", namedFruitResource));
+                .add(Component.translatable("behaviour.start_core.fruit.resource", namedFruitResource));
         tooltipComponents
-                .add(Component.translatable("behaviour.start_core.gcrop.fruit_tier",
+                .add(Component.translatable("behaviour.start_core.fruit.tier",
                         Component.literal(Integer.toString(this.tier))));
 
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);

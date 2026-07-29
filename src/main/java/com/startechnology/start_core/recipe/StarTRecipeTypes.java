@@ -106,6 +106,35 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new GCropHarvesterLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType GENOME_GATHERING = GTRecipeTypes
+            .register("genome_gathering", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeDuplicationLogic())
+            .addCustomRecipeLogic(new GenomeHarvestingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_MIXING = GTRecipeTypes
+            .register("genome_mixing", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeMixingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_SEPARATING = GTRecipeTypes
+            .register("genome_separating", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeSeparatingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_INSERTION = GTRecipeTypes
+            .register("genome_insertion", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeInsertionLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 2)

@@ -117,7 +117,7 @@ public class StarTGCropTraits {
 
         StarTGCropGenome newGenome;
 
-        if (climateGene.getTrait().equals(None)) newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
+        if (climateGene == null) newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
                 auxiliaryGenome);
         else newGenome = new StarTGCropGenome(resourceGenome, productionGenome,
                 auxiliaryGenome, climateGene);
@@ -130,7 +130,7 @@ public class StarTGCropTraits {
     public static ItemStack getCropWithTraits(List<StarTGCropGene> resourceGenome,
                                               List<StarTGCropGene> productionGenome,
                                               List<StarTGCropGene> auxiliaryGenome) {
-        return getCropWithTraits(resourceGenome, productionGenome, auxiliaryGenome, new StarTGCropGene(None, 0));
+        return getCropWithTraits(resourceGenome, productionGenome, auxiliaryGenome, null);
     }
 
     public static void init() {
@@ -227,8 +227,6 @@ public class StarTGCropTraits {
         Early = new StarTGCropTrait("Early", "Ea", 4, 100, GenomeType.AUXILIARY);
 
         // Climate Traits
-        None = new StarTGCropTrait("None", "X", 1, 5000, 1, GenomeType.CLIMATE);
-
         Frosty = new StarTGCropTrait("Frost", "Fr", 1, 1000, 1, GenomeType.CLIMATE);
 
         Scorching = new StarTGCropTrait("Scorching", "Sc", 1, 1000, 1, GenomeType.CLIMATE);
@@ -255,7 +253,6 @@ public class StarTGCropTraits {
     public static StarTGCropTrait Quickened;
     public static StarTGCropTrait Thirsty;
 
-    public static StarTGCropTrait None;
     public static StarTGCropTrait Frosty;
     public static StarTGCropTrait Scorching;
     public static StarTGCropTrait Tropical;

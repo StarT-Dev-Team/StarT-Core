@@ -113,11 +113,11 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         List<StarTGCropGene> existingAuxiliaryGenome = existingStats.getAuxiliaryGenome();
         StarTGCropGene existingClimateGenome = existingStats.getClimateGene();
 
-        StarTGCropTraits.StarTGCropTrait newClimateGenome = StarTGCropTraits.None;
+        StarTGCropTraits.StarTGCropTrait newClimateGenome = null;
         List<StarTGCropTraits.StarTGCropTrait> climateTraits = new ArrayList<>(
                 StarTGCropTraits.getTraitsByType(StarTGCropTraits.GenomeType.CLIMATE));
 
-        int totalFrequency = 0;
+        int totalFrequency = 5000;
         for (var trait : climateTraits) {
             totalFrequency += trait.frequency();
         }
@@ -210,14 +210,14 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
     public void buildRepresentativeRecipes() {
         ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropRandomSeed.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_crop");
+                "behaviour.start_core.gcrop.new_random_crop");
 
         gCropRandomSeed.setHoverName(Component.translatable(
                 "behaviour.start_core.gcrop.random_crop_name"));
 
         ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
-                "behaviour.start_core.bacteria.input");
+                "behaviour.start_core.gcrop.random_crop");
 
         GTRecipe AuxMutation0_3Recipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                 .recipeBuilder("aux_mutation_0_to_3")

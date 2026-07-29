@@ -61,49 +61,14 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
                 .orElse(null);
     }
 
-    private static String getPrettyTraitSymbol(String symbol, int tier) {
-        String colourCode = switch (tier) {
-            case -1 -> "§4"; // unknown trait
-            case 1 -> "§9";
-            case 2 -> "§1";
-            case 3 -> "§5";
-            case 4 -> "§2";
-            case 5 -> "§a";
-            case 6 -> "§c";
-            case 7 -> "§e";
-            default -> "§7";
-        };
-
-        return String.format("%s%s§r", colourCode, symbol);
-    }
-
     public MutableComponent prettyRequiredGCropTraits() {
         var translatableAffinities = gcropTraits.stream()
                 .map(
                         trait -> Component.translatable(
-                                getPrettyTraitSymbol(trait.symbol(), trait.tier())))
+                                StarTGCropGenome.getPrettyTraitSymbol(trait.symbol(), trait.tier())))
                 .reduce(Component.literal(""), MutableComponent::append);
 
         return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableAffinities);
-    }
-
-    public MutableComponent prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
-        return genome.stream()
-                .map(
-                        gene -> {
-                            StarTGCropTrait trait = gene.getTrait();
-                            String traitSymbol;
-                            int traitTier;
-                            if (trait == null) {
-                                traitSymbol = full ? "Unknown" : "??";
-                                traitTier = -1;
-                            } else {
-                                traitSymbol = full ? trait.name() : trait.symbol();
-                                traitTier = trait.tier();
-                            }
-                            return Component.translatable(getPrettyTraitSymbol(traitSymbol, traitTier));
-                        })
-                .reduce(Component.literal(full ? ", " : ""), MutableComponent::append);
     }
 
     @Override
@@ -117,16 +82,20 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
-                            prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false)));
+                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false)));
             tooltipComponents.add(
                     Component.translatable("behaviour.start_core.gcrop.production_genome",
-                            prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
+                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
             tooltipComponents
                     .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
-                            prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
-            tooltipComponents
-                    .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",
-                            prettyGenomeGCropTraits(List.of(gCropGenome.getClimateGene()), false)));
+                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
+
+            StarTGCropGene climateGene = gCropGenome.getClimateGene();
+            if (climateGene != null) {
+                tooltipComponents
+                        .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",
+                                StarTGCropGenome.prettyGenomeGCropTraits(List.of(climateGene), false)));
+            }
         } else if (!malformed) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.no_genome"));
             tooltipComponents.add(Component.empty());
