@@ -109,6 +109,18 @@ Provides custom KubeJS bindings:
 
 ---
 
+## ❤️ Thanks
+
+- [Lytho](https://github.com/AlmostReliable/ponderjs) for PonderJS that heavily inspired the KubeJS integration of
+  Ponder in this mod.
+- [ChAoS_UnItY_](https://github.com/ChAoSUnItY/Create-Ultimine) and
+  [alegiannx](https://github.com/alegian/framed-blocks-ultimine) for the FTB Ultimine integrations that heavily inspired
+  the ones in this mod.
+- [DestroyerMob](https://github.com/DestroyerMob) for making the patch of Effortless Buidling that fixed a long standing 
+  bug with block placement in survival mode, that we integrated in this mod.
+
+---
+
 ## 📄 License
 
 This mod is licensed under the **LGPLv3.0** License. See [LICENSE](LICENSE) for details.

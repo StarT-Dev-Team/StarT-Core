@@ -284,25 +284,44 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return (int) Math.max(Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0), 0);
     }
 
+    public int redstonePercentageOfBrokenCells() {
+        return (int) Math.max(Math.min((double) brokenCells / cellAmount * 15.0, 15.0), 0);
+    }
+
     private void temperatureChanged() {
         Arrays.stream(StarTSolarCells.values()).forEach(entry -> this.setIndicatorValue(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 redstonePercentageOfTemp(entry.getMaxTemperature())));
+
+        this.setIndicatorValue("variadic.start_core.indicator.solar_machine.broken_cells",
+                redstonePercentageOfBrokenCells());
     }
 
     @Override
     public List<RedstoneIndicatorRecord> getInitialIndicators() {
-        return Arrays.stream(StarTSolarCells.values()).map(entry -> {
+        var indicators = new ArrayList<RedstoneIndicatorRecord>();
+
+        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
             int maxTemp = entry.getMaxTemperature();
 
-            return new RedstoneIndicatorRecord(
+            indicators.add(new RedstoneIndicatorRecord(
                     "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                    Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
-                    Component.translatable("variadic.start_core.description.solar_machine", maxTemp)
+                    Component.translatable("variadic.start_core.indicator.solar_machine.temp", maxTemp),
+                    Component.translatable("variadic.start_core.description.solar_machine.temp", maxTemp)
                             .withStyle(ChatFormatting.GRAY),
                     redstonePercentageOfTemp(maxTemp),
-                    maxTemp);
-        }).toList();
+                    maxTemp));
+        });
+
+        indicators.add(new RedstoneIndicatorRecord(
+                "variadic.start_core.indicator.solar_machine.broken_cells",
+                Component.translatable("variadic.start_core.indicator.solar_machine.broken_cells"),
+                Component.translatable("variadic.start_core.description.solar_machine.broken_cells")
+                        .withStyle(ChatFormatting.GRAY),
+                redstonePercentageOfBrokenCells(),
+                1));
+
+        return indicators;
     }
 
     @Override

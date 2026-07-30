@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.bulking.IBulking;
 
 import net.minecraft.core.BlockPos;
@@ -38,12 +39,9 @@ public class StarTBulkingProvider extends CapabilityBlockProvider<IBulking> {
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("bulking_type")) {
+        if (StarTJadeUtils.hasData(capData, "bulking_type", "forced_bulking")) {
             String bulkingType = capData.getString("bulking_type");
             tooltip.add(Component.translatable("ui.start_core.bulking.type", bulkingType));
-        }
-
-        if (capData.contains("forced_bulking")) {
             boolean forcedBulking = capData.getBoolean("forced_bulking");
             tooltip.add(Component.translatable("config.jade.plugin_start_core.forced_bulking",
                     Component.translatable((forcedBulking) ? "start_core.util.enabled" : "start_core.util.disabled")));

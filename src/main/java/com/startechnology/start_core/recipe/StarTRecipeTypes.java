@@ -21,15 +21,13 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.*;
-
 public class StarTRecipeTypes {
 
     public static final GTRecipeType FUSION_RECIPES = GTRecipeTypes
             .register("reflector_fusion_reactor", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 2, 1)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
@@ -39,23 +37,6 @@ public class StarTRecipeTypes {
                 return LocalizationUtils.format("start_core.recipe.min_reflector_tier", reflectorTier);
             })
             .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel);
-    // public final static GTRecipeType BLAST_FURNACE_RECIPES = GTRecipeTypes.register("electric_vanilla_blast_furnace",
-    // GTRecipeTypes.ELECTRIC, RecipeType.BLASTING)
-    // .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-    // .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-    // .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-    // .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-    // .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-    // .setSound(GTSoundEntries.FURNACE);
-    //
-    // public final static GTRecipeType SMOKER_RECIPES = GTRecipeTypes.register("electric_smoker",
-    // GTRecipeTypes.ELECTRIC, RecipeType.SMOKING)
-    // .setMaxIOSize(1, 1, 0, 0).setEUIO(IO.IN)
-    // .prepareBuilder(recipeBuilder -> recipeBuilder.EUt(4))
-    // .setSlotOverlay(false, false, GuiTextures.FURNACE_OVERLAY_1)
-    // .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-    // .setSteamProgressBar(GuiTextures.PROGRESS_BAR_ARROW_STEAM, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-    // .setSound(GTSoundEntries.FURNACE);
 
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes
             .register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
@@ -233,5 +214,13 @@ public class StarTRecipeTypes {
             .setMaxIOSize(0, 0, 1, 0)
             .setEUIO(IO.OUT);
 
-    public static final void init() {}
+    public static final GTRecipeType ARBOREAL_EXTRACTION_RECIPES = GTRecipeTypes
+            .register("arboreal_extraction", "primitive")
+            .setMaxIOSize(3, 0, 0, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfoFull(ArborealExtractionRecipeLogic::getDataInfo)
+            .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
+            .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
+
+    public static void init() {}
 }

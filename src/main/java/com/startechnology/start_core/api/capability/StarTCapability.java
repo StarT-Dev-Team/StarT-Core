@@ -13,37 +13,54 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class StarTCapability {
 
-    public static final Capability<IStarTDreamLinkNetworkMachine> CAPABILITY_DREAM_LINK_NETWORK_MACHINE = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    private static final Map<Capability<?>, Class<?>> CAPABILITY_TYPES = new HashMap<>();
 
-    public static final Capability<StarTHellForgeMachine> CAPABILITY_HELL_FORGE_MACHINE = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<IStarTDreamLinkNetworkMachine> CAPABILITY_DREAM_LINK_NETWORK_MACHINE = register(
+            new CapabilityToken<>() {}, IStarTDreamLinkNetworkMachine.class);
 
-    public static final Capability<RedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<StarTHellForgeMachine> CAPABILITY_HELL_FORGE_MACHINE = register(
+            new CapabilityToken<>() {}, StarTHellForgeMachine.class);
 
-    public static final Capability<StarTAbyssalHarvesterMachine> CAPABILITY_ABYSSAL_HARVESTER = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<RedstoneInterfacePartMachine> CAPABILITY_REDSTONE_INTERFACE = register(
+            new CapabilityToken<>() {}, RedstoneInterfacePartMachine.class);
 
-    public static final Capability<StarTThreadingCapableMachine> CAPABILITY_THREADING_CAPABLE_MACHINE = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<StarTAbyssalHarvesterMachine> CAPABILITY_ABYSSAL_HARVESTER = register(
+            new CapabilityToken<>() {}, StarTAbyssalHarvesterMachine.class);
 
-    public static final Capability<IStarTModularSupportedModules> CAPABILITY_SUPPORTED_MODULES = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<StarTThreadingCapableMachine> CAPABILITY_THREADING_CAPABLE_MACHINE = register(
+            new CapabilityToken<>() {}, StarTThreadingCapableMachine.class);
 
-    public static final Capability<StarTModularInterfaceHatchPartMachine> CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<IStarTModularSupportedModules> CAPABILITY_SUPPORTED_MODULES = register(
+            new CapabilityToken<>() {}, IStarTModularSupportedModules.class);
 
-    public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<StarTModularInterfaceHatchPartMachine> CAPABILITY_MODULAR_INTERFACE_HATCH_PART_MACHINE = register(
+            new CapabilityToken<>() {}, StarTModularInterfaceHatchPartMachine.class);
 
-    public static final Capability<StarTSolarMachine> CAPABILITY_SOLAR = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<ReflectorFusionReactorMachine> CAPABILITY_FUSION_REACTOR = register(
+            new CapabilityToken<>() {}, ReflectorFusionReactorMachine.class);
 
-    public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = CapabilityManager
-            .get(new CapabilityToken<>() {});
+    public static final Capability<StarTSolarMachine> CAPABILITY_SOLAR = register(new CapabilityToken<>() {},
+            StarTSolarMachine.class);
 
-    public static final Capability<IBulking> BULKING = CapabilityManager.get(new CapabilityToken<>() {});
+    public static final Capability<VacuumChemicalReactionChamberMachine> VACUUM_CHEMICAL_REACTION_CHAMBER = register(
+            new CapabilityToken<>() {}, VacuumChemicalReactionChamberMachine.class);
+
+    public static final Capability<IBulking> BULKING = register(new CapabilityToken<>() {}, IBulking.class);
+
+    private static <T> Capability<T> register(CapabilityToken<T> token, Class<T> requiredType) {
+        var capability = CapabilityManager.get(token);
+        CAPABILITY_TYPES.put(capability, requiredType);
+        return capability;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Class<T> getCapabilityClass(Capability<T> capability) {
+        return (Class<T>) Objects.requireNonNull(CAPABILITY_TYPES.get(capability));
+    }
 }
