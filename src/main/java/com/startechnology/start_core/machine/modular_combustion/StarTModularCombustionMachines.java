@@ -50,11 +50,7 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A", Predicates.blocks(
-                            StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing")))// will
-                                                                                         // be
-                                                                                         // a
-                                                                                         // kjs
-                                                                                         // casing
+                            StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C", Predicates.blocks(StarTMachineUtils
                             .getKjsBlock("pallaridium_engine_intake_casing")))
@@ -236,7 +232,6 @@ public class StarTModularCombustionMachines {
                     Component.translatable("block.start_core.breaker_line"),
                     Component.translatable("block.start_core.modular_combustion_frame_d3"),
                     Component.translatable("block.start_core.breaker_line")
-            /* Component.translatable("block.start_core.modular_combustion_frame_tooltip_laser") */
             )
             .tooltipBuilder((stack, components) -> {
                 components.add(
