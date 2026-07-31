@@ -80,17 +80,26 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
 
         if (gCropGenome != null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.genome_header"));
-            tooltipComponents
-                    .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
-                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getResourceGenome(), false)));
-            tooltipComponents.add(
-                    Component.translatable("behaviour.start_core.gcrop.production_genome",
-                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getProductionGenome(), false)));
-            tooltipComponents
-                    .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
-                            StarTGCropGenome.prettyGenomeGCropTraits(gCropGenome.getAuxiliaryGenome(), false)));
-
+            var resourceGenome = gCropGenome.getResourceGenome();
+            var productionGenome = gCropGenome.getProductionGenome();
+            var auxiliaryGenome = gCropGenome.getAuxiliaryGenome();
             StarTGCropGene climateGene = gCropGenome.getClimateGene();
+
+            if (resourceGenome.isEmpty()) {
+                tooltipComponents
+                        .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
+                                StarTGCropGenome.prettyGenomeGCropTraits(resourceGenome, false)));
+            }
+            if (productionGenome.isEmpty()) {
+                tooltipComponents
+                        .add(Component.translatable("behaviour.start_core.gcrop.production_genome",
+                                StarTGCropGenome.prettyGenomeGCropTraits(productionGenome, false)));
+            }
+            if (auxiliaryGenome.isEmpty()) {
+                tooltipComponents
+                        .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
+                                StarTGCropGenome.prettyGenomeGCropTraits(auxiliaryGenome, false)));
+            }
             if (climateGene != null) {
                 tooltipComponents
                         .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",

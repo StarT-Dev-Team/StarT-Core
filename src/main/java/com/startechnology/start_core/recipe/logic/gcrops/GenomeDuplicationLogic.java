@@ -93,9 +93,9 @@ public class GenomeDuplicationLogic implements ICustomRecipeLogic {
         ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem(), 3);
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(genomeHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_holder");
+                "behaviour.start_core.genome_holder.random_holder");
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(newGenomeHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.copied_holder");
+                "behaviour.start_core.genome_holder.copied_holder");
 
         GTRecipe duplicationRecipe = StarTRecipeTypes.GENOME_GATHERING
                 .recipeBuilder("holder_duplication")

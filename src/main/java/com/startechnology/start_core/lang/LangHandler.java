@@ -112,7 +112,7 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.production_genome", "  §9Production§7:§r %s");
         provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §cAuxiliary§7:§r %s");
         provider.add("behaviour.start_core.gcrop.climate_gene", "  §2Climate§7:§r %s");
-        provider.add("behaviour.start_core.gcrop.inserted_gcrop", "§6A crop with the provided genome.");
+        provider.add("behaviour.start_core.gcrop.inserted_gcrop", "§3A crop with the provided genome.");
 
         provider.add("behaviour.start_core.fruit.header", "§aA gCrop Fruiting body");
         provider.add("behaviour.start_core.fruit.resource", "  §6Contains: §2%s");
@@ -143,12 +143,12 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.new_random_crop", "§6Mutated gCrop with random genome.");
         provider.add("behaviour.start_core.gcrop.random_crop", "§6A gCrop with any genome.");
 
-        provider.add("behaviour.start_core.gcrop.random_holder", "§6A Genome Holder with any genome.");
-        provider.add("behaviour.start_core.gcrop.copied_holder", "§6A Genome Holder with the inserted genome.");
-        provider.add("behaviour.start_core.gcrop.separated_holder",
-                "§6A Genome Holder with part of the inserted genome.");
-        provider.add("behaviour.start_core.gcrop.combined_holder",
-                "§6A Genome Holder with both of the inserted genomes.");
+        provider.add("behaviour.start_core.genome_holder.random_holder", "§3A Genome Holder with any genome.");
+        provider.add("behaviour.start_core.genome_holder.copied_holder", "§3A Genome Holder with the inserted genome.");
+        provider.add("behaviour.start_core.genome_holder.separated_holder",
+                "§3A Genome Holder with part of the inserted genome.");
+        provider.add("behaviour.start_core.genome_holder.combined_holder",
+                "§3A Genome Holder with both of the inserted genomes.");
 
         provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
         provider.add("gtceu.gcrop_breeder", "gCrop Breeder");

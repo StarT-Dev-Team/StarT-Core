@@ -129,9 +129,9 @@ public class GenomeSeparatingLogic implements ICustomRecipeLogic {
         ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(randomHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_holder");
+                "behaviour.start_core.genome_holder.random_holder");
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(newHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.separated_holder");
+                "behaviour.start_core.genome_holder.separated_holder");
 
         GTRecipe separationRecipe = StarTRecipeTypes.GENOME_SEPARATING
                 .recipeBuilder("holder_separation")

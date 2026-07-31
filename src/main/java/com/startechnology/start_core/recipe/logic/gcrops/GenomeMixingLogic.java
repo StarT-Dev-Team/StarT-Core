@@ -93,9 +93,9 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
         ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(randomHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_holder");
+                "behaviour.start_core.genome_holder.random_holder");
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(newHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.combined_holder");
+                "behaviour.start_core.genome_holder.combined_holder");
 
         GTRecipe mixingRecipe = StarTRecipeTypes.GENOME_MIXING
                 .recipeBuilder("holder_mixing")

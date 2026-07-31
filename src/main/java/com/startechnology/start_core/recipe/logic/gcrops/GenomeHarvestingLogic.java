@@ -73,7 +73,7 @@ public class GenomeHarvestingLogic implements ICustomRecipeLogic {
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
                 "behaviour.start_core.gcrop.random_crop");
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(genomeHolderFilled.getOrCreateTag(),
-                "behaviour.start_core.gcrop.copied_holder");
+                "behaviour.start_core.genome_holder.copied_holder");
 
         GTRecipe harvestingRecipe = StarTRecipeTypes.GENOME_GATHERING
                 .recipeBuilder("holder_harvesting")

@@ -125,8 +125,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 fluidAmount = (int) Math.round(fluidAmount * 1.2);
             }
 
-            int minFruitAmount = 4;
-            int maxFruitAmount = 1;
+            int minFruitAmount = 1;
+            int maxFruitAmount = 4;
             if (gCropGenome.hasTrait("enormous")) {
                 if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) < 60) maxFruitAmount += 2;
             }
@@ -167,6 +167,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             int baseChance = 2000 + 500 * cropTier;
             int chanceIncrease = 1000;
+
+            if (maxFruitAmount <= minFruitAmount) maxFruitAmount = minFruitAmount + 1;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")

@@ -88,11 +88,11 @@ public class GenomeInsertionLogic implements ICustomRecipeLogic {
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
                 "behaviour.start_core.gcrop.random_crop");
-        StarTCustomTooltipsManager.writeCustomTooltipsToItem(filledGenomeHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_holder");
+        StarTCustomTooltipsManager.writeCustomTooltipsToItem(newGCrop.getOrCreateTag(),
+                "behaviour.start_core.gcrop.inserted_gcrop");
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(filledGenomeHolder.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_holder");
+                "behaviour.start_core.genome_holder.random_holder");
 
         GTRecipe insertionRecipe = StarTRecipeTypes.GENOME_INSERTION
                 .recipeBuilder("holder_insertion")

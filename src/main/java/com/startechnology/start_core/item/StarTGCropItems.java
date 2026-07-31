@@ -1,5 +1,6 @@
 package com.startechnology.start_core.item;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
@@ -27,6 +28,7 @@ import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -45,6 +47,15 @@ public class StarTGCropItems {
     public static <T extends IComponentItem> NonNullConsumer<T> attach(IItemComponent components) {
         return item -> item.attachComponents(components);
     }
+
+    public static Map<Integer, Integer> tierVoltages = Map.ofEntries(
+            Map.entry(1, GTValues.ULV),
+            Map.entry(2, GTValues.LV),
+            Map.entry(3, GTValues.MV),
+            Map.entry(4, GTValues.HV),
+            Map.entry(5, GTValues.EV),
+            Map.entry(6, GTValues.LuV),
+            Map.entry(7, GTValues.UV));
 
     public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
         for (var gCrop : GCROP_ITEMS) {
@@ -67,15 +78,18 @@ public class StarTGCropItems {
             .onRegister(attach(new StarTNBTTooltipsBehaviour()))
             .onRegister(attach(new StarTGenomeHolderBehaviour()))
             .model((ctx, prov) -> createTextureModel(ctx, prov,
-                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
+                    StarTCore.resourceLocation("item/gcrops/filled_genome_holder")))
             .register();
 
     public static final ItemEntry<ComponentItem> EMPTY_GENOME_HOLDER = START_REGISTRATE
             .item("empty_genome_holder", ComponentItem::create)
             .lang("§3Empty Genome Holder")
             .properties(prop -> prop.stacksTo(64))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("behaviour.start_core.genome_holder.no_genome"));
+            })))
             .model((ctx, prov) -> createTextureModel(ctx, prov,
-                    StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
+                    StarTCore.resourceLocation("item/gcrops/empty_genome_holder")))
             .register();
 
     public static final ItemEntry<ComponentItem> GCROP_MALFORMED = START_REGISTRATE
