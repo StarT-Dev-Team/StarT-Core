@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
+import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
 import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPlugin;
@@ -70,6 +71,7 @@ public class StarTCore {
         StarTConfig.init();
 
         StarTGCropTraits.init();
+        StarTGCropData.init();
 
         StarTCreativeTab.init();
         START_REGISTRATE.creativeModeTab(() -> StarTCreativeTab.START_CORE);

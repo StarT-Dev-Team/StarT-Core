@@ -24,15 +24,7 @@ public class StarTFruitItems {
         Material itemMaterial = GTMaterials.get(id);
         ItemColor itemColor = TagPrefixItem.tintColor(itemMaterial);
         String fruitResource = StarTStringUtils.snakeCaseToSentence(id);
-        // int MaterialColor = itemMaterial.getMaterialARGB();
-        //
-        // if (tier == 0) {
-        // new Material.Builder(StarTCore.resourceLocation(String.format("%s_pigment", id.split("_")[0])))
-        // .liquid(new FluidBuilder())
-        // .color(MaterialColor)
-        // .flags(MaterialFlags.DISABLE_DECOMPOSITION)
-        // .buildAndRegister();
-        // }
+
         if (tier == 3) {
             ItemEntry<ComponentItem> fruitSliceItem = START_REGISTRATE
                     .item(String.format("%s_fruit_slice", id), ComponentItem::create)

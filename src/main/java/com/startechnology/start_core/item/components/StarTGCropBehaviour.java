@@ -16,7 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
@@ -41,10 +40,10 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
         return gcropTraits;
     }
 
-    public StarTGCropBehaviour(int tier, Material material, StarTGCropTrait... traits) {
+    public StarTGCropBehaviour(int tier, Material material, List<StarTGCropTrait> traits) {
         this.tier = tier;
         this.material = material;
-        this.gcropTraits = Arrays.asList(traits);
+        this.gcropTraits = traits;
     }
 
     public static StarTGCropBehaviour getGCropBehaviour(ItemStack gCrop) {
