@@ -50,11 +50,12 @@ public class StarTGCropItems {
     }
 
     public static Map<Integer, Integer> tierVoltages = Map.ofEntries(
-            Map.entry(1, GTValues.ULV),
-            Map.entry(2, GTValues.LV),
-            Map.entry(3, GTValues.MV),
-            Map.entry(4, GTValues.HV),
-            Map.entry(5, GTValues.EV),
+            Map.entry(0, GTValues.ULV),
+            Map.entry(1, GTValues.LV),
+            Map.entry(2, GTValues.MV),
+            Map.entry(3, GTValues.HV),
+            Map.entry(4, GTValues.EV),
+            Map.entry(5, GTValues.IV),
             Map.entry(6, GTValues.LuV),
             Map.entry(7, GTValues.UV));
 

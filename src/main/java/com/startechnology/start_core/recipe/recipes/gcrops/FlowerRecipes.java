@@ -7,14 +7,12 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
+import com.startechnology.start_core.utils.StarTItemUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
@@ -78,10 +76,7 @@ public class FlowerRecipes {
             if (ModList.get().isLoaded("thermal")) {
                 CROP_GREENHOUSE_RECIPE_TYPE.recipeBuilder(flowerName + "_blooming_compost")
                         .inputItems(flower.asStack())
-                        .chancedInput(
-                                new ItemStack(Objects.requireNonNull(
-                                        ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal", "compost")))),
-                                7500, -500)
+                        .chancedInput(new ItemStack(StarTItemUtils.getItem("thermal", "compost")), 7500, -500)
                         .inputFluids(GTMaterials.Water.getFluid(100))
                         .outputItems(fruit.asStack())
                         .EUtVHA(GTValues.MV + flowerTier)

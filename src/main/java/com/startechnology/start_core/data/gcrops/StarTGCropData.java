@@ -1,6 +1,5 @@
 package com.startechnology.start_core.data.gcrops;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import lombok.Getter;
 
@@ -19,8 +18,6 @@ public class StarTGCropData {
     private String id;
     @Getter
     private String name;
-    @Getter
-    private Material material;
     @Getter
     private StarTGCropItemType materialType;
     @Getter
