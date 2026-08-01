@@ -1,8 +1,5 @@
 package com.startechnology.start_core.machine.modular;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -16,6 +13,9 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModularConduitHatchPartMachine {
 
@@ -84,11 +84,11 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
         if (this.io == IO.IN) {
             this.energyContainer.resetBasicInfo(maxCapacity, voltage, amperage, 0, 0);
             /* Reform module to update multiblock state (is this a crime?) */
-            if (this.controllers.size() > 0) {
+            if (!this.controllers.isEmpty()) {
                 for (var controller : this.controllers) {
                     controller.onPartUnload();
                     controller.onStructureFormed();
-                    
+
                     /* Hopefully this invokes recipe finding logic so the machine doesnt just halt */
                     if (controller instanceof WorkableMultiblockMachine workableMultiblock) {
                         workableMultiblock.getRecipeLogic().serverTick();
@@ -104,8 +104,8 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
         this.energyContainer.setEnergyStored(Math.min(this.energyContainer.getEnergyStored(), maxCapacity));
     }
 
-
-    public static void addDisplayTextToList(Consumer<Component> componentAdder, long scaledVoltage, long scaledAmperage) {
+    public static void addDisplayTextToList(Consumer<Component> componentAdder, long scaledVoltage,
+                                            long scaledAmperage) {
         if (scaledVoltage > BASE_VOLTAGE && scaledAmperage > 0) {
             var tier = GTUtil.getTierByVoltage(scaledVoltage);
 
@@ -120,13 +120,14 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
                     .withStyle(ChatFormatting.YELLOW));
 
         } else {
-            componentAdder.accept(Component.translatable("modular.start_core.no_scaling").withStyle(ChatFormatting.RED));
+            componentAdder
+                    .accept(Component.translatable("modular.start_core.no_scaling").withStyle(ChatFormatting.RED));
         }
     }
 
     @Override
     protected void addComponentPanelText(List<Component> componentList) {
-        addDisplayTextToList((component) -> componentList.add(component), getScaledVoltage(), getScaledAmperage());
+        addDisplayTextToList(componentList::add, getScaledVoltage(), getScaledAmperage());
         componentList.add(Component.empty());
         super.addComponentPanelText(componentList);
     }

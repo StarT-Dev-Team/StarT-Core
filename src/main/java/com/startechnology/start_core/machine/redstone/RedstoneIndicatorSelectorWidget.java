@@ -1,9 +1,10 @@
 package com.startechnology.start_core.machine.redstone;
 
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SelectableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.SelectorWidget;
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+
 import net.minecraft.network.chat.Component;
 
 import java.util.HashMap;
@@ -48,7 +49,8 @@ public class RedstoneIndicatorSelectorWidget extends SelectorWidget {
 
     private void updateButtonDisplay() {
         if (RedstoneIndicatorRecord.DEFAULT.indicatorKey().equals(currentValue)) {
-            textTexture.updateText(escapeFormatSpecifiers(RedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
+            textTexture.updateText(
+                    escapeFormatSpecifiers(RedstoneIndicatorRecord.DEFAULT.indicatorComponent().getString()));
             return;
         }
 

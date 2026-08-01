@@ -3,8 +3,8 @@ package com.startechnology.start_core.mixin.ponder;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.integration.ponder.PonderEvents;
 import com.startechnology.start_core.integration.ponder.PonderItemTagEventJS;
-import com.startechnology.start_core.integration.ponder.PonderRegistryEventJS;
 import com.startechnology.start_core.integration.ponder.PonderJSUtils;
+import com.startechnology.start_core.integration.ponder.PonderRegistryEventJS;
 import net.createmod.ponder.foundation.PonderIndex;
 import net.createmod.ponder.foundation.registration.DefaultPonderTagRegistrationHelper;
 import net.createmod.ponder.foundation.registration.PonderLocalization;
@@ -41,5 +41,4 @@ public class PonderIndexMixin {
         var tagRegHelper = new DefaultPonderTagRegistrationHelper(StarTCore.MOD_ID, TAGS, LOCALIZATION);
         PonderEvents.TAGS.post(new PonderItemTagEventJS(tagRegHelper));
     }
-
 }

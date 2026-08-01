@@ -32,3 +32,9 @@ src/generated/resources/.cache/
 # fabric
 
 run/
+libs/
+
+# AI docs
+!AGENTS.md
+!CLAUDE.md
+!.gemini/

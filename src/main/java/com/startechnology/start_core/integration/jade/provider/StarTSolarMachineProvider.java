@@ -7,7 +7,13 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
+import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,12 +24,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
 
 public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSolarMachine> {
+
     public StarTSolarMachineProvider() {
         super(StarTCore.resourceLocation("solar_machine_info"));
     }
@@ -44,7 +47,7 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("euT") && capData.contains("formed") && capData.contains("totalCells") && capData.contains("brokenCells")) {
+        if (StarTJadeUtils.hasData(capData, "euT", "formed", "totalCells", "brokenCells")) {
             if (!capData.getBoolean("formed")) return;
 
             int euT = capData.getInt("euT");
@@ -57,16 +60,19 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
                 MutableComponent text;
                 MutableComponent voltageTier;
 
-                text = Component.translatable("gtceu.recipe.eu.total", FormattingUtil.formatNumbers(euT)).withStyle(ChatFormatting.RED);
+                text = Component.translatable("gtceu.recipe.eu.total", FormattingUtil.formatNumbers(euT))
+                        .withStyle(ChatFormatting.RED);
 
                 if (tier < GTValues.TIER_COUNT - 1) {
-                    voltageTier = Component.literal(GTValues.VNF[tier]).withStyle(style -> style.withColor(GTValues.VC[tier]));
+                    voltageTier = Component.literal(GTValues.VNF[tier])
+                            .withStyle(style -> style.withColor(GTValues.VC[tier]));
                 } else {
                     int calculatedSpeed = Mth.ceil(Math.log((double) euT / GTValues.V[GTValues.MAX]) / Math.log(4));
                     int speed = Mth.clamp(calculatedSpeed, 0, GTValues.TIER_COUNT);
 
                     if (speed == 0) {
-                        voltageTier = Component.literal(GTValues.VNF[tier]).withStyle(style -> style.withColor(GTValues.VC[tier]));
+                        voltageTier = Component.literal(GTValues.VNF[tier])
+                                .withStyle(style -> style.withColor(GTValues.VC[tier]));
                     } else {
                         minAmperage = (float) (minAmperage / Math.pow(4, speed));
                         voltageTier = Component.literal("MAX")
@@ -86,7 +92,8 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
                 tooltip.add(2, Component.translatable("gtceu.top.energy_production").append(" ").append(text));
             }
 
-            tooltip.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip", totalCells - capData.getInt("brokenCells"), totalCells));
+            tooltip.add(Component.translatable("solar.start_core.solar_machine.cell_tooltip",
+                    totalCells - capData.getInt("brokenCells"), totalCells));
         }
     }
 }

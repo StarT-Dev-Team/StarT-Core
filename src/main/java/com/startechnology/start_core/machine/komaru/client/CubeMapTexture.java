@@ -3,13 +3,14 @@ package com.startechnology.start_core.machine.komaru.client;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import lombok.Getter;
-import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
+
+import net.minecraft.client.renderer.texture.AbstractTexture;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -22,7 +23,7 @@ public class CubeMapTexture extends AbstractTexture {
     private int width;
     @Getter
     private int height;
-    private static final String[] CUBE_MAP_SIDES = {"right", "left", "top", "bottom", "front", "back"};
+    private static final String[] CUBE_MAP_SIDES = { "right", "left", "top", "bottom", "front", "back" };
 
     public CubeMapTexture(ResourceLocation location, boolean hasAlphaChannel) {
         this.location = location;
@@ -39,7 +40,8 @@ public class CubeMapTexture extends AbstractTexture {
         GL30.glBindTexture(GL30.GL_TEXTURE_CUBE_MAP, id);
 
         for (int i = 0; i < CUBE_MAP_SIDES.length; i++) {
-            var sideLocation = new ResourceLocation(location.getNamespace(), location.getPath() + "_" + CUBE_MAP_SIDES[i] + ".png");
+            var sideLocation = new ResourceLocation(location.getNamespace(),
+                    location.getPath() + "_" + CUBE_MAP_SIDES[i] + ".png");
             var resource = resourceManager.getResource(sideLocation);
             if (resource.isPresent()) {
                 try {
@@ -57,12 +59,12 @@ public class CubeMapTexture extends AbstractTexture {
                             throw new IOException("Could not load image: " + STBImage.stbi_failure_reason());
                         }
                         int texFormat = this.alpha ? GL30.GL_RGBA : GL30.GL_RGB;
-                        GL30.glTexImage2D(GL30.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, texFormat, width.get(), height.get(), 0, texFormat, GL30.GL_UNSIGNED_BYTE, image);
+                        GL30.glTexImage2D(GL30.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, texFormat, width.get(),
+                                height.get(), 0, texFormat, GL30.GL_UNSIGNED_BYTE, image);
                         this.width = width.get(0);
                         this.height = height.get(0);
                         STBImage.stbi_image_free(image);
                     }
-
 
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to load cubemap side: " + sideLocation, e);

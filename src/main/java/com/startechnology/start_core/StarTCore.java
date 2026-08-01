@@ -1,16 +1,5 @@
 package com.startechnology.start_core;
 
-import com.startechnology.start_core.lang.LangHandler;
-import com.tterrag.registrate.providers.ProviderType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import com.startechnology.start_core.item.StarTItems;
-import com.startechnology.start_core.item.curios.LucinducerCurioItem;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
@@ -20,31 +9,48 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProp
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ParallelType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
+import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
+import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPlugin;
+import com.startechnology.start_core.item.StarTItems;
+import com.startechnology.start_core.item.curios.LucinducerCurioItem;
+import com.startechnology.start_core.lang.LangHandler;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.tterrag.registrate.providers.ProviderType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import top.theillusivec4.curios.api.CuriosApi;
 
 @SuppressWarnings("unused")
 @Mod(StarTCore.MOD_ID)
 public class StarTCore {
+
     public static final String MOD_ID = "start_core";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final GTRegistrate START_REGISTRATE = GTRegistrate.create(StarTCore.MOD_ID);
@@ -57,6 +63,8 @@ public class StarTCore {
 
     public StarTCore(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
+
+        checkGTMCompatibility();
 
         StarTConfig.init();
 
@@ -73,6 +81,7 @@ public class StarTCore {
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(GTRecipeCategory.class, this::registerRecipeCategories);
         modEventBus.addGenericListener(DimensionMarker.class, this::registerDimensionalMarkers);
+        modEventBus.addGenericListener(ParallelType.class, this::registerParallelTypes);
         START_REGISTRATE.registerRegistrate();
 
         // Most other events are fired on Forge's bus.
@@ -80,7 +89,26 @@ public class StarTCore {
         // we need to register our object like this!
         MinecraftForge.EVENT_BUS.register(this);
 
+        UltimineCreatePlugin.init();
+        UltimineFramedBlocksPlugin.init();
+
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> StarTCoreClient::init);
+    }
+
+    private void checkGTMCompatibility() {
+        ModContainer gtceu = ModList.get().getModContainerById("gtceu").orElse(null);
+        if (gtceu == null) {
+            LOGGER.error("GTm is not installed! Please install it!");
+            // let forge handle the crash
+            return;
+        }
+
+        Object forkProperty = gtceu.getModInfo().getModProperties().get("isStarTFork");
+
+        if (!Boolean.TRUE.equals(forkProperty)) {
+            throw new IllegalStateException(
+                    "StarT Core requires the StarT GTm fork to be installed! If your instance contains the regular GTm mod, please uninstall it!");
+        }
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -88,8 +116,7 @@ public class StarTCore {
         CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {
-    }
+    private void clientSetup(final FMLClientSetupEvent event) {}
 
     // You MUST have this for custom materials.
     // Remember to register them not to GT's namespace, but your own.
@@ -104,10 +131,10 @@ public class StarTCore {
 
     // This is optional, though.
     private void modifyMaterials(PostMaterialEvent event) {
-
         // Prevent crash from KubeJS
         if (!GTMaterials.NaquadahEnriched.hasProperty(PropertyKey.FLUID_PIPE)) {
-            GTMaterials.NaquadahEnriched.setProperty(PropertyKey.FLUID_PIPE, new FluidPipeProperties(8000, 500, true, true, true, false));
+            GTMaterials.NaquadahEnriched.setProperty(PropertyKey.FLUID_PIPE,
+                    new FluidPipeProperties(8000, 500, true, true, true, false));
         }
     }
 
@@ -127,6 +154,10 @@ public class StarTCore {
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
         StarTMachines.init();
+    }
+
+    private void registerParallelTypes(GTCEuAPI.RegisterEvent<String, ParallelType> event) {
+        StarTParallelTypes.init();
     }
 
     @SubscribeEvent

@@ -1,34 +1,36 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
-import java.util.List;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
-import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
-import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
+import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
-import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTAbyssalHarvesterMachine.class,
-        WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine
+                                          implements IRedstoneIndicatorMachine {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTAbyssalHarvesterMachine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
@@ -38,7 +40,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     private boolean startSaturationGain;
 
     private boolean isWorking;
-
 
     public StarTAbyssalHarvesterMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -63,13 +64,13 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         }
 
         if ((1750 <= machineSaturation && machineSaturation <= 2750) ||
-            (4750 <= machineSaturation && machineSaturation <= 5750) ||
-            (7750 <= machineSaturation && machineSaturation <= 8750)) {
+                (4750 <= machineSaturation && machineSaturation <= 5750) ||
+                (7750 <= machineSaturation && machineSaturation <= 8750)) {
             int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
             return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
-                .parallels(maxPossibleParallels)
-                .build();
+                    .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
+                    .parallels(maxPossibleParallels, StarTParallelTypes.ABYSSAL_HARVESTER)
+                    .build();
         }
 
         return ModifierFunction.IDENTITY;
@@ -79,7 +80,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
         textList.add(Component.translatable("ui.start_core.abyssal_harvester",
-            String.format("%.2f", this.getSaturation() / 100.0)));
+                String.format("%.2f", this.getSaturation() / 100.0)));
     }
 
     @Override
@@ -109,10 +110,10 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     }
 
     private static final List<Integer> redstoneSaturationMarkers = List.of(
-        12000, // 120.00%
-        9000,  // 90.00%
-        6000,  // 60.00%
-        3000   // 30.00%
+            12000, // 120.00%
+            9000,  // 90.00%
+            6000,  // 60.00%
+            3000   // 30.00%
     );
 
     private void saturationChanged() {
@@ -175,16 +176,18 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
     @Override
     public List<RedstoneIndicatorRecord> getInitialIndicators() {
         return redstoneSaturationMarkers.stream().map(
-            marker -> {
-                BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                return new RedstoneIndicatorRecord(
-                    "variadic.start_core.indicator.abyssal_harvester." + label,
-                    Component.translatable("variadic.start_core.indicator.abyssal_harvester", Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
-                    Component.translatable("variadic.start_core.description.abyssal_harvester", label.toString()).withStyle(ChatFormatting.GRAY),
-                    (int) Math.floor(calculatePercentageSaturation(marker)),
-                    marker
-                );
-            }
-        ).toList();
+                marker -> {
+                    BigDecimal label = BigDecimal.valueOf(marker).divide(BigDecimal.valueOf(100), 2,
+                            RoundingMode.HALF_UP);
+                    return new RedstoneIndicatorRecord(
+                            "variadic.start_core.indicator.abyssal_harvester." + label,
+                            Component.translatable("variadic.start_core.indicator.abyssal_harvester",
+                                    Component.literal(label.toString() + "%").withStyle(ChatFormatting.DARK_PURPLE)),
+                            Component
+                                    .translatable("variadic.start_core.description.abyssal_harvester", label.toString())
+                                    .withStyle(ChatFormatting.GRAY),
+                            (int) Math.floor(calculatePercentageSaturation(marker)),
+                            marker);
+                }).toList();
     }
 }

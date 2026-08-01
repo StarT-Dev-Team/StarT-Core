@@ -1,15 +1,16 @@
-package com.startechnology.start_core.mixin;
+package com.startechnology.start_core.mixin.mc.renderer;
 
 import com.startechnology.start_core.machine.komaru.client.ReplaceablePostPass;
-import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import net.minecraft.client.renderer.PostPass;
+
 import java.util.List;
 import java.util.function.IntSupplier;
 
-@Mixin(value = PostPass.class)
+@Mixin(PostPass.class)
 public abstract class PostPassMixin implements ReplaceablePostPass {
 
     @Shadow
@@ -32,7 +33,7 @@ public abstract class PostPassMixin implements ReplaceablePostPass {
     public void addAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {}
 
     @Override
-    public void startcore$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {
+    public void start_core$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height) {
         var index = auxNames.indexOf(auxName);
         if (index >= 0) {
             auxAssets.set(index, auxFramebuffer);
@@ -42,5 +43,4 @@ public abstract class PostPassMixin implements ReplaceablePostPass {
         }
         addAuxAsset(auxName, auxFramebuffer, width, height);
     }
-
 }

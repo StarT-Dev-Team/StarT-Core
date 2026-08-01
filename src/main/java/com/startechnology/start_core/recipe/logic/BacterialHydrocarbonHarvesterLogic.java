@@ -1,14 +1,5 @@
 package com.startechnology.start_core.recipe.logic;
 
-import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.jetbrains.annotations.Nullable;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
@@ -22,26 +13,31 @@ import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.item.components.StarTBacteriaBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import static com.startechnology.start_core.item.StarTBacteriaItems.BACTERIA_ITEMS;
 
 public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         List<NotifiableItemStackHandler> handlers = Objects
-            .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
-                    Collections::emptyList)
-            .stream()
-            .filter(NotifiableItemStackHandler.class::isInstance)
-            .map(NotifiableItemStackHandler.class::cast)
-            .filter(i -> i.getSlots() >= 1)
-            .collect(Collectors.toList());
+                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP),
+                        Collections::emptyList)
+                .stream()
+                .filter(NotifiableItemStackHandler.class::isInstance)
+                .map(NotifiableItemStackHandler.class::cast)
+                .filter(i -> i.getSlots() >= 1)
+                .toList();
 
         if (handlers.isEmpty()) return null;
 
@@ -53,12 +49,10 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
         return null;
     }
- 
+
     private GTRecipe createHarvesterRecipe(NotifiableItemStackHandler handler) {
         for (int i = 0; i < handler.getSlots(); ++i) {
             ItemStack itemInSlot = handler.getStackInSlot(i);
-            
-            if (itemInSlot == null) continue;
 
             if (itemInSlot.isEmpty()) continue;
 
@@ -71,49 +65,42 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
             if (existingStats == null) continue;
 
             FluidStack biomass = GTMaterials.Biomass.getFluid(
-                100 * (2 << (existingStats.getMetabolism()-1))
-            );
+                    100 * (2 << (existingStats.getMetabolism() - 1)));
 
             ItemStack sugar = new ItemStack(Items.SUGAR,
-                (2 << (existingStats.getMetabolism()-1))
-            );
+                    (2 << (existingStats.getMetabolism() - 1)));
 
             FluidStack primaryOutput = new FluidStack(
-                existingStats.getPrimary(),
-                1500 * existingStats.getProduction()
-            );
+                    existingStats.getPrimary(),
+                    1500 * existingStats.getProduction());
 
             FluidStack secondaryOutput = new FluidStack(
-                existingStats.getSecondary(),
-                750 * existingStats.getProduction()
-            );
+                    existingStats.getSecondary(),
+                    750 * existingStats.getProduction());
 
             FluidStack tertiaryOutput = new FluidStack(
-                existingStats.getTertiary(),
-                250 * existingStats.getProduction()
-            );
+                    existingStats.getTertiary(),
+                    250 * existingStats.getProduction());
 
             FluidStack superOutput = new FluidStack(
                     existingStats.getSuperFluid(),
-                    1000 * existingStats.getProduction()
-            );
+                    1000 * existingStats.getProduction());
 
             FluidStack bacteriaOutput = new FluidStack(
                     GTMaterials.Bacteria.getFluid(500),
-                    500 * existingStats.getProduction()
-            );
+                    500 * existingStats.getProduction());
 
             // Output
             return StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
-                .recipeBuilder("harvesting")
-                .inputItems(itemInSlot.copyWithCount(1))
-                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
-                .inputFluids(biomass)
-                .inputItems(sugar)
-                .outputFluids(primaryOutput, secondaryOutput, tertiaryOutput, superOutput, bacteriaOutput)
-                .duration(160)
-                .EUt(GTValues.VH[GTValues.ZPM])
-                .buildRawRecipe();
+                    .recipeBuilder("harvesting")
+                    .inputItems(itemInSlot.copyWithCount(1))
+                    .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                    .inputFluids(biomass)
+                    .inputItems(sugar)
+                    .outputFluids(primaryOutput, secondaryOutput, tertiaryOutput, superOutput, bacteriaOutput)
+                    .duration(160)
+                    .EUt(GTValues.VH[GTValues.ZPM])
+                    .buildRawRecipe();
         }
 
         return null;
@@ -121,110 +108,94 @@ public class BacterialHydrocarbonHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        BACTERIA_ITEMS.stream().forEach(
-            bacteria -> {
-                ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(), 
-                    "behaviour.start_core.bacteria.input");
+        BACTERIA_ITEMS.forEach(
+                bacteria -> {
+                    ItemStack bacteriaInput = new ItemStack(bacteria.asItem());
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(bacteriaInput.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.input");
 
-                StarTBacteriaBehaviour inputBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(bacteriaInput);
-                List<Fluid> affinities = inputBehaviour.getBehaviourAffinityFluids();
-                
-                FluidStack biomass = GTMaterials.Biomass.getFluid(
-                        100 * (2 << (StarTBacteriaStats.MAX_STAT_VALUE-1))
-                );
+                    StarTBacteriaBehaviour inputBehaviour = StarTBacteriaBehaviour.getBacteriaBehaviour(bacteriaInput);
+                    List<Fluid> affinities = inputBehaviour.getBehaviourAffinityFluids();
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    biomass.getOrCreateTag(),
-                    "behaviour.start_core.bacteria.maximum_shown_input",
-                    "behaviour.start_core.bacteria.harvester_biomass_input"
-                );
+                    FluidStack biomass = GTMaterials.Biomass.getFluid(
+                            100 * (2 << (StarTBacteriaStats.MAX_STAT_VALUE - 1)));
 
-                ItemStack sugar = new ItemStack(Items.SUGAR,
-                    (2 << (StarTBacteriaStats.MAX_STAT_VALUE-1))
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            biomass.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.maximum_shown_input",
+                            "behaviour.start_core.bacteria.harvester_biomass_input");
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    sugar.getOrCreateTag(), 
-                    "behaviour.start_core.bacteria.maximum_shown_input",
-                    "behaviour.start_core.bacteria.harvester_sugar_input"
-                );
+                    ItemStack sugar = new ItemStack(Items.SUGAR,
+                            (2 << (StarTBacteriaStats.MAX_STAT_VALUE - 1)));
 
-                FluidStack primaryOutputStack = new FluidStack(affinities.get(0), 
-                    1500 * StarTBacteriaStats.MAX_STAT_VALUE
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            sugar.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.maximum_shown_input",
+                            "behaviour.start_core.bacteria.harvester_sugar_input");
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    primaryOutputStack.getOrCreateTag(), 
-                    "behaviour.start_core.bacteria.primary_output",
-                    "behaviour.start_core.bacteria.any_affinity",
-                    "behaviour.start_core.bacteria.maximum_shown_output",
-                    "behaviour.start_core.bacteria.harvester_primary_output"
-                );
+                    FluidStack primaryOutputStack = new FluidStack(affinities.get(0),
+                            1500 * StarTBacteriaStats.MAX_STAT_VALUE);
 
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            primaryOutputStack.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.primary_output",
+                            "behaviour.start_core.bacteria.any_affinity",
+                            "behaviour.start_core.bacteria.maximum_shown_output",
+                            "behaviour.start_core.bacteria.harvester_primary_output");
 
-                FluidStack secondaryOutputStack = new FluidStack(affinities.get(1), 
-                    750 * StarTBacteriaStats.MAX_STAT_VALUE
-                );
+                    FluidStack secondaryOutputStack = new FluidStack(affinities.get(1),
+                            750 * StarTBacteriaStats.MAX_STAT_VALUE);
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    secondaryOutputStack.getOrCreateTag(), 
-                    "behaviour.start_core.bacteria.secondary_output",
-                    "behaviour.start_core.bacteria.any_affinity",
-                    "behaviour.start_core.bacteria.maximum_shown_output",
-                    "behaviour.start_core.bacteria.harvester_secondary_output"
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            secondaryOutputStack.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.secondary_output",
+                            "behaviour.start_core.bacteria.any_affinity",
+                            "behaviour.start_core.bacteria.maximum_shown_output",
+                            "behaviour.start_core.bacteria.harvester_secondary_output");
 
+                    FluidStack tertiaryOutputStack = new FluidStack(affinities.get(2),
+                            250 * StarTBacteriaStats.MAX_STAT_VALUE);
 
-                FluidStack tertiaryOutputStack = new FluidStack(affinities.get(2), 
-                    250 * StarTBacteriaStats.MAX_STAT_VALUE
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            tertiaryOutputStack.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.tertiary_output",
+                            "behaviour.start_core.bacteria.any_affinity",
+                            "behaviour.start_core.bacteria.maximum_shown_output",
+                            "behaviour.start_core.bacteria.harvester_tertiary_output");
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                    tertiaryOutputStack.getOrCreateTag(), 
-                    "behaviour.start_core.bacteria.tertiary_output",
-                    "behaviour.start_core.bacteria.any_affinity",
-                    "behaviour.start_core.bacteria.maximum_shown_output",
-                    "behaviour.start_core.bacteria.harvester_tertiary_output"
-                );
+                    FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid().getFluid(),
+                            1000 * StarTBacteriaStats.MAX_STAT_VALUE);
 
-                FluidStack superOutputStack = new FluidStack(inputBehaviour.getSuperfluid().getFluid(),
-                        1000 * StarTBacteriaStats.MAX_STAT_VALUE
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            superOutputStack.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.super_output",
+                            "behaviour.start_core.bacteria.maximum_shown_output",
+                            "behaviour.start_core.bacteria.harvester_super_output");
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                        superOutputStack.getOrCreateTag(),
-                        "behaviour.start_core.bacteria.super_output",
-                        "behaviour.start_core.bacteria.maximum_shown_output",
-                        "behaviour.start_core.bacteria.harvester_super_output"
-                );
+                    FluidStack bacteriaOutputStack = new FluidStack(
+                            GTMaterials.Bacteria.getFluid(500),
+                            500 * StarTBacteriaStats.MAX_STAT_VALUE);
 
-                FluidStack bacteriaOutputStack = new FluidStack(
-                        GTMaterials.Bacteria.getFluid(500),
-                        500 * StarTBacteriaStats.MAX_STAT_VALUE
-                );
+                    StarTCustomTooltipsManager.writeCustomTooltipsToItem(
+                            bacteriaOutputStack.getOrCreateTag(),
+                            "behaviour.start_core.bacteria.bacteria_output",
+                            "behaviour.start_core.bacteria.maximum_shown_output",
+                            "behaviour.start_core.bacteria.harvester_bacteria_output");
 
-                StarTCustomTooltipsManager.writeCustomTooltipsToItem(
-                        bacteriaOutputStack.getOrCreateTag(),
-                        "behaviour.start_core.bacteria.bacteria_output",
-                        "behaviour.start_core.bacteria.maximum_shown_output",
-                        "behaviour.start_core.bacteria.harvester_bacteria_output"
-                );
+                    GTRecipe harvesterRecipe = StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
+                            .recipeBuilder(bacteria.getId().getPath() + "_harvest")
+                            .inputItems(bacteriaInput.copyWithCount(1))
+                            .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                            .inputFluids(biomass)
+                            .inputItems(sugar)
+                            .outputFluids(primaryOutputStack, secondaryOutputStack, tertiaryOutputStack,
+                                    superOutputStack, bacteriaOutputStack)
+                            .duration(160)
+                            .EUt(GTValues.VH[GTValues.ZPM])
+                            .buildRawRecipe();
 
-                GTRecipe harvesterRecipe = StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES
-                    .recipeBuilder(bacteria.getId().getPath() + "_harvest")
-                    .inputItems(bacteriaInput.copyWithCount(1))
-                    .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
-                    .inputFluids(biomass)
-                    .inputItems(sugar)
-                    .outputFluids(primaryOutputStack, secondaryOutputStack, tertiaryOutputStack, superOutputStack, bacteriaOutputStack)
-                    .duration(160)
-                    .EUt(GTValues.VH[GTValues.ZPM])
-                    .buildRawRecipe();
-            
-                harvesterRecipe.setId(harvesterRecipe.getId().withPrefix("/"));
-                StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES.addToMainCategory(harvesterRecipe);
-            }
-        );
+                    harvesterRecipe.setId(harvesterRecipe.getId().withPrefix("/"));
+                    StarTRecipeTypes.BACTERIAL_HYDROCARBON_HARVESTER_RECIPES.addToMainCategory(harvesterRecipe);
+                });
     }
 }

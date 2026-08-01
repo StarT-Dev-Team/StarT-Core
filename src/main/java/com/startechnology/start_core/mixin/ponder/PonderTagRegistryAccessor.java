@@ -4,9 +4,10 @@ import com.google.common.collect.Multimap;
 import net.createmod.ponder.foundation.PonderTag;
 import net.createmod.ponder.foundation.registration.PonderLocalization;
 import net.createmod.ponder.foundation.registration.PonderTagRegistry;
-import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
+
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +29,4 @@ public interface PonderTagRegistryAccessor {
 
     @Accessor("listedTags")
     List<PonderTag> getListedTags();
-
 }

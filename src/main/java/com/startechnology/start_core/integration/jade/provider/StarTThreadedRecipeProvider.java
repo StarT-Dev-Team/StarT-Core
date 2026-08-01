@@ -1,17 +1,13 @@
 package com.startechnology.start_core.integration.jade.provider;
 
-import com.gregtechceu.gtceu.GTCEu;
+import com.google.gson.JsonObject;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
@@ -19,9 +15,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderFluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
-import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
-import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -29,9 +23,19 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
-import com.google.gson.JsonObject;
-import appeng.datagen.providers.localization.LocalizationProvider;
+import com.startechnology.start_core.utils.StarTColorUtils;
+
+import org.jetbrains.annotations.Nullable;
+import snownee.jade.api.BlockAccessor;
+import snownee.jade.api.ITooltip;
+import snownee.jade.api.config.IPluginConfig;
+import snownee.jade.api.fluid.JadeFluidObject;
+import snownee.jade.api.ui.BoxStyle;
+import snownee.jade.api.ui.IElementHelper;
+import snownee.jade.util.FluidTextHelper;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -44,7 +48,6 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -55,29 +58,18 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.Nullable;
-import snownee.jade.api.BlockAccessor;
-import snownee.jade.api.ITooltip;
-import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.api.fluid.JadeFluidObject;
-import snownee.jade.api.ui.BoxStyle;
-import snownee.jade.api.ui.IElementHelper;
-import snownee.jade.util.FluidTextHelper;
-
 public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTThreadingCapableMachine> {
+
     public StarTThreadedRecipeProvider() {
         super(StarTCore.resourceLocation("threading_recipes"));
     }
 
     @Override
     protected @Nullable StarTThreadingCapableMachine getCapability(Level level, BlockPos pos,
-            @Nullable Direction side) {
+                                                                   @Nullable Direction side) {
         var capability = StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
 
-        if (capability != null)
-            return capability;
-
-        return null;
+        return capability;
     }
 
     @Override
@@ -93,7 +85,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 var function = recipe.getType().getChanceFunction();
                 var itemContents = recipe.getOutputContents(ItemRecipeCapability.CAP);
                 var fluidContents = recipe.getOutputContents(FluidRecipeCapability.CAP);
-                int runs = recipe.getTotalRuns();
+                int runs = recipe.parallels;
 
                 ListTag itemTags = new ListTag();
                 for (var item : itemContents) {
@@ -110,7 +102,8 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                         itemTag = (CompoundTag) JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, chanced.toJson());
                     } else {
                         var stacks = ItemRecipeCapability.CAP.of(item.content).getItems();
-                        if (stacks.length == 0 || stacks[0].isEmpty()) continue;
+                        if (stacks.length == 0 || stacks[0].isEmpty())
+                            continue;
                         var stack = stacks[0];
                         itemTag = new CompoundTag();
                         GTUtil.saveItemStack(stack, itemTag);
@@ -144,8 +137,10 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                         fluidTag = chanced.toNBT();
                     } else {
                         FluidStack[] stacks = FluidRecipeCapability.CAP.of(fluid.content).getStacks();
-                        if (stacks.length == 0) continue;
-                        if (stacks[0].isEmpty()) continue;
+                        if (stacks.length == 0)
+                            continue;
+                        if (stacks[0].isEmpty())
+                            continue;
                         var stack = stacks[0];
                         fluidTag = new CompoundTag();
                         stack.writeToNBT(fluidTag);
@@ -184,8 +179,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-            BlockEntity blockEntity, IPluginConfig config) {
-
+                              BlockEntity blockEntity, IPluginConfig config) {
         int threadAmount = capData.getInt("thread_amount");
         for (int i = 0; i < threadAmount; i++) {
             tooltip.add(Component
@@ -206,7 +200,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             }
 
             if (maxProgress > 0) {
-                int color = generateThreadColor(i);
+                int color = StarTColorUtils.generateThreadColor(i);
                 tooltip.add(
                         tooltip.getElementHelper().progress(
                                 getProgress(currentProgress, maxProgress),
@@ -218,67 +212,10 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
 
             /* EU/T Display */
             var EUt = capData.getLong("EUt");
-            var isInput = capData.getBoolean("isInput");
-            boolean isSteam = false;
-
-            if (EUt > 0) {
-                if (blockEntity instanceof MetaMachineBlockEntity mbe) {
-                    var machine = mbe.getMetaMachine();
-                    if (machine instanceof SimpleSteamMachine ssm) {
-                        EUt = (long) Math.ceil(EUt * ssm.getConversionRate());
-                        isSteam = true;
-                    } else if (machine instanceof SteamParallelMultiblockMachine smb) {
-                        EUt = (long) Math.ceil(EUt * smb.getConversionRate());
-                        isSteam = true;
-                    }
-                }
-
-                if (isSteam) {
-                    text = Component.translatable("gtceu.jade.fluid_use", FormattingUtil.formatNumbers(EUt))
-                            .withStyle(ChatFormatting.GREEN);
-                } else {
-                    var tier = GTUtil.getTierByVoltage(EUt);
-                    float minAmperage = (float) EUt / GTValues.V[tier];
-
-                    text = Component
-                            .translatable("gtceu.recipe.eu.total",
-                                    FormattingUtil.formatNumbers(EUt))
-                            .withStyle(ChatFormatting.RED);
-
-                    MutableComponent voltageTier;
-                    if (tier < GTValues.TIER_COUNT - 1) {
-                        voltageTier = Component.literal(GTValues.VNF[tier])
-                                .withStyle(style -> style.withColor(GTValues.VC[tier]));
-                    } else {
-                        int calculatedSpeed = Mth
-                                .ceil(Math.log((double) EUt / GTValues.V[GTValues.MAX]) / Math.log(4));
-                        int speed = Mth.clamp(calculatedSpeed, 0, GTValues.TIER_COUNT);
-                        if (speed == 0) {
-                            voltageTier = Component.literal(GTValues.VNF[tier])
-                                    .withStyle(style -> style.withColor(GTValues.VC[tier]));
-                        } else {
-                            minAmperage = (float) (minAmperage / Math.pow(4, speed));
-                            voltageTier = Component.literal("MAX")
-                                    .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
-                                    .append(Component.literal("+")
-                                            .withStyle(style -> style.withColor(GTValues.VC[speed]))
-                                            .append(FormattingUtil.formatNumbers(speed)));
-                        }
-                    }
-
-                    text.append(Component.translatable("gtceu.universal.padded_parentheses",
-                            (Component.translatable("gtceu.recipe.eu.amp_notation",
-                                    FormattingUtil.formatNumber2Places(minAmperage),
-                                    voltageTier))
-                                    .withStyle(ChatFormatting.WHITE)));
-                }
-
-                if (isInput) {
-                    tooltip.add(Component.translatable("gtceu.top.energy_consumption").append(" ").append(text));
-                } else {
-                    tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
-                }
-            }
+            MutableComponent euTText = StarTJadeUtils.euTDisplay(EUt, blockEntity);
+            tooltip.add(Component.translatable(
+                    (capData.getBoolean("isInput")) ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
+                    .append(" ").append(euTText));
 
             /* Recipe items add tooltip */
             List<Ingredient> outputItems = new ArrayList<>();
@@ -352,7 +289,6 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
         }
     }
 
-
     private void addFluidTooltips(ITooltip iTooltip, List<FluidIngredient> outputFluids) {
         for (FluidIngredient fluidOutput : outputFluids) {
             if (fluidOutput != null && !fluidOutput.isEmpty()) {
@@ -391,8 +327,10 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                     .max()
                     .orElse(-1);
         }
-        // default display as LV, this shouldn't happen because a machine is either electric or steam
-        if (voltage == -1) voltage = 32;
+        // default display as LV, this shouldn't happen because a machine is either
+        // electric or steam
+        if (voltage == -1)
+            voltage = 32;
         return voltage;
     }
 
@@ -406,83 +344,5 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
 
     private JadeFluidObject getFluid(FluidStack stack) {
         return JadeFluidObject.of(stack.getFluid(), stack.getAmount());
-    }
-
-    /**
-     * Generate a vibrant color for a thread based on its index
-     * 
-     * @param threadIndex The zero-based thread index
-     * @return ARGB color integer (0xAARRGGBB format)
-     */
-    private static int generateThreadColor(int threadIndex) {
-        float goldenRatio = 0.618033988749895f;
-        float hue = ((threadIndex + 1) * goldenRatio) % 1.0f;
-
-        float saturation = 0.85f;
-        float value = 0.85f;
-
-        int rgb = hsvToRgb(hue, saturation, value);
-
-        // Add alpha channel
-        return 0xFF000000 | rgb;
-    }
-
-    /**
-     * Convert HSV color to RGB
-     * 
-     * @param h Hue [0.0, 1.0]
-     * @param s Saturation [0.0, 1.0]
-     * @param v Value [0.0, 1.0]
-     * @return RGB color as integer (without alpha)
-     */
-    private static int hsvToRgb(float h, float s, float v) {
-        int hi = (int) (h * 6);
-        float f = h * 6 - hi;
-        float p = v * (1 - s);
-        float q = v * (1 - f * s);
-        float t = v * (1 - (1 - f) * s);
-
-        float r, g, b;
-        switch (hi % 6) {
-            case 0:
-                r = v;
-                g = t;
-                b = p;
-                break;
-            case 1:
-                r = q;
-                g = v;
-                b = p;
-                break;
-            case 2:
-                r = p;
-                g = v;
-                b = t;
-                break;
-            case 3:
-                r = p;
-                g = q;
-                b = v;
-                break;
-            case 4:
-                r = t;
-                g = p;
-                b = v;
-                break;
-            case 5:
-                r = v;
-                g = p;
-                b = q;
-                break;
-            default:
-                r = g = b = 0;
-                break;
-        }
-
-        int red = (int) (r * 255);
-        int green = (int) (g * 255);
-        int blue = (int) (b * 255);
-
-        return (red << 16) | (green << 8) | blue;
     }
 }

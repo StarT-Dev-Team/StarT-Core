@@ -1,10 +1,5 @@
 package com.startechnology.start_core.machine.modular;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -14,14 +9,15 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
-import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
-
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StarTModularControllerMachine extends WorkableElectricMultiblockMachine {
 
@@ -35,12 +31,12 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
 
     protected boolean readyToUpdate;
 
-
     public StarTModularControllerMachine(IMachineBlockEntity holder, ResourceLocation... supportedMultiblockIds) {
         super(holder);
         this.supportedMultiblockIds = Arrays.asList(supportedMultiblockIds);
         this.readyToUpdate = false;
-        this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferModuleInterfacesTick, this::isFormed);
+        this.tickSubscription = new ConditionalSubscriptionHandler(this, this::transferModuleInterfacesTick,
+                this::isFormed);
     }
 
     @Override
@@ -168,7 +164,8 @@ public class StarTModularControllerMachine extends WorkableElectricMultiblockMac
 
     private boolean isModularConduitContainer(IEnergyContainer container) {
         for (var part : getParts()) {
-            if (part instanceof StarTModularConduitHatchPartMachine conduit && conduit.getEnergyContainer() == container) {
+            if (part instanceof StarTModularConduitHatchPartMachine conduit &&
+                    conduit.getEnergyContainer() == container) {
                 return true;
             }
         }

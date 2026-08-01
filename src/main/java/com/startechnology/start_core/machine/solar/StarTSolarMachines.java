@@ -20,12 +20,12 @@ import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellPredicates;
 import dev.latvian.mods.kubejs.KubeJS;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.PushReaction;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,371 +35,381 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class StarTSolarMachines {
+
     public static TextColor customGoldColor = TextColor.parseColor("#FDB813");
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_EV = START_REGISTRATE
-        .multiblock("ev_solar_panel", holder -> new StarTSolarMachine(holder, EV))
-        .langValue("%s Solar Panel".formatted(GTValues.VNF[EV] + "§r"))
-        .tooltips(
-            Component.translatable("block.start_core.solar_machine.tooltip0").setStyle(Style.EMPTY.withColor(customGoldColor)),
-            Component.translatable("block.start_core.solar_machine.tooltip1"),
-            Component.translatable("block.start_core.solar_machine.tooltip2")
-        )
-        .paginatedTooltips(List.of(
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated1.1", StarTSolarMachine.getOutputModifier(EV, false)),
-                Component.translatable("block.start_core.solar_machine.paginated1.2"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_machine.paginated1.3"),
-                Component.translatable("block.start_core.solar_machine.paginated1.4"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_panel.paginated1.1"),
-                Component.translatable("block.start_core.solar_panel.paginated1.2"),
-                Component.translatable("block.start_core.solar_panel.paginated1.3")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated2.1"),
-                Component.translatable("block.start_core.solar_machine.paginated2.2"),
-                Component.translatable("block.start_core.solar_machine.paginated2.3"),
-                Component.translatable("block.start_core.solar_machine.paginated2.4"),
-                Component.translatable("block.start_core.solar_machine.paginated2.5"),
-                Component.translatable("block.start_core.solar_machine.paginated2.6"),
-                Component.translatable("block.start_core.solar_machine.paginated2.7"),
-                Component.translatable("block.start_core.solar_machine.paginated2.8")
-            )
-        ))
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-        .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("CCC", "   ", "SSS")
-            .aisle("CCC", " F ", "SSS")
-            .aisle("C@C", "   ", "SSS")
-            .where(" ", Predicates.air())
-            .where("S", StarTSolarCellPredicates.solarCells())
-            .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
-            .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .shapeInfos(definition -> {
-            var shapes = new ArrayList<MultiblockShapeInfo>();
-            var pattern = MultiblockShapeInfo.builder()
-                .aisle("C@C", "   ", "SSS")
-                .aisle("CCC", " F ", "SSS")
-                .aisle("CEC", "   ", "SSS")
-                .where(' ', Blocks.AIR)
-                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
-                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
-                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[EV], Direction.SOUTH)
-                .where('@', definition, Direction.NORTH);
+            .multiblock("ev_solar_panel", holder -> new StarTSolarMachine(holder, EV))
+            .langValue("%s Solar Panel".formatted(GTValues.VNF[EV] + "§r"))
+            .tooltips(
+                    Component.translatable("block.start_core.solar_machine.tooltip0")
+                            .setStyle(Style.EMPTY.withColor(customGoldColor)),
+                    Component.translatable("block.start_core.solar_machine.tooltip1"),
+                    Component.translatable("block.start_core.solar_machine.tooltip2"))
+            .paginatedTooltips(List.of(
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated1.1",
+                                    StarTSolarMachine.getOutputModifier(EV, false)),
+                            Component.translatable("block.start_core.solar_machine.paginated1.2"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.4"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.1"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.2"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.3")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated2.1"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.2"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.4"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.5"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.6"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.7"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.8"))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCC", "   ", "SSS")
+                    .aisle("CCC", " F ", "SSS")
+                    .aisle("C@C", "   ", "SSS")
+                    .where(" ", Predicates.air())
+                    .where("S", StarTSolarCellPredicates.solarCells())
+                    .where("F",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        .aisle("C@C", "   ", "SSS")
+                        .aisle("CCC", " F ", "SSS")
+                        .aisle("CEC", "   ", "SSS")
+                        .where(' ', Blocks.AIR)
+                        .where('F',
+                                ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                        .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                        .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[EV], Direction.SOUTH)
+                        .where('@', definition, Direction.NORTH);
 
-            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
-                .forEach(entry -> {
-                    shapes.add(pattern.shallowCopy()
-                        .where('S', entry.getValue().get())
-                        .build());
-                });
+                StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                        .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                        .forEach(entry -> {
+                            shapes.add(pattern.shallowCopy()
+                                    .where('S', entry.getValue().get())
+                                    .build());
+                        });
 
-            return shapes;
-        })
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/ev"))
-        .register();
+                return shapes;
+            })
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    StarTCore.resourceLocation("block/solar/overlay/ev"))
+            .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_IV = START_REGISTRATE
-        .multiblock("iv_solar_panel", holder -> new StarTSolarMachine(holder, IV))
-        .langValue("%s Solar Panel".formatted(GTValues.VNF[IV] + "§r"))
-        .tooltips(
-            Component.translatable("block.start_core.solar_machine.tooltip0").setStyle(Style.EMPTY.withColor(customGoldColor)),
-            Component.translatable("block.start_core.solar_machine.tooltip1"),
-            Component.translatable("block.start_core.solar_machine.tooltip2")
-        )
-        .paginatedTooltips(List.of(
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated1.1", StarTSolarMachine.getOutputModifier(IV, false)),
-                Component.translatable("block.start_core.solar_machine.paginated1.2"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_machine.paginated1.3"),
-                Component.translatable("block.start_core.solar_machine.paginated1.4"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_panel.paginated1.1"),
-                Component.translatable("block.start_core.solar_panel.paginated1.2"),
-                Component.translatable("block.start_core.solar_panel.paginated1.3")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated2.1"),
-                Component.translatable("block.start_core.solar_machine.paginated2.2"),
-                Component.translatable("block.start_core.solar_machine.paginated2.3"),
-                Component.translatable("block.start_core.solar_machine.paginated2.4"),
-                Component.translatable("block.start_core.solar_machine.paginated2.5"),
-                Component.translatable("block.start_core.solar_machine.paginated2.6"),
-                Component.translatable("block.start_core.solar_machine.paginated2.7"),
-                Component.translatable("block.start_core.solar_machine.paginated2.8")
-            )
-        ))
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-        .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("CCCCC", "     ", "SSSSS")
-            .aisle("CCCCC", " F F ", "SSSSS")
-            .aisle("CC@CC", "     ", "SSSSS")
-            .where(" ", Predicates.air())
-            .where("S", StarTSolarCellPredicates.solarCells())
-            .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
-            .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .shapeInfos(definition -> {
-            var shapes = new ArrayList<MultiblockShapeInfo>();
-            var pattern = MultiblockShapeInfo.builder()
-                .aisle("CC@CC", "     ", "SSSSS")
-                .aisle("CCCCC", " F F ", "SSSSS")
-                .aisle("CCECC", "     ", "SSSSS")
-                .where(' ', Blocks.AIR)
-                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
-                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
-                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[IV], Direction.SOUTH)
-                .where('@', definition, Direction.NORTH);
+            .multiblock("iv_solar_panel", holder -> new StarTSolarMachine(holder, IV))
+            .langValue("%s Solar Panel".formatted(GTValues.VNF[IV] + "§r"))
+            .tooltips(
+                    Component.translatable("block.start_core.solar_machine.tooltip0")
+                            .setStyle(Style.EMPTY.withColor(customGoldColor)),
+                    Component.translatable("block.start_core.solar_machine.tooltip1"),
+                    Component.translatable("block.start_core.solar_machine.tooltip2"))
+            .paginatedTooltips(List.of(
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated1.1",
+                                    StarTSolarMachine.getOutputModifier(IV, false)),
+                            Component.translatable("block.start_core.solar_machine.paginated1.2"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.4"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.1"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.2"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.3")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated2.1"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.2"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.4"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.5"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.6"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.7"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.8"))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCCCC", "     ", "SSSSS")
+                    .aisle("CCCCC", " F F ", "SSSSS")
+                    .aisle("CC@CC", "     ", "SSSSS")
+                    .where(" ", Predicates.air())
+                    .where("S", StarTSolarCellPredicates.solarCells())
+                    .where("F",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        .aisle("CC@CC", "     ", "SSSSS")
+                        .aisle("CCCCC", " F F ", "SSSSS")
+                        .aisle("CCECC", "     ", "SSSSS")
+                        .where(' ', Blocks.AIR)
+                        .where('F',
+                                ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                        .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                        .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[IV], Direction.SOUTH)
+                        .where('@', definition, Direction.NORTH);
 
-            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
-                .forEach(entry -> {
-                    shapes.add(pattern.shallowCopy()
-                        .where('S', entry.getValue().get())
-                        .build());
-                });
+                StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                        .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                        .forEach(entry -> {
+                            shapes.add(pattern.shallowCopy()
+                                    .where('S', entry.getValue().get())
+                                    .build());
+                        });
 
-            return shapes;
-        })
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/iv"))
-        .register();
+                return shapes;
+            })
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    StarTCore.resourceLocation("block/solar/overlay/iv"))
+            .register();
 
     public static final MultiblockMachineDefinition SOLAR_PANEL_LUV = START_REGISTRATE
-        .multiblock("luv_solar_panel", holder -> new StarTSolarMachine(holder, LuV))
-        .langValue("%s Solar Panel".formatted(GTValues.VNF[LuV] + "§r"))
-        .tooltips(
-            Component.translatable("block.start_core.solar_machine.tooltip0").setStyle(Style.EMPTY.withColor(customGoldColor)),
-            Component.translatable("block.start_core.solar_machine.tooltip1"),
-            Component.translatable("block.start_core.solar_machine.tooltip2")
-        )
-        .paginatedTooltips(List.of(
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated1.1", StarTSolarMachine.getOutputModifier(LuV, false)),
-                Component.translatable("block.start_core.solar_machine.paginated1.2"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_machine.paginated1.3"),
-                Component.translatable("block.start_core.solar_machine.paginated1.4"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_panel.paginated1.1"),
-                Component.translatable("block.start_core.solar_panel.paginated1.2"),
-                Component.translatable("block.start_core.solar_panel.paginated1.3")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated2.1"),
-                Component.translatable("block.start_core.solar_machine.paginated2.2"),
-                Component.translatable("block.start_core.solar_machine.paginated2.3"),
-                Component.translatable("block.start_core.solar_machine.paginated2.4"),
-                Component.translatable("block.start_core.solar_machine.paginated2.5"),
-                Component.translatable("block.start_core.solar_machine.paginated2.6"),
-                Component.translatable("block.start_core.solar_machine.paginated2.7"),
-                Component.translatable("block.start_core.solar_machine.paginated2.8")
-            )
-        ))
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-        .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("CCCCCCC", "       ", "SSSSSSS")
-            .aisle("CCCCCCC", " F F F ", "SSSSSSS")
-            .aisle("CCC@CCC", "       ", "SSSSSSS")
-            .where(" ", Predicates.air())
-            .where("S", StarTSolarCellPredicates.solarCells())
-            .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel"))))
-            .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .shapeInfos(definition -> {
-            var shapes = new ArrayList<MultiblockShapeInfo>();
-            var pattern = MultiblockShapeInfo.builder()
-                .aisle("CCC@CCC", "       ", "SSSSSSS")
-                .aisle("CCCCCCC", " F F F ", "SSSSSSS")
-                .aisle("CCCECCC", "       ", "SSSSSSS")
-                .where(' ', Blocks.AIR)
-                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("steel")))
-                .where('C', GTBlocks.CASING_STEEL_SOLID.get())
-                .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[LuV], Direction.SOUTH)
-                .where('@', definition, Direction.NORTH);
+            .multiblock("luv_solar_panel", holder -> new StarTSolarMachine(holder, LuV))
+            .langValue("%s Solar Panel".formatted(GTValues.VNF[LuV] + "§r"))
+            .tooltips(
+                    Component.translatable("block.start_core.solar_machine.tooltip0")
+                            .setStyle(Style.EMPTY.withColor(customGoldColor)),
+                    Component.translatable("block.start_core.solar_machine.tooltip1"),
+                    Component.translatable("block.start_core.solar_machine.tooltip2"))
+            .paginatedTooltips(List.of(
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated1.1",
+                                    StarTSolarMachine.getOutputModifier(LuV, false)),
+                            Component.translatable("block.start_core.solar_machine.paginated1.2"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.4"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.1"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.2"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.3")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated2.1"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.2"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.4"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.5"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.6"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.7"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.8"))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCCCCCC", "       ", "SSSSSSS")
+                    .aisle("CCCCCCC", " F F F ", "SSSSSSS")
+                    .aisle("CCC@CCC", "       ", "SSSSSSS")
+                    .where(" ", Predicates.air())
+                    .where("S", StarTSolarCellPredicates.solarCells())
+                    .where("F",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        .aisle("CCC@CCC", "       ", "SSSSSSS")
+                        .aisle("CCCCCCC", " F F F ", "SSSSSSS")
+                        .aisle("CCCECCC", "       ", "SSSSSSS")
+                        .where(' ', Blocks.AIR)
+                        .where('F',
+                                ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                        .where('C', GTBlocks.CASING_STEEL_SOLID.get())
+                        .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[LuV], Direction.SOUTH)
+                        .where('@', definition, Direction.NORTH);
 
-            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
-                .forEach(entry -> {
-                    shapes.add(pattern.shallowCopy()
-                        .where('S', entry.getValue().get())
-                        .build());
-                });
+                StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                        .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                        .forEach(entry -> {
+                            shapes.add(pattern.shallowCopy()
+                                    .where('S', entry.getValue().get())
+                                    .build());
+                        });
 
-            return shapes;
-        })
-        .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), StarTCore.resourceLocation("block/solar/overlay/luv"))
-        .register();
+                return shapes;
+            })
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    StarTCore.resourceLocation("block/solar/overlay/luv"))
+            .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UV = START_REGISTRATE
-        .multiblock("uv_solar_array", holder -> new StarTSolarMachine(holder, UV))
-        .langValue("%s Solar Array".formatted(GTValues.VNF[UV] + "§r"))
-        .tooltips(
-            Component.translatable("block.start_core.solar_machine.tooltip0").setStyle(Style.EMPTY.withColor(customGoldColor)),
-            Component.translatable("block.start_core.solar_machine.tooltip1"),
-            Component.translatable("block.start_core.solar_machine.tooltip2"),
-            Component.empty(),
-            Component.translatable("solar.start_core.solar_array.tooltip1")
-        )
-        .paginatedTooltips(List.of(
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated1.1", StarTSolarMachine.getOutputModifier(UV, false)),
-                Component.translatable("block.start_core.solar_machine.paginated1.2"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_machine.paginated1.3"),
-                Component.translatable("block.start_core.solar_machine.paginated1.4"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_panel.paginated1.1"),
-                Component.translatable("block.start_core.solar_panel.paginated1.2"),
-                Component.translatable("block.start_core.solar_panel.paginated1.3")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated2.1"),
-                Component.translatable("block.start_core.solar_machine.paginated2.2"),
-                Component.translatable("block.start_core.solar_machine.paginated2.3"),
-                Component.translatable("block.start_core.solar_machine.paginated2.4"),
-                Component.translatable("block.start_core.solar_machine.paginated2.5"),
-                Component.translatable("block.start_core.solar_machine.paginated2.6"),
-                Component.translatable("block.start_core.solar_machine.paginated2.7"),
-                Component.translatable("block.start_core.solar_machine.paginated2.8")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_array.paginated2.1"),
-                Component.translatable("block.start_core.solar_array.paginated2.2", "§71000", Component.translatable("material.gtceu.deionized_water")),
-                Component.translatable("block.start_core.solar_array.paginated2.3"),
-                Component.translatable("block.start_core.solar_array.paginated2.4"),
-                Component.translatable("block.start_core.solar_array.paginated2.5", StarTSolarMachine.getOutputModifier(UV, true))
-            )
-        ))
-        .rotationState(RotationState.NON_Y_AXIS)
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-        .pattern(definition -> FactoryBlockPattern.start()
-            .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
-            .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
-            .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
-            .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
-            .aisle("    CCC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
-            .aisle("    CCC    ", "  FFCBCFF  ", " FS  F  SF ", "S    F    S", "     F     ")
-            .aisle("    C@C    ", "    FCF    ", "  S     S  ", "S         S", "           ")
-            .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
-            .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
-            .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
-            .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
-            .where(" ", Predicates.any())
-            .where("S", StarTSolarCellPredicates.solarCells())
-            .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
-            .where("B", Predicates.blocks(GTBlocks.BATTERY_LAPOTRONIC_UV.get()))
-            .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .shapeInfos(definition -> {
-            var shapes = new ArrayList<MultiblockShapeInfo>();
-            var pattern = MultiblockShapeInfo.builder()
-                .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
-                .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
-                .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
-                .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
-                .aisle("    C@C    ", "    FCF    ", "  S     S  ", "S         S", "           ")
-                .aisle("    CCC    ", "  FFCBCFF  ", " FS  F  SF ", "S    F    S", "     F     ")
-                .aisle("    CEC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
-                .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
-                .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
-                .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
-                .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
-                .where(' ', Blocks.AIR)
-                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
-                .where('B', GTBlocks.BATTERY_LAPOTRONIC_UV.get())
-                .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-                .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UV], Direction.SOUTH)
-                .where('@', definition, Direction.NORTH);
+            .multiblock("uv_solar_array", holder -> new StarTSolarMachine(holder, UV))
+            .langValue("%s Solar Array".formatted(GTValues.VNF[UV] + "§r"))
+            .tooltips(
+                    Component.translatable("block.start_core.solar_machine.tooltip0")
+                            .setStyle(Style.EMPTY.withColor(customGoldColor)),
+                    Component.translatable("block.start_core.solar_machine.tooltip1"),
+                    Component.translatable("block.start_core.solar_machine.tooltip2"),
+                    Component.empty(),
+                    Component.translatable("solar.start_core.solar_array.tooltip1"))
+            .paginatedTooltips(List.of(
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated1.1",
+                                    StarTSolarMachine.getOutputModifier(UV, false)),
+                            Component.translatable("block.start_core.solar_machine.paginated1.2"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.4"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.1"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.2"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.3")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated2.1"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.2"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.4"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.5"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.6"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.7"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.8")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_array.paginated2.1"),
+                            Component.translatable("block.start_core.solar_array.paginated2.2", "§71000",
+                                    Component.translatable("material.gtceu.deionized_water")),
+                            Component.translatable("block.start_core.solar_array.paginated2.3"),
+                            Component.translatable("block.start_core.solar_array.paginated2.4"),
+                            Component.translatable("block.start_core.solar_array.paginated2.5",
+                                    StarTSolarMachine.getOutputModifier(UV, true)))))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                    .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                    .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                    .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                    .aisle("    CCC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                    .aisle("    CCC    ", "  FFCBCFF  ", " FS  F  SF ", "S    F    S", "     F     ")
+                    .aisle("    C@C    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                    .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                    .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                    .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                    .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                    .where(" ", Predicates.any())
+                    .where("S", StarTSolarCellPredicates.solarCells())
+                    .where("F",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
+                    .where("B", Predicates.blocks(GTBlocks.BATTERY_LAPOTRONIC_UV.get()))
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                        .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                        .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                        .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                        .aisle("    C@C    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                        .aisle("    CCC    ", "  FFCBCFF  ", " FS  F  SF ", "S    F    S", "     F     ")
+                        .aisle("    CEC    ", "    FCF    ", "  S     S  ", "S         S", "           ")
+                        .aisle("           ", "     F     ", "  SS   SS  ", "S         S", "           ")
+                        .aisle("           ", "     F     ", "   SSSSS   ", "SS       SS", "           ")
+                        .aisle("           ", "           ", "     F     ", " SS     SS ", "           ")
+                        .aisle("           ", "           ", "           ", "  SSSSSSS  ", "           ")
+                        .where(' ', Blocks.AIR)
+                        .where('F',
+                                ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                        GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                        .where('B', GTBlocks.BATTERY_LAPOTRONIC_UV.get())
+                        .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                        .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UV], Direction.SOUTH)
+                        .where('@', definition, Direction.NORTH);
 
-            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
-                .forEach(entry -> {
-                    shapes.add(pattern.shallowCopy()
-                        .where('S', entry.getValue().get())
-                        .build());
-                });
+                StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                        .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                        .forEach(entry -> {
+                            shapes.add(pattern.shallowCopy()
+                                    .where('S', entry.getValue().get())
+                                    .build());
+                        });
 
-            return shapes;
-        })
-        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uv"))
-        .register();
+                return shapes;
+            })
+            .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
+                    StarTCore.resourceLocation("block/solar/overlay/uv"))
+            .register();
 
     public static final MultiblockMachineDefinition SOLAR_ARRAY_UHV = START_REGISTRATE
-        .multiblock("uhv_solar_array", holder -> new StarTSolarMachine(holder, UHV))
-        .langValue("%s Solar Array".formatted(GTValues.VNF[UHV] + "§r"))
-        .tooltips(
-            Component.translatable("block.start_core.solar_machine.tooltip0").setStyle(Style.EMPTY.withColor(customGoldColor)),
-            Component.translatable("block.start_core.solar_machine.tooltip1"),
-            Component.translatable("block.start_core.solar_machine.tooltip2"),
-            Component.empty(),
-            Component.translatable("solar.start_core.solar_array.tooltip1")
-        )
-        .paginatedTooltips(List.of(
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated1.1", StarTSolarMachine.getOutputModifier(UHV, false)),
-                Component.translatable("block.start_core.solar_machine.paginated1.2"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_machine.paginated1.3"),
-                Component.translatable("block.start_core.solar_machine.paginated1.4"),
-                Component.translatable("block.start_core.breaker_line"),
-                Component.translatable("block.start_core.solar_panel.paginated1.1"),
-                Component.translatable("block.start_core.solar_panel.paginated1.2"),
-                Component.translatable("block.start_core.solar_panel.paginated1.3")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_machine.paginated2.1"),
-                Component.translatable("block.start_core.solar_machine.paginated2.2"),
-                Component.translatable("block.start_core.solar_machine.paginated2.3"),
-                Component.translatable("block.start_core.solar_machine.paginated2.4"),
-                Component.translatable("block.start_core.solar_machine.paginated2.5"),
-                Component.translatable("block.start_core.solar_machine.paginated2.6"),
-                Component.translatable("block.start_core.solar_machine.paginated2.7"),
-                Component.translatable("block.start_core.solar_machine.paginated2.8")
-            ),
-            List.of(
-                Component.translatable("block.start_core.solar_array.paginated2.1"),
-                Component.translatable("block.start_core.solar_array.paginated2.2", "§72500", Component.translatable("material.gtceu.deionized_water")),
-                Component.translatable("block.start_core.solar_array.paginated2.3"),
-                Component.translatable("block.start_core.solar_array.paginated2.4"),
-                Component.translatable("block.start_core.solar_array.paginated2.5", StarTSolarMachine.getOutputModifier(UHV, true))
-            )
-        ))
-        .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-        .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-        .pattern(definition -> FactoryBlockPattern.start()
+            .multiblock("uhv_solar_array", holder -> new StarTSolarMachine(holder, UHV))
+            .langValue("%s Solar Array".formatted(GTValues.VNF[UHV] + "§r"))
+            .tooltips(
+                    Component.translatable("block.start_core.solar_machine.tooltip0")
+                            .setStyle(Style.EMPTY.withColor(customGoldColor)),
+                    Component.translatable("block.start_core.solar_machine.tooltip1"),
+                    Component.translatable("block.start_core.solar_machine.tooltip2"),
+                    Component.empty(),
+                    Component.translatable("solar.start_core.solar_array.tooltip1"))
+            .paginatedTooltips(List.of(
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated1.1",
+                                    StarTSolarMachine.getOutputModifier(UHV, false)),
+                            Component.translatable("block.start_core.solar_machine.paginated1.2"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated1.4"),
+                            Component.translatable("block.start_core.breaker_line"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.1"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.2"),
+                            Component.translatable("block.start_core.solar_panel.paginated1.3")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_machine.paginated2.1"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.2"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.3"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.4"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.5"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.6"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.7"),
+                            Component.translatable("block.start_core.solar_machine.paginated2.8")),
+                    List.of(
+                            Component.translatable("block.start_core.solar_array.paginated2.1"),
+                            Component.translatable("block.start_core.solar_array.paginated2.2", "§72500",
+                                    Component.translatable("material.gtceu.deionized_water")),
+                            Component.translatable("block.start_core.solar_array.paginated2.3"),
+                            Component.translatable("block.start_core.solar_array.paginated2.4"),
+                            Component.translatable("block.start_core.solar_array.paginated2.5",
+                                    StarTSolarMachine.getOutputModifier(UHV, true)))))
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
             .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
             .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
             .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
@@ -417,21 +427,24 @@ public class StarTSolarMachines {
             .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
             .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
             .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
-            .where(" ", Predicates.any())
-            .where("S", StarTSolarCellPredicates.solarCells())
-            .where("F", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
-            .where("B", Predicates.blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))
-            .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
-                .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
-                .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
-            .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-            .build()
-        )
-        .shapeInfos(definition -> {
-            var shapes = new ArrayList<MultiblockShapeInfo>();
-            var pattern = MultiblockShapeInfo.builder()
+                // spotless:on
+                    .where(" ", Predicates.any())
+                    .where("S", StarTSolarCellPredicates.solarCells())
+                    .where("F",
+                            Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                    GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
+                    .where("B", Predicates.blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))
+                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .shapeInfos(definition -> {
+                var shapes = new ArrayList<MultiblockShapeInfo>();
+                var pattern = MultiblockShapeInfo.builder()
+                        // spotless:off
                 .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
                 .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
                 .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
@@ -449,26 +462,29 @@ public class StarTSolarMachines {
                 .aisle("                 ", "                 ", "                 ", "        F        ", "  SSSSS   SSSSS  ", "                 ", "                 ")
                 .aisle("                 ", "                 ", "                 ", "        F        ", "   SSSSSSSSSSS   ", "                 ", "                 ")
                 .aisle("                 ", "                 ", "                 ", "                 ", "     SSSSSSS     ", "                 ", "                 ")
-                .where(' ', Blocks.AIR)
-                .where('F', ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
-                .where('B', GTBlocks.BATTERY_ULTIMATE_UHV.get())
-                .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
-                .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UHV], Direction.SOUTH)
-                .where('@', definition, Direction.NORTH);
+                    // spotless:on
+                        .where(' ', Blocks.AIR)
+                        .where('F',
+                                ChemicalHelper.getBlock(TagPrefix.frameGt,
+                                        GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                        .where('B', GTBlocks.BATTERY_ULTIMATE_UHV.get())
+                        .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
+                        .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UHV], Direction.SOUTH)
+                        .where('@', definition, Direction.NORTH);
 
-            StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
-                .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
-                .forEach(entry -> {
-                    shapes.add(pattern.shallowCopy()
-                        .where('S', entry.getValue().get())
-                        .build());
-                });
+                StarTSolarCellBlocks.SOLAR_CELLS.entrySet().stream()
+                        .sorted(Comparator.comparingInt(entry -> entry.getKey().getTier()))
+                        .forEach(entry -> {
+                            shapes.add(pattern.shallowCopy()
+                                    .where('S', entry.getValue().get())
+                                    .build());
+                        });
 
-            return shapes;
-        })
-        .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"), StarTCore.resourceLocation("block/solar/overlay/uhv"))
-        .register();
+                return shapes;
+            })
+            .workableCasingModel(KubeJS.id("block/casings/naquadah/casing"),
+                    StarTCore.resourceLocation("block/solar/overlay/uhv"))
+            .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }
