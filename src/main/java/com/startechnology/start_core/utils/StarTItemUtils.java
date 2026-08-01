@@ -35,7 +35,6 @@ public class StarTItemUtils {
         if (itemId.contains(":")) {
             var parts = itemId.split(":");
             return getItem(parts[0], parts[1]);
-        }
-        else return getItem("minecraft", itemId);
+        } else return getItem("minecraft", itemId);
     }
 }
