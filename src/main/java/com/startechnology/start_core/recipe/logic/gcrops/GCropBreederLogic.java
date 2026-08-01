@@ -20,7 +20,7 @@ import net.minecraft.world.item.Items;
 
 import java.util.*;
 
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
 
 public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 

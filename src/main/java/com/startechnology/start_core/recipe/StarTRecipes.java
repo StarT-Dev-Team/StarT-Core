@@ -1,7 +1,7 @@
 package com.startechnology.start_core.recipe;
 
 import com.startechnology.start_core.recipe.recipes.*;
-
+import com.startechnology.start_core.recipe.recipes.gcrops.*;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
@@ -16,6 +16,7 @@ public class StarTRecipes {
         CrateRecipes.init(provider);
         DustBlockRecipeHandler.init(provider);
         CustomMaterialTypesRecipes.init(provider);
-        GCropRecipes.init(provider);
+        FlowerRecipes.init(provider);
+        StarTFruitRecipeWriter.init(provider);
     }
 }

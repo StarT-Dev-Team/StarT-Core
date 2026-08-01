@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.startechnology.start_core.item.StarTGCropItems.EMPTY_GENOME_HOLDER;
-import static com.startechnology.start_core.item.StarTGCropItems.FILLED_GENOME_HOLDER;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.EMPTY_GENOME_HOLDER;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.FILLED_GENOME_HOLDER;
 
 public class GenomeDuplicationLogic implements ICustomRecipeLogic {
 

@@ -1,4 +1,4 @@
-package com.startechnology.start_core.item;
+package com.startechnology.start_core.item.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -106,7 +106,7 @@ public class StarTGCropItems {
             .register();
 
     private static void registerGCrop(String id, String name,
-                                      StarTGCropItemType materialType, String flowerType,
+                                      StarTGCropItemType materialType, String textureType,
                                       StarTGCropTrait... traits) {
         var newMaterial = GTMaterials.get(id.equals("sheldonite") ? "cooperite" : id);
 
@@ -127,7 +127,7 @@ public class StarTGCropItems {
                         newMaterial,
                         traits)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
-                        StarTCore.resourceLocation(String.format("item/gcrops/seed_%s", flowerType))))
+                        StarTCore.resourceLocation(String.format("item/gcrops/seed_%s", textureType))))
                 .color(() -> () -> itemColor)
                 .register();
 
@@ -140,7 +140,7 @@ public class StarTGCropItems {
                         newMaterial,
                         materialType)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
-                        StarTCore.resourceLocation(String.format("item/gcrops/fruit_%s", flowerType))))
+                        StarTCore.resourceLocation(String.format("item/gcrops/fruit_%s", textureType))))
                 .color(() -> () -> itemColor)
                 .register();
 
@@ -153,7 +153,7 @@ public class StarTGCropItems {
                         newMaterial,
                         materialType)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
-                        StarTCore.resourceLocation(String.format("item/gcrops/flower_%s", flowerType))))
+                        StarTCore.resourceLocation(String.format("item/gcrops/flower_%s", textureType))))
                 .color(() -> () -> itemColor)
                 .register();
 
@@ -162,6 +162,8 @@ public class StarTGCropItems {
         GCROP_FLOWERMAP.put(newMaterial, gCropFlower);
         GCROP_FRUITS.add(gCropFruit);
         GCROP_FRUITMAP.put(newMaterial, gCropFruit);
+
+        StarTFruitItems.createNeededProcessingItems(id, highestTier);
     }
 
     static {

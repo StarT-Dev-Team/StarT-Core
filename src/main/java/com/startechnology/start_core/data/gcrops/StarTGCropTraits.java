@@ -5,13 +5,13 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
-import com.startechnology.start_core.item.StarTGCropItems;
+import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
 
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
 
 public class StarTGCropTraits {
 

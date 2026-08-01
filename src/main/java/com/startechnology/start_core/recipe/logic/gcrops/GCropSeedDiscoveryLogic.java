@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
 
 public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 

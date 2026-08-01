@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.startechnology.start_core.item.StarTGCropItems.*;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 
 public class GenomeMixingLogic implements ICustomRecipeLogic {
 

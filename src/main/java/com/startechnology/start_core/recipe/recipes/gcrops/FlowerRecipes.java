@@ -1,4 +1,4 @@
-package com.startechnology.start_core.recipe.recipes;
+package com.startechnology.start_core.recipe.recipes.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -17,10 +17,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static com.startechnology.start_core.item.StarTGCropItems.*;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 import static com.startechnology.start_core.StarTCore.LOGGER;
 
-public class GCropRecipes {
+public class FlowerRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
         gcropFruitGrowingRecipes(provider);

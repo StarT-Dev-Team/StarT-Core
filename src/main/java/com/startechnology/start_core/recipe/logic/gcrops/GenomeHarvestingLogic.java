@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.startechnology.start_core.item.StarTGCropItems.*;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 
 public class GenomeHarvestingLogic implements ICustomRecipeLogic {
 

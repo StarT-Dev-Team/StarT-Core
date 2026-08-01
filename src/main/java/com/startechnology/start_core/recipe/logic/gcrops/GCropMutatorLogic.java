@@ -11,7 +11,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
-import com.startechnology.start_core.item.StarTGCropItems;
+import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
@@ -26,7 +26,7 @@ import java.util.*;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.startechnology.start_core.item.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
 
 public class GCropMutatorLogic implements ICustomRecipeLogic {
 
