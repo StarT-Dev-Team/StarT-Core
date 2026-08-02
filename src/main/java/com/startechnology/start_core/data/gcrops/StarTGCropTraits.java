@@ -6,6 +6,7 @@ import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.world.item.ItemStack;
 
@@ -16,7 +17,7 @@ import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MA
 public class StarTGCropTraits {
 
     public static final Comparator<StarTGCropTraits.StarTGCropTrait> TRAIT_COMPARATOR = Comparator
-            .comparing(StarTGCropTraits.StarTGCropTrait::name);
+            .comparing(StarTGCropTraits.StarTGCropTrait::id);
 
     public enum GenomeType {
         RESOURCE,
@@ -26,34 +27,48 @@ public class StarTGCropTraits {
     }
 
     public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
+    public static final Map<String, String> langData = new HashMap<String, String>();
 
-    public record StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount,
-                                  boolean recessive, GenomeType genomeType) {
+    public record StarTGCropTrait(String id, int tier, int frequency, int alleleCount,
+                                  boolean recessive, GenomeType genomeType, String symbolOverwrite) {
 
-        public StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount, boolean recessive,
-                               GenomeType genomeType) {
-            this.name = name;
-            this.symbol = symbol;
+        public StarTGCropTrait(String id, int tier, int frequency, int alleleCount, boolean recessive,
+                               GenomeType genomeType, String symbolOverwrite) {
+            this.id = id;
             this.tier = tier;
             this.frequency = frequency;
             this.alleleCount = alleleCount;
             this.recessive = recessive;
             this.genomeType = genomeType;
-            TRAITS.put(name.toLowerCase(), this);
+            this.symbolOverwrite = symbolOverwrite;
+
+            TRAITS.put(id.toLowerCase(), this);
+
+            String nameKey = String.format("behaviour.start_core.trait.%s.name", id);
+            String symbolKey = String.format("behaviour.start_core.trait.%s.symbol", id);
+            String name = StarTStringUtils.snakeCaseToSentence(id);
+            String symbol = StarTStringUtils.snakeCaseToSentence(id).substring(0, 2);
+            if (!symbolOverwrite.isEmpty()) symbol = symbolOverwrite;
+            langData.put(nameKey, name);
+            langData.put(symbolKey, symbol);
         }
 
-        public StarTGCropTrait(String name, String symbol, int tier, int frequency, int alleleCount,
+        public StarTGCropTrait(String id, int tier, int frequency, int alleleCount,
                                GenomeType genomeType) {
-            this(name, symbol, tier, frequency, alleleCount, false, genomeType);
+            this(id, tier, frequency, alleleCount, false, genomeType, "");
         }
 
-        public StarTGCropTrait(String name, String symbol, int tier, int frequency, boolean recessive,
+        public StarTGCropTrait(String id, int tier, int frequency, boolean recessive,
                                GenomeType genomeType) {
-            this(name, symbol, tier, frequency, 2, recessive, genomeType);
+            this(id, tier, frequency, 2, recessive, genomeType, "");
         }
 
-        public StarTGCropTrait(String name, String symbol, int tier, int frequency, GenomeType genomeType) {
-            this(name, symbol, tier, frequency, 2, false, genomeType);
+        public StarTGCropTrait(String id, int tier, int frequency, GenomeType genomeType) {
+            this(id, tier, frequency, 2, false, genomeType, "");
+        }
+
+        public StarTGCropTrait(String id, int tier, int frequency, GenomeType genomeType, String symbolOverwrite) {
+            this(id, tier, frequency, 2, false, genomeType, symbolOverwrite);
         }
 
         /**
@@ -135,107 +150,107 @@ public class StarTGCropTraits {
 
     public static void init() {
         // Resource Traits
-        Charred = new StarTGCropTrait("Charred", "Ch", 0, 3000, GenomeType.RESOURCE);
+        Charred = new StarTGCropTrait("charred", 0, 3000, GenomeType.RESOURCE);
 
-        Vibrant = new StarTGCropTrait("Vibrant", "Vi", 0, 3000, GenomeType.RESOURCE);
+        Vibrant = new StarTGCropTrait("vibrant", 0, 3000, GenomeType.RESOURCE);
 
-        Tough = new StarTGCropTrait("Tough", "Th", 0, 3000, GenomeType.RESOURCE);
+        Tough = new StarTGCropTrait("tough", 0, 3000, GenomeType.RESOURCE);
 
-        Fluorescent = new StarTGCropTrait("Fluorescent", "Fl", 0, 3000, GenomeType.RESOURCE);
+        Fluorescent = new StarTGCropTrait("fluorescent", 0, 3000, GenomeType.RESOURCE);
 
-        Metallic = new StarTGCropTrait("Metallic", "Me", 1, 2500, GenomeType.RESOURCE);
+        Metallic = new StarTGCropTrait("metallic", 1, 2500, GenomeType.RESOURCE);
 
-        Crystalline = new StarTGCropTrait("Crystalline", "Cr", 1, 2500, GenomeType.RESOURCE);
+        Crystalline = new StarTGCropTrait("crystalline", 1, 2500, GenomeType.RESOURCE);
 
-        Dusty = new StarTGCropTrait("Dusty", "Du", 1, 2500, GenomeType.RESOURCE);
+        Dusty = new StarTGCropTrait("dusty", 1, 2500, GenomeType.RESOURCE);
 
-        Woody = new StarTGCropTrait("Woody", "Wo", 1, 500, GenomeType.RESOURCE);
+        Woody = new StarTGCropTrait("woody", 1, 500, GenomeType.RESOURCE);
 
-        Coarse = new StarTGCropTrait("Coarse", "Co", 2, 2000, GenomeType.RESOURCE);
+        Coarse = new StarTGCropTrait("coarse", 2, 2000, GenomeType.RESOURCE);
 
-        Shiny = new StarTGCropTrait("Shiny", "Sh", 2, 2000, GenomeType.RESOURCE);
+        Shiny = new StarTGCropTrait("shiny", 2, 2000, GenomeType.RESOURCE);
 
-        Illuminating = new StarTGCropTrait("Illuminating", "Il", 3, 2000, GenomeType.RESOURCE);
+        Illuminating = new StarTGCropTrait("illuminating", 3, 2000, GenomeType.RESOURCE);
 
-        Mineralic = new StarTGCropTrait("Mineralic", "Mi", 3, 2000, GenomeType.RESOURCE);
+        Mineralic = new StarTGCropTrait("mineralic", 3, 2000, GenomeType.RESOURCE);
 
-        Sulfuric = new StarTGCropTrait("Sulfuric", "Su", 4, 1500, GenomeType.RESOURCE);
+        Sulfuric = new StarTGCropTrait("sulfuric", 4, 1500, GenomeType.RESOURCE);
 
-        Aetheric = new StarTGCropTrait("Aetheric", "Ae", 4, 1500, GenomeType.RESOURCE);
+        Aetheric = new StarTGCropTrait("aetheric", 4, 1500, GenomeType.RESOURCE);
 
-        Energetic = new StarTGCropTrait("Energetic", "En", 5, 1000, GenomeType.RESOURCE);
+        Energetic = new StarTGCropTrait("energetic", 5, 1000, GenomeType.RESOURCE);
 
-        Adaptive = new StarTGCropTrait("Adaptive", "Ad", 5, 1000, GenomeType.RESOURCE);
+        Adaptive = new StarTGCropTrait("adaptive", 5, 1000, GenomeType.RESOURCE);
 
-        Apothic = new StarTGCropTrait("Apothic", "Ap", 6, 500, GenomeType.RESOURCE);
+        Apothic = new StarTGCropTrait("apothic", 6, 500, GenomeType.RESOURCE);
 
-        Siliceous = new StarTGCropTrait("Siliceous", "Si", 7, 200, GenomeType.RESOURCE);
+        Siliceous = new StarTGCropTrait("siliceous", 7, 200, GenomeType.RESOURCE);
 
         // Production Traits
         // 10% duration reduction (multiplicative)
-        Quickened = new StarTGCropTrait("Quickened", "Qu", 1, 2000, GenomeType.PRODUCTION);
+        Quickened = new StarTGCropTrait("quickened", 1, 2000, GenomeType.PRODUCTION);
 
         // 20% increase in fluid consumption (multiplicative)
-        Thirsty = new StarTGCropTrait("Dry", "Ti", 1, 1500, GenomeType.PRODUCTION);
+        Thirsty = new StarTGCropTrait("thirsty", 1, 1500, GenomeType.PRODUCTION);
 
         // 10% duration reduction (multiplicative)
-        Speedy = new StarTGCropTrait("Speedy", "Sp", 2, 1500, GenomeType.PRODUCTION);
+        Speedy = new StarTGCropTrait("speedy", 2, 1500, GenomeType.PRODUCTION);
 
         // 20% duration increase (multiplicative)
-        Slow = new StarTGCropTrait("Slow", "Sl", 2, 1000, GenomeType.PRODUCTION);
+        Slow = new StarTGCropTrait("slow", 2, 1000, GenomeType.PRODUCTION);
 
         // 10% duration reduction (multiplicative)
-        Fast = new StarTGCropTrait("Fast", "Fa", 3, 1000, GenomeType.PRODUCTION);
+        Fast = new StarTGCropTrait("fast", 3, 1000, GenomeType.PRODUCTION);
 
         // 20% duration increase (multiplicative)
-        Stunted = new StarTGCropTrait("Stunted", "St", 3, 500, GenomeType.PRODUCTION);
+        Stunted = new StarTGCropTrait("stunted", 3, 500, GenomeType.PRODUCTION);
 
         // 20% input consumption increase (multiplicative)
-        Gluttonous = new StarTGCropTrait("Gluttonous", "Gl", 3, 500, GenomeType.PRODUCTION);
+        Gluttonous = new StarTGCropTrait("gluttonous", 3, 500, GenomeType.PRODUCTION);
 
         // 60% chance for +2 on max fruit (cumulative)
-        Enormous = new StarTGCropTrait("Enormous", "En", 4, 500, GenomeType.PRODUCTION);
+        Enormous = new StarTGCropTrait("enormous", 4, 500, GenomeType.PRODUCTION);
 
         // -2 on min fruits (cumulative), -3 on max fruits (cumulative)
-        Shriveled = new StarTGCropTrait("Shriveled", "Sr", 4, 400, GenomeType.PRODUCTION);
+        Shriveled = new StarTGCropTrait("shriveled", 4, 400, GenomeType.PRODUCTION, "Sr");
 
         // 3x 60% chance for +2 on max fruit (cumulative) and 2x 70% chance for +1 on min fruit (cumulative)
-        Branching = new StarTGCropTrait("Branching", "Br", 5, 500, GenomeType.PRODUCTION);
+        Branching = new StarTGCropTrait("branching", 5, 500, GenomeType.PRODUCTION);
 
         // 2x input consumption, 15% duration increase (multiplicative), +4 on min fruit (cumulative), +2 on max fruit
         // (cumulative)
-        Proliferating = new StarTGCropTrait("Proliferating", "Pl", 5, 500, GenomeType.PRODUCTION);
+        Proliferating = new StarTGCropTrait("proliferating", 5, 500, GenomeType.PRODUCTION);
 
         // -1 energy tier
-        Empowered = new StarTGCropTrait("Empowered", "Em", 6, 100, GenomeType.PRODUCTION);
+        Empowered = new StarTGCropTrait("empowered", 6, 100, GenomeType.PRODUCTION);
 
         // 8x on min and max fruit (multiplicative), 60% duration increase (multiplicative), 10x input consumption
         // (multiplicative)
-        Sprawling = new StarTGCropTrait("Sprawling", "An", 7, 50, GenomeType.PRODUCTION);
+        Sprawling = new StarTGCropTrait("sprawling", 7, 50, GenomeType.PRODUCTION, "Sw");
 
         // 3x on inputs (multiplicative), 4x on outputs (multiplicative), 5x duration multiplier (multiplicative),
-        Autotroph = new StarTGCropTrait("Autotroph", "Au", 7, 50, GenomeType.PRODUCTION);
+        Autotroph = new StarTGCropTrait("autotroph", 7, 50, GenomeType.PRODUCTION);
 
         // Auxiliary Traits
         // nighttime only
-        Nocturnal = new StarTGCropTrait("Nocturnal", "Nc", 2, 2000, GenomeType.AUXILIARY);
+        Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY);
 
         // no time requirement
-        Diurnal = new StarTGCropTrait("Diurnal", "Di", 4, 1500, GenomeType.AUXILIARY);
+        Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY, "Nc");
 
         // fruit -> flower, 30% duration reduction (multiplicative)
-        Early = new StarTGCropTrait("Early", "Ea", 4, 100, GenomeType.AUXILIARY);
+        Early = new StarTGCropTrait("early", 4, 100, GenomeType.AUXILIARY);
 
         // Climate Traits
-        Frosty = new StarTGCropTrait("Frost", "Fr", 1, 1000, 1, GenomeType.CLIMATE);
+        Frosty = new StarTGCropTrait("frost", 1, 1000, 1, GenomeType.CLIMATE);
 
-        Scorching = new StarTGCropTrait("Scorching", "Sc", 1, 1000, 1, GenomeType.CLIMATE);
+        Scorching = new StarTGCropTrait("scorching", 1, 1000, 1, GenomeType.CLIMATE);
 
-        Tropical = new StarTGCropTrait("Tropical", "Tr", 1, 1000, 1, GenomeType.CLIMATE);
+        Tropical = new StarTGCropTrait("tropical", 1, 1000, 1, GenomeType.CLIMATE);
 
-        Desertic = new StarTGCropTrait("Desertic", "De", 1, 1000, 1, GenomeType.CLIMATE);
+        Desertic = new StarTGCropTrait("desertic", 1, 1000, 1, GenomeType.CLIMATE);
 
-        Damp = new StarTGCropTrait("Damp", "Da", 1, 1000, 1, GenomeType.CLIMATE);
+        Damp = new StarTGCropTrait("damp", 1, 1000, 1, GenomeType.CLIMATE);
     }
 
     // Tier 0

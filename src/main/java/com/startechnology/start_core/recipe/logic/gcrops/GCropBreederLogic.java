@@ -46,7 +46,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
     private Integer handleGeneMeiosis(StarTGCropGene gene, HashMap<String, Integer> geneMap) {
         int alleles = gene.getDominantAlleles();
         StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
-        String traitName = trait.name();
+        String traitId = trait.id();
         int maxAlleleCount = trait.alleleCount();
 
         int alleleAddition = 0;
@@ -58,10 +58,10 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 alleleAddition++;
         }
 
-        boolean traitExists = geneMap.containsKey(traitName);
+        boolean traitExists = geneMap.containsKey(traitId);
 
         if (traitExists) {
-            int currentCount = geneMap.get(traitName);
+            int currentCount = geneMap.get(traitId);
             finalAlleleCount = Math.min(currentCount + alleleAddition, maxAlleleCount);
         } else finalAlleleCount = alleleAddition;
 
@@ -103,29 +103,29 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 // Apply Meiosis mimicry to all traits for harvesting the new traits
                 for (StarTGCropGene existingGene : cropStats.getResourceGenome()) {
                     StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
-                    String traitName = trait.name();
+                    String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, resourceGeneMap);
 
-                    if (newAlleleCount != 0) resourceGeneMap.put(traitName, newAlleleCount);
+                    if (newAlleleCount != 0) resourceGeneMap.put(traitId, newAlleleCount);
                 }
 
                 for (StarTGCropGene existingGene : cropStats.getProductionGenome()) {
                     StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
-                    String traitName = trait.name();
+                    String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, productionGeneMap);
 
-                    if (newAlleleCount != 0) productionGeneMap.put(traitName, newAlleleCount);
+                    if (newAlleleCount != 0) productionGeneMap.put(traitId, newAlleleCount);
                 }
 
                 for (StarTGCropGene existingGene : cropStats.getAuxiliaryGenome()) {
                     StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
-                    String traitName = trait.name();
+                    String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, auxiliaryGeneMap);
 
-                    if (newAlleleCount != 0) auxiliaryGeneMap.put(traitName, newAlleleCount);
+                    if (newAlleleCount != 0) auxiliaryGeneMap.put(traitId, newAlleleCount);
                 }
 
                 if (newClimateGenome != null) continue;

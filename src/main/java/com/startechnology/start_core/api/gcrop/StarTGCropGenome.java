@@ -12,6 +12,7 @@ import java.util.List;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class StarTGCropGenome {
@@ -88,7 +89,7 @@ public class StarTGCropGenome {
         return true;
     }
 
-    public static String getPrettyTraitSymbol(String symbol, int tier) {
+    public static String getPrettyTrait(String value, int tier) {
         String colourCode = switch (tier) {
             case -1 -> "§4"; // unknown trait
             case 1 -> "§9";
@@ -101,7 +102,7 @@ public class StarTGCropGenome {
             default -> "§7";
         };
 
-        return String.format("%s%s§r", colourCode, symbol);
+        return String.format("%s%s§r", colourCode, value);
     }
 
     public static MutableComponent prettyGenomeGCropTraits(List<StarTGCropGene> genome, boolean full) {
@@ -115,12 +116,32 @@ public class StarTGCropGenome {
                                 traitSymbol = full ? "Unknown" : "??";
                                 traitTier = -1;
                             } else {
-                                traitSymbol = full ? trait.name() : trait.symbol();
+                                traitSymbol = Component.translatable(String.format("behaviour.start_core.trait.%s.%s",
+                                        trait.id(), full ? "name" : "symbol")).getString();
                                 traitTier = trait.tier();
                             }
-                            return Component.translatable(getPrettyTraitSymbol(traitSymbol, traitTier));
+                            return Component.translatable(getPrettyTrait(traitSymbol, traitTier));
                         })
-                .reduce(Component.literal(full ? ", " : ""), MutableComponent::append);
+                .reduce(Component.literal(""), MutableComponent::append);
+    }
+
+    public static MutableComponent prettyGCropGene(StarTGCropGene gene) {
+        StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
+        String traitName;
+        int alleleCount = gene.getDominantAlleles();
+        String squares;
+        int traitTier;
+        if (trait == null) {
+            traitName = "Unknown";
+            traitTier = -1;
+            squares = "NaN";
+        } else {
+            squares = StringUtils.repeat('■', alleleCount) + StringUtils.repeat('□', trait.alleleCount() - alleleCount);
+            traitName = Component.translatable(String.format("behaviour.start_core.trait.%s.name", trait.id()))
+                    .getString();
+            traitTier = trait.tier();
+        }
+        return Component.literal(getPrettyTrait(String.format("%s: %s", traitName, squares), traitTier));
     }
 
     public StarTGCropGenome(CompoundTag gCropGenomeCompound) {

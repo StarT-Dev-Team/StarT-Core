@@ -2,6 +2,7 @@ package com.startechnology.start_core.item.components;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
+import com.gregtechceu.gtceu.utils.GTUtil;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
@@ -38,32 +39,65 @@ public class StarTGenomeHolderBehaviour extends StarTNBTTooltipsBehaviour {
         StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
 
         if (gCropGenome != null) {
-            tooltipComponents.add(Component.translatable("behaviour.start_core.genome_holder.header"));
-
             List<StarTGCropGene> resourceGenome = gCropGenome.getResourceGenome();
             List<StarTGCropGene> productionGenome = gCropGenome.getProductionGenome();
             List<StarTGCropGene> auxiliaryGenome = gCropGenome.getAuxiliaryGenome();
             StarTGCropGene climateGene = gCropGenome.getClimateGene();
 
-            if (!resourceGenome.isEmpty()) {
-                tooltipComponents
-                        .add(Component.translatable("behaviour.start_core.gcrop.resource_genome",
-                                StarTGCropGenome.prettyGenomeGCropTraits(resourceGenome, false)));
-            }
-            if (!productionGenome.isEmpty()) {
-                tooltipComponents
-                        .add(Component.translatable("behaviour.start_core.gcrop.production_genome",
-                                StarTGCropGenome.prettyGenomeGCropTraits(productionGenome, false)));
-            }
-            if (!auxiliaryGenome.isEmpty()) {
-                tooltipComponents
-                        .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome",
-                                StarTGCropGenome.prettyGenomeGCropTraits(auxiliaryGenome, false)));
-            }
-            if (climateGene != null) {
-                tooltipComponents
-                        .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",
-                                StarTGCropGenome.prettyGenomeGCropTraits(List.of(climateGene), false)));
+            if (GTUtil.isShiftDown()) {
+                tooltipComponents.add(Component.translatable("behaviour.start_core.genome_holder.genome_header"));
+                if (!resourceGenome.isEmpty()) {
+                    tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.resource_genome"));
+                    for (StarTGCropGene gene : resourceGenome) {
+                        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.gene_holder",
+                                StarTGCropGenome.prettyGCropGene(gene)));
+                    }
+                }
+                if (!productionGenome.isEmpty()) {
+                    tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.production_genome"));
+                    for (StarTGCropGene gene : productionGenome) {
+                        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.gene_holder",
+                                StarTGCropGenome.prettyGCropGene(gene)));
+                    }
+                }
+                if (!auxiliaryGenome.isEmpty()) {
+                    tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.auxiliary_genome"));
+                    for (StarTGCropGene gene : auxiliaryGenome) {
+                        tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.gene_holder",
+                                StarTGCropGenome.prettyGCropGene(gene)));
+                    }
+                }
+                if (climateGene != null) {
+                    tooltipComponents
+                            .add(Component.translatable("behaviour.start_core.gcrop.climate_genome",
+                                    StarTGCropGenome.prettyGenomeGCropTraits(List.of(climateGene), true)));
+                }
+                tooltipComponents.add(Component.empty());
+            } else {
+                tooltipComponents.add(Component.translatable("behaviour.start_core.genome_holder.traits_header"));
+                if (!resourceGenome.isEmpty()) {
+                    tooltipComponents
+                            .add(Component.translatable("behaviour.start_core.gcrop.resource_traits",
+                                    StarTGCropGenome.prettyGenomeGCropTraits(resourceGenome, false)));
+                }
+                if (!productionGenome.isEmpty()) {
+                    tooltipComponents
+                            .add(Component.translatable("behaviour.start_core.gcrop.production_traits",
+                                    StarTGCropGenome.prettyGenomeGCropTraits(productionGenome, false)));
+                }
+                if (!auxiliaryGenome.isEmpty()) {
+                    tooltipComponents
+                            .add(Component.translatable("behaviour.start_core.gcrop.auxiliary_traits",
+                                    StarTGCropGenome.prettyGenomeGCropTraits(auxiliaryGenome, false)));
+                }
+                if (climateGene != null) {
+                    tooltipComponents
+                            .add(Component.translatable("behaviour.start_core.gcrop.climate_gene",
+                                    StarTGCropGenome.prettyGenomeGCropTraits(List.of(climateGene), false)));
+                }
+                tooltipComponents.add(Component.empty());
+                tooltipComponents.add(Component.translatable("behaviour.start_core.gcrop.show_full_genome"));
+                tooltipComponents.add(Component.empty());
             }
         } else {
             tooltipComponents.add(Component.translatable("behaviour.start_core.genome_holder.no_genome"));

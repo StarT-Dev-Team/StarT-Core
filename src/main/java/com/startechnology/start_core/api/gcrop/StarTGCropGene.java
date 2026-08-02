@@ -39,6 +39,6 @@ public class StarTGCropGene {
     public String toRawGene() {
         if (this.trait == null) {
             return "empty";
-        } else return String.format("%s-%s", this.trait.name(), String.valueOf(this.dominantAlleles));
+        } else return String.format("%s-%s", this.trait.id(), String.valueOf(this.dominantAlleles));
     }
 }

@@ -2,9 +2,15 @@ package com.startechnology.start_core.lang;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+
 public class LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
+        for (String key : StarTGCropTraits.langData.keySet()) {
+            provider.add(key, StarTGCropTraits.langData.get(key));
+        }
+
         provider.add("item.start_core.data_dna_disk.tooltip", "§7Storing Information in Life");
         provider.add("item.start_core.component_data_core.tooltip", "§7Data Beyond Transcendance");
 
@@ -107,18 +113,28 @@ public class LangHandler {
 
         provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome.");
         provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
-        provider.add("behaviour.start_core.gcrop.genome_header", "§aYour gCrop has the following genome traits:");
-        provider.add("behaviour.start_core.gcrop.resource_genome", "  §6Resource§7:§r %s");
-        provider.add("behaviour.start_core.gcrop.production_genome", "  §9Production§7:§r %s");
-        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "  §cAuxiliary§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.traits_header", "§aYour gCrop has the following traits:");
+        provider.add("behaviour.start_core.gcrop.resource_traits", "  §6Resource§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.production_traits", "  §9Production§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.auxiliary_traits", "  §cAuxiliary§7:§r %s");
         provider.add("behaviour.start_core.gcrop.climate_gene", "  §2Climate§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.show_full_genome", "§7Hold [§6Shift§7] to view the full genome");
+        provider.add("behaviour.start_core.gcrop.genome_header", "§aThe full genome of your crop is as follows:");
+        provider.add("behaviour.start_core.gcrop.resource_genome", "§6Resource§7:§r");
+        provider.add("behaviour.start_core.gcrop.production_genome", "§9Production§7:§r");
+        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "§cAuxiliary§7:§r");
+        provider.add("behaviour.start_core.gcrop.climate_genome", "§2Climate§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.gene_holder", " - %s");
         provider.add("behaviour.start_core.gcrop.inserted_gcrop", "§3A crop with the provided genome.");
 
         provider.add("behaviour.start_core.fruit.header", "§aA gCrop Fruiting body");
         provider.add("behaviour.start_core.fruit.resource", "  §6Contains: §2%s");
         provider.add("behaviour.start_core.fruit.tier", "  §9Grade: §2%s");
 
-        provider.add("behaviour.start_core.genome_holder.header", "§aThis item has the following genome:");
+        provider.add("behaviour.start_core.genome_holder.traits_header",
+                "§aThis holder contains the following traits:");
+        provider.add("behaviour.start_core.genome_holder.genome_header",
+                "§aThe full genome contained in your holder is as follows:");
         provider.add("behaviour.start_core.genome_holder.no_genome",
                 "§7A genome holder without any genetical information stored inside.");
 
