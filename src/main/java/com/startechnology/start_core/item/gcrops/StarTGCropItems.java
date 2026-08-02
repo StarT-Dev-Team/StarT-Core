@@ -4,13 +4,14 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
-import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits.GenomeType;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
@@ -18,12 +19,10 @@ import com.startechnology.start_core.item.components.StarTNBTTooltipsBehaviour;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.common.data.models.GTModels.createTextureModel;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-import static com.startechnology.start_core.api.gcrop.StarTGCropItemType.*;
 import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
 
 import java.util.ArrayList;
@@ -112,8 +111,6 @@ public class StarTGCropItems {
                                       List<StarTGCropTrait> traits) {
         var newMaterial = GTMaterials.get(id.equals("sheldonite") ? "cooperite" : id);
 
-        ItemColor itemColor = TagPrefixItem.tintColor(newMaterial);
-
         int highestTier = 0;
         for (var trait : traits) {
             int traitTier = trait.tier();
@@ -130,7 +127,7 @@ public class StarTGCropItems {
                         traits)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/seed_%s", textureType))))
-                .color(() -> () -> itemColor)
+                .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
                 .register();
 
         ItemEntry<ComponentItem> gCropFruit = START_REGISTRATE
@@ -143,7 +140,7 @@ public class StarTGCropItems {
                         materialType)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/fruit_%s", textureType))))
-                .color(() -> () -> itemColor)
+                .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
                 .register();
 
         ItemEntry<ComponentItem> gCropFlower = START_REGISTRATE
@@ -156,7 +153,7 @@ public class StarTGCropItems {
                         materialType)))
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/flower_%s", textureType))))
-                .color(() -> () -> itemColor)
+                .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
                 .register();
 
         GCROP_ITEMS.add(gCropItem);

@@ -2,12 +2,10 @@ package com.startechnology.start_core.item.gcrops;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.client.color.item.ItemColor;
 
 import java.util.HashMap;
 
@@ -22,7 +20,6 @@ public class StarTFruitItems {
     public static void createNeededProcessingItems(String id, int tier) {
         id = id.equals("sheldonite") ? "cooperite" : id;
         Material itemMaterial = GTMaterials.get(id);
-        ItemColor itemColor = TagPrefixItem.tintColor(itemMaterial);
         String fruitResource = StarTStringUtils.snakeCaseToSentence(id);
 
         if (tier == 3) {
@@ -32,7 +29,7 @@ public class StarTFruitItems {
                     .properties(prop -> prop.stacksTo(64))
                     .model((ctx, prov) -> createTextureModel(ctx, prov,
                             StarTCore.resourceLocation("item/gcrops/materials/fruit_slice")))
-                    .color(() -> () -> itemColor)
+                    .color(() -> () -> (itemStack, index) -> itemMaterial.getLayerARGB(index))
                     .register();
 
             FRUIT_SLICES.put(id, fruitSliceItem);
@@ -44,7 +41,7 @@ public class StarTFruitItems {
                     .properties(prop -> prop.stacksTo(64))
                     .model((ctx, prov) -> createTextureModel(ctx, prov,
                             StarTCore.resourceLocation("item/gcrops/materials/popped_fruit")))
-                    .color(() -> () -> itemColor)
+                    .color(() -> () -> (itemStack, index) -> itemMaterial.getLayerARGB(index))
                     .register();
 
             POPPED_FRUITS.put(id, poppedFruitItem);
