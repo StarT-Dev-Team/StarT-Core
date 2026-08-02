@@ -10,6 +10,8 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits.GenomeType;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
@@ -21,7 +23,6 @@ import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.common.data.models.GTModels.createTextureModel;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-import static com.startechnology.start_core.api.gcrop.StarTGCropItemType.*;
 import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
 
 import java.util.ArrayList;
