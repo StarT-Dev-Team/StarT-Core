@@ -215,7 +215,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
                 newEuT += solarCellType.getEuT();
             } else {
-                double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
+                double currentTemp = Math.max(
+                        solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
                         solarCellType.getMinTemperature());
 
                 solarCellBlockEntity.setTemperature(currentTemp);

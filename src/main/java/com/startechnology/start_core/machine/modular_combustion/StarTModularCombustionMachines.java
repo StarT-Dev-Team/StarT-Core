@@ -231,8 +231,7 @@ public class StarTModularCombustionMachines {
                     Component.translatable("block.start_core.modular_combustion_frame_d2"),
                     Component.translatable("block.start_core.breaker_line"),
                     Component.translatable("block.start_core.modular_combustion_frame_d3"),
-                    Component.translatable("block.start_core.breaker_line")
-            )
+                    Component.translatable("block.start_core.breaker_line"))
             .tooltipBuilder((stack, components) -> {
                 components.add(
                         Component.translatable("gtceu.machine.active_transformer.tooltip.2").append(

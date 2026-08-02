@@ -87,6 +87,18 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new GCropHarvesterLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
+    public static final GTRecipeType VOID_SAIL = GTRecipeTypes
+            .register("void_sail", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType VOID_GAS_COLLECTOR = GTRecipeTypes
+            .register("void_gas_collector", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 0, 1)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
     public static final GTRecipeType GENOME_GATHERING = GTRecipeTypes
             .register("genome_gathering", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 0)

@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
@@ -12,10 +11,13 @@ import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.startechnology.start_core.StarTCore.LOGGER;
 import static com.startechnology.start_core.materials.StarTTagPrefixes.*;
 import static com.startechnology.start_core.data.gcrops.StarTGCropData.gCropData;
+import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 
 public class StarTGCropProcessingMaterials {
 
@@ -30,36 +32,53 @@ public class StarTGCropProcessingMaterials {
     }
 
     private static void generateAuxiliaryMaterials() {
-        new Material.Builder(StarTCore.resourceLocation("poor_mineral-rich_bio_waste"))
+        new Material.Builder(StarTCore.resourceLocation("mystical_air"))
                 .liquid(new FluidBuilder())
-                .color(000000)
+                .color(0x6ca9dd)
+                .components(Air, 1, Biomass, 1) // Biomass is a placeholder for ? :sob:
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .buildAndRegister();
+
+        new Material.Builder(StarTCore.resourceLocation("mystical_essence"))
+                .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
+                .color(0x1769af)
+                .components(Biomass, 1)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .buildAndRegister();
+
+        new Material.Builder(StarTCore.resourceLocation("poor_mineral_rich_bio_waste"))
+                .liquid(new FluidBuilder())
+                .components(Biomass, 1, Lava, 1)
+                .color(0xfba92b)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .buildAndRegister();
+
+        new Material.Builder(StarTCore.resourceLocation("mineral_rich_bio_waste"))
+                .liquid(new FluidBuilder())
+                .color(0x988b3c)
+                .components(getMaterial("poor_mineral_rich_bio_waste"), 2, Glycerol, 1, getMaterial("npk_solution"), 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
         new Material.Builder(StarTCore.resourceLocation("poor_charged_bio_waste"))
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
-                .color(000000)
-                .components()
+                .color(0x81d8b3)
+                .components(Biomass, 1, IronMagnetic, 1)
+                .iconSet(MAGNETIC)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
         new Material.Builder(StarTCore.resourceLocation("unstable_ion_blend"))
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
-                .color(000000)
-                .components()
-                .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
-                .buildAndRegister();
-
-        new Material.Builder(StarTCore.resourceLocation("mineral-rich_bio_waste"))
-                .liquid(new FluidBuilder())
-                .color(000000)
+                .color(0x6f857b)
+                .components(getMaterial("poor_charged_bio_waste"), 2, Strontium, 1, getMaterial("npk_solution"), 2)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
     }
 
     private static void runMaterialGen(int tier, String id, StarTGCropItemType type) {
         id = (id.equals("sheldonite")) ? "cooperite" : id;
-        Material itemMaterial = GTMaterials.get(id);
+        Material itemMaterial = getMaterial(id);
         int MaterialColor = 000000;
         int MaterialColorARGB = itemMaterial.getMaterialARGB();
         int MaterialColorRBG = itemMaterial.getMaterialRGB();
@@ -77,7 +96,7 @@ public class StarTGCropProcessingMaterials {
                     StarTCore.resourceLocation(String.format("%s_pigment", dyeColor)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
-                    .components(new Object[] { itemMaterial, 1 })
+                    .components(itemMaterial, 1)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
         }
@@ -85,7 +104,7 @@ public class StarTGCropProcessingMaterials {
             new Material.Builder(StarTCore.resourceLocation(String.format("%s_extract", id)))
                     .liquid(new FluidBuilder())
                     .color(MaterialColorRBG)
-                    .components(new Object[] { itemMaterial, 1 })
+                    .components(itemMaterial, 1)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
         }
@@ -94,7 +113,8 @@ public class StarTGCropProcessingMaterials {
                     StarTCore.resourceLocation(String.format("charged_%s_fruit_pulp", id)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
-                    .components(new Object[] { itemMaterial, 1 })
+                    .components(itemMaterial, 1)
+                    .iconSet(MAGNETIC)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
 
@@ -102,7 +122,7 @@ public class StarTGCropProcessingMaterials {
                     StarTCore.resourceLocation(String.format("%s_fruit_pulp", id)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
-                    .components(new Object[] { itemMaterial, 1 })
+                    .components(itemMaterial, 1)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
         }
@@ -256,7 +276,7 @@ public class StarTGCropProcessingMaterials {
                     .buildAndRegister();
 
             new Material.Builder(
-                    StarTCore.resourceLocation(String.format("%s_fruit_pulp", id)))
+                    StarTCore.resourceLocation(String.format("compressed_%s_fruit_pulp", id)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
                     .components(new Object[] { itemMaterial, 1 })
@@ -292,7 +312,7 @@ public class StarTGCropProcessingMaterials {
                     .buildAndRegister();
 
             new Material.Builder(
-                    StarTCore.resourceLocation(String.format("pure_%s_fruit_dust", id)))
+                    StarTCore.resourceLocation(String.format("pure_%s_fruit", id)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
                     .components(new Object[] { itemMaterial, 1 })
@@ -300,10 +320,11 @@ public class StarTGCropProcessingMaterials {
                     .buildAndRegister();
 
             new Material.Builder(
-                    StarTCore.resourceLocation(String.format("charged_pure_%s_fruit_dust", id)))
+                    StarTCore.resourceLocation(String.format("charged_pure_%s_fruit", id)))
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
                     .components(new Object[] { itemMaterial, 1 })
+                    .iconSet(MAGNETIC)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
 
@@ -312,6 +333,7 @@ public class StarTGCropProcessingMaterials {
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
                     .components(new Object[] { itemMaterial, 1 })
+                    .iconSet(MAGNETIC)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .ignoredTagPrefixes(dustTiny, dustSmall)
                     .buildAndRegister();
@@ -321,6 +343,7 @@ public class StarTGCropProcessingMaterials {
                     .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                     .color(MaterialColorRBG)
                     .components(new Object[] { itemMaterial, 1 })
+                    .iconSet(MAGNETIC)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
 

@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 
 public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 
@@ -66,7 +66,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
             return StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder("seed_discovery")
                     .inputItems(StarTTagUtils.getTag("forge:seeds"))
-                    .inputFluids(GTMaterials.Air.getFluid(1000))
+                    .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
                     .outputItems(gCropRandomSeed)
                     .duration(120)
                     .EUt(GTValues.V[GTValues.MV])
@@ -89,7 +89,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
         GTRecipe discoveryRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                 .recipeBuilder("seed_discovery")
                 .inputItems(StarTTagUtils.getTag("forge:seeds"))
-                .inputFluids(GTMaterials.Air.getFluid(1000))
+                .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(120)
                 .EUt(GTValues.V[GTValues.MV])

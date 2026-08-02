@@ -27,6 +27,8 @@ import java.util.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
+import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
+import static com.startechnology.start_core.utils.StarTItemUtils.getItem;
 
 public class GCropMutatorLogic implements ICustomRecipeLogic {
 
@@ -65,14 +67,28 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         return false;
     }
 
+    public static boolean hasItemMatch(Item item, List<Item> itemList) {
+        for (Item newItem : itemList) {
+            if (item.equals(newItem)) return true;
+        }
+        return false;
+    }
+
+    public static boolean hasFluidMatch(Fluid fluid, List<Fluid> fluidList) {
+        for (Fluid newFluid : fluidList) {
+            if (fluid.isSame(newFluid)) return true;
+        }
+        return false;
+    }
+
     private static int findTraitTier(List<ItemStack> mutationItems, List<FluidStack> mutationFluids, String type) {
         final List<Item> validMutationItemList = List.of(
-                ChemicalHelper.get(dust, EnderPearl).getItem(),
+                getItem("ae2", "sky_dust"),
                 ChemicalHelper.get(dust, Thorium).getItem(),
                 ChemicalHelper.get(dust, Caesium).getItem(),
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
-                ChemicalHelper.get(dust, GTMaterials.get("purified_naquadah")).getItem(),
+                ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
                 ChemicalHelper.get(dust, Americium).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
@@ -81,7 +97,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 Radon.getFluid(),
                 IndiumGalliumPhosphide.getFluid(),
                 Naquadria.getFluid(),
-                GTMaterials.get("echo_r").getFluid());
+                GTMaterials.get("echo_r").getFluid(),
+                getMaterial("start_core:mystical_air").getFluid());
 
         int maxTier = 0;
         List<Integer> tiers = new ArrayList<>();
@@ -114,23 +131,23 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
     }
 
     public static GTRecipe createGCropRecipe(List<ItemStack> itemSet, List<FluidStack> allFluids) {
-        final List<ItemStack> validMutationItemList = List.of(
-                ChemicalHelper.get(dust, EnderPearl),
-                ChemicalHelper.get(dust, Thorium),
-                ChemicalHelper.get(dust, Caesium),
-                ChemicalHelper.get(dust, Tantalum),
-                ChemicalHelper.get(dust, Uranium235),
-                ChemicalHelper.get(dust, GTMaterials.get("purified_naquadah")),
-                ChemicalHelper.get(dust, Americium));
+        final List<Item> validMutationItemList = List.of(
+                getItem("ae2", "sky_dust"),
+                ChemicalHelper.get(dust, Thorium).getItem(),
+                ChemicalHelper.get(dust, Caesium).getItem(),
+                ChemicalHelper.get(dust, Tantalum).getItem(),
+                ChemicalHelper.get(dust, Uranium235).getItem(),
+                ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
+                ChemicalHelper.get(dust, Americium).getItem());
 
-        final List<FluidStack> validMutationFluidList = List.of(
-                Arsenic.getFluid(1),
-                Fluorine.getFluid(1),
-                Radon.getFluid(1),
-                IndiumGalliumPhosphide.getFluid(1),
-                Naquadria.getFluid(1),
-                GTMaterials.get("echo_r").getFluid(1),
-                Air.getFluid(1));
+        final List<Fluid> validMutationFluidList = List.of(
+                Arsenic.getFluid(),
+                Fluorine.getFluid(),
+                Radon.getFluid(),
+                IndiumGalliumPhosphide.getFluid(),
+                Naquadria.getFluid(),
+                GTMaterials.get("echo_r").getFluid(),
+                getMaterial("start_core:mystical_air").getFluid());
 
         ItemStack foundGCrop = ItemStack.EMPTY;
 
@@ -140,13 +157,13 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         for (ItemStack item : itemSet) {
             if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
                 foundGCrop = item;
-            } else if (hasItemMatch(item, validMutationItemList)) {
+            } else if (hasItemMatch(item.getItem(), validMutationItemList)) {
                 validMutationItems.add(item);
             }
         }
 
         for (FluidStack fluid : allFluids) {
-            if (hasFluidMatch(fluid, validMutationFluidList)) {
+            if (hasFluidMatch(fluid.getFluid(), validMutationFluidList)) {
                 validMutationFluids.add(fluid);
             }
         }
@@ -200,7 +217,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             List<StarTGCropTraits.StarTGCropTrait> mutatedTraits = StarTGCropTraits
                     .getTraitsBetweenTiersInclusive(maxTier - 1, maxTier);
 
-            if (hasFluidMatch(Air.getFluid(1), validMutationFluids)) {
+            if (hasFluidMatch(getMaterial("start_core:mystical_air").getFluid(1), validMutationFluids)) {
                 // full recipes
                 List<StarTGCropGene> newResourceGenome = new ArrayList<>(
                         existingResourceGenome.stream().filter(gene -> gene.getTrait().tier() < maxTier - 1).toList());
@@ -227,12 +244,14 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 GTRecipeBuilder mutatorRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                         .recipeBuilder(String.format("full_mutation_%s_to_%s", maxTier - 1, maxTier))
                         .inputItems(foundGCrop.copyWithCount(1))
-                        .inputItems(validMutationItemList.get(maxTier - 1))
+                        .inputItems(new ItemStack(validMutationItemList.get(maxTier - 1)))
+                        .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
                         .outputItems(newGCrop.copyWithCount(1))
                         .duration(400)
                         .EUtV(StarTGCropItems.tierVoltages.get(maxTier));
 
-                if (maxTier >= 2) mutatorRecipe.inputFluids(validMutationFluidList.get(maxTier - 2));
+                if (maxTier >= 2)
+                    mutatorRecipe.inputFluids(new FluidStack(validMutationFluidList.get(maxTier - 2), 1000));
 
                 return mutatorRecipe.buildRawRecipe();
 
@@ -268,12 +287,12 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             GTRecipeBuilder mutatorRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder(String.format("prod_aux_mutation_%s_to_%s", maxTier - 1, maxTier))
                     .inputItems(foundGCrop.copyWithCount(1))
-                    .inputItems(validMutationItemList.get(maxTier - 1))
+                    .inputItems(new ItemStack(validMutationItemList.get(maxTier - 1)))
                     .outputItems(newGCrop.copyWithCount(1))
                     .duration(400)
                     .EUtV(StarTGCropItems.tierVoltages.get(maxTier));
 
-            if (maxTier >= 2) mutatorRecipe.inputFluids(validMutationFluidList.get(maxTier - 2));
+            if (maxTier >= 2) mutatorRecipe.inputFluids(new FluidStack(validMutationFluidList.get(maxTier - 2), 1000));
 
             return mutatorRecipe.buildRawRecipe();
         }
@@ -303,7 +322,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             GTRecipeBuilder mutatorRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                     .recipeBuilder(String.format("prod_mutation_%s_to_%s", maxTier - 2, maxTier))
                     .inputItems(foundGCrop.copyWithCount(1))
-                    .inputItems(validMutationItemList.get(maxTier - 1))
+                    .inputItems(new ItemStack(validMutationItemList.get(maxTier - 1)))
                     .outputItems(newGCrop.copyWithCount(1))
                     .duration(400)
                     .EUtV(StarTGCropItems.tierVoltages.get(maxTier));
@@ -335,7 +354,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         GTRecipeBuilder mutatorRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
                 .recipeBuilder(String.format("aux_mutation_%s_to_%s", maxTier - 2, maxTier))
                 .inputItems(foundGCrop.copyWithCount(1))
-                .inputFluids(validMutationFluidList.get(maxTier - 2))
+                .inputFluids(new FluidStack(validMutationFluidList.get(maxTier - 2), 1000))
                 .outputItems(newGCrop.copyWithCount(1))
                 .duration(400)
                 .EUtV(StarTGCropItems.tierVoltages.get(maxTier));
@@ -345,39 +364,109 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
-        StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropRandomSeed.getOrCreateTag(),
-                "behaviour.start_core.gcrop.new_random_crop");
+        final List<Item> validMutationItemList = List.of(
+                getItem("ae2", "sky_dust"),
+                ChemicalHelper.get(dust, Thorium).getItem(),
+                ChemicalHelper.get(dust, Caesium).getItem(),
+                ChemicalHelper.get(dust, Tantalum).getItem(),
+                ChemicalHelper.get(dust, Uranium235).getItem(),
+                ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
+                ChemicalHelper.get(dust, Americium).getItem());
 
+        final List<Fluid> validMutationFluidList = List.of(
+                Arsenic.getFluid(),
+                Fluorine.getFluid(),
+                Radon.getFluid(),
+                IndiumGalliumPhosphide.getFluid(),
+                Naquadria.getFluid(),
+                GTMaterials.get("echo_r").getFluid(),
+                getMaterial("start_core:mystical_air").getFluid());
+
+        ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
         gCropRandomSeed.setHoverName(Component.translatable(
                 "behaviour.start_core.gcrop.random_crop_name"));
 
-        ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
-        StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
-                "behaviour.start_core.gcrop.random_crop");
+        for (int i = 1; i <= 7; i++) {
+            ItemStack fullMutatedSeed = new ItemStack(GCROP_MALFORMED.asItem());
+            fullMutatedSeed.setHoverName(Component.translatable(
+                    "behaviour.start_core.gcrop.random_crop_name"));
 
-        GTRecipe AuxMutation0_3Recipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
-                .recipeBuilder("aux_mutation_0_to_3")
-                .inputItems(gCropInput.copyWithCount(1))
-                .inputFluids(Radon.getFluid(1000))
-                .outputItems(gCropRandomSeed)
-                .duration(400)
-                .EUtV(GTValues.MV)
-                .buildRawRecipe();
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(fullMutatedSeed.getOrCreateTag(),
+                    Component.translatable("behaviour.start_core.gcrop.mutator.full", i - 1, i).getString());
 
-        GTRecipe fullMutation0_1Recipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
-                .recipeBuilder("full_mutation_0_to_1")
-                .inputItems(gCropInput.copyWithCount(1))
-                .inputFluids(Air.getFluid(1000))
-                .inputItems(ChemicalHelper.get(dust, EnderPearl).copyWithCount(4))
-                .outputItems(gCropRandomSeed)
-                .duration(400)
-                .EUtV(GTValues.MV)
-                .buildRawRecipe();
+            GTRecipeBuilder fullMutationRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
+                    .recipeBuilder(String.format("full_mutation_%s_to_%s", i - 1, i))
+                    .inputItems(gCropRandomSeed)
+                    .inputItems(new ItemStack(validMutationItemList.get(i - 1)))
+                    .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
+                    .outputItems(fullMutatedSeed)
+                    .duration(400)
+                    .EUtV(StarTGCropItems.tierVoltages.get(i));
 
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
-                AuxMutation0_3Recipe);
-        StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
-                fullMutation0_1Recipe);
+            if (i >= 2) fullMutationRecipe.inputFluids(new FluidStack(validMutationFluidList.get(i - 2), 1000));
+
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                    fullMutationRecipe.buildRawRecipe());
+
+            ItemStack prodAuxMutatedSeed = new ItemStack(GCROP_MALFORMED.asItem());
+            fullMutatedSeed.setHoverName(Component.translatable(
+                    "behaviour.start_core.gcrop.random_crop_name"));
+
+            StarTCustomTooltipsManager.writeCustomTooltipsToItem(prodAuxMutatedSeed.getOrCreateTag(),
+                    Component.translatable("behaviour.start_core.gcrop.mutator.prod_aux", i - 1, i).getString());
+
+            GTRecipeBuilder prodAuxMutationRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
+                    .recipeBuilder(String.format("prod_aux_mutation_%s_to_%s", i - 1, i))
+                    .inputItems(gCropRandomSeed)
+                    .inputItems(new ItemStack(validMutationItemList.get(i - 1)))
+                    .outputItems(prodAuxMutatedSeed)
+                    .duration(400)
+                    .EUtV(StarTGCropItems.tierVoltages.get(i));
+
+            if (i >= 2) prodAuxMutationRecipe.inputFluids(new FluidStack(validMutationFluidList.get(i - 2), 1000));
+
+            StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                    prodAuxMutationRecipe.buildRawRecipe());
+
+            if (i > 1) {
+                ItemStack prodMutatedSeed = new ItemStack(GCROP_MALFORMED.asItem());
+                fullMutatedSeed.setHoverName(Component.translatable(
+                        "behaviour.start_core.gcrop.random_crop_name"));
+
+                StarTCustomTooltipsManager.writeCustomTooltipsToItem(prodMutatedSeed.getOrCreateTag(),
+                        Component.translatable("behaviour.start_core.gcrop.mutator.prod", i - 2, i).getString());
+
+                ItemStack auxMutatedSeed = new ItemStack(GCROP_MALFORMED.asItem());
+                fullMutatedSeed.setHoverName(Component.translatable(
+                        "behaviour.start_core.gcrop.random_crop_name"));
+
+                StarTCustomTooltipsManager.writeCustomTooltipsToItem(auxMutatedSeed.getOrCreateTag(),
+                        Component.translatable("behaviour.start_core.gcrop.mutator.aux", i - 2, i).getString());
+
+                GTRecipe prodMutationRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
+                        .recipeBuilder(String.format("prod_mutation_%s_to_%s", i - 2, i))
+                        .inputItems(gCropRandomSeed)
+                        .inputItems(new ItemStack(validMutationItemList.get(i - 1)))
+                        .outputItems(prodMutatedSeed)
+                        .duration(400)
+                        .EUtV(StarTGCropItems.tierVoltages.get(i))
+                        .buildRawRecipe();
+
+                GTRecipe auxMutationRecipe = StarTRecipeTypes.GCROP_MUTATOR_RECIPES
+                        .recipeBuilder(String.format("aux_mutation_%s_to_%s", i - 2, i))
+                        .inputItems(gCropRandomSeed)
+                        .inputFluids(new FluidStack(validMutationFluidList.get(i - 2), 1000))
+                        .outputItems(auxMutatedSeed)
+                        .duration(400)
+                        .EUtV(StarTGCropItems.tierVoltages.get(i))
+                        .buildRawRecipe();
+
+                StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                        prodMutationRecipe);
+
+                StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",
+                        auxMutationRecipe);
+            }
+        }
     }
 }

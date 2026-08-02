@@ -13,6 +13,7 @@ import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
 import com.startechnology.start_core.machine.gcrop.GCropMachines;
 import com.startechnology.start_core.machine.gcrop.GenomeMachines;
+import com.startechnology.start_core.machine.gcrop.VoidSail;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
@@ -54,6 +55,7 @@ public class StarTMachines {
         StarTModularCombustionMachines.init();
         GCropMachines.init();
         GenomeMachines.init();
+        VoidSail.init();
         StarTArborealExtractorMachines.init();
         StarTHPCAMachines.init();
     }

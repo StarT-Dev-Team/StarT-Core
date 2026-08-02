@@ -139,6 +139,15 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.harvester.fruit",
                 "§7Either a fruit or a flower, in a range, where both depend on the traits of the crop.");
 
+        provider.add("behaviour.start_core.gcrop.mutator.full",
+                "§7A gCrop with a fully mutated genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.prod_aux",
+                "§7A gCrop with a mutated production and auxiliary genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.prod",
+                "§7A gCrop with a mutated production genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.aux",
+                "§7A gCrop with a mutated auxiliary genome between tier %s and tier %s.");
+
         provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
         provider.add("behaviour.start_core.gcrop.new_random_crop", "§6Mutated gCrop with random genome.");
         provider.add("behaviour.start_core.gcrop.random_crop", "§6A gCrop with any genome.");
@@ -158,6 +167,9 @@ public class LangHandler {
         provider.add("gtceu.genome_mixing", "Genome Mixing");
         provider.add("gtceu.genome_separating", "Genome Separating");
         provider.add("gtceu.genome_insertion", "Genome Insertion");
+
+        provider.add("gtceu.void_sail", "Void Sail");
+        provider.add("gtceu.void_gas_collector", "Void Gas Collector");
 
         provider.add("start_core.machine.auxiliary_boosted_fusion_reactor.description",
                 "§7A high-efficiency fusion reactor that utilises auxiliary fusion coils to enhance fusion reactions, enabling for higher density of fusion reactions taking place within the chamber at once");

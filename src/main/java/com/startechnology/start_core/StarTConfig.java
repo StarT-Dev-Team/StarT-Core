@@ -19,7 +19,6 @@ public class StarTConfig {
         }
     }
 
-
     @Configurable
     public ClientConfigs client = new ClientConfigs();
 
@@ -29,9 +28,8 @@ public class StarTConfig {
     public static class ClientConfigs {
 
         @Configurable
-        @Configurable.Comment({"Whether or not to enable the render for the Komau Frame.", "Default: true"})
+        @Configurable.Comment({ "Whether or not to enable the render for the Komau Frame.", "Default: true" })
         public boolean komaruRenderer = true;
-
     }
 
     public static class SolarConfigs {
