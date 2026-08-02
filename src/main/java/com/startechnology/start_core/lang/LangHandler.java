@@ -626,9 +626,12 @@ public class LangHandler {
         provider.add("solar.start_core.solar_machine.is_not_cooled_tooltip", "§1Not actively cooled");
         provider.add("config.jade.plugin_start_core.solar_machine_info", "[Star Technology] Solar Panel/Array Entropy");
 
-        provider.add("variadic.start_core.indicator.solar_machine", "Percentage to %s K");
-        provider.add("variadic.start_core.description.solar_machine",
+        provider.add("variadic.start_core.indicator.solar_machine.temp", "Percentage to %s K");
+        provider.add("variadic.start_core.description.solar_machine.temp",
                 "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)");
+        provider.add("variadic.start_core.indicator.solar_machine.broken_cells", "Percentage of broken solar cells");
+        provider.add("variadic.start_core.description.solar_machine.broken_cells",
+                "A clamped value between 0-15 of the percentage of broken solar cells");
 
         provider.add("gtceu.parallel_type.hellforge", "- %dx from Infernal Parallelization");
         provider.add("gtceu.parallel_type.throughput_boosting", "- %dx from Throughput Boosting");
@@ -673,5 +676,7 @@ public class LangHandler {
         provider.add("start_core.tree_definition.birch", "Birch");
         provider.add("start_core.tree_definition.mangrove", "Mangrove");
         provider.add("start_core.tree_definition.cherry", "Cherry");
+
+        provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
     }
 }

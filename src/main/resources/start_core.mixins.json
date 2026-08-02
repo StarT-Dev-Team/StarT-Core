@@ -21,6 +21,7 @@
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
     "compat.FakeSlotDropTargetMixin",
+    "eb.CommonEventsMixin",
     "pr.GTToolItemMixin"
   ],
   "client": [

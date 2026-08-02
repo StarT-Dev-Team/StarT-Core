@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -25,7 +26,8 @@ public class StarTModularCombustionMachines {
 
     public static final MultiblockMachineDefinition T1_COMBUSTION_MODULE = START_REGISTRATE
             .multiblock("luv_combustion_module",
-                    (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T1_COMBUSTION_MODULE,
+                    (holder) -> new ModularCombustionBoosting(holder,
+                            ModularCombustionBoosting.T1_COMBUSTION_MODULE,
                             StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing"))
             .langValue("Unreal Combustion Module [UCM]")
@@ -47,17 +49,20 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "ADA", "AFA")
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
-                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing")))// will
-                                                                                                               // be a
-                                                                                                               // kjs
-                                                                                                               // casing
+                    .where("A", Predicates.blocks(
+                            StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("pallaridium_engine_intake_casing")))
-                    .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("pallaridium_gearbox")))
-                    .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("pallaridium_turbine_casing"))
+                    .where("C", Predicates.blocks(StarTMachineUtils
+                            .getKjsBlock("pallaridium_engine_intake_casing")))
+                    .where("D", Predicates
+                            .blocks(StarTMachineUtils.getKjsBlock("pallaridium_gearbox")))
+                    .where("E", Predicates
+                            .blocks(StarTMachineUtils
+                                    .getKjsBlock("pallaridium_turbine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)))
                     .where("F", Predicates.abilities(PartAbility.MAINTENANCE))
-                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("luv_rotor_holder")))
+                    .where("H", Predicates
+                            .blocks(StarTMachineUtils.getGTCEuBlock("luv_rotor_holder")))
                     .where("I", Predicates.abilities(PartAbility.MUFFLER))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
@@ -67,7 +72,8 @@ public class StarTModularCombustionMachines {
 
     public static final MultiblockMachineDefinition T2_COMBUSTION_MODULE = START_REGISTRATE
             .multiblock("zpm_combustion_module",
-                    (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T2_COMBUSTION_MODULE,
+                    (holder) -> new ModularCombustionBoosting(holder,
+                            ModularCombustionBoosting.T2_COMBUSTION_MODULE,
                             StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .langValue("Supreme Combustion Module [SCM]")
@@ -92,15 +98,21 @@ public class StarTModularCombustionMachines {
                     .aisle("AEA", "ADA", "AFA")
                     .aisle("AEA", "HDH", "AIA")
                     .aisle("AAA", "A@A", "AAA")
-                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing")))
+                    .where("A", Predicates.blocks(StarTMachineUtils
+                            .getKjsBlock("enriched_naquadah_turbine_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
                     .where("C",
-                            Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
-                    .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
-                    .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
+                            Predicates.blocks(StarTMachineUtils.getKjsBlock(
+                                    "enriched_naquadah_engine_intake_casing")))
+                    .where("D", Predicates.blocks(
+                            StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
+                    .where("E", Predicates
+                            .blocks(StarTMachineUtils.getKjsBlock(
+                                    "enriched_naquadah_turbine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)))
                     .where("F", Predicates.abilities(PartAbility.MAINTENANCE))
-                    .where("H", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
+                    .where("H", Predicates
+                            .blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
                     .where("I", Predicates.abilities(PartAbility.MUFFLER))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
@@ -110,7 +122,8 @@ public class StarTModularCombustionMachines {
 
     public static final MultiblockMachineDefinition T3_COMBUSTION_MODULE = START_REGISTRATE
             .multiblock("uv_combustion_module",
-                    (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T3_COMBUSTION_MODULE,
+                    (holder) -> new ModularCombustionBoosting(holder,
+                            ModularCombustionBoosting.T3_COMBUSTION_MODULE,
                             StarTCore.resourceLocation("modular_combustion_frame")))
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
             .langValue("Supreme Rocket Module [SRM]")
@@ -118,7 +131,8 @@ public class StarTModularCombustionMachines {
                     Component.translatable("block.start_core.t1_rocket_module_description"),
                     Component.translatable("block.start_core.t1_rocket_module_d0",
                             FormattingUtil.formatNumbers(GTValues.V[GTValues.UV] * 2)),
-                    Component.translatable("block.start_core.t1_rocket_module_d1", FormattingUtil.formatNumbers(200)),
+                    Component.translatable("block.start_core.t1_rocket_module_d1",
+                            FormattingUtil.formatNumbers(200)),
                     Component.translatable("block.start_core.t1_rocket_module_d2",
                             FormattingUtil.formatNumbers(GTValues.V[GTValues.UV] * 8))
 
@@ -135,14 +149,20 @@ public class StarTModularCombustionMachines {
                     .aisle("CFC", "CDC", "CEC")
                     .aisle("AAA", "A@A", "AAA")
                     .where("A",
-                            Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
+                            Predicates.blocks(StarTMachineUtils.getKjsBlock(
+                                    "enriched_naquadah_engine_intake_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing")))
-                    .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
+                    .where("C", Predicates.blocks(StarTMachineUtils
+                            .getKjsBlock("enriched_naquadah_turbine_casing")))
+                    .where("D", Predicates.blocks(
+                            StarTMachineUtils.getKjsBlock("enriched_naquadah_gearbox")))
                     .where("E", Predicates.abilities(PartAbility.MUFFLER))
-                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_turbine_casing"))
+                    .where("F", Predicates
+                            .blocks(StarTMachineUtils.getKjsBlock(
+                                    "enriched_naquadah_turbine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)))
-                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
+                    .where("G", Predicates
+                            .blocks(StarTMachineUtils.getGTCEuBlock("zpm_rotor_holder")))
                     .where("H", Predicates.abilities(PartAbility.MAINTENANCE))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
@@ -153,14 +173,16 @@ public class StarTModularCombustionMachines {
     // T2 Rocket Module
     public static final MultiblockMachineDefinition T4_COMBUSTION_MODULE = START_REGISTRATE
             .multiblock("uev_combustion_module",
-                    (holder) -> new ModularCombustionBoosting(holder, ModularCombustionBoosting.T4_COMBUSTION_MODULE,
+                    (holder) -> new ModularCombustionBoosting(holder,
+                            ModularCombustionBoosting.T4_COMBUSTION_MODULE,
                             StarTCore.resourceLocation("modular_combustion_frame")))
             .langValue("Nyinsane Rocket Module [NRM]")
             .tooltips(
                     Component.translatable("block.start_core.t2_rocket_module_description"),
                     Component.translatable("block.start_core.t2_rocket_module_d0",
                             FormattingUtil.formatNumbers(GTValues.V[GTValues.UEV] * 2)),
-                    Component.translatable("block.start_core.t2_rocket_module_d1", FormattingUtil.formatNumbers(400)),
+                    Component.translatable("block.start_core.t2_rocket_module_d1",
+                            FormattingUtil.formatNumbers(400)),
                     Component.translatable("block.start_core.t2_rocket_module_d2",
                             FormattingUtil.formatNumbers(GTValues.V[GTValues.UEV] * 12))
 
@@ -176,14 +198,18 @@ public class StarTModularCombustionMachines {
                     .aisle("CFC", "GDG", "CHC")
                     .aisle("CFC", "CDC", "CEC")
                     .aisle("AAA", "A@A", "AAA")
-                    .where("A", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_engine_intake_casing")))
+                    .where("A", Predicates.blocks(
+                            StarTMachineUtils.getKjsBlock("nyanium_engine_intake_casing")))
                     .where("B", Predicates.abilities(StarTPartAbility.MODULAR_TERMINAL))
-                    .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_turbine_casing")))
+                    .where("C", Predicates.blocks(
+                            StarTMachineUtils.getKjsBlock("nyanium_turbine_casing")))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_gearbox")))
                     .where("E", Predicates.abilities(PartAbility.MUFFLER))
-                    .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
+                    .where("F", Predicates
+                            .blocks(StarTMachineUtils.getKjsBlock("nyanium_turbine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS)))
-                    .where("G", Predicates.blocks(StarTMachineUtils.getGTCEuBlock("uhv_rotor_holder")))
+                    .where("G", Predicates
+                            .blocks(StarTMachineUtils.getGTCEuBlock("uhv_rotor_holder")))
                     .where("H", Predicates.abilities(PartAbility.MAINTENANCE))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
@@ -205,8 +231,14 @@ public class StarTModularCombustionMachines {
                     Component.translatable("block.start_core.modular_combustion_frame_d2"),
                     Component.translatable("block.start_core.breaker_line"),
                     Component.translatable("block.start_core.modular_combustion_frame_d3"),
-                    Component.translatable("block.start_core.breaker_line"),
-                    Component.translatable("block.start_core.modular_combustion_frame_tooltip_laser"))
+                    Component.translatable("block.start_core.breaker_line")
+            )
+            .tooltipBuilder((stack, components) -> {
+                components.add(
+                        Component.translatable("gtceu.machine.active_transformer.tooltip.2").append(
+                                Component.translatable("gtceu.machine.active_transformer.tooltip.3")
+                                        .withStyle(TooltipHelper.RAINBOW_HSL_SLOW)));
+            })
             .appearanceBlock(GTBlocks.CASING_PALLADIUM_SUBSTATION)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
