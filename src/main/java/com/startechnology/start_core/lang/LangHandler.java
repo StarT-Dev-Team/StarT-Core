@@ -334,7 +334,7 @@ public class LangHandler {
                 "§7Provides a simulation of the §5True Abyss §7for all machines placed inside much like a Cleanroom. Due to the nature of the abyss, §fprotection as utilised in the end is advised§7. ");
         provider.add("start_core.abyssal_containment_room.acr3", "§6Isolation Maintenance");
         provider.add("start_core.abyssal_containment_room.acr4",
-                "§7In order to maintain the abyssal containment, §e100000B of End Air§7 and §d50B Dragon Breath§7 per hour must be supplied to the room. ");
+                "§7In order to maintain the abyssal containment, §e100000B of Ender Air§7 and §d50B Dragon Breath§7 per hour must be supplied to the room. ");
         provider.add("start_core.abyssal_containment_room.not_provided_fluids", "Isolation fluids not provided");
         provider.add("start_core.abyssal_containment_room.provided_fluids", "Provided isolation fluids");
 
