@@ -145,7 +145,7 @@ public class StarTGCropItems {
 
         ItemEntry<ComponentItem> gCropFlower = START_REGISTRATE
                 .item(String.format("%s_flower", id), ComponentItem::create)
-                .lang(String.format("§3Arcanthus %s Fruit", name))
+                .lang(String.format("§3Arcanthus %s Flower", name))
                 .properties(prop -> prop.stacksTo(64))
                 .onRegister(attach(new StarTFruitBehaviour(
                         highestTier,

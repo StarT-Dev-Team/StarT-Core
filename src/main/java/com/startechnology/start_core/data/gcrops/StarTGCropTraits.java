@@ -27,7 +27,7 @@ public class StarTGCropTraits {
     }
 
     public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
-    public static final Map<String, String> langData = new HashMap<String, String>();
+    public static final Map<String, String> langData = new HashMap<>();
 
     public record StarTGCropTrait(String id, int tier, int frequency, int alleleCount,
                                   boolean recessive, GenomeType genomeType, String symbolOverwrite) {
@@ -233,10 +233,10 @@ public class StarTGCropTraits {
 
         // Auxiliary Traits
         // nighttime only
-        Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY);
+        Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY, "Nc");
 
         // no time requirement
-        Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY, "Nc");
+        Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY);
 
         // fruit -> flower, 30% duration reduction (multiplicative)
         Early = new StarTGCropTrait("early", 4, 100, GenomeType.AUXILIARY);

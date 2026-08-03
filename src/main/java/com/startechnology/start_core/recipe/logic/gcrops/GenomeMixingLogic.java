@@ -9,6 +9,7 @@ import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsMana
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
+import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
@@ -30,6 +32,17 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
         List<ItemStack> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
 
         return createGenomeDuplicationRecipe(allItems);
+    }
+
+    private List<StarTGCropGene> geneMapToGenome(HashMap<StarTGCropTraits.StarTGCropTrait, Integer> geneMap) {
+        List<StarTGCropGene> newGenome = new ArrayList<>();
+
+        for (StarTGCropTraits.StarTGCropTrait trait : geneMap.keySet()) {
+            int traitCount = geneMap.get(trait);
+            newGenome.add(new StarTGCropGene(trait, traitCount));
+        }
+
+        return newGenome;
     }
 
     private GTRecipe createGenomeDuplicationRecipe(List<ItemStack> itemSet) {
@@ -54,15 +67,40 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
         assert secondGenome != null;
 
         int highestTier = 0;
-        List<StarTGCropGene> resourceGenome = new ArrayList<>();
-        List<StarTGCropGene> productionGenome = new ArrayList<>();
-        List<StarTGCropGene> auxiliaryGenome = new ArrayList<>();
         StarTGCropGene climateGene = null;
 
+        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> resourceMap = new HashMap<>();
+        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> productionMap = new HashMap<>();
+        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> auxiliaryMap = new HashMap<>();
+
         for (StarTGCropGenome genome : List.of(firstGenome, secondGenome)) {
-            resourceGenome.addAll(genome.getResourceGenome());
-            productionGenome.addAll(genome.getProductionGenome());
-            auxiliaryGenome.addAll(genome.getAuxiliaryGenome());
+            List<StarTGCropGene> resourceGenome = genome.getResourceGenome();
+            List<StarTGCropGene> productionGenome = genome.getProductionGenome();
+            List<StarTGCropGene> auxiliaryGenome = genome.getAuxiliaryGenome();
+
+            HashMap<List<StarTGCropGene>, HashMap<StarTGCropTraits.StarTGCropTrait, Integer>> genomeHashMapMap = new HashMap<>();
+
+            genomeHashMapMap.put(resourceGenome, resourceMap);
+            genomeHashMapMap.put(productionGenome, productionMap);
+            genomeHashMapMap.put(auxiliaryGenome, auxiliaryMap);
+
+            for (List<StarTGCropGene> genomeList : genomeHashMapMap.keySet()) {
+                HashMap<StarTGCropTraits.StarTGCropTrait, Integer> storageMap = genomeHashMapMap.get(genomeList);
+
+                for (StarTGCropGene gene : genomeList) {
+                    var trait = gene.getTrait();
+                    boolean traitExists = storageMap.containsKey(trait);
+                    int alleleCount = gene.getDominantAlleles();
+
+                    if (traitExists) {
+                        int currentCount = storageMap.get(trait);
+                        alleleCount = Math.min(currentCount + alleleCount, trait.alleleCount());
+                    }
+
+                    storageMap.put(trait, alleleCount);
+                }
+            }
+
             if (climateGene == null) {
                 climateGene = genome.getClimateGene();
             } else {
@@ -70,10 +108,14 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
             }
         }
 
+        List<StarTGCropGene> newResourceGenome = geneMapToGenome(resourceMap);
+        List<StarTGCropGene> newProductionGenome = geneMapToGenome(productionMap);
+        List<StarTGCropGene> newAuxiliaryGenome = geneMapToGenome(auxiliaryMap);
+
         ItemStack newHolder = new ItemStack(FILLED_GENOME_HOLDER);
         ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER);
 
-        StarTGCropGenome newGenome = new StarTGCropGenome(resourceGenome, productionGenome, auxiliaryGenome,
+        StarTGCropGenome newGenome = new StarTGCropGenome(newResourceGenome, newProductionGenome, newAuxiliaryGenome,
                 climateGene);
         StarTGCropManager.writeGCRopGenomeToItem(newHolder.getOrCreateTag(), newGenome);
 

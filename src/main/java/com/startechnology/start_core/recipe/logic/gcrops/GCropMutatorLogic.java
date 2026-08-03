@@ -127,6 +127,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             }
         }
 
+        if (tiers.contains(1)) maxTier = 1;
+
         return maxTier;
     }
 
