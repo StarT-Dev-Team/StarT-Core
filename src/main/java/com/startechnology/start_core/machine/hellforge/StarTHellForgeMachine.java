@@ -77,7 +77,6 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
         super.onStructureFormed();
         isWorking = false;
         startHeatLoss = true;
-        temperature = baseTemperature;
         temperatureChanged();
     }
 
