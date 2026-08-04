@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "start_core:block/machine/uev_gcrop_breeder",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/uev_gcrop_breeder"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/uev_gcrop_breeder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/uev_gcrop_breeder",
+      "y": 270
+    }
+  }
+}

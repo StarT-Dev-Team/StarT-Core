@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "start_core:block/machine/uhv_gcrop_harvester",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/uhv_gcrop_harvester"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/uhv_gcrop_harvester",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/uhv_gcrop_harvester",
+      "y": 270
+    }
+  }
+}
