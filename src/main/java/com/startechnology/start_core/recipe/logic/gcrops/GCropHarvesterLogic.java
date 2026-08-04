@@ -68,11 +68,11 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
         };
 
-        for (ItemStack item : itemSet) {
-            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(item);
+        for (ItemStack potentialCrop : itemSet) {
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(potentialCrop);
             if (cropBehaviour == null) continue;
 
-            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(item);
+            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(potentialCrop);
             if (gCropGenome == null) continue;
 
             ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
@@ -165,14 +165,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 minFruitAmount = minFruitAmount * 4;
             }
 
-            int baseChance = 2000 + 500 * cropTier;
-            int chanceIncrease = 1000;
+            int baseChance = 750 * cropTier;
+            int chanceIncrease = 100 * cropTier;
 
             if (maxFruitAmount <= minFruitAmount) maxFruitAmount = minFruitAmount + 1;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .chancedInput(item.copyWithCount(1), baseChance, chanceIncrease)
+                    .chancedInput(potentialCrop.copyWithCount(1), baseChance, chanceIncrease)
                     .outputItemsRanged(new ItemStack(fruit.asItem()), UniformInt.of(minFruitAmount, maxFruitAmount))
                     .duration(duration)
                     .EUtVA(EUtV);
@@ -253,7 +253,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .chancedInput(gCrop, 2000 + 500 * cropTier, 1000)
+                    .chancedInput(gCrop, 750 * cropTier, 100 * cropTier)
                     .outputItemsRanged(fruitItem, UniformInt.of(1, 4))
                     .duration((cropTier == 0) ? 160 : 160 * cropTier)
                     .daytime()

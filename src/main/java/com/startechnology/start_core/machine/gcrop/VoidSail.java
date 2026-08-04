@@ -25,16 +25,15 @@ public class VoidSail {
             .recipeTypes(StarTRecipeTypes.VOID_SAIL)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
-                    .aisle("CCC", "   ", "   ")
-                    .aisle("CCC", "MMM", "MMM")
-                    .aisle("C@C", "   ", "   ")
+                    .aisle("###AAA###", "#AABBBAA#", "ABBB@BBBA", "#AABBBAA#", "###AAA###")
                     // spotless:on
-                    .where(" ", Predicates.any())
-                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
+                    .where("#", Predicates.any())
+                    .where("A", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
                             .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where("M", Predicates.blocks(StarTMachineUtils.getKjsBlock("meshblock")))
+                    .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("meshblock")))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .where(" ", Predicates.any())
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/machines/gas_collector"))
