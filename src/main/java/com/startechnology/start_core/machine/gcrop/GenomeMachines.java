@@ -21,7 +21,7 @@ public class GenomeMachines {
 
     public static final MultiblockMachineDefinition GENOME_OPERATOR_MACHINE = START_REGISTRATE
             .multiblock("genome_operator", DirtyWorkableElectricMultiblockMachine::new)
-            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .appearanceBlock(GTBlocks.CASING_HSSE_STURDY)
             .langValue("Genome Classification Runic Operation Processor [GCROP]")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT)
@@ -45,7 +45,9 @@ public class GenomeMachines {
                     .aisle("   AAAAAAAAA   ", "   AAACCCAAA   ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "  BBBDDDDDBBB  ", "     BBBBB     ", "               ", "               ")
                     .aisle("     AAAAA     ", "     AA@AA     ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "    BBBBBBB    ", "               ", "               ", "               ")
                     // spotless:on
-                    .where("A", Predicates.blocks(GTBlocks.CASING_HSSE_STURDY.get()))
+                    .where("A", Predicates.blocks(GTBlocks.CASING_HSSE_STURDY.get()).setMinGlobalLimited(120)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
                     .where("B", Predicates.blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("superdense_assembly_control_casing")))
                     .where("D", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tritanium)))
@@ -61,10 +63,6 @@ public class GenomeMachines {
                     .where("N", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.NetherStar)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .where(" ", Predicates.any())
-                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/machines/wiremill"))
