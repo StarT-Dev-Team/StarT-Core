@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -191,9 +191,9 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         List<StarTGCropGene> existingProductionGenome = existingStats.getProductionGenome();
         List<StarTGCropGene> existingAuxiliaryGenome = existingStats.getAuxiliaryGenome();
 
-        StarTGCropTraits.StarTGCropTrait newClimateGenome = null;
-        List<StarTGCropTraits.StarTGCropTrait> climateTraits = new ArrayList<>(
-                StarTGCropTraits.getTraitsByType(StarTGCropTraits.GenomeType.CLIMATE));
+        StarTGCropTrait newClimateGenome = null;
+        List<StarTGCropTrait> climateTraits = new ArrayList<>(
+                StarTGCropTraits.getTraitsByType(StarTTraitData.GenomeType.CLIMATE));
 
         int totalFrequency = 5000;
         for (var trait : climateTraits) {
@@ -216,7 +216,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         if (!validMutationItems.isEmpty() && !validMutationFluids.isEmpty()) {
             int maxTier = findTraitTier(validMutationItems, validMutationFluids, "full");
 
-            List<StarTGCropTraits.StarTGCropTrait> mutatedTraits = StarTGCropTraits
+            List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                     .getTraitsBetweenTiersInclusive(maxTier - 1, maxTier);
 
             if (hasFluidMatch(getMaterial("start_core:mystical_air").getFluid(1), validMutationFluids)) {
@@ -264,10 +264,10 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>(
                     existingAuxiliaryGenome.stream().filter(gene -> gene.getTrait().tier() < maxTier - 1).toList());
 
-            List<StarTGCropTraits.StarTGCropTrait> productionTraits = StarTGCropTraits
-                    .getTraitsByType(StarTGCropTraits.GenomeType.PRODUCTION, mutatedTraits);
-            List<StarTGCropTraits.StarTGCropTrait> auxiliaryTraits = StarTGCropTraits
-                    .getTraitsByType(StarTGCropTraits.GenomeType.AUXILIARY, mutatedTraits);
+            List<StarTGCropTrait> productionTraits = StarTGCropTraits
+                    .getTraitsByType(StarTTraitData.GenomeType.PRODUCTION, mutatedTraits);
+            List<StarTGCropTrait> auxiliaryTraits = StarTGCropTraits
+                    .getTraitsByType(StarTTraitData.GenomeType.AUXILIARY, mutatedTraits);
 
             for (var trait : productionTraits) {
                 int alleleCount = trait.runTraitFrequencyRandomGene();
@@ -302,14 +302,14 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             // prod recipes
             int maxTier = findTraitTier(validMutationItems, validMutationFluids, "items");
 
-            List<StarTGCropTraits.StarTGCropTrait> mutatedTraits = StarTGCropTraits
+            List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                     .getTraitsBetweenTiersInclusive(maxTier - 2, maxTier);
 
             List<StarTGCropGene> newProductionGenome = new ArrayList<>(
                     existingProductionGenome.stream().filter(gene -> gene.getTrait().tier() < maxTier - 2).toList());
 
-            List<StarTGCropTraits.StarTGCropTrait> productionTraits = StarTGCropTraits
-                    .getTraitsByType(StarTGCropTraits.GenomeType.PRODUCTION, mutatedTraits);
+            List<StarTGCropTrait> productionTraits = StarTGCropTraits
+                    .getTraitsByType(StarTTraitData.GenomeType.PRODUCTION, mutatedTraits);
 
             for (var trait : productionTraits) {
                 int alleleCount = trait.runTraitFrequencyRandomGene();
@@ -334,14 +334,14 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         // aux recipes
         int maxTier = findTraitTier(validMutationItems, validMutationFluids, "fluids");
 
-        List<StarTGCropTraits.StarTGCropTrait> mutatedTraits = StarTGCropTraits
+        List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                 .getTraitsBetweenTiersInclusive(maxTier - 2, maxTier);
 
         List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>(
                 existingAuxiliaryGenome.stream().filter(gene -> gene.getTrait().tier() < maxTier - 2).toList());
 
-        List<StarTGCropTraits.StarTGCropTrait> auxiliaryTraits = StarTGCropTraits
-                .getTraitsByType(StarTGCropTraits.GenomeType.AUXILIARY, mutatedTraits);
+        List<StarTGCropTrait> auxiliaryTraits = StarTGCropTraits
+                .getTraitsByType(StarTTraitData.GenomeType.AUXILIARY, mutatedTraits);
 
         for (var trait : auxiliaryTraits) {
             int alleleCount = trait.runTraitFrequencyRandomGene();

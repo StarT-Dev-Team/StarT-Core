@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
@@ -45,7 +44,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
     private Integer handleGeneMeiosis(StarTGCropGene gene, HashMap<String, Integer> geneMap) {
         int alleles = gene.getDominantAlleles();
-        StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
+        StarTGCropTrait trait = gene.getTrait();
         String traitId = trait.id();
         int maxAlleleCount = trait.alleleCount();
 
@@ -102,7 +101,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
                 // Apply Meiosis mimicry to all traits for harvesting the new traits
                 for (StarTGCropGene existingGene : cropStats.getResourceGenome()) {
-                    StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
+                    StarTGCropTrait trait = existingGene.getTrait();
                     String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, resourceGeneMap);
@@ -111,7 +110,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 }
 
                 for (StarTGCropGene existingGene : cropStats.getProductionGenome()) {
-                    StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
+                    StarTGCropTrait trait = existingGene.getTrait();
                     String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, productionGeneMap);
@@ -120,7 +119,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 }
 
                 for (StarTGCropGene existingGene : cropStats.getAuxiliaryGenome()) {
-                    StarTGCropTraits.StarTGCropTrait trait = existingGene.getTrait();
+                    StarTGCropTrait trait = existingGene.getTrait();
                     String traitId = trait.id();
 
                     int newAlleleCount = handleGeneMeiosis(existingGene, auxiliaryGeneMap);

@@ -21,46 +21,23 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
 public class GCropMachines {
 
-    public static final MachineDefinition[] GCROP_MUTATOR = StarTMachineUtils.registerTieredMachines("gcrop_mutator",
+    public static final MachineDefinition[] GCROP_BREEDER = StarTMachineUtils.registerTieredMachines("gcrop_breeder",
             (holder, tier) -> new DirtySimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
             (tier, builder) -> builder
-                    .langValue("%s Crop Mutator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
-                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_mutator"),
-                            StarTRecipeTypes.GCROP_MUTATOR_RECIPES))
+                    .langValue("%s gCrop Breeder %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_breeder"),
+                            StarTRecipeTypes.GCROP_BREEDER_RECIPES))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
                     .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
-                    .workableTieredHullModel(GTCEu.id("block/machines/cutter"))
+                    .workableTieredHullModel(GTCEu.id("block/machines/extruder"))
                     .register(),
             ELECTRIC_TIERS);
-
-    public static final MultiblockMachineDefinition GCROP_MUTATION_STATION = START_REGISTRATE
-            .multiblock("gcrop_mutator", DirtyWorkableElectricMultiblockMachine::new)
-            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-            .langValue("gCrop Mutation Station [gCMS]")
-            .rotationState(RotationState.NON_Y_AXIS)
-            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
-            .recipeTypes(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
-            .pattern(definition -> FactoryBlockPattern.start()
-                    // spotless:off
-                    .aisle("CCC", "CCC", "CCC")
-                    .aisle("CCC", "C C", "CCC")
-                    .aisle("CCC", "C@C", "CCC")
-                    // spotless:on
-                    .where(" ", Predicates.any())
-                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
-                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
-                    .build())
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
-                    GTCEu.id("block/machines/cutter"))
-            .register();
 
     public static final MultiblockMachineDefinition GCROP_BREEDING_PLANT = START_REGISTRATE
             .multiblock("gcrop_breeder", DirtyWorkableElectricMultiblockMachine::new)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-            .langValue("gCrop Breeding Plant [gCBP]")
+            .langValue("gCrop Fertilization Array [gCFA]")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
             .recipeTypes(StarTRecipeTypes.GCROP_BREEDER_RECIPES)
@@ -80,10 +57,60 @@ public class GCropMachines {
                     GTCEu.id("block/machines/extruder"))
             .register();
 
+    public static final MachineDefinition[] GCROP_MUTATOR = StarTMachineUtils.registerTieredMachines("gcrop_mutator",
+            (holder, tier) -> new DirtySimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
+            (tier, builder) -> builder
+                    .langValue("%s gCrop Mutator %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_mutator"),
+                            StarTRecipeTypes.GCROP_MUTATOR_RECIPES))
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
+                    .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+                    .workableTieredHullModel(GTCEu.id("block/machines/cutter"))
+                    .register(),
+            ELECTRIC_TIERS);
+
+    public static final MultiblockMachineDefinition GCROP_MUTATION_STATION = START_REGISTRATE
+            .multiblock("gcrop_mutator", DirtyWorkableElectricMultiblockMachine::new)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .langValue("Advanced Mutation Station [AMS]")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
+            .recipeTypes(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    // spotless:off
+                    .aisle("CCC", "CCC", "CCC")
+                    .aisle("CCC", "C C", "CCC")
+                    .aisle("CCC", "C@C", "CCC")
+                    // spotless:on
+                    .where(" ", Predicates.any())
+                    .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get()).setMinGlobalLimited(4)
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes()))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                    .where("@", Predicates.controller(Predicates.blocks(definition.get())))
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
+                    GTCEu.id("block/machines/cutter"))
+            .register();
+
+    public static final MachineDefinition[] GCROP_HARVESTER = StarTMachineUtils.registerTieredMachines(
+            "gcrop_harvester",
+            (holder, tier) -> new DirtySimpleTieredMachine(holder, tier, GTMachineUtils.defaultTankSizeFunction),
+            (tier, builder) -> builder
+                    .langValue("%s gCrop Harvester %s".formatted(GTValues.VLVH[tier], GTValues.VLVT[tier]))
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("gcrop_harvester"),
+                            StarTRecipeTypes.GCROP_HARVESTER_RECIPES))
+                    .rotationState(RotationState.NON_Y_AXIS)
+                    .recipeType(StarTRecipeTypes.GCROP_MUTATOR_RECIPES)
+                    .recipeModifier(GTRecipeModifiers.OC_NON_PERFECT)
+                    .workableTieredHullModel(GTCEu.id("block/machines/bender"))
+                    .register(),
+            ELECTRIC_TIERS);
+
     public static final MultiblockMachineDefinition GCROP_HARVESTING_PLANT = START_REGISTRATE
             .multiblock("gcrop_harvester", DirtyWorkableElectricMultiblockMachine::new)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-            .langValue("gCrop Harvesting Plant [gCHP]")
+            .langValue("Enlarged gCrop Harvesting Plant [EgCHP]")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
             .recipeTypes(StarTRecipeTypes.GCROP_HARVESTER_RECIPES)

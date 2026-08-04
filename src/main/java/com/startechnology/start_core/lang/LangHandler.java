@@ -1,14 +1,13 @@
 package com.startechnology.start_core.lang;
 
+import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 
 public class LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
-        for (String key : StarTGCropTraits.langData.keySet()) {
-            provider.add(key, StarTGCropTraits.langData.get(key));
+        for (String key : StarTGCropTrait.langData.keySet()) {
+            provider.add(key, StarTGCropTrait.langData.get(key));
         }
 
         provider.add("item.start_core.data_dna_disk.tooltip", "§7Storing Information in Life");

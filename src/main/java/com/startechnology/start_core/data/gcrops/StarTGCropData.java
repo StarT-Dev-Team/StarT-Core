@@ -1,13 +1,13 @@
 package com.startechnology.start_core.data.gcrops;
 
-import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
+import com.startechnology.start_core.api.gcrop.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
+import static com.startechnology.start_core.data.gcrops.StarTTraitData.*;
 import static com.startechnology.start_core.api.gcrop.StarTGCropItemType.*;
 
 public class StarTGCropData {
@@ -23,12 +23,12 @@ public class StarTGCropData {
     @Getter
     private String textureType;
     @Getter
-    private List<StarTGCropTraits.StarTGCropTrait> traits;
+    private List<StarTGCropTrait> traits;
     @Getter
     private int tier;
 
     public StarTGCropData(String id, String name, StarTGCropItemType materialType, String textureType,
-                          StarTGCropTraits.StarTGCropTrait... traits) {
+                          StarTGCropTrait... traits) {
         int highestTier = 0;
         for (var trait : traits) {
             int traitTier = trait.tier();

@@ -1,6 +1,6 @@
 package com.startechnology.start_core.api.gcrop;
 
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringTag;
@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
@@ -38,6 +39,9 @@ public class StarTGCropGenome {
                             @NotNull List<StarTGCropGene> productionGenome,
                             @NotNull List<StarTGCropGene> auxiliaryGenome,
                             StarTGCropGene climateGene) {
+        resourceGenome.sort(GENE_COMPARATOR);
+        productionGenome.sort(GENE_COMPARATOR);
+        auxiliaryGenome.sort(GENE_COMPARATOR);
         this.resourceGenome = resourceGenome;
         this.productionGenome = productionGenome;
         this.auxiliaryGenome = auxiliaryGenome;
@@ -47,13 +51,19 @@ public class StarTGCropGenome {
     public StarTGCropGenome(@NotNull List<StarTGCropGene> resourceGenome,
                             @NotNull List<StarTGCropGene> productionGenome,
                             @NotNull List<StarTGCropGene> auxiliaryGenome) {
+        resourceGenome.sort(GENE_COMPARATOR);
+        productionGenome.sort(GENE_COMPARATOR);
+        auxiliaryGenome.sort(GENE_COMPARATOR);
         this.resourceGenome = resourceGenome;
         this.productionGenome = productionGenome;
         this.auxiliaryGenome = auxiliaryGenome;
     }
 
-    public boolean hasTrait(StarTGCropTraits.StarTGCropTrait trait) {
-        StarTGCropTraits.GenomeType genomeType = trait.genomeType();
+    public static final Comparator<StarTGCropGene> GENE_COMPARATOR = Comparator
+            .comparing(gene -> gene.getTrait().getSortingString());
+
+    public boolean hasTrait(StarTGCropTrait trait) {
+        StarTTraitData.GenomeType genomeType = trait.genomeType();
         List<StarTGCropGene> necessaryGenome = new ArrayList<>();
 
         switch (genomeType) {
@@ -109,7 +119,7 @@ public class StarTGCropGenome {
         return genome.stream()
                 .map(
                         gene -> {
-                            StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
+                            StarTGCropTrait trait = gene.getTrait();
                             String traitSymbol;
                             int traitTier;
                             if (trait == null) {
@@ -126,7 +136,7 @@ public class StarTGCropGenome {
     }
 
     public static MutableComponent prettyGCropGene(StarTGCropGene gene) {
-        StarTGCropTraits.StarTGCropTrait trait = gene.getTrait();
+        StarTGCropTrait trait = gene.getTrait();
         String traitName;
         int alleleCount = gene.getDominantAlleles();
         String squares;

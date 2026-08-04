@@ -1,7 +1,5 @@
 package com.startechnology.start_core.api.gcrop;
 
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
 import lombok.Getter;
 
 @Getter

@@ -6,10 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.api.gcrop.StarTGCropGene;
-import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
-import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
@@ -34,10 +31,10 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
         return createGenomeDuplicationRecipe(allItems);
     }
 
-    private List<StarTGCropGene> geneMapToGenome(HashMap<StarTGCropTraits.StarTGCropTrait, Integer> geneMap) {
+    private List<StarTGCropGene> geneMapToGenome(HashMap<StarTGCropTrait, Integer> geneMap) {
         List<StarTGCropGene> newGenome = new ArrayList<>();
 
-        for (StarTGCropTraits.StarTGCropTrait trait : geneMap.keySet()) {
+        for (StarTGCropTrait trait : geneMap.keySet()) {
             int traitCount = geneMap.get(trait);
             newGenome.add(new StarTGCropGene(trait, traitCount));
         }
@@ -69,23 +66,23 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
         int highestTier = 0;
         StarTGCropGene climateGene = null;
 
-        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> resourceMap = new HashMap<>();
-        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> productionMap = new HashMap<>();
-        HashMap<StarTGCropTraits.StarTGCropTrait, Integer> auxiliaryMap = new HashMap<>();
+        HashMap<StarTGCropTrait, Integer> resourceMap = new HashMap<>();
+        HashMap<StarTGCropTrait, Integer> productionMap = new HashMap<>();
+        HashMap<StarTGCropTrait, Integer> auxiliaryMap = new HashMap<>();
 
         for (StarTGCropGenome genome : List.of(firstGenome, secondGenome)) {
             List<StarTGCropGene> resourceGenome = genome.getResourceGenome();
             List<StarTGCropGene> productionGenome = genome.getProductionGenome();
             List<StarTGCropGene> auxiliaryGenome = genome.getAuxiliaryGenome();
 
-            HashMap<List<StarTGCropGene>, HashMap<StarTGCropTraits.StarTGCropTrait, Integer>> genomeHashMapMap = new HashMap<>();
+            HashMap<List<StarTGCropGene>, HashMap<StarTGCropTrait, Integer>> genomeHashMapMap = new HashMap<>();
 
             genomeHashMapMap.put(resourceGenome, resourceMap);
             genomeHashMapMap.put(productionGenome, productionMap);
             genomeHashMapMap.put(auxiliaryGenome, auxiliaryMap);
 
             for (List<StarTGCropGene> genomeList : genomeHashMapMap.keySet()) {
-                HashMap<StarTGCropTraits.StarTGCropTrait, Integer> storageMap = genomeHashMapMap.get(genomeList);
+                HashMap<StarTGCropTrait, Integer> storageMap = genomeHashMapMap.get(genomeList);
 
                 for (StarTGCropGene gene : genomeList) {
                     var trait = gene.getTrait();

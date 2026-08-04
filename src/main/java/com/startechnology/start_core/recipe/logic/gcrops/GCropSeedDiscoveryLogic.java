@@ -5,14 +5,14 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
-import com.startechnology.start_core.api.gcrop.StarTGCropGene;
+import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.startechnology.start_core.utils.StarTTagUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -37,11 +37,13 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
 
             if (itemInSlot.isEmpty()) continue;
 
+            if (!itemInSlot.is(Tags.Items.SEEDS)) continue;
+
             List<StarTGCropGene> newResourceGenome = new ArrayList<>();
             List<StarTGCropGene> newProductionGenome = new ArrayList<>();
             List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
 
-            List<StarTGCropTraits.StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
+            List<StarTGCropTrait> tier0Traits = StarTGCropTraits.getTraitsByTier(0);
 
             for (var trait : tier0Traits) {
                 int alleleCount = trait.runTraitFrequencyRandomGene();

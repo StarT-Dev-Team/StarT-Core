@@ -8,10 +8,9 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
+import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits.GenomeType;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits.StarTGCropTrait;
+import com.startechnology.start_core.data.gcrops.StarTTraitData.GenomeType;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
@@ -23,7 +22,7 @@ import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.common.data.models.GTModels.createTextureModel;
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
-import static com.startechnology.start_core.data.gcrops.StarTGCropTraits.*;
+import static com.startechnology.start_core.api.gcrop.StarTGCropTraits.TRAIT_COMPARATOR;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +58,7 @@ public class StarTGCropItems {
             Map.entry(7, GTValues.UV));
 
     public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
+        traits.sort(TRAIT_COMPARATOR);
         for (var gCrop : GCROP_ITEMS) {
             var behaviour = StarTGCropBehaviour.getGCropBehaviour(gCrop.asStack());
             if (behaviour == null) continue;

@@ -8,7 +8,7 @@ import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsMana
 import com.startechnology.start_core.api.gcrop.StarTGCropGene;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropManager;
-import com.startechnology.start_core.data.gcrops.StarTGCropTraits;
+import com.startechnology.start_core.api.gcrop.StarTGCropTraits;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
