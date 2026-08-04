@@ -65,7 +65,6 @@ public class GenomeDuplicationLogic implements ICustomRecipeLogic {
         List<StarTGCropGene> fullGenome = new ArrayList<>(Stream
                 .concat(resourceGenome.stream(), Stream.concat(productionGenome.stream(), auxiliaryGenome.stream()))
                 .toList());
-        fullGenome.add(climateGene);
 
         for (StarTGCropGene gene : fullGenome) {
             StarTGCropTrait trait = gene.getTrait();
