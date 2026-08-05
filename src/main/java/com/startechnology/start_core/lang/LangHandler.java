@@ -183,7 +183,7 @@ public class LangHandler {
         provider.add("gtceu.genome_separating", "Genome Separating");
         provider.add("gtceu.genome_insertion", "Genome Insertion");
 
-        provider.add("gtceu.void_sail", "Void Sail");
+        provider.add("gtceu.void_mesh", "Void Mesh");
         provider.add("gtceu.void_gas_collector", "Void Gas Collector");
 
         provider.add("start_core.machine.auxiliary_boosted_fusion_reactor.description",

@@ -14,15 +14,15 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 
-public class VoidSail {
+public class VoidMesh {
 
-    public static final MultiblockMachineDefinition VOID_SAIL = START_REGISTRATE
-            .multiblock("void_sail", WorkableElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition VOID_MESH = START_REGISTRATE
+            .multiblock("void_mesh", WorkableElectricMultiblockMachine::new)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
-            .langValue("Void Sail [VS]")
+            .langValue("Void Mesh [VM]")
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT, GTRecipeModifiers.BATCH_MODE)
-            .recipeTypes(StarTRecipeTypes.VOID_SAIL)
+            .recipeTypes(StarTRecipeTypes.VOID_MESH)
             .pattern(definition -> FactoryBlockPattern.start()
                     // spotless:off
                     .aisle("###AAA###", "#AABBBAA#", "ABBB@BBBA", "#AABBBAA#", "###AAA###")

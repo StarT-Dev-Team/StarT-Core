@@ -87,8 +87,8 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new GCropHarvesterLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
-    public static final GTRecipeType VOID_SAIL = GTRecipeTypes
-            .register("void_sail", GTRecipeTypes.MULTIBLOCK)
+    public static final GTRecipeType VOID_MESH = GTRecipeTypes
+            .register("void_mesh", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);

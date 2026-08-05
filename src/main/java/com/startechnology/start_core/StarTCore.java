@@ -5,14 +5,11 @@ import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProperties;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ParallelType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
@@ -26,6 +23,7 @@ import com.startechnology.start_core.lang.LangHandler;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.materials.modification.StarTMaterialModifications;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -136,11 +134,7 @@ public class StarTCore {
 
     // This is optional, though.
     private void modifyMaterials(PostMaterialEvent event) {
-        // Prevent crash from KubeJS
-        if (!GTMaterials.NaquadahEnriched.hasProperty(PropertyKey.FLUID_PIPE)) {
-            GTMaterials.NaquadahEnriched.setProperty(PropertyKey.FLUID_PIPE,
-                    new FluidPipeProperties(8000, 500, true, true, true, false));
-        }
+        StarTMaterialModifications.register();
     }
 
     private void registerDimensionalMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {

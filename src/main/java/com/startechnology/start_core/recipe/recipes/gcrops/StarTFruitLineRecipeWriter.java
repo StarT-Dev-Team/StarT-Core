@@ -38,7 +38,8 @@ public class StarTFruitLineRecipeWriter {
 
     public static void gCropFruitLineRecipes(Consumer<FinishedRecipe> provider) {
         for (StarTGCropData data : gCropData) {
-            runRecipeGen(provider, data.getTier(), data.getId(), data.getMaterialType(), data.getYield());
+            runRecipeGen(provider, data.getTier(), data.getId(), data.getMaterialType(), data.getResultMaterial(),
+                    data.getYield());
         }
 
         runSecondaryLineRecipes(provider);
@@ -102,7 +103,7 @@ public class StarTFruitLineRecipeWriter {
                 .EUtVA(GTValues.LV)
                 .save(provider);
 
-        VOID_SAIL.recipeBuilder("mystical_essence_harvesting")
+        VOID_MESH.recipeBuilder("mystical_essence_harvesting")
                 .circuitMeta(0)
                 .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:mystical_essence")))
                 .duration(200)
@@ -126,8 +127,10 @@ public class StarTFruitLineRecipeWriter {
     }
 
     public static void runRecipeGen(Consumer<FinishedRecipe> provider, int tier, String id,
-                                    StarTGCropItemType materialType, int yield) {
-        id = (id.equals("sheldonite")) ? "cooperite" : id;
+                                    StarTGCropItemType materialType, String resultMaterial, int yield) {
+        if (id.equals("sheldonite")) id = "cooperite";
+        if (resultMaterial == null) resultMaterial = id;
+
         var fruit = GCROP_FRUITMAP.get(GTMaterials.get(id));
         if (fruit == null) {
             LOGGER.debug("Error finding material with id: \"{}\"", id);
@@ -164,12 +167,12 @@ public class StarTFruitLineRecipeWriter {
 
             var resultRecipe = CENTRIFUGE_RECIPES.recipeBuilder(String.format("%s_extract_separation", id))
                     .inputFluids(getMaterial(String.format("start_core:%s_extract", id)).getFluid(1000))
-                    .outputFluids(getMaterial("start_core:poor_mineral-rich_bio_waste").getFluid(1000))
+                    .outputFluids(getMaterial("start_core:poor_mineral_rich_bio_waste").getFluid(1000))
                     .EUtVA(EUtV)
                     .duration(200);
 
             // Proof of concept variable fluid/item result
-            var result = getFruitLineResult(id, materialType).get(0);
+            var result = getFruitLineResult(resultMaterial, materialType).get(0);
             if (result instanceof Item) resultRecipe.outputItems(new ItemStack((Item) result, yield));
             if (result instanceof Fluid) resultRecipe.outputItems(new FluidStack((Fluid) result, 1000 * yield));
 
@@ -177,7 +180,8 @@ public class StarTFruitLineRecipeWriter {
         } else if (tier == 2) {
             FORGE_HAMMER_RECIPES.recipeBuilder(String.format("%s_smashing", id))
                     .inputItems(fruit.asStack())
-                    .outputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_fruit_pulp", id)), 4))
+                    .outputItems(
+                            ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_fruit_pulp", id)), 4))
                     .EUtVA(EUtV)
                     .duration(200)
                     .save(provider);
@@ -193,7 +197,7 @@ public class StarTFruitLineRecipeWriter {
             ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder(String.format("%s_separation", id))
                     .inputItems(ChemicalHelper.get(dust,
                             getMaterial(String.format("start_core:charged_%s_fruit_pulp", id))))
-                    .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0), yield))
+                    .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0), yield))
                     .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:poor_charged_bio_waste")))
                     .EUtVA(EUtV)
                     .duration(200)
@@ -226,7 +230,7 @@ public class StarTFruitLineRecipeWriter {
             FLUID_SOLIDFICATION_RECIPES.recipeBuilder(String.format("%s_solidification", id))
                     .inputItems(ChemicalHelper.get(dust, Stone))
                     .inputFluids(getMaterial(String.format("start_core:concentrated_%s_extract", id)).getFluid(250))
-                    .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0), yield))
+                    .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0), yield))
                     .EUtVA(EUtV)
                     .duration(200)
                     .save(provider);
@@ -259,7 +263,8 @@ public class StarTFruitLineRecipeWriter {
                 MIXER_RECIPES.recipeBuilder(String.format("liquefied_%s_sublimation", id))
                         .inputFluids(getMaterial(String.format("start_core:liquefied_%s", id)).getFluid(400))
                         .inputFluids(getMaterial("start_core:mystical_air").getFluid(9000))
-                        .outputFluids(new FluidStack((Fluid) getFruitLineResult(id, materialType).get(0), 1000 * yield))
+                        .outputFluids(new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0),
+                                1000 * yield))
                         .EUtVA(EUtV)
                         .duration(200)
                         .save(provider);
@@ -276,7 +281,8 @@ public class StarTFruitLineRecipeWriter {
                 MACERATOR_RECIPES.recipeBuilder(String.format("coagulated_%s_shredding", id))
                         .inputItems(
                                 ChemicalHelper.get(dust, getMaterial(String.format("start_core:coagulated_%s", id))))
-                        .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0), yield))
+                        .outputItems(
+                                new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0), yield))
                         .EUtVA(EUtV)
                         .duration(200)
                         .save(provider);
@@ -329,7 +335,8 @@ public class StarTFruitLineRecipeWriter {
                         .inputItems(ChemicalHelper.get(dust,
                                 getMaterial(String.format("start_core:demystified_%s_essence", id))))
                         .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
-                        .outputFluids(new FluidStack((Fluid) getFruitLineResult(id, materialType).get(0), 1000))
+                        .outputFluids(
+                                new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0), 1000))
                         .EUtVA(EUtV)
                         .duration(200)
                         .save(provider);
@@ -337,7 +344,7 @@ public class StarTFruitLineRecipeWriter {
                 AUTOCLAVE_RECIPES.recipeBuilder("autoclave_" + id + "_distilled")
                         .inputItems(ChemicalHelper.get(dust, Stone))
                         .inputFluids(getMaterial(String.format("start_core:%s-rich_mixture", id)).getFluid(250))
-                        .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0)))
+                        .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0)))
                         .EUtVA(EUtV)
                         .duration(200)
                         .save(provider);
@@ -383,8 +390,9 @@ public class StarTFruitLineRecipeWriter {
                             ChemicalHelper.get(ingot, getMaterial(String.format("start_core:compressed_%s_fruit", id))))
                     .inputFluids(
                             getMaterial(String.format("start_core:concentrated_%s_fruit_tincture", id)).getFluid(1000))
-                    .outputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_fruit_blend", id)), 2))
-                    .outputFluids(getMaterial("start_core:mineral-rich_bio_waste").getFluid(500))
+                    .outputItems(
+                            ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_fruit_blend", id)), 2))
+                    .outputFluids(getMaterial("start_core:mineral_rich_bio_waste").getFluid(500))
                     .EUtVA(EUtV)
                     .duration(200)
                     .save(provider);
@@ -399,7 +407,7 @@ public class StarTFruitLineRecipeWriter {
 
             BLAST_RECIPES.recipeBuilder(String.format("dissolved_%s_precipitation", id))
                     .inputFluids(getMaterial(String.format("start_core:dissolved_%s", id)).getFluid(1000))
-                    .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0)))
+                    .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0)))
                     .outputFluids(Steam.getFluid(2000))
                     .blastFurnaceTemp(4000)
                     .EUtVA(EUtV)
@@ -501,14 +509,24 @@ public class StarTFruitLineRecipeWriter {
                     .duration(200)
                     .save(provider);
 
-            IMPLOSION_RECIPES.recipeBuilder(String.format("%s_composite_crystallization", id))
-                    .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
-                    .inputItems(GTBlocks.INDUSTRIAL_TNT)
-                    .outputItems(new ItemStack((Item) getFruitLineResult(id, materialType).get(0)))
-                    .outputItems(ChemicalHelper.get(dust, DarkAsh))
-                    .EUtVA(EUtV)
-                    .duration(200)
-                    .save(provider);
+            if (materialType.equals(StarTGCropItemType.LIQUID)) {
+                EXTRACTOR_RECIPES.recipeBuilder(String.format("%s_composite_extraction", id))
+                        .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
+                        .outputFluids(new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0),
+                                1000 * yield))
+                        .EUtVA(EUtV)
+                        .duration(200)
+                        .save(provider);
+            } else {
+                IMPLOSION_RECIPES.recipeBuilder(String.format("%s_composite_crystallization", id))
+                        .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
+                        .inputItems(GTBlocks.INDUSTRIAL_TNT)
+                        .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0)))
+                        .outputItems(ChemicalHelper.get(dust, DarkAsh))
+                        .EUtVA(EUtV)
+                        .duration(200)
+                        .save(provider);
+            }
         }
     }
 }
