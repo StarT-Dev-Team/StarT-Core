@@ -99,7 +99,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
             if (solarCells != null && !solarCells.isEmpty()) {
-                var items = ForgeRegistries.ITEMS;
 
                 for (long packedPos : solarCells) {
                     BlockPos blockPos = BlockPos.of(packedPos);
@@ -118,7 +117,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                         totalDura += solarCellBlockEntity.getDurability();
 
                         cells.add(new SolarCellInstance(blockPos, solarCellType,
-                                items.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
+                                ForgeRegistries.ITEMS
+                                        .getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
                                 solarCellBlockEntity));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
@@ -217,7 +217,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
                 newEuT += solarCellType.getEuT();
             } else {
-                double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
+                double currentTemp = Math.max(
+                        solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
                         solarCellType.getMinTemperature());
 
                 solarCellBlockEntity.setTemperature(currentTemp);
@@ -272,7 +273,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         BlockItem.setBlockEntityData(brokenCell, solarBlockEntity.getType(), tag);
 
         return repairRecipeCache.computeIfAbsent(solarCellItem,
-                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell).buildRawRecipe());
+                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell)
+                        .buildRawRecipe());
     }
 
     public static int calculateDurabilityDamage(double tempPercent) {
