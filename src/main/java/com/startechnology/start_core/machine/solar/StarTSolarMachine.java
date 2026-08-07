@@ -28,7 +28,9 @@ import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -166,7 +168,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (!(blockEntity instanceof StarTSolarCellBlockEntity solarCellBlockEntity)) continue;
 
             if (solarCellBlockEntity.isBroken()) {
-                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
+                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem(), solarCellBlockEntity);
 
                 if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper
                         .handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
@@ -263,9 +265,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(amount)).buildRawRecipe();
     }
 
-    public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
+    public GTRecipe getSolarPanelRecipe(Item solarCellItem, StarTSolarCellBlockEntity solarBlockEntity) {
+        var brokenCell = new ItemStack(solarCellItem);
+        CompoundTag tag = solarBlockEntity.saveWithoutMetadata();
+        tag.putBoolean("broken", true);
+        BlockItem.setBlockEntityData(brokenCell, solarBlockEntity.getType(), tag);
+
         return repairRecipeCache.computeIfAbsent(solarCellItem,
-                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).buildRawRecipe());
+                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell).buildRawRecipe());
     }
 
     public static int calculateDurabilityDamage(double tempPercent) {
