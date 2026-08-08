@@ -106,6 +106,13 @@ public class StarTGCropItems {
                     StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
             .register();
 
+    public static final ItemEntry<ComponentItem> DNA_STRAND = START_REGISTRATE
+            .item("dna_strand", ComponentItem::create)
+            .lang("DNA Strand")
+            .model((ctx, prov) -> createTextureModel(ctx, prov,
+                    StarTCore.resourceLocation("item/gcrops/dna_strand")))
+            .register();
+
     private static void registerGCrop(String id, String name,
                                       StarTGCropItemType materialType, String textureType,
                                       List<StarTGCropTrait> traits) {

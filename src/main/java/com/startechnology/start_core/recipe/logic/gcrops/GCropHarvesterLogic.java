@@ -172,10 +172,15 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .chancedInput(potentialCrop.copyWithCount(1), baseChance, chanceIncrease)
                     .outputItemsRanged(new ItemStack(fruit.asItem()), UniformInt.of(minFruitAmount, maxFruitAmount))
                     .duration(duration)
                     .EUtVA(EUtV);
+
+            if (cropTier == 0) {
+                harvestRecipe.notConsumable(potentialCrop);
+            } else {
+                harvestRecipe.chancedInput(potentialCrop, baseChance, chanceIncrease);
+            }
 
             if (fertilizerItem != null) harvestRecipe.inputItems(new ItemStack(fertilizerItem, fertilizerAmount));
 
@@ -253,11 +258,16 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .chancedInput(gCrop, 750 * cropTier, 100 * cropTier)
                     .outputItemsRanged(fruitItem, UniformInt.of(1, 4))
                     .duration((cropTier == 0) ? 160 : 160 * cropTier)
                     .daytime()
                     .EUtVA(GTValues.MV + cropTier);
+
+            if (cropTier == 0) {
+                harvestRecipe.notConsumable(gCrop);
+            } else {
+                harvestRecipe.chancedInput(gCrop, 750 * cropTier, 100 * cropTier);
+            }
 
             if (fertilizerItem != null) {
                 ItemStack fertilizerItemStack = new ItemStack(fertilizerItem, fertilizerAmount);

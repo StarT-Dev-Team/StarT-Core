@@ -50,7 +50,8 @@ public class StarTGCropProcessingMaterials {
         new Material.Builder(StarTCore.resourceLocation("mineral_rich_bio_waste"))
                 .liquid(new FluidBuilder())
                 .color(0x988b3c)
-                .components(getMaterial("poor_mineral_rich_bio_waste"), 2, Glycerol, 1, getMaterial("npk_solution"), 1)
+                .components(getMaterial("start_core:poor_mineral_rich_bio_waste"), 2, Glycerol, 1,
+                        getMaterial("gtceu:npk_solution"), 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
@@ -65,7 +66,8 @@ public class StarTGCropProcessingMaterials {
         new Material.Builder(StarTCore.resourceLocation("unstable_ion_blend"))
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                 .color(0x6f857b)
-                .components(getMaterial("poor_charged_bio_waste"), 2, Strontium, 1, getMaterial("gtceu:npk_solution"),
+                .components(getMaterial("start_core:poor_charged_bio_waste"), 2, Strontium, 1,
+                        getMaterial("gtceu:npk_solution"),
                         2)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();

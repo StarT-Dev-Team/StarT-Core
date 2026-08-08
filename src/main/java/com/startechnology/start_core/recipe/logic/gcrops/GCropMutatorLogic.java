@@ -83,7 +83,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
     private static int findTraitTier(List<ItemStack> mutationItems, List<FluidStack> mutationFluids, String type) {
         final List<Item> validMutationItemList = List.of(
-                getItem("ae2", "sky_dust"),
+                ChemicalHelper.get(dust, EnderPearl).getItem(),
                 ChemicalHelper.get(dust, Thorium).getItem(),
                 ChemicalHelper.get(dust, Caesium).getItem(),
                 ChemicalHelper.get(dust, Tantalum).getItem(),
@@ -134,7 +134,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
 
     public static GTRecipe createGCropRecipe(List<ItemStack> itemSet, List<FluidStack> allFluids) {
         final List<Item> validMutationItemList = List.of(
-                getItem("ae2", "sky_dust"),
+                ChemicalHelper.get(dust, EnderPearl).getItem(),
                 ChemicalHelper.get(dust, Thorium).getItem(),
                 ChemicalHelper.get(dust, Caesium).getItem(),
                 ChemicalHelper.get(dust, Tantalum).getItem(),
@@ -367,7 +367,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
     @Override
     public void buildRepresentativeRecipes() {
         final List<Item> validMutationItemList = List.of(
-                getItem("ae2", "sky_dust"),
+                ChemicalHelper.get(dust, EnderPearl).getItem(),
                 ChemicalHelper.get(dust, Thorium).getItem(),
                 ChemicalHelper.get(dust, Caesium).getItem(),
                 ChemicalHelper.get(dust, Tantalum).getItem(),

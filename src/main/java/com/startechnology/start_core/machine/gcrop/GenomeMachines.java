@@ -70,27 +70,3 @@ public class GenomeMachines {
 
     public static void init() {}
 }
-// Invalid descriptor on gtceu.mixins.json:jei.FluidHelperMixin->@Inject::gtceu$injectFluidTooltips(
-// Lmezz/jei/api/gui/builder/ITooltipBuilder;
-// Lnet/minecraftforge/fluids/FluidStack;
-// Lnet/minecraft/world/item/TooltipFlag;
-// Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V!
-
-// Expected (
-// Ljava/util/List;
-// Lnet/minecraftforge/fluids/FluidStack;
-// Lnet/minecraft/world/item/TooltipFlag;
-// Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V
-
-// but found (
-// Lmezz/jei/api/gui/builder/ITooltipBuilder;
-// Lnet/minecraftforge/fluids/FluidStack;
-// Lnet/minecraft/world/item/TooltipFlag;
-// Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V
-//
-// [INJECT Applicator Phase -> gtceu.mixins.json:jei.FluidHelperMixin -> Apply Injections -> -> Inject ->
-// gtceu.mixins.json:jei.FluidHelperMixin->@Inject::gtceu$injectFluidTooltips(
-// Lmezz/jei/api/gui/builder/ITooltipBuilder;
-// Lnet/minecraftforge/fluids/FluidStack;
-// Lnet/minecraft/world/item/TooltipFlag;
-// Lorg/spongepowered/asm/mixin/injection/callback/CallbackInfo;)V]

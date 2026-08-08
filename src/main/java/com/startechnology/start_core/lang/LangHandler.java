@@ -167,6 +167,15 @@ public class LangHandler {
         provider.add("behaviour.start_core.gcrop.new_random_crop", "§6Mutated gCrop with random genome.");
         provider.add("behaviour.start_core.gcrop.random_crop", "§6A gCrop with any genome.");
 
+        provider.add("behaviour.start_core.trait.info.header", "§l%s (%s)§r");
+        provider.add("behaviour.start_core.trait.info.type", "This Trait is a tier %s %s trait");
+        provider.add("behaviour.start_core.trait.info.effects", "This Trait has the following effects:");
+
+        provider.add("behaviour.start_core.trait.type.resource", "§6Resource§r");
+        provider.add("behaviour.start_core.trait.type.production", "§9Production§r");
+        provider.add("behaviour.start_core.trait.type.auxiliary", "§cAuxiliary§r");
+        provider.add("behaviour.start_core.trait.type.climate", "§2Climate§r");
+
         provider.add("behaviour.start_core.genome_holder.random_holder", "§3A Genome Holder with any genome.");
         provider.add("behaviour.start_core.genome_holder.copied_holder", "§3A Genome Holder with the inserted genome.");
         provider.add("behaviour.start_core.genome_holder.separated_holder",

@@ -50,62 +50,87 @@ public class StarTTraitData {
         Siliceous = new StarTGCropTrait("siliceous", 7, 200, GenomeType.RESOURCE);
 
         // Production Traits
-        // 10% duration reduction (multiplicative)
         Quickened = new StarTGCropTrait("quickened", 1, 2000, GenomeType.PRODUCTION);
+        Quickened.addTraitDescription("- Multiplies recipe duration by a factor of §a0.9§r (multiplicative)");
 
-        // 20% increase in fluid consumption (multiplicative)
         Thirsty = new StarTGCropTrait("thirsty", 1, 1500, GenomeType.PRODUCTION);
+        Thirsty.addTraitDescription("- Multiplies recipe fluid consumption by a factor of §a1.2§r (multiplicative)");
 
-        // 10% duration reduction (multiplicative)
         Speedy = new StarTGCropTrait("speedy", 2, 1500, GenomeType.PRODUCTION);
+        Speedy.addTraitDescription("- Multiplies recipe duration by a factor of §a0.9§r (multiplicative)");
 
-        // 20% duration increase (multiplicative)
         Slow = new StarTGCropTrait("slow", 2, 1000, GenomeType.PRODUCTION);
+        Slow.addTraitDescription("- Multiplies recipe duration by a factor of §a1.2§r (multiplicative)");
 
-        // 10% duration reduction (multiplicative)
         Fast = new StarTGCropTrait("fast", 3, 1000, GenomeType.PRODUCTION);
+        Fast.addTraitDescription("- Multiplies recipe duration by a factor of §a0.9§r (multiplicative)");
 
-        // 20% duration increase (multiplicative)
         Stunted = new StarTGCropTrait("stunted", 3, 500, GenomeType.PRODUCTION);
+        Stunted.addTraitDescription("- Multiplies recipe duration by a factor of §a1.2§r (multiplicative)");
 
-        // 20% input consumption increase (multiplicative)
         Gluttonous = new StarTGCropTrait("gluttonous", 3, 500, GenomeType.PRODUCTION);
+        Gluttonous.addTraitDescription("- Multiplies recipe input amounts by a factor of §a1.2§r (multiplicative)");
 
-        // 60% chance for +2 on max fruit (cumulative)
         Enormous = new StarTGCropTrait("enormous", 4, 500, GenomeType.PRODUCTION);
+        Enormous.addTraitDescription("- Gives a §a60%§r chance to get §a+2§r on your maximum fruits (cumulative)");
 
-        // -2 on min fruits (cumulative), -3 on max fruits (cumulative)
         Shriveled = new StarTGCropTrait("shriveled", 4, 400, GenomeType.PRODUCTION, "Sr");
+        Shriveled.addTraitDescription("""
+                - Gives §a-2§r on minimum fruits (cumulative)
+                - Gives §a-3§r on maximum fruits (cumulative)
+                """);
 
-        // 3x 60% chance for +2 on max fruit (cumulative) and 2x 70% chance for +1 on min fruit (cumulative)
         Branching = new StarTGCropTrait("branching", 5, 500, GenomeType.PRODUCTION);
+        Branching.addTraitDescription("""
+                - Gives §a3 60%§r chances for §a+2§r on maximum fruits (cumulative)
+                - Gives §a2 70%§r chances for §a+1§r on minimum fruits (cumulative)
+                """);
 
-        // 2x input consumption, 15% duration increase (multiplicative), +4 on min fruit (cumulative), +2 on max fruit
-        // (cumulative)
         Proliferating = new StarTGCropTrait("proliferating", 5, 500, GenomeType.PRODUCTION);
+        Proliferating.addTraitDescription("""
+                - Multiplies recipe consumption by a factor of §a2§r (multiplicative)
+                - Multiplies recipe duration by a factor of §a1.15§r (multiplicative)
+                - Gives §a+4§r on minimum fruits (cumulative)
+                - Gives §a+2§r on maximum fruits (cumulative)
+                """);
 
-        // -1 energy tier
         Empowered = new StarTGCropTrait("empowered", 6, 100, GenomeType.PRODUCTION);
+        Empowered.addTraitDescription("Lowers the recipe voltage by 1§r (cumulative)");
 
         // 8x on min and max fruit (multiplicative), 60% duration increase (multiplicative), 10x input consumption
         // (multiplicative)
         Sprawling = new StarTGCropTrait("sprawling", 7, 50, GenomeType.PRODUCTION, "Sw");
+        Sprawling.addTraitDescription("""
+                - Multiplies recipe consumption by a factor of §a10§r (multiplicative)
+                - Multiplies recipe duration by a factor of §a1.6§r (multiplicative)
+                - Multiplies minimum fruits by a factor of §a8§r (multiplicative)
+                - Multiplies maximum fruits by a factor of §a8§r (multiplicative)
+                """);
 
         // 3x on inputs (multiplicative), 4x on outputs (multiplicative), 5x duration multiplier (multiplicative),
         Autotroph = new StarTGCropTrait("autotroph", 7, 50, GenomeType.PRODUCTION);
+        Autotroph.addTraitDescription("""
+                - Multiplies recipe consumption by a factor of §a3§r (multiplicative)
+                - Multiplies recipe duration by a factor of §a5§r (multiplicative)
+                - Multiplies minimum fruits by a factor of §a4§r (multiplicative)
+                - Multiplies maximum fruits by a factor of §a4§r (multiplicative)
+                """);
 
         // Auxiliary Traits
-        // nighttime only
         Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY, "Nc");
+        Nocturnal.addTraitDescription("- Adjusts the recipe to only during the night");
 
-        // no time requirement
         Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY);
+        Diurnal.addTraitDescription("- Adjusts the recipe to ignore time-based conditions");
 
-        // fruit -> flower, 30% duration reduction (multiplicative)
         Early = new StarTGCropTrait("early", 4, 100, GenomeType.AUXILIARY);
+        Early.addTraitDescription("""
+                - Adjusts the recipe to output flowers instead of fruits
+                - Multiplies the recipe duration by a factor of §a0.7§r (multiplicative)
+                """);
 
         // Climate Traits
-        Frosty = new StarTGCropTrait("frost", 1, 1000, 1, GenomeType.CLIMATE);
+        Frosty = new StarTGCropTrait("frosty", 1, 1000, 1, GenomeType.CLIMATE);
 
         Scorching = new StarTGCropTrait("scorching", 1, 1000, 1, GenomeType.CLIMATE);
 

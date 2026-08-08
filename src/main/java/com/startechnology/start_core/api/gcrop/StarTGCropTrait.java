@@ -4,7 +4,9 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import com.startechnology.start_core.utils.StarTStringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public record StarTGCropTrait(String id, int tier, int frequency, int alleleCount,
@@ -33,6 +35,7 @@ public record StarTGCropTrait(String id, int tier, int frequency, int alleleCoun
 
     public static final Map<String, StarTGCropTrait> TRAITS = new HashMap<>();
     public static final Map<String, String> langData = new HashMap<>();
+    public static final List<String> traitHasDescription = new ArrayList<>();
 
     public StarTGCropTrait(String id, int tier, int frequency, int alleleCount,
                            StarTTraitData.GenomeType genomeType) {
@@ -51,6 +54,12 @@ public record StarTGCropTrait(String id, int tier, int frequency, int alleleCoun
     public StarTGCropTrait(String id, int tier, int frequency, StarTTraitData.GenomeType genomeType,
                            String symbolOverwrite) {
         this(id, tier, frequency, 2, false, genomeType, symbolOverwrite);
+    }
+
+    public void addTraitDescription(String description) {
+        String descriptionKey = String.format("behaviour.start_core.trait.%s.description", this.id);
+        langData.put(descriptionKey, description);
+        traitHasDescription.add(this.id);
     }
 
     /**
