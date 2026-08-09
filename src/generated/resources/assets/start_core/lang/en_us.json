@@ -134,7 +134,7 @@
   "behaviour.start_core.trait.metallic.symbol": "Me",
   "behaviour.start_core.trait.mineralic.name": "Mineralic",
   "behaviour.start_core.trait.mineralic.symbol": "Mi",
-  "behaviour.start_core.trait.nocturnal.description": "- Adjusts the recipe to only during the night",
+  "behaviour.start_core.trait.nocturnal.description": "- Adjusts the recipe to only run during the night",
   "behaviour.start_core.trait.nocturnal.name": "Nocturnal",
   "behaviour.start_core.trait.nocturnal.symbol": "Nc",
   "behaviour.start_core.trait.proliferating.description": "- Multiplies recipe consumption by a factor of §a2§r (multiplicative)\n- Multiplies recipe duration by a factor of §a1.15§r (multiplicative)\n- Gives §a+4§r on minimum fruits (cumulative)\n- Gives §a+2§r on maximum fruits (cumulative)\n",
