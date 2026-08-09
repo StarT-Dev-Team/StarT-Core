@@ -118,7 +118,7 @@ public class StarTTraitData {
 
         // Auxiliary Traits
         Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY, "Nc");
-        Nocturnal.addTraitDescription("- Adjusts the recipe to only during the night");
+        Nocturnal.addTraitDescription("- Adjusts the recipe to only run during the night");
 
         Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY);
         Diurnal.addTraitDescription("- Adjusts the recipe to ignore time-based conditions");

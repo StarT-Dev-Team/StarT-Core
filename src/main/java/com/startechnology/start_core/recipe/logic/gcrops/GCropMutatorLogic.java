@@ -97,8 +97,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 Radon.getFluid(),
                 IndiumGalliumPhosphide.getFluid(),
                 Naquadria.getFluid(),
-                GTMaterials.get("echo_r").getFluid(),
-                getMaterial("start_core:mystical_air").getFluid());
+                GTMaterials.get("echo_r").getFluid());
 
         int maxTier = 0;
         List<Integer> tiers = new ArrayList<>();
@@ -216,6 +215,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         if (!validMutationItems.isEmpty() && !validMutationFluids.isEmpty()) {
             int maxTier = findTraitTier(validMutationItems, validMutationFluids, "full");
 
+            if (maxTier == 0) return null;
+
             List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                     .getTraitsBetweenTiersInclusive(maxTier - 1, maxTier);
 
@@ -302,6 +303,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
             // prod recipes
             int maxTier = findTraitTier(validMutationItems, validMutationFluids, "items");
 
+            if (maxTier == 0) return null;
+
             List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                     .getTraitsBetweenTiersInclusive(maxTier - 2, maxTier);
 
@@ -333,6 +336,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
         }
         // aux recipes
         int maxTier = findTraitTier(validMutationItems, validMutationFluids, "fluids");
+
+        if (maxTier == 0) return null;
 
         List<StarTGCropTrait> mutatedTraits = StarTGCropTraits
                 .getTraitsBetweenTiersInclusive(maxTier - 2, maxTier);
