@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -192,15 +193,18 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                     continue;
                 }
 
-                int durabilityDiff = calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
-                int newDurability = solarCellBlockEntity.getDurability() - durabilityDiff;
+                int newDurability = solarCellBlockEntity.getDurability();
+                if (StarTConfig.INSTANCE.solar.enableDurabilityLoss) {
+                    int durabilityDiff = calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
+                    newDurability -= durabilityDiff;
 
-                if (newDurability <= 0) {
-                    solarCellBlockEntity.setBroken(true);
+                    if (newDurability <= 0) {
+                        solarCellBlockEntity.setBroken(true);
 
-                    newBrokenCells++;
+                        newBrokenCells++;
 
-                    continue;
+                        continue;
+                    }
                 }
 
                 solarCellBlockEntity.setTemperature(currentTemp);
@@ -211,7 +215,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
                 newEuT += solarCellType.getEuT();
             } else {
-                double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - 0.1,
+                double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
                         solarCellType.getMinTemperature());
 
                 solarCellBlockEntity.setTemperature(currentTemp);
@@ -242,11 +246,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     public double getHeatGain() {
-        if (tier >= GTValues.EV && tier <= GTValues.LuV) return 0.2;
-        else {
-            if (isCooled) return 0.18;
-            else return 0.3;
+        var solar = StarTConfig.INSTANCE.solar;
+        if (tier >= GTValues.EV && tier <= GTValues.LuV) {
+            return solar.panelHeatGain;
         }
+        return isCooled ? solar.arrayCooledHeatGain : solar.arrayHeatGain;
     }
 
     public boolean isDay() {
@@ -284,25 +288,44 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return (int) Math.max(Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0), 0);
     }
 
+    public int redstonePercentageOfBrokenCells() {
+        return (int) Math.max(Math.min((double) brokenCells / cellAmount * 15.0, 15.0), 0);
+    }
+
     private void temperatureChanged() {
         Arrays.stream(StarTSolarCells.values()).forEach(entry -> this.setIndicatorValue(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 redstonePercentageOfTemp(entry.getMaxTemperature())));
+
+        this.setIndicatorValue("variadic.start_core.indicator.solar_machine.broken_cells",
+                redstonePercentageOfBrokenCells());
     }
 
     @Override
     public List<RedstoneIndicatorRecord> getInitialIndicators() {
-        return Arrays.stream(StarTSolarCells.values()).map(entry -> {
+        var indicators = new ArrayList<RedstoneIndicatorRecord>();
+
+        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
             int maxTemp = entry.getMaxTemperature();
 
-            return new RedstoneIndicatorRecord(
+            indicators.add(new RedstoneIndicatorRecord(
                     "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                    Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
-                    Component.translatable("variadic.start_core.description.solar_machine", maxTemp)
+                    Component.translatable("variadic.start_core.indicator.solar_machine.temp", maxTemp),
+                    Component.translatable("variadic.start_core.description.solar_machine.temp", maxTemp)
                             .withStyle(ChatFormatting.GRAY),
                     redstonePercentageOfTemp(maxTemp),
-                    maxTemp);
-        }).toList();
+                    maxTemp));
+        });
+
+        indicators.add(new RedstoneIndicatorRecord(
+                "variadic.start_core.indicator.solar_machine.broken_cells",
+                Component.translatable("variadic.start_core.indicator.solar_machine.broken_cells"),
+                Component.translatable("variadic.start_core.description.solar_machine.broken_cells")
+                        .withStyle(ChatFormatting.GRAY),
+                redstonePercentageOfBrokenCells(),
+                1));
+
+        return indicators;
     }
 
     @Override

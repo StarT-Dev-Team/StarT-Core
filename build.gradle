@@ -31,11 +31,12 @@ tasks.named("compileJava") {
     dependsOn(tasks.named("spotlessApply"))
 }
 
-def generatedResources = file("src/generated")
+def generatedResources = file("src/generated/resources")
 
 sourceSets {
     main {
         resources.srcDir generatedResources
+        resources.exclude("src/generated/**/.cache")
         ext.refMap = "${mod_id}.mixins.refmap.json"
     }
 }
@@ -77,7 +78,7 @@ legacyForge {
 
             sourceSet = sourceSets.main
 
-            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath())
+            programArguments.addAll('--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
             programArguments.addAll('--existing-mod', 'gtceu', '--existing', file('run/kubejs').absolutePath, '--existing', file('src/main/resources/').absolutePath)
         }
     }
@@ -122,14 +123,6 @@ repositories {
             includeGroup "dev.latvian.apps"
         }
     }
-    maven { // Registrate
-        url = "https://maven.tterrag.com/"
-        content {
-            // need to be specific here due to version overlaps
-            includeGroup("com.jozufozu.flywheel")
-            includeGroup("com.simibubi.create")
-        }
-    }
     maven {
         // Patchouli, JEI
         name = "BlameJared"
@@ -164,30 +157,28 @@ repositories {
         }
     }
 
-    maven {
-        url "https://maven.ftb.dev/releases"
-    }
-
-    maven { url "https://maven.covers1624.net" }
+    maven { url = "https://maven.ftb.dev/releases" }
+    maven { url = "https://maven.covers1624.net" }
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
     maven { url = "https://maven.createmod.net" }
 }
 
 dependencies {
-    implementation('io.reactivex:rxjava:1.3.8')
-    jarJar('io.reactivex:rxjava:1.3.8')
-
-    implementation('com.github.davidmoten:rtree:0.12')
-    jarJar('com.github.davidmoten:rtree:0.12')
-
-    implementation('com.github.davidmoten:guava-mini:0.1.7')
-    jarJar('com.github.davidmoten:guava-mini:0.1.7')
+    jarJar(implementation('io.reactivex:rxjava:1.3.8'))
+    additionalRuntimeClasspath('io.reactivex:rxjava:1.3.8')
+    jarJar(implementation('com.github.davidmoten:rtree:0.12'))
+    additionalRuntimeClasspath('com.github.davidmoten:rtree:0.12')
+    jarJar(implementation('com.github.davidmoten:guava-mini:0.1.7'))
+    additionalRuntimeClasspath('com.github.davidmoten:guava-mini:0.1.7')
 
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-forge-api:$project.jei_version") { transitive = false }
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
+    modCompileOnly("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
+    modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:$project.flywheel_version")
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
+    modImplementation("dev.ftb.mods:ftb-ultimine-forge:2001.1.8")
     modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$project.gtceu_version") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
@@ -199,8 +190,19 @@ dependencies {
     modImplementation("curse.maven:merequester-688367:5689932")
     modImplementation("curse.maven:jade-324717:6106101")
     modImplementation("curse.maven:embeddium-908741:5681725")
+    modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
     modImplementation("net.createmod.ponder:Ponder-Forge-$project.minecraft_version:$project.ponder_version")
+    modImplementation("curse.maven:cofh-core-69162:5374122")
+    modImplementation("com.simibubi.create:create-$project.minecraft_version:$project.create_version:slim")
+    modImplementation("curse.maven:framedblocks-441647:7386520")
+    modImplementation("curse.maven:codechicken-lib-1-8-242818:5753868")
+    modImplementation("curse.maven:cb-multipart-258426:5311521")
+    modImplementation("curse.maven:project-red-core-228702:6868143")
+    modImplementation("curse.maven:project-red-integration-229045:6868148")
+    modImplementation("curse.maven:project-red-transmission-478939:6868149")
+    modImplementation("curse.maven:effortless-building-302113:7944965")
 
+    modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-$project.minecraft_version:$project.flywheel_version")
     modRuntimeOnly("curse.maven:sgjourney-689083:6390662")
     modRuntimeOnly("curse.maven:thermal-extra-573674:6474572")
     modRuntimeOnly("com.teamcofh:thermal_core:1.20.1-11.0.7+")
@@ -209,12 +211,11 @@ dependencies {
     modRuntimeOnly("curse.maven:thermal-expansion-69163:5372749")
     modRuntimeOnly("curse.maven:thermal-innovation-291737:5372751")
     modRuntimeOnly("curse.maven:worldedit-225608:4586218")
-    modImplementation("curse.maven:cofh-core-69162:5374122")
-
-    modImplementation("dev.toma.configuration:configuration-forge-$project.minecraft_version:$project.configuration_version")
-    modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
     modRuntimeOnly("curse.maven:spark-361579:4738952")
-    modImplementation("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
+
+    // comment out the recipe viewer you don't want
+    modRuntimeOnly("mezz.jei:jei-$project.minecraft_version-forge:$project.jei_version") { transitive = false }
+    modRuntimeOnly("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
 
     modCompileOnly("top.theillusivec4.curios:curios-forge:$project.curios_version:api")
     modRuntimeOnly("top.theillusivec4.curios:curios-forge:$project.curios_version")

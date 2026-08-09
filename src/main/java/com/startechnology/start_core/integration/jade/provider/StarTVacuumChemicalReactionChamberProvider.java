@@ -3,6 +3,7 @@ package com.startechnology.start_core.integration.jade.provider;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.vacuum_pump.VacuumPumpPartMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 import org.jetbrains.annotations.Nullable;
@@ -42,8 +43,8 @@ public class StarTVacuumChemicalReactionChamberProvider extends
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (!capData.contains("vcrc_pump_cap") || !capData.contains("vcrc_pump_rate") ||
-                !capData.contains("vcrc_vacuum_amount") || !capData.contains("vcrc_vacuum_status"))
+        if (!StarTJadeUtils.hasData(capData, "vcrc_pump_cap", "vcrc_pump_rate", "vcrc_vacuum_amount",
+                "vcrc_vacuum_status"))
             return;
 
         var amount = capData.getFloat("vcrc_vacuum_amount");

@@ -4,6 +4,5 @@ import java.util.function.IntSupplier;
 
 public interface ReplaceablePostPass {
 
-    void startcore$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height);
-
+    void start_core$replaceAuxAsset(String auxName, IntSupplier auxFramebuffer, int width, int height);
 }
