@@ -65,7 +65,7 @@ public class StarTRecipeTypes {
 
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(3, 2, 3, 2)
+            .setMaxIOSize(3, 3, 3, 3)
             .setEUIO(IO.IN)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
