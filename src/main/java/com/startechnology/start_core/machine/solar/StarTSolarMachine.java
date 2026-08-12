@@ -270,7 +270,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         var brokenCell = new ItemStack(solarCellItem);
         CompoundTag tag = solarBlockEntity.saveWithoutMetadata();
         tag.putBoolean("broken", true);
-        BlockItem.setBlockEntityData(brokenCell, solarBlockEntity.getType(), tag);
+        brokenCell.setTag(tag);
 
         return repairRecipeCache.computeIfAbsent(solarCellItem,
                 item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell)
