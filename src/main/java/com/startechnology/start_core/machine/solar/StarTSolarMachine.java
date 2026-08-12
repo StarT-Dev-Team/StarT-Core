@@ -30,13 +30,13 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -268,9 +268,9 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem, StarTSolarCellBlockEntity solarBlockEntity) {
         var brokenCell = new ItemStack(solarCellItem);
-        CompoundTag tag = solarBlockEntity.saveWithoutMetadata();
-        tag.putBoolean("broken", true);
-        brokenCell.setTag(tag);
+        CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
+        tag.putDouble("temperature", 273); // setting temperature to allow for stacking
+        brokenCell.getOrCreateTag().put("BlockEntityTag", tag);
 
         return repairRecipeCache.computeIfAbsent(solarCellItem,
                 item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell)
@@ -285,11 +285,13 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return 8;
     }
 
+    @Override
     public boolean regressWhenWaiting() {
         return false;
     }
 
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    @Override
+    public boolean canVoidRecipeOutputs(@Nullable RecipeCapability<?> capability) {
         return false;
     }
 
