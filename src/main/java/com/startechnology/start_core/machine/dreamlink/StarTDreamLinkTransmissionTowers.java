@@ -56,7 +56,7 @@ public class StarTDreamLinkTransmissionTowers {
                     Component.translatable("start_core.machine.dream_link_tower.infinite_connections_description"));
 
         multiBuilder.tooltips(
-                Component.literal(""),
+                Component.empty(),
                 Component.translatable("start_core.machine.dream_link_tower.copy_description"),
                 Component.translatable("block.start_core.breaker_line"));
 

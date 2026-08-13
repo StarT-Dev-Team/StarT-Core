@@ -94,9 +94,7 @@ public class StarTGCropGenome {
         if (!resourceGenome.isEmpty()) return false;
         if (!productionGenome.isEmpty()) return false;
         if (!auxiliaryGenome.isEmpty()) return false;
-        if (climateGene != null) return false;
-
-        return true;
+        return climateGene == null;
     }
 
     public static String getPrettyTrait(String value, int tier) {
@@ -132,7 +130,7 @@ public class StarTGCropGenome {
                             }
                             return Component.translatable(getPrettyTrait(traitSymbol, traitTier));
                         })
-                .reduce(Component.literal(""), MutableComponent::append);
+                .reduce(Component.empty(), MutableComponent::append);
     }
 
     public static MutableComponent prettyGCropGene(StarTGCropGene gene) {

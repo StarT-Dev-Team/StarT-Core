@@ -65,7 +65,7 @@ public class StarTGCropBehaviour extends StarTNBTTooltipsBehaviour {
                                 StarTGCropGenome.getPrettyTrait(Component
                                         .translatable(String.format("behaviour.start_core.trait.%s.symbol", trait.id()))
                                         .getString(), trait.tier())))
-                .reduce(Component.literal(""), MutableComponent::append);
+                .reduce(Component.empty(), MutableComponent::append);
 
         return Component.translatable("behaviour.start_core.gcrop.required_traits", translatableAffinities);
     }

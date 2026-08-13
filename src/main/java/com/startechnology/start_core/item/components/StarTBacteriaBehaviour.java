@@ -73,7 +73,7 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
 
         if (stats == null) {
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.no_stats"));
-            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.empty());
             tooltipComponents.add(this.prettyPossibleBacteriaAffinities());
         } else {
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinities_header"));
@@ -83,10 +83,10 @@ public class StarTBacteriaBehaviour extends StarTNBTTooltipsBehaviour {
                     stats.getFluidPretty(stats.getSecondary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_tertiary",
                     stats.getFluidPretty(stats.getTertiary()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.affinity_super",
                     stats.getFluidPretty(stats.getSuperFluid()).withStyle(ChatFormatting.LIGHT_PURPLE)));
-            tooltipComponents.add(Component.literal(""));
+            tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stats_header"));
             tooltipComponents.add(Component.translatable("behaviour.start_core.bacteria.stat_production",
                     stats.getProductionPretty()));
