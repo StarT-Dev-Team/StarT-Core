@@ -51,7 +51,7 @@ public class StarTGCropProcessingMaterials {
                 .liquid(new FluidBuilder())
                 .color(0x988b3c)
                 .components(getMaterial("start_core:poor_mineral_rich_bio_waste"), 2, Glycerol, 1,
-                        getMaterial("gtceu:npk_solution"), 1)
+                        Biomass, 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
@@ -210,7 +210,7 @@ public class StarTGCropProcessingMaterials {
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                     .buildAndRegister();
         }
-        if (tier == 7) {
+        if (tier >= 7) {
             new Material.Builder(
                     StarTCore.resourceLocation(String.format("compressed_%s_fruit", id)))
                     .ingot().ignoredTagPrefixes(nugget, block, dust, dustTiny, dustSmall, dustBlock)
@@ -274,8 +274,11 @@ public class StarTGCropProcessingMaterials {
 
             new Material.Builder(
                     StarTCore.resourceLocation(String.format("%s_composite", id)))
-                    .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
+                    .gem()
+                    .ignoredTagPrefixes(dustTiny, dustSmall, dust, dustBlock, gemChipped, gemExquisite, gemFlawed,
+                            gemFlawless)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                    .iconSet(FINE)
                     .buildAndRegister();
         }
     }

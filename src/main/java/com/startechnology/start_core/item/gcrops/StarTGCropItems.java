@@ -55,7 +55,8 @@ public class StarTGCropItems {
             Map.entry(4, GTValues.EV),
             Map.entry(5, GTValues.IV),
             Map.entry(6, GTValues.LuV),
-            Map.entry(7, GTValues.UV));
+            Map.entry(7, GTValues.UV),
+            Map.entry(8, GTValues.UEV));
 
     public static @Nullable ItemEntry<ComponentItem> getGCropByGenome(@NotNull List<StarTGCropTrait> traits) {
         traits.sort(TRAIT_COMPARATOR);

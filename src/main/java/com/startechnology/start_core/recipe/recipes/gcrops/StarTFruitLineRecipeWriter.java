@@ -413,7 +413,7 @@ public class StarTFruitLineRecipeWriter {
                     .EUtVA(EUtV)
                     .duration(200)
                     .save(provider);
-        } else if (tier == 7) {
+        } else if (tier >= 7) {
             COMPRESSOR_RECIPES.recipeBuilder(String.format("%s_fruit_compression", id))
                     .inputItems(fruit.asStack())
                     .outputItems(
@@ -503,7 +503,7 @@ public class StarTFruitLineRecipeWriter {
                     .recipeBuilder(String.format("overcharged_unstable_%s_powder_separation", id))
                     .inputItems(ChemicalHelper.get(dust,
                             getMaterial(String.format("start_core:overcharged_unstable_%s_powder", id))))
-                    .outputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
+                    .outputItems(ChemicalHelper.get(gem, getMaterial(String.format("start_core:%s_composite", id))))
                     .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:unstable_ion_blend")))
                     .EUtVA(EUtV)
                     .duration(200)
@@ -511,7 +511,7 @@ public class StarTFruitLineRecipeWriter {
 
             if (materialType.equals(StarTGCropItemType.LIQUID)) {
                 EXTRACTOR_RECIPES.recipeBuilder(String.format("%s_composite_extraction", id))
-                        .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
+                        .inputItems(ChemicalHelper.get(gem, getMaterial(String.format("start_core:%s_composite", id))))
                         .outputFluids(new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0),
                                 1000 * yield))
                         .EUtVA(EUtV)
@@ -519,7 +519,7 @@ public class StarTFruitLineRecipeWriter {
                         .save(provider);
             } else {
                 IMPLOSION_RECIPES.recipeBuilder(String.format("%s_composite_crystallization", id))
-                        .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_composite", id))))
+                        .inputItems(ChemicalHelper.get(gem, getMaterial(String.format("start_core:%s_composite", id))))
                         .inputItems(GTBlocks.INDUSTRIAL_TNT)
                         .outputItems(new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0)))
                         .outputItems(ChemicalHelper.get(dust, DarkAsh))

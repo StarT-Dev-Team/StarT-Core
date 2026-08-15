@@ -15,7 +15,6 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 import java.util.*;
 
@@ -217,7 +216,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 .recipeBuilder("gcrop_crossbreeding")
                 .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
                 .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
-                .inputItems(new ItemStack(Items.SUGAR).copyWithCount(8))
+                .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
                 .inputFluids(GTMaterials.Biomass.getFluid(2000))
                 .outputItems(gCropRandomSeed)
                 .duration(200)
@@ -228,7 +227,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 .recipeBuilder("gcrop_self_fertilization")
                 .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
                 .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
-                .inputFluids(GTMaterials.Biomass.getFluid(2000))
+                .inputFluids(GTMaterials.Biomass.getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(200)
                 .EUtV(GTValues.MV)

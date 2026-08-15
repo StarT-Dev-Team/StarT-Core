@@ -118,7 +118,7 @@ public class StarTGCropProcessingMaterials {
             dissolved.setMaterialARGB(MaterialColorARBG);
             dissolved.setComponents(new MaterialStack(itemMaterial, 1));
         }
-        if (tier == 7) {
+        if (tier >= 7) {
             Material compressed = getMaterial(String.format("start_core:compressed_%s_fruit", id));
             compressed.setMaterialARGB(MaterialColorARBG);
             compressed.setComponents(new MaterialStack(itemMaterial, 1));

@@ -278,5 +278,38 @@ public class StarTGCropData {
 
         new StarTGCropData("celestine", "Psoralidium Coelicola", ORE, "two", Vibrant, Fluorescent, Dusty, Coarse,
                 Mineralic, Aetheric, Adaptive, Siliceous);
+
+        new StarTGCropData("neptunium", "Psoralidium Aequor", DUST, "three", Charred, Vibrant, Dusty, Shiny,
+                Illuminating, Sulfuric, Adaptive, Apothic, Decaying);
+
+        new StarTGCropData("fermium", "Psoralidium Nucleus", DUST, "one", Vibrant, Dusty, Shiny, Illuminating, Aetheric,
+                Adaptive, Decaying);
+
+        new StarTGCropData("einsteinium_253", "Psoralidium Unulater", DUST, "four", Tough, Dusty, Shiny, Illuminating,
+                Sulfuric, Energetic, Decaying);
+
+        new StarTGCropData("plutonium_241", "Psoralidium Infernus", DUST, "two", Charred, Vibrant, Tough, Dusty, Shiny,
+                Illuminating, Sulfuric, Energetic, Apothic, Decaying);
+
+        new StarTGCropData("ancient_netherite", "Cyperus ", DUST, "two", Charred, Tough, Metallic, Coarse, Mineralic,
+                Sulfuric, Adaptive, Apothic, Siliceous, Infernal);
+
+        new StarTGCropData("mythril", "Cyperus ", DUST, "three", "mythrillic", Charred, Tough, Metallic, Shiny,
+                Illuminating, Sulfuric, Adaptive, Apothic, Siliceous, Infernal);
+
+        new StarTGCropData("adamantine", "Cyperus ", DUST, "three", "adamantamite", Charred, Fluorescent, Metallic,
+                Shiny, Illuminating, Sulfuric, Energetic, Siliceous, Infernal);
+
+        new StarTGCropData("estalt", "Cyperus ", DUST, "four", "estaltadyne", Charred, Vibrant, Tough, Metallic, Shiny,
+                Mineralic, Sulfuric, Energetic, Siliceous, Infernal);
+
+        new StarTGCropData("isovol", "Cyperus ", DUST, "two", "isovol_fluoride", Charred, Vibrant, Metallic, Shiny,
+                Illuminating, Aetheric, Adaptive, Decaying, Infernal);
+
+        new StarTGCropData("calamatium", "Cyperus ", DUST, "four", "calamatium_fluoride", Charred, Metallic, Shiny,
+                Illuminating, Aetheric, Adaptive, Apothic, Decaying, Infernal);
+
+        new StarTGCropData("atomic_nether_sludge", "Cyperus ", DUST, 8, "one", Charred, Vibrant, Tough, Dusty, Coarse,
+                Mineralic, Sulfuric, Energetic, Apothic, Decaying, Infernal);
     }
 }

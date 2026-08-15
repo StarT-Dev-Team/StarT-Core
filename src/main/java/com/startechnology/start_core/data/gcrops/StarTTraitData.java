@@ -49,6 +49,10 @@ public class StarTTraitData {
 
         Siliceous = new StarTGCropTrait("siliceous", 7, 200, GenomeType.RESOURCE);
 
+        Decaying = new StarTGCropTrait("decaying", 7, 200, GenomeType.RESOURCE, "Dc");
+
+        Infernal = new StarTGCropTrait("infernal", 8, 200, GenomeType.RESOURCE);
+
         // Production Traits
         Quickened = new StarTGCropTrait("quickened", 1, 2000, GenomeType.PRODUCTION);
         Quickened.addTraitDescription("- Multiplies recipe duration by a factor of §a0.9§r (multiplicative)");
@@ -203,7 +207,11 @@ public class StarTTraitData {
 
     // Tier 7
     public static StarTGCropTrait Siliceous;
+    public static StarTGCropTrait Decaying;
 
     public static StarTGCropTrait Sprawling;
     public static StarTGCropTrait Autotroph;
+
+    // Tier 8
+    public static StarTGCropTrait Infernal;
 }

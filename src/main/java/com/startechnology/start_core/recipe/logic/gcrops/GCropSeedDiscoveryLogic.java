@@ -71,7 +71,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                     .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
                     .outputItems(gCropRandomSeed)
                     .duration(120)
-                    .EUt(GTValues.V[GTValues.MV])
+                    .EUt(GTValues.V[GTValues.ULV])
                     .buildRawRecipe();
 
         }
@@ -94,7 +94,7 @@ public class GCropSeedDiscoveryLogic implements ICustomRecipeLogic {
                 .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(120)
-                .EUt(GTValues.V[GTValues.MV])
+                .EUt(GTValues.V[GTValues.ULV])
                 .buildRawRecipe();
 
         StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.GCROP_MUTATOR_RECIPES, "gcrops",

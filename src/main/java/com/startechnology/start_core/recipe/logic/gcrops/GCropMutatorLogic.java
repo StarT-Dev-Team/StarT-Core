@@ -89,7 +89,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
-                ChemicalHelper.get(dust, Americium).getItem());
+                ChemicalHelper.get(dust, getMaterial("fermium")).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),
@@ -139,7 +139,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
-                ChemicalHelper.get(dust, Americium).getItem());
+                ChemicalHelper.get(dust, getMaterial("fermium")).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),
@@ -378,7 +378,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, getMaterial("purified_naquadah")).getItem(),
-                ChemicalHelper.get(dust, Americium).getItem());
+                ChemicalHelper.get(dust, getMaterial("fermium")).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),

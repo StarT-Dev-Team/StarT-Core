@@ -1,6 +1,5 @@
 package com.startechnology.start_core.recipe.logic.gcrops;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -14,6 +13,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
+import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -53,7 +53,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             {
                 put(0, GTMaterials.Water.getFluid());
                 put(2, GTMaterials.Biomass.getFluid());
-                put(4, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
+                put(4, GTMaterials.get("npk_solution").getFluid());
+                put(5, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
                 put(6, GTMaterials.get("biostimulating_mixture").getFluid());
             }
         };
@@ -94,7 +95,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 if (flower != null) fruit = flower;
             }
 
-            int EUtV = GTValues.MV + cropTier;
+            int EUtV = StarTGCropItems.tierVoltages.get(cropTier);
             if (gCropGenome.hasTrait("empowered")) EUtV -= 1;
 
             Item fertilizerItem = null;
@@ -201,7 +202,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             {
                 put(0, GTMaterials.Water.getFluid());
                 put(2, GTMaterials.Biomass.getFluid());
-                put(4, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
+                put(4, GTMaterials.get("npk_solution").getFluid());
+                put(5, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
                 put(6, GTMaterials.get("biostimulating_mixture").getFluid());
             }
         };
@@ -261,7 +263,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                     .outputItemsRanged(fruitItem, UniformInt.of(1, 4))
                     .duration((cropTier == 0) ? 160 : 160 * cropTier)
                     .daytime()
-                    .EUtVA(GTValues.MV + cropTier);
+                    .EUtVA(StarTGCropItems.tierVoltages.get(cropTier));
 
             if (cropTier == 0) {
                 harvestRecipe.notConsumable(gCrop);

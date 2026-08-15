@@ -34,7 +34,7 @@ public class StarTFruitItems {
 
             FRUIT_SLICES.put(id, fruitSliceItem);
         }
-        if (tier == 5 || tier == 7) {
+        if (tier == 5 || tier >= 7) {
             ItemEntry<ComponentItem> poppedFruitItem = START_REGISTRATE
                     .item(String.format("popped_%s_fruit", id), ComponentItem::create)
                     .lang(String.format("Popped %s Fruit", fruitResource))
