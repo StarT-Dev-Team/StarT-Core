@@ -145,7 +145,8 @@ public class StarTRecipeTypes {
             .setMaxIOSize(0, 0, 0, 0)
             .setEUIO(IO.OUT);
 
-    public static final GTRecipeType SOLAR_PANEL_REPLACEMENT = GTRecipeTypes.register("solar_panel_repalcement", GTRecipeTypes.MULTIBLOCK)
+    public static final GTRecipeType SOLAR_PANEL_REPLACEMENT = GTRecipeTypes
+            .register("solar_panel_repalcement", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0);
 
     public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes

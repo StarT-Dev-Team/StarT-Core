@@ -168,7 +168,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (!(blockEntity instanceof StarTSolarCellBlockEntity solarCellBlockEntity)) continue;
 
             if (solarCellBlockEntity.isBroken()) {
-                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem(), solarCellBlockEntity);
+                GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
 
                 if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper
                         .handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
@@ -266,10 +266,10 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(amount)).buildRawRecipe();
     }
 
-    public GTRecipe getSolarPanelRecipe(Item solarCellItem, StarTSolarCellBlockEntity solarBlockEntity) {
+    public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
         var brokenCell = new ItemStack(solarCellItem);
-        CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
-        tag.putDouble("temperature", 273); // setting temperature to allow for stacking
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("broken", true);
         brokenCell.getOrCreateTag().put("BlockEntityTag", tag);
 
         return repairRecipeCache.computeIfAbsent(solarCellItem,

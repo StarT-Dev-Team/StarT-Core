@@ -37,5 +37,4 @@ public class SolarPanelReplacementLogic implements GTRecipeType.ICustomRecipeLog
             StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.addToMainCategory(recipe);
         }
     }
-    
 }
