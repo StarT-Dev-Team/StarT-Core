@@ -82,7 +82,7 @@ public class StarTSolarMachines {
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .shapeInfos(definition -> {
@@ -157,7 +157,7 @@ public class StarTSolarMachines {
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .shapeInfos(definition -> {
@@ -232,7 +232,7 @@ public class StarTSolarMachines {
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setExactLimit(1))
-                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .shapeInfos(definition -> {
@@ -327,7 +327,7 @@ public class StarTSolarMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
-                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .shapeInfos(definition -> {
@@ -438,7 +438,7 @@ public class StarTSolarMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.OUTPUT_LASER).setExactLimit(1))
-                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(1)))
+                            .or(Predicates.abilities(StarTPartAbility.REDSTONE_INTERFACE).setMaxGlobalLimited(2)))
                     .where("@", Predicates.controller(Predicates.blocks(definition.get())))
                     .build())
             .shapeInfos(definition -> {

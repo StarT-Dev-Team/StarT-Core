@@ -8,8 +8,12 @@ import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.cover.IUICover;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -56,6 +60,16 @@ public class StarTDreamLinkCover extends CoverBehavior
         this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
         this.tier = tier;
         this.amperage = amperage;
+    }
+
+    @Override
+    public boolean canAttach() {
+        if (!super.canAttach()) return false;
+        var machine = MetaMachine.getMachine(this.coverHolder.getLevel(), this.coverHolder.getPos());
+        if (machine == null) return false;
+        // disallow attaching dreamlink covers to multiblock parts or controllers, and machines without energy traits
+        return !(machine instanceof IMultiPart) && !(machine instanceof IMultiController) &&
+                machine.getTraits().stream().anyMatch(t -> t instanceof IEnergyContainer);
     }
 
     @Override

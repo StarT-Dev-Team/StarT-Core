@@ -1,4 +1,4 @@
-package com.startechnology.start_core.mixin;
+package com.startechnology.start_core.mixin.mc.renderer;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.startechnology.start_core.machine.komaru.client.v2.KomaruRendererV2;

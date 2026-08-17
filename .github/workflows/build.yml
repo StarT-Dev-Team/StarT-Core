@@ -1,13 +1,13 @@
 name: Build StarT Core
 
 on:
-  push:
   pull_request:
-  workflow_dispatch:
+    paths: ['**']
+    types: [opened, synchronize, reopened, labeled]
   
 jobs:
   build:
-
+    if: github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'build')
     runs-on: ubuntu-latest
     permissions:
       contents: read
