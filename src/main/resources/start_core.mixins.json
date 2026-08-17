@@ -22,7 +22,8 @@
     "WireRecipeHandlerMixin",
     "compat.FakeSlotDropTargetMixin",
     "eb.CommonEventsMixin",
-    "pr.GTToolItemMixin"
+    "pr.GTToolItemMixin",
+    "LargeBoilerMachineMixin"
   ],
   "client": [
     "CustomStackTooltipsHandlerMixin",
