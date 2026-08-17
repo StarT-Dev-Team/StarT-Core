@@ -170,8 +170,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (solarCellBlockEntity.isBroken()) {
                 GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
 
-                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper
-                        .handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
+                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches())
+                                .isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.OUT, recipeLogic.getChanceCaches())
+                                .isSuccess()) {
                     solarCellBlockEntity.setBroken(false);
                     solarCellBlockEntity.setDurability(solarCellType.getMaxDurability());
                     solarCellBlockEntity.setTemperature(300);

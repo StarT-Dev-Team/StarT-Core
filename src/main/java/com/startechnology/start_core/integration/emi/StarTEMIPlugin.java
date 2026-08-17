@@ -3,10 +3,15 @@ package com.startechnology.start_core.integration.emi;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockOreEmiCategory;
+import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
+import com.startechnology.start_core.machine.solar.StarTSolarMachines;
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
+
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.EmiStack;
+import net.minecraft.world.item.ItemStack;
 
 import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
 
@@ -23,6 +28,18 @@ public class StarTEMIPlugin implements EmiPlugin {
             }
         }
 
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_EV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_IV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_LUV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UHV.asStack());
+
         CBMicroblockRecipes.register(registry);
+    }
+
+    private void addSolarReplacementWorkstation(EmiRegistry registry, ItemStack stack) {
+        registry.addWorkstation(
+                GTRecipeEMICategory.machineCategory(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()),
+                EmiStack.of(stack));
     }
 }

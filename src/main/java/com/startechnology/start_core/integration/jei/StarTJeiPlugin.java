@@ -88,6 +88,5 @@ public class StarTJeiPlugin implements IModPlugin {
 
         registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_ARRAY_UHV.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
-
     }
 }
