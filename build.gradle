@@ -109,7 +109,7 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }
-        authentication {
+        credentials {
             username = System.getenv("GITHUB_ACTOR")
             password = System.getenv("GITHUB_TOKEN")
         }
