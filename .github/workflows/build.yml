@@ -11,10 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
 
     env:
       MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
       MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+      GITHUB_ACTOR: ${{ github.actor }}
 
     steps:
     - uses: actions/checkout@v4
