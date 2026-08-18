@@ -104,6 +104,13 @@ repositories {
         }
     }
     maven {
+        name = "githubPackages"
+        url = "https://maven.pkg.github.com/StarT-Dev-Team/GTM-StarT-Fork"
+        content {
+            includeGroup 'com.gregtechceu.gtceu'
+        }
+    }
+    maven {
         name "firstdarkMavenSnapshots"
         url "https://maven.firstdark.dev/snapshots"
     }
