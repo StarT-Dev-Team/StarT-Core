@@ -109,6 +109,10 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
         }
+        authentication {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
     }
     maven {
         name "firstdarkMavenSnapshots"
