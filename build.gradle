@@ -21,6 +21,9 @@ base {
 version = project.mod_version
 group = project.maven_group
 
+def useSnapshot = project.hasProperty("gtceu_snapshot") ? Boolean.parseBoolean(project.property("gtceu_snapshot").toString()) : false
+ext.gtceuVersion = useSnapshot ? "${project.gtceu_version}-SNAPSHOT" : project.gtceu_version
+
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
 
 java {
@@ -190,7 +193,7 @@ dependencies {
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
     modImplementation("dev.ftb.mods:ftb-ultimine-forge:2001.1.8")
-    modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$project.gtceu_version") { transitive = false }
+    modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$gtceuVersion") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
@@ -254,7 +257,7 @@ processResources {
             "mod_author": mod_author,
             "forge_version": forge_version.split("\\.")[0], // only specify major version of forge
             "minecraft_version": minecraft_version,
-            "gtceu_version": gtceu_version
+            "gtceu_version": gtceuVersion
     ]
     inputs.properties(properties)
 
