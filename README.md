@@ -76,6 +76,13 @@ komaru_renderer_enabled=true
 
 ---
 
+## Development
+
+To pull the latest GTm snapshot, when building add the `-Pgtceu_snapshot=true` flag.
+For example: `./gradlew build -Pgtceu_snapshot=true`
+
+---
+
 ## Project Structure
 
 ```
