@@ -191,7 +191,7 @@ public class StarTConfig {
 
         @Configurable
         @Configurable.Comment({
-                "EV solar cell temperature scale.",
+                "UHV solar cell temperature scale.",
                 "Default: 1"
         })
         public double uhvSolarCellTemperatureScale = 0.75;
