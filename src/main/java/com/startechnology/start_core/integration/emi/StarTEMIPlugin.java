@@ -6,6 +6,10 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockOreEmiCategory;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
+import com.startechnology.start_core.machine.solar.StarTSolarMachines;
+import com.startechnology.start_core.recipe.StarTRecipeTypes;
+
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
@@ -13,6 +17,7 @@ import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,12 @@ public class StarTEMIPlugin implements EmiPlugin {
                 registry.addWorkstation(GTBedrockOreEmiCategory.CATEGORY, EmiStack.of(multiBlockDefinition.asStack()));
             }
         }
+
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_EV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_IV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_LUV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UV.asStack());
+        addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UHV.asStack());
 
         CBMicroblockRecipes.register(registry);
         registerTraitDescriptions(registry);
@@ -72,5 +83,11 @@ public class StarTEMIPlugin implements EmiPlugin {
 
     private void addDescription(EmiRegistry registry, Item item, List<Component> descriptionComponents) {
         registry.addRecipe(new EmiInfoRecipe(List.of(EmiStack.of(item)), descriptionComponents, null));
+    }
+
+    private void addSolarReplacementWorkstation(EmiRegistry registry, ItemStack stack) {
+        registry.addWorkstation(
+                GTRecipeEMICategory.machineCategory(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()),
+                EmiStack.of(stack));
     }
 }

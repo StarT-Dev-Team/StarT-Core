@@ -28,6 +28,7 @@ import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +36,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -97,7 +99,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
             if (solarCells != null && !solarCells.isEmpty()) {
-                var items = ForgeRegistries.ITEMS;
 
                 for (long packedPos : solarCells) {
                     BlockPos blockPos = BlockPos.of(packedPos);
@@ -116,7 +117,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                         totalDura += solarCellBlockEntity.getDurability();
 
                         cells.add(new SolarCellInstance(blockPos, solarCellType,
-                                items.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
+                                ForgeRegistries.ITEMS
+                                        .getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
                                 solarCellBlockEntity));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
@@ -168,8 +170,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (solarCellBlockEntity.isBroken()) {
                 GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
 
-                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper
-                        .handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
+                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches())
+                                .isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.OUT, recipeLogic.getChanceCaches())
+                                .isSuccess()) {
                     solarCellBlockEntity.setBroken(false);
                     solarCellBlockEntity.setDurability(solarCellType.getMaxDurability());
                     solarCellBlockEntity.setTemperature(300);
@@ -265,8 +270,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
+        var brokenCell = new ItemStack(solarCellItem);
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("broken", true);
+        brokenCell.getOrCreateTag().put("BlockEntityTag", tag);
+
         return repairRecipeCache.computeIfAbsent(solarCellItem,
-                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).buildRawRecipe());
+                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell)
+                        .buildRawRecipe());
     }
 
     public static int calculateDurabilityDamage(double tempPercent) {
@@ -277,11 +288,13 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return 8;
     }
 
+    @Override
     public boolean regressWhenWaiting() {
         return false;
     }
 
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    @Override
+    public boolean canVoidRecipeOutputs(@Nullable RecipeCapability<?> capability) {
         return false;
     }
 
