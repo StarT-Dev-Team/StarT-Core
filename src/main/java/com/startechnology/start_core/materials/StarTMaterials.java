@@ -7,5 +7,6 @@ public class StarTMaterials {
         StarTBacteriaLiquids.register();
         StarTGCropProcessingMaterials.register();
         StarTTagPrefixes.init();
+        StarTSteams.init();
     }
 }

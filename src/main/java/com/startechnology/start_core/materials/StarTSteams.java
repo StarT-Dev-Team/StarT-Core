@@ -15,6 +15,7 @@ public class StarTSteams {
 
     public static void init() {
         WarmSteam = new Material.Builder(StarTCore.resourceLocation("warm_steam"))
+                .langValue("Warm Steam")
                 .gas(new FluidBuilder()
                         .state(FluidState.GAS)
                         .temperature(423)
@@ -24,6 +25,7 @@ public class StarTSteams {
                 .buildAndRegister();
 
         HotSteam = new Material.Builder(StarTCore.resourceLocation("hot_steam"))
+                .langValue("Hot Steam")
                 .gas(new FluidBuilder()
                         .state(FluidState.GAS)
                         .temperature(473)
@@ -33,6 +35,7 @@ public class StarTSteams {
                 .buildAndRegister();
 
         ExtremelyHotSteam = new Material.Builder(StarTCore.resourceLocation("extremely_hot_steam"))
+                .langValue("Extremely Hot Steam")
                 .gas(new FluidBuilder()
                         .state(FluidState.GAS)
                         .temperature(523)

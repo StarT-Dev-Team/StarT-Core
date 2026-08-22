@@ -118,7 +118,7 @@ public class StarTJeiPlugin implements IModPlugin {
 
         registration.addRecipeCatalyst(GCropMachines.GCROP_MUTATION_STATION.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.GCROP_MUTATOR_RECIPES.getCategory()));
-      
+
         registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_PANEL_EV.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
 
