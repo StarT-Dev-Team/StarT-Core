@@ -14,6 +14,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
 import com.startechnology.start_core.recipe.logic.*;
 import com.startechnology.start_core.recipe.logic.bacteria.*;
 import com.startechnology.start_core.recipe.logic.gcrops.*;
@@ -137,12 +138,10 @@ public class StarTRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> {
                 var vacuumLevel = data.getInt("vacuum_level");
+                var formattedVacuum = VacuumChemicalReactionChamberMachine.formatVacuumAmountString(vacuumLevel);
                 if (vacuumLevel >= 100)
-                    return LocalizationUtils.format("start_core.recipe.min_vacuum_amount_full").replace("%", "%%");
-                return LocalizationUtils
-                        .format("start_core.recipe.min_vacuum_amount",
-                                FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumLevel))
-                        .replace("%", "%%");
+                    return LocalizationUtils.format("start_core.recipe.min_vacuum_amount_full", formattedVacuum);
+                return LocalizationUtils.format("start_core.recipe.min_vacuum_amount", formattedVacuum);
             });
 
     public static GTRecipeType registerStarTPrioritiseCustomLogic(String name, String group,

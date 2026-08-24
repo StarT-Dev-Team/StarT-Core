@@ -390,18 +390,20 @@ public class LangHandler {
         provider.add("start_core.recipe.max_saturation.0", "No Maximum Saturation");
         provider.add("gtceu.abyssal_harvester", "Abyssal Harvesting");
 
-        provider.add("start_core.recipe.min_vacuum_amount", "Requires Partial Vacuum (§a%s%%§f)");
-        provider.add("start_core.recipe.min_vacuum_amount_full", "Requires Full Vacuum (§2%s%%§f)");
+        provider.add("start_core.recipe.min_vacuum_amount", "Requires Partial Vacuum (§a%s§f)");
+        provider.add("start_core.recipe.min_vacuum_amount_full", "Requires Full Vacuum (§2%s§f)");
         provider.add("start_core.machine.vacuum_pump.tooltip_cap", "§7Capacity: %s");
         provider.add("start_core.machine.vacuum_pump.tooltip_rate", "§7Rate: %s §7(/sec)");
         provider.add("ui.start_core.vcrc.info", "Vacuum Information:");
         provider.add("ui.start_core.vcrc.vacuum_status", "Status: %s");
-        provider.add("ui.start_core.vcrc.vacuum_amount", "Percentage: %s (vac%%)");
+        provider.add("ui.start_core.vcrc.vacuum_amount", "Pressure: %s");
         provider.add("ui.start_core.vcrc.pump_type.cap", "Capacity: %s");
         provider.add("ui.start_core.vcrc.pump_type.rate", "Rate: %s (/sec)");
         provider.add("ui.start_core.vcrc.vacuum_status.pumping_down", "Pumping Down");
-        provider.add("ui.start_core.vcrc.vacuum_status.partial_vacuum", "Partial Vacuum");
-        provider.add("ui.start_core.vcrc.vacuum_status.full_vacuum", "Full Vacuum");
+        provider.add("ui.start_core.vcrc.vacuum_status.no_vacuum", "No Vacuum");
+        provider.add("ui.start_core.vcrc.vacuum_status.medium_vacuum", "Medium Vacuum");
+        provider.add("ui.start_core.vcrc.vacuum_status.high_vacuum", "High Vacuum");
+        provider.add("ui.start_core.vcrc.vacuum_status.ultra_high_vacuum", "Ultra High Vacuum");
         provider.add("ui.start_core.vcrc.vacuum_status.pressure_loss", "Pressure Loss");
         provider.add("ui.start_core.vcrc.vacuum_status.idle", "Idle");
         provider.add("config.jade.plugin_start_core.vacuum_chemical_reaction_chamber_info",
@@ -644,9 +646,9 @@ public class LangHandler {
         provider.add("start_core.parallel_hatch.jade_min_parallel", "Requires at least %d Recipes in Parallel");
         provider.add("config.jade.plugin_start_core.min_parallel", "[Star Technology] Minimum Parallel Info");
 
-        provider.add("variadic.start_core.indicator.vcrc.vac_to_capacity", "Percentage to Vac%% Capacity");
+        provider.add("variadic.start_core.indicator.vcrc.vac_to_capacity", "Percentage to Vacuum Capacity");
         provider.add("variadic.start_core.description.vcrc.vac_to_capacity",
-                "A clamped value between 0-15 of the (current vac%% / %s%%) * 15");
+                "A clamped value between 0-15 of the (current vacuum / %s) * 15");
 
         provider.add("block.start_core.solar_cell_line", "§lPhotovoltaic Energy Component");
 
@@ -770,5 +772,7 @@ public class LangHandler {
         provider.add("start_core.tree_definition.cherry", "Cherry");
 
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
+
+        provider.add("gtceu.solar_panel_replacement", "Solar Cell Replacement");
     }
 }

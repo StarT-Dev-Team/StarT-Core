@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -58,7 +57,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         if (isFormed) {
             textList.add(Component
                     .translatable("ui.start_core.vcrc.pump_type.cap",
-                            VacuumPumpPartMachine.formatVacuumPumpRate(pump.getPumpCap()))
+                            VacuumPumpPartMachine.formatVacuumPumpCap(pump.getPumpCap()))
                     .withStyle(ChatFormatting.GRAY));
             textList.add(Component
                     .translatable("ui.start_core.vcrc.pump_type.rate",
@@ -94,7 +93,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
             vacuumStatus = Status.PUMPING_DOWN;
             setVacuumAmount(vacuumAmount + pump.getPumpRate() * 0.05f);
         } else {
-            vacuumStatus = vacuumAmount >= 100.f - Mth.EPSILON ? Status.FULL_VACUUM : Status.PARTIAL_VACUUM;
+            vacuumStatus = getVacuumStatusFromAmount(vacuumAmount);
         }
 
         return true;
@@ -189,7 +188,7 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
                         "variadic.start_core.indicator.vcrc.vac_to_capacity",
                         Component.translatable("variadic.start_core.indicator.vcrc.vac_to_capacity"),
                         Component.translatable("variadic.start_core.description.vcrc.vac_to_capacity",
-                                FormattingUtil.DECIMAL_FORMAT_0F.format(pump.getPumpCap())),
+                                VacuumPumpPartMachine.formatVacuumPumpCap(pump.getPumpCap()).getString()),
                         redstoneOutputVacPercentToPumpCapacity(),
                         0));
     }
@@ -198,19 +197,83 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         return Component.translatable(status.langKey).withStyle(status.color);
     }
 
+    public static Status getVacuumStatusFromAmount(float v) {
+        if (v > 90.0f + Mth.EPSILON) {
+            return Status.ULTRA_HIGH_VACUUM;
+        } else if (v > 85.0f + Mth.EPSILON) {
+            return Status.HIGH_VACUUM;
+        } else if (v > 80.0f + Mth.EPSILON) {
+            return Status.MEDIUM_VACUUM;
+        } else {
+            return Status.NO_VACUUM;
+        }
+    }
+
     public static Component formatVacuumAmount(float vacuumAmount) {
-        var status = vacuumAmount >= (100.0f - Mth.EPSILON) ? Status.FULL_VACUUM :
-                vacuumAmount >= (80.0f - Mth.EPSILON) ? Status.PARTIAL_VACUUM : Status.PRESSURE_LOSS;
-        return Component.literal(FormattingUtil.DECIMAL_FORMAT_0F.format(vacuumAmount) + "%").withStyle(status.color);
+        var status = getVacuumStatusFromAmount(vacuumAmount);
+        return Component.literal(formatVacuumAmountString(vacuumAmount)).withStyle(status.color);
+    }
+
+    public static double getPressureExponent(double v) {
+        if (v <= 0) return 5.0;
+        if (v <= 80.0) {
+            return 5.0 - (v / 80.0) * 2.0;
+        } else if (v <= 85.0) {
+            return 3.0 - ((v - 80.0) / 5.0) * 2.0;
+        } else if (v <= 90.0) {
+            return 1.0 - ((v - 85.0) / 5.0) * 4.0;
+        } else if (v <= 95.0) {
+            return -3.0 - ((v - 90.0) / 5.0) * 2.0;
+        } else if (v <= 100.0) {
+            return -5.0 - ((v - 95.0) / 5.0) * 2.0;
+        } else {
+            return -7.0;
+        }
+    }
+
+    public static String toSuperscript(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            switch (c) {
+                case '0' -> sb.append('⁰');
+                case '1' -> sb.append('¹');
+                case '2' -> sb.append('²');
+                case '3' -> sb.append('³');
+                case '4' -> sb.append('⁴');
+                case '5' -> sb.append('⁵');
+                case '6' -> sb.append('⁶');
+                case '7' -> sb.append('⁷');
+                case '8' -> sb.append('⁸');
+                case '9' -> sb.append('⁹');
+                case '-' -> sb.append('⁻');
+                case '.' -> sb.append('·');
+                default -> sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String formatVacuumAmountString(float vacuumAmount) {
+        double exp = getPressureExponent(vacuumAmount);
+        long roundedExp = Math.round(exp);
+        String expStr;
+        if (Math.abs(exp - roundedExp) < 1e-4) {
+            expStr = String.format(java.util.Locale.ROOT, "%d", roundedExp);
+        } else {
+            expStr = String.format(java.util.Locale.ROOT, "%.1f", exp);
+        }
+        return "10" + toSuperscript(expStr) + " Pa";
     }
 
     public enum Status {
 
         PUMPING_DOWN("ui.start_core.vcrc.vacuum_status.pumping_down", ChatFormatting.YELLOW),
-        PARTIAL_VACUUM("ui.start_core.vcrc.vacuum_status.partial_vacuum", ChatFormatting.GREEN),
-        FULL_VACUUM("ui.start_core.vcrc.vacuum_status.full_vacuum", ChatFormatting.DARK_GREEN),
+        NO_VACUUM("ui.start_core.vcrc.vacuum_status.no_vacuum", ChatFormatting.RED),
+        MEDIUM_VACUUM("ui.start_core.vcrc.vacuum_status.medium_vacuum", ChatFormatting.GOLD),
+        HIGH_VACUUM("ui.start_core.vcrc.vacuum_status.high_vacuum", ChatFormatting.GREEN),
+        ULTRA_HIGH_VACUUM("ui.start_core.vcrc.vacuum_status.ultra_high_vacuum", ChatFormatting.DARK_GREEN),
         PRESSURE_LOSS("ui.start_core.vcrc.vacuum_status.pressure_loss", ChatFormatting.DARK_RED),
-        IDLE("ui.start_core.vcrc.vacuum_status.idle", ChatFormatting.GOLD);
+        IDLE("ui.start_core.vcrc.vacuum_status.idle", ChatFormatting.GRAY);
 
         @Getter
         private final String langKey;
@@ -224,7 +287,8 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         }
 
         public static Status of(int num) {
-            return Status.values()[num];
+            if (num < 0 || num >= values().length) return IDLE;
+            return values()[num];
         }
 
         public Component format() {

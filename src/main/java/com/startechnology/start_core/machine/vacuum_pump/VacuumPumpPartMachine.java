@@ -31,13 +31,14 @@ public class VacuumPumpPartMachine extends TieredPartMachine implements IVacuumP
 
     private void setActive(boolean active) {
         var state = getRenderState();
-        if (state.hasProperty(GTMachineModelProperties.IS_ACTIVE) && state.getValue(GTMachineModelProperties.IS_ACTIVE) != active) {
+        if (state.hasProperty(GTMachineModelProperties.IS_ACTIVE) &&
+                state.getValue(GTMachineModelProperties.IS_ACTIVE) != active) {
             setRenderState(state.setValue(GTMachineModelProperties.IS_ACTIVE, active));
         }
     }
 
     public static int getVacuumCap(int tier) {
-        return switch(tier) {
+        return switch (tier) {
             case GTValues.UV -> 85;
             case GTValues.UHV -> 90;
             case GTValues.UEV -> 95;
@@ -47,7 +48,7 @@ public class VacuumPumpPartMachine extends TieredPartMachine implements IVacuumP
     }
 
     public static int getVacuumRate(int tier) {
-        return switch(tier) {
+        return switch (tier) {
             case GTValues.UV -> 10;
             case GTValues.UHV -> 15;
             case GTValues.UEV -> 20;
@@ -57,14 +58,14 @@ public class VacuumPumpPartMachine extends TieredPartMachine implements IVacuumP
     }
 
     public static Component formatVacuumPumpCap(int cap) {
-        var status = cap == 100 ? VacuumChemicalReactionChamberMachine.Status.FULL_VACUUM : VacuumChemicalReactionChamberMachine.Status.PARTIAL_VACUUM;
-        return Component.literal(cap + "%").withStyle(status.getColor());
+        var status = VacuumChemicalReactionChamberMachine.getVacuumStatusFromAmount(cap);
+        return Component.literal(VacuumChemicalReactionChamberMachine.formatVacuumAmountString(cap))
+                .withStyle(status.getColor());
     }
 
     public static Component formatVacuumPumpRate(int rate) {
         return Component.literal(rate + "%");
     }
-
 
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
