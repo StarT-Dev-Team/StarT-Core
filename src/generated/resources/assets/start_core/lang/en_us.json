@@ -411,6 +411,8 @@
   "block.start_core.rm1": "§7Reawaken dormant colonies into a randomised bacterial colony with random stats, affinities and type.",
   "block.start_core.rm3": "§bRunic Mutation:",
   "block.start_core.rm4": "§7Mutate bacterial colonies, changing their stats and affinities randomly along with their type depending on the type of runic plating used.",
+  "block.start_core.runic_computer_casing": "Runic Computer Casing",
+  "block.start_core.runic_high_power_casing": "Runic High Power Casing",
   "block.start_core.runic_mutator_description": "§7Using runic-age technologies, bacterial colonies are mutated through extreme genetic alterations to their biological structures, either reawakening dormant colonies or reshaping existing ones into novel types.",
   "block.start_core.solar_array.paginated1.1": "§e§lSolar Cell Thermodynamics",
   "block.start_core.solar_array.paginated1.2": "§7Each cell will increase its temperature by §f0.3K§7 per 6 second cycle while producing power.",
