@@ -30,7 +30,7 @@ import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_FR
 import static com.startechnology.start_core.recipe.StarTRecipeTypes.*;
 import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 
-public class StarTFruitLineRecipeWriter {
+public class GCropRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
         gCropFruitLineRecipes(provider);

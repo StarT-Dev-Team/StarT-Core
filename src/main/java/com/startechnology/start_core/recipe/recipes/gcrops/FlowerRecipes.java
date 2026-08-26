@@ -1,12 +1,12 @@
 package com.startechnology.start_core.recipe.recipes.gcrops;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
+import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.utils.StarTItemUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -51,6 +51,7 @@ public class FlowerRecipes {
             int flowerTier = flowerBehaviour.getCropTier();
             String flowerName = flower.getId().getPath();
             Material flowerMaterial = flowerBehaviour.getCropMaterial();
+            int EUtV = StarTGCropItems.tierVoltages.get(flowerTier);
 
             var fruit = GCROP_FRUITMAP.get(flowerMaterial);
 
@@ -58,7 +59,7 @@ public class FlowerRecipes {
                     .inputItems(flower.asStack())
                     .inputFluids(GTMaterials.Water.getFluid(100))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
+                    .EUtVHA(EUtV)
                     .duration(600)
                     .circuitMeta(0)
                     .save(provider);
@@ -68,8 +69,8 @@ public class FlowerRecipes {
                     .chancedInput(new ItemStack(Items.BONE_MEAL, 1), 7500, -500)
                     .inputFluids(GTMaterials.Water.getFluid(100))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
-                    .duration(600)
+                    .EUtVHA(EUtV)
+                    .duration(300)
                     .circuitMeta(1)
                     .save(provider);
 
@@ -79,8 +80,8 @@ public class FlowerRecipes {
                         .chancedInput(new ItemStack(StarTItemUtils.getItem("thermal", "compost")), 7500, -500)
                         .inputFluids(GTMaterials.Water.getFluid(100))
                         .outputItems(fruit.asStack())
-                        .EUtVHA(GTValues.MV + flowerTier)
-                        .duration(600)
+                        .EUtVHA(EUtV)
+                        .duration(200)
                         .circuitMeta(2)
                         .save(provider);
             }
@@ -90,8 +91,8 @@ public class FlowerRecipes {
                     .chancedInput(new ItemStack(GTItems.FERTILIZER, 1), 7500, -500)
                     .inputFluids(GTMaterials.Water.getFluid(100))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
-                    .duration(600)
+                    .EUtVHA(EUtV)
+                    .duration(150)
                     .circuitMeta(3)
                     .save(provider);
 
@@ -100,7 +101,7 @@ public class FlowerRecipes {
                     .inputItems(flower.asStack())
                     .inputFluids(GTMaterials.Water.getFluid(500))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
+                    .EUtVHA(EUtV)
                     .duration(600)
                     .circuitMeta(0)
                     .save(provider);
@@ -110,7 +111,7 @@ public class FlowerRecipes {
                     .inputFluids(GTMaterials.Water.getFluid(500),
                             GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid(100))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
+                    .EUtVHA(EUtV)
                     .duration(300)
                     .circuitMeta(1)
                     .save(provider);
@@ -120,7 +121,7 @@ public class FlowerRecipes {
                     .inputFluids(GTMaterials.Water.getFluid(500),
                             GTMaterials.get("biostimulating_mixture").getFluid(100))
                     .outputItems(fruit.asStack())
-                    .EUtVHA(GTValues.MV + flowerTier)
+                    .EUtVHA(EUtV)
                     .duration(150)
                     .circuitMeta(2)
                     .save(provider);

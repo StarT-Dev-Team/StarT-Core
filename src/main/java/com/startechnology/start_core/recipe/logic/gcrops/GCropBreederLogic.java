@@ -15,6 +15,7 @@ import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.*;
 
@@ -147,7 +148,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                     .recipeBuilder("gcrop_crossbreeding")
                     .chancedInput(firstCrop, 10_00, 0)
                     .chancedInput(secondCrop, 10_00, 0)
-                    .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
+                    .inputItems(new ItemStack(Items.SUGAR, 8))
                     .inputFluids(GTMaterials.Biomass.getFluid(2000))
                     .outputItems(newGCrop)
                     .duration(200)
@@ -190,7 +191,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             return StarTRecipeTypes.GCROP_BREEDER_RECIPES
                     .recipeBuilder("gcrop_self_fertilization")
                     .chancedInput(crop, 10_00, 0)
-                    .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
+                    .inputItems(new ItemStack(GTItems.FERTILIZER))
                     .inputFluids(GTMaterials.FermentedBiomass.getFluid(1000))
                     .outputItems(newGCrop)
                     .duration(200)
@@ -214,9 +215,9 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
         GTRecipe crossBreedingRecipe = StarTRecipeTypes.GCROP_BREEDER_RECIPES
                 .recipeBuilder("gcrop_crossbreeding")
-                .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
-                .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
-                .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
+                .chancedInput(gCropInput, 10_00, 0)
+                .chancedInput(gCropInput, 10_00, 0)
+                .inputItems(new ItemStack(Items.SUGAR, 8))
                 .inputFluids(GTMaterials.Biomass.getFluid(2000))
                 .outputItems(gCropRandomSeed)
                 .duration(200)
@@ -225,8 +226,8 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
         GTRecipe selfFertilizationRecipe = StarTRecipeTypes.GCROP_BREEDER_RECIPES
                 .recipeBuilder("gcrop_self_fertilization")
-                .chancedInput(gCropInput.copyWithCount(1), 10_00, 0)
-                .inputItems(new ItemStack(GTItems.FERTILIZER).copyWithCount(1))
+                .chancedInput(gCropInput, 10_00, 0)
+                .inputItems(new ItemStack(GTItems.FERTILIZER))
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(200)
