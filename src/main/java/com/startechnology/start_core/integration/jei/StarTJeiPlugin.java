@@ -10,6 +10,7 @@ import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
+import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -72,5 +73,20 @@ public class StarTJeiPlugin implements IModPlugin {
                 registration.addRecipeCatalyst(multiBlockDefinition.asStack(), GTBedrockOreInfoCategory.RECIPE_TYPE);
             }
         }
+
+        registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_PANEL_EV.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
+
+        registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_PANEL_IV.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
+
+        registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_PANEL_LUV.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
+
+        registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_ARRAY_UV.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
+
+        registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_ARRAY_UHV.asStack(),
+                GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.SOLAR_PANEL_REPLACEMENT.getCategory()));
     }
 }

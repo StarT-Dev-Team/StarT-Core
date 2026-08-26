@@ -65,7 +65,7 @@ public class StarTRecipeTypes {
 
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(3, 2, 3, 2)
+            .setMaxIOSize(3, 3, 3, 3)
             .setEUIO(IO.IN)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
@@ -144,6 +144,11 @@ public class StarTRecipeTypes {
     public static final GTRecipeType SOLAR_ENERGY = GTRecipeTypes.register("solar_energy", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 0, 0)
             .setEUIO(IO.OUT);
+
+    public static final GTRecipeType SOLAR_PANEL_REPLACEMENT = GTRecipeTypes
+            .register("solar_panel_replacement", GTRecipeTypes.MULTIBLOCK)
+            .addCustomRecipeLogic(new SolarPanelReplacementLogic())
+            .setMaxIOSize(1, 1, 0, 0);
 
     public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes
             .register("titan_forge", GTRecipeTypes.MULTIBLOCK)

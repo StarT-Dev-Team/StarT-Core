@@ -11,13 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
 
     env:
       MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
       MAVEN_TOKEN: ${{ secrets.MAVEN_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+      GITHUB_ACTOR: trulyno
 
     steps:
     - uses: actions/checkout@v4
+    - run: git fetch origin develop --no-tags --depth=1
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -30,7 +34,7 @@ jobs:
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
     - name: Build with Gradle Wrapper
-      run: ./gradlew build -PMAVEN_USERNAME=${{ secrets.MAVEN_USERNAME }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }}
+      run: ./gradlew build -PMAVEN_USERNAME=${{ secrets.MAVEN_USERNAME }} -PMAVEN_TOKEN=${{ secrets.MAVEN_TOKEN }} -Pgtceu_snapshot=true
 
     - name: Upload jar as Artifact
       uses: actions/upload-artifact@v4.4.3
