@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.random_custom_logic.*;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -151,7 +152,8 @@ public class GCropMachines {
                     .where("A", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
                     .where("B", Predicates.blocks(GCYMBlocks.CASING_WATERTIGHT.get()).setMinGlobalLimited(30)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))
-                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                            .or(Predicates.abilities(StarTPartAbility.CLIMATE_HATCH).setMaxGlobalLimited(1)))
                     .where("C", Predicates.blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("soul_infused_casing")))
                     .where("E", Predicates.blocks(Blocks.FARMLAND))

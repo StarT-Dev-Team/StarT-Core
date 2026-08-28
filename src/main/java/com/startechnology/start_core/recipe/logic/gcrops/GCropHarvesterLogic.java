@@ -40,14 +40,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
         List<List<ItemStack>> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
 
         for (List<ItemStack> itemSet : allItems) {
-            GTRecipe recipe = createHarvesterRecipe(itemSet);
+            GTRecipe recipe = createHarvesterRecipe(itemSet, holder);
             if (recipe != null) return recipe;
         }
 
         return null;
     }
 
-    private GTRecipe createHarvesterRecipe(List<ItemStack> itemSet) {
+    private GTRecipe createHarvesterRecipe(List<ItemStack> itemSet, IRecipeCapabilityHolder holder) {
         final HashMap<Integer, Fluid> tieredGrowthFluids = new HashMap<>() {
 
             {
@@ -188,6 +188,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             if (growthFluid != null) harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
 
             if (!gCropGenome.hasTrait("diurnal")) harvestRecipe.daytime(gCropGenome.hasTrait("nocturnal"));
+
+            // StarTGCropGene climateGene = gCropGenome.getClimateGene();
+            // StarTClimateType expectedClimate = StarTClimateType.getClimateFromTrait(climateGene.getTrait());
+            // StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
+
+            // if (expectedClimate != actualClimateType) {
+            // return null;
+            // }
 
             return harvestRecipe.buildRawRecipe();
         }

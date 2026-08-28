@@ -56,5 +56,6 @@ public class StarTMachines {
         VoidMesh.init();
         StarTArborealExtractorMachines.init();
         StarTHPCAMachines.init();
+        StarTClimateHatches.init();
     }
 }
