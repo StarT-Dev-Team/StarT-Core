@@ -410,6 +410,8 @@ public class LangHandler {
 
         provider.add("start_core.machine.sterile_hatch.tooltip",
                 "Makes your Multiblocks extra squeaky clean and sterile!");
+        provider.add("start_core.machine.climate_hatch.tooltip",
+                "Provides the required climate environment for gCrops in multiblock machines.");
         provider.add("start_core.uuid_safe.fail_nearest_player",
                 "Issue regarding UUID's occured, Please visit Dream-Link at %s and consider replacing if Owner is not correct.");
         provider.add("start_core.multiblock.boosted_plasma_turbine.ws2_boosting", "Tungsten Disulfide Boosted");
