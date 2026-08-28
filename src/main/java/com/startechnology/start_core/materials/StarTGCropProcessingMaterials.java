@@ -307,7 +307,7 @@ public class StarTGCropProcessingMaterials {
                     StarTCore.resourceLocation(String.format("%s_composite", id)))
                     .gem()
                     .ignoredTagPrefixes(dustTiny, dustSmall, dust, dustBlock, gemChipped, gemExquisite, gemFlawed,
-                            gemFlawless)
+                            gemFlawless, block)
                     .iconSet(FINE)
                     .secondaryColor(0x000000)
                     .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)

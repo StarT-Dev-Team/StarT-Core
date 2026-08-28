@@ -17,6 +17,7 @@ public class StarTRecipes {
         DustBlockRecipeHandler.init(provider);
         CustomMaterialTypesRecipes.init(provider);
         FlowerRecipes.init(provider);
-        StarTFruitLineRecipeWriter.init(provider);
+        GCropRecipes.init(provider);
+        GenomeHolderRecipes.init(provider);
     }
 }
