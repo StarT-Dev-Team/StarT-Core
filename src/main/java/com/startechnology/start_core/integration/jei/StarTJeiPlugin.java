@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
-import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.gcrop.*;
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
@@ -29,6 +28,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+
+import static com.startechnology.start_core.item.gcrops.StarTTraitItems.DNA_STRANDS;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -71,14 +72,16 @@ public class StarTJeiPlugin implements IModPlugin {
             Component headerLine = Component.translatable("behaviour.start_core.trait.info.header", name, symbol);
             Component typeLine = Component.translatable("behaviour.start_core.trait.info.type", traitTier, type);
 
+            Item targetItem = DNA_STRANDS.get(traitId).asItem();
+
             if (StarTGCropTrait.traitHasDescription.contains(traitId)) {
                 Component effectLine = Component.translatable("behaviour.start_core.trait.info.effects");
                 Component description = Component
                         .translatable(String.format("behaviour.start_core.trait.%s.description", traitId));
-                addDescription(registration, StarTGCropItems.DNA_STRAND.asItem(), headerLine, typeLine, effectLine,
+                addDescription(registration, targetItem, headerLine, typeLine, effectLine,
                         description);
             } else {
-                addDescription(registration, StarTGCropItems.DNA_STRAND.asItem(), headerLine, typeLine);
+                addDescription(registration, targetItem, headerLine, typeLine);
             }
         }
     }
