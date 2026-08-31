@@ -122,7 +122,7 @@ public class StarTTraitData {
 
         // Auxiliary Traits
         Nocturnal = new StarTGCropTrait("nocturnal", 2, 2000, GenomeType.AUXILIARY, "Nc");
-        Nocturnal.addTraitDescription("- Adjusts the recipe to only run during the night");
+        Nocturnal.addTraitDescription("- Adjusts the recipe to only run during the night instead of the day");
 
         Diurnal = new StarTGCropTrait("diurnal", 4, 1500, GenomeType.AUXILIARY);
         Diurnal.addTraitDescription("- Adjusts the recipe to ignore time-based conditions");
@@ -135,14 +135,36 @@ public class StarTTraitData {
 
         // Climate Traits
         Frosty = new StarTGCropTrait("frosty", 1, 1000, 1, GenomeType.CLIMATE);
+        Frosty.addTraitDescription("""
+                - Multiplies recipe fertilizer consumption by a factor of §a0.8§r (multiplicative)
+                - Multiplies the recipe duration by a factor of §a1.2§r (multiplicative)
+                """);
 
         Scorching = new StarTGCropTrait("scorching", 1, 1000, 1, GenomeType.CLIMATE);
+        Scorching.addTraitDescription("""
+                - Lowers the recipe voltage by 1§r (cumulative)
+                - Forces the recipe to only run during the night (overrides §2Diurnal§r)
+                """);
 
         Tropical = new StarTGCropTrait("tropical", 1, 1000, 1, GenomeType.CLIMATE);
+        Tropical.addTraitDescription("""
+                - Gives §a+4§r on maximum fruits (cumulative)
+                - If maximum fruits is above 20, multiplies by a factor of §a1.2§r (multiplicative)
+                - Multiplies recipe fertilizer consumption by a factor of §a1.2§r (multiplicative)
+                """);
 
         Desertic = new StarTGCropTrait("desertic", 1, 1000, 1, GenomeType.CLIMATE);
+        Desertic.addTraitDescription("""
+                - Multiplies recipe fluid consumption by a factor of §a0.8§r (multiplicative)
+                - Gives §a-2§r on maximum fruits (cumulative)
+                - If maximum fruits is above 20, multiplies by a factor of §a0.8§r (multiplicative)
+                """);
 
         Damp = new StarTGCropTrait("damp", 1, 1000, 1, GenomeType.CLIMATE);
+        Damp.addTraitDescription("""
+                - Multiplies the recipe duration by a factor of §a0.8§r (multiplicative)
+                - Multiplies recipe fluid consumption by a factor of §a1.2§r (multiplicative)
+                """);
     }
 
     // Tier 0

@@ -169,6 +169,44 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             int baseChance = 750 * cropTier;
             int chanceIncrease = 100 * cropTier;
 
+            StarTGCropGene climateGene = gCropGenome.getClimateGene();
+            StarTClimateType expectedClimate = StarTClimateType.getClimateFromTrait(climateGene.getTrait());
+            StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
+            boolean hasEqualClimate = false;
+
+            if (expectedClimate != null && actualClimateType != null) {
+                hasEqualClimate = expectedClimate.equals(actualClimateType);
+            }
+
+            boolean alwaysNight = false;
+
+            if (hasEqualClimate) {
+                switch (climateGene.getTrait().id()) {
+                    case "frosty" -> {
+                        duration = (int) Math.round(duration * 1.2);
+                        fertilizerAmount = (int) Math.round(fertilizerAmount * 0.8);
+                    }
+                    case "scorching" -> {
+                        EUtV = EUtV - 1;
+                        alwaysNight = true;
+                    }
+                    case "tropical" -> {
+                        fertilizerAmount = (int) Math.round(fertilizerAmount * 1.2);
+                        if (maxFruitAmount > 20) maxFruitAmount = (int) Math.round(maxFruitAmount * 1.2);
+                        else maxFruitAmount = maxFruitAmount + 4;
+                    }
+                    case "desertic" -> {
+                        if (maxFruitAmount > 20) maxFruitAmount = (int) Math.round(maxFruitAmount * 0.8);
+                        else maxFruitAmount = maxFruitAmount - 2;
+                        fluidAmount = (int) Math.round(fluidAmount * 0.8);
+                    }
+                    case "damp" -> {
+                        fluidAmount = (int) Math.round(fluidAmount * 1.2);
+                        duration = (int) Math.round(duration * 0.8);
+                    }
+                }
+            }
+
             if (maxFruitAmount <= minFruitAmount) maxFruitAmount = minFruitAmount + 1;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
@@ -187,15 +225,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             if (growthFluid != null) harvestRecipe.inputFluids(new FluidStack(growthFluid, fluidAmount));
 
-            if (!gCropGenome.hasTrait("diurnal")) harvestRecipe.daytime(gCropGenome.hasTrait("nocturnal"));
-
-            // StarTGCropGene climateGene = gCropGenome.getClimateGene();
-            // StarTClimateType expectedClimate = StarTClimateType.getClimateFromTrait(climateGene.getTrait());
-            // StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
-
-            // if (expectedClimate != actualClimateType) {
-            // return null;
-            // }
+            if (alwaysNight) harvestRecipe.daytime(true);
+            else if (!gCropGenome.hasTrait("diurnal")) harvestRecipe.daytime(gCropGenome.hasTrait("nocturnal"));
 
             return harvestRecipe.buildRawRecipe();
         }

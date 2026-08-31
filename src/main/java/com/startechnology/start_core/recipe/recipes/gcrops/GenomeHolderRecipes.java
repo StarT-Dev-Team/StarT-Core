@@ -1,7 +1,6 @@
 package com.startechnology.start_core.recipe.recipes.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.startechnology.start_core.item.StarTItems;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -21,10 +20,10 @@ public class GenomeHolderRecipes {
 
     public static void holderRecipe(Consumer<FinishedRecipe> provider) {
         ASSEMBLER_RECIPES.recipeBuilder("empty_genome_holder")
-                .inputItems(StarTItems.FLUID_CELL_LARGE_NEUTRONIUM.asStack())
-                .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
-                .inputItems(ChemicalHelper.get(plate, TantalumCarbide, 4))
-                .outputItems(EMPTY_GENOME_HOLDER.asStack())
+                .inputItems(StarTItems.FLUID_CELL_LARGE_NEUTRONIUM)
+                .inputItems(GTItems.FIELD_GENERATOR_UHV)
+                .inputItems(plate, TantalumCarbide, 4)
+                .outputItems(EMPTY_GENOME_HOLDER)
                 .duration(200)
                 .EUtVA(GTValues.UEV)
                 .save(provider);

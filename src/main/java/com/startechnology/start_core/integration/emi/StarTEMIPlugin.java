@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockOreEmiCategory;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
-import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
@@ -22,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.startechnology.start_core.item.gcrops.StarTTraitItems.DNA_STRANDS;
 import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
 
 @EmiEntrypoint
@@ -77,7 +77,7 @@ public class StarTEMIPlugin implements EmiPlugin {
                 components.add(description);
             }
 
-            addDescription(registry, StarTGCropItems.DNA_STRAND.asItem(), components);
+            addDescription(registry, DNA_STRANDS.get(traitId).asItem(), components);
         }
     }
 

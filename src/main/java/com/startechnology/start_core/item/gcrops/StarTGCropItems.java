@@ -2,6 +2,7 @@ package com.startechnology.start_core.item.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -31,6 +32,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
 public class StarTGCropItems {
@@ -107,12 +110,8 @@ public class StarTGCropItems {
                     StarTCore.resourceLocation("item/gcrops/malformed_gcrop")))
             .register();
 
-    public static final ItemEntry<ComponentItem> DNA_STRAND = START_REGISTRATE
-            .item("dna_strand", ComponentItem::create)
-            .lang("DNA Strand")
-            .model((ctx, prov) -> createTextureModel(ctx, prov,
-                    StarTCore.resourceLocation("item/gcrops/dna_strand")))
-            .register();
+    public static TagKey<Item> gCropTag = TagUtil.createModItemTag("gcrop");
+    public static TagKey<Item> gCropFlowerTag = TagUtil.createModItemTag("gcrop_flower");
 
     private static void registerGCrop(String id, String name,
                                       StarTGCropItemType materialType, String textureType,
@@ -136,6 +135,7 @@ public class StarTGCropItems {
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/seed_%s", textureType))))
                 .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
+                .tag(gCropTag)
                 .register();
 
         ItemEntry<ComponentItem> gCropFruit = START_REGISTRATE
@@ -149,6 +149,7 @@ public class StarTGCropItems {
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/fruit_%s", textureType))))
                 .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
+                .tag(TagUtil.createModItemTag("gcrop_fruit/tier_" + highestTier))
                 .register();
 
         ItemEntry<ComponentItem> gCropFlower = START_REGISTRATE
@@ -162,6 +163,7 @@ public class StarTGCropItems {
                 .model((ctx, prov) -> createTextureModel(ctx, prov,
                         StarTCore.resourceLocation(String.format("item/gcrops/flower_%s", textureType))))
                 .color(() -> () -> (itemStack, index) -> newMaterial.getLayerARGB(index))
+                .tag(gCropFlowerTag)
                 .register();
 
         GCROP_ITEMS.add(gCropItem);
@@ -178,5 +180,6 @@ public class StarTGCropItems {
             registerGCrop(cropData.getId(), cropData.getName(), cropData.getMaterialType(), cropData.getTextureType(),
                     cropData.getTraits());
         }
+        StarTTraitItems.init();
     }
 }
