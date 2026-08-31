@@ -55,8 +55,8 @@ public class StarTClimateHatches {
                         Component.translatable("start_core.machine.climate_hatch.tooltip"))
                 .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                 .modelProperty(GTMachineModelProperties.IS_TAPED, false)
-                // TODO: add overlay textures
-                .model(createMaintenanceModel(StarTCore.resourceLocation("block/maintenance_sterile")))
+                .model(createMaintenanceModel(
+                        StarTCore.resourceLocation("block/" + id)))
                 .tier(tier)
                 .register();
     }

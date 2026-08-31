@@ -41,7 +41,7 @@ public class StarTGCropProcessingMaterials {
 
         int newHex = newA << 24 | newR << 16 | newG << 8 | newB;
 
-        LOGGER.info("Combined hex \"{}\" and \"{}\" into \"{}\"", firstHex, secondHex, newHex);
+        LOGGER.debug("Combined hex \"{}\" and \"{}\" into \"{}\"", firstHex, secondHex, newHex);
         return newHex;
     }
 
