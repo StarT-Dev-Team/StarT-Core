@@ -58,24 +58,24 @@ public class StarTHPCAMachines {
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
-                        .aisle("AA", "CC", "CC", "CC", "CC", "CC", "AA")
+                        .aisle("SA", "MC", "CC", "CC", "CC", "CC", "AA")
                         .aisle("VA", "1V", "1V", "1V", "1V", "1V", "VA")
                         .aisle("VA", "1V", "2V", "1V", "3V", "1V", "VA")
-                        .aisle("VA", "1V", "2V", "5V", "4V", "1V", "VO")
-                        .aisle("VA", "1V", "2V", "1V", "3V", "1V", "VH")
-                        .aisle("VM", "1V", "1V", "1V", "1V", "1V", "VE")
-                        .aisle("AS", "CC", "CC", "CC", "CC", "CC", "AA")
+                        .aisle("VA", "1V", "2V", "5V", "4V", "1V", "VA")
+                        .aisle("VA", "1V", "2V", "1V", "3V", "1V", "VA")
+                        .aisle("VA", "1V", "1V", "1V", "1V", "1V", "VA")
+                        .aisle("AA", "EC", "HC", "OC", "CC", "CC", "AA")
                         .where('S', definition, Direction.NORTH)
                         .where('A', StarTRunicCasings.RUNIC_COMPUTER_CASING)
                         .where('V', GTBlocks.COMPUTER_HEAT_VENT)
                         .where('C', GTBlocks.COMPUTER_CASING)
                         .where('E', GTMachines.ENERGY_INPUT_HATCH[GTValues.ZPM], Direction.SOUTH)
                         .where('H', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.SOUTH)
-                        .where('O', GTResearchMachines.COMPUTATION_HATCH_TRANSMITTER, Direction.NORTH)
+                        .where('O', GTResearchMachines.COMPUTATION_HATCH_TRANSMITTER, Direction.SOUTH)
                         .where('M', ConfigHolder.INSTANCE.machines.enableMaintenance ?
                                 GTMachines.MAINTENANCE_HATCH.defaultBlockState().setValue(
                                         GTMachines.MAINTENANCE_HATCH.get().getRotationState().property,
-                                        Direction.SOUTH) :
+                                        Direction.NORTH) :
                                 StarTRunicCasings.RUNIC_COMPUTER_CASING.getDefaultState());
 
                 shapeInfo.add(builder.shallowCopy()
