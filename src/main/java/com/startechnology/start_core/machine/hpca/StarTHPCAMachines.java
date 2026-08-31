@@ -55,6 +55,7 @@ public class StarTHPCAMachines {
                             .or(Predicates.abilities(PartAbility.COMPUTATION_DATA_TRANSMISSION).setExactLimit(1))
                             .or(Predicates.autoAbilities(true, false, false)))
                     .build())
+        /*
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
@@ -88,6 +89,7 @@ public class StarTHPCAMachines {
 
                 return shapeInfo;
             })
+        */
             .sidedWorkableCasingModel(StarTCore.resourceLocation("block/casings/hpca/runic_computer_casing"),
                     GTCEu.id("block/multiblock/hpca"))
             .register();
