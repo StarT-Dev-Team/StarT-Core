@@ -170,7 +170,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             int chanceIncrease = 100 * cropTier;
 
             StarTGCropGene climateGene = gCropGenome.getClimateGene();
-            StarTClimateType expectedClimate = StarTClimateType.getClimateFromTrait(climateGene.getTrait());
+            StarTClimateType expectedClimate = climateGene == null ? null : StarTClimateType.getClimateFromTrait(climateGene.getTrait());
             StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
             boolean hasEqualClimate = false;
 

@@ -65,7 +65,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
         } else finalAlleleCount = alleleAddition;
 
         return finalAlleleCount;
-    };
+    }
 
     private GTRecipe createBacteriaRecipe(NotifiableItemStackHandler handler) {
         List<ItemStack> foundCrops = new ArrayList<>();
@@ -139,7 +139,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             List<StarTGCropGene> newAuxiliaryGenome = geneMapToGenome(auxiliaryGeneMap);
 
             ItemStack newGCrop = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
-                    newAuxiliaryGenome);
+                    newAuxiliaryGenome, newClimateGenome);
 
             ItemStack firstCrop = foundCrops.get(0).copyWithCount(1);
             ItemStack secondCrop = foundCrops.get(1).copyWithCount(1);

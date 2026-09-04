@@ -6,6 +6,7 @@ public class StarTMaterials {
         StarTHellForgeHeatingLiquids.register();
         StarTBacteriaLiquids.register();
         StarTGCropProcessingMaterials.register();
+        StarTMaterialFlags.init();
         StarTTagPrefixes.init();
         StarTSteams.init();
     }
