@@ -12,9 +12,9 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.recipe.logic.*;
 import com.startechnology.start_core.recipe.logic.bacteria.*;
 import com.startechnology.start_core.recipe.logic.gcrops.*;
@@ -214,7 +214,7 @@ public class StarTRecipeTypes {
     public static final GTRecipeType SOLAR_PANEL_REPLACEMENT = GTRecipeTypes
             .register("solar_panel_replacement", GTRecipeTypes.MULTIBLOCK)
             .addCustomRecipeLogic(new SolarPanelReplacementLogic())
-            .setIconSupplier(() -> StarTSolarMachines.SOLAR_PANEL_EV.asStack())
+            .setIconSupplier(() -> StarTSolarCellBlocks.EV_SOLAR_CELL.asStack())
             .setMaxIOSize(1, 1, 0, 0);
 
     public static final GTRecipeType TITAN_FORGE_RECIPES = GTRecipeTypes
