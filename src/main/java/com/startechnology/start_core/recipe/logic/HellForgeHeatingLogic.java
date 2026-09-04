@@ -1,28 +1,23 @@
 package com.startechnology.start_core.recipe.logic;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
-import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.utils.StarTCustomLogicUtils;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
 
 public class HellForgeHeatingLogic implements ICustomRecipeLogic {
 
@@ -49,32 +44,16 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                             .EUt(GTValues.V[GTValues.UEV])
                             .buildRawRecipe();
 
-                    heatingRecipe.setId(heatingRecipe.getId().withPrefix("/"));
-                    StarTRecipeTypes.HELL_FORGE_RECIPES.addToCategoryMap(GTRecipeCategories.get("hellforge_heating"),
-                            heatingRecipe);
+                    StarTCustomLogicUtils.handleCustomRecipeLogicEMI(StarTRecipeTypes.HELL_FORGE_RECIPES,
+                            "hellforge_heating", heatingRecipe);
                 });
     }
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        List<NotifiableFluidTank> handlers = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP),
-                        Collections::emptyList)
-                .stream()
-                .filter(NotifiableFluidTank.class::isInstance)
-                .map(NotifiableFluidTank.class::cast)
-                .filter(i -> i.getTanks() >= 1)
-                .toList();
+        var handlers = StarTCustomLogicUtils.getFluidHandlers(holder);
 
-        if (handlers.isEmpty()) return null;
-
-        // Return for the first recipe found
-        for (NotifiableFluidTank handler : handlers) {
-            GTRecipe recipe = createHeatingRecipe(handler);
-            if (recipe != null) return recipe;
-        }
-
-        return null;
+        return StarTCustomLogicUtils.createCustomlogicRecipeWithFluidHandlers(handlers, this::createHeatingRecipe);
     }
 
     private GTRecipe createHeatingRecipe(NotifiableFluidTank handler) {

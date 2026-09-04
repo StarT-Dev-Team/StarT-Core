@@ -31,7 +31,7 @@ public class StarTCustomTooltipsManager {
             return null;
         }
 
-        ListTag tooltipTags = customTooltipTag.getList(CUSTOM_TOOLTIPS_NBT_TAG, 8);
+        ListTag tooltipTags = customTooltipTag.getList(CUSTOM_TOOLTIPS_NBT_TAG, Tag.TAG_STRING);
         return new StarTCustomTooltip(tooltipTags);
     }
 }

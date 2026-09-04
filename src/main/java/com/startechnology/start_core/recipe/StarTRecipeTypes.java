@@ -15,6 +15,8 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.recipe.logic.*;
+import com.startechnology.start_core.recipe.logic.bacteria.*;
+import com.startechnology.start_core.recipe.logic.gcrops.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -62,6 +64,69 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GCROP_MUTATOR_RECIPES = GTRecipeTypes
+            .register("gcrop_mutator", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 1, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GCropMutatorLogic())
+            .addCustomRecipeLogic(new GCropSeedDiscoveryLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GCROP_BREEDER_RECIPES = GTRecipeTypes
+            .register("gcrop_breeder", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 1, 2, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GCropBreederLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GCROP_HARVESTER_RECIPES = GTRecipeTypes
+            .register("gcrop_harvester", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 1, 2, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GCropHarvesterLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType VOID_MESH = GTRecipeTypes
+            .register("void_mesh", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 1, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType VOID_GAS_COLLECTOR = GTRecipeTypes
+            .register("void_gas_collector", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 0, 1)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_GATHERING = GTRecipeTypes
+            .register("genome_gathering", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeDuplicationLogic())
+            .addCustomRecipeLogic(new GenomeHarvestingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_MIXING = GTRecipeTypes
+            .register("genome_mixing", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeMixingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_SEPARATING = GTRecipeTypes
+            .register("genome_separating", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeSeparatingLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+
+    public static final GTRecipeType GENOME_INSERTION = GTRecipeTypes
+            .register("genome_insertion", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 3, 0)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new GenomeInsertionLogic())
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)

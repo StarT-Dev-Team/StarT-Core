@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.item.components.CopyBehavior;
 import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
+import com.startechnology.start_core.item.gcrops.*;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -110,5 +111,6 @@ public class StarTItems {
 
     public static void init() {
         StarTBacteriaItems.init();
+        StarTGCropItems.init();
     }
 }

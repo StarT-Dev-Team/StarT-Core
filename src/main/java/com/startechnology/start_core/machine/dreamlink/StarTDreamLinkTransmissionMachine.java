@@ -359,7 +359,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
                 this.connections == -1 ? "∞" : FormattingUtil.formatNumbers(this.connections))
                 .setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA));
 
-        MutableComponent connectionsDisplay = Component.literal("")
+        MutableComponent connectionsDisplay = Component.empty()
                 .append(currentConnections)
                 .append(Component.literal(" / ").setStyle(Style.EMPTY.withColor(ChatFormatting.GRAY)))
                 .append(maxConnections);

@@ -43,7 +43,7 @@ public class StarTBulkingProvider extends CapabilityBlockProvider<IBulking> {
             String bulkingType = capData.getString("bulking_type");
             tooltip.add(Component.translatable("ui.start_core.bulking.type", bulkingType));
             boolean forcedBulking = capData.getBoolean("forced_bulking");
-            tooltip.add(Component.translatable("Forced Bulking %s",
+            tooltip.add(Component.translatable("config.jade.plugin_start_core.forced_bulking",
                     Component.translatable((forcedBulking) ? "start_core.util.enabled" : "start_core.util.disabled")));
         }
     }

@@ -1,10 +1,15 @@
 package com.startechnology.start_core.lang;
 
+import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 public class LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
+        for (String key : StarTGCropTrait.langData.keySet()) {
+            provider.add(key, StarTGCropTrait.langData.get(key));
+        }
+
         provider.add("item.start_core.data_dna_disk.tooltip", "§7Storing Information in Life");
         provider.add("item.start_core.component_data_core.tooltip", "§7Data Beyond Transcendance");
 
@@ -102,6 +107,93 @@ public class LangHandler {
                 "§7Produces §f16x Mutated§7 bacteria with the exact same type and affinities, but mutated stats depending on the §fMutatability §7of the bacteria.");
 
         provider.add("tab.start_core.creative", "Star Technology Core");
+
+        provider.add("item.start_core.malformed_gcrop.tooltip", "§7A malformed gCrop, unable to produce resources.");
+
+        provider.add("behaviour.start_core.gcrop.no_genome", "§7A crop with an unidentified genome.");
+        provider.add("behaviour.start_core.gcrop.required_traits", "§7This variant needs the following traits: %s");
+        provider.add("behaviour.start_core.gcrop.traits_header", "§aYour gCrop has the following traits:");
+        provider.add("behaviour.start_core.gcrop.resource_traits", "  §6Resource§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.production_traits", "  §9Production§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.auxiliary_traits", "  §cAuxiliary§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.climate_gene", "  §2Climate§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.show_full_genome", "§7Hold [§6Shift§7] to view the full genome");
+        provider.add("behaviour.start_core.gcrop.genome_header", "§aThe full genome of your crop is as follows:");
+        provider.add("behaviour.start_core.gcrop.resource_genome", "§6Resource§7:§r");
+        provider.add("behaviour.start_core.gcrop.production_genome", "§9Production§7:§r");
+        provider.add("behaviour.start_core.gcrop.auxiliary_genome", "§cAuxiliary§7:§r");
+        provider.add("behaviour.start_core.gcrop.climate_genome", "§2Climate§7:§r %s");
+        provider.add("behaviour.start_core.gcrop.gene_holder", " - %s");
+        provider.add("behaviour.start_core.gcrop.inserted_gcrop", "§3A crop with the provided genome.");
+
+        provider.add("behaviour.start_core.fruit.header", "§aA gCrop Fruiting body");
+        provider.add("behaviour.start_core.fruit.resource", "  §6Contains: §2%s");
+        provider.add("behaviour.start_core.fruit.tier", "  §9Grade: §2%s");
+
+        provider.add("behaviour.start_core.genome_holder.traits_header",
+                "§aThis holder contains the following traits:");
+        provider.add("behaviour.start_core.genome_holder.genome_header",
+                "§aThe full genome contained in your holder is as follows:");
+        provider.add("behaviour.start_core.genome_holder.no_genome",
+                "§7A genome holder without any genetical information stored inside.");
+
+        provider.add("behaviour.start_core.gcrop.type.liquid", "Liquid %s");
+        provider.add("behaviour.start_core.gcrop.type.dust", "%s Dust");
+        provider.add("behaviour.start_core.gcrop.type.gem", "%s Gems");
+        provider.add("behaviour.start_core.gcrop.type.ore", "%s Ore");
+        provider.add("behaviour.start_core.gcrop.type.empty", "%s");
+
+        provider.add("behaviour.start_core.gcrop.harvester.disclaimer",
+                "§7This recipe varies wildly depending on the traits of the crop, which can influence duration, energy usage, input and output amounts, conditions and the output item.");
+        provider.add("behaviour.start_core.gcrop.harvester.gcrop",
+                "§7A gCrop with any production and auxiliary traits can be used.");
+        provider.add("behaviour.start_core.gcrop.harvester.fertilizer",
+                "§7Fertilizer amount varies depending on the traits of the crop.");
+        provider.add("behaviour.start_core.gcrop.harvester.fluid",
+                "§7Fluid amount varies depending on the traits of the crop.");
+        provider.add("behaviour.start_core.gcrop.harvester.fruit",
+                "§7Either a fruit or a flower, in a range, where both depend on the traits of the crop.");
+
+        provider.add("behaviour.start_core.gcrop.mutator.full",
+                "§7A gCrop with a fully mutated genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.prod_aux",
+                "§7A gCrop with a mutated production and auxiliary genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.prod",
+                "§7A gCrop with a mutated production genome between tier %s and tier %s.");
+        provider.add("behaviour.start_core.gcrop.mutator.aux",
+                "§7A gCrop with a mutated auxiliary genome between tier %s and tier %s.");
+
+        provider.add("behaviour.start_core.gcrop.random_crop_name", "§3Arcanthus ????? GCrop");
+        provider.add("behaviour.start_core.gcrop.new_random_crop", "§6Mutated gCrop with random genome.");
+        provider.add("behaviour.start_core.gcrop.random_crop", "§6A gCrop with any genome.");
+
+        provider.add("behaviour.start_core.trait.info.header", "§l%s (%s)§r");
+        provider.add("behaviour.start_core.trait.info.type", "This Trait is a tier %s %s trait");
+        provider.add("behaviour.start_core.trait.info.effects", "This Trait has the following effects:");
+
+        provider.add("behaviour.start_core.trait.type.resource", "§6Resource§r");
+        provider.add("behaviour.start_core.trait.type.production", "§9Production§r");
+        provider.add("behaviour.start_core.trait.type.auxiliary", "§cAuxiliary§r");
+        provider.add("behaviour.start_core.trait.type.climate", "§2Climate§r");
+
+        provider.add("behaviour.start_core.genome_holder.random_holder", "§3A Genome Holder with any genome.");
+        provider.add("behaviour.start_core.genome_holder.copied_holder", "§3A Genome Holder with the inserted genome.");
+        provider.add("behaviour.start_core.genome_holder.separated_holder",
+                "§3A Genome Holder with part of the inserted genome.");
+        provider.add("behaviour.start_core.genome_holder.combined_holder",
+                "§3A Genome Holder with both of the inserted genomes.");
+
+        provider.add("gtceu.gcrop_mutator", "gCrop Mutator");
+        provider.add("gtceu.gcrop_breeder", "gCrop Breeder");
+        provider.add("gtceu.gcrop_harvester", "gCrop Harvester");
+
+        provider.add("gtceu.genome_gathering", "Genome Gathering");
+        provider.add("gtceu.genome_mixing", "Genome Mixing");
+        provider.add("gtceu.genome_separating", "Genome Separating");
+        provider.add("gtceu.genome_insertion", "Genome Insertion");
+
+        provider.add("gtceu.void_mesh", "Void Mesh");
+        provider.add("gtceu.void_gas_collector", "Void Gas Collector");
 
         provider.add("start_core.machine.auxiliary_boosted_fusion_reactor.description",
                 "§7A high-efficiency fusion reactor that utilises auxiliary fusion coils to enhance fusion reactions, enabling for higher density of fusion reactions taking place within the chamber at once");
@@ -318,6 +410,8 @@ public class LangHandler {
 
         provider.add("start_core.machine.sterile_hatch.tooltip",
                 "Makes your Multiblocks extra squeaky clean and sterile!");
+        provider.add("start_core.machine.climate_hatch.tooltip",
+                "Provides the required climate environment for gCrops in multiblock machines.");
         provider.add("start_core.uuid_safe.fail_nearest_player",
                 "Issue regarding UUID's occured, Please visit Dream-Link at %s and consider replacing if Owner is not correct.");
         provider.add("start_core.multiblock.boosted_plasma_turbine.ws2_boosting", "Tungsten Disulfide Boosted");

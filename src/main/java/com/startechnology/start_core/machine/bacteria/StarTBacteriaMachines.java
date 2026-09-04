@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.startechnology.start_core.machine.random_custom_logic.DirtyWorkableElectricMultiblockMachine;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
@@ -25,7 +26,7 @@ import static com.startechnology.start_core.StarTCore.START_REGISTRATE;
 public class StarTBacteriaMachines {
 
     public static final MultiblockMachineDefinition BACTERIAL_BREEDING_VAT = START_REGISTRATE
-            .multiblock("bacterial_breeding_vat", BacterialVatMachine::new)
+            .multiblock("bacterial_breeding_vat", DirtyWorkableElectricMultiblockMachine::new)
             .appearanceBlock(() -> StarTMachineUtils.getKjsBlock(("peek_casing")))
             .langValue("Bacterial Breeding Vat [BBV]")
             .tooltips(
@@ -83,7 +84,7 @@ public class StarTBacteriaMachines {
             .register();
 
     public static final MultiblockMachineDefinition BACTERIAL_RUNIC_MUTATOR = START_REGISTRATE
-            .multiblock("bacterial_runic_mutator", BacterialRunicMutator::new)
+            .multiblock("bacterial_runic_mutator", DirtyWorkableElectricMultiblockMachine::new)
             .appearanceBlock(GTBlocks.ADVANCED_COMPUTER_CASING)
             .langValue("Bacterial Runic Mutator [BRM]")
             .tooltips(
