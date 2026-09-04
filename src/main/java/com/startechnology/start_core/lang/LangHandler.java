@@ -772,5 +772,7 @@ public class LangHandler {
         provider.add("start_core.tree_definition.cherry", "Cherry");
 
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
+
+        provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
     }
 }
