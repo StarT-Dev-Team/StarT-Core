@@ -2,6 +2,7 @@ package com.startechnology.start_core.integration.jade.provider;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
@@ -34,7 +35,7 @@ public class StarTSolarCellProvider implements IBlockComponentProvider, IServerD
     public void appendTooltip(ITooltip tooltip, BlockAccessor block, IPluginConfig config) {
         var serverData = block.getServerData();
 
-        if (serverData.contains("temperature") && serverData.contains("durability") && serverData.contains("broken")) {
+        if (StarTJadeUtils.hasData(serverData, "temperature", "durability", "broken")) {
             if (serverData.getBoolean("broken")) {
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.is_broken"));
             } else if (block.getBlock() instanceof StarTSolarCell solarBlock) {

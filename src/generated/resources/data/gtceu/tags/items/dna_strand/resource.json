@@ -1,0 +1,24 @@
+{
+  "values": [
+    "start_core:illuminating_dna_strand",
+    "start_core:apothic_dna_strand",
+    "start_core:crystalline_dna_strand",
+    "start_core:fluorescent_dna_strand",
+    "start_core:infernal_dna_strand",
+    "start_core:adaptive_dna_strand",
+    "start_core:coarse_dna_strand",
+    "start_core:aetheric_dna_strand",
+    "start_core:energetic_dna_strand",
+    "start_core:vibrant_dna_strand",
+    "start_core:decaying_dna_strand",
+    "start_core:sulfuric_dna_strand",
+    "start_core:tough_dna_strand",
+    "start_core:woody_dna_strand",
+    "start_core:metallic_dna_strand",
+    "start_core:siliceous_dna_strand",
+    "start_core:charred_dna_strand",
+    "start_core:shiny_dna_strand",
+    "start_core:mineralic_dna_strand",
+    "start_core:dusty_dna_strand"
+  ]
+}

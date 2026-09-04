@@ -1,0 +1,7 @@
+{
+	"parent": "gtceu:block/overlay/front",
+	"textures": {
+		"particle": "start_core:block/overlay/environment/frosty_climate_hatch_overlay",
+		"overlay": "start_core:block/overlay/environment/frosty_climate_hatch_overlay"
+	}
+}

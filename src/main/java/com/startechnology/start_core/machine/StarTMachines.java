@@ -2,6 +2,7 @@ package com.startechnology.start_core.machine;
 
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachines;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
+import com.startechnology.start_core.machine.arboreal_extractor.StarTArborealExtractorMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.crates.StarTCrates;
@@ -10,7 +11,9 @@ import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissio
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
+import com.startechnology.start_core.machine.gcrop.*;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
+import com.startechnology.start_core.machine.hpca.StarTHPCAMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
 import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachines;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
@@ -48,5 +51,11 @@ public class StarTMachines {
         StarTDrillingRigs.init();
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
+        GCropMachines.init();
+        GenomeMachines.init();
+        VoidMesh.init();
+        StarTArborealExtractorMachines.init();
+        StarTHPCAMachines.init();
+        StarTClimateHatches.init();
     }
 }

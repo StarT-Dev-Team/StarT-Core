@@ -1,0 +1,18 @@
+{
+  "values": [
+    "start_core:speedy_dna_strand",
+    "start_core:branching_dna_strand",
+    "start_core:proliferating_dna_strand",
+    "start_core:stunted_dna_strand",
+    "start_core:shriveled_dna_strand",
+    "start_core:enormous_dna_strand",
+    "start_core:sprawling_dna_strand",
+    "start_core:thirsty_dna_strand",
+    "start_core:fast_dna_strand",
+    "start_core:slow_dna_strand",
+    "start_core:autotroph_dna_strand",
+    "start_core:gluttonous_dna_strand",
+    "start_core:quickened_dna_strand",
+    "start_core:empowered_dna_strand"
+  ]
+}
