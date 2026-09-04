@@ -697,6 +697,7 @@
   "gtceu.parallel_type.throughput_boosting": "- %dx from Throughput Boosting",
   "gtceu.recipe.category.hellforge_heating": "§6Hadean Crucible Heating",
   "gtceu.reflector_fusion_reactor": "Fusion Reactor",
+  "gtceu.solar_panel_replacement": "Solar Panel Replacement",
   "gtceu.void_gas_collector": "Void Gas Collector",
   "gtceu.void_mesh": "Void Mesh",
   "gui.start_core.tooltips.fluid_output_hatches": "Fluid Output Hatches",
