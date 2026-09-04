@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
 
@@ -53,7 +54,7 @@ public class StarTAbyssalContainmentMachines {
                 // spotless:on
                     .where("A",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("abyssal_alloy"))))
+                                    StarTMaterials.AbyssalAlloy)))
                     .where("#", Predicates.any())
                     .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing")))
                     .where("C", Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))

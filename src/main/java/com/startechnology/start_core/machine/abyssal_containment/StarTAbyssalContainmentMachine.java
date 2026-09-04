@@ -22,6 +22,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.logic.AbyssalContainmentRoomLogic;
 import dev.latvian.mods.kubejs.KubeJS;
 import dev.latvian.mods.kubejs.core.ItemStackKJS;
@@ -49,7 +50,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
     }
 
     private Material END_AIR = GTMaterials.EnderAir;
-    private Material DRAGON_BREATH = GTMaterials.get("dragon_breath");
+    private Material DRAGON_BREATH = StarTMaterials.DragonBreath;
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTAbyssalContainmentMachine.class,
@@ -213,7 +214,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
                         "AAAAAAAAAAAAAAAAA")
                 .where("A",
                         Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                GTCEuAPI.materialManager.getMaterial("abyssal_alloy"))))
+                                StarTMaterials.AbyssalAlloy)))
                 .where("#", Predicates.any())
                 .where("=", innerPredicate())
                 .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing")))

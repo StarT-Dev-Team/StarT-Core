@@ -22,6 +22,8 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
 
@@ -73,7 +75,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.boostingRecipe = createBoostingRecipe();
     }
 
-    private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
+    private final Material DEIONIZED_WATER = StarTMaterials.DeionizedWater;
 
     @Override
     protected RecipeLogic createRecipeLogic(Object... args) {

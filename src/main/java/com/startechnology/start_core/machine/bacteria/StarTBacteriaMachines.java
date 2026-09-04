@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.random_custom_logic.DirtyWorkableElectricMultiblockMachine;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
@@ -67,7 +68,7 @@ public class StarTBacteriaMachines {
                     .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_firebox_casing")))
                     .where("C",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                                    StarTMaterials.Trinaquadalloy)))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing")))
                     .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing"))
                             .setMinGlobalLimited(164)
@@ -122,7 +123,7 @@ public class StarTBacteriaMachines {
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("peek_casing")))
                     .where("D",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                                    StarTMaterials.Trinaquadalloy)))
                     .where("E", Predicates.blocks(GTBlocks.COMPUTER_CASING.get()))
                     .where("F", Predicates.blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get())
                             .setMinGlobalLimited(25)
@@ -178,7 +179,7 @@ public class StarTBacteriaMachines {
                             Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_engine_intake_casing")))
                     .where("T",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:trinaquadalloy"))))
+                                    StarTMaterials.Trinaquadalloy)))
                     .where(" ", Predicates.any())
                     .build())
             .workableCasingModel(KubeJS.id("block/casings/basic/machine_casing_peek"),

@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.StarTMachineUtils;
@@ -80,7 +81,7 @@ public class StarTDreamLinkTransmissionTowers {
                     .where(" ", Predicates.any())
                     .where("B",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:europium"))))
+                                    GTMaterials.Europium)))
                     .where("C", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
                     .where("D", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock(("superalloy_casing")))
@@ -107,7 +108,7 @@ public class StarTDreamLinkTransmissionTowers {
                     .where(" ", Predicates.any())
                     .where("B",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:europium"))))
+                                    GTMaterials.Europium)))
                     .where("C", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
                     .where("D", Predicates.blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                     .where("E", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
@@ -139,7 +140,7 @@ public class StarTDreamLinkTransmissionTowers {
                     .where("B", Predicates.blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                     .where("C",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:europium"))))
+                                    GTMaterials.Europium)))
                     .where("D", Predicates.blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
                     .where("E", Predicates.blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("superalloy_casing"))
