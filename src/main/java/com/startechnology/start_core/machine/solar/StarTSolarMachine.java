@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -27,6 +28,7 @@ import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +36,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -96,7 +99,6 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             LongOpenHashSet solarCells = getMultiblockState().getMatchContext().get("cellPositions");
 
             if (solarCells != null && !solarCells.isEmpty()) {
-                var items = ForgeRegistries.ITEMS;
 
                 for (long packedPos : solarCells) {
                     BlockPos blockPos = BlockPos.of(packedPos);
@@ -115,7 +117,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                         totalDura += solarCellBlockEntity.getDurability();
 
                         cells.add(new SolarCellInstance(blockPos, solarCellType,
-                                items.getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
+                                ForgeRegistries.ITEMS
+                                        .getValue(StarTCore.resourceLocation(solarCellType.getSerializedName())),
                                 solarCellBlockEntity));
 
                         if (!solarCellBlockEntity.isBroken() && level.canSeeSky(blockPos)) {
@@ -167,8 +170,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
             if (solarCellBlockEntity.isBroken()) {
                 GTRecipe solarCellRecipe = getSolarPanelRecipe(solarCell.solarCellItem());
 
-                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() && RecipeHelper
-                        .handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches()).isSuccess()) {
+                if (RecipeHelper.matchRecipe(this, solarCellRecipe).isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.IN, recipeLogic.getChanceCaches())
+                                .isSuccess() &&
+                        RecipeHelper.handleRecipeIO(this, solarCellRecipe, IO.OUT, recipeLogic.getChanceCaches())
+                                .isSuccess()) {
                     solarCellBlockEntity.setBroken(false);
                     solarCellBlockEntity.setDurability(solarCellType.getMaxDurability());
                     solarCellBlockEntity.setTemperature(300);
@@ -192,15 +198,18 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
                     continue;
                 }
 
-                int durabilityDiff = calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
-                int newDurability = solarCellBlockEntity.getDurability() - durabilityDiff;
+                int newDurability = solarCellBlockEntity.getDurability();
+                if (StarTConfig.INSTANCE.solar.enableDurabilityLoss) {
+                    int durabilityDiff = calculateDurabilityDamage((currentTemp - 273) / (maxTemp - 273));
+                    newDurability -= durabilityDiff;
 
-                if (newDurability <= 0) {
-                    solarCellBlockEntity.setBroken(true);
+                    if (newDurability <= 0) {
+                        solarCellBlockEntity.setBroken(true);
 
-                    newBrokenCells++;
+                        newBrokenCells++;
 
-                    continue;
+                        continue;
+                    }
                 }
 
                 solarCellBlockEntity.setTemperature(currentTemp);
@@ -211,7 +220,8 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
 
                 newEuT += solarCellType.getEuT();
             } else {
-                double currentTemp = Math.max(solarCellBlockEntity.getTemperature() - 0.1,
+                double currentTemp = Math.max(
+                        solarCellBlockEntity.getTemperature() - StarTConfig.INSTANCE.solar.heatLoss,
                         solarCellType.getMinTemperature());
 
                 solarCellBlockEntity.setTemperature(currentTemp);
@@ -242,11 +252,11 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     public double getHeatGain() {
-        if (tier >= GTValues.EV && tier <= GTValues.LuV) return 0.2;
-        else {
-            if (isCooled) return 0.18;
-            else return 0.3;
+        var solar = StarTConfig.INSTANCE.solar;
+        if (tier >= GTValues.EV && tier <= GTValues.LuV) {
+            return solar.panelHeatGain;
         }
+        return isCooled ? solar.arrayCooledHeatGain : solar.arrayHeatGain;
     }
 
     public boolean isDay() {
@@ -260,8 +270,14 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
     }
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
+        var brokenCell = new ItemStack(solarCellItem);
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("broken", true);
+        brokenCell.getOrCreateTag().put("BlockEntityTag", tag);
+
         return repairRecipeCache.computeIfAbsent(solarCellItem,
-                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).buildRawRecipe());
+                item -> GTRecipeBuilder.ofRaw().inputItems(new ItemStack(item)).outputItems(brokenCell)
+                        .buildRawRecipe());
     }
 
     public static int calculateDurabilityDamage(double tempPercent) {
@@ -272,11 +288,13 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return 8;
     }
 
+    @Override
     public boolean regressWhenWaiting() {
         return false;
     }
 
-    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+    @Override
+    public boolean canVoidRecipeOutputs(@Nullable RecipeCapability<?> capability) {
         return false;
     }
 
@@ -284,25 +302,44 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         return (int) Math.max(Math.min((avgTemp - 273) / (maxTemp - 273) * 15.0, 15.0), 0);
     }
 
+    public int redstonePercentageOfBrokenCells() {
+        return (int) Math.max(Math.min((double) brokenCells / cellAmount * 15.0, 15.0), 0);
+    }
+
     private void temperatureChanged() {
         Arrays.stream(StarTSolarCells.values()).forEach(entry -> this.setIndicatorValue(
                 "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
                 redstonePercentageOfTemp(entry.getMaxTemperature())));
+
+        this.setIndicatorValue("variadic.start_core.indicator.solar_machine.broken_cells",
+                redstonePercentageOfBrokenCells());
     }
 
     @Override
     public List<RedstoneIndicatorRecord> getInitialIndicators() {
-        return Arrays.stream(StarTSolarCells.values()).map(entry -> {
+        var indicators = new ArrayList<RedstoneIndicatorRecord>();
+
+        Arrays.stream(StarTSolarCells.values()).forEach(entry -> {
             int maxTemp = entry.getMaxTemperature();
 
-            return new RedstoneIndicatorRecord(
+            indicators.add(new RedstoneIndicatorRecord(
                     "variadic.start_core.indicator.solar_machine." + entry.getSerializedName(),
-                    Component.translatable("variadic.start_core.indicator.solar_machine", maxTemp),
-                    Component.translatable("variadic.start_core.description.solar_machine", maxTemp)
+                    Component.translatable("variadic.start_core.indicator.solar_machine.temp", maxTemp),
+                    Component.translatable("variadic.start_core.description.solar_machine.temp", maxTemp)
                             .withStyle(ChatFormatting.GRAY),
                     redstonePercentageOfTemp(maxTemp),
-                    maxTemp);
-        }).toList();
+                    maxTemp));
+        });
+
+        indicators.add(new RedstoneIndicatorRecord(
+                "variadic.start_core.indicator.solar_machine.broken_cells",
+                Component.translatable("variadic.start_core.indicator.solar_machine.broken_cells"),
+                Component.translatable("variadic.start_core.description.solar_machine.broken_cells")
+                        .withStyle(ChatFormatting.GRAY),
+                redstonePercentageOfBrokenCells(),
+                1));
+
+        return indicators;
     }
 
     @Override

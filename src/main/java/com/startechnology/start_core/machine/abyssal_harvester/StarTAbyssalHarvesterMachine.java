@@ -13,6 +13,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
+import com.startechnology.start_core.recipe.StarTParallelTypes;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,7 +69,7 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
             int maxPossibleParallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, 2);
             return ModifierFunction.builder()
                     .modifyAllContents(ContentModifier.multiplier(maxPossibleParallels))
-                    .parallels(maxPossibleParallels)
+                    .parallels(maxPossibleParallels, StarTParallelTypes.ABYSSAL_HARVESTER)
                     .build();
         }
 

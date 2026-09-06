@@ -55,6 +55,10 @@ public class StarTSolarCell extends Block implements EntityBlock {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
 
+            if (tag.contains("broken") && tag.getBoolean("broken")) {
+                tag.putDouble("temperature", 273); // reset temp for broken cells on breaking
+            }
+
             stack.getOrCreateTag().put("BlockEntityTag", tag);
 
             return Collections.singletonList(stack);

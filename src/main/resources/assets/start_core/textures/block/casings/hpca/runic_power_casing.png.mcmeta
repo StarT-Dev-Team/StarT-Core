@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "start_core:block/casings/hpca/runic_power_casing_ctm"
+    }
+}

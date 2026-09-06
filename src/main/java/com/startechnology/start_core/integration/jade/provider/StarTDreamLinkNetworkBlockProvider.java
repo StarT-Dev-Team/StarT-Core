@@ -4,6 +4,8 @@ import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
+
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -45,14 +47,15 @@ public class StarTDreamLinkNetworkBlockProvider extends CapabilityBlockProvider<
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("network") && capData.contains("dreaming")) {
+        if (StarTJadeUtils.hasData(capData, "network", "dreaming")) {
             String network = capData.getString("network");
             boolean dreaming = capData.getBoolean("dreaming");
 
-            if (dreaming)
+            if (dreaming) {
                 tooltip.add(Component.translatable("start_core.machine.dream_link.active_network", network));
-            else
+            } else {
                 tooltip.add(Component.translatable("start_core.machine.dream_link.inactive_network", network));
+            }
         }
     }
 }

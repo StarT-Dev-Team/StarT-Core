@@ -41,7 +41,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         if (!this.isRemote() && this.isConfigurable) {
             this.durationMultiplier = tag.getFloat(start$nbtDuration);
             this.updateMaintenanceSubscription();
-            player.sendSystemMessage(copySettings);
+            player.sendSystemMessage(pasteSettings);
         }
         return InteractionResult.sidedSuccess(this.isRemote());
     }
@@ -54,7 +54,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
             card.setTag(tag);
             card.setHoverName(
                     card.getHoverName().copy().append(" - ").append(holder.getDefinition().getBlock().getName()));
-            player.sendSystemMessage(pasteSettings);
+            player.sendSystemMessage(copySettings);
         }
         return InteractionResult.SUCCESS;
     }

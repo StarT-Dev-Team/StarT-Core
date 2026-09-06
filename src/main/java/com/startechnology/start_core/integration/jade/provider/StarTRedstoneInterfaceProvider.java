@@ -3,6 +3,7 @@ package com.startechnology.start_core.integration.jade.provider;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
 import org.jetbrains.annotations.Nullable;
@@ -43,7 +44,7 @@ public class StarTRedstoneInterfaceProvider extends CapabilityBlockProvider<Reds
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (!capData.contains("signal_level") || !capData.contains("indicator")) return;
+        if (!StarTJadeUtils.hasData(capData, "signal_level", "indicator")) return;
 
         var signalLevel = capData.getInt("signal_level");
 

@@ -83,11 +83,13 @@ public class IStarTGetMachineUUIDSafe {
             return UUID.randomUUID();
         }
 
+        UUID resolvedOwner = resolveOwnerUUIDForPlayer(nearestPlayer);
+
         // Set the owner based on FTB Teams availability
         MachineOwner newOwner = createOwnerForPlayer(nearestPlayer);
         ownerSetter.setOwner(newOwner);
 
-        return nearestPlayer.getUUID();
+        return resolvedOwner;
     }
 
     /**
@@ -97,10 +99,22 @@ public class IStarTGetMachineUUIDSafe {
         if (GTCEu.Mods.isFTBTeamsLoaded()) {
             Optional<Team> team = FTBTeamsAPIImpl.INSTANCE.getManager().getTeamForPlayerID(player.getUUID());
             if (team.isPresent()) {
-                return new FTBOwner(player.getUUID());
+                return new FTBOwner(team.get().getId());
             }
         }
         return new PlayerOwner(player.getUUID());
+    }
+
+    private static UUID resolveOwnerUUIDForPlayer(Player player) {
+        if (GTCEu.Mods.isFTBTeamsLoaded()) {
+            Optional<Team> team = FTBTeamsAPIImpl.INSTANCE.getManager().getTeamForPlayerID(player.getUUID());
+
+            if (team.isPresent()) {
+                return team.get().getId();
+            }
+        }
+
+        return player.getUUID();
     }
 
     /**

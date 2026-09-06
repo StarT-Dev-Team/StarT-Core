@@ -1,0 +1,20 @@
+{
+  "values": [
+    "start_core:black_dye_fruit",
+    "start_core:red_dye_fruit",
+    "start_core:green_dye_fruit",
+    "start_core:brown_dye_fruit",
+    "start_core:blue_dye_fruit",
+    "start_core:purple_dye_fruit",
+    "start_core:cyan_dye_fruit",
+    "start_core:light_gray_dye_fruit",
+    "start_core:gray_dye_fruit",
+    "start_core:pink_dye_fruit",
+    "start_core:lime_dye_fruit",
+    "start_core:yellow_dye_fruit",
+    "start_core:light_blue_dye_fruit",
+    "start_core:magenta_dye_fruit",
+    "start_core:orange_dye_fruit",
+    "start_core:white_dye_fruit"
+  ]
+}

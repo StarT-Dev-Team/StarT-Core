@@ -294,7 +294,7 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
     }
 
     /////////////////////////////////
-    /// Initialisation
+    /// Initialization
 
     @Override
     public ManagedFieldHolder getFieldHolder() {
