@@ -159,7 +159,7 @@ public class StarTRecipeModifiers {
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
 
     public static final RecipeModifier COMPOUND_GENERATOR = CompoundGeneratorMachine::recipeModifier;
-    public static final RecipeModifier REFLECTOR_FUSION_REACTOR = new IdentifiedRecipeModifier("reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
 
-    public static final RecipeModifier ORE_FACTORY = new IdentifiedRecipeModifier("ore_factory", OreFactoryMachine::recipeModifier);
+    public static final RecipeModifier ORE_FACTORY = new IdentifiedRecipeModifier("ore_factory",
+            OreFactoryMachine::recipeModifier);
 }

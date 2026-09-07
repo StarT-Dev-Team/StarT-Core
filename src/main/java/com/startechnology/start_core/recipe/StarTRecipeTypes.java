@@ -165,10 +165,17 @@ public class StarTRecipeTypes {
             .register("modular_combustion_frame", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 1, 0)
             .setEUIO(IO.OUT);
-    public static final GTRecipeType ORE_FACTORY_RECIPE = GTRecipeTypes.register("ore_factory", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(3,3,3,3)
+    public static final GTRecipeType ORE_FACTORY_RECIPE = GTRecipeTypes
+            .register("ore_factory", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 6, 1, 1)
             .setEUIO(IO.IN)
-            .addCustomRecipeLogic(new OreFactoryLogic());
+            .addCustomRecipeLogic(new OreFactoryLogic(1, () -> StarTRecipeTypes.ORE_FACTORY_RECIPE));
+
+    public static final GTRecipeType BULK_ORE_FACTORY_RECIPE = GTRecipeTypes
+            .register("bulk_ore_factory", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 6, 1, 1)
+            .setEUIO(IO.IN)
+            .addCustomRecipeLogic(new OreFactoryLogic(10, () -> StarTRecipeTypes.BULK_ORE_FACTORY_RECIPE));
 
     public static final GTRecipeType ARBOREAL_EXTRACTION_RECIPES = GTRecipeTypes
             .register("arboreal_extraction", "primitive")

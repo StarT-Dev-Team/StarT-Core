@@ -18,6 +18,7 @@ import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachines;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.modular_combustion.StarTModularCombustionMachines;
+import com.startechnology.start_core.machine.ore_factory.testmachines;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.solar.StarTSolarMachines;
