@@ -24,29 +24,30 @@ public class StarTMaterialHelpers {
 
     public static Material registerGenericDustGT(String name, String langValue, int color, Object... components) {
         return registerGTCEuMaterial(name)
-            .langValue(langValue)
-            .dust()
-            .color(color)
-            .components(components)
-            .buildAndRegister();
+                .langValue(langValue)
+                .dust()
+                .color(color)
+                .components(components)
+                .buildAndRegister();
     }
 
-    public static Material registerGenericDustNoDecompGT(String name, String langValue, int color, Object... components) {
+    public static Material registerGenericDustNoDecompGT(String name, String langValue, int color,
+                                                         Object... components) {
         return registerGTCEuMaterial(name)
-            .langValue(langValue)
-            .dust()
-            .color(color)
-            .components(components)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
+                .langValue(langValue)
+                .dust()
+                .color(color)
+                .components(components)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
     }
 
     public static Material registerGenericIngotGT(String name, String langValue, int color, Object... components) {
         return registerGTCEuMaterial(name)
-            .langValue(langValue)
-            .ingot()
-            .color(color)
-            .components(components)
-            .buildAndRegister();
+                .langValue(langValue)
+                .ingot()
+                .color(color)
+                .components(components)
+                .buildAndRegister();
     }
 }
