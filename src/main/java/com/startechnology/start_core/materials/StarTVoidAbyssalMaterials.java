@@ -57,6 +57,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         AlphaStateVoidSludge = registerGTCEuMaterial("alpha_state_void_sludge")
+                .langValue("α-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(12500))
                 .components(Mystery, 1)
                 .color(0x4a294a)
@@ -64,6 +65,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         BetaStateVoidSludge = registerGTCEuMaterial("beta_state_void_sludge")
+                .langValue("β-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(25000))
                 .components(Mystery, 1)
                 .color(0x39504a)
@@ -71,6 +73,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         GammaStateVoidSludge = registerGTCEuMaterial("gamma_state_void_sludge")
+                .langValue("γ-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(37500))
                 .components(Mystery, 1)
                 .color(0x3a3f5a)
@@ -78,6 +81,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         DeltaStateVoidSludge = registerGTCEuMaterial("delta_state_void_sludge")
+                .langValue("δ-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(50000))
                 .components(Mystery, 1)
                 .color(0x4d3b2e)
@@ -85,6 +89,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         EpsilonStateVoidSludge = registerGTCEuMaterial("epsilon_state_void_sludge")
+                .langValue("ε-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(62500))
                 .components(Mystery, 1)
                 .color(0x2e4d3b)
@@ -92,6 +97,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         ZetaStateVoidSludge = registerGTCEuMaterial("zeta_state_void_sludge")
+                .langValue("ζ-State Void Sludge")
                 .liquid(new FluidBuilder().temperature(75000))
                 .components(Mystery, 1)
                 .color(0x3f2e4d)
@@ -99,6 +105,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         AlphaStateVoidResidue = registerGTCEuMaterial("alpha_state_void_residue")
+                .langValue("α-State Void Residue")
                 .liquid(new FluidBuilder().temperature(12500))
                 .components(Mystery, 1)
                 .color(0x652165)
@@ -106,6 +113,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         BetaStateVoidResidue = registerGTCEuMaterial("beta_state_void_residue")
+                .langValue("β-State Void Residue")
                 .liquid(new FluidBuilder().temperature(25000))
                 .components(Mystery, 1)
                 .color(0x486053)
@@ -113,6 +121,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         GammaStateVoidResidue = registerGTCEuMaterial("gamma_state_void_residue")
+                .langValue("γ-State Void Residue")
                 .liquid(new FluidBuilder().temperature(37500))
                 .components(Mystery, 1)
                 .color(0x464a66)
@@ -120,6 +129,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         DeltaStateVoidResidue = registerGTCEuMaterial("delta_state_void_residue")
+                .langValue("δ-State Void Residue")
                 .liquid(new FluidBuilder().temperature(50000))
                 .components(Mystery, 1)
                 .color(0x5a4638)
@@ -127,6 +137,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         EpsilonStateVoidResidue = registerGTCEuMaterial("epsilon_state_void_residue")
+                .langValue("ε-State Void Residue")
                 .liquid(new FluidBuilder().temperature(62500))
                 .components(Mystery, 1)
                 .color(0x365a46)
@@ -134,6 +145,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         ZetaStateVoidResidue = registerGTCEuMaterial("zeta_state_void_residue")
+                .langValue("ζ-State Void Residue")
                 .liquid(new FluidBuilder().temperature(75000))
                 .components(Mystery, 1)
                 .color(0x54386a)
@@ -141,6 +153,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         OrderCentricVoid = registerGTCEuMaterial("order_centric_void")
+                .langValue("Order-Centric Void")
                 .liquid(new FluidBuilder().temperature(80000))
                 .components(Mystery, 1)
                 .color(0xf0e060)
@@ -148,6 +161,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         ChaosCentricVoid = registerGTCEuMaterial("chaos_centric_void")
+                .langValue("Chaos-Centric Void")
                 .liquid(new FluidBuilder().temperature(80000))
                 .components(Mystery, 1)
                 .color(0xc040f0)
@@ -259,6 +273,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         RimulaTFoundation = registerGTCEuMaterial("rimula_t_foundation")
+                .langValue("Rimula-Tempus Foundation")
                 .fluid()
                 .components(Riftic, 1, Mystery, 1)
                 .color(0xe5d1eb)
@@ -266,6 +281,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         RimulaSFoundation = registerGTCEuMaterial("rimula_s_foundation")
+                .langValue("Rimula-Spacial Foundation")
                 .fluid()
                 .components(Riftic, 1, Mystery, 1)
                 .color(0x230145)
@@ -329,11 +345,13 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         DracEndocriticMedium = registerGTCEuMaterial("drac_endocritic_medium")
+                .langValue("Drac-Endocritic Medium")
                 .fluid()
                 .color(0x75577a)
                 .buildAndRegister();
 
         DracAurouricEndocrinalMedium = registerGTCEuMaterial("drac_aurouric_endocrinal_medium")
+                .langValue("Drac-Aurouric Endocrinal Medium")
                 .fluid()
                 .color(0x6678a6)
                 .buildAndRegister();
@@ -359,6 +377,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         DracPeptideAminoResidue = registerGTCEuMaterial("drac_peptide_amino_residue")
+                .langValue("Drac-Peptide Amino Residue")
                 .fluid()
                 .color(0x7a5c82)
                 .buildAndRegister();
@@ -389,6 +408,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         BreathHormoneComplex = registerGTCEuMaterial("breath_hormone_complex")
+                .langValue("Breath-Hormone Complex")
                 .fluid()
                 .color(0x8c7080)
                 .buildAndRegister();
@@ -419,12 +439,14 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         GrowthHormoneComplex = registerGTCEuMaterial("growth_hormone_complex")
+                .langValue("Growth-Hormone Complex")
                 .fluid()
                 .color(0x756b7d)
                 .buildAndRegister();
 
         // Akreyrium Line
         LeptonCoalescingSuperalloy = registerGTCEuMaterial("lepton_coalescing_superalloy")
+                .langValue("Lepton-Coalescing Superalloy")
                 .ingot()
                 .fluid()
                 .components(ThalliumTungstate, 4, Nickel, 2, Graphene, 4,
@@ -436,6 +458,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         LeptonSparseAkreyrium = registerGTCEuMaterial("lepton_sparse_akreyrium")
+                .langValue("Lepton-Sparse Akreyrium")
                 .fluid()
                 .components(UtopianAkreyrium, 1, Mystery, 1)
                 .color(0x6e6e87)
@@ -443,6 +466,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         LeptonFluxAkreyrium = registerGTCEuMaterial("lepton_flux_akreyrium")
+                .langValue("Lepton-Flux Akreyrium")
                 .fluid()
                 .components(UtopianAkreyrium, 1, LeptonCoalescingSuperalloy, 6, Mystery, 1)
                 .color(0xaca2ba)
@@ -464,6 +488,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         LeptonFlavourFoundationalFlux = registerGTCEuMaterial("lepton_flavour_foundational_flux")
+                .langValue("Lepton-Flavour Foundational Flux")
                 .fluid()
                 .components(LeptonCoalescingSuperalloy, 6, Mystery, 1)
                 .color(0xe5cee1)
@@ -471,6 +496,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         LightTauInfusionFlux = registerGTCEuMaterial("light_tau_infusion_flux")
+                .langValue("Light §bTau §rInfusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xe5cee1)
@@ -478,6 +504,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         HeavyTauInfusionFlux = registerGTCEuMaterial("heavy_tau_infusion_flux")
+                .langValue("Heavy §bTau §rInfusion Flux")
                 .fluid()
                 .components(LightTauInfusionFlux, 1)
                 .color(0xdfdae9)
@@ -485,6 +512,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         SuperlightTauInfusionFlux = registerGTCEuMaterial("superlight_tau_infusion_flux")
+                .langValue("Superlight §bTau §rInfusion Flux")
                 .fluid()
                 .components(LightTauInfusionFlux, 1)
                 .color(0xd9e7f0)
@@ -492,6 +520,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         SuperheavyTauInfusionFlux = registerGTCEuMaterial("superheavy_tau_infusion_flux")
+                .langValue("Superheavy §bTau §rInfusion Flux")
                 .fluid()
                 .components(HeavyTauInfusionFlux, 1)
                 .color(0xccffff)
@@ -499,6 +528,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         EtherealTauInfusionFlux = registerGTCEuMaterial("ethereal_tau_infusion_flux")
+                .langValue("Ethereal §bTau §rInfusion Flux")
                 .fluid()
                 .components(SuperheavyTauInfusionFlux, 2, SuperlightTauInfusionFlux, 2)
                 .color(0x99ccff)
@@ -506,18 +536,21 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         SparseTauAkreyrium = registerGTCEuMaterial("sparse_tau_akreyrium")
+                .langValue("§bTau§r Sparse Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         DenseTauAkreyrium = registerGTCEuMaterial("dense_tau_akreyrium")
+                .langValue("§bTau§r Dense Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1, EtherealTauInfusionFlux, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         TwinklingMuonInfusionFlux = registerGTCEuMaterial("twinkling_muon_infusion_flux")
+                .langValue("Twinkling §aMuon§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xddd8dc)
@@ -525,6 +558,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         GlowingMuonInfusionFlux = registerGTCEuMaterial("glowing_muon_infusion_flux")
+                .langValue("Glowing §aMuon§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xd5e1d6)
@@ -532,6 +566,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         ShiningMuonInfusionFlux = registerGTCEuMaterial("shining_muon_infusion_flux")
+                .langValue("Shining §aMuon§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xcdebd1)
@@ -539,6 +574,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         RadiantMuonInfusionFlux = registerGTCEuMaterial("radiant_muon_infusion_flux")
+                .langValue("Radiant §aMuon§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xc5f4cb)
@@ -546,6 +582,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         BrilliantMuonInfusionFlux = registerGTCEuMaterial("brilliant_muon_infusion_flux")
+                .langValue("Brilliant §aMuon§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xbdfec6)
@@ -553,18 +590,21 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         SparseMuonAkreyrium = registerGTCEuMaterial("sparse_muon_akreyrium")
+                .langValue("§aMuon§r Sparse Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         DenseMuonAkreyrium = registerGTCEuMaterial("dense_muon_akreyrium")
+                .langValue("§aMuon§r Dense Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1, BrilliantMuonInfusionFlux, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         MonoPhaseElectronInfusionFlux = registerGTCEuMaterial("mono_phase_electron_infusion_flux")
+                .langValue("Mono-Phase §dElectron§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xe0c5f6)
@@ -572,6 +612,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         DiPhaseElectronInfusionAgent = registerGTCEuMaterial("di_phase_electron_infusion_agent")
+                .langValue("Di-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xe0bded)
@@ -579,6 +620,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         TriPhaseElectronInfusionAgent = registerGTCEuMaterial("tri_phase_electron_infusion_agent")
+                .langValue("Tri-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xdfb6e4)
@@ -587,6 +629,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         WeakGammaPhaseElectronInfusionAgent = registerGTCEuMaterial("weak_gamma_phase_electron_infusion_agent")
+                .langValue("Weak γ-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0x856783)
@@ -595,6 +638,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         WeakBetaPhaseElectronInfusionAgent = registerGTCEuMaterial("weak_beta_phase_electron_infusion_agent")
+                .langValue("Weak β-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0x6b4f66)
@@ -603,6 +647,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         GammaPhaseElectronInfusionAgent = registerGTCEuMaterial("gamma_phase_electron_infusion_agent")
+                .langValue("γ-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xdeafdc)
@@ -611,6 +656,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         BetaPhaseElectronInfusionAgent = registerGTCEuMaterial("beta_phase_electron_infusion_agent")
+                .langValue("β-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xdda8d3)
@@ -619,6 +665,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         AlphaPhaseElectronInfusionAgent = registerGTCEuMaterial("alpha_phase_electron_infusion_agent")
+                .langValue("α-Phase §dElectron§r Infusion Agent")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xdc99c1)
@@ -627,6 +674,7 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         AlternatingPhaseElectronInfusionFlux = registerGTCEuMaterial("alternating_phase_electron_infusion_flux")
+                .langValue("Alternating §dElectron§r Infusion Flux")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xdeadb3)
@@ -634,12 +682,14 @@ public class StarTVoidAbyssalMaterials {
                 .buildAndRegister();
 
         SparseElectronAkreyrium = registerGTCEuMaterial("sparse_electron_akreyrium")
+                .langValue("§dElectron§r Sparse Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         DenseElectronAkreyrium = registerGTCEuMaterial("dense_electron_akreyrium")
+                .langValue("§dElectron§r Dense Akreyrium")
                 .liquid(new FluidBuilder().customStill())
                 .components(UtopianAkreyrium, 1, Mystery, 1)
                 .flags(DISABLE_DECOMPOSITION)

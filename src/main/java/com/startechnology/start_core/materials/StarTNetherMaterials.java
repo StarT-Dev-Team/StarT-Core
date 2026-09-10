@@ -13,6 +13,7 @@ public class StarTNetherMaterials {
     public static void register() {
         // Mythril Line
         EnrichedMythrillicMixture = registerGTCEuMaterial("enriched_mythrillic_mixture")
+                .langValue("Enriched §3Mythrillic§r Mixture")
                 .fluid()
                 .components(Mystery, 1, Mythril, 1,
                         Mystery, 1)
@@ -21,6 +22,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         MoltenMythrillicMixture = registerGTCEuMaterial("molten_mythrillic_mixture")
+                .langValue("Molten §3Mythrillic§r Mixture")
                 .liquid(new FluidBuilder().temperature(3100))
                 .components(Mystery, 1, Mythril, 1,
                         Mystery, 1)
@@ -29,6 +31,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         Mythrillic = registerGTCEuMaterial("mythrillic")
+                .langValue("§3Mythrillic§r")
                 .dust()
                 .fluid()
                 .components(Mystery, 1, Mythril, 1,
@@ -38,6 +41,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         MythrillicHydride = registerGTCEuMaterial("mythrillic_hydride")
+                .langValue("§3Mythrillic§r Hydride")
                 .dust()
                 .components(Mythril, 1, Hydrogen, 2)
                 .color(0x238338)
@@ -46,6 +50,7 @@ public class StarTNetherMaterials {
 
         // Adamantine Line
         EnrichedAdamantamiteMixture = registerGTCEuMaterial("enriched_adamantamite_mixture")
+                .langValue("Enriched §6Adamantamite§r Mixture")
                 .fluid()
                 .components(Mystery, 1, Adamantine, 1,
                         Mystery, 1)
@@ -54,6 +59,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         MoltenAdamantamiteMixture = registerGTCEuMaterial("molten_adamantamite_mixture")
+                .langValue("Molten §6Adamantamite§r Mixture")
                 .liquid(new FluidBuilder().temperature(3700))
                 .components(Mystery, 1, Adamantine, 1,
                         Mystery, 1)
@@ -62,6 +68,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         Adamantamite = registerGTCEuMaterial("adamantamite")
+                .langValue("§6Adamantamite§r")
                 .dust()
                 .fluid()
                 .components(Mystery, 1, Adamantine, 1,
@@ -71,6 +78,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         AdamantineHydroxide = registerGTCEuMaterial("adamantine_hydroxide")
+                .langValue("§6Adamantamite§r Hydroxide")
                 .dust()
                 .components(Adamantine, 1, Hydrogen, 3, Oxygen, 3)
                 .color(0xcb8858)
@@ -79,6 +87,7 @@ public class StarTNetherMaterials {
 
         // Estalt Line
         MoltenEstaltadyneMixture = registerGTCEuMaterial("molten_estaltadyne_mixture")
+                .langValue("Molten §cEstaltadyne§r Mixture")
                 .liquid(new FluidBuilder().temperature(3500))
                 .components(Mystery, 1, Estalt, 1,
                         Mystery, 1)
@@ -87,6 +96,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         Estaltadyne = registerGTCEuMaterial("estaltadyne")
+                .langValue("§cEstaltadyne§r")
                 .dust()
                 .fluid()
                 .components(Mystery, 1, Estalt, 1,
@@ -96,6 +106,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         EstaltadyneHydride = registerGTCEuMaterial("estaltadyne_hydride")
+                .langValue("§cEstaltadyne§r Hydride")
                 .dust()
                 .components(Estalt, 4, Hydrogen, 9)
                 .color(0x8e0505)
@@ -103,6 +114,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         EnrichedEstaltadyneMixture = registerGTCEuMaterial("enriched_estaltadyne_mixture")
+                .langValue("Enriched §c§oEstaltadyne§r Mixture")
                 .fluid()
                 .components(Mystery, 1, EnrichedEstalt, 1,
                         Mystery, 1)
@@ -111,6 +123,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         EnrichedEstaltadyneSolution = registerGTCEuMaterial("enriched_estaltadyne_solution")
+                .langValue("Enriched §c§oEstaltadyne§r Solution")
                 .fluid()
                 .components(Mystery, 1, EnrichedEstalt, 1,
                         Mystery, 1)
@@ -155,6 +168,7 @@ public class StarTNetherMaterials {
 
         // Atomic Nether Dust Line
         AtomicNetherSludge = registerGTCEuMaterial("atomic_nether_sludge")
+                .langValue("Atomic §4Nether§r Sludge")
                 .dust()
                 .components(Mystery, 1, Mystery, 1,
                         Mystery, 1, Mystery, 1)
@@ -164,6 +178,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         DeactivatedNether = registerGTCEuMaterial("deactivated_nether")
+                .langValue("Deactivated §4Nether§r")
                 .dust()
                 .components(Mystery, 1, Mystery, 1)
                 .color(0x664c4c)
@@ -171,6 +186,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         ActivatedNether = registerGTCEuMaterial("activated_nether")
+                .langValue("Activated §4Nether§r")
                 .dust()
                 .components(Mystery, 1, Mystery, 1)
                 .color(0xa01819)
@@ -178,6 +194,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         HafnastideRichSludge = registerGTCEuMaterial("hafnastide_rich_sludge")
+                .langValue("Hafnastide-Rich Sludge")
                 .dust()
                 .components(Mystery, 1, Hafnium, 1, Astatine, 1,
                         Mystery, 1)
@@ -186,6 +203,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         FleroviumRichReSludge = registerGTCEuMaterial("flerovium_rich_re_sludge")
+                .langValue("Flerovium-Rich Re Sludge")
                 .dust()
                 .components(Mystery, 1, Flerovium, 1, Mystery,
                         1, Mystery, 1)
@@ -194,6 +212,7 @@ public class StarTNetherMaterials {
                 .buildAndRegister();
 
         PologiumRichSludge = registerGTCEuMaterial("pologium_rich_sludge")
+                .langValue("Pologium-Rich Sludge")
                 .dust()
                 .components(Mystery, 1, Polonium, 1, Seaborgium, 1,
                         Mystery, 1)

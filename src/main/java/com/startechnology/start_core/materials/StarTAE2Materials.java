@@ -79,6 +79,7 @@ public class StarTAE2Materials {
                 .buildAndRegister();
 
         NetheriteGoldSkystoneAlloy = registerGTCEuMaterial("netherite_gold_skystone_alloy")
+                .langValue("Netherite-Gold Skystone Alloy")
                 .ingot()
                 .fluid()
                 .components(Netherite, 4, DiamondSkystoneAlloy, 2, GoldSkystoneAlloy, 1)
@@ -90,6 +91,7 @@ public class StarTAE2Materials {
                 .buildAndRegister();
 
         NetheriteCertusQuartzSkystoneAlloy = registerGTCEuMaterial("netherite_certus_quartz_skystone_alloy")
+                .langValue("Netherite-Certus Quartz Skystone Alloy")
                 .ingot()
                 .fluid()
                 .components(Netherite, 4, DiamondSkystoneAlloy, 2, CertusQuartzSkystoneAlloy, 1)

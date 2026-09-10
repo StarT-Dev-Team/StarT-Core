@@ -34,6 +34,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Butanediol14 = registerGTCEuMaterial("14_butanediol")
+                .langValue("1,4-Butanediol")
                 .fluid()
                 .components(Carbon, 4, Hydrogen, 10, Oxygen, 2)
                 .color(0xb8c4c4)
@@ -48,6 +49,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Dibromoethane12 = registerGTCEuMaterial("12_dibromoethane")
+                .langValue("1,2-Dibromoethane")
                 .fluid()
                 .components(Carbon, 2, Hydrogen, 4, Bromine, 2)
                 .color(0xb0a6cc)
@@ -63,6 +65,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Ethylenedioxythiophene34 = registerGTCEuMaterial("34_ethylenedioxythiophene")
+                .langValue("3,4-Ethylenedioxythiophene")
                 .fluid()
                 .components(Carbon, 6, Hydrogen, 6, Oxygen, 2, Sulfur,
                         1)
@@ -113,6 +116,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Poly34Ethylenedioxythiophene = registerGTCEuMaterial("poly_34_ethylenedioxythiophene")
+                .langValue("Poly(3,4-Ethylenedioxythiophene)")
                 .fluid()
                 .components(Carbon, 6, Hydrogen, 4, Oxygen, 2, Sulfur,
                         1)
@@ -142,6 +146,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Polysorbate20 = registerGTCEuMaterial("polysorbate_20")
+                .langValue("Polysorbate-20")
                 .fluid()
                 .components(SorbitanMonoester, 1, EthyleneGlycol, 20)
                 .color(0xa0d7dd)
@@ -150,6 +155,7 @@ public class StarTPolymers {
 
         Poly34EthylenedioxythiophenePolystyreneSulfonatePaste = registerGTCEuMaterial(
                 "poly_34_ethylenedioxythiophene_polystyrene_sulfonate_paste")
+                .langValue("[Poly(3,4-Ethylenedioxythiophene):Polystyrene Sulfonate] Paste")
                 .dust()
                 .components(Carbon, 9, Hydrogen, 7, Sulfur, 1, Oxygen,
                         3)
@@ -159,6 +165,7 @@ public class StarTPolymers {
 
         Poly34EthylenedioxythiophenePolystyreneSulfonateSolution = registerGTCEuMaterial(
                 "poly_34_ethylenedioxythiophene_polystyrene_sulfonate_solution")
+                .langValue("[Poly(3,4-Ethylenedioxythiophene):Polystyrene Sulfonate] Solution")
                 .fluid()
                 .components(Poly34EthylenedioxythiophenePolystyreneSulfonatePaste, 1, Water, 2)
                 .color(0x6c7fb0)
@@ -167,6 +174,7 @@ public class StarTPolymers {
 
         Poly34EthylenedioxythiophenePolystyreneSulfonate = registerGTCEuMaterial(
                 "poly_34_ethylenedioxythiophene_polystyrene_sulfonate")
+                .langValue("Poly(3,4-Ethylenedioxythiophene):Polystyrene Sulfonate")
                 .polymer()
                 .fluid()
                 .components(Carbon, 8, Hydrogen, 7, Sulfur, 1, Oxygen,
@@ -178,6 +186,7 @@ public class StarTPolymers {
 
         // PEEK Line
         DisodiumSaltOfHydroquinone = registerGTCEuMaterial("disodium_salt_of_hydroquinone")
+                .langValue("Disodium Salt of Hydroquinone")
                 .dust()
                 .components(Carbon, 6, Hydrogen, 4, Oxygen, 2, Sodium,
                         2)
@@ -213,6 +222,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         FluorobenzoylChloride4 = registerGTCEuMaterial("4_fluorobenzoyl_chloride")
+                .langValue("4-Fluorobenzoyl Chloride")
                 .fluid()
                 .components(Carbon, 7, Hydrogen, 4, Chlorine, 1,
                         Fluorine, 1, Oxygen, 1)
@@ -236,6 +246,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         Difluorobenzophenone44 = registerGTCEuMaterial("44_difluorobenzophenone")
+                .langValue("4,4-Difluorobenzophenone")
                 .dust()
                 .components(Carbon, 13, Hydrogen, 8, Oxygen, 1,
                         Fluorine, 2)
@@ -333,6 +344,7 @@ public class StarTPolymers {
 
         Benzophenone3344TetracarboxylicDianhydride = registerGTCEuMaterial(
                 "benzophenone_3344_tetracarboxylic_dianhydride")
+                .langValue("3,3′,4,4′-Benzophenone Tetracarboxylic Dianhydride")
                 .dust()
                 .components(Carbon, 17, Hydrogen, 6, Oxygen, 7)
                 .color(0xd1b9a3)
@@ -340,6 +352,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         YButyrolactone = registerGTCEuMaterial("y_butyrolactone")
+                .langValue("γ-Butyrolactone")
                 .fluid()
                 .components(Carbon, 4, Hydrogen, 6, Oxygen, 2)
                 .color(0xd6e2e2)
@@ -347,6 +360,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         MPhelyenediamine = registerGTCEuMaterial("m_phelyenediamine")
+                .langValue("Meta-Phenylenediamine")
                 .fluid()
                 .components(Carbon, 6, Hydrogen, 4, Azanide, 2)
                 .color(0xe2bfc0)
@@ -354,6 +368,7 @@ public class StarTPolymers {
                 .buildAndRegister();
 
         NMethyl2Pyrrolidone = registerGTCEuMaterial("n_methyl_2_pyrrolidone")
+                .langValue("N-Methyl-2-Pyrrolidone")
                 .dust()
                 .components(Carbon, 5, Hydrogen, 9, Nitrogen, 1, Oxygen,
                         1)

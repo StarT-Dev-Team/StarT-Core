@@ -33,6 +33,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         NeutroniumSiliconCarbide = registerGTCEuMaterial("neutronium_silicon_carbide")
+                .langValue("Neutronium-Silicon Carbide")
                 .ingot()
                 .components(Neutronium, 2, SiliconCarbide, 7, NiobiumNitride,
                         3, Graphene, 3)
@@ -107,6 +108,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         BecOg = registerGTCEuMaterial("bec_og")
+                .langValue("Oganesson Stabilized Bose-Einstein Condensate")
                 .liquid(new FluidBuilder().temperature(1)) // 0.0001 K
                 .components(Oganesson, 1)
                 .color(0xbfacff)
@@ -174,6 +176,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         PoloniumBismide = registerGTCEuMaterial("polonium_bismide")
+                .langValue("Polonium-Bismide")
                 .ingot()
                 .fluid()
                 .components(Polonium, 1, Bismuth, 1)
@@ -193,6 +196,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         IridiumIvOxide = registerGTCEuMaterial("iridium_iv_oxide")
+                .langValue("Iridium(IV) Oxide")
                 .dust()
                 .components(Iridium, 1, Oxygen, 2)
                 .color(0xbeded9)
@@ -200,6 +204,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         BismuthIiiOxide = registerGTCEuMaterial("bismuth_iii_oxide")
+                .langValue("Bismuth(III) Oxide")
                 .dust()
                 .components(Bismuth, 2, Oxygen, 3)
                 .color(0xd5e5dc)
@@ -247,6 +252,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         RheniumSuperCompositeAlloy = registerGTCEuMaterial("rhenium_super_composite_alloy")
+                .langValue("Rhenium Super-Composite Alloy")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -324,6 +330,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         NetheriteTriselexOxide = registerGTCEuMaterial("netherite_triselex_oxide")
+                .langValue("Netherite Triselex-Oxide")
                 .dust()
                 .fluid()
                 .components(Netherite, 4, Selenium, 3, Oxygen, 8)
@@ -353,6 +360,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         LeptonResonantThalliumAntimonide = registerGTCEuMaterial("lepton_resonant_thallium_antimonide")
+                .langValue("Lepton-Resonant Thallium Antimonide")
                 .ingot()
                 .fluid()
                 .components(Thallium, 1, Antimony, 1, Mystery, 1)
@@ -379,6 +387,7 @@ public class StarTBaseMaterials {
 
         PrimordiallyStellarizedWeaponGradeNaquadah = registerGTCEuMaterial(
                 "primordially_stellarized_weapon_grade_naquadah")
+                .langValue("§5Primordially §bStellarized§f Weapon Grade Naquadah")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -394,6 +403,7 @@ public class StarTBaseMaterials {
                 .buildAndRegister();
 
         AquariadicRimuliDragonix = registerGTCEuMaterial("aquariadic_rimuli_dragonix")
+                .langValue("Aquariadic Rimuli-Dragonix")
                 .gem()
                 .components(PureDragonBreath, 5, AkreyriadicRunixium, 7, RagingRimulatia, 4)
                 .color(0x16269e)

@@ -124,6 +124,7 @@ public class StarTElementMaterials {
                 .buildAndRegister();
 
         Mythril = registerGTCEuMaterial("mythril")
+                .langValue("§3Mythril§r")
                 .ingot()
                 .fluid()
                 .element(StarTElements.Mythril)
@@ -135,6 +136,7 @@ public class StarTElementMaterials {
                 .buildAndRegister();
 
         Adamantine = registerGTCEuMaterial("adamantine")
+                .langValue("§6Adamantine§r")
                 .ingot()
                 .fluid()
                 .element(StarTElements.Adamantine)
@@ -146,6 +148,7 @@ public class StarTElementMaterials {
                 .buildAndRegister();
 
         Estalt = registerGTCEuMaterial("estalt")
+                .langValue("§cEstalt§r")
                 .ingot()
                 .fluid()
                 .element(StarTElements.Estalt)
@@ -157,6 +160,7 @@ public class StarTElementMaterials {
                 .buildAndRegister();
 
         EnrichedEstalt = registerGTCEuMaterial("enriched_estalt")
+                .langValue("Enriched §c§oEstalt§r")
                 .ingot()
                 .fluid()
                 .element(StarTElements.EnrichedEstalt)
@@ -220,6 +224,7 @@ public class StarTElementMaterials {
                 .buildAndRegister();
 
         Echo = registerGTCEuMaterial("echo_r")
+                .langValue("Echo Fluid")
                 .fluid()
                 .element(StarTElements.Echo)
                 .color(0x003333)

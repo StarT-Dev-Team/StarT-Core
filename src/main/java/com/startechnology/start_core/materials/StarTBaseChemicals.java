@@ -97,12 +97,14 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         StrontiumTitaniumOxide = registerGTCEuMaterial("strontium_titanium_oxide")
+                .langValue("Strongium-Titanium Oxide")
                 .dust()
                 .components(Strontium, 1, Titanium, 1, Oxygen, 3)
                 .color(0xff0000)
                 .buildAndRegister();
 
         CopperChloride = registerGTCEuMaterial("copper_chloride")
+                .langValue("Copper(I) Chloride")
                 .dust()
                 .components(Copper, 1, Chlorine, 1)
                 .color(0xfff9e8)
@@ -177,6 +179,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Iron2Hydroxide = registerGTCEuMaterial("iron_2_hydroxide")
+                .langValue("Iron II Hydroxide")
                 .dust()
                 .components(Iron, 1, Hydroxide, 2)
                 .color(0x929a98)
@@ -409,24 +412,28 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Crown12_4 = registerGTCEuMaterial("12_crown_4")
+                .langValue("12-Crown-4")
                 .fluid()
                 .components(Carbon, 8, Hydrogen, 16, Oxygen, 4)
                 .color(0xcc6699)
                 .buildAndRegister();
 
         Crown15_5 = registerGTCEuMaterial("15_crown_5")
+                .langValue("15-Crown-5")
                 .fluid()
                 .components(Carbon, 10, Hydrogen, 20, Oxygen, 5)
                 .color(0x0099cc)
                 .buildAndRegister();
 
         Crown18_6 = registerGTCEuMaterial("18_crown_6")
+                .langValue("18-crown-6")
                 .fluid()
                 .components(Carbon, 12, Hydrogen, 24, Oxygen, 6)
                 .color(0x99ff33)
                 .buildAndRegister();
 
         Crown12_4_Li = registerGTCEuMaterial("12_crown_4_li")
+                .langValue("12-Crown-4 (Li)")
                 .fluid()
                 .components(Lithium, 1, Carbon, 8, Hydrogen, 16, Oxygen,
                         4)
@@ -435,6 +442,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Crown15_5_Na = registerGTCEuMaterial("15_crown_5_na")
+                .langValue("15-Crown-5 (Na)")
                 .fluid()
                 .components(Sodium, 1, Carbon, 10, Hydrogen, 20, Oxygen,
                         5)
@@ -443,6 +451,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Crown18_6_K = registerGTCEuMaterial("18_crown_6_k")
+                .langValue("18-Crown-6 (K)")
                 .fluid()
                 .components(Potassium, 1, Carbon, 12, Hydrogen, 24,
                         Oxygen, 6)
@@ -451,6 +460,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         ToluenesulfonylChloride4 = registerGTCEuMaterial("4_toluenesulfonyl_chloride")
+                .langValue("4-Toluenesulfonyl Chloride")
                 .dust()
                 .components(Carbon, 7, Hydrogen, 7, Chlorine, 2, Oxygen,
                         2, Sulfur, 1)
@@ -473,12 +483,14 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         PalladiumOnCarbon = registerGTCEuMaterial("palladium_on_carbon")
+                .langValue("Palladium on Carbon")
                 .dust()
                 .components(Palladium, 1, Carbon, 1)
                 .color(0xff9900)
                 .buildAndRegister();
 
         SodiumPToluenesulfonate = registerGTCEuMaterial("sodium_p_toluenesulfonate")
+                .langValue("Sodium p-Toluenesulfonate")
                 .dust()
                 .components(Carbon, 7, Hydrogen, 7, Sodium, 1, Oxygen,
                         3, Sulfur, 1)
@@ -503,6 +515,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Cryptand = registerGTCEuMaterial("cryptand")
+                .langValue("2.2.2-Cryptand")
                 .fluid()
                 .components(Carbon, 18, Hydrogen, 36, Oxygen, 6,
                         Nitrogen, 2)
@@ -511,6 +524,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         CryptandK = registerGTCEuMaterial("cryptand_k")
+                .langValue("2.2.2-Cryptand (K)")
                 .fluid()
                 .components(Potassium, 1, Carbon, 18, Hydrogen, 36,
                         Oxygen, 6, Nitrogen, 2)
@@ -519,6 +533,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         CryptandNa = registerGTCEuMaterial("cryptand_na")
+                .langValue("2.2.2-Cryptand (Na)")
                 .fluid()
                 .components(Sodium, 1, Carbon, 18, Hydrogen, 36, Oxygen,
                         6, Nitrogen, 2)
@@ -527,6 +542,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         CryptandLi = registerGTCEuMaterial("cryptand_li")
+                .langValue("2.2.2-Cryptand (Li)")
                 .fluid()
                 .components(Lithium, 1, Carbon, 18, Hydrogen, 36,
                         Oxygen, 6, Nitrogen, 2)
@@ -557,6 +573,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         DeionizedWater = registerGTCEuMaterial("deionized_water")
+                .langValue("De-ionized Water")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x006aff)
@@ -572,6 +589,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Bismuth3Nitrate = registerGTCEuMaterial("bismuth_3_nitrate")
+                .langValue("Bismuth (III) Nitrate")
                 .dust()
                 .components(Bismuth, 1, Nitrate, 3)
                 .color(0xdedbcd)
@@ -585,6 +603,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         Diborane = registerGTCEuMaterial("diborane")
+                .langValue("Diborane (6)")
                 .gas()
                 .components(Boron, 2, Hydrogen, 6)
                 .color(0xfdffe1)
@@ -597,6 +616,7 @@ public class StarTBaseChemicals {
                 .buildAndRegister();
 
         SiliconCarbideOverBismuthTritelluride = registerGTCEuMaterial("silicon_carbide_over_bismuth_tritelluride")
+                .langValue("Silicon Carbide Over Bismuth Tritelluride")
                 .dust()
                 .components(SiliconCarbide, 1, BismuthTritelluride, 1)
                 .color(0x86c455)

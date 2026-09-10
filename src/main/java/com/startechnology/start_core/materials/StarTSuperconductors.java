@@ -158,6 +158,7 @@ public class StarTSuperconductors {
 
         // Solders
         IndiumTinLeadCadmiumSolderingAlloy = registerGTCEuMaterial("indium_tin_lead_cadmium_soldering_alloy")
+                .langValue("Indium-Tin-Lead-Cadmium Soldering Alloy")
                 .ingot()
                 .fluid()
                 .components(Indium, 14, Tin, 3, Lead, 2, Cadmium, 1)

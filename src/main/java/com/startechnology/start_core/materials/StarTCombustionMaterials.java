@@ -25,6 +25,7 @@ public class StarTCombustionMaterials {
                 .buildAndRegister();
 
         Rp1 = registerGTCEuMaterial("rp_1")
+                .langValue("RP-1")
                 .fluid()
                 .components(Carbon, 12, Hydrogen, 26)
                 .color(0xf2ec9a)

@@ -60,6 +60,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         BerylliumAluminiumAlloy = registerGTCEuMaterial("beryllium_aluminium_alloy")
+                .langValue("Beryllium-Aluminium Alloy")
                 .ingot()
                 .components(Beryllium, 7, Aluminium, 1)
                 .color(0x006699)
@@ -172,6 +173,7 @@ public class StarTCasingMaterials {
 
         // Ultimate Multiblocks
         AstrenalloyNx = registerGTCEuMaterial("astrenalloy_nx")
+                .langValue("Astrenalloy NX")
                 .ingot()
                 .fluid()
                 .components(HastelloyX, 1, NaquadahEnriched, 4, Zirconium, 3,
@@ -183,6 +185,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         ThacoloyNq42x = registerGTCEuMaterial("thacoloy_nq_42x")
+                .langValue("Thacoloy NQ-42X")
                 .ingot()
                 .fluid()
                 .components(IncoloyMA956, 6, NaquadahEnriched, 4, NiobiumTitanium,
@@ -217,6 +220,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         ExpetidalloyD17 = registerGTCEuMaterial("expetidalloy_d_17")
+                .langValue("Expetidalloy D-17")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -232,6 +236,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         RhenateW = registerGTCEuMaterial("rhenate_w")
+                .langValue("Rhenate-W")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -260,6 +265,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         HvgaSteel = registerGTCEuMaterial("hvga_steel")
+                .langValue("Hyper Voidic Graviton Aborition Steel")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -275,6 +281,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         MelastriumMox = registerGTCEuMaterial("melastrium_mox")
+                .langValue("Melastrium MOX")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -290,6 +297,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         TrikoductiveNeutroSteel = registerGTCEuMaterial("trikoductive_neutro_steel")
+                .langValue("Trikoductive Neutro-steel")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -321,6 +329,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         MythrotightCarbideSteel = registerGTCEuMaterial("mythrotight_carbide_steel")
+                .langValue("Mythrotight-Carbide Steel")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -351,6 +360,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         VastaqalloyCr4200x = registerGTCEuMaterial("vastaqalloy_cr_4200x")
+                .langValue("Vastaqalloy CR-4200X")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -380,6 +390,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         UltispestalloyCmsh = registerGTCEuMaterial("ultispestalloy_cmsh")
+                .langValue("Ultispestalloy C/MSH")
                 .ingot()
                 .fluid()
                 .plasma()
@@ -395,6 +406,7 @@ public class StarTCasingMaterials {
                 .buildAndRegister();
 
         ZeroidicTrinateSteel = registerGTCEuMaterial("zeroidic_trinate_steel")
+                .langValue("Zeroidic Trinate-steel")
                 .ingot()
                 .fluid()
                 .plasma()

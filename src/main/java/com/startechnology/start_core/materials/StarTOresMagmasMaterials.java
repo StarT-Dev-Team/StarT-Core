@@ -89,6 +89,7 @@ public class StarTOresMagmasMaterials {
                 .buildAndRegister();
 
         AbydosNaquaditeDenseMagma = registerGTCEuMaterial("abydos_naquadite_dense_magma")
+                .langValue("Abydos-Naquadite Dense Magma")
                 .liquid(new FluidBuilder().temperature(5120))
                 .components(Mystery, 1, Naquadite, 1, Mystery, 1)
                 .color(0x272424)
@@ -103,6 +104,7 @@ public class StarTOresMagmasMaterials {
                 .buildAndRegister();
 
         AbydosRefractoryDenseMagma = registerGTCEuMaterial("abydos_refractory_dense_magma")
+                .langValue("Abydos-Refractory Dense Magma")
                 .liquid(new FluidBuilder().temperature(4520))
                 .components(Mystery, 1, Titanite, 1, Xenotime, 1, Monazite, 1,
                         Scheelite, 1, Mystery, 1)
@@ -111,6 +113,7 @@ public class StarTOresMagmasMaterials {
                 .buildAndRegister();
 
         AbydosReactiveDenseMagma = registerGTCEuMaterial("abydos_reactive_dense_magma")
+                .langValue("Abydos-Reactivity Dense Magma")
                 .liquid(new FluidBuilder().temperature(4980))
                 .components(Mystery, 1, Zapolite, 1, Crookesite, 1, Kitkaite, 1, Lautarite, 1,
                         Mystery, 1)

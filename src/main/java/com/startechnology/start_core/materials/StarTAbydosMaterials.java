@@ -14,7 +14,6 @@ public class StarTAbydosMaterials {
     public static void register() {
         // Abydos Alloys
         Zalloy = registerGTCEuMaterial("zalloy")
-                .langValue("Zalloy")
                 .ingot()
                 .fluid()
                 .components(Zapolgium, 3, Duranium, 4, Europium, 2)
@@ -27,7 +26,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZirconiumSelenideDiiodide = registerGTCEuMaterial("zirconium_selenide_diiodide")
-                .langValue("Zirconium Selenide Diiodide")
                 .ingot()
                 .fluid()
                 .components(Zirconium, 1, Selenium, 1, Iodine, 2)
@@ -50,7 +48,7 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ThoriumPlutDuranide241 = registerGTCEuMaterial("thorium_plut_duranide_241")
-                .langValue("Thorium-Plut-Duranide-241")
+                .langValue("Thorium Plut-Duranide 241")
                 .ingot()
                 .fluid()
                 .components(Thorium, 4, Duranium, 1, Plutonium241, 3)
@@ -61,7 +59,7 @@ public class StarTAbydosMaterials {
 
         // Zapolgium Line
         ZapolgiumAluminiumOxide = registerGTCEuMaterial("zapolgium_aluminium_oxide")
-                .langValue("Zapolgium Aluminium Oxide")
+                .langValue("Zapolgium-Aluminium Oxide")
                 .dust()
                 .components(Zapolgium, 1, Iodine, 2, Aluminium, 2, Oxygen, 4)
                 .color(0x6666ff)
@@ -69,7 +67,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZapolgiumDiiodideDioxide = registerGTCEuMaterial("zapolgium_diiodide_dioxide")
-                .langValue("Zapolgium Diiodide Dioxide")
                 .dust()
                 .components(Zapolgium, 1, Iodine, 2, Oxygen, 2)
                 .color(0x660066)
@@ -77,7 +74,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZapolgiumDiiodideOxide = registerGTCEuMaterial("zapolgium_diiodide_oxide")
-                .langValue("Zapolgium Diiodide Oxide")
                 .dust()
                 .components(Zapolgium, 1, Iodine, 2, Oxygen, 1)
                 .color(0xff66ff)
@@ -85,7 +81,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZapolgiumOxide = registerGTCEuMaterial("zapolgium_oxide")
-                .langValue("Zapolgium Oxide")
                 .dust()
                 .components(Zapolgium, 1, Oxygen, 1)
                 .color(0xff9933)
@@ -93,7 +88,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZapolgiumChloride = registerGTCEuMaterial("zapolgium_chloride")
-                .langValue("Zapolgium Chloride")
                 .dust()
                 .components(Zapolgium, 1, Chlorine, 2)
                 .color(0x99ff33)
@@ -101,7 +95,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZapolgiumHydroxide = registerGTCEuMaterial("zapolgium_hydroxide")
-                .langValue("Zapolgium Hydroxide")
                 .dust()
                 .components(Zapolgium, 1, Oxygen, 2, Hydrogen, 2)
                 .color(0x00ff99)
@@ -110,7 +103,6 @@ public class StarTAbydosMaterials {
 
         // Zirconium Line
         TitaniteSlurry = registerGTCEuMaterial("titanite_slurry")
-                .langValue("Titanite Slurry")
                 .fluid()
                 .components(Titanite, 1, Mystery, 1)
                 .color(0x862d2d)
@@ -118,7 +110,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         TitaniteSlurryResidue = registerGTCEuMaterial("titanite_slurry_residue")
-                .langValue("Titanite Slurry Residue")
                 .fluid()
                 .components(Rutile, 1, Mystery, 1)
                 .color(0xbf4040)
@@ -126,7 +117,7 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         HydroxoDioxoTitaniteMixture = registerGTCEuMaterial("hydroxo_dioxo_titanite_mixture")
-                .langValue("Hydroxo Dioxo Titanite Mixture")
+                .langValue("Hydroxo(dioxo) Titanite Mixture")
                 .fluid()
                 .components(Sodium, 2, Rutile, 1, Oxygen, 2, Hydrogen, 2, Mystery, 1)
                 .color(0xd27979)
@@ -134,7 +125,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         TitaniteResidue = registerGTCEuMaterial("titanite_residue")
-                .langValue("Titanite Residue")
                 .fluid()
                 .components(Rutile, 1, Mystery, 1)
                 .color(0xe6004c)
@@ -142,7 +132,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         TitaniumTetrachlorideMixture = registerGTCEuMaterial("titanium_tetrachloride_mixture")
-                .langValue("Titanium Tetrachloride Mixture")
                 .fluid()
                 .components(TitaniumTetrachloride, 1, Mystery, 1)
                 .color(0xff1a66)
@@ -150,7 +139,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         ZirconiumTetrachloride = registerGTCEuMaterial("zirconium_tetrachloride")
-                .langValue("Zirconium Tetrachloride")
                 .dust()
                 .components(Zirconium, 1, Chlorine, 4)
                 .color(0xffad33)
@@ -159,7 +147,6 @@ public class StarTAbydosMaterials {
 
         // Xenotime Line
         RareEarthSulfateSolution = registerGTCEuMaterial("rare_earth_sulfate_solution")
-                .langValue("Rare Earth Sulfate Solution")
                 .fluid()
                 .components(Mystery, 2, Sulfate, 3)
                 .color(0xc6c2a8)
@@ -167,7 +154,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         RareEarthLeachMixture = registerGTCEuMaterial("rare_earth_leach_mixture")
-                .langValue("Rare Earth Leach Mixture")
                 .fluid()
                 .components(Mystery, 3, Sulfate, 3)
                 .color(0xafad9f)
@@ -175,7 +161,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         RareEarthConcentrate = registerGTCEuMaterial("rare_earth_concentrate")
-                .langValue("Rare Earth Concentrate")
                 .fluid()
                 .components(Mystery, 1, Sulfur, 1, Oxygen, 4)
                 .color(0x8c8a7e)
@@ -183,7 +168,6 @@ public class StarTAbydosMaterials {
                 .buildAndRegister();
 
         RichRareEarth = registerGTCEuMaterial("rich_rare_earth")
-                .langValue("Rich Rare Earth")
                 .dust()
                 .components(Mystery, 1)
                 .color(0xb5ac90)
@@ -192,7 +176,6 @@ public class StarTAbydosMaterials {
 
         // Naquadite Line
         NaquaditeSolution = registerGTCEuMaterial("naquadite_solution")
-                .langValue("Naquadite Solution")
                 .fluid()
                 .components(Naquadite, 1, Mystery, 1)
                 .color(0x524848)

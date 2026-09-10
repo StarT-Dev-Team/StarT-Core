@@ -49,6 +49,7 @@ public class StarTNetheriteMaterials {
                 .buildAndRegister();
 
         AncientNetherite = registerGTCEuMaterial("ancient_netherite")
+                .langValue("Ancient-Netherite")
                 .ingot()
                 .fluid()
                 .element(StarTElements.AncientNetherite)
@@ -100,6 +101,7 @@ public class StarTNetheriteMaterials {
                 .buildAndRegister();
 
         StellarizedWeaponGradeNaquadah = registerGTCEuMaterial("stellarized_weapon_grade_naquadah")
+                .langValue("§bStellarized§f Weapon Grade Naquadah")
                 .ingot()
                 .fluid()
                 .components(Void, 1, WeaponGradeNaquadah, 8, Stellarium,
@@ -118,6 +120,7 @@ public class StarTNetheriteMaterials {
                 .buildAndRegister();
 
         AkreyriadicRunixium = registerGTCEuMaterial("akreyriadic_runixium")
+                .langValue("Akreyriadic-Runixium")
                 .gem()
                 .components(RunicLaserSourceBase, 7, AncientRunicalium, 4,
                         StrontiumTitaniumOxide, 2, Akreyrium, 5)

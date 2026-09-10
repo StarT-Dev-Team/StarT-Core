@@ -27,6 +27,7 @@ public class StarTAgriculturalMaterials {
                 .buildAndRegister();
 
         NutrientRichFertilizerSolution = registerGTCEuMaterial("nutrient_rich_fertilizer_solution")
+                .langValue("Nutrient-Rich Fertilizer Solution")
                 .fluid()
                 .components(Phosphate, 1, Bone, 1, Water, 9, NpkSolution, 1)
                 .color(0xb5b9c1)

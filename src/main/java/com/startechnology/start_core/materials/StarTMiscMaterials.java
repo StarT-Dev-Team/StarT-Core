@@ -41,6 +41,7 @@ public class StarTMiscMaterials {
                 .buildAndRegister();
 
         NpkSolution = registerGTCEuMaterial("npk_solution")
+                .langValue("NPK Solution")
                 .fluid()
                 .components(Apatite, 15, Potassium, 5, SulfurTrioxide, 1,
                         Nitrogen, 1, Water, 2)
@@ -69,6 +70,7 @@ public class StarTMiscMaterials {
 
         // Resource gen
         IronMixture = registerGTCEuMaterial("iron_mixture")
+                .langValue("Iron-Rich Mixture")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xc42626)
@@ -76,6 +78,7 @@ public class StarTMiscMaterials {
                 .buildAndRegister();
 
         CopperMixture = registerGTCEuMaterial("copper_mixture")
+                .langValue("Copper-Rich Mixture")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xc86524)
@@ -83,6 +86,7 @@ public class StarTMiscMaterials {
                 .buildAndRegister();
 
         QuartzMixture = registerGTCEuMaterial("quartz_mixture")
+                .langValue("Quartz-Rich Mixture")
                 .fluid()
                 .components(Mystery, 1)
                 .color(0xabc5e0)
