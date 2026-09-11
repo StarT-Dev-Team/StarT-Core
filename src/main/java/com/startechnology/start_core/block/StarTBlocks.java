@@ -10,5 +10,6 @@ public class StarTBlocks {
         StarTFusionBlocks.init();
         StarTSolarCellBlocks.init();
         ArborealBlocks.init();
+        StarTRunicCasings.init();
     }
 }

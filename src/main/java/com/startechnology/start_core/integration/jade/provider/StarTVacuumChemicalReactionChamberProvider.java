@@ -49,7 +49,7 @@ public class StarTVacuumChemicalReactionChamberProvider extends
 
         var amount = capData.getFloat("vcrc_vacuum_amount");
         var status = VacuumChemicalReactionChamberMachine.Status.of(capData.getInt("vcrc_vacuum_status"));
-        tooltip.add(Component.literal("")
+        tooltip.add(Component.empty()
                 .append(Component.translatable("ui.start_core.vcrc.vacuum_status",
                         VacuumChemicalReactionChamberMachine.formatVacuumStatus(status)))
                 .append(", ")
@@ -58,7 +58,7 @@ public class StarTVacuumChemicalReactionChamberProvider extends
 
         var cap = capData.getInt("vcrc_pump_cap");
         var rate = capData.getInt("vcrc_pump_rate");
-        tooltip.add(Component.literal("")
+        tooltip.add(Component.empty()
                 .append(Component.translatable("ui.start_core.vcrc.pump_type.cap",
                         VacuumPumpPartMachine.formatVacuumPumpCap(cap)))
                 .append(", ")

@@ -19,7 +19,8 @@ public class StarTTagPrefixes {
             .materialIconType(StarTMaterialIconTypes.dustBlockIconType)
             .miningToolTag(BlockTags.MINEABLE_WITH_SHOVEL)
             .generateBlock(true)
-            .generationCondition(material -> material.hasProperty(PropertyKey.DUST))
+            .generationCondition(material -> material.hasProperty(PropertyKey.DUST) &&
+                    !material.hasFlag(StarTMaterialFlags.NO_DUST_BLOCK))
             .unificationEnabled(true)
             .blockProperties(() -> RenderType::translucent, properties -> properties.sound(SoundType.SAND))
             .fallingBlock();
@@ -41,17 +42,15 @@ public class StarTTagPrefixes {
             .materialAmount(GTValues.M * 8)
             .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_FINE_WIRE));
 
-    public static final TagPrefix ultradensePlate = generateItemTagPrefix("ultradense_plate", StarTMaterialIconTypes.ultraDensePlate)
+    public static final TagPrefix ultradensePlate = generateItemTagPrefix("ultradense_plate",
+            StarTMaterialIconTypes.ultraDensePlate)
             .materialAmount(GTValues.M * 36)
             .generationCondition(material -> material.hasFlag(MaterialFlags.GENERATE_DENSE));
 
-//    public static final TagPrefix ballBearing = generateItemTagPrefix("ball_bearing", StarTMaterialIconTypes.ballBearing    )
-//            .materialAmount(GTValues.M)
-//            .generationCondition(material -> material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING));
+    // public static final TagPrefix ballBearing = generateItemTagPrefix("ball_bearing",
+    // StarTMaterialIconTypes.ballBearing )
+    // .materialAmount(GTValues.M)
+    // .generationCondition(material -> material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING));
 
-
-    public static void init() {
-
-    }
-
+    public static void init() {}
 }

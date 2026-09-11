@@ -11,6 +11,7 @@ import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissio
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
+import com.startechnology.start_core.machine.gcrop.*;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
@@ -51,8 +52,12 @@ public class StarTMachines {
         StarTDrillingRigs.init();
         StarTKomaruFrameMachines.init();
         StarTModularCombustionMachines.init();
+        GCropMachines.init();
+        GenomeMachines.init();
+        VoidMesh.init();
         StarTArborealExtractorMachines.init();
         StarTHPCAMachines.init();
         testmachines.init();
+        StarTClimateHatches.init();
     }
 }

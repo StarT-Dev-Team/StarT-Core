@@ -60,6 +60,10 @@ public class StarTMachineUtils {
         return ForgeRegistries.BLOCKS.getValue(KubeJS.id(block));
     }
 
+    public static Block getBlock(String block) {
+        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(block));
+    }
+
     public static Block getGTCEuBlock(String block) {
         return ForgeRegistries.BLOCKS.getValue(GTCEu.id(block));
     }
