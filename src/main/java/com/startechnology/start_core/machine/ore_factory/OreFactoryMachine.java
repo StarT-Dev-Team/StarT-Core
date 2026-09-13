@@ -119,7 +119,7 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
         }
 
         if (oreFactory.hasCrushedOre() && !oreFactory.selectFluid()) {
-            return ModifierFunction.cancel(Component.translatable("ui.start_core.orefactory.active_fluid.no_fluid"));
+            return ModifierFunction.cancel(Component.translatable("ui.start_core.orefactory.no_fluid"));
         }
 
         FluidStats stats = FLUID_STATS.get(oreFactory.activeFluid);
@@ -137,7 +137,7 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
         if (isFormed()) {
 
             if (this.activeFluid == null) {
-                textList.add(Component.translatable("ui.start_core.orefactory.active_fluid.no_fluid"));
+                textList.add(Component.translatable("ui.start_core.orefactory.no_fluid"));
                 return;
             }
 
