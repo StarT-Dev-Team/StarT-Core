@@ -12,6 +12,9 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -24,37 +27,18 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
 
     public static final TagKey<Item> CRUSHED_ORE = TagPrefix.crushed.getItemParentTags()[0];
 
-    public static Material WATER() {
-        return GTMaterials.Water;
-    }
+    public static Map<Material, FluidStats> FLUID_STATS = Map.of(
+            GTMaterials.Water, new FluidStats(ChatFormatting.BLUE, 100, 1.0, 1.0),
+            GTMaterials.DistilledWater, new FluidStats(ChatFormatting.DARK_AQUA, 80, 0.9, 1.1),
+            GTMaterials.Mercury, new FluidStats(ChatFormatting.DARK_BLUE, 50, 1.2, 0.8),
+            GTMaterials.SodiumPersulfate, new FluidStats(ChatFormatting.BLUE, 25, 0.75, 1.25));
 
-    public static Material DISTILLED_WATER() {
-        return GTMaterials.DistilledWater;
-    }
-
-    public static Material MERCURY() {
-        return GTMaterials.Mercury;
-    }
-
-    public static Material SODIUM_PERSULFATE() {
-        return GTMaterials.SodiumPersulfate;
-    }
-
-    public static Material BASE_FLUID() {
-        return WATER();
-    }
-
-    public static Map<Material, FluidStats> FLUID_STATS() {
-        return Map.of(
-                WATER(), new FluidStats(100, 1.0, 1.0),
-                DISTILLED_WATER(), new FluidStats(80, 0.9, 1.1),
-                MERCURY(), new FluidStats(50, 1.2, 0.8),
-                SODIUM_PERSULFATE(), new FluidStats(25, 0.75, 1.25));
-    }
-
-    public record FluidStats(int amount, double durationMultiplier, double euMultiplier) {}
+    public record FluidStats(ChatFormatting color, int amount, double durationMultiplier, double euMultiplier) {}
 
     private Material activeFluid;
+
+    @Persisted
+    private int runningTimer = 0;
 
     public OreFactoryMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -77,7 +61,7 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
     }
 
     private boolean selectFluid() {
-        for (var entry : FLUID_STATS().entrySet()) {
+        for (var entry : FLUID_STATS.entrySet()) {
             if (hasFluid(entry.getKey(), entry.getValue().amount())) {
                 activeFluid = entry.getKey();
                 return true;
@@ -91,7 +75,7 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
     private boolean consumeFluid() {
         if (!selectFluid()) return false;
 
-        FluidStats stats = FLUID_STATS().get(activeFluid);
+        FluidStats stats = FLUID_STATS.get(activeFluid);
 
         GTRecipe recipe = GTRecipeBuilder.ofRaw()
                 .inputFluids(activeFluid.getFluid(stats.amount()))
@@ -106,17 +90,17 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
 
     @Override
     public boolean onWorking() {
-        boolean working = super.onWorking();
+        boolean value = super.onWorking();
 
-        if (getLevel().isClientSide || !working) return working;
-        if (!hasCrushedOre() || !selectFluid()) return false;
+        runningTimer++;
 
         // 100 ticks = 5 seconds.
-        if (getOffsetTimer() % 100L == 0L) {
+        if (runningTimer > 100) {
+            runningTimer %= 100;
             return consumeFluid();
         }
 
-        return true;
+        return value;
     }
 
     @Override
@@ -130,11 +114,15 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
             return RecipeModifier.nullWrongType(OreFactoryMachine.class, machine);
         }
 
-        if (!oreFactory.hasCrushedOre() || !oreFactory.selectFluid()) {
+        if (!oreFactory.hasCrushedOre()) {
             return ModifierFunction.NULL;
         }
 
-        FluidStats stats = FLUID_STATS().get(oreFactory.activeFluid);
+        if (oreFactory.hasCrushedOre() && !oreFactory.selectFluid()) {
+            return ModifierFunction.cancel(Component.translatable("ui.start_core.orefactory.active_fluid.no_fluid"));
+        }
+
+        FluidStats stats = FLUID_STATS.get(oreFactory.activeFluid);
 
         return ModifierFunction.builder()
                 .durationMultiplier(stats.durationMultiplier)
@@ -147,21 +135,18 @@ public class OreFactoryMachine extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            if (activeFluid == MERCURY()) {
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.mercury"));
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.mercury_boost"));
-            } else if (activeFluid == SODIUM_PERSULFATE()) {
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.sodium_persulfate"));
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.sodium_persulfate_boost"));
-            } else if (activeFluid == WATER()) {
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.water"));
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.water_boost"));
-            } else if (activeFluid == DISTILLED_WATER()) {
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.distilled_water"));
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.distilled_water_boost"));
-            } else {
-                textList.add(Component.translatable("ui.start_core.orefactory.ore_factory.no_fluid"));
+
+            if (this.activeFluid == null) {
+                textList.add(Component.translatable("ui.start_core.orefactory.active_fluid.no_fluid"));
+                return;
             }
+
+            FluidStats stats = FLUID_STATS.get(this.activeFluid);
+            textList.add(Component.translatable("ui.start_core.orefactory.active_fluid",
+                    stats.color() + this.activeFluid.getName()));
+            textList.add(Component.translatable("ui.start_core.orefactory.consumption", stats.amount()));
+            textList.add(Component.translatable("ui.start_core.orefactory.duration", stats.durationMultiplier));
+            textList.add(Component.translatable("ui.start_core.orefactory.power_discount", stats.euMultiplier));
         }
     }
 }

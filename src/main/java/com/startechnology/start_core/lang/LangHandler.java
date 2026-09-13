@@ -730,21 +730,11 @@ public class LangHandler {
         provider.add("gtceu.bulk_ore_factory", "Bulk Ore Processing");
         provider.add("gtceu.ore_factory", "Ore Processing");
 
-        provider.add("ui.start_core.orefactory.ore_factory.mercury_boost",
-                "Consumption: 50mb per cycle.\nDuration: 1.2x Time Duration.\nPower Discount: 0.8x EU/T discount.");
-        provider.add("ui.start_core.orefactory.ore_factory.water_boost",
-                "Consumption: 100mb per cycle.\nDuration: 1x Time Duration.\nPower Discount: 1x EU/T discount.");
-        provider.add("ui.start_core.orefactory.ore_factory.distilled_water_boost",
-                "Consumption: 80mb per cycle.\nDuration: .9x Time Duration.\nPower Discount: 1.1x EU/T discount.");
-        provider.add("ui.start_core.orefactory.ore_factory.sodium_persulfate_boost",
-                "Consumption: 25mb per cycle.\nDuration: .75x Time Duration.\nPower Discount: 1.25x EU/T discount.");
-        provider.add("ui.start_core.orefactory.ore_factory.no_boost", "§4§lNo Active Boost.");
-
-        provider.add("ui.start_core.orefactory.ore_factory.mercury", "Active Fluid: §8Mercury");
-        provider.add("ui.start_core.orefactory.ore_factory.sodium_persulfate", "Active Fluid: §3Sodium Persulfate");
-        provider.add("ui.start_core.orefactory.ore_factory.water", "Active Fluid: §1Water");
-        provider.add("ui.start_core.orefactory.ore_factory.distilled_water", "Active Fluid: §9Distilled Water");
-        provider.add("ui.start_core.orefactory.ore_factory.no_fluid", "Active Fluid: §4No Fluid Provided");
+        provider.add("ui.start_core.orefactory.active_fluid", "Active Fluid: %s");
+        provider.add("ui.start_core.orefactory.consumption", "Consumption: %d mb per cycle");
+        provider.add("ui.start_core.orefactory.duration", "Duration: %dx");
+        provider.add("ui.start_core.orefactory.power_discount", "Power: %dx EU/t Discount");
+        provider.add("ui.start_core.orefactory.no_fluid", "Ore Factory cannot run: §4No Fluid Provided");
 
         provider.add("variadic.start_core.indicator.solar_machine.temp", "Percentage to %s K");
         provider.add("variadic.start_core.description.solar_machine.temp",

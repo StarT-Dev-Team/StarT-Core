@@ -152,11 +152,11 @@ public class OreFactoryLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        List<FluidStack> fluids = OreFactoryMachine.FLUID_STATS().entrySet().stream().map(entry -> entry.getKey()
+        List<FluidStack> fluids = OreFactoryMachine.FLUID_STATS.entrySet().stream().map(entry -> entry.getKey()
                 .getFluid(entry.getValue().amount() * scale)).toList();
 
         FluidIngredient fluidIngredient = FluidIngredient.of(fluids);
-        OreFactoryMachine.FluidStats baseStats = OreFactoryMachine.FLUID_STATS().get(OreFactoryMachine.BASE_FLUID());
+        OreFactoryMachine.FluidStats baseStats = OreFactoryMachine.FLUID_STATS.get(GTMaterials.Water);
 
         for (Fluid residue : ForgeRegistries.FLUIDS.getValues()) {
             ResourceLocation id = ForgeRegistries.FLUIDS.getKey(residue);
@@ -250,7 +250,7 @@ public class OreFactoryLogic implements ICustomRecipeLogic {
             Material fluidMaterial = ChemicalHelper.getMaterial(input.getFluid());
             if (fluidMaterial == null) continue;
 
-            OreFactoryMachine.FluidStats stats = OreFactoryMachine.FLUID_STATS().get(fluidMaterial);
+            OreFactoryMachine.FluidStats stats = OreFactoryMachine.FLUID_STATS.get(fluidMaterial);
 
             if (stats == null) continue;
 
