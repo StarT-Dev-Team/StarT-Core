@@ -41,7 +41,7 @@ public class StarTArborealExtractorMachines {
                     .where('C', Predicates.controller(Predicates.blocks(definition.get())))
                     .where('B', Predicates.blocks(Blocks.BRICKS))
                     .where('O', Predicates.ability(PartAbility.EXPORT_FLUIDS).or(Predicates.blocks(Blocks.BRICKS)))
-                    .where('I', Predicates.ability(PartAbility.IMPORT_FLUIDS).or(Predicates.blocks(Blocks.BRICKS)))
+                    .where('I', Predicates.ability(PartAbility.IMPORT_ITEMS).or(Predicates.blocks(Blocks.BRICKS)))
                     .where('S', Predicates.blocks(Blocks.BRICK_SLAB))
                     .where('L', StarTArborealPredicates.leaves())
                     .where('G', StarTArborealPredicates.logs())
