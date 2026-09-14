@@ -10,13 +10,14 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.ingredient.EnergyStack;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.integration.kjs.helpers.MachineModifiers;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.ChatFormatting;
@@ -44,9 +45,9 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
         this.tier = tier;
     }
 
-    private final Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");
-    private final Material SS_HE3_FLUID = GTMaterials.get("superstate_helium_3");
-    private final Material BEC_OG_FLUID = GTMaterials.get("bec_og");
+    private final Material WS2_FLUID = StarTMaterials.TungstenDisulfide;
+    private final Material SS_HE3_FLUID = StarTMaterials.SuperstateHelium3;
+    private final Material BEC_OG_FLUID = StarTMaterials.BecOg;
 
     private int getParallelBonus() {
         return switch (this.tier) {

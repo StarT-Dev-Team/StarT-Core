@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.startechnology.start_core.block.StarTBlocks;
+import com.startechnology.start_core.elements.StarTElements;
 import com.startechnology.start_core.item.StarTDreamLinkCovers;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.recipe.StarTRecipes;
@@ -44,6 +45,11 @@ public class StarTCoreGTAddon implements IGTAddon {
     @Override
     public void registerCovers() {
         StarTDreamLinkCovers.init();
+    }
+
+    @Override
+    public void registerElements() {
+        StarTElements.init();
     }
 
     // If you have custom ingredient types, uncomment this & change to match your capability.

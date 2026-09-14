@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 
@@ -39,7 +39,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                     GTRecipe heatingRecipe = StarTRecipeTypes.HELL_FORGE_RECIPES
                             .recipeBuilder(material.getName() + "_hellforge_heating")
                             .inputFluids(heatingFluidInput)
-                            .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
+                            .outputFluids(StarTMaterials.InfernalTar.getFluid(500))
                             .duration(64)
                             .EUt(GTValues.V[GTValues.UEV])
                             .buildRawRecipe();
@@ -70,7 +70,7 @@ public class HellForgeHeatingLogic implements ICustomRecipeLogic {
                     return StarTRecipeTypes.HELL_FORGE_RECIPES
                             .recipeBuilder("heating")
                             .inputFluids(fluidInput)
-                            .outputFluids(StarTHellForgeHeatingLiquids.InfernalTar.getFluid(500))
+                            .outputFluids(StarTMaterials.InfernalTar.getFluid(500))
                             .duration(64)
                             .EUt(GTValues.V[GTValues.UEV])
                             .buildRawRecipe();

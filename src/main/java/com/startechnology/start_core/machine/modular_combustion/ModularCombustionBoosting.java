@@ -21,6 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,13 +56,13 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
 
     private final List<ResourceLocation> acceptedFrameIds;
 
-    private final Material LUBRICANT = GTMaterials.get("lubricant");
-    private final Material WS2_FLUID = GTMaterials.get("tungsten_disulfide");// t2 Lube
+    private final Material LUBRICANT = GTMaterials.Lubricant;
+    private final Material WS2_FLUID = StarTMaterials.TungstenDisulfide; // t2 Lube
 
-    private final Material T1COXIDIZER = GTMaterials.get("white_fuming_nitric_acid");
-    private final Material T2COXIDIZER = GTMaterials.get("red_fuming_nitric_acid");
-    private final Material T1ROXIDIZER = GTMaterials.get("dioxygen_difluoride");
-    private final Material T2ROXIDIZER = GTMaterials.get("ferrocenium_superoxide");
+    private final Material T1COXIDIZER = StarTMaterials.WhiteFumingNitricAcid;
+    private final Material T2COXIDIZER = StarTMaterials.RedFumingNitricAcid;
+    private final Material T1ROXIDIZER = StarTMaterials.DioxygenDifluoride;
+    private final Material T2ROXIDIZER = StarTMaterials.FerroceniumSuperoxide;
 
     public ModularCombustionBoosting(IMachineBlockEntity holder, int tier, ResourceLocation... acceptedFrameIds) {
         super(holder, tier);

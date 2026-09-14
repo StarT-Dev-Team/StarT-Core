@@ -16,6 +16,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.modular.StarTModularConduitHatchPartMachine;
 import com.startechnology.start_core.machine.modular.StarTModularControllerMachine;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,8 +42,8 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
     @DescSynced
     private long outputPerSec = 0L;
 
-    private static final Material DISTILLED_WATER = GTMaterials.get("distilled_water");
-    private static final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
+    private static final Material DISTILLED_WATER = GTMaterials.DistilledWater;
+    private static final Material DEIONIZED_WATER = StarTMaterials.DeionizedWater;
     private Material activeCoolant = null;
     private EnergyContainerList frameNodeContainers = new EnergyContainerList(new ArrayList<>());
     private List<StarTModularConduitHatchPartMachine> trackedConduits = new ArrayList<>();
@@ -110,9 +112,9 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
         if (!this.readyToUpdate) return;
 
         if (getOffsetTimer() % 60L == 0L) {
-            this.inputPerSec   = this.netInLastSec;
-            this.outputPerSec  = this.netOutLastSec;
-            this.netInLastSec  = 0L;
+            this.inputPerSec = this.netInLastSec;
+            this.outputPerSec = this.netOutLastSec;
+            this.netInLastSec = 0L;
             this.netOutLastSec = 0L;
             transferModuleInterfacesTick();
         }
@@ -120,14 +122,12 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
 
     private boolean hasDistilledWater() {
         return RecipeHelper.matchRecipe(this,
-                GTRecipeBuilder.ofRaw().inputFluids(DISTILLED_WATER.getFluid(500000)).buildRawRecipe()
-        ).isSuccess();
+                GTRecipeBuilder.ofRaw().inputFluids(DISTILLED_WATER.getFluid(500000)).buildRawRecipe()).isSuccess();
     }
 
     private boolean hasDeionizedWater() {
         return RecipeHelper.matchRecipe(this,
-                GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(500000)).buildRawRecipe()
-        ).isSuccess();
+                GTRecipeBuilder.ofRaw().inputFluids(DEIONIZED_WATER.getFluid(500000)).buildRawRecipe()).isSuccess();
     }
 
     private double getFrameBoost() {
@@ -175,17 +175,16 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
         }
 
         double boost = getFrameBoost();
-        long boostedEnergy = (long)(energyInNodes * boost);
+        long boostedEnergy = (long) (energyInNodes * boost);
         long transferred = frameOutputHatches.changeEnergy(boostedEnergy);
 
         if (transferred > 0) {
             long rawConsumed = Math.min(
                     energyInNodes,
-                    (long) Math.ceil((double) transferred / boost)
-            );
+                    (long) Math.ceil((double) transferred / boost));
             frameNodeContainers.removeEnergy(rawConsumed);
 
-            this.netInLastSec  += rawConsumed;
+            this.netInLastSec += rawConsumed;
             this.netOutLastSec += transferred;
 
             if (getOffsetTimer() % 144L == 0L) {
@@ -205,7 +204,7 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
             int linked = countLinkedModules();
             double boost = getFrameBoost();
 
-            long avgEuIn  = this.inputPerSec  / 60L;
+            long avgEuIn = this.inputPerSec / 60L;
             long avgEuOut = this.outputPerSec / 60L;
 
             textList.add(Component.translatable("start_core.multiblock.frame.avg_eu_in",
