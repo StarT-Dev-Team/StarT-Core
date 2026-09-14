@@ -1,3 +1,4 @@
 {
-  "tagprefix.dust_block": "%sの粉ブロック"
+  "tagprefix.dust_block": "%sの粉ブロック",
+  "gtceu.machine.parallel_hatch_mk5.tooltip": "最大8レシピの並列運転が可能。"
 }

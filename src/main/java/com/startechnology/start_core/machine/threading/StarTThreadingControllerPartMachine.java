@@ -79,7 +79,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
                                         .translatable("start_core.machine.threading_controller.stat.general_hover")))));
 
         for (String stat : machine.getStatTypes()) {
-            componentList.add(Component.literal(""));
+            componentList.add(Component.empty());
             var statPointLine = Component
                     .translatable("start_core.machine.threading_controller.stat.display_assign",
                             Component.translatable("start_core.machine.threading.stat." + stat),
@@ -118,7 +118,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
         }
 
         /* Blocks display */
-        componentList.add(Component.literal(""));
+        componentList.add(Component.empty());
 
         componentList.add(Component.translatable("start_core.machine.threading_controller.list_components")
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
@@ -132,7 +132,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
             componentList.add(component);
         });
 
-        componentList.add(Component.literal(""));
+        componentList.add(Component.empty());
     }
 
     /* Handle the click inside of the component panel above */

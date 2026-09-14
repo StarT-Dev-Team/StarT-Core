@@ -3,6 +3,7 @@ package com.startechnology.start_core.integration.jade.provider;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
@@ -45,7 +46,7 @@ public class StarTHellforgeProvider extends CapabilityBlockProvider<StarTHellFor
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("temperature") && capData.contains("uiKey")) {
+        if (StarTJadeUtils.hasData(capData, "temperature", "uiKey")) {
             int temperature = capData.getInt("temperature");
             String uiKey = capData.getString("uiKey");
             tooltip.add(Component.translatable(uiKey, temperature));

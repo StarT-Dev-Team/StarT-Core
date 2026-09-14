@@ -432,7 +432,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
             var scaling = 1.0;
 
             for (var entry : filaments.countsByTier().entrySet()) {
-                scaling *= filamentStabilizing(entry.getKey() - 1, entry.getValue());
+                scaling *= filamentStabilizing(entry.getKey(), entry.getValue());
             }
 
             return scaling;

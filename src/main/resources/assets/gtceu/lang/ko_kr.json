@@ -1,6 +1,6 @@
 {
   "tagprefix.dust_block": "%s 가루 블록",
-  "tagprefix.foil_ream": "%s 포일",
+  "tagprefix.foil_ream": "%s 코일",
   "tagprefix.wire_spool": "%s 와이어 스풀",
   "tagprefix.ultradense_plate": "매우 단단한 %s 판",
   "tagprefix.ball_bearing": "%s 볼 베어링",
@@ -10,9 +10,14 @@
   "gtceu.modifier.bulk_processing.name": "%s 벌크 처리:",
   "gtceu.modifier.bulk_processing.description.0": "  §7만약 이 기계에 16x 병렬 처리를 할 수 있는 재료가 있다면,",
   "gtceu.modifier.bulk_processing.description.1": "  §7처리 시간이 13배로 늘어나는 대신 16x 병렬 처리를 진행합니다.",
+  "gtceu.modifier.bulking.name": "%s 벌크 처리:",
+  "gtceu.modifier.bulking.description.0": "  §7선택된 벌크 처리에 따라, 기계가 가능할 경우 작동합니다. 벌크 처리를 사용하지 않는 것 보다 처리량이 높으며 총 걸리는 시간이 단축됩니다.",
+  "gtceu.modifier.bulking.description.1": "  §7만약 강제 벌크가 켜져있으면, 벌크에 필요한 재료가 없으면 작동하지 않습니다.",
+  "gtceu.modifier.bulking.description.2": "  §7가능한 벌크 처리 (처리량:제작법 배수 비): 4:3.25, 8:6.5, 16:13, 32:26, 64:52",
   "gtceu.modifier.throughput_boosting.name": "%s 처리량 부스팅:",
   "gtceu.modifier.throughput_boosting.description.0": "  §7가능하면 정확히 4x 병럴 처리를 가집니다.",
-  "gtceu.modifier.throughput_boosting.description.1": "  §7제작법 처리 시간이 1.6x로 상승하며, 사용 EU/t이 0.95x로 감소합니다.",
+  "gtceu.modifier.throughput_boosting.description.1": "  §7동시에 제작법 처리 시간이 1.6x로 상승합니다.",
+  "gtceu.modifier.throughput_boosting.description.2": "  §7또한, 각 레시피에 대한 전력 사용량이 0.95x가 됩니다.",
   "gtceu.modifier.fake_fusion_overclock.name": "%s 융합 반응로 컴퓨터 오버클록:",
   "gtceu.modifier.fake_fusion_overclock.description.0": "  §7다른 일반적인 기계와 다르게 융합 반응로 컴퓨터는 전력 해치의 등급을 올리는 것으로 오버클록이 불가능합니다.",
   "gtceu.modifier.fake_fusion_overclock.description.1": "  §7융합 반응로 컴퓨터를 오버클록 시키는 방법은 융합 반응로 컴퓨터 자체 등급을 올리는 것 입니다.",
@@ -28,5 +33,6 @@
   "gtceu.modifier.reflector_fusion_reactor.description.0": "  §7융합 반응로 컴퓨터는 \"융합 반사판\"을 이용해 강화할 수 있습니다.",
   "gtceu.modifier.reflector_fusion_reactor.description.1": "  §7더 높은 등급의 융합 반응로 컴퓨터를 얻는 것 대신 반사판을 강화해 더 빠른 제작을 가능하게 할 수 있습니다.",
   "gtceu.modifier.reflector_fusion_reactor.description.2": "  §7반사판의 등급이 올라가면 제작법에 걸리는 시간이 반으로 줄어들며 대신 전력을 두 배로 소모합니다. 이는 다른 요인과 독립적입니다. §b[2:2]",
-  "gtceu.modifier.reflector_fusion_reactor.description.3": "  §7반사판 오버클록은 융합 반응로 컴퓨터 오버클록과 동시에 적용 가능하며, 전력 사용량은 증가하지만 등급이 낮은 융합 반응로 컴퓨터에서 제작법 등급을 올리진 않습니다."
+  "gtceu.modifier.reflector_fusion_reactor.description.3": "  §7반사판 오버클록은 융합 반응로 컴퓨터 오버클록과 동시에 적용 가능하며, 전력 사용량은 증가하지만 등급이 낮은 융합 반응로 컴퓨터에서 제작법 등급을 올리진 않습니다.",
+  "gtceu.machine.parallel_hatch_mk5.tooltip": "8x 병렬 처리가 가능하게 해줍니다."
 }

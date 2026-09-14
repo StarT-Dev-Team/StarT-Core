@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.data.GTParallelTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -46,7 +47,7 @@ public class StarTSteamParallelMultiblockMachine extends SteamParallelMultiblock
                 .outputModifier(ContentModifier.multiplier(parallelAmount))
                 .durationMultiplier(1.05)
                 .eutMultiplier(eutMultiplier)
-                .parallels(parallelAmount)
+                .parallels(parallelAmount, GTParallelTypes.STEAM)
                 .build();
     }
 }

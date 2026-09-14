@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.StarTJadeUtils;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
@@ -46,8 +47,7 @@ public class StarTSolarMachineProvider extends CapabilityBlockProvider<StarTSola
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
-        if (capData.contains("euT") && capData.contains("formed") && capData.contains("totalCells") &&
-                capData.contains("brokenCells")) {
+        if (StarTJadeUtils.hasData(capData, "euT", "formed", "totalCells", "brokenCells")) {
             if (!capData.getBoolean("formed")) return;
 
             int euT = capData.getInt("euT");

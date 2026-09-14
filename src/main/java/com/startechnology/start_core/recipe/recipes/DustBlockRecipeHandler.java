@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.startechnology.start_core.materials.StarTTagPrefixes;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Consumer;
 
@@ -31,13 +32,15 @@ public class DustBlockRecipeHandler {
             if (material.hasProperty(PropertyKey.DUST)) {
 
                 var dustBlock = ChemicalHelper.get(StarTTagPrefixes.dustBlock, material);
+                if (dustBlock.equals(ItemStack.EMPTY)) continue;
                 var dust_9x = ChemicalHelper.get(TagPrefix.dust, material, 9);
 
                 // Compressing recipes
-                VanillaRecipeHelper.addShapedRecipe(provider, String.format("%s_dust_to_dust_block", material.getName()), dustBlock,
+                VanillaRecipeHelper.addShapedRecipe(provider,
+                        String.format("%s_dust_to_dust_block", material.getName()), dustBlock,
                         "DDD",
-                                "DDD",
-                                "DDD",
+                        "DDD",
+                        "DDD",
                         'D', new MaterialEntry(TagPrefix.dust, material));
 
                 PACKER_RECIPES.recipeBuilder(String.format("package_%s_dust_block", material.getName()))
@@ -47,8 +50,9 @@ public class DustBlockRecipeHandler {
                         .save(provider);
 
                 // Decompressing recipes
-                VanillaRecipeHelper.addShapelessRecipe(provider, String.format("%s_dust_block_to_dust", material.getName()), dust_9x,
-                new MaterialEntry(StarTTagPrefixes.dustBlock, material));
+                VanillaRecipeHelper.addShapelessRecipe(provider,
+                        String.format("%s_dust_block_to_dust", material.getName()), dust_9x,
+                        new MaterialEntry(StarTTagPrefixes.dustBlock, material));
 
                 PACKER_RECIPES.recipeBuilder(String.format("unpackage_%s_dust_block", material.getName()))
                         .inputItems(dustBlock)
@@ -59,5 +63,4 @@ public class DustBlockRecipeHandler {
 
         }
     }
-
 }

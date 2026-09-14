@@ -75,15 +75,16 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.isWorking = false;
-        this.startHeatLoss = true;
-        this.temperatureChanged();
+        isWorking = false;
+        startHeatLoss = true;
+        temperatureChanged();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        this.isWorking = false;
+        isWorking = false;
+        temperature = baseTemperature;
     }
 
     public String getCrucibleUIKey() {
@@ -140,10 +141,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     @Override
     public void onLoad() {
         super.onLoad();
-
-        if (getLevel().isClientSide)
-            return;
-
+        if (isRemote()) return;
         tryTickSub = subscribeServerTick(tryTickSub, this::tryRemoveHeat);
     }
 
