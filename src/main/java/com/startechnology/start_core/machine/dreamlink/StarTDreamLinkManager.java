@@ -4,7 +4,7 @@ import com.github.davidmoten.rtree.Entry;
 import com.github.davidmoten.rtree.RTree;
 import com.github.davidmoten.rtree.geometry.Geometries;
 import com.github.davidmoten.rtree.geometry.Geometry;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import rx.Observable;
 
 import java.util.HashMap;
@@ -14,33 +14,33 @@ import java.util.UUID;
 
 public class StarTDreamLinkManager {
 
-    private final Map<UUID, RTree<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> dreamLinkTrees = new HashMap<>();
-    private final Map<IStarTDreamLinkNetworkRecieveEnergy, Registration> registrations = new HashMap<>();
+    private final Map<UUID, RTree<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> dreamLinkTrees = new HashMap<>();
+    private final Map<IStarTDreamLinkNetworkReceiveEnergy, Registration> registrations = new HashMap<>();
 
     // Singleton for management
     private static final StarTDreamLinkManager MANAGER = new StarTDreamLinkManager();
 
     private StarTDreamLinkManager() {}
 
-    public static void addDevice(IStarTDreamLinkNetworkRecieveEnergy machine, UUID machineOwner) {
+    public static void addDevice(IStarTDreamLinkNetworkReceiveEnergy machine, UUID machineOwner) {
         MANAGER.registerDevice(machine, machineOwner);
     }
 
-    public static void removeDevice(IStarTDreamLinkNetworkRecieveEnergy machine) {
+    public static void removeDevice(IStarTDreamLinkNetworkReceiveEnergy machine) {
         MANAGER.unregisterDevice(machine);
     }
 
-    public static Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getDevices(int tx, int tz, int bx,
+    public static Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> getDevices(int tx, int tz, int bx,
                                                                                               int bz,
                                                                                               UUID machineOwner) {
         return MANAGER.getDevicesForOwner(tx, tz, bx, bz, machineOwner);
     }
 
-    public static Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getAllDevices(UUID machineOwner) {
+    public static Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> getAllDevices(UUID machineOwner) {
         return MANAGER.getAllDevicesForOwner(machineOwner);
     }
 
-    void registerDevice(IStarTDreamLinkNetworkRecieveEnergy machine, UUID machineOwner) {
+    void registerDevice(IStarTDreamLinkNetworkReceiveEnergy machine, UUID machineOwner) {
         Objects.requireNonNull(machine, "machine");
         Objects.requireNonNull(machineOwner, "machineOwner");
 
@@ -62,28 +62,28 @@ public class StarTDreamLinkManager {
         registrations.put(machine, new Registration(machineOwner, location));
     }
 
-    void unregisterDevice(IStarTDreamLinkNetworkRecieveEnergy machine) {
+    void unregisterDevice(IStarTDreamLinkNetworkReceiveEnergy machine) {
         var registration = registrations.remove(machine);
         if (registration != null) {
             removeFromTree(machine, registration);
         }
     }
 
-    Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getDevicesForOwner(int tx, int tz, int bx, int bz,
+    Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> getDevicesForOwner(int tx, int tz, int bx, int bz,
                                                                                         UUID machineOwner) {
         return treeFor(machineOwner).search(Geometries.rectangle(bx, bz, tx, tz));
     }
 
-    Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> getAllDevicesForOwner(UUID machineOwner) {
+    Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> getAllDevicesForOwner(UUID machineOwner) {
         return treeFor(machineOwner).entries();
     }
 
-    private void removeRegistration(IStarTDreamLinkNetworkRecieveEnergy machine, Registration registration) {
+    private void removeRegistration(IStarTDreamLinkNetworkReceiveEnergy machine, Registration registration) {
         registrations.remove(machine);
         removeFromTree(machine, registration);
     }
 
-    private void removeFromTree(IStarTDreamLinkNetworkRecieveEnergy machine, Registration registration) {
+    private void removeFromTree(IStarTDreamLinkNetworkReceiveEnergy machine, Registration registration) {
         var tree = dreamLinkTrees.get(registration.owner());
         if (tree == null) {
             return;
@@ -97,7 +97,7 @@ public class StarTDreamLinkManager {
         }
     }
 
-    private RTree<IStarTDreamLinkNetworkRecieveEnergy, Geometry> treeFor(UUID machineOwner) {
+    private RTree<IStarTDreamLinkNetworkReceiveEnergy, Geometry> treeFor(UUID machineOwner) {
         return dreamLinkTrees.getOrDefault(machineOwner, RTree.create());
     }
 

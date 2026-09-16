@@ -24,7 +24,7 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
@@ -64,7 +64,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     protected ConditionalSubscriptionHandler tickSubscription;
     protected TickableSubscription tryTickSub;
 
-    private final ArrayList<IStarTDreamLinkNetworkRecieveEnergy> receiverCache = new ArrayList<>();
+    private final ArrayList<IStarTDreamLinkNetworkReceiveEnergy> receiverCache = new ArrayList<>();
     private boolean isReadyToTransmit;
 
     @Persisted
@@ -169,7 +169,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         // Transfer energy tick only every 3 seconds, should keep up fine just averaged over 3 seconds instead of every
         // tick/second
         // and help save TPS a bit due to GTM update handlers on recipe logic
-        // from hatches recieving power very often?
+        // from hatches receiving power very often?
         if (getOffsetTimer() % 60 == 0 && this.isReadyToTransmit) {
             updateTransferCache();
             transferEnergyTick();
@@ -185,7 +185,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         int z = centre.getZ();
         UUID thisUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
 
-        Observable<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> machines;
+        Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> machines;
 
         // Get dream-link hatches
         if (this.range != -1) {
@@ -195,8 +195,8 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         }
 
         // Convert Observable to List once and cache it
-        List<Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry>> deviceEntries = machines
-                .filter(machine -> machine.value().canRecieve(this, this.checkDimension))
+        List<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> deviceEntries = machines
+                .filter(machine -> machine.value().canReceive(this, this.checkDimension))
                 .toList()
                 .toBlocking()
                 .single();
@@ -216,7 +216,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         // Extract just the devices we need
         receiverCache.clear();
         receiverCache.ensureCapacity(deviceEntries.size()); // Pre-allocate capacity
-        for (Entry<IStarTDreamLinkNetworkRecieveEnergy, Geometry> entry : deviceEntries) {
+        for (Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry> entry : deviceEntries) {
             receiverCache.add(entry.value());
         }
 
@@ -247,9 +247,9 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
         // Use array access with type casting
         for (int i = 0; i < receiverCount && energyStored > 0; i++) {
-            IStarTDreamLinkNetworkRecieveEnergy device = (IStarTDreamLinkNetworkRecieveEnergy) receivers[i];
+            IStarTDreamLinkNetworkReceiveEnergy device = (IStarTDreamLinkNetworkReceiveEnergy) receivers[i];
 
-            long energyToTransfer = device.recieveEnergy(energyStored);
+            long energyToTransfer = device.receiveEnergy(energyStored);
             if (energyToTransfer > 0) {
                 totalEnergyTransferred += energyToTransfer;
                 energyStored -= energyToTransfer;

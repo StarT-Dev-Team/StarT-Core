@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
@@ -155,7 +155,7 @@ public class LucinducerCurioItem implements ICurioItem {
         }
     }
 
-    private static final class InventoryChargingReceiver implements IStarTDreamLinkNetworkRecieveEnergy {
+    private static final class InventoryChargingReceiver implements IStarTDreamLinkNetworkReceiveEnergy {
 
         private ServerPlayer player;
         private ItemStack lucinducer = ItemStack.EMPTY;
@@ -196,12 +196,12 @@ public class LucinducerCurioItem implements ICurioItem {
         }
 
         @Override
-        public long recieveEnergy(long recieved) {
-            if (recieved <= 0 || !isActive()) {
+        public long receiveEnergy(long received) {
+            if (received <= 0 || !isActive()) {
                 return 0;
             }
 
-            var accepted = chargeCarriedItems(recieved);
+            var accepted = chargeCarriedItems(received);
             if (accepted > 0) {
                 player.getInventory().setChanged();
                 player.containerMenu.broadcastChanges();
@@ -215,7 +215,7 @@ public class LucinducerCurioItem implements ICurioItem {
         }
 
         @Override
-        public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
+        public boolean canReceive(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
             if (!isActive()) {
                 return false;
             }

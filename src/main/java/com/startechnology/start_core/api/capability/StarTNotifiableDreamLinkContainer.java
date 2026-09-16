@@ -24,7 +24,7 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
         super(machine, maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
     }
 
-    /* Shorthand for reciever version constructor */
+    /* Shorthand for receiver version constructor */
     public static StarTNotifiableDreamLinkContainer receiverContainer(MetaMachine machine, long maxCapacity,
                                                                       long maxInputVoltage, long maxInputAmperage) {
         return new StarTNotifiableDreamLinkContainer(machine, maxCapacity, maxInputVoltage, maxInputAmperage, 0L, 0L);
