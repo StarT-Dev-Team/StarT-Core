@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -52,7 +51,6 @@ public class StarTDreamLinkCover extends CoverBehavior
     @Persisted
     private String network;
     private TickableSubscription addTickSubscription;
-    private UUID ownerUUID;
 
     public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier,
                                int amperage) {
@@ -101,7 +99,6 @@ public class StarTDreamLinkCover extends CoverBehavior
 
             if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
                 UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
-                this.ownerUUID = ownerUUID;
                 StarTDreamLinkManager.addDevice(this, ownerUUID);
             }
         }
@@ -114,7 +111,7 @@ public class StarTDreamLinkCover extends CoverBehavior
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        StarTDreamLinkManager.removeDevice(this);
 
         if (Objects.nonNull(this.addTickSubscription)) {
             this.addTickSubscription.unsubscribe();
@@ -174,7 +171,7 @@ public class StarTDreamLinkCover extends CoverBehavior
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        StarTDreamLinkManager.removeDevice(this);
 
         if (Objects.nonNull(this.addTickSubscription)) {
             this.addTickSubscription.unsubscribe();

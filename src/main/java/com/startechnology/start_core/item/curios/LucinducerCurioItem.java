@@ -120,11 +120,7 @@ public class LucinducerCurioItem implements ICurioItem {
     }
 
     private static UUID getDreamLinkOwner(Player player) {
-        var owner = MachineOwner.getOwner(player.getUUID());
-        if (owner == null || owner.getUUID() == null || owner.getUUID().equals(MachineOwner.EMPTY)) {
-            return player.getUUID();
-        }
-        return owner.getUUID();
+        return IStarTGetMachineUUIDSafe.resolveDreamLinkOwner(player.getUUID());
     }
 
     private static boolean hasOtherRegisteredReceiver(Player player, ReceiverKey currentKey) {
@@ -171,16 +167,6 @@ public class LucinducerCurioItem implements ICurioItem {
 
         private void update(ServerPlayer player, ItemStack lucinducer, BlockPos position, String network, UUID ownerId,
                             ResourceKey<DimensionType> dimension) {
-            var changed = this.player != player ||
-                    !this.position.equals(position) ||
-                    !this.network.equals(network) ||
-                    !this.ownerId.equals(ownerId) ||
-                    !this.dimension.equals(dimension);
-
-            if (registered && changed) {
-                unregister();
-            }
-
             this.player = player;
             this.lucinducer = lucinducer;
             this.position = position;
@@ -188,10 +174,8 @@ public class LucinducerCurioItem implements ICurioItem {
             this.ownerId = ownerId;
             this.dimension = dimension;
 
-            if (!registered) {
-                StarTDreamLinkManager.addDevice(this, ownerId);
-                registered = true;
-            }
+            StarTDreamLinkManager.addDevice(this, ownerId);
+            registered = true;
         }
 
         private void discard() {
@@ -206,7 +190,7 @@ public class LucinducerCurioItem implements ICurioItem {
 
         private void unregister() {
             if (registered) {
-                StarTDreamLinkManager.removeDevice(this, ownerId);
+                StarTDreamLinkManager.removeDevice(this);
                 registered = false;
             }
         }

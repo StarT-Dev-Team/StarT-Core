@@ -3,10 +3,8 @@ package com.startechnology.start_core.api.capability;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.common.machine.owner.FTBOwner;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
-import com.gregtechceu.gtceu.common.machine.owner.PlayerOwner;
-import dev.ftb.mods.ftbteams.FTBTeamsAPIImpl;
+import dev.ftb.mods.ftbteams.api.FTBTeamsAPI;
 import dev.ftb.mods.ftbteams.api.Team;
 
 import net.minecraft.core.BlockPos;
@@ -14,54 +12,59 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class IStarTGetMachineUUIDSafe {
 
     /**
      * Safely get's the UUID from this machine, or returns the nearest player
      */
-    public static final UUID getUUIDSafeMetaMachine(MetaMachine machine) {
+    public static UUID getUUIDSafeMetaMachine(MetaMachine machine) {
         return getUUIDSafe(
-                machine.getOwner(),
+                machine.getOwnerUUID(),
                 machine.getPos(),
                 machine.getLevel(),
-                owner -> machine.setOwnerUUID(owner.getUUID()));
+                machine::setOwnerUUID);
     }
 
-    public static final UUID getUUIDSafeMetaMachineBlockEntity(MetaMachineBlockEntity machine) {
+    public static UUID getUUIDSafeMetaMachineBlockEntity(MetaMachineBlockEntity machine) {
+        var metaMachine = machine.getMetaMachine();
         return getUUIDSafe(
-                machine.getMetaMachine().getOwner(),
+                metaMachine.getOwnerUUID(),
                 machine.getBlockPos(),
                 machine.getLevel(),
-                owner -> machine.getMetaMachine().setOwnerUUID(owner.getUUID()));
+                metaMachine::setOwnerUUID);
     }
 
-    /**
-     * Core logic for safely getting UUID from a machine
-     */
-    private static UUID getUUIDSafe(
-                                    MachineOwner currentOwner,
-                                    BlockPos machinePos,
-                                    Level level,
-                                    OwnerSetter ownerSetter) {
-        // Safe case: get from the machine's owner since it exists
-        try {
-            if (!Objects.isNull(currentOwner) && !Objects.isNull(currentOwner.getUUID())) {
-                return currentOwner.getUUID();
-            }
-        } catch (NullPointerException e) {
-            if (!e.getMessage().contains("dev.ftb.mods.ftbteams.api.Team.getId()")) {
-                throw new RuntimeException("Blame stellaurora or GTM for this one: " + e.getMessage());
-            }
+    public static UUID resolveDreamLinkOwner(UUID playerUUID) {
+        if (!GTCEu.Mods.isFTBTeamsLoaded()) {
+            return playerUUID;
         }
 
-        // OOoOOHOOHOHOH Spooky territory: Try to find nearest player
+        var api = FTBTeamsAPI.api();
+        if (!api.isManagerLoaded()) {
+            return playerUUID;
+        }
 
-        // if this doesnt exist then what am i supposed to do ...
-        if (Objects.isNull(level)) {
+        return resolveDreamLinkOwner(playerUUID,
+                uuid -> api.getManager().getTeamForPlayerID(uuid).map(Team::getId));
+    }
+
+    static UUID resolveDreamLinkOwner(UUID playerUUID,
+                                      Function<UUID, Optional<UUID>> effectiveTeamLookup) {
+        return effectiveTeamLookup.apply(playerUUID).orElse(playerUUID);
+    }
+
+    private static UUID getUUIDSafe(UUID currentOwnerUUID, BlockPos machinePos, Level level,
+                                    Consumer<UUID> ownerUUIDSetter) {
+        if (currentOwnerUUID != null && !MachineOwner.EMPTY.equals(currentOwnerUUID)) {
+            return resolveDreamLinkOwner(currentOwnerUUID);
+        }
+
+        if (level == null) {
             System.out.println("Please replace this Dream-Link, no UUID");
             return UUID.randomUUID();
         }
@@ -73,7 +76,7 @@ public class IStarTGetMachineUUIDSafe {
                 10,
                 (_player) -> true);
 
-        if (Objects.isNull(nearestPlayer)) {
+        if (nearestPlayer == null) {
             if (!level.isClientSide()) {
                 level.getServer().getPlayerList().broadcastSystemMessage(
                         Component.translatable("start_core.uuid_safe.fail_nearest_player",
@@ -83,46 +86,8 @@ public class IStarTGetMachineUUIDSafe {
             return UUID.randomUUID();
         }
 
-        UUID resolvedOwner = resolveOwnerUUIDForPlayer(nearestPlayer);
-
-        // Set the owner based on FTB Teams availability
-        MachineOwner newOwner = createOwnerForPlayer(nearestPlayer);
-        ownerSetter.setOwner(newOwner);
-
-        return resolvedOwner;
-    }
-
-    /**
-     * Creates appropriate owner type based on FTB Teams availability
-     */
-    private static MachineOwner createOwnerForPlayer(Player player) {
-        if (GTCEu.Mods.isFTBTeamsLoaded()) {
-            Optional<Team> team = FTBTeamsAPIImpl.INSTANCE.getManager().getTeamForPlayerID(player.getUUID());
-            if (team.isPresent()) {
-                return new FTBOwner(team.get().getId());
-            }
-        }
-        return new PlayerOwner(player.getUUID());
-    }
-
-    private static UUID resolveOwnerUUIDForPlayer(Player player) {
-        if (GTCEu.Mods.isFTBTeamsLoaded()) {
-            Optional<Team> team = FTBTeamsAPIImpl.INSTANCE.getManager().getTeamForPlayerID(player.getUUID());
-
-            if (team.isPresent()) {
-                return team.get().getId();
-            }
-        }
-
-        return player.getUUID();
-    }
-
-    /**
-     * Functional interface for setting owners on different machine types
-     */
-    @FunctionalInterface
-    private interface OwnerSetter {
-
-        void setOwner(MachineOwner owner);
+        var playerUUID = nearestPlayer.getUUID();
+        ownerUUIDSetter.accept(playerUUID);
+        return resolveDreamLinkOwner(playerUUID);
     }
 }
