@@ -9,5 +9,4 @@ public class StarTMaterialIconTypes {
     public static final MaterialIconType wireSpool = new MaterialIconType("wireSpool");
     public static final MaterialIconType ultraDensePlate = new MaterialIconType("ultradensePlate");
     public static final MaterialIconType ballBearing = new MaterialIconType("ballBearing");
-
 }

@@ -15,13 +15,14 @@ import static com.startechnology.start_core.machine.crates.StarTCrates.ENRICHED_
 import static com.startechnology.start_core.machine.crates.StarTCrates.NEUTRONIUM_CRATE;
 
 public class CrateRecipes {
+
     public static final void init(Consumer<FinishedRecipe> provider) {
         customCrateRecipes(provider);
     }
 
     public static void customCrateRecipes(Consumer<FinishedRecipe> provider) {
-
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "enriched_naquadah_crate", ENRICHED_NAQUADAH_CRATE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, "enriched_naquadah_crate",
+                ENRICHED_NAQUADAH_CRATE.asStack(),
                 "RPR",
                 "PhP",
                 "RPR",

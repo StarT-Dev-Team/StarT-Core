@@ -21,7 +21,6 @@ public class DrumRecipes {
     }
 
     public static void customDrumRecipes(Consumer<FinishedRecipe> provider) {
-
         VanillaRecipeHelper.addShapedRecipe(provider, true, "enriched_naquadah_drum", ENRICHED_NAQUADAH_DRUM.asStack(),
                 " h ",
                 "PRP",

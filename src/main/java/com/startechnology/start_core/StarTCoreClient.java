@@ -14,5 +14,4 @@ public class StarTCoreClient {
             KomaruRendererManager.init();
         }
     }
-
 }
