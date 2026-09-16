@@ -96,6 +96,7 @@ public class GenomeDuplicationLogic implements ICustomRecipeLogic {
         GTRecipe duplicationRecipe = StarTRecipeTypes.GENOME_GATHERING
                 .recipeBuilder("holder_duplication")
                 .inputItems(genomeHolder, emptyHolder)
+                .inputFluids(GTMaterials.Dimethylamine.getFluid(1000))
                 .outputItems(newGenomeHolder)
                 .duration(120)
                 .EUt(GTValues.V[GTValues.MV])
