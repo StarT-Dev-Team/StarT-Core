@@ -69,12 +69,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
         };
 
-        for (ItemStack potentialCrop : itemSet) {
-            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(potentialCrop);
+        for (ItemStack stack : itemSet) {
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(stack);
             if (cropBehaviour == null) continue;
 
-            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(potentialCrop);
+            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
             if (gCropGenome == null) continue;
+
+            ItemStack potentialCrop = stack.copyWithCount(1);
 
             ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
             if (fruit == null) continue;
