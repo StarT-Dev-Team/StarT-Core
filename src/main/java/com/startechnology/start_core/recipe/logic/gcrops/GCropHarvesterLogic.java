@@ -170,7 +170,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             int chanceIncrease = 100 * cropTier;
 
             StarTGCropGene climateGene = gCropGenome.getClimateGene();
-            StarTClimateType expectedClimate = climateGene == null ? null : StarTClimateType.getClimateFromTrait(climateGene.getTrait());
+            StarTClimateType expectedClimate = climateGene == null ? null :
+                    StarTClimateType.getClimateFromTrait(climateGene.getTrait());
             StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
             boolean hasEqualClimate = false;
 
@@ -208,6 +209,9 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
 
             if (maxFruitAmount <= minFruitAmount) maxFruitAmount = minFruitAmount + 1;
+
+            // Cap voltage at ULV to avoid empowered/scorching setting it below
+            if (EUtV < 0) EUtV = 0;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
