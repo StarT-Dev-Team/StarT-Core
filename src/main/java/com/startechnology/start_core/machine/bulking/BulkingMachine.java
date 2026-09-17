@@ -7,7 +7,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,12 +20,18 @@ import net.minecraft.network.chat.Component;
 @MethodsReturnNonnullByDefault
 public class BulkingMachine extends WorkableElectricMultiblockMachine implements IBulking {
 
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            BulkingMachine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @Persisted
+    @DescSynced
     @Getter
     @Setter
     private BulkingType bulkingType;
 
     @Persisted
+    @DescSynced
     @Getter
     @Setter
     private boolean forcedBulking;
@@ -44,5 +52,10 @@ public class BulkingMachine extends WorkableElectricMultiblockMachine implements
     @Override
     public void handleDisplayClick(String componentData, ClickData clickData) {
         this.handleClick(componentData, clickData);
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 }
