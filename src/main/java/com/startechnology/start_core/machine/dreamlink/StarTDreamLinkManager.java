@@ -40,7 +40,7 @@ public class StarTDreamLinkManager {
         return MANAGER.getAllDevicesForOwner(machineOwner);
     }
 
-    void registerDevice(IStarTDreamLinkNetworkReceiveEnergy machine, UUID machineOwner) {
+    private void registerDevice(IStarTDreamLinkNetworkReceiveEnergy machine, UUID machineOwner) {
         Objects.requireNonNull(machine, "machine");
         Objects.requireNonNull(machineOwner, "machineOwner");
 

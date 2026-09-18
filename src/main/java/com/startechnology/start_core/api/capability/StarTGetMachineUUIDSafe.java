@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class IStarTGetMachineUUIDSafe {
+public class StarTGetMachineUUIDSafe {
 
     /**
      * Safely get's the UUID from this machine, or returns the nearest player

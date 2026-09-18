@@ -18,7 +18,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 import com.startechnology.start_core.item.StarTItems;
 import lombok.Getter;
@@ -98,7 +98,7 @@ public class StarTDreamLinkCover extends CoverBehavior
             var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
             if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-                UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
+                UUID ownerUUID = StarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
                 StarTDreamLinkManager.addDevice(this, ownerUUID);
             }
         }
@@ -215,8 +215,8 @@ public class StarTDreamLinkCover extends CoverBehavior
         var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (entity instanceof MetaMachineBlockEntity machine) {
-            if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine),
-                    IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+            if (!Objects.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine),
+                    StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
                 return false;
         } else {
             return false;

@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.common.machine.owner.MachineOwner;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
@@ -120,7 +120,7 @@ public class LucinducerCurioItem implements ICurioItem {
     }
 
     private static UUID getDreamLinkOwner(Player player) {
-        return IStarTGetMachineUUIDSafe.resolveDreamLinkOwner(player.getUUID());
+        return StarTGetMachineUUIDSafe.resolveDreamLinkOwner(player.getUUID());
     }
 
     private static boolean hasOtherRegisteredReceiver(Player player, ReceiverKey currentKey) {
@@ -224,7 +224,7 @@ public class LucinducerCurioItem implements ICurioItem {
                 return false;
             }
 
-            if (!ownerId.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower))) {
+            if (!ownerId.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower))) {
                 return false;
             }
 

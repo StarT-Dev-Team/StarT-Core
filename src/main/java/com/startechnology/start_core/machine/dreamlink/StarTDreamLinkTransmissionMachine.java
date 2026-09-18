@@ -25,7 +25,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import lombok.Getter;
@@ -183,7 +183,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
         BlockPos centre = getPos();
         int x = centre.getX();
         int z = centre.getZ();
-        UUID thisUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
+        UUID thisUUID = StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this);
 
         Observable<Entry<IStarTDreamLinkNetworkReceiveEnergy, Geometry>> machines;
 

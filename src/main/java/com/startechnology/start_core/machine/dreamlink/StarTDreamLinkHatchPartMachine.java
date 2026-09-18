@@ -14,7 +14,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 import com.startechnology.start_core.item.StarTItems;
 import lombok.Getter;
@@ -224,8 +224,8 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
         if (!Objects.equals(this.getNetwork(), tower.getNetwork()))
             return false;
 
-        if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
-                IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+        if (!Objects.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
+                StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
             return false;
 
         if (checkDimension) {

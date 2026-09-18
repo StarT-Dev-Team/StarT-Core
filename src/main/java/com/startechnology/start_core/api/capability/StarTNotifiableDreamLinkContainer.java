@@ -42,7 +42,7 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
 
     protected void addToTreeSubscription() {
         if (machine.getOffsetTimer() % 5 == 0) {
-            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
+            UUID ownerUUID = StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
             StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine) getMachine(), ownerUUID);
         }
     }
