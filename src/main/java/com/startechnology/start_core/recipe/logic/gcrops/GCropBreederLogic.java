@@ -228,7 +228,7 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                 .recipeBuilder("gcrop_self_fertilization")
                 .chancedInput(gCropInput, 10_00, 0)
                 .inputItems(new ItemStack(GTItems.FERTILIZER))
-                .inputFluids(GTMaterials.Biomass.getFluid(1000))
+                .inputFluids(GTMaterials.FermentedBiomass.getFluid(1000))
                 .outputItems(gCropRandomSeed)
                 .duration(200)
                 .EUtV(GTValues.MV)
