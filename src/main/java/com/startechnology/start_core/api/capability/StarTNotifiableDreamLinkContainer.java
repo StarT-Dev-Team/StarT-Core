@@ -24,7 +24,7 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
         super(machine, maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
     }
 
-    /* Shorthand for reciever version constructor */
+    /* Shorthand for receiver version constructor */
     public static StarTNotifiableDreamLinkContainer receiverContainer(MetaMachine machine, long maxCapacity,
                                                                       long maxInputVoltage, long maxInputAmperage) {
         return new StarTNotifiableDreamLinkContainer(machine, maxCapacity, maxInputVoltage, maxInputAmperage, 0L, 0L);
@@ -42,11 +42,8 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
 
     protected void addToTreeSubscription() {
         if (machine.getOffsetTimer() % 5 == 0) {
-            UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
+            UUID ownerUUID = StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
             StarTDreamLinkManager.addDevice((StarTDreamLinkHatchPartMachine) getMachine(), ownerUUID);
-
-            this.addTickSubscription.unsubscribe();
-            this.addTickSubscription = null;
         }
     }
 
@@ -57,8 +54,12 @@ public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer
         if (getMachine().getLevel().isClientSide)
             return;
 
-        UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(machine);
-        StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine) getMachine(), ownerUUID);
+        StarTDreamLinkManager.removeDevice((StarTDreamLinkHatchPartMachine) getMachine());
+
+        if (addTickSubscription != null) {
+            addTickSubscription.unsubscribe();
+            addTickSubscription = null;
+        }
     }
 
     /* Disable input from all sides */

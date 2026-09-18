@@ -1,12 +1,11 @@
 package com.startechnology.start_core.item.components;
 
 // StarTDreamCopyBehaviour
-// 
+//
 // Behaviour that allows an item to be a copying tool for
 // dream-link network information
 //
 // Adds a tooltip description & Allows for interaction for copying.
-
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
@@ -20,7 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 
-public class StarTDreamCopyBehaviour implements IInteractionItem  {
+public class StarTDreamCopyBehaviour implements IInteractionItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
@@ -52,9 +51,8 @@ public class StarTDreamCopyBehaviour implements IInteractionItem  {
                     return interactable.onDreamCopyUse(context.getPlayer(), itemStack);
                 }
             }
-            
+
         }
         return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
     }
-
 }

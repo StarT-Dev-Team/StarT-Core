@@ -10,9 +10,9 @@ import java.util.function.Function;
 public class StarTModels {
 
     public static MachineBuilder.ModelInitializer activeOverlayTieredHullModel(
-            ResourceLocation baseModel,
-            Function<Integer, ResourceLocation> getOverlayTexture,
-            Function<Integer, ResourceLocation> getActiveOverlayTexture) {
+                                                                               ResourceLocation baseModel,
+                                                                               Function<Integer, ResourceLocation> getOverlayTexture,
+                                                                               Function<Integer, ResourceLocation> getActiveOverlayTexture) {
         return (context, provider, builder) -> {
             var tier = builder.getOwner().getTier();
             var overlayTexture = getOverlayTexture.apply(tier);
@@ -27,5 +27,4 @@ public class StarTModels {
             builder.addReplaceableTextures("bottom", "top", "side");
         };
     }
-
 }

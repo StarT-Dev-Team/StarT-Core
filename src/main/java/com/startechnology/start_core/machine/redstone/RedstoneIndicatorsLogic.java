@@ -91,7 +91,8 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
 
     public List<RedstoneIndicatorRecord> getSortedIndicators() {
         return indicatorRecords.stream()
-                .sorted(Comparator.comparingInt(RedstoneIndicatorRecord::ordering).thenComparing(RedstoneIndicatorRecord::indicatorKey))
+                .sorted(Comparator.comparingInt(RedstoneIndicatorRecord::ordering)
+                        .thenComparing(RedstoneIndicatorRecord::indicatorKey))
                 .collect(Collectors.toList());
     }
 

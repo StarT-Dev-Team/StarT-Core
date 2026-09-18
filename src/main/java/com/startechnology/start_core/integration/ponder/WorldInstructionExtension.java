@@ -16,6 +16,7 @@ public interface WorldInstructionExtension {
         var element = new PonderCustomSceneElement();
         element.setVisible(false);
         startcore$builder().addInstruction(new FadeInOutInstruction(ticks) {
+
             @Override
             protected void show(PonderScene scene) {
                 scene.addElement(element);
@@ -45,5 +46,4 @@ public interface WorldInstructionExtension {
 
         return element;
     }
-
 }

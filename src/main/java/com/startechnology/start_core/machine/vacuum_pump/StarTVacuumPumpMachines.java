@@ -15,7 +15,8 @@ import java.util.Locale;
 
 public class StarTVacuumPumpMachines {
 
-    private static final MachineBuilder.ModelInitializer vacuumPumpModel = StarTModels.activeOverlayTieredHullModel(StarTCore.resourceLocation("block/vacuum_pump"),
+    private static final MachineBuilder.ModelInitializer vacuumPumpModel = StarTModels.activeOverlayTieredHullModel(
+            StarTCore.resourceLocation("block/vacuum_pump"),
             t -> StarTCore.resourceLocation("block/overlay/vacuum_pump/overlay_%s"
                     .formatted(GTValues.VN[t].toLowerCase(Locale.ROOT))),
             t -> StarTCore.resourceLocation("block/overlay/vacuum_pump/overlay_%s_active"
@@ -33,15 +34,13 @@ public class StarTVacuumPumpMachines {
                     .model(vacuumPumpModel)
                     .tooltips(
                             Component.translatable("start_core.machine.vacuum_pump.tooltip_cap",
-                                    VacuumPumpPartMachine.formatVacuumPumpCap(VacuumPumpPartMachine.getVacuumCap(tier))),
+                                    VacuumPumpPartMachine
+                                            .formatVacuumPumpCap(VacuumPumpPartMachine.getVacuumCap(tier))),
                             Component.translatable("start_core.machine.vacuum_pump.tooltip_rate",
-                                    VacuumPumpPartMachine.formatVacuumPumpRate(VacuumPumpPartMachine.getVacuumRate(tier)))
-                    )
+                                    VacuumPumpPartMachine
+                                            .formatVacuumPumpRate(VacuumPumpPartMachine.getVacuumRate(tier))))
                     .register(),
-            GTValues.ZPM, GTValues.UV, GTValues.UHV, GTValues.UEV, GTValues.UIV
-    );
+            GTValues.ZPM, GTValues.UV, GTValues.UHV, GTValues.UEV, GTValues.UIV);
 
-    public static void init() {
-    }
-
+    public static void init() {}
 }

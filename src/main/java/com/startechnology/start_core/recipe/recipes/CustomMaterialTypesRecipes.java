@@ -22,7 +22,6 @@ public class CustomMaterialTypesRecipes {
     }
 
     public static void materialFlagRecipes(Consumer<FinishedRecipe> provider) {
-
         for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
             if (material.hasFlag(MaterialFlags.NO_UNIFICATION) ||
                     material.hasFlag(MaterialFlags.DISABLE_MATERIAL_RECIPES)) {
@@ -35,7 +34,7 @@ public class CustomMaterialTypesRecipes {
                         .notConsumable(GTItems.SHAPE_MOLD_CYLINDER)
                         .inputItems(TagPrefix.foil, material, 96)
                         .outputItems(StarTTagPrefixes.foilReam, material)
-                        .duration((int)(material.getMass() * 128))
+                        .duration((int) (material.getMass() * 128))
                         .EUt(GTValues.VA[GTValues.HV])
                         .save(provider);
 
@@ -43,7 +42,7 @@ public class CustomMaterialTypesRecipes {
                     TITAN_FORGE_RECIPES.recipeBuilder(String.format("forge_%s_foil_ream", material.getName()))
                             .inputItems(TagPrefix.ingot, material, 16)
                             .outputItems(StarTTagPrefixes.foilReam, material)
-                            .duration((int)(material.getMass() * 16))
+                            .duration((int) (material.getMass() * 16))
                             .EUt(GTValues.VHA[GTValues.IV])
                             .circuitMeta(10)
                             .save(provider);
@@ -57,7 +56,7 @@ public class CustomMaterialTypesRecipes {
                         .notConsumable(GTItems.SHAPE_MOLD_CYLINDER)
                         .inputItems(TagPrefix.wireFine, material, 96)
                         .outputItems(StarTTagPrefixes.wireSpool, material)
-                        .duration((int)(material.getMass() * 64))
+                        .duration((int) (material.getMass() * 64))
                         .EUt(GTValues.VA[GTValues.HV])
                         .save(provider);
 
@@ -83,26 +82,25 @@ public class CustomMaterialTypesRecipes {
                         .save(provider);
             }
 
-//            if (material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING)) {
-//                FORMING_PRESS_RECIPES.recipeBuilder(String.format("press_%s_ball_bearing", material.getName()))
-//                        .inputItems(TagPrefix.ring, material, 2)
-//                        .inputItems(TagPrefix.round, material, 8)
-//                        .outputItems(StarTTagPrefixes.ballBearing, material)
-//                        .duration((int) (material.getMass() * 4))
-//                        .EUt(GTValues.VA[GTValues.HV])
-//                        .circuitMeta(6)
-//                        .save(provider);
-//
-//                TITAN_FORGE_RECIPES.recipeBuilder(String.format("forge_%s_ball_bearing", material.getName()))
-//                        .inputItems(TagPrefix.ingot, material)
-//                        .outputItems(StarTTagPrefixes.ballBearing, material)
-//                        .duration((int) (material.getMass()))
-//                        .EUt(GTValues.VHA[GTValues.EV])
-//                        .circuitMeta(6)
-//                        .save(provider);
-//            }
+            // if (material.hasFlags(MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_RING)) {
+            // FORMING_PRESS_RECIPES.recipeBuilder(String.format("press_%s_ball_bearing", material.getName()))
+            // .inputItems(TagPrefix.ring, material, 2)
+            // .inputItems(TagPrefix.round, material, 8)
+            // .outputItems(StarTTagPrefixes.ballBearing, material)
+            // .duration((int) (material.getMass() * 4))
+            // .EUt(GTValues.VA[GTValues.HV])
+            // .circuitMeta(6)
+            // .save(provider);
+            //
+            // TITAN_FORGE_RECIPES.recipeBuilder(String.format("forge_%s_ball_bearing", material.getName()))
+            // .inputItems(TagPrefix.ingot, material)
+            // .outputItems(StarTTagPrefixes.ballBearing, material)
+            // .duration((int) (material.getMass()))
+            // .EUt(GTValues.VHA[GTValues.EV])
+            // .circuitMeta(6)
+            // .save(provider);
+            // }
 
         }
-
     }
 }

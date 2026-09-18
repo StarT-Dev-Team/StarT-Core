@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class StarTHPCAComputationPartMachine extends HPCAComponentPartMachine implements IHPCAComputationProvider {
+
     private final ResourceTexture componentIcon;
     private final ResourceTexture brokenComponentIcon;
     private final int upkeepEUt;
@@ -22,7 +23,9 @@ public class StarTHPCAComputationPartMachine extends HPCAComponentPartMachine im
     @Getter
     private final boolean advanced;
 
-    public StarTHPCAComputationPartMachine(IMachineBlockEntity holder, ResourceTexture componentIcon, ResourceTexture brokenComponentIcon, int upkeepEUt, int maxEUt, int cwuT, int coolingT) {
+    public StarTHPCAComputationPartMachine(IMachineBlockEntity holder, ResourceTexture componentIcon,
+                                           ResourceTexture brokenComponentIcon, int upkeepEUt, int maxEUt, int cwuT,
+                                           int coolingT) {
         super(holder);
 
         this.componentIcon = componentIcon;

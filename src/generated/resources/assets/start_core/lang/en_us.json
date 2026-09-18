@@ -1550,7 +1550,7 @@
   "start_core.machine.dream_link.inactive_network": "§6Awake on §r{0}",
   "start_core.machine.dream_link.input_per_sec": "§7EU In: %s §7EU/t",
   "start_core.machine.dream_link.lucinducer.name": "Lucinducer§o Copied Network §6{0}",
-  "start_core.machine.dream_link.network_set_hover": "Identifier of Dream-Network to Transmit/Recieve on",
+  "start_core.machine.dream_link.network_set_hover": "Identifier of Dream-Network to Transmit/Receive on",
   "start_core.machine.dream_link.not_active": "§6Awake",
   "start_core.machine.dream_link.output_per_sec": "§7EU Out: %s §7EU/t",
   "start_core.machine.dream_link.owned_title": "§7Dream-link owned by:",

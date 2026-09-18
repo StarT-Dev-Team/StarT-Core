@@ -243,7 +243,7 @@ public class LangHandler {
         provider.add("start_core.machine.dream_link.active", "§dDreaming");
         provider.add("start_core.machine.dream_link.not_active", "§6Awake");
         provider.add("start_core.machine.dream_link.network_set_hover",
-                "Identifier of Dream-Network to Transmit/Recieve on");
+                "Identifier of Dream-Network to Transmit/Receive on");
         provider.add("start_core.machine.dream_link.input_per_sec", "§7EU In: %s §7EU/t");
         provider.add("start_core.machine.dream_link.output_per_sec", "§7EU Out: %s §7EU/t");
         provider.add("start_core.machine.dream_link.total_buffer", "§7Total Energy Buffer:");

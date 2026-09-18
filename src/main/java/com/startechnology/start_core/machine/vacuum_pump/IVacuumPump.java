@@ -24,7 +24,5 @@ public interface IVacuumPump {
         public int getPumpCap() {
             return 0;
         }
-        
     }
-
 }

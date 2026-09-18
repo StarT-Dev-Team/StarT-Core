@@ -400,7 +400,6 @@ public class GCropRecipes {
 
                 CHEMICAL_RECIPES.recipeBuilder(String.format("%s_fruit_reaction", id))
                         .inputItems(fruit.asStack())
-                        .inputItems(ChemicalHelper.get(dust, MetalMixture))
                         .inputFluids(getMaterial("start_core:mystical_air").getFluid(10000))
                         .outputFluids(
                                 new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0), 10000))
@@ -423,6 +422,7 @@ public class GCropRecipes {
                         .outputItems(
                                 new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0),
                                         12 * yield))
+                        .outputItems(ChemicalHelper.get(dust, MetalMixture))
                         .outputFluids(Lava.getFluid(1000))
                         .EUtVA(EUtV + 2)
                         .duration(100)

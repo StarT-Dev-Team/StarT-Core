@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public interface ICopyInteractable {
+
     Component copySettings = Component.translatable("start_core.mechanical_memory_card.copy_settings");
     Component pasteSettings = Component.translatable("start_core.mechanical_memory_card.paste_settings");
 

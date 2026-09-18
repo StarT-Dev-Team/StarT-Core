@@ -17,5 +17,4 @@ public abstract class PonderWorldInstructionsMixin implements WorldInstructionEx
     public PonderSceneBuilder startcore$builder() {
         return this$0;
     }
-
 }

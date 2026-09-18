@@ -17,5 +17,4 @@ public abstract class PonderOverlayInstructionMixin implements OverlayInstructio
     public PonderSceneBuilder startcore$builder() {
         return this$0;
     }
-
 }
