@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class StarTSolarCellBlockEntity extends BlockEntity {
+
     @Getter
     @Setter
     @Persisted

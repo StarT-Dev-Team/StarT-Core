@@ -9,5 +9,4 @@ public interface PonderEvents {
 
     EventHandler REGISTRY = GROUP.client("registry", () -> PonderRegistryEventJS.class);
     EventHandler TAGS = GROUP.client("tags", () -> PonderItemTagEventJS.class);
-
 }

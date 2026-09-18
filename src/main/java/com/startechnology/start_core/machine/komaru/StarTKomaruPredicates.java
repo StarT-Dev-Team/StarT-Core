@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.startechnology.start_core.machine.modular.StarTModularPredicates;
 
 public class StarTKomaruPredicates {
+
     public static String ADVANCED_STORAGE_KEY = "advancedModules";
     public static String BASIC_STORAGE_KEY = "basicModules";
 

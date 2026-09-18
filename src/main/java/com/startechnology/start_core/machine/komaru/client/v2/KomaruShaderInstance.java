@@ -30,7 +30,8 @@ public class KomaruShaderInstance extends ShaderInstance {
 
     public RenderTarget renderTarget;
 
-    public KomaruShaderInstance(ResourceProvider resourceProvider, ResourceLocation resourceLocation, VertexFormat vertexFormat) throws IOException {
+    public KomaruShaderInstance(ResourceProvider resourceProvider, ResourceLocation resourceLocation,
+                                VertexFormat vertexFormat) throws IOException {
         super(resourceProvider, resourceLocation, vertexFormat);
 
         MODEL_VIEW_MATRIX = safeGetUniform("ModelViewMat");
@@ -46,7 +47,7 @@ public class KomaruShaderInstance extends ShaderInstance {
     }
 
     public void updateRenderTarget(RenderTarget mainRenderTarget) {
-        if (renderTarget == null ) {
+        if (renderTarget == null) {
             renderTarget = new TextureTarget(mainRenderTarget.width, mainRenderTarget.height, true, Minecraft.ON_OSX);
             renderTarget.setClearColor(0.0F, 0.0F, 0.0F, 0.0F);
         }

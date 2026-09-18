@@ -10,5 +10,4 @@ import java.util.function.Supplier;
 public class StarTAPI {
 
     public static final Map<FusionReflectorType, Supplier<FusionReflectorBlock>> FUSION_REFLECTORS = new HashMap<>();
-
 }

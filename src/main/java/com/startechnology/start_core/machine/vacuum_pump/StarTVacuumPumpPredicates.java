@@ -18,7 +18,8 @@ public class StarTVacuumPumpPredicates {
                 if (blockState.is(block)) {
                     var currentPump = blockWorldState.getMatchContext().getOrPut("VacuumPumpBlock", block);
                     if (currentPump != block) {
-                        blockWorldState.setError(new PatternStringError("start_core.multiblock.pattern.error.vacuumpump"));
+                        blockWorldState
+                                .setError(new PatternStringError("start_core.multiblock.pattern.error.vacuumpump"));
                         return false;
                     }
                     return true;
@@ -26,7 +27,8 @@ public class StarTVacuumPumpPredicates {
             }
             return false;
         }, () -> StarTPartAbility.VACUUM_PUMP.getAllBlocks().stream()
-                .sorted(Comparator.comparingDouble(block -> block instanceof IMachineBlock machineBlock ? machineBlock.getDefinition().getTier() : 0))
+                .sorted(Comparator.comparingDouble(block -> block instanceof IMachineBlock machineBlock ?
+                        machineBlock.getDefinition().getTier() : 0))
                 .map(pump -> BlockInfo.fromBlockState(pump.defaultBlockState()))
                 .toArray(BlockInfo[]::new))
                 .addTooltips(Component.translatable("start_core.multiblock.pattern.error.vacuumpump"));

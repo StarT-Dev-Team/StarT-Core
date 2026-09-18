@@ -17,6 +17,7 @@ import static com.gregtechceu.gtceu.api.GTValues.UHV;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class StarTCleaningMaintenanceHatchPartMachine extends AutoMaintenanceHatchPartMachine {
+
     private final ICleanroomProvider DUMMY_CLEANROOM;
 
     public StarTCleaningMaintenanceHatchPartMachine(IMachineBlockEntity holder, CleanroomType... cleanroomTypes) {

@@ -39,5 +39,4 @@ public class PonderTickingInstruction extends TickingInstruction {
             onFirstTick.safeAccept(scene);
         }
     }
-
 }

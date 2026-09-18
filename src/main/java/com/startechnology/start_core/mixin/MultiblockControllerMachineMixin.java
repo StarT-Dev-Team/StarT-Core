@@ -22,7 +22,7 @@ public class MultiblockControllerMachineMixin implements IMultiblockControllerMa
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(CallbackInfo ci) {
-        start_core$redstoneIndicatorsLogic = new RedstoneIndicatorsLogic((IMultiController)this);
+        start_core$redstoneIndicatorsLogic = new RedstoneIndicatorsLogic((IMultiController) this);
     }
 
     @Inject(method = "onStructureFormed", at = @At("TAIL"))
