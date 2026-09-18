@@ -105,8 +105,9 @@ public class StarTGCropGenome {
             case 3 -> "§5";
             case 4 -> "§2";
             case 5 -> "§a";
-            case 6 -> "§c";
+            case 6 -> "§d";
             case 7 -> "§e";
+            case 8 -> "§c";
             default -> "§7";
         };
 
