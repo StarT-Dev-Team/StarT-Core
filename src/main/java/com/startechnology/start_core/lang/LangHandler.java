@@ -720,6 +720,22 @@ public class LangHandler {
         provider.add("solar.start_core.solar_machine.is_not_cooled_tooltip", "§1Not actively cooled");
         provider.add("config.jade.plugin_start_core.solar_machine_info", "[Star Technology] Solar Panel/Array Entropy");
 
+        provider.add("variadic.start_core.indicator.solar_machine", "Percentage to %s K");
+        provider.add("variadic.start_core.description.solar_machine",
+                "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)");
+
+        provider.add("behaviour.start_core.orefactory.duration", "Duration Multi %sx");
+        provider.add("behaviour.start_core.orefactory.eut", "EU/T Multi %sx");
+
+        provider.add("gtceu.bulk_ore_factory", "Bulk Ore Processing");
+        provider.add("gtceu.ore_factory", "Ore Processing");
+
+        provider.add("ui.start_core.orefactory.active_fluid", "Active Fluid: %s");
+        provider.add("ui.start_core.orefactory.consumption", "Consumption: %d mb per cycle");
+        provider.add("ui.start_core.orefactory.duration", "Duration: %dx");
+        provider.add("ui.start_core.orefactory.power_discount", "Power: %dx EU/t Discount");
+        provider.add("ui.start_core.orefactory.no_fluid", "Ore Factory cannot run: §4No Fluid Provided");
+
         provider.add("variadic.start_core.indicator.solar_machine.temp", "Percentage to %s K");
         provider.add("variadic.start_core.description.solar_machine.temp",
                 "A clamped value between 0-15 of the (avg temp / %s K) * 15 (In Celsius, K - 273)");
