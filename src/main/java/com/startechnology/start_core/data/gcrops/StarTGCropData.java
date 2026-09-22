@@ -9,6 +9,7 @@ import java.util.List;
 
 import static com.startechnology.start_core.data.gcrops.StarTTraitData.*;
 import static com.startechnology.start_core.api.gcrop.StarTGCropItemType.*;
+import static com.startechnology.start_core.StarTCore.LOGGER;
 
 public class StarTGCropData {
 
@@ -48,6 +49,12 @@ public class StarTGCropData {
         this.traits = Arrays.asList(traits);
         this.tier = highestTier;
 
+        String duplicateData = checkTraitCombinationIsUsed(List.of(traits));
+
+        if (duplicateData != null) {
+            LOGGER.warn("Trait combination of {} is already used and coincides with {}", id, duplicateData);
+        }
+
         gCropData.add(this);
     }
 
@@ -64,6 +71,15 @@ public class StarTGCropData {
     public StarTGCropData(String id, String name, StarTGCropItemType materialType, String textureType,
                           String resultMaterial, StarTGCropTrait... traits) {
         this(id, name, materialType, 1, textureType, resultMaterial, traits);
+    }
+
+    private String checkTraitCombinationIsUsed(List<StarTGCropTrait> traits) {
+        for (StarTGCropData data : gCropData) {
+            if (data.getTraits().equals(traits)) {
+                return data.getId();
+            }
+        }
+        return null;
     }
 
     public static void init() {
@@ -107,7 +123,7 @@ public class StarTGCropData {
 
         new StarTGCropData("zinc", "Thumbergia Cadmiae", DUST, "one", Vibrant, Metallic);
 
-        new StarTGCropData("tin", "Thumbergia Stagni", DUST, "two", Vibrant, Metallic);
+        new StarTGCropData("tin", "Thumbergia Stagni", DUST, "two", Metallic);
 
         new StarTGCropData("lead", "Thumbergia Plumbum", DUST, "four", Charred, Metallic);
 
@@ -291,25 +307,31 @@ public class StarTGCropData {
         new StarTGCropData("plutonium_241", "Psoralidium Infernus", DUST, "two", Charred, Vibrant, Tough, Dusty, Shiny,
                 Illuminating, Sulfuric, Energetic, Apothic, Decaying);
 
-        new StarTGCropData("ancient_netherite", "Cyperus ", DUST, "two", Charred, Tough, Metallic, Coarse, Mineralic,
+        new StarTGCropData("ancient_netherite", "Cyperus Antiquinfernus", DUST, "two", Charred, Tough, Metallic, Coarse,
+                Mineralic,
                 Sulfuric, Adaptive, Apothic, Siliceous, Infernal);
 
-        new StarTGCropData("mythril", "Cyperus ", DUST, "three", "mythrillic", Charred, Tough, Metallic, Shiny,
+        new StarTGCropData("mythril", "Cyperus Mythrilis", DUST, "three", "mythrillic", Charred, Tough, Metallic, Shiny,
                 Illuminating, Sulfuric, Adaptive, Apothic, Siliceous, Infernal);
 
-        new StarTGCropData("adamantine", "Cyperus ", DUST, "three", "adamantamite", Charred, Fluorescent, Metallic,
+        new StarTGCropData("adamantine", "Cyperus Adamantinus", DUST, "three", "adamantamite", Charred, Fluorescent,
+                Metallic,
                 Shiny, Illuminating, Sulfuric, Energetic, Siliceous, Infernal);
 
-        new StarTGCropData("estalt", "Cyperus ", DUST, "four", "estaltadyne", Charred, Vibrant, Tough, Metallic, Shiny,
+        new StarTGCropData("estalt", "Cyperus Estaltensis", DUST, "four", "estaltadyne", Charred, Vibrant, Tough,
+                Metallic, Shiny,
                 Mineralic, Sulfuric, Energetic, Siliceous, Infernal);
 
-        new StarTGCropData("isovol", "Cyperus ", DUST, "two", "isovol_fluoride", Charred, Vibrant, Metallic, Shiny,
+        new StarTGCropData("isovol", "Cyperus Isovolatus", DUST, "two", "isovol_fluoride", Charred, Vibrant, Metallic,
+                Shiny,
                 Illuminating, Aetheric, Adaptive, Decaying, Infernal);
 
-        new StarTGCropData("calamatium", "Cyperus ", DUST, "four", "calamatium_fluoride", Charred, Metallic, Shiny,
+        new StarTGCropData("calamatium", "Cyperus Calamatius", DUST, "four", "calamatium_fluoride", Charred, Metallic,
+                Shiny,
                 Illuminating, Aetheric, Adaptive, Apothic, Decaying, Infernal);
 
-        new StarTGCropData("atomic_nether_sludge", "Cyperus ", DUST, 8, "one", Charred, Vibrant, Tough, Dusty, Coarse,
+        new StarTGCropData("atomic_nether_sludge", "Cyperus Limatomicus", DUST, 8, "one", Charred, Vibrant, Tough,
+                Dusty, Coarse,
                 Mineralic, Sulfuric, Energetic, Apothic, Decaying, Infernal);
     }
 }

@@ -56,7 +56,7 @@ public class StarTArborealExtractorMachines {
                         .aisle("BOB", "SSS", "   ", "   ", "   ", " L ", "   ")
                         .where('C', definition, Direction.NORTH)
                         .where('B', Blocks.BRICKS.defaultBlockState())
-                        .where('I', GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV], Direction.NORTH)
+                        .where('I', GTMachines.ITEM_IMPORT_BUS[GTValues.ULV], Direction.NORTH)
                         .where('O', GTMachines.FLUID_EXPORT_HATCH[GTValues.ULV], Direction.SOUTH)
                         .where('S', Blocks.BRICK_SLAB.defaultBlockState())
                         .where('D', Blocks.DIRT.defaultBlockState())

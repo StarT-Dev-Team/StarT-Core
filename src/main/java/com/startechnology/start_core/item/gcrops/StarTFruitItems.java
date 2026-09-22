@@ -18,13 +18,13 @@ public class StarTFruitItems {
     public static final HashMap<String, ItemEntry<ComponentItem>> POPPED_FRUITS = new HashMap<>();
 
     public static void createNeededProcessingItems(String id, int tier) {
-        id = id.equals("sheldonite") ? "cooperite" : id;
+        String cropId = id.equals("sheldonite") ? "cooperite" : id;
         Material itemMaterial = GTMaterials.get(id);
         String fruitResource = StarTStringUtils.snakeCaseToSentence(id);
 
         if (tier == 3) {
             ItemEntry<ComponentItem> fruitSliceItem = START_REGISTRATE
-                    .item(String.format("%s_fruit_slice", id), ComponentItem::create)
+                    .item(String.format("%s_fruit_slice", cropId), ComponentItem::create)
                     .lang(String.format("%s Fruit Slice", fruitResource))
                     .properties(prop -> prop.stacksTo(64))
                     .model((ctx, prov) -> createTextureModel(ctx, prov,
@@ -36,7 +36,7 @@ public class StarTFruitItems {
         }
         if (tier == 5 || tier >= 7) {
             ItemEntry<ComponentItem> poppedFruitItem = START_REGISTRATE
-                    .item(String.format("popped_%s_fruit", id), ComponentItem::create)
+                    .item(String.format("popped_%s_fruit", cropId), ComponentItem::create)
                     .lang(String.format("Popped %s Fruit", fruitResource))
                     .properties(prop -> prop.stacksTo(64))
                     .model((ctx, prov) -> createTextureModel(ctx, prov,

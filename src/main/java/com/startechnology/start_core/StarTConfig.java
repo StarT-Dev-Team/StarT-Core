@@ -36,7 +36,7 @@ public class StarTConfig {
 
         @Configurable
         @Configurable.Comment({
-                "Heat gained per 6 second cycle on EV–LuV solar panels while producing power.",
+                "Heat gained per 6 second cycle on EV-LuV solar panels while producing power.",
                 "Default: 0.2"
         })
         public double panelHeatGain = 0.2;
