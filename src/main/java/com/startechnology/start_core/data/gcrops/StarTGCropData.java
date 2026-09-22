@@ -123,7 +123,7 @@ public class StarTGCropData {
 
         new StarTGCropData("zinc", "Thumbergia Cadmiae", DUST, "one", Vibrant, Metallic);
 
-        new StarTGCropData("tin", "Thumbergia Stagni", DUST, "two", Vibrant, Metallic);
+        new StarTGCropData("tin", "Thumbergia Stagni", DUST, "two", Metallic);
 
         new StarTGCropData("lead", "Thumbergia Plumbum", DUST, "four", Charred, Metallic);
 
