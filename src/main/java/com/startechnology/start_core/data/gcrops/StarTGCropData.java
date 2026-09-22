@@ -9,6 +9,7 @@ import java.util.List;
 
 import static com.startechnology.start_core.data.gcrops.StarTTraitData.*;
 import static com.startechnology.start_core.api.gcrop.StarTGCropItemType.*;
+import static com.startechnology.start_core.StarTCore.LOGGER;
 
 public class StarTGCropData {
 
@@ -48,6 +49,12 @@ public class StarTGCropData {
         this.traits = Arrays.asList(traits);
         this.tier = highestTier;
 
+        String duplicateData = checkTraitCombinationIsUsed(List.of(traits));
+
+        if (duplicateData != null) {
+            LOGGER.warn("Trait combination of {} is already used and coincides with {}", id, duplicateData);
+        }
+
         gCropData.add(this);
     }
 
@@ -64,6 +71,15 @@ public class StarTGCropData {
     public StarTGCropData(String id, String name, StarTGCropItemType materialType, String textureType,
                           String resultMaterial, StarTGCropTrait... traits) {
         this(id, name, materialType, 1, textureType, resultMaterial, traits);
+    }
+
+    private String checkTraitCombinationIsUsed(List<StarTGCropTrait> traits) {
+        for (StarTGCropData data : gCropData) {
+            if (data.getTraits().equals(traits)) {
+                return data.getId();
+            }
+        }
+        return null;
     }
 
     public static void init() {
