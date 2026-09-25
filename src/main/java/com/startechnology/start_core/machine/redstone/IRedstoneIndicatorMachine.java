@@ -9,7 +9,7 @@ public interface IRedstoneIndicatorMachine extends IMultiController {
     List<RedstoneIndicatorRecord> getInitialIndicators();
 
     default RedstoneIndicatorsLogic getRedstoneIndicatorsTrait() {
-        var self = (IMultiblockControllerMachineRedstoneIndicators)this.self();
+        var self = (IMultiblockControllerMachineRedstoneIndicators) this.self();
         return self.start_core$getRedstoneIndicatorsTrait();
     }
 
@@ -20,5 +20,4 @@ public interface IRedstoneIndicatorMachine extends IMultiController {
     default int getIndicatorValue(String indicatorKey) {
         return getRedstoneIndicatorsTrait().getIndicator(indicatorKey).redstoneLevel();
     }
-
 }

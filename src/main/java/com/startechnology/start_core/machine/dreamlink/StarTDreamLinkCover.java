@@ -13,13 +13,12 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.dreamlink.IStarTDreamCopyInteractable;
 import com.startechnology.start_core.item.StarTItems;
 import lombok.Getter;
@@ -39,7 +38,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class StarTDreamLinkCover extends CoverBehavior
-                                 implements IStarTDreamLinkNetworkRecieveEnergy, IStarTDreamCopyInteractable, IUICover {
+                                 implements IStarTDreamLinkNetworkReceiveEnergy, IStarTDreamCopyInteractable, IUICover {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
             CoverBehavior.MANAGED_FIELD_HOLDER);
@@ -52,7 +51,6 @@ public class StarTDreamLinkCover extends CoverBehavior
     @Persisted
     private String network;
     private TickableSubscription addTickSubscription;
-    private UUID ownerUUID;
 
     public StarTDreamLinkCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier,
                                int amperage) {
@@ -100,8 +98,7 @@ public class StarTDreamLinkCover extends CoverBehavior
             var machine = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
             if (machine instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
-                UUID ownerUUID = IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
-                this.ownerUUID = ownerUUID;
+                UUID ownerUUID = StarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(metaMachineBlockEntity);
                 StarTDreamLinkManager.addDevice(this, ownerUUID);
             }
         }
@@ -114,7 +111,7 @@ public class StarTDreamLinkCover extends CoverBehavior
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        StarTDreamLinkManager.removeDevice(this);
 
         if (Objects.nonNull(this.addTickSubscription)) {
             this.addTickSubscription.unsubscribe();
@@ -174,7 +171,7 @@ public class StarTDreamLinkCover extends CoverBehavior
         if (this.coverHolder.getLevel().isClientSide)
             return;
 
-        StarTDreamLinkManager.removeDevice(this, ownerUUID);
+        StarTDreamLinkManager.removeDevice(this);
 
         if (Objects.nonNull(this.addTickSubscription)) {
             this.addTickSubscription.unsubscribe();
@@ -182,14 +179,14 @@ public class StarTDreamLinkCover extends CoverBehavior
     }
 
     @Override
-    public long recieveEnergy(long recieved) {
+    public long receiveEnergy(long received) {
         IEnergyContainer container = this.getEnergyContainer();
 
         if (Objects.isNull(container)) {
             return 0;
         }
 
-        if (container.getInputVoltage() < GTValues.V[this.tier] && recieved > container.getInputVoltage()) {
+        if (container.getInputVoltage() < GTValues.V[this.tier] && received > container.getInputVoltage()) {
             var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
             if (entity instanceof MetaMachineBlockEntity metaMachineBlockEntity) {
@@ -201,7 +198,7 @@ public class StarTDreamLinkCover extends CoverBehavior
         }
 
         return container
-                .changeEnergy(Math.min(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()),
+                .changeEnergy(Math.min(Math.min(received, container.getInputVoltage() * container.getInputAmperage()),
                         this.amperage * GTValues.V[this.tier]));
     }
 
@@ -211,15 +208,15 @@ public class StarTDreamLinkCover extends CoverBehavior
     }
 
     @Override
-    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
+    public boolean canReceive(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
         if (!Objects.equals(this.network, tower.getNetwork()))
             return false;
 
         var entity = coverHolder.getLevel().getBlockEntity(coverHolder.getPos());
 
         if (entity instanceof MetaMachineBlockEntity machine) {
-            if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine),
-                    IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+            if (!Objects.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachineBlockEntity(machine),
+                    StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
                 return false;
         } else {
             return false;

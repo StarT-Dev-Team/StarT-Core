@@ -70,12 +70,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
         };
 
-        for (ItemStack potentialCrop : itemSet) {
-            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(potentialCrop);
+        for (ItemStack stack : itemSet) {
+            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(stack);
             if (cropBehaviour == null) continue;
 
-            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(potentialCrop);
+            StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(stack);
             if (gCropGenome == null) continue;
+
+            ItemStack potentialCrop = stack.copyWithCount(1);
 
             ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
             if (fruit == null) continue;
@@ -210,6 +212,9 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             }
 
             if (maxFruitAmount <= minFruitAmount) maxFruitAmount = minFruitAmount + 1;
+
+            // Cap voltage at ULV to avoid empowered/scorching setting it below
+            if (EUtV < 0) EUtV = 0;
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")

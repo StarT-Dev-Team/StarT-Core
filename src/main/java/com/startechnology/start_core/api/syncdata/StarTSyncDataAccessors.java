@@ -1,6 +1,5 @@
 package com.startechnology.start_core.api.syncdata;
 
-
 import com.lowdragmc.lowdraglib.syncdata.IAccessor;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -15,7 +14,7 @@ public class StarTSyncDataAccessors {
 
     public static void init() {
         register(FriendlyBufPayload.class, FriendlyBufPayload::new, START_THREADED_RECIPE_ACCESSOR, 100);
-        registerSimple(RedstoneIndicatorRecord.Payload.class, RedstoneIndicatorRecord.Payload::new, RedstoneIndicatorRecord.class, 1);
+        registerSimple(RedstoneIndicatorRecord.Payload.class, RedstoneIndicatorRecord.Payload::new,
+                RedstoneIndicatorRecord.class, 1);
     }
-
 }

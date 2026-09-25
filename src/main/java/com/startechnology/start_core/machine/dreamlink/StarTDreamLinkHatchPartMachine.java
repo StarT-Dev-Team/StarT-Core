@@ -13,8 +13,8 @@ import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
-import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkRecieveEnergy;
-import com.startechnology.start_core.api.capability.IStarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
 import com.startechnology.start_core.item.StarTItems;
 import lombok.Getter;
@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine,
-                                            IStarTDreamLinkNetworkRecieveEnergy, IMachineLife {
+                                            IStarTDreamLinkNetworkReceiveEnergy, IMachineLife {
 
     /*
      * As far as i can understand, the Managed Field Holder allows this class
@@ -209,9 +209,9 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public long recieveEnergy(long recieved) {
+    public long receiveEnergy(long received) {
         return this.container
-                .changeEnergy(Math.min(recieved, container.getInputVoltage() * container.getInputAmperage()));
+                .changeEnergy(Math.min(received, container.getInputVoltage() * container.getInputAmperage()));
     }
 
     @Override
@@ -220,12 +220,12 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public boolean canRecieve(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
+    public boolean canReceive(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
         if (!Objects.equals(this.getNetwork(), tower.getNetwork()))
             return false;
 
-        if (!Objects.equals(IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
-                IStarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+        if (!Objects.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
+                StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
             return false;
 
         if (checkDimension) {

@@ -32,6 +32,7 @@ src/generated/resources/.cache/
 # fabric
 
 run/
+run2/
 libs/
 
 # AI docs

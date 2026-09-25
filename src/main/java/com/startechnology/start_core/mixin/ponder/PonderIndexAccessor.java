@@ -21,5 +21,4 @@ public interface PonderIndexAccessor {
     static List<PonderPlugin> getPlugins() {
         throw new MixinException("Cannot access PonderIndex.plugins directly!");
     }
-
 }

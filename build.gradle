@@ -67,6 +67,19 @@ legacyForge {
             programArguments.addAll('--existing-mod', 'gtceu')
         }
 
+        // second runClient task for multiplayer testing
+        client2 {
+            gameDirectory = project.file('run2')
+            client()
+            sourceSet = sourceSets.main
+
+            systemProperty 'forge.enabledGameTestNamespaces', '${mod_id}'
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            systemProperty 'forge.enabledGameTestNamespaces', '${mod_id}'
+            programArguments.addAll('--existing-mod', 'gtceu', '--username', 'Kolja07', '--uuid', 'c4ad9786-2f63-4c47-8854-6985f13ccff2')
+        }
+
         server {
             server()
             sourceSet = sourceSets.main

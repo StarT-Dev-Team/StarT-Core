@@ -16,5 +16,4 @@ public interface SafeConsumer<T> {
             Minecraft.getInstance().setScreen(null);
         }
     }
-
 }

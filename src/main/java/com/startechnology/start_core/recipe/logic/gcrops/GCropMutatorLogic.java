@@ -88,7 +88,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, StarTMaterials.PurifiedNaquadah).getItem(),
-                ChemicalHelper.get(dust, Fermium).getItem());
+                ChemicalHelper.get(dust, Fermium).getItem(),
+                ChemicalHelper.get(dust, Polonium).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),
@@ -96,7 +97,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 Radon.getFluid(),
                 IndiumGalliumPhosphide.getFluid(),
                 Naquadria.getFluid(),
-                StarTMaterials.Echo.getFluid());
+                StarTMaterials.Echo.getFluid(),
+                StarTMaterials.BecOg.getFluid());
 
         int maxTier = 0;
         List<Integer> tiers = new ArrayList<>();
@@ -138,7 +140,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, StarTMaterials.PurifiedNaquadah).getItem(),
-                ChemicalHelper.get(dust, Fermium).getItem());
+                ChemicalHelper.get(dust, Fermium).getItem(),
+                ChemicalHelper.get(dust, Polonium).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),
@@ -147,7 +150,7 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 IndiumGalliumPhosphide.getFluid(),
                 Naquadria.getFluid(),
                 StarTMaterials.Echo.getFluid(),
-                getMaterial("start_core:mystical_air").getFluid());
+                StarTMaterials.BecOg.getFluid());
 
         ItemStack foundGCrop = ItemStack.EMPTY;
 
@@ -377,7 +380,8 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 ChemicalHelper.get(dust, Tantalum).getItem(),
                 ChemicalHelper.get(dust, Uranium235).getItem(),
                 ChemicalHelper.get(dust, StarTMaterials.PurifiedNaquadah).getItem(),
-                ChemicalHelper.get(dust, Fermium).getItem());
+                ChemicalHelper.get(dust, Fermium).getItem(),
+                ChemicalHelper.get(dust, Polonium).getItem());
 
         final List<Fluid> validMutationFluidList = List.of(
                 Arsenic.getFluid(),
@@ -386,13 +390,13 @@ public class GCropMutatorLogic implements ICustomRecipeLogic {
                 IndiumGalliumPhosphide.getFluid(),
                 Naquadria.getFluid(),
                 StarTMaterials.Echo.getFluid(),
-                getMaterial("start_core:mystical_air").getFluid());
+                StarTMaterials.BecOg.getFluid());
 
         ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
         gCropRandomSeed.setHoverName(Component.translatable(
                 "behaviour.start_core.gcrop.random_crop_name"));
 
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 8; i++) {
             ItemStack fullMutatedSeed = new ItemStack(GCROP_MALFORMED.asItem());
             fullMutatedSeed.setHoverName(Component.translatable(
                     "behaviour.start_core.gcrop.random_crop_name"));
