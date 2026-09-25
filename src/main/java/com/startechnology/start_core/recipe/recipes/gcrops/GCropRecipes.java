@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.gcrop.StarTGCropItemType;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.utils.StarTItemUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
@@ -62,7 +63,7 @@ public class GCropRecipes {
     public static void runSecondaryLineRecipes(Consumer<FinishedRecipe> provider) {
         CENTRIFUGE_RECIPES.recipeBuilder("unstable_ion_blend_separation")
                 .inputItems(ChemicalHelper.get(dust, getMaterial("start_core:unstable_ion_blend")))
-                .outputFluids(GTMaterials.get("npk_solution").getFluid(2000))
+                .outputFluids(StarTMaterials.NpkSolution.getFluid(2000))
                 .outputItems(ChemicalHelper.get(dust, Strontium))
                 .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:poor_charged_bio_waste"), 2))
                 .EUtVA(GTValues.ZPM)
@@ -71,7 +72,7 @@ public class GCropRecipes {
 
         CENTRIFUGE_RECIPES.recipeBuilder("unstable_ion_blend_separation")
                 .inputItems(ChemicalHelper.get(dust, getMaterial("start_core:unstable_ion_blend")))
-                .outputFluids(GTMaterials.get("npk_solution").getFluid(2000))
+                .outputFluids(StarTMaterials.NpkSolution.getFluid(2000))
                 .outputItems(ChemicalHelper.get(dust, Strontium))
                 .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:poor_charged_bio_waste"), 2))
                 .EUtVA(GTValues.ZPM)
@@ -88,7 +89,7 @@ public class GCropRecipes {
 
         CENTRIFUGE_RECIPES.recipeBuilder("mineral_rich_bio_waste_separation")
                 .inputFluids(getMaterial("start_core:mineral_rich_bio_waste").getFluid(1000))
-                .outputFluids(GTMaterials.get("npk_solution").getFluid(1000))
+                .outputFluids(StarTMaterials.NpkSolution.getFluid(1000))
                 .outputFluids(Glycerol.getFluid(1000))
                 .outputFluids(getMaterial("start_core:poor_mineral_rich_bio_waste").getFluid(2000))
                 .EUtVA(GTValues.LuV)
@@ -478,7 +479,7 @@ public class GCropRecipes {
 
             MIXER_RECIPES.recipeBuilder(String.format("liquefied_%s_coagulation", id))
                     .inputItems(ChemicalHelper.get(dust, getMaterial(String.format("start_core:%s_fruit_blend", id))))
-                    .inputFluids(GTMaterials.get("carbon_acid").getFluid(1000))
+                    .inputFluids(StarTMaterials.CarbonAcid.getFluid(1000))
                     .outputFluids(getMaterial(String.format("start_core:dissolved_%s", id)).getFluid(4000))
                     .EUtVA(EUtV)
                     .duration(200)

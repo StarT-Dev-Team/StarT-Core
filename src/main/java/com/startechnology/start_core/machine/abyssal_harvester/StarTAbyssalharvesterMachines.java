@@ -1,7 +1,6 @@
 package com.startechnology.start_core.machine.abyssal_harvester;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -11,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
 
@@ -72,7 +72,7 @@ public class StarTAbyssalharvesterMachines {
                     .where('P', Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_pipe_casing")))
                     .where('V',
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:void"))))
+                                    StarTMaterials.Void)))
                     .where('O', Predicates.blocks(StarTMachineUtils.getKjsBlock("draneko_casing"))
                             .setMinGlobalLimited(80)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes()))

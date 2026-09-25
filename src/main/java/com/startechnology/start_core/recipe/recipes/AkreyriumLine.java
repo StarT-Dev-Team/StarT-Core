@@ -1,10 +1,10 @@
 package com.startechnology.start_core.recipe.recipes;
 
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.startechnology.start_core.materials.StarTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -27,10 +27,10 @@ public class AkreyriumLine {
         }
 
         // KubeJS Interop, get materials registered.
-        Material lepton_sparse_akreyrium = GTCEuAPI.materialManager.getMaterial("gtceu:lepton_sparse_akreyrium");
-        Material sparse_electron_akreyrium = GTCEuAPI.materialManager.getMaterial("gtceu:sparse_electron_akreyrium");
-        Material sparse_muon_akreyrium = GTCEuAPI.materialManager.getMaterial("gtceu:sparse_muon_akreyrium");
-        Material sparse_tau_akreyrium = GTCEuAPI.materialManager.getMaterial("gtceu:sparse_tau_akreyrium");
+        Material lepton_sparse_akreyrium = StarTMaterials.LeptonSparseAkreyrium;
+        Material sparse_electron_akreyrium = StarTMaterials.SparseElectronAkreyrium;
+        Material sparse_muon_akreyrium = StarTMaterials.SparseMuonAkreyrium;
+        Material sparse_tau_akreyrium = StarTMaterials.SparseTauAkreyrium;
 
         MANIFOLD_CENTRIFUGE_RECIPE_TYPE.recipeBuilder("akreyrium_quantising")
                 .inputFluids(lepton_sparse_akreyrium.getFluid(1000))
