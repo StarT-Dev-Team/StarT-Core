@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidPipeProp
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.FluidProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.IngotProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -35,9 +34,6 @@ public class StarTMaterialModifications {
         Netherite.setMaterialARGB(0x1a0d00);
         Netherite.setMaterialIconSet(DULL);
         Netherite.addFlags(GENERATE_ROD, GENERATE_FOIL, DISABLE_DECOMPOSITION);
-        Netherite.setComponents(
-                new MaterialStack(Debris, 1),
-                new MaterialStack(Gold, 1));
 
         NetherStar.setFormula("✧");
         NetherStar.addFlags(GENERATE_FOIL);

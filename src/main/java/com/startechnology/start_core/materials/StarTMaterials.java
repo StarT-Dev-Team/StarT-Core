@@ -668,12 +668,12 @@ public class StarTMaterials {
 
         StarTHellForgeHeatingLiquids.register();
         StarTBacteriaLiquids.register();
-        StarTGCropProcessingMaterials.register();
 
         StarTElementMaterials.register();
         StarTBaseChemicals.register();
         StarTPolymers.register();
         StarTMiscMaterials.register();
+        StarTGCropProcessingMaterials.register();
         StarTAgriculturalMaterials.register();
         StarTAE2Materials.register();
         StarTCombustionMaterials.register();

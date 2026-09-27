@@ -3,7 +3,10 @@ package com.startechnology.start_core.materials.modification;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Gold;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Netherite;
 import static com.startechnology.start_core.StarTCore.LOGGER;
 
 public class StarTLateMaterialModifications {
@@ -11,6 +14,10 @@ public class StarTLateMaterialModifications {
     public static void register() {
         StarTGCropProcessingMaterials.register();
         applyCustomFormulas();
+
+        Netherite.setComponents(
+                new MaterialStack(Debris, 1),
+                new MaterialStack(Gold, 1));
     }
 
     private static void applyCustomFormulas() {
