@@ -14,7 +14,7 @@ import static com.startechnology.start_core.data.gcrops.StarTGCropData.gCropData
 import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 import static com.startechnology.start_core.materials.StarTMaterialHelpers.registerStartCoreMaterial;
 
-public class StarTGCropProcessingMaterials {
+public class GCropProcessingMaterials {
 
     public static void register() {
         for (StarTGCropData data : gCropData) {

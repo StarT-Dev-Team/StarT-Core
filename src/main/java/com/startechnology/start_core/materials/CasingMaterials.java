@@ -9,7 +9,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTCasingMaterials {
+public class CasingMaterials {
 
     public static void register() {
         AusteniticStainlessSteel304 = registerGTCEuMaterial("austenitic_stainless_steel_304")

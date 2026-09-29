@@ -11,7 +11,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTBaseMaterials {
+public class BaseMaterials {
 
     public static void register() {
         Latex = registerGTCEuMaterial("latex")

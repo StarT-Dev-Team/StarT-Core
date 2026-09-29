@@ -6,7 +6,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 
-public class StarTInfernalMaterials {
+public class InfernalMaterials {
 
     public static void register() {
         CrudeInfernalConcentrate = registerGTCEuMaterial("crude_infernal_concentrate")

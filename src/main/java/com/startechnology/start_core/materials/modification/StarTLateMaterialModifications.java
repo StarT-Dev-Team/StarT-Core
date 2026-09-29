@@ -12,7 +12,7 @@ import static com.startechnology.start_core.StarTCore.LOGGER;
 public class StarTLateMaterialModifications {
 
     public static void register() {
-        StarTGCropProcessingMaterials.register();
+        GCropProcessingMaterials.register();
         applyCustomFormulas();
 
         Netherite.setComponents(

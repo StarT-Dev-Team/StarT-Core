@@ -10,7 +10,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTAE2Materials {
+public class AE2Materials {
 
     public static void register() {
         Skystone = registerGTCEuMaterial("skystone")

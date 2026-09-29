@@ -9,7 +9,7 @@ import static com.startechnology.start_core.StarTCore.LOGGER;
 import static com.startechnology.start_core.data.gcrops.StarTGCropData.gCropData;
 import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 
-public class StarTGCropProcessingMaterials {
+public class GCropProcessingMaterials {
 
     public static void register() {
         for (StarTGCropData data : gCropData) {

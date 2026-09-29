@@ -6,7 +6,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 
-public class StarTBacteriaLiquids {
+public class BacteriaLiquids {
 
     public static void register() {
         Fermentibacter = registerStartCoreMaterial("fermentibacter_solvis")

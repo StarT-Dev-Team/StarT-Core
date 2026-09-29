@@ -10,7 +10,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTElementMaterials {
+public class ElementMaterials {
 
     public static void register() {
         Mystery = registerGTCEuMaterial("mystery")

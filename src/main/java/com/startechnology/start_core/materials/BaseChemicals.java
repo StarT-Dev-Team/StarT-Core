@@ -8,7 +8,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTBaseChemicals {
+public class BaseChemicals {
 
     public static void register() {
         // Chem Groups

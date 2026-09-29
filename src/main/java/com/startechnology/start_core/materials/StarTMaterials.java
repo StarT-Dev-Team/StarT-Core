@@ -666,27 +666,27 @@ public class StarTMaterials {
         StarTTagPrefixes.init();
         StarTSteams.init();
 
-        StarTHellForgeHeatingLiquids.register();
-        StarTBacteriaLiquids.register();
+        HellForgeHeatingLiquids.register();
+        BacteriaLiquids.register();
 
-        StarTElementMaterials.register();
-        StarTBaseChemicals.register();
+        ElementMaterials.register();
+        BaseChemicals.register();
         StarTPolymers.register();
-        StarTMiscMaterials.register();
-        StarTGCropProcessingMaterials.register();
-        StarTAgriculturalMaterials.register();
-        StarTAE2Materials.register();
-        StarTCombustionMaterials.register();
+        MiscMaterials.register();
+        GCropProcessingMaterials.register();
+        AgriculturalMaterials.register();
+        AE2Materials.register();
+        CombustionMaterials.register();
         StarTSuperconductors.register();
         StarTPlasmas.register();
-        StarTNuclearMaterials.register();
-        StarTOresMagmasMaterials.register();
-        StarTInfernalMaterials.register();
-        StarTAbydosMaterials.register();
-        StarTNetherMaterials.register();
-        StarTNetheriteMaterials.register();
-        StarTCasingMaterials.register();
-        StarTBaseMaterials.register();
-        StarTVoidAbyssalMaterials.register();
+        NuclearMaterials.register();
+        OresMagmasMaterials.register();
+        InfernalMaterials.register();
+        AbydosMaterials.register();
+        NetherMaterials.register();
+        NetheriteMaterials.register();
+        CasingMaterials.register();
+        BaseMaterials.register();
+        VoidAbyssalMaterials.register();
     }
 }

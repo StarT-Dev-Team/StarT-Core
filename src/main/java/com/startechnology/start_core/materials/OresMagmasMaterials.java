@@ -8,7 +8,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTOresMagmasMaterials {
+public class OresMagmasMaterials {
 
     public static void register() {
         Titanite = registerGTCEuMaterial("titanite")

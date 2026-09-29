@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 
-public class StarTHellForgeHeatingLiquids {
+public class HellForgeHeatingLiquids {
 
     public static void register() {
         BlazingPhlogiston = registerStartCoreMaterial("blazing_phlogiston")

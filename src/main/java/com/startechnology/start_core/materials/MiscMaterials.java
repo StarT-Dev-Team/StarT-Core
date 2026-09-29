@@ -9,7 +9,7 @@ import static com.startechnology.start_core.materials.StarTMaterialHelpers.*;
 import static com.startechnology.start_core.materials.StarTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public class StarTMiscMaterials {
+public class MiscMaterials {
 
     public static void register() {
         NuclearSteam = registerGTCEuMaterial("nuclear_steam")
