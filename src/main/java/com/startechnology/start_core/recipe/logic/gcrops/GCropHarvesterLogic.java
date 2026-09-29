@@ -14,6 +14,7 @@ import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsMana
 import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -53,9 +54,9 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             {
                 put(0, GTMaterials.Water.getFluid());
                 put(2, GTMaterials.Biomass.getFluid());
-                put(4, GTMaterials.get("npk_solution").getFluid());
-                put(5, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
-                put(6, GTMaterials.get("biostimulating_mixture").getFluid());
+                put(4, StarTMaterials.NpkSolution.getFluid());
+                put(5, StarTMaterials.NutrientRichFertilizerSolution.getFluid());
+                put(6, StarTMaterials.BiostimulatingMixture.getFluid());
             }
         };
 
@@ -247,9 +248,9 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             {
                 put(0, GTMaterials.Water.getFluid());
                 put(2, GTMaterials.Biomass.getFluid());
-                put(4, GTMaterials.get("npk_solution").getFluid());
-                put(5, GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid());
-                put(6, GTMaterials.get("biostimulating_mixture").getFluid());
+                put(4, StarTMaterials.NpkSolution.getFluid());
+                put(5, StarTMaterials.NutrientRichFertilizerSolution.getFluid());
+                put(6, StarTMaterials.BiostimulatingMixture.getFluid());
             }
         };
 

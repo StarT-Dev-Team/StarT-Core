@@ -16,6 +16,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.modular.StarTModularConduitHatchPartMachine;
 import com.startechnology.start_core.machine.modular.StarTModularControllerMachine;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,8 +42,8 @@ public class ModularFrameBoosting extends StarTModularControllerMachine {
     @DescSynced
     private long outputPerSec = 0L;
 
-    private static final Material DISTILLED_WATER = GTMaterials.get("distilled_water");
-    private static final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
+    private static final Material DISTILLED_WATER = GTMaterials.DistilledWater;
+    private static final Material DEIONIZED_WATER = StarTMaterials.DeionizedWater;
     private Material activeCoolant = null;
     private EnergyContainerList frameNodeContainers = new EnergyContainerList(new ArrayList<>());
     private List<StarTModularConduitHatchPartMachine> trackedConduits = new ArrayList<>();

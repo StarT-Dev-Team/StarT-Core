@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 import com.gregtechceu.gtceu.config.ConfigHolder;
-import com.startechnology.start_core.materials.StarTSteams;
+import com.startechnology.start_core.materials.StarTMaterials;
 
 import net.minecraft.world.level.material.Fluid;
 
@@ -26,11 +26,11 @@ public abstract class LargeBoilerMachineMixin {
     @Overwrite
     public Fluid getProducedFluid() {
         if (this.getMaxTemperature() > ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerMaxTemperature) {
-            return StarTSteams.ExtremelyHotSteam.getFluid();
+            return StarTMaterials.ExtremelyHotSteam.getFluid();
         } else if (this.getMaxTemperature() > ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerMaxTemperature) {
-            return StarTSteams.HotSteam.getFluid();
+            return StarTMaterials.HotSteam.getFluid();
         } else if (this.getMaxTemperature() > ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerMaxTemperature) {
-            return StarTSteams.WarmSteam.getFluid();
+            return StarTMaterials.WarmSteam.getFluid();
         }
 
         return steam;

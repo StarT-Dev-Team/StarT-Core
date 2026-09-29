@@ -13,7 +13,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
-import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,14 +64,14 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     /* A map of fluids to their maximum heat cap for the Hell Forge */
     public static Map<Material, Integer> fluidsMap = Map.of(
-            StarTHellForgeHeatingLiquids.FlamewakeSolvent, 900,
-            StarTHellForgeHeatingLiquids.EmberheartNectar, 1800,
-            StarTHellForgeHeatingLiquids.IgniferousElixir, 2700,
-            StarTHellForgeHeatingLiquids.BlazingPhlogiston, 3600,
-            StarTHellForgeHeatingLiquids.CinderbrewSolvent, 1350,
-            StarTHellForgeHeatingLiquids.CorefireNectar, 2250,
-            StarTHellForgeHeatingLiquids.InfernumElixir, 3150,
-            StarTHellForgeHeatingLiquids.HellfireEssence, 4050);
+            StarTMaterials.FlamewakeSolvent, 900,
+            StarTMaterials.EmberheartNectar, 1800,
+            StarTMaterials.IgniferousElixir, 2700,
+            StarTMaterials.BlazingPhlogiston, 3600,
+            StarTMaterials.CinderbrewSolvent, 1350,
+            StarTMaterials.CorefireNectar, 2250,
+            StarTMaterials.InfernumElixir, 3150,
+            StarTMaterials.HellfireEssence, 4050);
 
     @Override
     public void onStructureFormed() {
