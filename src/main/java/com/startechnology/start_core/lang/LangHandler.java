@@ -742,6 +742,7 @@ public class LangHandler {
         provider.add("ui.start_core.bulking.type", "Bulking type: %s");
         provider.add("config.jade.plugin_start_core.bulking_info", "[Star Technology] Bulking Info");
         provider.add("config.jade.plugin_start_core.forced_bulking", "Forced Bulking %s");
+        provider.add("config.jade.plugin_start_core.black_hole_generator", "Black Hole Generator");
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
@@ -774,5 +775,131 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
+
+        provider.add("gtceu.black_hole_ignition", "Black Hole Ignition");
+        provider.add("gtceu.black_hole_feeding", "Black Hole Feeding");
+        provider.add("start_core.recipe.black_hole_seed", "Seed: %s");
+        provider.add("start_core.recipe.black_hole_mass", "Mass: %s");
+        provider.add("start_core.machine.black_hole_generator.outputs", "Laser Source Hatches: %s");
+        provider.add("start_core.machine.black_hole_generator.stabilizer", "Stabilizer %s: %s / %s EU");
+        provider.add("start_core.machine.black_hole_generator.stabilizer_missing", "Stabilizer %s: missing");
+        provider.add("start_core.machine.black_hole_generator.phase", "Phase: %s");
+        provider.add("start_core.machine.black_hole_generator.phase.idle", "Idle");
+        provider.add("start_core.machine.black_hole_generator.phase.igniting", "Igniting");
+        provider.add("start_core.machine.black_hole_generator.phase.stable", "Stable");
+        provider.add("start_core.machine.black_hole_generator.phase.evaporating", "Evaporating");
+        provider.add("start_core.machine.black_hole_generator.phase.collapsing", "Collapsing");
+        provider.add("start_core.machine.black_hole_generator.ignition_cost",
+                "Ignition needs %s EU stored in every stabilizer");
+        provider.add("start_core.machine.black_hole_generator.progress", "Ignition: %s%%");
+        provider.add("start_core.machine.black_hole_generator.seed", "Seed: %s");
+        provider.add("start_core.machine.black_hole_generator.mass", "Mass: %s (%s)");
+        provider.add("start_core.machine.black_hole_generator.growing", "growing +%s/s");
+        provider.add("start_core.machine.black_hole_generator.shrinking", "shrinking -%s/s");
+        provider.add("start_core.machine.black_hole_generator.steady", "steady");
+        provider.add("start_core.machine.black_hole_generator.feed", "Feed: %s / %s mass/s");
+        provider.add("start_core.machine.black_hole_generator.stability", "Stability: %s %s");
+        provider.add("start_core.machine.black_hole_generator.warning", "Singularity destabilizing!");
+        provider.add("start_core.machine.black_hole_generator.output", "Output: %s EU/t (%sA UIV)");
+        provider.add("start_core.machine.black_hole_generator.delivered",
+                "Delivered to hatches: %s EU/t (the rest is voided)");
+        provider.add("start_core.machine.black_hole_generator.demand", "Stabilizer demand: %s EU/t");
+        provider.add("start_core.machine.black_hole_generator.supply", "Supply %s %s  %s %s");
+        provider.add("start_core.machine.black_hole_generator.jade", "Mass %s, stability %s%%");
+
+        provider.add("gtceu.dyson_sphere_fuel", "Dyson Sphere Fuel");
+        provider.add("gtceu.dyson_sphere_remnant", "Dyson Sphere Remnant");
+        provider.add("start_core.recipe.dyson_fuel.main_sequence",
+                "Protostar (+%s mass) and main sequence fuel");
+        provider.add("start_core.recipe.dyson_fuel.red_giant", "Red giant fuel");
+        provider.add("start_core.recipe.dyson_remnant.mass.nebula", "Star mass below %s");
+        provider.add("start_core.recipe.dyson_remnant.mass.neutron_star", "Star mass %s to below %s");
+        provider.add("start_core.recipe.dyson_remnant.mass.seed", "Star mass %2$s or more");
+        provider.add("start_core.recipe.dyson_remnant.outcome.nebula", "Ends as a planetary nebula");
+        provider.add("start_core.recipe.dyson_remnant.outcome.neutron_star", "Supernova, leaves a neutron star");
+        provider.add("start_core.recipe.dyson_remnant.outcome.seed", "Supernova, leaves a singularity seed");
+        provider.add("subtitles.start_core.dyson.hum", "Star hums");
+        provider.add("subtitles.start_core.dyson.ignition", "Star ignites");
+        provider.add("subtitles.start_core.dyson.supernova", "Star goes supernova");
+        provider.add("subtitles.start_core.dyson.assembly", "Dyson rings assemble");
+        provider.add("subtitles.start_core.dyson.disassembly", "Dyson rings break apart");
+        provider.add("start_core.machine.dyson_sphere.star_color", "Star color: %s");
+        provider.add("start_core.machine.dyson_sphere.target_mass", "Target mass: %s");
+        provider.add("start_core.machine.dyson_sphere.configurator", "Star Settings");
+        provider.add("start_core.machine.dyson_sphere.configurator.color", "Color (#RRGGBB or R,G,B)");
+        provider.add("start_core.machine.dyson_sphere.configurator.target_mass", "Target mass");
+        provider.add("config.jade.plugin_start_core.dyson_sphere", "Dyson Sphere");
+        provider.add("start_core.machine.dyson_sphere.phase", "Phase: %s");
+        provider.add("start_core.machine.dyson_sphere.phase.idle", "Idle");
+        provider.add("start_core.machine.dyson_sphere.phase.protostar", "Protostar");
+        provider.add("start_core.machine.dyson_sphere.phase.igniting", "Igniting");
+        provider.add("start_core.machine.dyson_sphere.phase.main_sequence", "Main Sequence");
+        provider.add("start_core.machine.dyson_sphere.phase.red_giant_transition", "Swelling into a Red Giant");
+        provider.add("start_core.machine.dyson_sphere.phase.red_giant", "Red Giant");
+        provider.add("start_core.machine.dyson_sphere.phase.nebula", "Planetary Nebula");
+        provider.add("start_core.machine.dyson_sphere.phase.supernova", "Supernova");
+        provider.add("start_core.machine.dyson_sphere.phase.fizzle", "Fizzling Out");
+        provider.add("start_core.machine.dyson_sphere.phase.dispersing", "Dispersing");
+        provider.add("start_core.machine.dyson_sphere.idle", "Feed hydrogen to accrete a star of mass %s");
+        provider.add("start_core.machine.dyson_sphere.mass", "Mass: %s");
+        provider.add("start_core.machine.dyson_sphere.mass_target", "Mass: %s / %s");
+        provider.add("start_core.machine.dyson_sphere.ignition", "Ignition charge: %s / %s EU");
+        provider.add("start_core.machine.dyson_sphere.core_hydrogen", "Core hydrogen: %s%% (%s left)");
+        provider.add("start_core.machine.dyson_sphere.core_helium", "Core helium: %s%% (%s left)");
+        provider.add("start_core.machine.dyson_sphere.stalled", "stalled");
+        provider.add("start_core.machine.dyson_sphere.output", "Output: %s EU/t (%sA UXV)");
+        provider.add("start_core.machine.dyson_sphere.delivered",
+                "Delivered to hatches: %s EU/t (the rest is voided)");
+        provider.add("start_core.machine.dyson_sphere.fuel", "%s: %s / %s mB/s");
+        provider.add("start_core.machine.dyson_sphere.fuel.hydrogen", "Hydrogen");
+        provider.add("start_core.machine.dyson_sphere.fuel.helium_plasma", "Helium plasma");
+        provider.add("start_core.machine.dyson_sphere.fuel.none", "Fuel");
+        provider.add("start_core.machine.dyson_sphere.starving", "Star starving! Fizzles out in %s");
+        provider.add("start_core.machine.dyson_sphere.fate", "Ends as: %s");
+        provider.add("start_core.machine.dyson_sphere.fate.nebula", "planetary nebula");
+        provider.add("start_core.machine.dyson_sphere.fate.neutron_star", "supernova + neutron star");
+        provider.add("start_core.machine.dyson_sphere.fate.seed", "supernova + singularity seed");
+        provider.add("start_core.machine.dyson_sphere.pending", "Remnants waiting for output space: %s");
+
+        provider.add("gtceu.neutron_star_forge", "Neutron Star Forge");
+        provider.add("gtceu.neutron_star_accretion", "Neutron Star Accretion");
+        provider.add("gtceu.neutron_star_capture", "Neutron Star Capture");
+        provider.add("start_core.recipe.condition.neutron_spin", "Spin ≥ %s Hz (tier %s)");
+        provider.add("start_core.recipe.neutron_spin_draw", "Spin draw: %s Hz/s");
+        provider.add("start_core.recipe.neutron_accretion.mass", "Adds mass: a fresh star collapses after %s buckets");
+        provider.add("start_core.recipe.neutron_accretion.spin", "Spin-up: +%s Hz per 1000 mB (at mass %s)");
+        provider.add("start_core.recipe.neutron_capture", "Captures a star of mass %s spinning at %s Hz");
+        provider.add("start_core.machine.neutron_star_forge.configurator", "Star Settings");
+        provider.add("start_core.machine.neutron_star_forge.configurator.color", "Color (#RRGGBB or R,G,B)");
+        provider.add("start_core.machine.neutron_star_forge.configurator.target_spin", "Target spin (Hz)");
+        provider.add("start_core.machine.neutron_star_forge.configurator.target_spin_hint", "0 turns accretion off");
+        provider.add("start_core.machine.neutron_star_forge.phase", "Phase: %s");
+        provider.add("start_core.machine.neutron_star_forge.phase.idle", "Idle");
+        provider.add("start_core.machine.neutron_star_forge.phase.capturing", "Capturing");
+        provider.add("start_core.machine.neutron_star_forge.phase.active", "Active");
+        provider.add("start_core.machine.neutron_star_forge.phase.fading", "Fading");
+        provider.add("start_core.machine.neutron_star_forge.phase.collapsing", "Collapsing");
+        provider.add("start_core.machine.neutron_star_forge.phase.disrupting", "Disrupting");
+        provider.add("start_core.machine.neutron_star_forge.star_color", "Star color: %s");
+        provider.add("start_core.machine.neutron_star_forge.idle",
+                "Put a neutron star remnant in an input bus to capture it");
+        provider.add("start_core.machine.neutron_star_forge.capturing", "Capturing: %s%% (%s EU/t)");
+        provider.add("start_core.machine.neutron_star_forge.spin", "Spin: %s Hz (tier %s)");
+        provider.add("start_core.machine.neutron_star_forge.steady", "Spin steady");
+        provider.add("start_core.machine.neutron_star_forge.spinning_up", "Spinning up: +%s Hz/s");
+        provider.add("start_core.machine.neutron_star_forge.spinning_down", "Spinning down: -%s Hz/s");
+        provider.add("start_core.machine.neutron_star_forge.losses", "Braking %s Hz/s, recipe load %s Hz/s");
+        provider.add("start_core.machine.neutron_star_forge.mass", "Mass: %s (%s%% of the collapse limit)");
+        provider.add("start_core.machine.neutron_star_forge.collapse_warning", "Close to collapse!");
+        provider.add("start_core.machine.neutron_star_forge.accretion", "Accretion: %s mB/s (target %s Hz)");
+        provider.add("start_core.machine.neutron_star_forge.accretion.off", "Accretion off (target spin 0)");
+        provider.add("start_core.machine.neutron_star_forge.paused",
+                "Paused: no recipes or accretion, magnetic braking continues");
+        provider.add("start_core.machine.neutron_star_forge.time_to_death", "Goes dark in %s at this rate");
+        provider.add("start_core.machine.neutron_star_forge.time_to_collapse", "Collapses in %s at this rate");
+        provider.add("start_core.machine.neutron_star_forge.glitches", "Glitches: %s");
+        provider.add("start_core.machine.neutron_star_forge.pending", "Items waiting for output space: %s");
+        provider.add("start_core.machine.neutron_star_forge.jade", "%s Hz (tier %s), mass %s%%");
+        provider.add("config.jade.plugin_start_core.neutron_star_forge", "Neutron Star Forge");
     }
 }

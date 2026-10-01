@@ -1,0 +1,31 @@
+{
+  "blend": { "func": "add", "srcrgb": "1", "dstrgb": "1-srcalpha" },
+  "vertex": "start_core:hell_flame",
+  "fragment": "start_core:hell_flame",
+  "attributes": ["Position"],
+  "samplers": [
+    { "name": "SceneDepth" }
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "InvProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "BoxMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ScreenSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
+    { "name": "CenterOffset", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "Basis", "type": "matrix3x3", "count": 9, "values": [ 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "Bounds", "type": "float", "count": 2, "values": [ 3.76, 18.82 ] },
+    { "name": "Shape", "type": "float", "count": 4, "values": [ 1.3, 2.3, 0.3, 11.0 ] },
+    { "name": "Lift", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Turbulence", "type": "float", "count": 4, "values": [ 0.45, 1.15, 1.6, 1.0 ] },
+    { "name": "FlameTime", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Core", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "Intensity", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "Theme", "type": "float", "count": 3, "values": [ 1.0, 0.42, 0.08 ] },
+    { "name": "Fringe", "type": "float", "count": 3, "values": [ 0.5, 0.05, 0.015 ] },
+    { "name": "Smoke", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "Tint", "type": "float", "count": 4, "values": [ 0.0, 0.0, 0.0, 0.0 ] },
+    { "name": "Seed", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Steps", "type": "int", "count": 1, "values": [ 32 ] }
+  ]
+}

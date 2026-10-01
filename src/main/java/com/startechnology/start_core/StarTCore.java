@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.ParallelType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
@@ -24,9 +25,12 @@ import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.materials.modification.StarTMaterialModifications;
+import com.startechnology.start_core.particle.StarTParticles;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
+import com.startechnology.start_core.recipe.StarTRecipeConditions;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
+import com.startechnology.start_core.sound.StarTSounds;
 import com.tterrag.registrate.providers.ProviderType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,12 +84,15 @@ public class StarTCore {
         modEventBus.addListener(this::addMaterialRegistries);
         modEventBus.addListener(this::addMaterials);
         modEventBus.addListener(this::modifyMaterials);
+        modEventBus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
         modEventBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modEventBus.addGenericListener(GTRecipeCategory.class, this::registerRecipeCategories);
         modEventBus.addGenericListener(DimensionMarker.class, this::registerDimensionalMarkers);
         modEventBus.addGenericListener(ParallelType.class, this::registerParallelTypes);
         START_REGISTRATE.registerRegistrate();
+        StarTSounds.register(modEventBus);
+        StarTParticles.register(modEventBus);
 
         // Most other events are fired on Forge's bus.
         // If we want to use annotations to register event listeners,
@@ -139,6 +146,10 @@ public class StarTCore {
 
     private void registerDimensionalMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
         StarTDimensionMarkers.init();
+    }
+
+    private void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, RecipeConditionType<?>> event) {
+        StarTRecipeConditions.init();
     }
 
     private void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {

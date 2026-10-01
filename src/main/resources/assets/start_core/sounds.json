@@ -1,0 +1,52 @@
+{
+  "dyson.hum": {
+    "sounds": [
+      {
+        "name": "start_core:dyson/hum",
+        "attenuation_distance": 256,
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.start_core.dyson.hum"
+  },
+  "dyson.ignition": {
+    "sounds": [
+      {
+        "name": "start_core:dyson/ignition",
+        "attenuation_distance": 384,
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.start_core.dyson.ignition"
+  },
+  "dyson.supernova": {
+    "sounds": [
+      {
+        "name": "start_core:dyson/supernova",
+        "attenuation_distance": 512,
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.start_core.dyson.supernova"
+  },
+  "dyson.assembly": {
+    "sounds": [
+      {
+        "name": "start_core:dyson/assembly",
+        "attenuation_distance": 256,
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.start_core.dyson.assembly"
+  },
+  "dyson.disassembly": {
+    "sounds": [
+      {
+        "name": "start_core:dyson/disassembly",
+        "attenuation_distance": 256,
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.start_core.dyson.disassembly"
+  }
+}

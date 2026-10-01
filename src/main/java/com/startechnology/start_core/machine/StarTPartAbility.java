@@ -18,6 +18,8 @@ public class StarTPartAbility {
 
     public static final PartAbility VACUUM_PUMP = new PartAbility("vacuum_pump");
 
+    public static final PartAbility BLACK_HOLE_STABILIZER = new PartAbility("black_hole_stabilizer");
+
     /* Enables the usage of modular terminals in this machine */
     public static final PartAbility MODULAR_TERMINAL = new PartAbility("modular_terminal");
 

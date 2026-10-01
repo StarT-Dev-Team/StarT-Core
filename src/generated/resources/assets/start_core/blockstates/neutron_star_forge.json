@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "start_core:block/machine/neutron_star_forge",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "start_core:block/machine/neutron_star_forge"
+    },
+    "facing=south": {
+      "model": "start_core:block/machine/neutron_star_forge",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "start_core:block/machine/neutron_star_forge",
+      "y": 270
+    }
+  }
+}

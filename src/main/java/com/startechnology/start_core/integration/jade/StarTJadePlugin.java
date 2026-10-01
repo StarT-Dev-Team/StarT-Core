@@ -1,6 +1,20 @@
 package com.startechnology.start_core.integration.jade;
 
-import com.startechnology.start_core.integration.jade.provider.*;
+import com.startechnology.start_core.integration.jade.provider.StarTAbyssalHarvesterProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTBlackHoleProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTBulkingProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTDreamLinkNetworkBlockProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTDysonSphereProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTFusionReactorProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTHellforgeProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTModularInterfaceHatchPartMachineProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTNeutronStarProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTRedstoneInterfaceProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTSolarCellProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTSolarMachineProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTThreadedRecipeProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTThreadedStatBlockProvider;
+import com.startechnology.start_core.integration.jade.provider.StarTVacuumChemicalReactionChamberProvider;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -25,6 +39,9 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new StarTVacuumChemicalReactionChamberProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTModularInterfaceHatchPartMachineProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTBulkingProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTBlackHoleProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTDysonSphereProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTNeutronStarProvider(), BlockEntity.class);
     }
 
     @Override
@@ -41,5 +58,8 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTVacuumChemicalReactionChamberProvider(), Block.class);
         registration.registerBlockComponent(new StarTModularInterfaceHatchPartMachineProvider(), Block.class);
         registration.registerBlockComponent(new StarTBulkingProvider(), Block.class);
+        registration.registerBlockComponent(new StarTBlackHoleProvider(), Block.class);
+        registration.registerBlockComponent(new StarTDysonSphereProvider(), Block.class);
+        registration.registerBlockComponent(new StarTNeutronStarProvider(), Block.class);
     }
 }

@@ -5,12 +5,15 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.machine.hellforge.client.HellFlameEmbers;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTHellForgeHeatingLiquids;
@@ -18,9 +21,16 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,9 +59,30 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
 
     private boolean isWorking;
 
-    public StarTHellForgeMachine(IMachineBlockEntity holder, int baseTemperature, int baseTempLoss, int dormantTempLoss,
-                                 Object... args) {
+    @Getter
+    private final HellFlameProfile profile;
+    @DescSynced
+    @Getter
+    private int displayHeat;
+    @DescSynced
+    @Getter
+    private long heatBurstGameTime = Long.MIN_VALUE / 2;
+    @DescSynced
+    @Getter
+    private int heatBurst;
+    @DescSynced
+    @Getter
+    private long kindleGameTime = Long.MIN_VALUE / 2;
+    @DescSynced
+    @Getter
+    private long gutterGameTime = Long.MIN_VALUE / 2;
+    @Persisted
+    private boolean flameLit;
+
+    public StarTHellForgeMachine(IMachineBlockEntity holder, HellFlameProfile profile, int baseTemperature,
+                                 int baseTempLoss, int dormantTempLoss, Object... args) {
         super(holder, args);
+        this.profile = profile;
         this.temperature = baseTemperature;
         this.baseTemperature = baseTemperature;
         this.baseTempLoss = baseTempLoss;
@@ -72,19 +103,57 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
             StarTHellForgeHeatingLiquids.InfernumElixir, 3150,
             StarTHellForgeHeatingLiquids.HellfireEssence, 4050);
 
+    private static final int HEAT_MAX = Collections.max(fluidsMap.values());
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         isWorking = false;
         startHeatLoss = true;
         temperatureChanged();
+        if (getLevel() instanceof ServerLevel level && !flameLit) {
+            flameLit = true;
+            kindleGameTime = level.getGameTime();
+        }
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         isWorking = false;
+        if (!(getLevel() instanceof ServerLevel level) || !isStructureLoaded()) return;
         temperature = baseTemperature;
+        if (flameLit) {
+            flameLit = false;
+            gutterGameTime = level.getGameTime();
+        }
+    }
+
+    private boolean isStructureLoaded() {
+        var pos = getPos();
+        var box = BoundingBox.fromCorners(
+                pos.relative(relative(RelativeDirection.FRONT), profile.extentFront)
+                        .relative(relative(RelativeDirection.DOWN), profile.extentDown)
+                        .relative(relative(RelativeDirection.LEFT), profile.halfWidth),
+                pos.relative(relative(RelativeDirection.BACK), profile.extentBack)
+                        .relative(relative(RelativeDirection.UP), profile.extentUp)
+                        .relative(relative(RelativeDirection.RIGHT), profile.halfWidth));
+        return getLevel().hasChunksAt(box.minX(), box.minY(), box.minZ(), box.maxX(), box.maxY(), box.maxZ());
+    }
+
+    private Direction relative(RelativeDirection direction) {
+        return direction.getRelative(getFrontFacing(), getUpwardsFacing(), isFlipped());
+    }
+
+    public Direction getFlameUp() {
+        return relative(RelativeDirection.UP);
+    }
+
+    public Vec3 getFlameBase() {
+        var center = Vec3.atCenterOf(getPos());
+        var base = profile.base(center.x, center.y, center.z, relative(RelativeDirection.BACK).step(),
+                getFlameUp().step());
+        return new Vec3(base.x, base.y, base.z);
     }
 
     public String getCrucibleUIKey() {
@@ -142,7 +211,15 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     public void onLoad() {
         super.onLoad();
         if (isRemote()) return;
+        displayHeat = HellFlameProfile.displayHeat(temperature, HEAT_MAX);
         tryTickSub = subscribeServerTick(tryTickSub, this::tryRemoveHeat);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void clientTick() {
+        super.clientTick();
+        HellFlameEmbers.tick(this);
     }
 
     @Override
@@ -185,6 +262,7 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
     }
 
     private void temperatureChanged() {
+        displayHeat = HellFlameProfile.displayHeat(temperature, HEAT_MAX);
         fluidsMap.forEach((key1, temperature) -> this.setIndicatorValue(
                 "variadic.start_core.indicator.hellforge." + temperature.toString(),
                 (int) Math.floor(redstonePercentageOfTemp(temperature))));
@@ -212,9 +290,14 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
                     int addTemperature = ingredientFluid.getFluid().getFluidType().getTemperature() / 1_000_000;
 
                     int amountToAdd = (int) (double) (ingredientFluid.getAmount() / 1000);
+                    int before = temperature;
                     this.temperature = Math.min(temperature + addTemperature * amountToAdd, maxHeat);
                     this.temperatureChanged();
 
+                    if (temperature > before) {
+                        heatBurstGameTime = getLevel().getGameTime();
+                        heatBurst = HellFlameProfile.encodeBurst(temperature - before, material.getMaterialRGB());
+                    }
                 }
             }
         }

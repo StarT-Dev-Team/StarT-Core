@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "start_core:hell_flame_renderer"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "start_core:fornaxs_infernal_rotary_engine",
   "texture_overrides": {

@@ -25,11 +25,105 @@ public class StarTConfig {
     @Configurable
     public SolarConfigs solar = new SolarConfigs();
 
+    @Configurable
+    public DebugConfigs debug = new DebugConfigs();
+
     public static class ClientConfigs {
 
         @Configurable
         @Configurable.Comment({ "Whether or not to enable the render for the Komaru Frame.", "Default: true" })
         public boolean komaruRenderer = true;
+
+        @Configurable
+        public RenderTierMode blackHoleRenderMode = RenderTierMode.AUTO;
+
+        @Configurable
+        @Configurable.Range(min = 16, max = 256)
+        public int blackHoleLensingSteps = 64;
+
+        @Configurable
+        @Configurable.DecimalRange(min = 0.0, max = 1.0)
+        public double blackHoleLensingStrength = 0.25;
+
+        @Configurable
+        @Configurable.Range(min = 1, max = 16)
+        public int blackHoleMaxInstances = 4;
+
+        @Configurable
+        public boolean blackHoleBeams = true;
+
+        @Configurable
+        @Configurable.Range(min = 64, max = 4096)
+        public int blackHoleViewDistance = 1024;
+
+        @Configurable
+        public RenderTierMode dysonRenderMode = RenderTierMode.AUTO;
+
+        @Configurable
+        public DetailLevel dysonStarDetail = DetailLevel.HIGH;
+
+        @Configurable
+        public boolean dysonGodRays = true;
+
+        @Configurable
+        @Configurable.Range(min = 16, max = 96)
+        public int dysonGodRaySamples = 48;
+
+        @Configurable
+        @Configurable.Range(min = 1, max = 8)
+        public int dysonMaxInstances = 2;
+
+        @Configurable
+        @Configurable.Range(min = 64, max = 4096)
+        public int dysonViewDistance = 1024;
+
+        @Configurable
+        @Configurable.Range(min = 0, max = 100)
+        public int dysonHumVolume = 100;
+
+        @Configurable
+        public RenderTierMode neutronStarRenderMode = RenderTierMode.AUTO;
+
+        @Configurable
+        public DetailLevel neutronStarDetail = DetailLevel.HIGH;
+
+        @Configurable
+        @Configurable.Range(min = 1, max = 8)
+        public int neutronStarMaxInstances = 2;
+
+        @Configurable
+        @Configurable.Range(min = 64, max = 4096)
+        public int neutronStarViewDistance = 1024;
+
+        @Configurable
+        public RenderTierMode hellFlameRenderMode = RenderTierMode.AUTO;
+
+        @Configurable
+        public DetailLevel hellFlameDetail = DetailLevel.HIGH;
+
+        @Configurable
+        @Configurable.Range(min = 1, max = 64)
+        public int hellFlameMaxInstances = 16;
+
+        @Configurable
+        @Configurable.Range(min = 32, max = 1024)
+        public int hellFlameViewDistance = 256;
+
+        @Configurable
+        public boolean hellFlameParticles = true;
+    }
+
+    public enum RenderTierMode {
+        AUTO,
+        FULL,
+        FALLBACK,
+        OFF
+    }
+
+    public enum DetailLevel {
+        LOW,
+        MEDIUM,
+        HIGH
     }
 
     public static class SolarConfigs {
@@ -195,5 +289,19 @@ public class StarTConfig {
                 "Default: 0.75"
         })
         public double uhvSolarCellTemperatureScale = 0.75;
+    }
+
+    // TODO: remove so we dont ship it in prod :(
+    public static class DebugConfigs {
+
+        @Configurable
+        @Configurable.Comment("how fast a dyson sphere stars accrete and burn its core")
+        @Configurable.Range(min = 1, max = 10000)
+        public int dysonLifecycleSpeed = 1;
+
+        @Configurable
+        @Configurable.Comment("ho fast neutron stars spin down")
+        @Configurable.Range(min = 1, max = 10000)
+        public int neutronStarLifecycleSpeed = 1;
     }
 }

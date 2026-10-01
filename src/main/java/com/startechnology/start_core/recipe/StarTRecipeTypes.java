@@ -13,11 +13,30 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
+import com.startechnology.start_core.machine.black_hole.BlackHoleSeeds;
+import com.startechnology.start_core.machine.dyson_sphere.StellarBalance;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.recipe.logic.*;
-import com.startechnology.start_core.recipe.logic.bacteria.*;
-import com.startechnology.start_core.recipe.logic.gcrops.*;
+import com.startechnology.start_core.machine.neutron_star.NeutronStarBalance;
+import com.startechnology.start_core.recipe.logic.ArborealExtractionRecipeLogic;
+import com.startechnology.start_core.recipe.logic.HellForgeHeatingLogic;
+import com.startechnology.start_core.recipe.logic.SolarPanelReplacementLogic;
+import com.startechnology.start_core.recipe.logic.bacteria.BacteriaVatLogic;
+import com.startechnology.start_core.recipe.logic.bacteria.BacterialDormantAwakeningLogic;
+import com.startechnology.start_core.recipe.logic.bacteria.BacterialHydrocarbonHarvesterLogic;
+import com.startechnology.start_core.recipe.logic.bacteria.BacterialRunicMutatorLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GCropBreederLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GCropHarvesterLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GCropMutatorLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GCropSeedDiscoveryLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GenomeDuplicationLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GenomeHarvestingLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GenomeInsertionLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GenomeMixingLogic;
+import com.startechnology.start_core.recipe.logic.gcrops.GenomeSeparatingLogic;
+import com.startechnology.start_core.recipe.recipes.DysonSphereRecipes;
+import com.startechnology.start_core.recipe.recipes.NeutronStarRecipes;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -240,6 +259,76 @@ public class StarTRecipeTypes {
             .addDataInfoFull(ArborealExtractionRecipeLogic::getDataInfo)
             .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
             .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
+
+    public static final GTRecipeType BLACK_HOLE_IGNITION_RECIPES = GTRecipeTypes
+            .register("black_hole_ignition", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> {
+                var profile = BlackHoleSeeds.get(data.getString(BlackHoleSeeds.RECIPE_DATA_SEED));
+                return profile == null ? "" :
+                        LocalizationUtils.format("start_core.recipe.black_hole_seed", profile.displayName());
+            });
+
+    public static final GTRecipeType BLACK_HOLE_FEEDING_RECIPES = GTRecipeTypes
+            .register("black_hole_feeding", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("start_core.recipe.black_hole_mass",
+                    FormattingUtil.formatNumbers(data.getFloat(BlackHoleSeeds.RECIPE_DATA_MASS))));
+
+    public static final GTRecipeType DYSON_SPHERE_FUEL_RECIPES = GTRecipeTypes
+            .register("dyson_sphere_fuel", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format(
+                    "start_core.recipe.dyson_fuel." + data.getString(DysonSphereRecipes.RECIPE_DATA_STAGE),
+                    FormattingUtil.formatNumbers(data.getFloat(DysonSphereRecipes.RECIPE_DATA_MASS))));
+
+    public static final GTRecipeType DYSON_SPHERE_REMNANT_RECIPES = GTRecipeTypes
+            .register("dyson_sphere_remnant", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format(
+                    "start_core.recipe.dyson_remnant.mass." + data.getString(DysonSphereRecipes.RECIPE_DATA_OUTCOME),
+                    StellarBalance.M_SUPERNOVA, StellarBalance.M_SEED))
+            .addDataInfo(data -> LocalizationUtils.format(
+                    "start_core.recipe.dyson_remnant.outcome." +
+                            data.getString(DysonSphereRecipes.RECIPE_DATA_OUTCOME)));
+
+    public static final GTRecipeType NEUTRON_STAR_FORGE_RECIPES = GTRecipeTypes
+            .register("neutron_star_forge", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(6, 6, 3, 3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("start_core.recipe.neutron_spin_draw",
+                    FormattingUtil.formatNumber2Places(data.getFloat(NeutronStarRecipes.RECIPE_DATA_SPIN_DRAW))))
+            .setSound(GTSoundEntries.ARC);
+
+    public static final GTRecipeType NEUTRON_STAR_ACCRETION_RECIPES = GTRecipeTypes
+            .register("neutron_star_accretion", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(0, 0, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("start_core.recipe.neutron_accretion.spin",
+                    FormattingUtil
+                            .formatNumber2Places(1000 * data.getFloat(NeutronStarRecipes.RECIPE_DATA_SPIN_PER_MB)),
+                    NeutronStarBalance.M_INITIAL))
+            .addDataInfo(data -> {
+                float massPerMb = data.getFloat(NeutronStarRecipes.RECIPE_DATA_MASS_PER_MB);
+                if (massPerMb <= 0) return "";
+                return LocalizationUtils.format("start_core.recipe.neutron_accretion.mass", FormattingUtil
+                        .formatNumbers(Math.round((NeutronStarBalance.M_TOV - NeutronStarBalance.M_INITIAL) /
+                                massPerMb / 1000)));
+            });
+
+    public static final GTRecipeType NEUTRON_STAR_CAPTURE_RECIPES = GTRecipeTypes
+            .register("neutron_star_capture", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> LocalizationUtils.format("start_core.recipe.neutron_capture",
+                    FormattingUtil.formatNumber2Places(data.getFloat(NeutronStarRecipes.RECIPE_DATA_MASS)),
+                    FormattingUtil.formatNumbers(Math.round(data.getFloat(NeutronStarRecipes.RECIPE_DATA_SPIN)))));
 
     public static void init() {}
 }

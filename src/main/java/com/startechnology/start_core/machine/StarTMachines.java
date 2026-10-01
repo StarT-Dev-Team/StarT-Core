@@ -4,14 +4,19 @@ import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalCon
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalharvesterMachines;
 import com.startechnology.start_core.machine.arboreal_extractor.StarTArborealExtractorMachines;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
+import com.startechnology.start_core.machine.black_hole.StarTBlackHoleMachines;
 import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.crates.StarTCrates;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatches;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionTowers;
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
+import com.startechnology.start_core.machine.dyson_sphere.StarTDysonSphereMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
-import com.startechnology.start_core.machine.gcrop.*;
+import com.startechnology.start_core.machine.gcrop.GCropMachines;
+import com.startechnology.start_core.machine.gcrop.GenomeMachines;
+import com.startechnology.start_core.machine.gcrop.StarTClimateHatches;
+import com.startechnology.start_core.machine.gcrop.VoidMesh;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAMachines;
 import com.startechnology.start_core.machine.hpca.StarTHPCAParts;
@@ -19,6 +24,7 @@ import com.startechnology.start_core.machine.komaru.StarTKomaruFrameMachines;
 import com.startechnology.start_core.machine.maintenance.StarTMaintenanceMachines;
 import com.startechnology.start_core.machine.modular.StarTModularConnectionHatches;
 import com.startechnology.start_core.machine.modular_combustion.StarTModularCombustionMachines;
+import com.startechnology.start_core.machine.neutron_star.StarTNeutronStarMachines;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import com.startechnology.start_core.machine.redstone.StarTRedstoneInterfaces;
 import com.startechnology.start_core.machine.solar.StarTSolarMachines;
@@ -57,5 +63,8 @@ public class StarTMachines {
         StarTArborealExtractorMachines.init();
         StarTHPCAMachines.init();
         StarTClimateHatches.init();
+        StarTBlackHoleMachines.init();
+        StarTDysonSphereMachines.init();
+        StarTNeutronStarMachines.init();
     }
 }

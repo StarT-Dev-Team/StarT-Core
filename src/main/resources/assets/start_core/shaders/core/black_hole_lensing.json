@@ -1,0 +1,42 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "1",
+    "dstrgb": "0"
+  },
+  "vertex": "start_core:black_hole_lensing",
+  "fragment": "start_core:black_hole_lensing",
+  "attributes": ["Position"],
+  "samplers": [
+    { "name": "SceneColor" },
+    { "name": "SceneDepth" }
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "InvProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ScreenSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
+    { "name": "CameraOffset", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "FallbackColor", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "Rs", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "DiskInner", "type": "float", "count": 1, "values": [ 4.0 ] },
+    { "name": "DiskOuter", "type": "float", "count": 1, "values": [ 12.0 ] },
+    { "name": "DiskNormal", "type": "float", "count": 3, "values": [ 0.0, 1.0, 0.0 ] },
+    { "name": "DiskTangent", "type": "float", "count": 3, "values": [ 1.0, 0.0, 0.0 ] },
+    { "name": "Theme", "type": "float", "count": 3, "values": [ 1.0, 0.6, 0.3 ] },
+    { "name": "Spin", "type": "float", "count": 1, "values": [ 0.5 ] },
+    { "name": "Time", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "DiskIntensity", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "DiskSpeed", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "DiskHeat", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "RingIntensity", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "GlowIntensity", "type": "float", "count": 1, "values": [ 0.4 ] },
+    { "name": "Flare", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "FlareSize", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "ShockRadius", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "ShockIntensity", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "ProxyRadius", "type": "float", "count": 1, "values": [ 20.0 ] },
+    { "name": "Steps", "type": "int", "count": 1, "values": [ 64 ] },
+    { "name": "BendStrength", "type": "float", "count": 1, "values": [ 0.25 ] }
+  ]
+}

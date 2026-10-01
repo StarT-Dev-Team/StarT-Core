@@ -1,0 +1,135 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "1",
+    "dstrgb": "1"
+  },
+  "vertex": "start_core:dyson_godrays",
+  "fragment": "start_core:dyson_godrays",
+  "attributes": [
+    "Position"
+  ],
+  "samplers": [
+    {
+      "name": "SceneDepth"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ModelViewMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0
+      ]
+    },
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0,
+        0,
+        0,
+        0,
+        0,
+        1.0
+      ]
+    },
+    {
+      "name": "ScreenSize",
+      "type": "float",
+      "count": 2,
+      "values": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "StarUv",
+      "type": "float",
+      "count": 2,
+      "values": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "name": "StarDepth",
+      "type": "float",
+      "count": 1,
+      "values": [
+        1.0
+      ]
+    },
+    {
+      "name": "CoronaRadius",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.1
+      ]
+    },
+    {
+      "name": "Samples",
+      "type": "int",
+      "count": 1,
+      "values": [
+        48
+      ]
+    },
+    {
+      "name": "RayTint",
+      "type": "float",
+      "count": 3,
+      "values": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "name": "RayIntensity",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.0
+      ]
+    },
+    {
+      "name": "Overlay",
+      "type": "float",
+      "count": 3,
+      "values": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

@@ -19,7 +19,8 @@ import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.item.components.CopyBehavior;
 import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
-import com.startechnology.start_core.item.gcrops.*;
+import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.startechnology.start_core.machine.black_hole.BlackHoleSeeds;
 import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
@@ -27,6 +28,9 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidType;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
 import static com.gregtechceu.gtceu.common.data.GTItems.materialInfo;
@@ -107,6 +111,24 @@ public class StarTItems {
                 .onRegister(
                         materialInfo(new ItemMaterialInfo(new MaterialStack(mat, GTValues.M * matSize))))
                 .register();
+    }
+
+    public static final ItemEntry<ComponentItem> NEUTRON_STAR_REMNANT = START_REGISTRATE
+            .item("neutron_star_remnant", ComponentItem::create)
+            .lang("Neutron Star Remnant")
+            .register();
+
+    public static final Map<String, ItemEntry<ComponentItem>> SINGULARITY_SEEDS = registerSingularitySeeds();
+
+    private static Map<String, ItemEntry<ComponentItem>> registerSingularitySeeds() {
+        var seeds = new LinkedHashMap<String, ItemEntry<ComponentItem>>();
+        for (var profile : BlackHoleSeeds.all()) {
+            seeds.put(profile.id(), START_REGISTRATE
+                    .item(profile.itemId(), ComponentItem::create)
+                    .lang(profile.displayName() + " Singularity Seed")
+                    .register());
+        }
+        return seeds;
     }
 
     public static void init() {

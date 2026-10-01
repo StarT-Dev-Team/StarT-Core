@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "start_core:item/singularity_seed_stellar_remnant"
+  }
+}
