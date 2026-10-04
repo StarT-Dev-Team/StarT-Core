@@ -1,0 +1,239 @@
+package com.startechnology.start_core.machine.part;
+
+import com.startechnology.start_core.api.gui.StarTDreamWidgetGroup;
+import com.startechnology.start_core.machine.multiblock.electric.StarTDreamLinkTransmissionMachine;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
+import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
+import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
+import com.startechnology.start_core.api.capability.StarTNotifiableDreamLinkContainer;
+import com.startechnology.start_core.item.StarTItems;
+import lombok.Getter;
+import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.BlockHitResult;
+
+import java.util.List;
+import java.util.Objects;
+
+public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implements IStarTDreamLinkNetworkMachine,
+                                            IStarTDreamLinkNetworkReceiveEnergy, IMachineLife {
+
+    /*
+     * As far as i can understand, the Managed Field Holder allows this class
+     * to persist/save data onto the world using NBT with the @Persisted field annotation
+     */
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarTDreamLinkHatchPartMachine.class,
+            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
+
+    /* This will persist the NotifiableDreamLinkContainer using nbt. */
+    @Persisted
+    protected StarTNotifiableDreamLinkContainer container;
+
+    /* Store the network of the hatch too */
+    @Persisted
+    protected String network;
+
+    @Getter
+    @Setter
+    protected String tempNetwork;
+
+    public StarTDreamLinkHatchPartMachine(IMachineBlockEntity holder, int tier, int amperage) {
+        super(holder, tier, IO.IN);
+
+        this.container = StarTNotifiableDreamLinkContainer.receiverContainer(this, GTValues.V[tier] * 64L * amperage,
+                GTValues.V[tier], amperage);
+
+        this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
+        this.tempNetwork = network;
+    }
+
+    @Override
+    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
+        return true;
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public int tintColor(int index) {
+        if (index == 2) {
+            return GTValues.VC[getTier()];
+        }
+        return super.tintColor(index);
+    }
+
+    private void addComponentPanelText(List<Component> componentList) {
+        if (this.container.getInputPerSec() > 0)
+            componentList.add(Component.translatable("start_core.machine.dream_link.active"));
+        else
+            componentList.add(Component.translatable("start_core.machine.dream_link.not_active"));
+
+        if (this.getOwner() != null) {
+            componentList.add(Component
+                    .translatable("start_core.machine.dream_link.owned_title")
+                    .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
+
+            MutableComponent ownerComponent = Component.literal(this.getOwner().getName());
+
+            componentList.add(Component
+                    .translatable("start_core.machine.dream_link.owner", ownerComponent)
+                    .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            Component.translatable("start_core.machine.dream_link.hatch.owned_hover")))));
+
+        }
+
+        MutableComponent inAmountComponent = Component
+                .literal(FormattingUtil.formatNumbers(this.container.getInputPerSec() / 20))
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN));
+        componentList.add(Component
+                .translatable("start_core.machine.dream_link.input_per_sec", inAmountComponent)
+                .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                        Component.translatable("start_core.machine.dream_link.hatch.input_per_sec_hover")))));
+    }
+
+    @Override
+    public Widget createUIWidget() {
+        this.tempNetwork = network;
+        StarTDreamWidgetGroup group = new StarTDreamWidgetGroup(0, 0, 182 + 8, 117 + 8, this::closeUI);
+        group.addWidget(
+                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
+                        .addWidget(new LabelWidget(4, 5, "Dream-Link Hatch"))
+                        .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
+                        .addWidget(
+                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
+                                        .setMaxStringLength(64)
+                                        .setValidator(input -> {
+                                            if (input == null) return "";
+                                            return input;
+                                        })
+                                        .setHoverTooltips(Component
+                                                .translatable("start_core.machine.dream_link.network_set_hover")))
+                        .addWidget(new ComponentPanelWidget(4, 52, this::addComponentPanelText)));
+
+        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        return group;
+    }
+
+    private void closeUI() {
+        this.network = this.tempNetwork;
+        if (this.tempNetwork.isBlank()) this.network = IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
+    }
+
+    @Override
+    public ModularUI createUI(Player entityPlayer) {
+        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+    }
+
+    @Override
+    public void setNetwork(String network) {
+        this.network = network;
+    }
+
+    @Override
+    public String getNetwork() {
+        return this.network;
+    }
+
+    @Override
+    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
+        IMachineLife.super.onMachinePlaced(player, stack);
+
+        if (player == null) return;
+
+        var playerOffhandItem = player.getOffhandItem();
+
+        if (playerOffhandItem.is(StarTItems.TOOL_DREAM_COPY_ITEM.asItem())) {
+            onDreamCopyUse((Player) player, playerOffhandItem);
+        }
+    }
+
+    @Override
+    public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
+        if (!isRemote()) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("dream_network", this.getNetwork());
+            copyItem.setTag(tag);
+            copyItem.setHoverName(
+                    Component.translatable("start_core.machine.dream_link.lucinducer.name", this.getNetwork()));
+            player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.copy_network"));
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public final InteractionResult onDreamCopyUse(Player player, ItemStack copyItem) {
+        CompoundTag tag = copyItem.getTag();
+        if (tag == null || !tag.contains("dream_network")) {
+            return InteractionResult.PASS;
+        }
+
+        if (!isRemote()) {
+            String network = tag.getString("dream_network");
+            this.setNetwork(network);
+            player.sendSystemMessage(Component.translatable("start_core.machine.dream_link.set_network"));
+        }
+        return InteractionResult.sidedSuccess(isRemote());
+    }
+
+    @Override
+    public boolean isDreaming() {
+        return this.container.getInputPerSec() > 0;
+    }
+
+    @Override
+    public long receiveEnergy(long received) {
+        return this.container
+                .changeEnergy(Math.min(received, container.getInputVoltage() * container.getInputAmperage()));
+    }
+
+    @Override
+    public BlockPos devicePos() {
+        return this.getPos();
+    }
+
+    @Override
+    public boolean canReceive(StarTDreamLinkTransmissionMachine tower, boolean checkDimension) {
+        if (!Objects.equals(this.getNetwork(), tower.getNetwork()))
+            return false;
+
+        if (!Objects.equals(StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(this),
+                StarTGetMachineUUIDSafe.getUUIDSafeMetaMachine(tower)))
+            return false;
+
+        if (checkDimension) {
+            return Objects.equals(this.getLevel().dimensionTypeId(), tower.getLevel().dimensionTypeId());
+        }
+
+        return true;
+    }
+}

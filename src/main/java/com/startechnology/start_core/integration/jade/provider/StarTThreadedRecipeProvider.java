@@ -24,7 +24,7 @@ import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.integration.jade.StarTJadeUtils;
-import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTThreadingCapableMachine;
 import com.startechnology.start_core.utils.StarTColorUtils;
 
 import org.jetbrains.annotations.Nullable;

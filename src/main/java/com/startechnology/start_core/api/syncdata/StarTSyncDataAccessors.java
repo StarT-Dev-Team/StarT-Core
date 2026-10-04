@@ -2,8 +2,8 @@ package com.startechnology.start_core.api.syncdata;
 
 import com.lowdragmc.lowdraglib.syncdata.IAccessor;
 import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
-import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
-import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
+import com.startechnology.start_core.api.machine.trait.RedstoneIndicatorRecord;
+import com.startechnology.start_core.machine.multiblock.electric.StarTThreadingCapableMachine;
 
 import static com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries.register;
 import static com.lowdragmc.lowdraglib.syncdata.TypedPayloadRegistries.registerSimple;

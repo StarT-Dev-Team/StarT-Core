@@ -11,8 +11,8 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.rodLong;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.NaquadahEnriched;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
-import static com.startechnology.start_core.machine.drum.StarTDrumMachines.ENRICHED_NAQUADAH_DRUM;
-import static com.startechnology.start_core.machine.drum.StarTDrumMachines.NEUTRONIUM_DRUM;
+import static com.startechnology.start_core.data.machines.single.StarTDrumMachines.ENRICHED_NAQUADAH_DRUM;
+import static com.startechnology.start_core.data.machines.single.StarTDrumMachines.NEUTRONIUM_DRUM;
 
 public class DrumRecipes {
 

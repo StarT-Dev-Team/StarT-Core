@@ -1,5 +1,9 @@
 package com.startechnology.start_core.integration.jei;
 
+import com.startechnology.start_core.data.machines.multiblock.nether.StarTHellForgeMachines;
+import com.startechnology.start_core.data.machines.multiblock.resource_production.StarTBacteriaMachines;
+import com.startechnology.start_core.data.machines.multiblock.resource_production.StarTDrillingRigs;
+import com.startechnology.start_core.data.machines.multiblock.resource_production.plants.StarTGCropMachines;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
@@ -9,11 +13,7 @@ import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
-import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
-import com.startechnology.start_core.machine.gcrop.*;
-import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachines;
-import com.startechnology.start_core.machine.solar.StarTSolarMachines;
+import com.startechnology.start_core.data.machines.multiblock.power.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -119,7 +119,7 @@ public class StarTJeiPlugin implements IModPlugin {
             }
         }
 
-        registration.addRecipeCatalyst(GCropMachines.GCROP_MUTATION_STATION.asStack(),
+        registration.addRecipeCatalyst(StarTGCropMachines.GCROP_MUTATION_STATION.asStack(),
                 GTRecipeJEICategory.TYPES.apply(StarTRecipeTypes.GCROP_MUTATOR_RECIPES.getCategory()));
 
         registration.addRecipeCatalyst(StarTSolarMachines.SOLAR_PANEL_EV.asStack(),

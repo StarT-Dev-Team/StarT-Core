@@ -1,10 +1,10 @@
 package com.startechnology.start_core.item.components;
 
+import com.startechnology.start_core.api.gcrop.*;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.startechnology.start_core.api.gcrop.*;
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

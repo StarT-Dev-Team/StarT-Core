@@ -20,8 +20,7 @@ import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPl
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.item.curios.LucinducerCurioItem;
 import com.startechnology.start_core.lang.LangHandler;
-import com.startechnology.start_core.machine.StarTMachines;
-import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
+import com.startechnology.start_core.data.machines.StarTMachines;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.materials.modification.StarTLateMaterialModifications;
 import com.startechnology.start_core.materials.modification.StarTMaterialModifications;
@@ -116,7 +115,6 @@ public class StarTCore {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        StarTAbyssalContainmentMachine.init();
         CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 

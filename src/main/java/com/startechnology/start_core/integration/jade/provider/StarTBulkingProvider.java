@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.integration.jade.StarTJadeUtils;
-import com.startechnology.start_core.machine.bulking.IBulking;
+import com.startechnology.start_core.api.machine.feature.IBulking;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -7,8 +7,8 @@ import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachin
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
 import com.startechnology.start_core.item.StarTItems;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionMachine;
+import com.startechnology.start_core.api.dreamlink.StarTDreamLinkManager;
+import com.startechnology.start_core.machine.multiblock.electric.StarTDreamLinkTransmissionMachine;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;

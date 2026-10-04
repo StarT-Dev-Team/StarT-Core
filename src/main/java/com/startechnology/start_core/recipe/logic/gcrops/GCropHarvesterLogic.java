@@ -1,5 +1,7 @@
 package com.startechnology.start_core.recipe.logic.gcrops;
 
+import com.startechnology.start_core.api.gcrop.*;
+import com.startechnology.start_core.api.machine.feature.IClimateProvider;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -11,7 +13,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.item.components.StarTGCropBehaviour;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
 import com.startechnology.start_core.materials.StarTMaterials;

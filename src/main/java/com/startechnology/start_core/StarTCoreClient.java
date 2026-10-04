@@ -1,8 +1,8 @@
 package com.startechnology.start_core;
 
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
-import com.startechnology.start_core.machine.komaru.client.KomaruRenderer;
-import com.startechnology.start_core.machine.komaru.client.KomaruRendererManager;
+import com.startechnology.start_core.client.komaru.KomaruRenderer;
+import com.startechnology.start_core.client.komaru.KomaruRendererManager;
 
 public class StarTCoreClient {
 

@@ -1,6 +1,6 @@
 package com.startechnology.start_core.mixin.mc.renderer;
 
-import com.startechnology.start_core.machine.komaru.client.ReplaceablePostPass;
+import com.startechnology.start_core.client.komaru.ReplaceablePostPass;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

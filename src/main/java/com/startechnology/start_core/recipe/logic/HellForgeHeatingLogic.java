@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTHellForgeMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;

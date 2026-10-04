@@ -5,8 +5,8 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMachine;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
+import com.startechnology.start_core.machine.part.StarTDreamLinkHatchPartMachine;
+import com.startechnology.start_core.api.dreamlink.StarTDreamLinkManager;
 
 import net.minecraft.core.Direction;
 
