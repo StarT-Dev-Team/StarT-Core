@@ -229,7 +229,7 @@ public class GCropRecipes {
                             new ItemStack((Item) getFruitLineResult(resultMaterial, materialType).get(0), 4 * yield))
                     .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:poor_charged_bio_waste"), 4))
                     .duration(100)
-                    .EUtVA(EUtV)
+                    .EUtVA(EUtV + 2)
                     .save(provider);
         } else if (tier == 3) {
             CUTTER_RECIPES.recipeBuilder(String.format("%s_slicing", id))
