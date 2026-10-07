@@ -2,7 +2,6 @@ package com.startechnology.start_core.recipe.logic.gcrops;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -25,115 +24,118 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
     public GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        var handlers = StarTCustomLogicUtils.getItemHandlers(holder);
+        var itemHandlers = StarTCustomLogicUtils.getItemHandlersMap(holder);
+        if (itemHandlers.isEmpty()) return null;
 
-        return StarTCustomLogicUtils.createCustomlogicRecipeWithItemHandlers(handlers, this::createBacteriaRecipe);
-    }
-
-    private List<StarTGCropGene> geneMapToGenome(HashMap<String, Integer> geneMap) {
-        List<StarTGCropGene> newGenome = new ArrayList<>();
-
-        for (String traitName : geneMap.keySet()) {
-            int traitCount = geneMap.get(traitName);
-            var trait = StarTGCropTraits.getTrait(traitName);
-            newGenome.add(new StarTGCropGene(trait, traitCount));
+        List<List<ItemStack>> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
+        for (List<ItemStack> itemSet : allItems) {
+            GTRecipe recipe = createBreederRecipe(itemSet);
+            if (recipe != null) return recipe;
         }
 
+        return null;
+    }
+
+    /**
+     * Applies meiotic allele segregation to an entire genome list, randomly inheriting alleles up to half
+     * the trait's maximum allele count and merging them into the target trait map.
+     *
+     * @param genome  the source list of genes from a parent crop
+     * @param geneMap the accumulator map for inherited traits and allele counts
+     */
+    private static void applyMeiosis(List<StarTGCropGene> genome, Map<StarTGCropTrait, Integer> geneMap) {
+        for (StarTGCropGene gene : genome) {
+            int alleles = gene.getDominantAlleles();
+            StarTGCropTrait trait = gene.getTrait();
+            int maxAlleles = trait.alleleCount();
+
+            int alleleAddition = 0;
+            for (int i = 0; i < alleles; i++) {
+                if (alleleAddition * 2 >= maxAlleles) break;
+                if (StarTCore.RNG.nextBoolean()) {
+                    alleleAddition++;
+                }
+            }
+
+            if (alleleAddition > 0) {
+                geneMap.merge(trait, alleleAddition, (curr, add) -> Math.min(curr + add, maxAlleles));
+            }
+        }
+    }
+
+    /**
+     * Converts a map of traits and allele counts into a list of {@link StarTGCropGene} instances.
+     *
+     * @param geneMap the trait-to-allele count map
+     * @return a newly constructed list of genes
+     */
+    private static List<StarTGCropGene> geneMapToGenome(Map<StarTGCropTrait, Integer> geneMap) {
+        List<StarTGCropGene> newGenome = new ArrayList<>(geneMap.size());
+        for (Map.Entry<StarTGCropTrait, Integer> entry : geneMap.entrySet()) {
+            newGenome.add(new StarTGCropGene(entry.getKey(), entry.getValue()));
+        }
         return newGenome;
     }
 
-    private Integer handleGeneMeiosis(StarTGCropGene gene, HashMap<String, Integer> geneMap) {
-        int alleles = gene.getDominantAlleles();
-        StarTGCropTrait trait = gene.getTrait();
-        String traitId = trait.id();
-        int maxAlleleCount = trait.alleleCount();
-
-        int alleleAddition = 0;
-        int finalAlleleCount;
-
-        for (int i = 0; i < alleles; i++) {
-            if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1 &&
-                    (double) alleleAddition < (double) maxAlleleCount / 2)
-                alleleAddition++;
+    /**
+     * Randomly retains or drops genes from a genome during self-fertilization based on a roll threshold.
+     *
+     * @param genome  the source list of genes
+     * @param minRoll the minimum roll (1-100) required to keep the gene
+     * @return the filtered list of surviving genes
+     */
+    private static List<StarTGCropGene> filterGenesRandomly(List<StarTGCropGene> genome, int minRoll) {
+        List<StarTGCropGene> result = new ArrayList<>(genome.size());
+        for (StarTGCropGene gene : genome) {
+            if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= minRoll) {
+                result.add(gene);
+            }
         }
-
-        boolean traitExists = geneMap.containsKey(traitId);
-
-        if (traitExists) {
-            int currentCount = geneMap.get(traitId);
-            finalAlleleCount = Math.min(currentCount + alleleAddition, maxAlleleCount);
-        } else finalAlleleCount = alleleAddition;
-
-        return finalAlleleCount;
+        return result;
     }
 
-    private GTRecipe createBacteriaRecipe(NotifiableItemStackHandler handler) {
-        List<ItemStack> foundCrops = new ArrayList<>();
+    /**
+     * Creates a breeding recipe from the provided input items, handling both cross-breeding
+     * (when 2 valid crops are present) and self-fertilization (when 1 valid crop is present).
+     *
+     * @param itemSet the list of input items available in the machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if inputs do not match
+     */
+    private GTRecipe createBreederRecipe(List<ItemStack> itemSet) {
+        List<ItemStack> foundCrops = new ArrayList<>(2);
 
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack itemInSlot = handler.getStackInSlot(i);
-
+        for (ItemStack itemInSlot : itemSet) {
             if (itemInSlot.isEmpty()) continue;
 
-            StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(itemInSlot);
-            if (cropBehaviour == null) continue;
-
-            StarTGCropGenome existingStats = StarTGCropManager.gcropGenomeFromTag(itemInSlot);
-            if (existingStats == null) continue;
+            if (StarTGCropBehaviour.getGCropBehaviour(itemInSlot) == null) continue;
+            if (StarTGCropManager.gcropGenomeFromTag(itemInSlot) == null) continue;
 
             foundCrops.add(itemInSlot);
-
             if (foundCrops.size() == 2) break;
         }
 
         if (foundCrops.size() == 2) {
-            HashMap<String, Integer> resourceGeneMap = new HashMap<>();
-            HashMap<String, Integer> productionGeneMap = new HashMap<>();
-            HashMap<String, Integer> auxiliaryGeneMap = new HashMap<>();
+            Map<StarTGCropTrait, Integer> resourceGeneMap = new HashMap<>();
+            Map<StarTGCropTrait, Integer> productionGeneMap = new HashMap<>();
+            Map<StarTGCropTrait, Integer> auxiliaryGeneMap = new HashMap<>();
 
             StarTGCropGene newClimateGenome = null;
 
-            // Go over both crops
             for (ItemStack crop : foundCrops) {
                 StarTGCropGenome cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
-
                 if (cropStats == null) continue;
 
-                // Apply Meiosis mimicry to all traits for harvesting the new traits
-                for (StarTGCropGene existingGene : cropStats.getResourceGenome()) {
-                    StarTGCropTrait trait = existingGene.getTrait();
-                    String traitId = trait.id();
+                applyMeiosis(cropStats.getResourceGenome(), resourceGeneMap);
+                applyMeiosis(cropStats.getProductionGenome(), productionGeneMap);
+                applyMeiosis(cropStats.getAuxiliaryGenome(), auxiliaryGeneMap);
 
-                    int newAlleleCount = handleGeneMeiosis(existingGene, resourceGeneMap);
-
-                    if (newAlleleCount != 0) resourceGeneMap.put(traitId, newAlleleCount);
+                if (newClimateGenome == null && cropStats.getClimateGene() != null) {
+                    if (StarTCore.RNG.nextBoolean()) {
+                        newClimateGenome = cropStats.getClimateGene();
+                    }
                 }
-
-                for (StarTGCropGene existingGene : cropStats.getProductionGenome()) {
-                    StarTGCropTrait trait = existingGene.getTrait();
-                    String traitId = trait.id();
-
-                    int newAlleleCount = handleGeneMeiosis(existingGene, productionGeneMap);
-
-                    if (newAlleleCount != 0) productionGeneMap.put(traitId, newAlleleCount);
-                }
-
-                for (StarTGCropGene existingGene : cropStats.getAuxiliaryGenome()) {
-                    StarTGCropTrait trait = existingGene.getTrait();
-                    String traitId = trait.id();
-
-                    int newAlleleCount = handleGeneMeiosis(existingGene, auxiliaryGeneMap);
-
-                    if (newAlleleCount != 0) auxiliaryGeneMap.put(traitId, newAlleleCount);
-                }
-
-                if (newClimateGenome != null) continue;
-
-                StarTGCropGene existingClimateGenome = cropStats.getClimateGene();
-                if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newClimateGenome = existingClimateGenome;
             }
 
-            // Compose Genomes for all traits
             List<StarTGCropGene> newResourceGenome = geneMapToGenome(resourceGeneMap);
             List<StarTGCropGene> newProductionGenome = geneMapToGenome(productionGeneMap);
             List<StarTGCropGene> newAuxiliaryGenome = geneMapToGenome(auxiliaryGeneMap);
@@ -159,31 +161,14 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
             ItemStack crop = foundCrops.get(0).copyWithCount(1);
 
             StarTGCropGenome cropStats = StarTGCropManager.gcropGenomeFromTag(crop);
-            assert cropStats != null;
+            if (cropStats == null) return null;
 
-            List<StarTGCropGene> existingResourceGenome = cropStats.getResourceGenome();
-            List<StarTGCropGene> existingProductionGenome = cropStats.getProductionGenome();
-            List<StarTGCropGene> existingAuxiliaryGenome = cropStats.getAuxiliaryGenome();
-            StarTGCropGene existingClimateGenome = cropStats.getClimateGene();
+            List<StarTGCropGene> newResourceGenome = filterGenesRandomly(cropStats.getResourceGenome(), 2);
+            List<StarTGCropGene> newProductionGenome = filterGenesRandomly(cropStats.getProductionGenome(), 8);
+            List<StarTGCropGene> newAuxiliaryGenome = filterGenesRandomly(cropStats.getAuxiliaryGenome(), 5);
 
-            List<StarTGCropGene> newResourceGenome = new ArrayList<>();
-            List<StarTGCropGene> newProductionGenome = new ArrayList<>();
-            List<StarTGCropGene> newAuxiliaryGenome = new ArrayList<>();
-            StarTGCropGene newClimateGenome = null;
-
-            for (StarTGCropGene gene : existingResourceGenome) {
-                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 2) newResourceGenome.add(gene);
-            }
-
-            for (StarTGCropGene gene : existingProductionGenome) {
-                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 8) newProductionGenome.add(gene);
-            }
-
-            for (StarTGCropGene gene : existingAuxiliaryGenome) {
-                if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 5) newAuxiliaryGenome.add(gene);
-            }
-
-            if (StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 5) newClimateGenome = existingClimateGenome;
+            StarTGCropGene newClimateGenome = (cropStats.getClimateGene() != null &&
+                    StarTCore.RNG.nextIntBetweenInclusive(1, 100) >= 5) ? cropStats.getClimateGene() : null;
 
             ItemStack newGCrop = StarTGCropTraits.getCropWithTraits(newResourceGenome, newProductionGenome,
                     newAuxiliaryGenome, newClimateGenome);
@@ -197,16 +182,18 @@ public class GCropBreederLogic implements GTRecipeType.ICustomRecipeLogic {
                     .duration(200)
                     .EUtV(GTValues.MV)
                     .buildRawRecipe();
-        } else return null;
+        }
+
+        return null;
     }
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack gCropInput = new ItemStack(GCROP_MALFORMED.get());
+        ItemStack gCropInput = GCROP_MALFORMED.asStack();
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropInput.getOrCreateTag(),
                 "behaviour.start_core.gcrop.random_crop");
 
-        ItemStack gCropRandomSeed = new ItemStack(GCROP_MALFORMED.asItem());
+        ItemStack gCropRandomSeed = GCROP_MALFORMED.asStack();
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCropRandomSeed.getOrCreateTag(),
                 "behaviour.start_core.gcrop.new_random_crop");
 

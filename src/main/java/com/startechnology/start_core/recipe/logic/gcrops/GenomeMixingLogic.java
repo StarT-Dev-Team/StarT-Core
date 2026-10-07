@@ -6,7 +6,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType.ICustomRecipeLogic;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
-import com.startechnology.start_core.api.gcrop.*;
+import com.startechnology.start_core.api.gcrop.StarTGCropGene;
+import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
+import com.startechnology.start_core.api.gcrop.StarTGCropManager;
+import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.startechnology.start_core.item.components.StarTGenomeHolderBehaviour;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import com.startechnology.start_core.utils.StarTCustomLogicUtils;
@@ -16,11 +19,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.EMPTY_GENOME_HOLDER;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.FILLED_GENOME_HOLDER;
 
 public class GenomeMixingLogic implements ICustomRecipeLogic {
 
+    /**
+     * Scans item handlers for two filled genome holders to construct a genome mixing recipe.
+     *
+     * @param holder the recipe capability holder representing the machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if matching holders are not found
+     */
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var itemHandlers = StarTCustomLogicUtils.getItemHandlers(holder);
@@ -28,89 +39,107 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
 
         List<ItemStack> allItems = StarTCustomLogicUtils.getAllItems(itemHandlers);
 
-        return createGenomeDuplicationRecipe(allItems);
+        return createGenomeMixingRecipe(allItems);
     }
 
-    private List<StarTGCropGene> geneMapToGenome(HashMap<StarTGCropTrait, Integer> geneMap) {
-        List<StarTGCropGene> newGenome = new ArrayList<>();
-
-        for (StarTGCropTrait trait : geneMap.keySet()) {
-            int traitCount = geneMap.get(trait);
-            newGenome.add(new StarTGCropGene(trait, traitCount));
+    /**
+     * Converts a map of traits and combined allele counts into a list of {@link StarTGCropGene} instances.
+     *
+     * @param geneMap the trait-to-allele count map
+     * @return the newly constructed list of genes
+     */
+    private static List<StarTGCropGene> geneMapToGenome(Map<StarTGCropTrait, Integer> geneMap) {
+        List<StarTGCropGene> newGenome = new ArrayList<>(geneMap.size());
+        for (Map.Entry<StarTGCropTrait, Integer> entry : geneMap.entrySet()) {
+            newGenome.add(new StarTGCropGene(entry.getKey(), entry.getValue()));
         }
-
         return newGenome;
     }
 
-    private GTRecipe createGenomeDuplicationRecipe(List<ItemStack> itemSet) {
-        ItemStack foundFirstholder = null;
+    /**
+     * Merges a list of genes into an accumulator trait map, clamping alleles to the trait's maximum,
+     * and tracks the highest trait tier encountered.
+     *
+     * @param genes      the list of genes to merge
+     * @param storageMap the accumulator map for traits and allele counts
+     * @return the highest trait tier found in the input gene list
+     */
+    private static int mergeGenes(List<StarTGCropGene> genes, Map<StarTGCropTrait, Integer> storageMap) {
+        int maxTier = 0;
+        for (StarTGCropGene gene : genes) {
+            StarTGCropTrait trait = gene.getTrait();
+            maxTier = Math.max(maxTier, trait.tier());
+            storageMap.merge(trait, gene.getDominantAlleles(),
+                    (current, added) -> Math.min(current + added, trait.alleleCount()));
+        }
+        return maxTier;
+    }
+
+    /**
+     * Combines the genetic traits of two filled genome holders into a single newly mixed genome holder,
+     * producing an empty genome holder as a byproduct.
+     *
+     * @param itemSet the list of available input items
+     * @return the constructed genome mixing {@link GTRecipe}, or {@code null} if two valid holders are not found
+     */
+    private GTRecipe createGenomeMixingRecipe(List<ItemStack> itemSet) {
+        ItemStack foundFirstHolder = null;
         ItemStack foundSecondHolder = null;
+        StarTGCropGenome firstGenome = null;
+        StarTGCropGenome secondGenome = null;
 
         for (ItemStack item : itemSet) {
+            if (item.isEmpty()) continue;
+
             if (StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(item) != null) {
-                if (StarTGCropManager.gcropGenomeFromTag(item) != null) {
-                    if (foundFirstholder == null) foundFirstholder = item;
-                    else if (foundSecondHolder == null) foundSecondHolder = item;
-                    else break;
+                StarTGCropGenome genome = StarTGCropManager.gcropGenomeFromTag(item);
+                if (genome != null) {
+                    if (foundFirstHolder == null) {
+                        foundFirstHolder = item;
+                        firstGenome = genome;
+                    } else {
+                        foundSecondHolder = item;
+                        secondGenome = genome;
+                        break;
+                    }
                 }
             }
         }
 
-        if (foundFirstholder == null || foundSecondHolder == null) return null;
-
-        StarTGCropGenome firstGenome = StarTGCropManager.gcropGenomeFromTag(foundFirstholder);
-        StarTGCropGenome secondGenome = StarTGCropManager.gcropGenomeFromTag(foundSecondHolder);
-        assert firstGenome != null;
-        assert secondGenome != null;
+        if (foundFirstHolder == null || foundSecondHolder == null || firstGenome == null || secondGenome == null) {
+            return null;
+        }
 
         int highestTier = 0;
-        StarTGCropGene climateGene = null;
+        Map<StarTGCropTrait, Integer> resourceMap = new HashMap<>();
+        Map<StarTGCropTrait, Integer> productionMap = new HashMap<>();
+        Map<StarTGCropTrait, Integer> auxiliaryMap = new HashMap<>();
 
-        HashMap<StarTGCropTrait, Integer> resourceMap = new HashMap<>();
-        HashMap<StarTGCropTrait, Integer> productionMap = new HashMap<>();
-        HashMap<StarTGCropTrait, Integer> auxiliaryMap = new HashMap<>();
+        highestTier = Math.max(highestTier, mergeGenes(firstGenome.getResourceGenome(), resourceMap));
+        highestTier = Math.max(highestTier, mergeGenes(firstGenome.getProductionGenome(), productionMap));
+        highestTier = Math.max(highestTier, mergeGenes(firstGenome.getAuxiliaryGenome(), auxiliaryMap));
 
-        for (StarTGCropGenome genome : List.of(firstGenome, secondGenome)) {
-            List<StarTGCropGene> resourceGenome = genome.getResourceGenome();
-            List<StarTGCropGene> productionGenome = genome.getProductionGenome();
-            List<StarTGCropGene> auxiliaryGenome = genome.getAuxiliaryGenome();
+        highestTier = Math.max(highestTier, mergeGenes(secondGenome.getResourceGenome(), resourceMap));
+        highestTier = Math.max(highestTier, mergeGenes(secondGenome.getProductionGenome(), productionMap));
+        highestTier = Math.max(highestTier, mergeGenes(secondGenome.getAuxiliaryGenome(), auxiliaryMap));
 
-            HashMap<List<StarTGCropGene>, HashMap<StarTGCropTrait, Integer>> genomeHashMapMap = new HashMap<>();
-
-            genomeHashMapMap.put(resourceGenome, resourceMap);
-            genomeHashMapMap.put(productionGenome, productionMap);
-            genomeHashMapMap.put(auxiliaryGenome, auxiliaryMap);
-
-            for (List<StarTGCropGene> genomeList : genomeHashMapMap.keySet()) {
-                HashMap<StarTGCropTrait, Integer> storageMap = genomeHashMapMap.get(genomeList);
-
-                for (StarTGCropGene gene : genomeList) {
-                    var trait = gene.getTrait();
-                    boolean traitExists = storageMap.containsKey(trait);
-                    int alleleCount = gene.getDominantAlleles();
-
-                    if (traitExists) {
-                        int currentCount = storageMap.get(trait);
-                        alleleCount = Math.min(currentCount + alleleCount, trait.alleleCount());
-                    }
-
-                    storageMap.put(trait, alleleCount);
-                }
-            }
-
-            if (climateGene == null) {
-                climateGene = genome.getClimateGene();
-            } else {
-                if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) climateGene = genome.getClimateGene();
-            }
+        StarTGCropGene climate1 = firstGenome.getClimateGene();
+        StarTGCropGene climate2 = secondGenome.getClimateGene();
+        StarTGCropGene climateGene;
+        if (climate1 == null) {
+            climateGene = climate2;
+        } else if (climate2 == null) {
+            climateGene = climate1;
+        } else {
+            climateGene = StarTCore.RNG.nextBoolean() ? climate1 : climate2;
         }
 
         List<StarTGCropGene> newResourceGenome = geneMapToGenome(resourceMap);
         List<StarTGCropGene> newProductionGenome = geneMapToGenome(productionMap);
         List<StarTGCropGene> newAuxiliaryGenome = geneMapToGenome(auxiliaryMap);
 
-        ItemStack newHolder = new ItemStack(FILLED_GENOME_HOLDER);
-        ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER);
+        ItemStack newHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack emptyHolder = EMPTY_GENOME_HOLDER.asStack();
 
         StarTGCropGenome newGenome = new StarTGCropGenome(newResourceGenome, newProductionGenome, newAuxiliaryGenome,
                 climateGene);
@@ -118,7 +147,7 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
 
         return StarTRecipeTypes.GENOME_MIXING
                 .recipeBuilder("holder_mixing")
-                .inputItems(foundFirstholder.copyWithCount(1), foundSecondHolder.copyWithCount(1))
+                .inputItems(foundFirstHolder.copyWithCount(1), foundSecondHolder.copyWithCount(1))
                 .outputItems(newHolder, emptyHolder)
                 .duration(120)
                 .EUtVA(GTValues.MV + highestTier)
@@ -127,9 +156,9 @@ public class GenomeMixingLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack randomHolder = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack newHolder = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
+        ItemStack randomHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack newHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack emptyHolder = EMPTY_GENOME_HOLDER.asStack();
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(randomHolder.getOrCreateTag(),
                 "behaviour.start_core.genome_holder.random_holder");
