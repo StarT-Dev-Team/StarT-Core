@@ -1,6 +1,6 @@
 package com.startechnology.start_core.mixin;
 
-import com.startechnology.start_core.machine.komaru.client.v2.DelayedRenderType;
+import com.startechnology.start_core.client.komaru.v2.DelayedRenderType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

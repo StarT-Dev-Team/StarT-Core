@@ -1,5 +1,6 @@
 package com.startechnology.start_core.item.gcrops;
 
+import com.startechnology.start_core.api.gcrop.*;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
@@ -9,7 +10,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.gcrop.*;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import com.startechnology.start_core.data.gcrops.StarTTraitData.GenomeType;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;

@@ -12,15 +12,15 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
-import com.startechnology.start_core.machine.boosting.BoostedPlasmaTurbine;
-import com.startechnology.start_core.machine.compound_generator.CompoundGeneratorMachine;
-import com.startechnology.start_core.machine.bulking.BulkingType;
-import com.startechnology.start_core.machine.bulking.IBulking;
-import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
-import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
-import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
+import com.startechnology.start_core.machine.multiblock.generator.BoostedPlasmaTurbine;
+import com.startechnology.start_core.machine.multiblock.generator.CompoundGeneratorMachine;
+import com.startechnology.start_core.api.bulking.BulkingType;
+import com.startechnology.start_core.api.machine.feature.IBulking;
+import com.startechnology.start_core.machine.multiblock.electric.ReflectorFusionReactorMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.multiblock.steam.StarTSteamParallelMultiblockMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTThreadingCapableMachine;
+import com.startechnology.start_core.machine.multiblock.electric.VacuumChemicalReactionChamberMachine;
 
 import net.minecraft.network.chat.Component;
 

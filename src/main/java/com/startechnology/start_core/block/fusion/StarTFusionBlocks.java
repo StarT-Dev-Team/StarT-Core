@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.fusion.StarTFusionCasings;
 import com.startechnology.start_core.utils.StarTStringUtils;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
