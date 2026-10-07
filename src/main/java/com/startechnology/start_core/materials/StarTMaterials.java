@@ -340,6 +340,14 @@ public class StarTMaterials {
     public static Material PurifiedNaquadah;
     public static Material Warped;
     public static Material HellfireAsh;
+    public static Material MysticalAir;
+    public static Material MysticalEssence;
+
+    // GCrop processing materials
+    public static Material PoorMineralRichBioWaste;
+    public static Material MineralRichBioWaste;
+    public static Material PoorChargedBioWaste;
+    public static Material UnstableIonBlend;
 
     // Resource gen
     public static Material IronMixture;

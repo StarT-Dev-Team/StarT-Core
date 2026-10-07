@@ -26,13 +26,92 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 
 public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
+    private static Map<Integer, Fluid> GROWTH_FLUIDS;
+
+    /**
+     * Lazily initializes and returns the map of crop tiers to their required growth fluid.
+     *
+     * @return an immutable map of minimum tier to required {@link Fluid}
+     */
+    private static Map<Integer, Fluid> getGrowthFluids() {
+        if (GROWTH_FLUIDS == null) GROWTH_FLUIDS = Map.of(
+                0, GTMaterials.Water.getFluid(),
+                2, GTMaterials.Biomass.getFluid(),
+                4, StarTMaterials.NpkSolution.getFluid(),
+                5, StarTMaterials.NutrientRichFertilizerSolution.getFluid(),
+                6, StarTMaterials.BiostimulatingMixture.getFluid());
+        return GROWTH_FLUIDS;
+    }
+
+    private static Map<Integer, Item> GROWTH_ITEMS;
+
+    /**
+     * Lazily initializes and returns the map of crop tiers to their required fertilizer item.
+     *
+     * @return an immutable map of minimum tier to required {@link Item}
+     */
+    private static Map<Integer, Item> getGrowthItems() {
+        if (GROWTH_ITEMS == null) GROWTH_ITEMS = Map.of(
+                1, Items.BONE_MEAL,
+                3, GTItems.FERTILIZER.asItem(),
+                5, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Phosphate).getItem(),
+                7, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Strontium).getItem());
+        return GROWTH_ITEMS;
+    }
+
+    public record GrowthRequirement<T>(T requirement, int amount) {}
+
+    /**
+     * Determines the fertilizer item and amount required to harvest a crop of the specified tier.
+     * Higher-tier crops accept lower-tier fertilizers at exponentially scaled amounts.
+     *
+     * @param cropTier the tier of the crop being harvested
+     * @return the {@link GrowthRequirement} for the fertilizer item, or {@code null} if none is required
+     */
+    public static @Nullable GrowthRequirement<Item> getFertilizerRequirement(int cropTier) {
+        Map<Integer, Item> items = getGrowthItems();
+        for (int j = cropTier; j >= 0; j--) {
+            Item item = items.get(j);
+            if (item != null) {
+                int amount = 1 << (2 * (cropTier - j));
+                return new GrowthRequirement<>(item, amount);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Determines the growth fluid and volume (in mB) required to harvest a crop of the specified tier.
+     * Higher-tier crops accept lower-tier fluids at exponentially scaled amounts.
+     *
+     * @param cropTier the tier of the crop being harvested
+     * @return the {@link GrowthRequirement} for the growth fluid, or {@code null} if none is required
+     */
+    public static @Nullable GrowthRequirement<Fluid> getGrowthFluidRequirement(int cropTier) {
+        Map<Integer, Fluid> fluids = getGrowthFluids();
+        for (int j = cropTier; j >= 0; j--) {
+            Fluid fluid = fluids.get(j);
+            if (fluid != null) {
+                int amount = 100 << (2 * (cropTier - j));
+                return new GrowthRequirement<>(fluid, amount);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Scans the item handlers of the machine to build a harvester recipe matching any installed crop.
+     *
+     * @param holder the recipe capability holder representing the harvester machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if no valid crop or requirements match
+     */
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var itemHandlers = StarTCustomLogicUtils.getItemHandlersMap(holder);
@@ -48,28 +127,15 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
         return null;
     }
 
+    /**
+     * Builds a harvest recipe for a crop item, applying genetic modifiers (duration, voltage, yields,
+     * fluid/fertilizer consumption, and daytime/climate requirements) based on the crop's genome.
+     *
+     * @param itemSet the list of available input items
+     * @param holder  the machine capability holder used for climate queries
+     * @return the tailored harvester {@link GTRecipe}, or {@code null} if inputs are invalid
+     */
     private GTRecipe createHarvesterRecipe(List<ItemStack> itemSet, IRecipeCapabilityHolder holder) {
-        final HashMap<Integer, Fluid> tieredGrowthFluids = new HashMap<>() {
-
-            {
-                put(0, GTMaterials.Water.getFluid());
-                put(2, GTMaterials.Biomass.getFluid());
-                put(4, StarTMaterials.NpkSolution.getFluid());
-                put(5, StarTMaterials.NutrientRichFertilizerSolution.getFluid());
-                put(6, StarTMaterials.BiostimulatingMixture.getFluid());
-            }
-        };
-
-        final HashMap<Integer, Item> tieredGrowthItems = new HashMap<>() {
-
-            {
-                put(1, Items.BONE_MEAL);
-                put(3, GTItems.FERTILIZER.asItem());
-                put(5, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Phosphate).getItem());
-                put(7, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Strontium).getItem());
-            }
-        };
-
         for (ItemStack stack : itemSet) {
             StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(stack);
             if (cropBehaviour == null) continue;
@@ -85,6 +151,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             int cropTier = cropBehaviour.getCropTier();
 
             int duration = (cropTier == 0) ? 160 : 160 * cropTier;
+
+            // TODO: replace liniar search with map lookup
             if (gCropGenome.hasTrait("quickened")) duration = (int) Math.round(duration * 0.9);
             if (gCropGenome.hasTrait("speedy")) duration = (int) Math.round(duration * 0.9);
             if (gCropGenome.hasTrait("fast")) duration = (int) Math.round(duration * 0.9);
@@ -101,27 +169,14 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             int EUtV = StarTGCropItems.tierVoltages.get(cropTier);
             if (gCropGenome.hasTrait("empowered")) EUtV -= 1;
 
-            Item fertilizerItem = null;
-            int foundTierItem = 0;
-            for (int j = cropTier; j >= 0; j--) {
-                if (tieredGrowthItems.containsKey(j)) {
-                    fertilizerItem = tieredGrowthItems.get(j);
-                    foundTierItem = j;
-                    break;
-                }
-            }
-            int fertilizerAmount = 1 << (2 * (cropTier - foundTierItem));
+            GrowthRequirement<Item> fertilizerReq = getFertilizerRequirement(cropTier);
+            Item fertilizerItem = fertilizerReq != null ? fertilizerReq.requirement() : null;
+            int fertilizerAmount = fertilizerReq != null ? fertilizerReq.amount() : 0;
 
-            Fluid growthFluid = null;
-            int foundTierFluid = 0;
-            for (int j = cropTier; j >= 0; j--) {
-                if (tieredGrowthFluids.containsKey(j)) {
-                    growthFluid = tieredGrowthFluids.get(j);
-                    foundTierFluid = j;
-                    break;
-                }
-            }
-            int fluidAmount = 100 << (2 * (cropTier - foundTierFluid));
+            GrowthRequirement<Fluid> fluidReq = getGrowthFluidRequirement(cropTier);
+            Fluid growthFluid = fluidReq != null ? fluidReq.requirement() : null;
+            int fluidAmount = fluidReq != null ? fluidReq.amount() : 0;
+
             if (gCropGenome.hasTrait("thirsty")) fluidAmount = (int) Math.round(fluidAmount * 1.2);
 
             if (gCropGenome.hasTrait("gluttonous")) {
@@ -176,11 +231,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             StarTClimateType expectedClimate = climateGene == null ? null :
                     StarTClimateType.getClimateFromTrait(climateGene.getTrait());
             StarTClimateType actualClimateType = IClimateProvider.getClimateFromMachine(holder);
-            boolean hasEqualClimate = false;
-
-            if (expectedClimate != null && actualClimateType != null) {
-                hasEqualClimate = expectedClimate.equals(actualClimateType);
-            }
+            boolean hasEqualClimate = expectedClimate != null && expectedClimate.equals(actualClimateType);
 
             boolean alwaysNight = false;
 
@@ -218,7 +269,7 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
-                    .outputItemsRanged(new ItemStack(fruit.asItem()), UniformInt.of(minFruitAmount, maxFruitAmount))
+                    .outputItemsRanged(fruit.asStack(), UniformInt.of(minFruitAmount, maxFruitAmount))
                     .duration(duration)
                     .EUtVA(EUtV);
 
@@ -243,29 +294,8 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        final HashMap<Integer, Fluid> tieredGrowthFluids = new HashMap<>() {
-
-            {
-                put(0, GTMaterials.Water.getFluid());
-                put(2, GTMaterials.Biomass.getFluid());
-                put(4, StarTMaterials.NpkSolution.getFluid());
-                put(5, StarTMaterials.NutrientRichFertilizerSolution.getFluid());
-                put(6, StarTMaterials.BiostimulatingMixture.getFluid());
-            }
-        };
-
-        final HashMap<Integer, Item> tieredGrowthItems = new HashMap<>() {
-
-            {
-                put(1, Items.BONE_MEAL);
-                put(3, GTItems.FERTILIZER.asItem());
-                put(5, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Phosphate).getItem());
-                put(7, ChemicalHelper.get(TagPrefix.dust, GTMaterials.Strontium).getItem());
-            }
-        };
-
         for (ItemEntry<ComponentItem> crop : GCROP_ITEMS) {
-            ItemStack gCrop = new ItemStack(crop.asItem());
+            ItemStack gCrop = crop.asStack();
 
             StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
                     "behaviour.start_core.gcrop.harvester.gcrop",
@@ -275,34 +305,15 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
             if (cropBehaviour == null) continue;
 
             ItemEntry<ComponentItem> fruit = GCROP_FRUITMAP.get(cropBehaviour.getCropMaterial());
-            ItemStack fruitItem = new ItemStack(fruit.asItem());
+            ItemStack fruitItem = fruit.asStack();
 
             StarTCustomTooltipsManager.writeCustomTooltipsToItem(fruitItem.getOrCreateTag(),
                     "behaviour.start_core.gcrop.harvester.fruit");
 
             int cropTier = cropBehaviour.getCropTier();
 
-            Item fertilizerItem = null;
-            int foundTierItem = 0;
-            for (int j = cropTier; j >= 0; j--) {
-                if (tieredGrowthItems.containsKey(j)) {
-                    fertilizerItem = tieredGrowthItems.get(j);
-                    foundTierItem = j;
-                    break;
-                }
-            }
-            int fertilizerAmount = 1 << (2 * (cropTier - foundTierItem));
-
-            Fluid growthFluid = null;
-            int foundTierFluid = 0;
-            for (int j = cropTier; j >= 0; j--) {
-                if (tieredGrowthFluids.containsKey(j)) {
-                    growthFluid = tieredGrowthFluids.get(j);
-                    foundTierFluid = j;
-                    break;
-                }
-            }
-            int fluidAmount = 100 << (2 * (cropTier - foundTierFluid));
+            GrowthRequirement<Item> fertilizerReq = getFertilizerRequirement(cropTier);
+            GrowthRequirement<Fluid> fluidReq = getGrowthFluidRequirement(cropTier);
 
             GTRecipeBuilder harvestRecipe = StarTRecipeTypes.GCROP_HARVESTER_RECIPES
                     .recipeBuilder(fruit.getId().getPath() + "_harvest")
@@ -317,16 +328,16 @@ public class GCropHarvesterLogic implements ICustomRecipeLogic {
                 harvestRecipe.chancedInput(gCrop, 750 * cropTier, 100 * cropTier);
             }
 
-            if (fertilizerItem != null) {
-                ItemStack fertilizerItemStack = new ItemStack(fertilizerItem, fertilizerAmount);
+            if (fertilizerReq != null) {
+                ItemStack fertilizerItemStack = new ItemStack(fertilizerReq.requirement(), fertilizerReq.amount());
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(fertilizerItemStack.getOrCreateTag(),
                         "behaviour.start_core.gcrop.harvester.fertilizer");
 
                 harvestRecipe.inputItems(fertilizerItemStack);
             }
 
-            if (growthFluid != null) {
-                FluidStack growthFluidStack = new FluidStack(growthFluid, fluidAmount);
+            if (fluidReq != null) {
+                FluidStack growthFluidStack = new FluidStack(fluidReq.requirement(), fluidReq.amount());
                 StarTCustomTooltipsManager.writeCustomTooltipsToItem(growthFluidStack.getOrCreateTag(),
                         "behaviour.start_core.gcrop.harvester.fluid");
 

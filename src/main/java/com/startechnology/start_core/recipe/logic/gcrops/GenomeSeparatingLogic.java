@@ -22,6 +22,12 @@ import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 
 public class GenomeSeparatingLogic implements ICustomRecipeLogic {
 
+    /**
+     * Scans item handlers for a filled genome holder and an empty genome holder to construct a separation recipe.
+     *
+     * @param holder the recipe capability holder representing the machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if matching items are not present
+     */
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var itemHandlers = StarTCustomLogicUtils.getItemHandlers(holder);
@@ -32,28 +38,41 @@ public class GenomeSeparatingLogic implements ICustomRecipeLogic {
         return createGenomeSeparationRecipe(allItems);
     }
 
+    /**
+     * Splits the genes of a filled genome holder randomly across two output genome holders.
+     *
+     * @param itemSet the list of available input items
+     * @return the constructed genome separation {@link GTRecipe}, or {@code null} if inputs are invalid
+     */
     private GTRecipe createGenomeSeparationRecipe(List<ItemStack> itemSet) {
         ItemStack foundFilledHolder = null;
         ItemStack foundEmptyHolder = null;
+        StarTGCropGenome gCropGenome = null;
 
         for (ItemStack item : itemSet) {
-            if (StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(item) != null) {
-                if (StarTGCropManager.gcropGenomeFromTag(item) != null) {
-                    if (foundFilledHolder == null) foundFilledHolder = item;
+            if (item.isEmpty()) continue;
+
+            if (foundFilledHolder == null) {
+                if (StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(item) != null) {
+                    StarTGCropGenome genome = StarTGCropManager.gcropGenomeFromTag(item);
+                    if (genome != null) {
+                        foundFilledHolder = item;
+                        gCropGenome = genome;
+                        if (foundEmptyHolder != null) break;
+                        continue;
+                    }
                 }
-            } else {
-                if (item.getItem().equals(EMPTY_GENOME_HOLDER.asItem())) {
-                    if (foundEmptyHolder == null) foundEmptyHolder = item;
-                }
+            }
+
+            if (foundEmptyHolder == null && item.is(EMPTY_GENOME_HOLDER.get())) {
+                foundEmptyHolder = item;
+                if (foundFilledHolder != null) break;
             }
         }
 
-        if (foundFilledHolder == null || foundEmptyHolder == null) return null;
-
-        StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(foundFilledHolder);
-        assert gCropGenome != null;
-
-        int highestTier = 0;
+        if (foundFilledHolder == null || foundEmptyHolder == null || gCropGenome == null) {
+            return null;
+        }
 
         List<StarTGCropGene> resourceGenome = gCropGenome.getResourceGenome();
         List<StarTGCropGene> productionGenome = gCropGenome.getProductionGenome();
@@ -67,51 +86,29 @@ public class GenomeSeparatingLogic implements ICustomRecipeLogic {
         List<StarTGCropGene> newAuxiliaryGenome1 = new ArrayList<>();
         List<StarTGCropGene> newAuxiliaryGenome2 = new ArrayList<>();
 
-        for (StarTGCropGene gene : resourceGenome) {
-            if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newResourceGenome1.add(gene);
-            else newResourceGenome2.add(gene);
-            int tier = gene.getTrait().tier();
-            if (tier > highestTier) highestTier = tier;
+        int highestTier = 0;
+        highestTier = Math.max(highestTier, separateGenes(resourceGenome, newResourceGenome1, newResourceGenome2));
+        highestTier = Math.max(highestTier,
+                separateGenes(productionGenome, newProductionGenome1, newProductionGenome2));
+        highestTier = Math.max(highestTier, separateGenes(auxiliaryGenome, newAuxiliaryGenome1, newAuxiliaryGenome2));
+
+        StarTGCropGene climate1 = null;
+        StarTGCropGene climate2 = null;
+        if (climateGene != null) {
+            if (StarTCore.RNG.nextBoolean()) {
+                climate1 = climateGene;
+            } else {
+                climate2 = climateGene;
+            }
         }
 
-        for (StarTGCropGene gene : productionGenome) {
-            if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newProductionGenome1.add(gene);
-            else newProductionGenome2.add(gene);
-            int tier = gene.getTrait().tier();
-            if (tier > highestTier) highestTier = tier;
-        }
+        StarTGCropGenome newGenome1 = new StarTGCropGenome(newResourceGenome1, newProductionGenome1,
+                newAuxiliaryGenome1, climate1);
+        StarTGCropGenome newGenome2 = new StarTGCropGenome(newResourceGenome2, newProductionGenome2,
+                newAuxiliaryGenome2, climate2);
 
-        for (StarTGCropGene gene : auxiliaryGenome) {
-            if (StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1) newAuxiliaryGenome1.add(gene);
-            else newAuxiliaryGenome2.add(gene);
-            int tier = gene.getTrait().tier();
-            if (tier > highestTier) highestTier = tier;
-        }
-
-        StarTGCropGenome newGenome1;
-        StarTGCropGenome newGenome2;
-
-        if (climateGene == null) {
-            newGenome1 = new StarTGCropGenome(newResourceGenome1, newProductionGenome1, newAuxiliaryGenome1);
-            newGenome2 = new StarTGCropGenome(newResourceGenome2, newProductionGenome2, newAuxiliaryGenome2);
-        } else {
-            boolean firstHasClimate = StarTCore.RNG.nextIntBetweenInclusive(0, 1) == 1;
-            newGenome1 = new StarTGCropGenome(newResourceGenome1, newProductionGenome1, newAuxiliaryGenome1,
-                    firstHasClimate ? climateGene : null);
-            newGenome2 = new StarTGCropGenome(newResourceGenome2, newProductionGenome2, newAuxiliaryGenome2,
-                    firstHasClimate ? null : climateGene);
-        }
-
-        ItemStack newHolder1 = new ItemStack(FILLED_GENOME_HOLDER);
-        ItemStack newHolder2 = new ItemStack(FILLED_GENOME_HOLDER);
-
-        if (newGenome1.isEmpty()) {
-            newHolder1 = new ItemStack(EMPTY_GENOME_HOLDER);
-        } else StarTGCropManager.writeGCRopGenomeToItem(newHolder1.getOrCreateTag(), newGenome1);
-
-        if (newGenome2.isEmpty()) {
-            newHolder2 = new ItemStack(EMPTY_GENOME_HOLDER);
-        } else StarTGCropManager.writeGCRopGenomeToItem(newHolder2.getOrCreateTag(), newGenome2);
+        ItemStack newHolder1 = createResultHolder(newGenome1);
+        ItemStack newHolder2 = createResultHolder(newGenome2);
 
         return StarTRecipeTypes.GENOME_SEPARATING
                 .recipeBuilder("holder_separation")
@@ -122,11 +119,50 @@ public class GenomeSeparatingLogic implements ICustomRecipeLogic {
                 .buildRawRecipe();
     }
 
+    /**
+     * Randomly distributes genes from a source list into one of two destination lists with equal probability,
+     * tracking the highest trait tier among the separated genes.
+     *
+     * @param source the input list of genes
+     * @param dest1  the first destination gene list
+     * @param dest2  the second destination gene list
+     * @return the maximum trait tier observed among the separated genes
+     */
+    private static int separateGenes(List<StarTGCropGene> source, List<StarTGCropGene> dest1,
+                                     List<StarTGCropGene> dest2) {
+        int maxTier = 0;
+        for (StarTGCropGene gene : source) {
+            if (StarTCore.RNG.nextBoolean()) {
+                dest1.add(gene);
+            } else {
+                dest2.add(gene);
+            }
+            maxTier = Math.max(maxTier, gene.getTrait().tier());
+        }
+        return maxTier;
+    }
+
+    /**
+     * Creates an appropriate genome holder item stack for a separated genome; returns an empty genome holder
+     * if the resulting genome contains no genes, or a filled holder tagged with the genome otherwise.
+     *
+     * @param genome the genome result to encapsulate
+     * @return an {@link ItemStack} of either an empty or filled genome holder
+     */
+    private static ItemStack createResultHolder(StarTGCropGenome genome) {
+        if (genome.isEmpty()) {
+            return EMPTY_GENOME_HOLDER.asStack();
+        }
+        ItemStack holder = FILLED_GENOME_HOLDER.asStack();
+        StarTGCropManager.writeGCRopGenomeToItem(holder.getOrCreateTag(), genome);
+        return holder;
+    }
+
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack randomHolder = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack newHolder = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
+        ItemStack randomHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack newHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack emptyHolder = EMPTY_GENOME_HOLDER.asStack();
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(randomHolder.getOrCreateTag(),
                 "behaviour.start_core.genome_holder.random_holder");
