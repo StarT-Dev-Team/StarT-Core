@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaManager;
 import com.startechnology.start_core.api.bacteria.StarTBacteriaStats;
 import com.startechnology.start_core.api.custom_tooltips.StarTCustomTooltipsManager;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import com.startechnology.start_core.recipe.logic.WeightedRandomList;
@@ -69,7 +70,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                     .outputItems(outputReplicatedBacteria)
                     .outputItems(outputMutatedBacteria)
                     .inputFluids(GTMaterials.Water.getFluid(8000))
-                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                    .inputFluids(StarTMaterials.BiostimulatingMixture.getFluid(2000))
                     .duration(1800)
                     .EUt(GTValues.V[GTValues.ZPM])
                     .buildRawRecipe();
@@ -121,7 +122,7 @@ public class BacteriaVatLogic implements ICustomRecipeLogic {
                     .recipeBuilder(bacteria.getId().getPath())
                     .inputItems(bacteriaInput)
                     .inputFluids(GTMaterials.Water.getFluid(8000))
-                    .inputFluids(GTMaterials.get("biostimulating_mixture").getFluid(2000))
+                    .inputFluids(StarTMaterials.BiostimulatingMixture.getFluid(2000))
                     .outputItems(bacteriaMutationOutput)
                     .outputItems(bacteriaReplicationOutput)
                     .duration(1800)

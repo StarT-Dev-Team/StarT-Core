@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.item.components.StarTFruitBehaviour;
 import com.startechnology.start_core.item.gcrops.StarTGCropItems;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.utils.StarTItemUtils;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -109,7 +110,7 @@ public class FlowerRecipes {
             HYDROPONIC_GARDEN_RECIPE_TYPE.recipeBuilder(flowerName + "_blooming_nrf")
                     .inputItems(flower.asStack())
                     .inputFluids(GTMaterials.Water.getFluid(500),
-                            GTMaterials.get("nutrient_rich_fertilizer_solution").getFluid(100))
+                            StarTMaterials.NutrientRichFertilizerSolution.getFluid(100))
                     .outputItems(fruit.asStack())
                     .EUtVHA(EUtV)
                     .duration(300)
@@ -119,7 +120,7 @@ public class FlowerRecipes {
             HYDROPONIC_GARDEN_RECIPE_TYPE.recipeBuilder(flowerName + "_blooming_biostimulating")
                     .inputItems(flower.asStack())
                     .inputFluids(GTMaterials.Water.getFluid(500),
-                            GTMaterials.get("biostimulating_mixture").getFluid(100))
+                            StarTMaterials.BiostimulatingMixture.getFluid(100))
                     .outputItems(fruit.asStack())
                     .EUtVHA(EUtV)
                     .duration(150)

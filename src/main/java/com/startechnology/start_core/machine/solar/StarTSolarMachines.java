@@ -1,7 +1,6 @@
 package com.startechnology.start_core.machine.solar;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -13,6 +12,7 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
@@ -78,7 +78,7 @@ public class StarTSolarMachines {
                     .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                                    GTMaterials.Steel)))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1))
@@ -95,7 +95,7 @@ public class StarTSolarMachines {
                         .where(' ', Blocks.AIR)
                         .where('F',
                                 ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                                        GTMaterials.Steel))
                         .where('C', GTBlocks.CASING_STEEL_SOLID.get())
                         .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[EV], Direction.SOUTH)
                         .where('@', definition, Direction.NORTH);
@@ -154,7 +154,7 @@ public class StarTSolarMachines {
                     .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                                    GTMaterials.Steel)))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1))
@@ -171,7 +171,7 @@ public class StarTSolarMachines {
                         .where(' ', Blocks.AIR)
                         .where('F',
                                 ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                                        GTMaterials.Steel))
                         .where('C', GTBlocks.CASING_STEEL_SOLID.get())
                         .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[IV], Direction.SOUTH)
                         .where('@', definition, Direction.NORTH);
@@ -230,7 +230,7 @@ public class StarTSolarMachines {
                     .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("steel"))))
+                                    GTMaterials.Steel)))
                     .where("C", Predicates.blocks(GTBlocks.CASING_STEEL_SOLID.get())
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1))
@@ -247,7 +247,7 @@ public class StarTSolarMachines {
                         .where(' ', Blocks.AIR)
                         .where('F',
                                 ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                        GTCEuAPI.materialManager.getMaterial("steel")))
+                                        GTMaterials.Steel))
                         .where('C', GTBlocks.CASING_STEEL_SOLID.get())
                         .where('E', GTMachines.ENERGY_OUTPUT_HATCH_16A[LuV], Direction.SOUTH)
                         .where('@', definition, Direction.NORTH);
@@ -324,7 +324,7 @@ public class StarTSolarMachines {
                     .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
+                                    GTMaterials.NaquadahAlloy)))
                     .where("B", Predicates.blocks(GTBlocks.BATTERY_LAPOTRONIC_UV.get()))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
@@ -351,7 +351,7 @@ public class StarTSolarMachines {
                         .where(' ', Blocks.AIR)
                         .where('F',
                                 ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                        GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                                        GTMaterials.NaquadahAlloy))
                         .where('B', GTBlocks.BATTERY_LAPOTRONIC_UV.get())
                         .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                         .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UV], Direction.SOUTH)
@@ -436,7 +436,7 @@ public class StarTSolarMachines {
                     .where("S", StarTSolarCellPredicates.solarCells())
                     .where("F",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("naquadah_alloy"))))
+                                    GTMaterials.NaquadahAlloy)))
                     .where("B", Predicates.blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))
                     .where("C", Predicates.blocks(StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                             .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
@@ -471,7 +471,7 @@ public class StarTSolarMachines {
                         .where(' ', Blocks.AIR)
                         .where('F',
                                 ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                        GTCEuAPI.materialManager.getMaterial("naquadah_alloy")))
+                                        GTMaterials.NaquadahAlloy))
                         .where('B', GTBlocks.BATTERY_ULTIMATE_UHV.get())
                         .where('C', StarTMachineUtils.getKjsBlock("enriched_naquadah_machine_casing"))
                         .where('E', GTMachines.LASER_OUTPUT_HATCH_4096[UHV], Direction.SOUTH)

@@ -23,6 +23,7 @@ import com.startechnology.start_core.lang.LangHandler;
 import com.startechnology.start_core.machine.StarTMachines;
 import com.startechnology.start_core.machine.abyssal_containment.StarTAbyssalContainmentMachine;
 import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.materials.modification.StarTLateMaterialModifications;
 import com.startechnology.start_core.materials.modification.StarTMaterialModifications;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import com.startechnology.start_core.recipe.StarTRecipeCategories;
@@ -129,12 +130,13 @@ public class StarTCore {
 
     // As well as this.
     private void addMaterials(MaterialEvent event) {
+        StarTMaterialModifications.register();
         StarTMaterials.register();
     }
 
     // This is optional, though.
     private void modifyMaterials(PostMaterialEvent event) {
-        StarTMaterialModifications.register();
+        StarTLateMaterialModifications.register();
     }
 
     private void registerDimensionalMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {

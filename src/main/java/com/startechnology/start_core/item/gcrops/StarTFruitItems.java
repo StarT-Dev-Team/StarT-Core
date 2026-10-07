@@ -32,7 +32,7 @@ public class StarTFruitItems {
                     .color(() -> () -> (itemStack, index) -> itemMaterial.getLayerARGB(index))
                     .register();
 
-            FRUIT_SLICES.put(id, fruitSliceItem);
+            FRUIT_SLICES.put(cropId, fruitSliceItem);
         }
         if (tier == 5 || tier >= 7) {
             ItemEntry<ComponentItem> poppedFruitItem = START_REGISTRATE
@@ -44,7 +44,7 @@ public class StarTFruitItems {
                     .color(() -> () -> (itemStack, index) -> itemMaterial.getLayerARGB(index))
                     .register();
 
-            POPPED_FRUITS.put(id, poppedFruitItem);
+            POPPED_FRUITS.put(cropId, poppedFruitItem);
         }
     }
 }

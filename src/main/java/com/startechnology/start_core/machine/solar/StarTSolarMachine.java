@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -22,6 +21,8 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntity;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
 
@@ -73,7 +74,7 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         this.boostingRecipe = createBoostingRecipe();
     }
 
-    private final Material DEIONIZED_WATER = GTMaterials.get("deionized_water");
+    private final Material DEIONIZED_WATER = StarTMaterials.DeionizedWater;
 
     @Override
     protected RecipeLogic createRecipeLogic(Object... args) {

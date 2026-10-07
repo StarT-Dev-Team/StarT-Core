@@ -1,7 +1,6 @@
 package com.startechnology.start_core.machine.hellforge;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -13,6 +12,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
+import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTRecipeModifiers;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import dev.latvian.mods.kubejs.KubeJS;
@@ -74,7 +74,7 @@ public class StarTHellForgeMachines {
                 // spotless:off
                 .where(" ", Predicates.any())
             .where("B", Predicates.blocks(StarTMachineUtils.getKjsBlock("noble_mixing_casing")))
-            .where("C", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTCEuAPI.materialManager.getMaterial("gtceu:astrenalloy_nx"))))
+            .where("C", Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, StarTMaterials.AstrenalloyNx)))
             .where("D", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.of("thermal:signalum_glass", ':'))))
             .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("extreme_temperature_smelting_casing"))
                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(8).setPreviewCount(0))
@@ -173,7 +173,7 @@ public class StarTHellForgeMachines {
                                     .setPreviewCount(0)))
                     .where("D",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("gtceu:draco_abyssal"))))
+                                    StarTMaterials.DracoAbyssal)))
                     .where("E",
                             Predicates.blocks(ForgeRegistries.BLOCKS
                                     .getValue(ResourceLocation.of("thermal_extra:dragonsteel_glass", ':'))))

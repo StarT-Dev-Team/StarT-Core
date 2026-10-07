@@ -1,7 +1,6 @@
 package com.startechnology.start_core.machine.komaru;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -19,6 +18,8 @@ import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import com.startechnology.start_core.machine.komaru.client.KomaruRenderer;
+import com.startechnology.start_core.materials.StarTMaterials;
+
 import dev.latvian.mods.kubejs.KubeJS;
 import net.minecraft.network.chat.Component;
 
@@ -146,7 +147,7 @@ public class StarTKomaruFrameMachines {
                             .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1)))
                     .where("C",
                             Predicates.blocks(ChemicalHelper.getBlock(TagPrefix.frameGt,
-                                    GTCEuAPI.materialManager.getMaterial("draco_abyssal"))))
+                                    StarTMaterials.DracoAbyssal)))
                     .where("D", Predicates.blocks(StarTMachineUtils.getKjsBlock("superdense_machine_casing")))
                     .where("E", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_ware_casing")))
                     .where("F", Predicates.blocks(StarTMachineUtils.getKjsBlock("draco_resilient_fusion_glass")))
