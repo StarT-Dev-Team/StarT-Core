@@ -34,7 +34,7 @@ public class CombustionMaterials {
 
         LiquidFluorine = registerGTCEuMaterial("liquid_fluorine")
                 .liquid(new FluidBuilder().temperature(85))
-                .components(Fluorine, 2)
+                .components(Fluorine, 1)
                 .color(0xb5e0ff)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
