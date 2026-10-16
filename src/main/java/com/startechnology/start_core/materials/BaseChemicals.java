@@ -48,7 +48,6 @@ public class BaseChemicals {
                 .dust()
                 .components(Bismuth, 2, Tellurium, 3)
                 .color(0xdeb18e)
-                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         // Base Chemicals
