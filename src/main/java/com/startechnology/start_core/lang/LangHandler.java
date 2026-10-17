@@ -220,6 +220,13 @@ public class LangHandler {
 
         provider.add("start_core.multiblock.pattern.error.reflector", "§cAll fusion reflectors must be the same§r");
         provider.add("start_core.recipe.min_reflector_tier", "Min. Reflector Tier: §bT%d§r");
+        provider.add("start_core.recipe.reflector.tier", "Reflector Tier: %1$s/%2$s");
+        multiLang(provider, "start_core.recipe.reflector.min", "Min: %1$s (%2$s)",
+                "Reflector: %3$s (%4$s)");
+        multiLang(provider, "start_core.recipe.reflector.tooltip", "Left click to select the next reflector",
+                "Right click to select the previous reflector", "Middle click to reset the reflector");
+        provider.add("start_core.recipe.oc.duration.reflector", "Reflector Speed: %s");
+        provider.add("start_core.recipe.oc.usage.reflector", "Reflector Usage: %s");
         provider.add("start_core.machine.reflector.tooltip_reflector_tier", "Tier §bT{0}§r");
         provider.add("ui.start_core.fusion_reactor.reflector_tier_info", "Reflector Tier: §bT{0}§r");
 
@@ -774,5 +781,70 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
+    }
+
+    /**
+     * Returns the sub-key consisting of the given key plus the given index.<br>
+     * E.g.,<br>
+     *
+     * <pre>
+     * <code>getSubKey("terminal.fluid_prospector.tier", 0)</code>
+     * </pre>
+     *
+     * returns the <code>String</code>:
+     *
+     * <pre>
+     * <code>
+     * "terminal.fluid_prospector.tier.0"</code>
+     * </pre>
+     *
+     * @param key   Base key of the sub-key.
+     * @param index Index of the sub-key.
+     * @return Sub-key consisting of key and index.
+     */
+    protected static String getSubKey(String key, int index) {
+        return key + "." + index;
+    }
+
+    /**
+     * Registers multiple values under the same key with a given provider.<br>
+     * <br>
+     * For example, a cumbersome way to add translations would be the following:<br>
+     *
+     * <pre>
+     * <code>provider.add("terminal.fluid_prospector.tier.0", "radius size 1");
+     * provider.add("terminal.fluid_prospector.tier.1", "radius size 2");
+     * provider.add("terminal.fluid_prospector.tier.2", "radius size 3");</code>
+     * </pre>
+     *
+     * Instead, <code>multiLang</code> can be used for the same result:
+     *
+     * <pre>
+     * <code>multiLang(provider, "terminal.fluid_prospector.tier", "radius size 1", "radius size 2", "radius size 3");</code>
+     * </pre>
+     *
+     * In situations requiring a large number of generated translations, the
+     * following could be used instead, which
+     * generates translations for 100 tiers:
+     *
+     * <pre>
+     * <code>multiLang(provider, "terminal.fluid_prospector.tier", IntStream.of(100)
+     *                 .map(i -> i + 1)
+     *                 .mapToObj(Integer::toString)
+     *                 .map(i -> "radius size " + i)
+     *                 .toArray(String[]::new));</code>
+     * </pre>
+     *
+     * @param provider The provider to add to.
+     * @param key      Base key of the key-value-pairs. The real key for each
+     *                 translation will be appended by ".0" for
+     *                 the first, ".1" for the second, etc. This ensures that the
+     *                 keys are unique.
+     * @param values   All translation values.
+     */
+    protected static void multiLang(RegistrateLangProvider provider, String key, String... values) {
+        for (var i = 0; i < values.length; i++) {
+            provider.add(getSubKey(key, i), values[i]);
+        }
     }
 }
