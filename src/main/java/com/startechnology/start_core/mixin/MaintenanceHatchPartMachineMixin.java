@@ -3,7 +3,7 @@ package com.startechnology.start_core.mixin;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
-import com.startechnology.start_core.api.copy.ICopyInteractable;
+import com.startechnology.start_core.api.machine.feature.ICopyInteractable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockOreEmiCategory;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
-import com.startechnology.start_core.machine.solar.StarTSolarMachines;
+import com.startechnology.start_core.data.machines.multiblock.power.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
 import dev.emi.emi.api.EmiEntrypoint;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.startechnology.start_core.item.gcrops.StarTTraitItems.DNA_STRANDS;
-import static com.startechnology.start_core.machine.drills.StarTDrillingRigs.FLUID_DRILLING_RIGS;
+import static com.startechnology.start_core.data.machines.multiblock.resource_production.StarTDrillingRigs.FLUID_DRILLING_RIGS;
 
 @EmiEntrypoint
 public class StarTEMIPlugin implements EmiPlugin {

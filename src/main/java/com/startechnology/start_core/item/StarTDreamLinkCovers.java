@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkCover;
+import com.startechnology.start_core.machine.cover.StarTDreamLinkCover;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
