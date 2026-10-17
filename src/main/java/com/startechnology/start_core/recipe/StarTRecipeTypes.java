@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
+import com.startechnology.start_core.integration.xei.StarTFusionRecipeWidget;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.recipe.logic.*;
@@ -33,11 +34,17 @@ public class StarTRecipeTypes {
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
             .setMaxTooltips(4)
-            .addDataInfo(data -> {
-                var reflectorTier = data.getInt("reflector_tier");
-                return LocalizationUtils.format("start_core.recipe.min_reflector_tier", reflectorTier);
-            })
-            .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel);
+            .addDataInfoFull(config -> new GTRecipeType.CustomDataInfoResult(
+                    Component.literal(LocalizationUtils.format("start_core.recipe.min_reflector_tier",
+                            config.recipe().data.getInt("reflector_tier"))),
+                    (label, widget) -> {
+                        if (widget instanceof StarTFusionRecipeWidget fusionWidget) {
+                            fusionWidget.setRecipeReflectorText(label);
+                        }
+                    }))
+            .setMinWidth(160)
+            .setUiBuilder(ReflectorFusionReactorMachine::addEUToStartLabel)
+            .setWidgetFactory(StarTFusionRecipeWidget::new);
 
     public static final GTRecipeType BACTERIAL_BREEDING_VAT_RECIPES = GTRecipeTypes
             .register("bacterial_breeding_vat", GTRecipeTypes.MULTIBLOCK)
