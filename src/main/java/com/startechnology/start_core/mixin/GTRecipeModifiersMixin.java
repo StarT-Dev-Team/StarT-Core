@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.data.GTParallelTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.startechnology.start_core.machine.parallel.StarTAbsoluteParallelHatchMachine;
+import com.startechnology.start_core.machine.part.StarTAbsoluteParallelHatchMachine;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

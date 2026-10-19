@@ -1,6 +1,6 @@
 package com.startechnology.start_core.block.arboreal_extractor;
 
-import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.utils.StarTMachineUtils;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;

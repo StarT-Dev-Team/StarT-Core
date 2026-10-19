@@ -2,8 +2,8 @@ package com.startechnology.start_core.integration.jade.provider;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks;
-import com.startechnology.start_core.machine.threading.StarTThreadingStatBlocks.StarTThreadingStatBlock;
+import com.startechnology.start_core.block.threading.StarTThreadingStatBlocks;
+import com.startechnology.start_core.block.threading.StarTThreadingStatBlocks.StarTThreadingStatBlock;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;

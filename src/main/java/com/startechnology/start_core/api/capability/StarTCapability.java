@@ -1,14 +1,14 @@
 package com.startechnology.start_core.api.capability;
 
-import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
-import com.startechnology.start_core.machine.bulking.IBulking;
-import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
-import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
-import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
-import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
-import com.startechnology.start_core.machine.solar.StarTSolarMachine;
-import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
-import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTAbyssalHarvesterMachine;
+import com.startechnology.start_core.api.machine.feature.IBulking;
+import com.startechnology.start_core.machine.multiblock.electric.ReflectorFusionReactorMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTHellForgeMachine;
+import com.startechnology.start_core.machine.part.StarTModularInterfaceHatchPartMachine;
+import com.startechnology.start_core.machine.part.RedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTSolarMachine;
+import com.startechnology.start_core.machine.multiblock.electric.StarTThreadingCapableMachine;
+import com.startechnology.start_core.machine.multiblock.electric.VacuumChemicalReactionChamberMachine;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;

@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FluidDrillMachine;
-import com.startechnology.start_core.machine.StarTMachineUtils;
+import com.startechnology.start_core.utils.StarTMachineUtils;
 import dev.latvian.mods.kubejs.KubeJS;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

@@ -1,7 +1,7 @@
 package com.startechnology.start_core.mixin.mc.renderer;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.startechnology.start_core.machine.komaru.client.v2.KomaruRendererV2;
+import com.startechnology.start_core.client.komaru.v2.KomaruRendererV2;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -11,8 +11,8 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.rodLong;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.NaquadahEnriched;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Neutronium;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
-import static com.startechnology.start_core.machine.crates.StarTCrates.ENRICHED_NAQUADAH_CRATE;
-import static com.startechnology.start_core.machine.crates.StarTCrates.NEUTRONIUM_CRATE;
+import static com.startechnology.start_core.data.machines.single.StarTCrates.ENRICHED_NAQUADAH_CRATE;
+import static com.startechnology.start_core.data.machines.single.StarTCrates.NEUTRONIUM_CRATE;
 
 public class CrateRecipes {
 
