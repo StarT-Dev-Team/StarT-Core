@@ -28,6 +28,7 @@
     "LargeBoilerMachineMixin"
   ],
   "client": [
+    "compat.EncodingHelperMixin",
     "CustomStackTooltipsHandlerMixin",
     "MultiBufferSourceBufferSourceMixin",
     "embeddium.ChunkShaderOptionsMixin",
