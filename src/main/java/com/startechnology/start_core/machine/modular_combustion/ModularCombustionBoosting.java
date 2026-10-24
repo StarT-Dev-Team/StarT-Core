@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeCombustionEngineMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -25,7 +24,6 @@ import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -133,20 +131,11 @@ public class ModularCombustionBoosting extends LargeCombustionEngineMachine {
         };
     }
 
-    @Override
-    public String getRecipeFluidInputInfo() {
-        GTRecipe recipe = recipeLogic.getLastRecipe();
-        if (recipe == null) return null;
-        int baseFluid = RecipeHelper.getInputFluids(recipe).get(0).getAmount();
-        int displayAmount = isActiveBoosting ? baseFluid * 2 : baseFluid;
-        return ChatFormatting.RED + FormattingUtil.formatNumbers(displayAmount) + "mB";
-    }
-
     // one could say Crazyman
     public ModifierFunction getModifierFunction(long recipeEUt) {
         int parallels = (int) (GTValues.V[tier] / recipeEUt);
         return ModifierFunction.builder()
-                .inputModifier(ContentModifier.multiplier(parallels))
+                .inputModifier(ContentModifier.multiplier(parallels * boostingParallels()))
                 .outputModifier(ContentModifier.multiplier(parallels))
                 .eutMultiplier(parallels * getBoostingBonus())
                 .parallels(parallels * boostingParallels(), StarTParallelTypes.MODULAR_COMBUSTION)
