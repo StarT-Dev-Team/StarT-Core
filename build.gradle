@@ -117,6 +117,7 @@ repositories {
         content {
             includeGroup 'com.gregtechceu.gtceu'
             includeGroup 'com.tterrag.registrate'
+            includeGroup 'appeng'
         }
     }
     maven {
