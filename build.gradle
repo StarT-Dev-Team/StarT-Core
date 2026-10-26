@@ -188,6 +188,25 @@ repositories {
     maven { url = "https://maven.covers1624.net" }
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
     maven { url = "https://maven.createmod.net" }
+
+    ivy {
+        name = "cursemavenGtmForkBackup"
+        url = "https://cursemaven.com/curse/maven"
+        patternLayout {
+            artifact "gregtech-modern-start-fork-1483344/${project.gtceu_curse_file_id}/gregtech-modern-start-fork-1483344-${project.gtceu_curse_file_id}.jar"
+        }
+        metadataSources { artifact() }
+        content { includeVersion 'com.gregtechceu.gtceu', "gtceu-st-$project.minecraft_version", gtceuVersion }
+    }
+    ivy {
+        name = "cursemavenAe2UelmBackup"
+        url = "https://cursemaven.com/curse/maven"
+        patternLayout {
+            artifact "ae2-uelm-1624366/${project.ae2_curse_file_id}/ae2-uelm-1624366-${project.ae2_curse_file_id}.jar"
+        }
+        metadataSources { artifact() }
+        content { includeVersion 'appeng', 'appliedenergistics2-forge', project.ae2_version }
+    }
 }
 
 dependencies {
@@ -212,7 +231,7 @@ dependencies {
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("curse.maven:architectury-api-419699:5137938")
     modImplementation("curse.maven:rhino-416294:6186971")
-    modImplementation("appeng:appliedenergistics2-forge:15.4.10")
+    modImplementation("appeng:appliedenergistics2-forge:$project.ae2_version")
     modImplementation("org.appliedenergistics:guideme:20.1.14")
     modImplementation("curse.maven:merequester-688367:5689932")
     modImplementation("curse.maven:jade-324717:6106101")
