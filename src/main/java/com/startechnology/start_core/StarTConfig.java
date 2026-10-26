@@ -30,6 +30,10 @@ public class StarTConfig {
         @Configurable
         @Configurable.Comment({ "Whether or not to enable the render for the Komaru Frame.", "Default: true" })
         public boolean komaruRenderer = true;
+
+        @Configurable
+        @Configurable.Comment({ "Whether or not EMI/JEI pattern encoding uses universal circuits.", "Default: true" })
+        public boolean preferUniversalCircuits = true;
     }
 
     public static class SolarConfigs {
