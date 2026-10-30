@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "refmap": "start_core.mixins.refmap.json",
   "mixins": [
+    "AECommandMixin",
     "EmiApiMixin",
     "FluidDrillMachineMixin",
     "FluidHatchPartMachineMixin",
@@ -16,6 +17,7 @@
     "MaterialRecipeHandlerMixin",
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
+    "P2PTunnelAttunementMixin",
     "ParallelHatchPartMachineAccessor",
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
