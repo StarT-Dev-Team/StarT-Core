@@ -25,6 +25,26 @@ public class StarTConfig {
     @Configurable
     public SolarConfigs solar = new SolarConfigs();
 
+    @Configurable
+    public AE2Configs ae2 = new AE2Configs();
+
+    public static class AE2Configs {
+
+        @Configurable
+        @Configurable.Comment({
+                "Whether or not to enable attunement for the AE2 FE P2P Tunnel.",
+                "Default: false"
+        })
+        public boolean enableFEP2PTunnelAttunement = false;
+
+        @Configurable
+        @Configurable.Comment({
+                "Whether or not to reduce the required permission level for the /ae2 channelmode command from 4 to 2.",
+                "Default: true"
+        })
+        public boolean reduceChannelModePermissionLevel = true;
+    }
+
     public static class ClientConfigs {
 
         @Configurable
