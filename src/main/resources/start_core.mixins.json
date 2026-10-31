@@ -22,6 +22,7 @@
     "WireRecipeHandlerMixin",
     "compat.FakeSlotDropTargetMixin",
     "eb.CommonEventsMixin",
+    "claw.ToolHelperMixin",
     "pr.GTToolItemMixin",
     "LargeBoilerMachineMixin"
   ],
