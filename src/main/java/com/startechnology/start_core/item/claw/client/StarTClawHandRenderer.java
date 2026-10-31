@@ -3,6 +3,7 @@ package com.startechnology.start_core.item.claw.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.item.claw.StarTClawMode;
 import com.startechnology.start_core.item.claw.StarTClawOfLawItem;
 import com.startechnology.start_core.item.claw.StarTClawToolRenderer;
 import com.startechnology.start_core.item.claw.StarTClawPart;
@@ -57,7 +58,8 @@ public final class StarTClawHandRenderer {
                 buffers.getBuffer(RenderType.entityCutoutNoCull(PAW_TEXTURE)), packedLight,
                 OverlayTexture.NO_OVERLAY, StarTClawOfLawItem.getColor(claw, StarTClawPart.CUFF),
                 StarTClawOfLawItem.getColor(claw, StarTClawPart.MITT),
-                StarTClawOfLawItem.getColor(claw, StarTClawPart.TOES));
+                StarTClawOfLawItem.getColor(claw, StarTClawPart.TOES),
+                StarTClawOfLawItem.getMode(claw) != StarTClawMode.NONE, StarTClawOfLawItem.getChargeRatio(claw));
     }
 
     public static Matrix4f handToToolSpace(BakedModel model, HumanoidArm side) {

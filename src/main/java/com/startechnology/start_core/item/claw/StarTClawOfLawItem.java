@@ -212,6 +212,14 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
         return electricItem != null && electricItem.getCharge() >= amount;
     }
 
+    public static float getChargeRatio(ItemStack stack) {
+        IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
+
+        if (electricItem == null || electricItem.getMaxCharge() <= 0) return 0.0F;
+
+        return (float) ((double) electricItem.getCharge() / electricItem.getMaxCharge());
+    }
+
     @Override
     public GTToolType getToolType() {
         return GTToolType.PICKAXE;
