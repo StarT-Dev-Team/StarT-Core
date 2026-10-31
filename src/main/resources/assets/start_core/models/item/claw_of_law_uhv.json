@@ -1,0 +1,89 @@
+{
+  "parent": "start_core:item/claw_of_law_gui_none",
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "start_core:item/claw_of_law_none"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "start_core:item/claw_of_law_pickaxe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "start_core:item/claw_of_law_axe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 4
+      },
+      "model": "start_core:item/claw_of_law_shovel"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 5
+      },
+      "model": "start_core:item/claw_of_law_hoe"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 6
+      },
+      "model": "start_core:item/claw_of_law_saw"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 7
+      },
+      "model": "start_core:item/claw_of_law_screwdriver"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 8
+      },
+      "model": "start_core:item/claw_of_law_wrench"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 9
+      },
+      "model": "start_core:item/claw_of_law_soft_mallet"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 10
+      },
+      "model": "start_core:item/claw_of_law_hard_hammer"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 11
+      },
+      "model": "start_core:item/claw_of_law_crowbar"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 12
+      },
+      "model": "start_core:item/claw_of_law_wire_cutter"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 13
+      },
+      "model": "start_core:item/claw_of_law_knife"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 14
+      },
+      "model": "start_core:item/claw_of_law_sword"
+    }
+  ]
+}
