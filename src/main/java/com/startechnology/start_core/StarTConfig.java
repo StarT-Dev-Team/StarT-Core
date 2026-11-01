@@ -32,13 +32,6 @@ public class StarTConfig {
 
         @Configurable
         @Configurable.Comment({
-                "Whether or not to enable attunement for the AE2 FE P2P Tunnel.",
-                "Default: false"
-        })
-        public boolean enableFEP2PTunnelAttunement = false;
-
-        @Configurable
-        @Configurable.Comment({
                 "Whether or not to reduce the required permission level for the /ae2 channelmode command from 4 to 2.",
                 "Default: true"
         })

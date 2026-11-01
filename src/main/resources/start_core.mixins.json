@@ -17,7 +17,6 @@
     "MaterialRecipeHandlerMixin",
     "MEPatternBufferPartMachineMixin",
     "MultiblockControllerMachineMixin",
-    "P2PTunnelAttunementMixin",
     "ParallelHatchPartMachineAccessor",
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
