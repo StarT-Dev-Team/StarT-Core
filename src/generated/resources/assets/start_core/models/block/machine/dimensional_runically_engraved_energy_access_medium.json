@@ -1,0 +1,108 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "start_core:dimensional_runically_engraved_energy_access_medium",
+  "texture_overrides": {
+    "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+    "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+    "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+  },
+  "variants": {
+    "is_formed=false,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=false,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=idle": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=suspend": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=waiting": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    },
+    "is_formed=true,recipe_logic_status=working": {
+      "model": {
+        "parent": "gtceu:block/machine/template/sided/sided",
+        "textures": {
+          "bottom": "gtceu:block/casings/hpca/advanced_computer_casing/bottom",
+          "overlay_front": "start_core:block/dreamlink/dream_link_node/overlay_front",
+          "overlay_front_emissive": "start_core:block/dreamlink/dream_link_node/overlay_front_emissive",
+          "side": "gtceu:block/casings/hpca/advanced_computer_casing/side",
+          "top": "gtceu:block/casings/hpca/advanced_computer_casing/top"
+        }
+      }
+    }
+  }
+}
