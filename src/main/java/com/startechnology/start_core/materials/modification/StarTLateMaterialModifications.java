@@ -13,6 +13,7 @@ public class StarTLateMaterialModifications {
 
     public static void register() {
         GCropProcessingMaterials.register();
+        AlloyBlastModifications.modifyAlloyBlastCasingMaterials();
         applyCustomFormulas();
 
         Netherite.setComponents(
