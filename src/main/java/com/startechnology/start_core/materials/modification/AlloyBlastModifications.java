@@ -8,6 +8,8 @@ public class AlloyBlastModifications {
 
     public static void modifyAlloyBlastCasingMaterials() {
         StarTMaterials.Hydronalium.getProperty(PropertyKey.ALLOY_BLAST)
-                .setRecipeProducer(new CustomAlloyBlastRecipeProducer(6, 16, 10));
+                .setRecipeProducer(new CustomAlloyBlastRecipeProducer(6, 16, -1));
+        StarTMaterials.Tumbaga.getProperty(PropertyKey.ALLOY_BLAST)
+                .setRecipeProducer(new CustomAlloyBlastRecipeProducer(6, 16, -1));
     }
 }
