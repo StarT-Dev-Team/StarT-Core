@@ -15,9 +15,8 @@ public final class StarTClawRenderEvents {
 
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(StarTClawPawModel.PLAYER_LAYER, StarTClawPawModel::createPlayerLayer);
-        event.registerLayerDefinition(StarTClawPawModel.SLIM_PLAYER_LAYER,
-                StarTClawPawModel::createSlimPlayerLayer);
+        event.registerLayerDefinition(StarTClawPawModel.PLAYER_LAYER, () -> StarTClawPawModel.createLayer(false));
+        event.registerLayerDefinition(StarTClawPawModel.SLIM_PLAYER_LAYER, () -> StarTClawPawModel.createLayer(true));
     }
 
     @SubscribeEvent

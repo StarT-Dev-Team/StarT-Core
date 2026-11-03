@@ -796,14 +796,18 @@ public class LangHandler {
         provider.add("item.start_core.claw_of_law.mode.wire_cutter", "Wire Cutter");
         provider.add("item.start_core.claw_of_law.mode.knife", "Knife");
         provider.add("item.start_core.claw_of_law.mode.sword", "Sword");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.description",
+                "§6§lOne Claw to Rule Them All",
+                "§7One Claw to dig them, one Claw to bash them all",
+                "§7and in your pocket bind them.",
+                "§7The §dLaw§7 came later, from the first block that argued.");
         provider.add("item.start_core.claw_of_law.tooltip.mode", "Mode: %s");
         provider.add("item.start_core.claw_of_law.tooltip.action_cost",
                 "§aCost per Action: §f%s EU (%s§f)");
-        provider.add("item.start_core.claw_of_law.tooltip.hotkey",
-                "Press %s for the fitting or next tool.");
-        provider.add("item.start_core.claw_of_law.tooltip.hotkey_previous", "Press %s + %s for the previous one.");
-        provider.add("item.start_core.claw_of_law.tooltip.hotkey_menu",
-                "Hold %s to open the selection menu.");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.hotkey",
+                "§7Press %1$s§7 for the fitting or next tool.",
+                "§7Press %2$s§7 + %1$s§7 for the previous one.",
+                "§7Hold %1$s§7 to open the selection menu.");
         provider.add("key.start_core.claw_cycle", "Cycle Claw Mode");
     }
 

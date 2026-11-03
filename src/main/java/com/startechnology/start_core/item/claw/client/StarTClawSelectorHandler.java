@@ -34,38 +34,6 @@ public class StarTClawSelectorHandler {
         return armed && (scrolled || ticksHeld >= TAP_TICKS);
     }
 
-    private static void press(Minecraft mc, LocalPlayer player) {
-        armed = true;
-        scrolled = false;
-        ticksHeld = 0;
-        selected = StarTClawOfLawItem.getMode(StarTClawOfLawItem.getHeldClaw(player)).ordinal();
-        suggested = StarTClawSuggestions.suggest(mc.hitResult, mc.level);
-    }
-
-    private static void release(LocalPlayer player) {
-        StarTClawMode current = StarTClawOfLawItem.getMode(StarTClawOfLawItem.getHeldClaw(player));
-        StarTClawMode target;
-
-        if (scrolled || ticksHeld >= TAP_TICKS) {
-            target = StarTClawMode.values()[selected];
-        } else if (Screen.hasShiftDown()) {
-            target = current.prev();
-        } else {
-            target = suggested != null && suggested != current ? suggested : current.next();
-        }
-
-        if (target != current) {
-            StarTClawSelectorNetwork.CHANNEL.sendToServer(new StarTClawSelectorNetwork.SelectMessage(target.ordinal()));
-        }
-    }
-
-    private static void reset() {
-        armed = false;
-        scrolled = false;
-        ticksHeld = 0;
-        suggested = null;
-    }
-
     @Mod.EventBusSubscriber(modid = StarTCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ModEvents {
 
@@ -90,15 +58,38 @@ public class StarTClawSelectorHandler {
 
             if (valid && down) {
                 if (!armed) {
-                    press(mc, player);
+                    armed = true;
+                    scrolled = false;
+                    ticksHeld = 0;
+                    selected = StarTClawOfLawItem.getMode(StarTClawOfLawItem.getHeldClaw(player)).ordinal();
                 } else {
                     ticksHeld++;
-                    suggested = StarTClawSuggestions.suggest(mc.hitResult, mc.level);
                 }
-            } else if (armed) {
-                if (valid) release(player);
 
-                reset();
+                suggested = StarTClawSuggestions.suggest(mc.hitResult, mc.level);
+            } else if (armed) {
+                if (valid) {
+                    StarTClawMode current = StarTClawOfLawItem.getMode(StarTClawOfLawItem.getHeldClaw(player));
+                    StarTClawMode target;
+
+                    if (scrolled || ticksHeld >= TAP_TICKS) {
+                        target = StarTClawMode.values()[selected];
+                    } else if (Screen.hasShiftDown()) {
+                        target = current.prev();
+                    } else {
+                        target = suggested != null && suggested != current ? suggested : current.next();
+                    }
+
+                    if (target != current) {
+                        StarTClawSelectorNetwork.CHANNEL
+                                .sendToServer(new StarTClawSelectorNetwork.SelectMessage(target.ordinal()));
+                    }
+                }
+
+                armed = false;
+                scrolled = false;
+                ticksHeld = 0;
+                suggested = null;
             }
         }
 

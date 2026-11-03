@@ -17,18 +17,6 @@ public class StarTClawSelectorOverlay {
     private static final int VISIBLE = 9;
     private static final int SLOT = 20;
 
-    private static ItemStack icon(ItemStack claw, StarTClawMode mode) {
-        ItemStack icon = StarTClawToolRenderer.getTool(claw, mode);
-
-        if (!icon.isEmpty()) return icon;
-
-        ItemStack fallback = claw.copyWithCount(1);
-
-        StarTClawOfLawItem.setMode(fallback, mode);
-
-        return fallback;
-    }
-
     public static void render(ForgeGui gui, GuiGraphics graphics, float partialTick, int width, int height) {
         if (!StarTClawSelectorHandler.isShown()) return;
 
@@ -55,7 +43,15 @@ public class StarTClawSelectorOverlay {
 
             if (mode == StarTClawMode.NONE) continue;
 
-            graphics.renderItem(icon(claw, mode), barLeft + 3 + slot * SLOT, barY + 3);
+            ItemStack icon = StarTClawToolRenderer.getTool(claw, mode);
+
+            if (icon.isEmpty()) {
+                icon = claw.copyWithCount(1);
+
+                StarTClawOfLawItem.setMode(icon, mode);
+            }
+
+            graphics.renderItem(icon, barLeft + 3 + slot * SLOT, barY + 3);
         }
     }
 }

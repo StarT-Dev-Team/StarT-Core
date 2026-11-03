@@ -74,15 +74,7 @@ public class StarTClawPawModel {
         return CACHE[index];
     }
 
-    public static LayerDefinition createPlayerLayer() {
-        return createLayer(false);
-    }
-
-    public static LayerDefinition createSlimPlayerLayer() {
-        return createLayer(true);
-    }
-
-    private static LayerDefinition createLayer(boolean slim) {
+    public static LayerDefinition createLayer(boolean slim) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
 

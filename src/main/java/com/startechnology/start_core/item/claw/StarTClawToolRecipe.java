@@ -82,7 +82,16 @@ public class StarTClawToolRecipe extends CustomRecipe {
             if (stack.getItem() instanceof StarTClawOfLawItem) {
                 claws++;
             } else if (stack.getItem() instanceof IGTTool tool) {
-                StarTClawMode mode = findMode(tool.getToolClasses(stack));
+                Set<GTToolType> toolClasses = tool.getToolClasses(stack);
+                StarTClawMode mode = null;
+
+                for (StarTClawMode candidate : StarTClawMode.values()) {
+                    if (candidate.getToolType() != null && toolClasses.contains(candidate.getToolType())) {
+                        mode = candidate;
+
+                        break;
+                    }
+                }
 
                 if (mode == null) return null;
 
@@ -93,13 +102,5 @@ public class StarTClawToolRecipe extends CustomRecipe {
         }
 
         return claws == 1 && !materials.isEmpty() ? materials : null;
-    }
-
-    private static StarTClawMode findMode(Set<GTToolType> toolClasses) {
-        for (StarTClawMode mode : StarTClawMode.values()) {
-            if (mode.getToolType() != null && toolClasses.contains(mode.getToolType())) return mode;
-        }
-
-        return null;
     }
 }

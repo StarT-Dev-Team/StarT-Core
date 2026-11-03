@@ -21,7 +21,12 @@ public final class StarTClawColorEvents {
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
         event.register((stack, tintIndex) -> switch (tintIndex) {
             case 1 -> toolMaterial(stack).getMaterialARGB();
-            case 2 -> secondaryColor(toolMaterial(stack));
+            case 2 -> {
+                Material material = toolMaterial(stack);
+
+                yield material.getMaterialSecondaryARGB() != -1 ? material.getMaterialSecondaryARGB() :
+                        material.getMaterialARGB();
+            }
             case 4 -> StarTClawOfLawItem.getColor(stack, StarTClawPart.CUFF);
             case 5 -> StarTClawOfLawItem.getColor(stack, StarTClawPart.MITT);
             case 6 -> StarTClawOfLawItem.getColor(stack, StarTClawPart.TOES);
@@ -31,10 +36,5 @@ public final class StarTClawColorEvents {
 
     private static Material toolMaterial(ItemStack stack) {
         return StarTClawOfLawItem.getToolMaterial(stack, StarTClawOfLawItem.getMode(stack));
-    }
-
-    private static int secondaryColor(Material material) {
-        return material.getMaterialSecondaryARGB() != -1 ? material.getMaterialSecondaryARGB() :
-                material.getMaterialARGB();
     }
 }

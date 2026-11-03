@@ -2,6 +2,9 @@ package com.startechnology.start_core.item.claw;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IElectricItem;
+import com.gregtechceu.gtceu.api.cover.CoverBehavior;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.block.PipeBlock;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -18,7 +21,7 @@ import com.gregtechceu.gtceu.api.item.tool.ToolHelper;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.item.tool.behavior.ToolModeSwitchBehavior;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-
+import com.gregtechceu.gtceu.data.lang.LangHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -46,6 +49,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.network.protocol.game.ClientboundLevelEventPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.LevelReader;
@@ -70,6 +74,7 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
     public static final float ATTACK_DAMAGE = 7_777_775F;
     public static final int INSTANT_BREAK_COOLDOWN_TICKS = 5;
     private static final int DESTROY_BLOCK_EVENT = 2001;
+    private static final byte MAINTENANCE_FIXED = 63;
     public static final boolean FREE_USE = false;
     private static boolean instantBreaking;
     private static final IGTToolDefinition DEFINITION = new ToolDefinitionBuilder()
@@ -125,21 +130,14 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
     public static int getColor(ItemStack stack, StarTClawPart part) {
         CompoundTag tag = stack.getTag();
 
-        int defaultColor = defaultColor(stack, part);
+        int defaultColor = part == StarTClawPart.MITT && stack.getItem() instanceof StarTClawOfLawItem claw ?
+                claw.getTierColor() : part.getDefaultColor();
 
         if (tag == null || !tag.contains(COLORS_KEY)) return defaultColor;
 
         CompoundTag colors = tag.getCompound(COLORS_KEY);
 
         return colors.contains(part.getKey()) ? colors.getInt(part.getKey()) : defaultColor;
-    }
-
-    private static int defaultColor(ItemStack stack, StarTClawPart part) {
-        if (part == StarTClawPart.MITT && stack.getItem() instanceof StarTClawOfLawItem claw) {
-            return claw.getTierColor();
-        }
-
-        return part.getDefaultColor();
     }
 
     public int getTierColor() {
@@ -384,6 +382,37 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        Player player = context.getPlayer();
+        Level level = context.getLevel();
+
+        if (player != null && hasCharge(stack)) {
+            StarTClawMode mode = getMode(stack);
+
+            if (mode == StarTClawMode.NONE &&
+                    MetaMachine.getMachine(level, context.getClickedPos()) instanceof IMaintenanceMachine maintenance &&
+                    maintenance.hasMaintenanceProblems()) {
+                if (!level.isClientSide) {
+                    maintenance.setMaintenanceProblems(MAINTENANCE_FIXED);
+
+                    chargeAction(stack, player);
+                }
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+
+            if (mode == StarTClawMode.CROWBAR && player.isShiftKeyDown()) {
+                BlockHitResult hitResult = new BlockHitResult(context.getClickLocation(), context.getClickedFace(),
+                        context.getClickedPos(), context.isInside());
+                CoverBehavior cover = StarTClawTargets.getCover(level, hitResult);
+
+                if (cover != null) {
+                    InteractionResult result = cover.onScrewdriverClick(player, context.getHand(), hitResult);
+
+                    if (result != InteractionResult.PASS) return result;
+                }
+            }
+        }
+
         return definition$onItemUseFirst(stack, context);
     }
 
@@ -508,6 +537,9 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+        tooltip.addAll(LangHandler.getMultiLang("item.start_core.claw_of_law.tooltip.description"));
+        tooltip.add(Component.empty());
+
         if (isElectric()) {
             IElectricItem electricItem = GTCapabilityHelper.getElectricItem(stack);
 
@@ -550,11 +582,6 @@ public class StarTClawOfLawItem extends Item implements IGTTool {
                 .withStyle(ChatFormatting.LIGHT_PURPLE);
         Component shift = Component.literal("[SHIFT]").withStyle(ChatFormatting.LIGHT_PURPLE);
 
-        tooltip.add(Component.translatable("item.start_core.claw_of_law.tooltip.hotkey", key)
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.start_core.claw_of_law.tooltip.hotkey_previous", shift, key)
-                .withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.start_core.claw_of_law.tooltip.hotkey_menu", key)
-                .withStyle(ChatFormatting.GRAY));
+        tooltip.addAll(LangHandler.getMultiLang("item.start_core.claw_of_law.tooltip.hotkey", key, shift));
     }
 }
