@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.block.FusionCasingBlock;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -185,5 +186,7 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         FusionReactorMachine.addEUToStartLabel(recipe, group);
         var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
         last.setSelfPositionY(group.getSizeHeight() - 8);
+
+        if (group instanceof GTRecipeWidget recipeWidget) last.setSelfPositionX(3 - recipeWidget.getXOffset());
     }
 }

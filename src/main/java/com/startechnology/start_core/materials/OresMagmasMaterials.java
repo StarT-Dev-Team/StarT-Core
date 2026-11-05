@@ -24,7 +24,7 @@ public class OresMagmasMaterials {
                 .dust()
                 .ore(2, 1)
                 .components(Zapolgium, 2, Iodine, 4, Aluminium, 2,
-                        Oxygen, 5)
+                        Oxygen, 6)
                 .color(0xcc0099)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
