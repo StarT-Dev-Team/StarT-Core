@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockOreEmiCategory;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
+import com.startechnology.start_core.item.claw.StarTClawExamples;
+import com.startechnology.start_core.item.claw.StarTClawOfLawItem;
 import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 
@@ -14,9 +16,11 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiInfoRecipe;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.recipe.EmiShapedRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,13 @@ public class StarTEMIPlugin implements EmiPlugin {
         addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_PANEL_LUV.asStack());
         addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UV.asStack());
         addSolarReplacementWorkstation(registry, StarTSolarMachines.SOLAR_ARRAY_UHV.asStack());
+
+        for (ShapedRecipe example : StarTClawExamples.create()) {
+            registry.addRecipe(new EmiShapedRecipe(example));
+        }
+
+        registry.removeEmiStacks(stack -> stack.getItemStack().getItem() instanceof StarTClawOfLawItem &&
+                !stack.hasNbt());
 
         CBMicroblockRecipes.register(registry);
         registerTraitDescriptions(registry);
