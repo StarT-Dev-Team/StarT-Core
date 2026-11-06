@@ -248,5 +248,12 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
             .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
 
+    public static final GTRecipeType LAPIDARY_EXTRACTION_RECIPES = GTRecipeTypes
+            .register("lapidary_extraction", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1, 0, 0, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addCustomRecipeLogic(new LapidaryExtractionLogic());
+
     public static void init() {}
 }
