@@ -11,7 +11,6 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.startechnology.start_core.materials.StarTTagPrefixes.*;
 import static com.startechnology.start_core.data.gcrops.StarTGCropData.gCropData;
-import static com.startechnology.start_core.utils.StarTMaterialUtils.getMaterial;
 import static com.startechnology.start_core.materials.StarTMaterialHelpers.registerStartCoreMaterial;
 
 public class GCropProcessingMaterials {
@@ -25,48 +24,48 @@ public class GCropProcessingMaterials {
     }
 
     private static void generateAuxiliaryMaterials() {
-        registerStartCoreMaterial("mystical_air")
+        StarTMaterials.MysticalAir = registerStartCoreMaterial("mystical_air")
                 .liquid(new FluidBuilder())
                 .color(0x6ca9dd)
-                .components(Air, 1, Biomass, 1) // Biomass is a placeholder for ? :sob:
+                .components(Air, 1, StarTMaterials.Mystery, 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
-        registerStartCoreMaterial("mystical_essence")
+        StarTMaterials.MysticalEssence = registerStartCoreMaterial("mystical_essence")
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                 .color(0x1769af)
-                .components(Biomass, 1)
+                .components(StarTMaterials.Mystery, 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
-        registerStartCoreMaterial("poor_mineral_rich_bio_waste")
+        StarTMaterials.PoorMineralRichBioWaste = registerStartCoreMaterial("poor_mineral_rich_bio_waste")
                 .liquid(new FluidBuilder())
                 .components(Biomass, 1, Lava, 1)
                 .color(0xfba92b)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
-        registerStartCoreMaterial("mineral_rich_bio_waste")
+        StarTMaterials.MineralRichBioWaste = registerStartCoreMaterial("mineral_rich_bio_waste")
                 .liquid(new FluidBuilder())
                 .color(0x988b3c)
-                .components(getMaterial("start_core:poor_mineral_rich_bio_waste"), 2, Glycerol, 1,
-                        Biomass, 1)
+                .components(StarTMaterials.PoorMineralRichBioWaste, 2, Glycerol, 1,
+                        StarTMaterials.Mystery, 1)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
-        registerStartCoreMaterial("poor_charged_bio_waste")
+        StarTMaterials.PoorChargedBioWaste = registerStartCoreMaterial("poor_charged_bio_waste")
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                 .color(0x81d8b3)
-                .components(Biomass, 1, IronMagnetic, 1)
+                .components(StarTMaterials.Mystery, 1, IronMagnetic, 1)
                 .iconSet(MAGNETIC)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
 
-        registerStartCoreMaterial("unstable_ion_blend")
+        StarTMaterials.UnstableIonBlend = registerStartCoreMaterial("unstable_ion_blend")
                 .dust().ignoredTagPrefixes(dustTiny, dustSmall, dustBlock)
                 .color(0x6f857b)
-                .components(getMaterial("start_core:poor_charged_bio_waste"), 2, Strontium, 1,
-                        getMaterial("gtceu:npk_solution"),
+                .components(StarTMaterials.PoorChargedBioWaste, 2, Strontium, 1,
+                        StarTMaterials.NpkSolution,
                         2)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION, MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .buildAndRegister();
