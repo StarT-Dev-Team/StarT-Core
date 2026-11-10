@@ -8,6 +8,7 @@ import com.startechnology.start_core.machine.converter.StarTConverterMachine;
 import com.startechnology.start_core.machine.crates.StarTCrates;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatches;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkTransmissionTowers;
+import com.startechnology.start_core.machine.dreeam.StarTDreeamMachines;
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
 import com.startechnology.start_core.machine.drum.StarTDrumMachines;
 import com.startechnology.start_core.machine.fusion.StarTFusionMachines;
@@ -57,5 +58,6 @@ public class StarTMachines {
         StarTArborealExtractorMachines.init();
         StarTHPCAMachines.init();
         StarTClimateHatches.init();
+        StarTDreeamMachines.init();
     }
 }
