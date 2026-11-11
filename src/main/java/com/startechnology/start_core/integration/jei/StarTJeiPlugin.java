@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.integration.jei.recipe.GTRecipeJEICategory;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gcrop.StarTGCropGenome;
 import com.startechnology.start_core.api.gcrop.StarTGCropTrait;
+import com.startechnology.start_core.item.claw.StarTClawExamples;
 import com.startechnology.start_core.machine.bacteria.StarTBacteriaMachines;
 import com.startechnology.start_core.machine.gcrop.*;
 import com.startechnology.start_core.machine.drills.StarTDrillingRigs;
@@ -17,6 +18,7 @@ import com.startechnology.start_core.machine.solar.StarTSolarMachines;
 import com.startechnology.start_core.recipe.StarTRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -28,6 +30,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+
+import java.util.ArrayList;
 
 import static com.startechnology.start_core.item.gcrops.StarTTraitItems.DNA_STRANDS;
 
@@ -52,6 +57,7 @@ public class StarTJeiPlugin implements IModPlugin {
     public void registerRecipes(IRecipeRegistration registration) {
         if (!GTCEu.Mods.isEMILoaded()) {
             CBMicroblockRecipes.registerRecipes(registration);
+            registration.addRecipes(RecipeTypes.CRAFTING, new ArrayList<CraftingRecipe>(StarTClawExamples.create()));
             registerTraitDescriptions(registration);
         }
     }

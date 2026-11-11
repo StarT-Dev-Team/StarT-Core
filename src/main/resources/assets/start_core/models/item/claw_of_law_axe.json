@@ -1,0 +1,20 @@
+{
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "start_core:item/claw_of_law_gui_axe"
+  },
+  "perspectives": {
+    "thirdperson_righthand": {
+      "parent": "start_core:item/claw_of_law_hand_hidden"
+    },
+    "thirdperson_lefthand": {
+      "parent": "start_core:item/claw_of_law_hand_hidden"
+    },
+    "firstperson_righthand": {
+      "parent": "start_core:item/claw_of_law_hand_hidden"
+    },
+    "firstperson_lefthand": {
+      "parent": "start_core:item/claw_of_law_hand_hidden"
+    }
+  }
+}

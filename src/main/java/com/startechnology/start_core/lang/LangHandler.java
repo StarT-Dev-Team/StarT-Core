@@ -781,6 +781,34 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
+
+        provider.add("item.start_core.claw_of_law.mode.none", "None");
+        provider.add("item.start_core.claw_of_law.mode.pickaxe", "Pickaxe");
+        provider.add("item.start_core.claw_of_law.mode.axe", "Axe");
+        provider.add("item.start_core.claw_of_law.mode.shovel", "Shovel");
+        provider.add("item.start_core.claw_of_law.mode.hoe", "Hoe");
+        provider.add("item.start_core.claw_of_law.mode.saw", "Saw");
+        provider.add("item.start_core.claw_of_law.mode.screwdriver", "Screwdriver");
+        provider.add("item.start_core.claw_of_law.mode.wrench", "Wrench");
+        provider.add("item.start_core.claw_of_law.mode.soft_mallet", "Soft Mallet");
+        provider.add("item.start_core.claw_of_law.mode.hard_hammer", "Hammer");
+        provider.add("item.start_core.claw_of_law.mode.crowbar", "Crowbar");
+        provider.add("item.start_core.claw_of_law.mode.wire_cutter", "Wire Cutter");
+        provider.add("item.start_core.claw_of_law.mode.knife", "Knife");
+        provider.add("item.start_core.claw_of_law.mode.sword", "Sword");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.description",
+                "§6§lOne Claw to Rule Them All",
+                "§7One Claw to dig them, one Claw to bash them all",
+                "§7and in your pocket bind them.",
+                "§7The §dLaw§7 came later, from the first block that argued.");
+        provider.add("item.start_core.claw_of_law.tooltip.mode", "Mode: %s");
+        provider.add("item.start_core.claw_of_law.tooltip.action_cost",
+                "§aCost per Action: §f%s EU (%s§f)");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.hotkey",
+                "§7Press %1$s§7 for the fitting or next tool.",
+                "§7Press %2$s§7 + %1$s§7 for the previous one.",
+                "§7Hold %1$s§7 to open the selection menu.");
+        provider.add("key.start_core.claw_cycle", "Cycle Claw Mode");
     }
 
     /**
