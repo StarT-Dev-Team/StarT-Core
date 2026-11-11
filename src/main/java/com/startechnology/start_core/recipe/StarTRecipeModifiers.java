@@ -17,6 +17,7 @@ import com.startechnology.start_core.machine.compound_generator.CompoundGenerato
 import com.startechnology.start_core.machine.bulking.BulkingType;
 import com.startechnology.start_core.machine.bulking.IBulking;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
+import com.startechnology.start_core.machine.heat_chamber.HeatChamberMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.steam.StarTSteamParallelMultiblockMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
@@ -158,4 +159,7 @@ public class StarTRecipeModifiers {
             "reflector_fusion_reactor", ReflectorFusionReactorMachine::recipeModifier);
 
     public static final RecipeModifier COMPOUND_GENERATOR = CompoundGeneratorMachine::recipeModifier;
+
+    public static final RecipeModifier HEAT_CHAMBER = new IdentifiedRecipeModifier("heat_chamber",
+            HeatChamberMachine::recipeModifier);
 }
