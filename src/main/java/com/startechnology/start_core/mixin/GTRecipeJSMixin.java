@@ -27,6 +27,11 @@ public abstract class GTRecipeJSMixin {
     }
 
     @Unique
+    public GTRecipeSchema.GTRecipeJS kjs$minTemp(int temp) {
+        return addData("min_temp", temp);
+    }
+
+    @Unique
     public GTRecipeSchema.GTRecipeJS kjs$addDataInt(String key, int value) {
         return addData(key, value);
     }

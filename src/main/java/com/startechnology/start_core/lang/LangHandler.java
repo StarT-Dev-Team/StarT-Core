@@ -781,6 +781,23 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
+
+        provider.add("gtceu.heat_chamber", "Heat Chamber");
+        provider.add("start_core.recipe.min_temp", "Min Temperature: §e%s K§r");
+        provider.add("ui.start_core.heat_chamber.status", "Status: %s");
+        provider.add("ui.start_core.heat_chamber.temperature", "Temperature: %s");
+        provider.add("ui.start_core.heat_chamber.target_temperature", "Target Temperature: %s");
+        provider.add("ui.start_core.heat_chamber.rate", "Rate: %s");
+        provider.add("ui.start_core.heat_chamber.status.idle", "Idle");
+        provider.add("ui.start_core.heat_chamber.status.heating", "Heating");
+        provider.add("ui.start_core.heat_chamber.status.working", "Working");
+        provider.add("ui.start_core.heat_chamber.status.cooling", "Cooling");
+        provider.add("config.jade.plugin_start_core.heat_chamber_info",
+                "[Star Technology] Heat Chamber Info");
+        provider.add("variadic.start_core.indicator.heat_chamber.temp_to_target",
+                "Percentage to Target Temperature");
+        provider.add("variadic.start_core.description.heat_chamber.temp_to_target",
+                "A clamped value between 0-15 of the progress from base temperature to target recipe temperature");
     }
 
     /**

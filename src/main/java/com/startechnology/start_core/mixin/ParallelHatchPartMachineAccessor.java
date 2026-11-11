@@ -9,4 +9,7 @@ public interface ParallelHatchPartMachineAccessor {
 
     @Accessor("maxParallel")
     void start_core$maxParallel(int maxParallel);
+
+    @Accessor("maxParallel")
+    int start_core$getMaxParallel();
 }
