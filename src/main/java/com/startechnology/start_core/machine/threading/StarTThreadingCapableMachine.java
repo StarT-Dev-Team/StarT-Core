@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.util.PatternMatchContext;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
@@ -26,12 +27,12 @@ import com.startechnology.start_core.recipe.StarTParallelTypes;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lombok.Getter;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -40,6 +41,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTThreadingCapableMachine.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
 
     @Getter
     private final HashMap<String, StarTThreadingStatsPredicate.ThreadingStatsBlockTracker> stats;
@@ -83,7 +89,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     @Persisted
     @DescSynced
     @Getter
-    private List<ThreadedRecipeExecution> activeThreads;
+    private @NotNull List<ThreadedRecipeExecution> activeThreads;
     protected TickableSubscription threadTickableSubscription;
 
     public StarTThreadingCapableMachine(IMachineBlockEntity holder, Object... args) {
@@ -107,6 +113,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         this.efficiency = 0;
         this.parallels = 0;
         this.threading = 0;
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull ... args) {
+        return new ThreadingRecipeLogic(this);
     }
 
     public void ensureAssignment() {
@@ -290,7 +301,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public String[] getStatTypes() {
-        return new String[] { "speed", "efficiency", "parallels", "threading" };
+        return new String[]{"speed", "efficiency", "parallels", "threading"};
     }
 
     public void increaseStats(StarTThreadingStatsPredicate.ThreadingStatsBlockTracker stats) {
@@ -302,7 +313,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public void updateStats() {
-        if (this.getLevel().isClientSide) {
+        if (isRemote()) {
             return;
         }
 
@@ -327,14 +338,14 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         int speedPoints = getEffectiveDurationReduction();
         double amountSpdMark = (double) speedPoints / spdPointsPerMark;
         double timesDurationHalved = (-1 + Math.sqrt(1 + 8 * amountSpdMark)) / 2; // to reach each halving you need sum
-                                                                                  // of that metric, example 6 points
-                                                                                  // for 1/8, 6 = sum(3), 1/8 = 2^-3
+        // of that metric, example 6 points
+        // for 1/8, 6 = sum(3), 1/8 = 2^-3
         return Math.pow(2, -1 * timesDurationHalved);
     }
 
     private double calculateEnergyMultiplier() {
         int effPointsPerMark = 30; // 1 more thread worth of efficiency per 30 points (linearly scales efficiency to get
-                                   // threads since EUt cost scales linearly)
+        // threads since EUt cost scales linearly)
         int efficiencyPoints = getEffectivePowerReduction();
         return (double) effPointsPerMark / (effPointsPerMark + efficiencyPoints);
     }
@@ -346,7 +357,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             double durationMultiplier = controller.calculateDurationMultiplier();
             double energyMultiplier = controller.calculateEnergyMultiplier();
 
-            double finalDurationMultiplier = durationMultiplier * Math.sqrt((int) parallels);
+            double finalDurationMultiplier = durationMultiplier * Math.sqrt(parallels);
 
             return ModifierFunction.builder()
                     .modifyAllContents(ContentModifier.multiplier(parallels))
@@ -397,7 +408,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     public void onLoad() {
         super.onLoad();
 
-        if (getLevel().isClientSide) {
+        if (isRemote()) {
             return;
         }
 
@@ -415,7 +426,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
-    public void addDisplayText(List<Component> textList) {
+    public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
         if (isFormed()) {
@@ -454,46 +465,44 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         }
     }
 
-    private List<GTRecipe> findThreadedRecipes() {
-        int maxThreads = getEffectiveThreads();
-        if (maxThreads < 1 || recipeLogic == null) {
-            return List.of();
-        }
-
-        int availableThreads = maxThreads - (activeThreads != null ? activeThreads.size() : 0);
-        if (availableThreads <= 0) {
-            return List.of();
-        }
-
+    private Set<GTRecipe> findAllowedThreadingRecipes() {
         var recipeType = recipeLogic.machine.getRecipeType();
+        var excludedIds = new HashSet<>(activeThreads.size() + 1);
 
-        Set<ResourceLocation> excludedIds = new HashSet<>(maxThreads + 4);
-
-        GTRecipe lastRecipe = recipeLogic.getLastRecipe();
+        var lastRecipe = recipeLogic.getLastRecipe();
         if (lastRecipe != null) {
             excludedIds.add(lastRecipe.getId());
         }
 
-        if (activeThreads != null && !activeThreads.isEmpty()) {
-            for (ThreadedRecipeExecution thread : activeThreads) {
-                GTRecipe r = thread.recipe;
-                if (r != null) {
-                    excludedIds.add(r.getId());
-                }
-            }
+        for (var thread : activeThreads) {
+            if (thread.recipe == null) continue;
+            excludedIds.add(thread.recipe.getId());
         }
 
-        Set<GTRecipe> allMatches = recipeType.getLookup().findRecipeCollisions(recipeLogic.machine);
-        if (allMatches == null || allMatches.isEmpty()) {
+        var allMatches = recipeType.getLookup().findRecipeCollisions(recipeLogic.machine);
+        if (allMatches == null) {
+            return Collections.emptySet();
+        }
+
+        allMatches.removeIf(recipe -> recipe == null || excludedIds.contains(recipe.getId()));
+        return allMatches;
+    }
+
+    private List<GTRecipe> findThreadedRecipes() {
+        var maxThreads = getEffectiveThreads();
+        if (maxThreads < 1 || recipeLogic == null) {
             return List.of();
         }
 
-        List<GTRecipe> result = new ArrayList<>(Math.min(availableThreads, allMatches.size()));
-        for (GTRecipe candidate : allMatches) {
-            if (candidate == null) continue;
-            ResourceLocation id = candidate.getId();
-            if (excludedIds.contains(id)) continue;
+        var availableThreads = maxThreads - activeThreads.size();
+        if (availableThreads <= 0) {
+            return List.of();
+        }
 
+        var allMatches = findAllowedThreadingRecipes();
+
+        var result = new ArrayList<GTRecipe>(Math.min(availableThreads, allMatches.size()));
+        for (GTRecipe candidate : allMatches) {
             if (canConsumeRecipeInputs(candidate)) {
                 result.add(candidate);
                 if (result.size() >= availableThreads) break;
@@ -517,11 +526,11 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     private void tickThreads() {
-        if (!this.isWorkingEnabled() || this.getLevel().isClientSide || !isFormed()) {
+        if (!this.isWorkingEnabled() || isRemote() || !isFormed()) {
             return;
         }
 
-        if (activeThreads != null && !activeThreads.isEmpty()) {
+        if (!activeThreads.isEmpty()) {
             List<ThreadedRecipeExecution> completedThreads = new ArrayList<>();
 
             for (ThreadedRecipeExecution thread : activeThreads) {
@@ -561,17 +570,13 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         }
 
         for (GTRecipe recipe : recipes) {
-            if (!canConsumeRecipeInputs(recipe)) {
-                continue;
-            }
-
             GTRecipe modifiedRecipe = this.fullModifyRecipe(recipe);
 
             try {
                 consumeRecipeInputs(modifiedRecipe);
                 activeThreads.add(new ThreadedRecipeExecution(modifiedRecipe, modifiedRecipe.duration));
             } catch (Exception e) {
-                continue;
+                // ignored
             }
         }
     }
@@ -595,14 +600,12 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     public void afterWorking() {
         super.afterWorking();
 
-        if (this.getLevel().isClientSide) {
+        if (isRemote()) {
             return;
         }
 
-        if (this.recipeLogic.getProgress() == 0) {
-            if (activeThreads != null) {
-                activeThreads.clear();
-            }
+        if (recipeLogic.getProgress() == 0) {
+            activeThreads.clear();
         }
     }
 
@@ -663,8 +666,24 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
         }
     }
 
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
+    private static class ThreadingRecipeLogic extends RecipeLogic {
+
+        private final StarTThreadingCapableMachine machine;
+
+        public ThreadingRecipeLogic(StarTThreadingCapableMachine machine) {
+            super(machine);
+            this.machine = machine;
+        }
+
+        @Override
+        public void setupRecipe(GTRecipe recipe) {
+            super.setupRecipe(recipe);
+            markLastRecipeDirty();
+        }
+
+        @Override
+        public @NotNull Iterator<GTRecipe> searchRecipe() {
+            return machine.findAllowedThreadingRecipes().iterator();
+        }
     }
 }
