@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "start_core:item/coordinate_crystals/abydos_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 1.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/nether_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 2.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/end_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 3.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/lantea_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 4.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/cavum_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 5.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/sea_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 6.0
+      }
+    },
+    {
+      "model": "start_core:item/coordinate_crystals/void_coordinate_crystal",
+      "predicate": {
+        "start_core:crystal_variant": 7.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "start_core:item/coordinate_crystals/blank_coordinate_crystal"
+  }
+}

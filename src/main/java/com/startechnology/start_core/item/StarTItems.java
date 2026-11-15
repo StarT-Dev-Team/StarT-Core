@@ -17,7 +17,9 @@ import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.item.components.CopyBehavior;
+import com.startechnology.start_core.item.components.StarTCoordinateCrystalBehaviour;
 import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
 import com.startechnology.start_core.item.gcrops.*;
 import com.tterrag.registrate.providers.ProviderType;
@@ -26,6 +28,7 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidType;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
@@ -81,6 +84,59 @@ public class StarTItems {
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
                         GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
             })))
+            .register();
+
+    public static final ItemEntry<StarTCoordinateCrystalItem> COORDINATE_CRYSTAL = START_REGISTRATE
+            .item("coordinate_crystal", StarTCoordinateCrystalItem::create)
+            .lang("Coordinate Crystal")
+            .onRegister(attach(new StarTCoordinateCrystalBehaviour()))
+            .model((ctx, prov) -> {
+                ResourceLocation prop = StarTCore.resourceLocation("crystal_variant");
+
+                var abydosModel = prov.withExistingParent("item/coordinate_crystals/abydos_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/abydos_coordinate_crystal"));
+
+                var netherModel = prov.withExistingParent("item/coordinate_crystals/nether_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/nether_coordinate_crystal"));
+
+                var endModel = prov.withExistingParent("item/coordinate_crystals/end_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/end_coordinate_crystal"));
+
+                var lanteaModel = prov.withExistingParent("item/coordinate_crystals/lantea_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/lantea_coordinate_crystal"));
+
+                var cavumModel = prov.withExistingParent("item/coordinate_crystals/cavum_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/cavum_coordinate_crystal"));
+
+                var seaModel = prov.withExistingParent("item/coordinate_crystals/sea_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/sea_coordinate_crystal"));
+
+                var voidModel = prov.withExistingParent("item/coordinate_crystals/void_coordinate_crystal",
+                        prov.mcLoc("item/generated"))
+                        .texture("layer0",
+                                StarTCore.resourceLocation("item/coordinate_crystals/void_coordinate_crystal"));
+
+                prov.generated(ctx, StarTCore.resourceLocation("item/coordinate_crystals/blank_coordinate_crystal"))
+                        .override().predicate(prop, 1.0f).model(abydosModel).end()
+                        .override().predicate(prop, 2.0f).model(netherModel).end()
+                        .override().predicate(prop, 3.0f).model(endModel).end()
+                        .override().predicate(prop, 4.0f).model(lanteaModel).end()
+                        .override().predicate(prop, 5.0f).model(cavumModel).end()
+                        .override().predicate(prop, 6.0f).model(seaModel).end()
+                        .override().predicate(prop, 7.0f).model(voidModel).end();
+            })
             .register();
 
     public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(

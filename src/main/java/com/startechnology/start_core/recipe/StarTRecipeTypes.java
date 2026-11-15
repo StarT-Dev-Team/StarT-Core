@@ -248,5 +248,14 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
             .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
 
+    public static final GTRecipeType DIMENSIONAL_FINDER_RECIPES = GTRecipeTypes
+            .register("dimensional_finder", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 1, 1, 0)
+            .setMaxTooltips(4)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COMPUTATION)
+            .addCustomRecipeLogic(new DimensionalFinderLogic());
+
     public static void init() {}
 }
