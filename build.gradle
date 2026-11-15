@@ -225,6 +225,7 @@ dependencies {
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
+    modImplementation("dev.ftb.mods:ftb-chunks-forge:2001.3.8")
     modImplementation("dev.ftb.mods:ftb-ultimine-forge:2001.1.8")
     modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$gtceuVersion") { transitive = false }
     modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }

@@ -781,6 +781,52 @@ public class LangHandler {
         provider.add("gtceu.parallel_type.compound_generator", "- %dx from Compound Generation");
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
+
+        provider.add("start.multiblock_contest.1M.top_5",
+                "§7Made by Multiblock Genius %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_10",
+                "§7Made by Multiblock Architect %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_15",
+                "§7Made by Multiblock Engineer %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_20",
+                "§7Made by Multiblock Designer %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_25",
+                "§7Made by Multiblock Specialist %s§7 for the 1 million downloads Multiblock Contest");
+
+        multiLang(provider, "start_core.machine.dreeam.tooltip",
+                "§7Carries energy between dimensions along a runic channel to a linked partner machine.",
+                "§bTransfer Information:",
+                "§7Laser Target Hatches make it a transmitter. Laser Source Hatches make it a receiver. Use one hatch type per machine.",
+                "§7The machine sends energy one way at §d1:1 §7and consumes §d1% §7of it.",
+                "§eLink Information:",
+                "§7Place one Quantum Entangled Singularity from a pair in each DREEAM to link them.",
+                "§7The singularity stays locked while the machine runs.",
+                "§7Both machines must be loaded to transfer energy.");
+        provider.add("start_core.machine.dreeam.role.none", "§cNo laser hatches");
+        provider.add("start_core.machine.dreeam.role.transmitter", "§bTransmitter");
+        provider.add("start_core.machine.dreeam.role.receiver", "§aReceiver");
+        provider.add("start_core.machine.dreeam.role.mixed", "§cSource and target hatches cannot share a machine");
+        provider.add("start_core.machine.dreeam.slot_locked", "§7The singularity stays locked while the machine runs");
+        provider.add("start_core.machine.dreeam.state.unlinked", "§6Singularity slot empty");
+        provider.add("start_core.machine.dreeam.state.waiting", "§6Waiting for partner");
+        provider.add("start_core.machine.dreeam.state.linked", "§dLinked");
+        provider.add("start_core.machine.dreeam.state.same_role", "§cPartner has the same role");
+        provider.add("start_core.machine.dreeam.state.too_many", "§cMore than two machines share this link");
+        provider.add("config.jade.plugin_start_core.dreeam_link_info", "[Star Technology] DREEAM Link Info");
+        provider.add("start_core.machine.dreeam.buffer", "§7Energy Buffer: %s §7EU");
+        provider.add("start_core.machine.dreeam.role.hover",
+                "The laser hatches decide the role. Target hatches transmit and source hatches receive.");
+        provider.add("start_core.machine.dreeam.state.hover",
+                "Shows whether a machine with the matching singularity is linked to this one.");
+        provider.add("start_core.machine.dreeam.output_per_sec.hover",
+                "EU sent to the linked machine in the last second, shown per tick.");
+        provider.add("start_core.machine.dreeam.input_per_sec.hover",
+                "EU received from the linked machine in the last second, shown per tick.");
+        provider.add("start_core.machine.dreeam.buffer.hover", "EU stored in the laser hatches of this machine.");
+        provider.add("start_core.machine.dreeam.slot_locked.hover",
+                "Pause the machine with a soft mallet or break the structure to change the singularity.");
+        provider.add("start_core.machine.dreeam.slot.hover",
+                "Holds one Quantum Entangled Singularity. Put its partner in the linked machine.");
     }
 
     /**
