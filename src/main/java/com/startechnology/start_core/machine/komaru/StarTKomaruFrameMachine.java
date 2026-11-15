@@ -346,7 +346,7 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
     }
 
     protected void tryTransferTerminalEnergy() {
-        if (checkOffset(100)) {
+        if (checkOffset(50)) {
             transferModuleInterfacesTick();
         }
     }

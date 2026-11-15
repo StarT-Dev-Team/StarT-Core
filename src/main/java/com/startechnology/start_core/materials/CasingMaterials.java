@@ -33,6 +33,7 @@ public class CasingMaterials {
 
         Birmabright = registerGTCEuMaterial("birmabright")
                 .ingot()
+                .fluid()
                 .components(Aluminium, 7, Magnesium, 2, Manganese, 1)
                 .color(0xbfbfbf)
                 .iconSet(DULL)
@@ -42,6 +43,7 @@ public class CasingMaterials {
 
         Duralumin = registerGTCEuMaterial("duralumin")
                 .ingot()
+                .fluid()
                 .components(Aluminium, 4, Copper, 3, Magnesium, 1,
                         Manganese, 1)
                 .color(0x66ccff)
@@ -52,6 +54,7 @@ public class CasingMaterials {
 
         Hydronalium = registerGTCEuMaterial("hydronalium")
                 .ingot()
+                .fluid()
                 .components(Aluminium, 6, Magnesium, 3, Manganese, 1)
                 .color(0x660000)
                 .iconSet(DULL)
@@ -62,6 +65,7 @@ public class CasingMaterials {
         BerylliumAluminiumAlloy = registerGTCEuMaterial("beryllium_aluminium_alloy")
                 .langValue("Beryllium-Aluminium Alloy")
                 .ingot()
+                .fluid()
                 .components(Beryllium, 7, Aluminium, 1)
                 .color(0x006699)
                 .iconSet(DULL)
@@ -71,6 +75,7 @@ public class CasingMaterials {
 
         Elgiloy = registerGTCEuMaterial("elgiloy")
                 .ingot()
+                .fluid()
                 .components(Cobalt, 4, Chromium, 2, Nickel, 1, Steel, 1,
                         Molybdenum, 1, Manganese, 1)
                 .color(0xff00ff)
@@ -81,6 +86,7 @@ public class CasingMaterials {
 
         BerylliumBronze = registerGTCEuMaterial("beryllium_bronze")
                 .ingot()
+                .fluid()
                 .components(Copper, 10, Beryllium, 1)
                 .color(0x003300)
                 .iconSet(DULL)
@@ -90,6 +96,7 @@ public class CasingMaterials {
 
         SiliconBronze = registerGTCEuMaterial("silicon_bronze")
                 .ingot()
+                .fluid()
                 .components(Copper, 32, Silicon, 2, Manganese, 1)
                 .color(0x1a1a1a)
                 .iconSet(DULL)
@@ -99,6 +106,7 @@ public class CasingMaterials {
 
         Kovar = registerGTCEuMaterial("kovar")
                 .ingot()
+                .fluid()
                 .components(Iron, 18, Nickel, 11, Cobalt, 6)
                 .color(0x000080)
                 .iconSet(DULL)
@@ -108,6 +116,7 @@ public class CasingMaterials {
 
         Zamak = registerGTCEuMaterial("zamak")
                 .ingot()
+                .fluid()
                 .components(Zinc, 1, Aluminium, 4, Copper, 3)
                 .color(0x8c8c8c)
                 .iconSet(DULL)
@@ -117,6 +126,7 @@ public class CasingMaterials {
 
         Tumbaga = registerGTCEuMaterial("tumbaga")
                 .ingot()
+                .fluid()
                 .components(Copper, 20, Gold, 6, Silver, 1)
                 .color(0xffdb4d)
                 .iconSet(DULL)
@@ -126,6 +136,7 @@ public class CasingMaterials {
 
         Manganin = registerGTCEuMaterial("manganin")
                 .ingot()
+                .fluid()
                 .components(Copper, 20, Manganese, 6, Nickel, 1)
                 .color(0xf8aa92)
                 .iconSet(DULL)
@@ -135,6 +146,7 @@ public class CasingMaterials {
 
         GalvanizedSteel = registerGTCEuMaterial("galvanized_steel")
                 .ingot()
+                .fluid()
                 .components(Steel, 7, Zinc, 1)
                 .color(0x999999)
                 .iconSet(DULL)
