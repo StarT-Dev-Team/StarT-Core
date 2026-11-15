@@ -19,6 +19,8 @@ import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
 import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPlugin;
 import com.startechnology.start_core.item.StarTItems;
+import com.startechnology.start_core.item.claw.StarTClawKeyMappings;
+import com.startechnology.start_core.item.claw.StarTClawRecipes;
 import com.startechnology.start_core.item.curios.LucinducerCurioItem;
 import com.startechnology.start_core.lang.LangHandler;
 import com.startechnology.start_core.machine.StarTMachines;
@@ -75,8 +77,11 @@ public class StarTCore {
         StarTDimensionalFinderData.init();
 
         StarTCreativeTab.init();
+        StarTClawKeyMappings.init();
         START_REGISTRATE.creativeModeTab(() -> StarTCreativeTab.START_CORE);
         START_REGISTRATE.addDataGenerator(ProviderType.LANG, LangHandler::init);
+
+        StarTClawRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
