@@ -30,9 +30,6 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
     @Shadow
     @Final
     private InternalInventory internalPatternInventory;
-    @Shadow
-    @Final
-    protected static int MAX_PATTERN_COUNT;
 
     @Unique
     private final String start$nbtPatterns = "patterns";
@@ -50,14 +47,15 @@ public class MEPatternBufferPartMachineMixin extends MEBusPartMachine implements
         if (tag == null || !tag.contains(start$nbtPatterns)) return InteractionResult.PASS;
         if (!this.isRemote()) {
             this.start$clearPatternInventory(player);
-            var desiredPatterns = new CustomItemStackHandler(MAX_PATTERN_COUNT);
+            var desiredPatterns = new CustomItemStackHandler(this.patternInventory.getSlots());
             desiredPatterns.deserializeNBT(tag.getCompound(start$nbtPatterns));
             var playerInv = player.getInventory();
             var blankPatternsAvailable = player.getAbilities().instabuild ? Integer.MAX_VALUE :
                     playerInv.countItem(AEItems.BLANK_PATTERN.asItem());
             var blankPatternsUsed = 0;
 
-            for (int slot = 0; slot < desiredPatterns.getSlots(); ++slot) {
+            var slotsToPaste = Math.min(desiredPatterns.getSlots(), this.patternInventory.getSlots());
+            for (int slot = 0; slot < slotsToPaste; ++slot) {
                 var pattern = PatternDetailsHelper.decodePattern(desiredPatterns.getStackInSlot(slot), this.getLevel(),
                         true);
                 if (pattern != null) {

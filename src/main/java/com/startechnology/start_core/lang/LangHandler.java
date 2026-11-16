@@ -452,6 +452,7 @@ public class LangHandler {
         provider.add("item.start_core.mechanical_memory_card.tooltip.supported", " - §b%s");
 
         provider.add("gui.start_core.tooltips.fluid_output_hatches", "Fluid Output Hatches");
+        provider.add("gui.start_core.tooltips.me_pattern_buffers", "ME Pattern Buffers");
 
         provider.add("start_core.mechanical_memory_card.copy_settings", "Saved settings to Mechanical Memory Card");
         provider.add("start_core.mechanical_memory_card.paste_settings",
@@ -809,7 +810,7 @@ public class LangHandler {
                 "§7Press %2$s§7 + %1$s§7 for the previous one.",
                 "§7Hold %1$s§7 to open the selection menu.");
         provider.add("key.start_core.claw_cycle", "Cycle Claw Mode");
-      
+
         provider.add("start.multiblock_contest.1M.top_5",
                 "§7Made by Multiblock Genius %s§7 for the 1 million downloads Multiblock Contest");
         provider.add("start.multiblock_contest.1M.top_10",
