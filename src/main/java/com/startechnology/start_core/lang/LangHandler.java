@@ -452,6 +452,7 @@ public class LangHandler {
         provider.add("item.start_core.mechanical_memory_card.tooltip.supported", " - §b%s");
 
         provider.add("gui.start_core.tooltips.fluid_output_hatches", "Fluid Output Hatches");
+        provider.add("gui.start_core.tooltips.me_pattern_buffers", "ME Pattern Buffers");
 
         provider.add("start_core.mechanical_memory_card.copy_settings", "Saved settings to Mechanical Memory Card");
         provider.add("start_core.mechanical_memory_card.paste_settings",

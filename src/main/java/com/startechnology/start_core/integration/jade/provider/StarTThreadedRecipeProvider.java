@@ -67,9 +67,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
     @Override
     protected @Nullable StarTThreadingCapableMachine getCapability(Level level, BlockPos pos,
                                                                    @Nullable Direction side) {
-        var capability = StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
-
-        return capability;
+        return StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
     }
 
     @Override
@@ -77,7 +75,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
         int threadIndex = 0;
         for (var threadExecutionContext : capability.getActiveThreads()) {
             GTRecipe recipe = threadExecutionContext.recipe;
-            String threadPrefix = "thread_" + threadIndex;
+            String threadPrefix = "thread" + threadIndex + "_";
 
             if (recipe != null) {
                 int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);
@@ -119,7 +117,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 }
 
                 if (!itemTags.isEmpty()) {
-                    data.put("OutputItems", itemTags);
+                    data.put(threadPrefix + "OutputItems", itemTags);
                 }
 
                 ListTag fluidTags = new ListTag();
@@ -157,14 +155,14 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 }
 
                 if (!fluidTags.isEmpty()) {
-                    data.put("OutputFluids", fluidTags);
+                    data.put(threadPrefix + "OutputFluids", fluidTags);
                 }
 
                 var EUt = RecipeHelper.getRealEUtWithIO(recipe);
 
-                data.putLong("EUt", EUt.getTotalEU());
-                data.putLong("voltage", getVoltage(capability));
-                data.putBoolean("isInput", EUt.isInput());
+                data.putLong(threadPrefix + "EUt", EUt.getTotalEU());
+                data.putLong(threadPrefix + "voltage", getVoltage(capability));
+                data.putBoolean(threadPrefix + "isInput", EUt.isInput());
                 data.putBoolean(threadPrefix + "isWorking", threadExecutionContext.isWorking);
 
                 data.putInt(threadPrefix + "Progress",
@@ -181,11 +179,11 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
         int threadAmount = capData.getInt("thread_amount");
-        for (int i = 0; i < threadAmount; i++) {
+        for (int threadIndex = 0; threadIndex < threadAmount; threadIndex++) {
             tooltip.add(Component
                     .translatable("start_core.machine.threading_controller.jade_thread_header",
-                            Component.literal(FormattingUtil.formatNumbers(i + 1)).withStyle(ChatFormatting.GOLD)));
-            String threadPrefix = "thread_" + i;
+                            Component.literal(FormattingUtil.formatNumbers(threadIndex + 1)).withStyle(ChatFormatting.GOLD)));
+            String threadPrefix = "thread" + threadIndex + "_";
 
             // WORKABLE PROVIDER
             int currentProgress = capData.getInt(threadPrefix + "Progress");
@@ -200,7 +198,7 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             }
 
             if (maxProgress > 0) {
-                int color = StarTColorUtils.generateThreadColor(i);
+                int color = StarTColorUtils.generateThreadColor(threadIndex);
                 tooltip.add(
                         tooltip.getElementHelper().progress(
                                 getProgress(currentProgress, maxProgress),
@@ -211,16 +209,16 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             }
 
             /* EU/T Display */
-            var EUt = capData.getLong("EUt");
+            var EUt = capData.getLong(threadPrefix + "EUt");
             MutableComponent euTText = StarTJadeUtils.euTDisplay(EUt, blockEntity);
             tooltip.add(Component.translatable(
-                    (capData.getBoolean("isInput")) ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
+                    (capData.getBoolean(threadPrefix + "isInput")) ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
                     .append(" ").append(euTText));
 
             /* Recipe items add tooltip */
             List<Ingredient> outputItems = new ArrayList<>();
-            if (capData.contains("OutputItems", Tag.TAG_LIST)) {
-                ListTag itemTags = capData.getList("OutputItems", Tag.TAG_COMPOUND);
+            if (capData.contains(threadPrefix + "OutputItems", Tag.TAG_LIST)) {
+                ListTag itemTags = capData.getList(threadPrefix + "OutputItems", Tag.TAG_COMPOUND);
                 if (!itemTags.isEmpty()) {
                     for (Tag tag : itemTags) {
                         if (tag instanceof CompoundTag tCompoundTag) {
@@ -239,8 +237,8 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
                 }
             }
             List<FluidIngredient> outputFluids = new ArrayList<>();
-            if (capData.contains("OutputFluids", Tag.TAG_LIST)) {
-                ListTag fluidTags = capData.getList("OutputFluids", Tag.TAG_COMPOUND);
+            if (capData.contains(threadPrefix + "OutputFluids", Tag.TAG_LIST)) {
+                ListTag fluidTags = capData.getList(threadPrefix + "OutputFluids", Tag.TAG_COMPOUND);
                 for (Tag tag : fluidTags) {
                     if (tag instanceof CompoundTag tCompoundTag) {
                         if (tCompoundTag.contains("count_provider")) {
