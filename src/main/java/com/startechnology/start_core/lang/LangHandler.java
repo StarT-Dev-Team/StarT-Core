@@ -599,9 +599,9 @@ public class LangHandler {
                 "§7Each §6K.O.M.A.R.U§7 has the ability to store 4 Advanced Modules and 20 Basic Modules. Each Basic Module is overclocked to 1/64th of the amperage input up to §f64§eA§7. Each Advanced Module is overclocked to 1/16th of the amperage input up to §f256§eA§7. To achieve this §6K.O.M.A.R.U§7 accepts §dLaser Hatches§7.");
         provider.add("block.start_core.komaru.paginated2.3", "§d§lFaetic Scaling");
         provider.add("block.start_core.komaru.paginated2.4",
-                "§7Compromised of the product of §dFaetic Scaling§7 and §9Modular Efficiency§7 where:");
+                "§7Comprised of the product of §dFaetic Power§7 and §9Modular Efficiency§7 where:");
         provider.add("block.start_core.komaru.paginated2.5",
-                "    §dFaetic Scaling§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
+                "    §dFaetic Power§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
         provider.add("block.start_core.komaru.paginated2.6",
                 "    §9Modular Efficiency§7 = 0.99 ^ ([Number of Basic Modules]) * 0.98 ^ ([Number of Advanced Modules])");
 
