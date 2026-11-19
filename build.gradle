@@ -25,6 +25,7 @@ def useSnapshot = project.hasProperty("gtceu_snapshot") ? Boolean.parseBoolean(p
 ext.gtceuVersion = useSnapshot ? "${project.gtceu_version}-SNAPSHOT" : project.gtceu_version
 
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
+apply from: "$rootDir/gradle/scripts/kubejs.gradle"
 
 java {
     sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17

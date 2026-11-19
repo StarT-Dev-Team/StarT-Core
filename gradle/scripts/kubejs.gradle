@@ -1,0 +1,24 @@
+def packRepoUrl = 'https://github.com/StarT-Dev-Team/Star-Technology.git'
+def packBranch = providers.gradleProperty('packBranch').getOrElse('develop')
+def packCache = layout.buildDirectory.dir('pack-repo').get().asFile
+def kubejsTarget = file(providers.gradleProperty('kubejsTarget').getOrElse('run/kubejs'))
+
+tasks.register('fetchPackKubejs') {
+    group = 'start'
+    description = "Replaces ${kubejsTarget} with kubejs from the pack repo (${packBranch})"
+    outputs.upToDateWhen { false }
+    doLast {
+        if (!new File(packCache, '.git').exists()) {
+            project.delete(packCache)
+            project.exec { commandLine 'git', 'clone', '--depth', '1', '--filter=blob:none', '--sparse', '--branch', packBranch, packRepoUrl, packCache.absolutePath }
+            project.exec { commandLine 'git', '-C', packCache.absolutePath, 'sparse-checkout', 'set', 'kubejs' }
+        } else {
+            project.exec { commandLine 'git', '-C', packCache.absolutePath, 'fetch', '--depth', '1', 'origin', packBranch }
+            project.exec { commandLine 'git', '-C', packCache.absolutePath, 'reset', '--hard', 'FETCH_HEAD' }
+        }
+        project.sync {
+            from new File(packCache, 'kubejs')
+            into kubejsTarget
+        }
+    }
+}
