@@ -18,10 +18,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.EMPTY_GENOME_HOLDER;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.FILLED_GENOME_HOLDER;
+import static com.startechnology.start_core.item.gcrops.StarTGCropItems.GCROP_MALFORMED;
 
 public class GenomeInsertionLogic implements ICustomRecipeLogic {
 
+    /**
+     * Scans item handlers for a filled genome holder and a GCrop item to create a genome insertion recipe.
+     *
+     * @param holder the recipe capability holder representing the machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if matching items are not present
+     */
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var itemHandlers = StarTCustomLogicUtils.getItemHandlers(holder);
@@ -32,30 +40,40 @@ public class GenomeInsertionLogic implements ICustomRecipeLogic {
         return createGenomeInsertionRecipe(allItems);
     }
 
+    /**
+     * Inserts the genome stored in a filled genome holder into a GCrop, returning the updated crop
+     * and an empty genome holder.
+     *
+     * @param itemSet the list of available input items
+     * @return the constructed genome insertion {@link GTRecipe}, or {@code null} if inputs are invalid
+     */
     private GTRecipe createGenomeInsertionRecipe(List<ItemStack> itemSet) {
         ItemStack foundHolder = null;
         ItemStack foundGCrop = null;
+        StarTGCropGenome gCropGenome = null;
 
         for (ItemStack item : itemSet) {
-            if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
+            if (item.isEmpty()) continue;
+
+            if (foundGCrop == null && StarTGCropBehaviour.getGCropBehaviour(item) != null) {
                 foundGCrop = item;
-            } else if (StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(item) != null) {
-                foundHolder = item;
+                if (foundHolder != null) break;
+                continue;
+            }
+
+            if (foundHolder == null && StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(item) != null) {
+                StarTGCropGenome genome = StarTGCropManager.gcropGenomeFromTag(item);
+                if (genome != null) {
+                    foundHolder = item;
+                    gCropGenome = genome;
+                    if (foundGCrop != null) break;
+                }
             }
         }
 
-        if (foundHolder == null || foundGCrop == null) return null;
+        if (foundHolder == null || foundGCrop == null || gCropGenome == null) return null;
 
-        StarTGenomeHolderBehaviour holderBehaviour = StarTGenomeHolderBehaviour.getGenomeHolderBehaviour(foundHolder);
-        if (holderBehaviour == null) return null;
-
-        StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(foundHolder);
-        if (gCropGenome == null) return null;
-
-        StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(foundGCrop);
-        if (cropBehaviour == null) return null;
-
-        ItemStack emptyHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
+        ItemStack emptyHolder = EMPTY_GENOME_HOLDER.asStack();
 
         List<StarTGCropGene> existingResourceGenome = gCropGenome.getResourceGenome();
         List<StarTGCropGene> existingProductionGenome = gCropGenome.getProductionGenome();
@@ -81,10 +99,10 @@ public class GenomeInsertionLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack filledGenomeHolder = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack emptyGenomeHolder = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
-        ItemStack gCrop = new ItemStack(GCROP_MALFORMED.asItem());
-        ItemStack newGCrop = new ItemStack(GCROP_MALFORMED.asItem());
+        ItemStack filledGenomeHolder = FILLED_GENOME_HOLDER.asStack();
+        ItemStack emptyGenomeHolder = EMPTY_GENOME_HOLDER.asStack();
+        ItemStack gCrop = GCROP_MALFORMED.asStack();
+        ItemStack newGCrop = GCROP_MALFORMED.asStack();
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
                 "behaviour.start_core.gcrop.random_crop");
