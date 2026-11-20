@@ -240,7 +240,6 @@
   "start_core.machine.dream_link.lucinducer.name": "覚醒誘発器§o コピーされたネットワーク §6{0}",
   "start_core.machine.dream_link.copy_network": "ネットワークを覚醒誘発器に保存した",
   "start_core.machine.dream_link.set_network": "覚醒誘発器からネットワークを適用した",
-  "config.jade.plugin_start_core.dream_link_network_info": "[Star Technology] 夢線ネットワーク情報",
   "start_core.dream_link.cover.tooltip": "§7夢線ネットワークからカバーとして §f2§eA §f%d (%s§f) §7を供給する",
   "item.start_core.max_2a_dream_link_cover_item": "§c§lMAX§r 2§eA§r 夢線エネルギーカバー",
   "item.start_core.opv_2a_dream_link_cover_item": "§9§lOpV§r 2§eA§r 夢線エネルギーカバー",
@@ -304,14 +303,11 @@
   "block.start_core.hellforge_d8": "§7各加熱用液体の温度上限に対する §fパーセンテージ(nMKまで) §7インジケーターを提供する。",
   "block.start_core.hellforge_rm": "§e一括処理§r を搭載",
   "ui.start_core.hellforge_crucible": "§6坩堝温度: §c{0}MK",
-  "config.jade.plugin_start_core.hellforge_heat_info": "[Star Technology] ヘルフォージ坩堝温度情報",
-  "config.jade.plugin_start_core.abyssal_harvester_info": "[Star Technology] アビサルハーベスター・エントロピー",
 
   "block.start_core.redstone_variadic_interface": "§cレッドストーン§r可変長インターフェース",
   "start_core.redstone_hatch.d0": "マルチブロック自動化のためのレッドストーンインジケーターへのアクセスを提供する",
   "start_core.redstone_hatch.d1": "§6機能は接続先のマルチブロックに依存する",
   "start_core.redstone_interface.select": "レッドストーンインジケーターを選択",
-  "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] 可変長レッドストーン情報",
   "ui.start_core.redstone_signal": "§6レッドストーンレベル: §c{0}",
   "ui.start_core.indicator": "§dインジケーター: §f%s",
 
@@ -351,7 +347,6 @@
   "ui.start_core.vcrc.vacuum_status.full_vacuum": "完全真空",
   "ui.start_core.vcrc.vacuum_status.pressure_loss": "圧力損失",
   "ui.start_core.vcrc.vacuum_status.idle": "アイドル",
-  "config.jade.plugin_start_core.vacuum_chemical_reaction_chamber_info": "[Star Technology] 真空化学反応槽情報",
   "start_core.multiblock.pattern.error.vacuumpump": "§cすべての真空ポンプは同じである必要があります§r",
 
   "block.start_core.abydos_marker": "アビドス",
@@ -551,7 +546,6 @@
   "modular.start_core.not_formed_description": "リンクを確立するには、マルチブロックが形成されている必要がある。",
   "modular.start_core.supported_list_description": "このターミナルとリンクして機能を有効にできる、利用可能なマルチブロックタイプだ。",
   "config.jade.plugin_start_core.modular_interface_hatch_part_machine": "[Star Technology] モジュラーインターフェース情報",
-  "config.jade.plugin_start_core.fusion_reactor_info": "[Star Technology] 核融合炉情報",
 
   "variadic.start_core.indicator.default": "クリックして選択（存在する場合）",
   "variadic.start_core.description.default": "このハッチとインターフェースしている形成済みマルチブロックの一部である場合、ここをクリックするとマルチブロック機能のレッドストーンインジケーターを選択するドロップダウンが表示される",
@@ -559,10 +553,6 @@
   "variadic.start_core.description.hellforge": "0-15の間のクランプ値: (現在の温度 / %sMK) * 15",
   "variadic.start_core.indicator.abyssal_harvester": "§5%s §rアビサル飽和度の比率",
   "variadic.start_core.description.abyssal_harvester": "0-15の間のクランプ値: (現在の飽和度 / %s%%) * 15",
-  "start_core.parallel_hatch.max_parallel": "最大許容並列数",
-  "start_core.parallel_hatch.min_parallel": "最小許容並列数",
-  "start_core.parallel_hatch.jade_min_parallel": "少なくとも %d 個のレシピの並列実行が必要だ",
-  "config.jade.plugin_start_core.min_parallel": "[Star Technology] 最小並列情報",
   
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "真空度(%)容量へのパーセンテージ",
   "variadic.start_core.description.vcrc.vac_to_capacity": "0-15の間のクランプ値: (現在の真空度%% / %s%%) * 15",

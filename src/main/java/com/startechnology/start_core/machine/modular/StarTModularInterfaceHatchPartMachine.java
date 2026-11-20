@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -18,7 +19,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.api.capability.IStarTModularSupportedModules;
-import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
 import com.startechnology.start_core.api.gui.StarTGuiTextures;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +31,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -126,14 +127,18 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
         }
     }
 
+    @Nullable
+    public static IStarTModularSupportedModules getModularSupportedModules(Level level, BlockPos pos) {
+        return (MetaMachine.getMachine(level, pos) instanceof IStarTModularSupportedModules modules) ? modules : null;
+    }
+
     public void resetSupportedModule() {
         setUnsupported();
 
         /* Update neighbouring if this is an out interface */
         if (!this.isTerminal()) return;
         BlockPos offsetPos = getPos().relative(getFrontFacing());
-        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper
-                .getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
+        IStarTModularSupportedModules modulesSupportedContainer = getModularSupportedModules(getLevel(), offsetPos);
         if (modulesSupportedContainer != null) {
             modulesSupportedContainer.invalidateSupportedModule();
         }
@@ -163,8 +168,7 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
 
         /* Get capability from in front to get if we are supported or not! */
         BlockPos offsetPos = getPos().relative(getFrontFacing());
-        IStarTModularSupportedModules modulesSupportedContainer = StarTCapabilityHelper
-                .getModularSupportedModules(getLevel(), offsetPos, getFrontFacing());
+        IStarTModularSupportedModules modulesSupportedContainer = getModularSupportedModules(getLevel(), offsetPos);
         if (modulesSupportedContainer == null) {
             setUnsupported();
             return;

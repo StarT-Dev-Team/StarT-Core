@@ -17,17 +17,15 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
-import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.mojang.serialization.JsonOps;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
-import com.startechnology.start_core.integration.jade.StarTJadeUtils;
+import com.startechnology.start_core.integration.jade.MachineJadeProvider;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.utils.StarTColorUtils;
+import com.startechnology.start_core.utils.StarTTooltipUtils;
 
-import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
@@ -38,8 +36,6 @@ import snownee.jade.util.FluidTextHelper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -48,26 +44,17 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTThreadingCapableMachine> {
+public class StarTThreadedRecipeProvider extends MachineJadeProvider<StarTThreadingCapableMachine> {
 
     public StarTThreadedRecipeProvider() {
-        super(StarTCore.resourceLocation("threading_recipes"));
-    }
-
-    @Override
-    protected @Nullable StarTThreadingCapableMachine getCapability(Level level, BlockPos pos,
-                                                                   @Nullable Direction side) {
-        return StarTCapabilityHelper.getThreadingCapableMachine(level, pos, side);
+        super(StarTCore.resourceLocation("threading_recipes"), StarTThreadingCapableMachine.class);
     }
 
     @Override
@@ -176,13 +163,13 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
     }
 
     @Override
-    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-                              BlockEntity blockEntity, IPluginConfig config) {
+    protected void addTooltip(CompoundTag capData, ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         int threadAmount = capData.getInt("thread_amount");
         for (int threadIndex = 0; threadIndex < threadAmount; threadIndex++) {
             tooltip.add(Component
                     .translatable("start_core.machine.threading_controller.jade_thread_header",
-                            Component.literal(FormattingUtil.formatNumbers(threadIndex + 1)).withStyle(ChatFormatting.GOLD)));
+                            Component.literal(FormattingUtil.formatNumbers(threadIndex + 1))
+                                    .withStyle(ChatFormatting.GOLD)));
             String threadPrefix = "thread" + threadIndex + "_";
 
             // WORKABLE PROVIDER
@@ -210,9 +197,10 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
 
             /* EU/T Display */
             var EUt = capData.getLong(threadPrefix + "EUt");
-            MutableComponent euTText = StarTJadeUtils.euTDisplay(EUt, blockEntity);
+            MutableComponent euTText = StarTTooltipUtils.euTDisplay(EUt, accessor.getBlockEntity());
             tooltip.add(Component.translatable(
-                    (capData.getBoolean(threadPrefix + "isInput")) ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
+                    (capData.getBoolean(threadPrefix + "isInput")) ? "gtceu.top.energy_consumption" :
+                            "gtceu.top.energy_production")
                     .append(" ").append(euTText));
 
             /* Recipe items add tooltip */
@@ -259,6 +247,11 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             addItemTooltips(tooltip, outputItems);
             addFluidTooltips(tooltip, outputFluids);
         }
+    }
+
+    private static float getProgress(int currentProgress, int maxProgress) {
+        if (maxProgress <= 0) return 0.0F;
+        return (float) currentProgress / (float) maxProgress;
     }
 
     private void addItemTooltips(ITooltip iTooltip, List<Ingredient> outputItems) {

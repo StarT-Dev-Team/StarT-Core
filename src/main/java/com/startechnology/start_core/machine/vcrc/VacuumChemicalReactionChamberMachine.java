@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.vacuum_pump.IVacuumPump;
@@ -19,13 +20,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultiblockMachine
-                                                  implements IRedstoneIndicatorMachine {
+                                                  implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     @Persisted
     @Getter
@@ -230,5 +233,39 @@ public class VacuumChemicalReactionChamberMachine extends WorkableElectricMultib
         public Component format() {
             return VacuumChemicalReactionChamberMachine.formatVacuumStatus(this);
         }
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("vcrc_pump_cap", pump.getPumpCap());
+        data.putInt("vcrc_pump_rate", pump.getPumpRate());
+        data.putFloat("vcrc_vacuum_amount", getVacuumAmount());
+        data.putInt("vcrc_vacuum_status", getVacuumStatus().ordinal());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (!data.contains("vcrc_pump_cap") || !data.contains("vcrc_pump_rate") ||
+                !data.contains("vcrc_vacuum_amount") || !data.contains("vcrc_vacuum_status")) {
+            return;
+        }
+
+        var amount = data.getFloat("vcrc_vacuum_amount");
+        var status = Status.of(data.getInt("vcrc_vacuum_status"));
+        tooltip.accept(Component.empty()
+                .append(Component.translatable("ui.start_core.vcrc.vacuum_status",
+                        formatVacuumStatus(status)))
+                .append(", ")
+                .append(Component.translatable("ui.start_core.vcrc.vacuum_amount",
+                        formatVacuumAmount(amount))));
+
+        var cap = data.getInt("vcrc_pump_cap");
+        var rate = data.getInt("vcrc_pump_rate");
+        tooltip.accept(Component.empty()
+                .append(Component.translatable("ui.start_core.vcrc.pump_type.cap",
+                        VacuumPumpPartMachine.formatVacuumPumpCap(cap)))
+                .append(", ")
+                .append(Component.translatable("ui.start_core.vcrc.pump_type.rate",
+                        VacuumPumpPartMachine.formatVacuumPumpRate(rate))));
     }
 }

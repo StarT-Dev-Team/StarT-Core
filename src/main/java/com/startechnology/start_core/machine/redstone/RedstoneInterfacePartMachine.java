@@ -15,20 +15,25 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class RedstoneInterfacePartMachine extends TieredIOPartMachine {
+public class RedstoneInterfacePartMachine extends TieredIOPartMachine implements IStarTJadeDisplayable {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
@@ -148,5 +153,25 @@ public class RedstoneInterfacePartMachine extends TieredIOPartMachine {
         group.setBackground(GuiTextures.BACKGROUND);
 
         return group;
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("signal_level", getRedstoneValue());
+        data.putString("indicator", Component.Serializer.toJson(getCurrentIndicator().indicatorComponent()));
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (!data.contains("signal_level") || !data.contains("indicator")) return;
+
+        var signalLevel = data.getInt("signal_level");
+        var indicatorJson = data.getString("indicator");
+        var indicatorComponent = Optional.ofNullable(Component.Serializer.fromJson(indicatorJson))
+                .map(Component.class::cast)
+                .orElse(RedstoneIndicatorRecord.DEFAULT.indicatorComponent());
+
+        tooltip.accept(Component.translatable("ui.start_core.redstone_signal", signalLevel));
+        tooltip.accept(Component.translatable("ui.start_core.indicator", indicatorComponent));
     }
 }

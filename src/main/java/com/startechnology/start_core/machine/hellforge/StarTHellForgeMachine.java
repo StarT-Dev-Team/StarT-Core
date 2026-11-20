@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.materials.StarTMaterials;
@@ -19,13 +20,16 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
-public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine
+                                   implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     /*
      * persist/save data onto the world using NBT with the @Persisted field
@@ -239,5 +243,20 @@ public class StarTHellForgeMachine extends WorkableElectricMultiblockMachine imp
                     (int) Math.floor(redstonePercentageOfTemp(temperature)),
                     temperature);
         }).toList();
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("temperature", getTemperature());
+        data.putString("uiKey", getCrucibleUIKey());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("temperature") && data.contains("uiKey")) {
+            int temperature = data.getInt("temperature");
+            String uiKey = data.getString("uiKey");
+            tooltip.accept(Component.translatable(uiKey, temperature));
+        }
     }
 }
