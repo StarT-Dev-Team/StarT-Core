@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.property.GTMachineModelProperties;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.gui.StarTGuiTextures;
 import net.minecraft.network.chat.Component;
@@ -51,7 +52,7 @@ public class StarTHPCAParts {
                     3))
             .tooltips(
                     Component.translatable("gtceu.machine.hpca.component_general.upkeep_eut",
-                            GTValues.VA[GTValues.ZPM]),
+                            FormattingUtil.formatNumberCompact(GTValues.VA[GTValues.ZPM], "gtceu.unit.eu_per_tick")),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_passive"),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 3),
                     Component.translatable("gtceu.part_sharing.disabled"))
@@ -72,8 +73,9 @@ public class StarTHPCAParts {
                     16))
             .tooltips(
                     Component.translatable("gtceu.machine.hpca.component_general.upkeep_eut",
-                            GTValues.VA[GTValues.ZPM]),
-                    Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UHV]),
+                            FormattingUtil.formatNumberCompact(GTValues.VA[GTValues.ZPM], "gtceu.unit.eu_per_tick")),
+                    Component.translatable("gtceu.machine.hpca.component_general.max_eut",
+                            FormattingUtil.formatNumberCompact(GTValues.VA[GTValues.UHV], "gtceu.unit.eu_per_tick")),
                     Component.translatable("gtceu.machine.hpca.component_type.computation_cwut", 64),
                     Component.translatable("gtceu.machine.hpca.component_type.computation_cooling", 16),
                     Component.translatable("gtceu.part_sharing.disabled"))
