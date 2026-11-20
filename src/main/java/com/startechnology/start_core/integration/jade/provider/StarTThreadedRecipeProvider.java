@@ -182,20 +182,17 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
         for (int threadIndex = 0; threadIndex < threadAmount; threadIndex++) {
             tooltip.add(Component
                     .translatable("start_core.machine.threading_controller.jade_thread_header",
-                            Component.literal(FormattingUtil.formatNumbers(threadIndex + 1)).withStyle(ChatFormatting.GOLD)));
+                            Component.literal(FormattingUtil.formatNumbers(threadIndex + 1))
+                                    .withStyle(ChatFormatting.GOLD)));
             String threadPrefix = "thread" + threadIndex + "_";
 
             // WORKABLE PROVIDER
             int currentProgress = capData.getInt(threadPrefix + "Progress");
             int maxProgress = capData.getInt(threadPrefix + "MaxProgress");
-            MutableComponent text;
-
-            if (maxProgress < 20) {
-                text = Component.translatable("gtceu.jade.progress_tick", currentProgress, maxProgress);
-            } else {
-                text = Component.translatable("gtceu.jade.progress_sec", Math.round(currentProgress / 20.0F),
-                        Math.round(maxProgress / 20.0F));
-            }
+            MutableComponent text = Component.empty()
+                    .append(FormattingUtil.formatDurationShort(currentProgress, maxProgress))
+                    .append(" / ")
+                    .append(FormattingUtil.formatDurationShort(maxProgress));
 
             if (maxProgress > 0) {
                 int color = StarTColorUtils.generateThreadColor(threadIndex);
@@ -212,7 +209,8 @@ public class StarTThreadedRecipeProvider extends CapabilityBlockProvider<StarTTh
             var EUt = capData.getLong(threadPrefix + "EUt");
             MutableComponent euTText = StarTJadeUtils.euTDisplay(EUt, blockEntity);
             tooltip.add(Component.translatable(
-                    (capData.getBoolean(threadPrefix + "isInput")) ? "gtceu.top.energy_consumption" : "gtceu.top.energy_production")
+                    (capData.getBoolean(threadPrefix + "isInput")) ? "gtceu.top.energy_consumption" :
+                            "gtceu.top.energy_production")
                     .append(" ").append(euTText));
 
             /* Recipe items add tooltip */
