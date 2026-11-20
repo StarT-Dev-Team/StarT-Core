@@ -9,6 +9,7 @@ import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachin
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.runic_circuitry.RunicCircuitryAssemblyStationMachine;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
@@ -119,5 +120,12 @@ public class StarTCapabilityHelper {
     @Nullable
     public static StarTDreeamMachine getDreeamMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getCapability(StarTCapability.CAPABILITY_DREEAM, level, pos, side);
+    }
+
+    @Nullable
+    public static RunicCircuitryAssemblyStationMachine getRunicCircuitryAssemblyStationMachine(Level level,
+                                                                                               BlockPos pos,
+                                                                                               @Nullable Direction side) {
+        return getCapability(StarTCapability.CAPABILITY_RUNIC_CIRCUITRY_ASSEMBLY_STATION, level, pos, side);
     }
 }

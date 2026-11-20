@@ -7,6 +7,7 @@ import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachin
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneInterfacePartMachine;
+import com.startechnology.start_core.machine.runic_circuitry.RunicCircuitryAssemblyStationMachine;
 import com.startechnology.start_core.machine.solar.StarTSolarMachine;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 import com.startechnology.start_core.machine.vcrc.VacuumChemicalReactionChamberMachine;
@@ -56,6 +57,9 @@ public class StarTCapability {
 
     public static final Capability<StarTDreeamMachine> CAPABILITY_DREEAM = register(
             new CapabilityToken<>() {}, StarTDreeamMachine.class);
+
+    public static final Capability<RunicCircuitryAssemblyStationMachine> CAPABILITY_RUNIC_CIRCUITRY_ASSEMBLY_STATION = register(
+            new CapabilityToken<>() {}, RunicCircuitryAssemblyStationMachine.class);
 
     private static <T> Capability<T> register(CapabilityToken<T> token, Class<T> requiredType) {
         var capability = CapabilityManager.get(token);
