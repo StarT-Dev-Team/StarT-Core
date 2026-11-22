@@ -766,6 +766,74 @@ public class LangHandler {
 
         provider.add("gtceu.solar_panel_replacement", "Solar Panel Replacement");
 
+        provider.add("gtceu.dimensional_finder", "Dimensional Finder");
+        provider.add("behaviour.start_core.coordinate_crystal.not_engraved",
+                "§7Not yet engraved with a dimensional address");
+        provider.add("behaviour.start_core.coordinate_crystal.address", "§7Address: §b%s");
+        provider.add("behaviour.start_core.coordinate_crystal.target_dimension", "§7Points towards: §a%s");
+        provider.add("behaviour.start_core.coordinate_crystal.target_object", "§7Points towards: §6%s");
+        provider.add("behaviour.start_core.coordinate_crystal.sector", "§8Sector: %s");
+        provider.add("behaviour.start_core.coordinate_crystal.unknown_dimension", "Unknown Dimension");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.vortex", "Spatial Vortex");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.object_of_interest", "Object of Interest");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.turbulence", "Subspace Turbulence");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.gravity_well", "Gravity Well");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.rift_echo", "Rift Echo");
+        provider.add("behaviour.start_core.coordinate_crystal.kind.unknown", "Unknown Anomaly");
+
+        provider.add("behaviour.start_core.coordinate_crystal.jei.empty_input",
+                "§7An empty Coordinate Crystal");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.fresh_start_info",
+                "§7Starts navigation from a random endpoint in the dimensional star map");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.output_header",
+                "§bEngraved Coordinate Crystal");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.output_cycle_info",
+                "§7Navigates 1 coordinate per cycle until reaching a dimensional anomaly or the final coordinate");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.output_fail_info",
+                "§7If a dead-end anomaly is reached, outputs the traversed path for rewinding");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.output_win_info",
+                "§7If the goal coordinate is reached, runs 1 extra cycle to engrave the shortest true address");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_consumed_info",
+                "§7Consumed at the start of the rewind run to engrave the new path");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_ref_header",
+                "§6Failed Engraved Coordinate Crystal (Not Consumed)");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_ref_info1",
+                "§7Select the number of rewind steps (k) in the Dimensional Finder GUI");
+        provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_ref_info2",
+                "§7Starts k coordinates back on this crystal's path and excludes the failed path");
+
+        provider.add("dimension.start_core.abydos", "Abydos");
+        provider.add("dimension.start_core.the_nether", "The Nether");
+        provider.add("dimension.start_core.the_end", "The End");
+        provider.add("dimension.start_core.overworld", "Overworld");
+
+        provider.add("ui.start_core.dimensional_finder.rewind", "§7Rewind Coordinates: ");
+        provider.add("ui.start_core.dimensional_finder.rewind.hover",
+                "Adjust how many coordinates to go back on a failed crystal");
+        provider.add("ui.start_core.dimensional_finder.rewind_error",
+                "§cRewind of %s exceeds crystal path length (%s)");
+        provider.add("ui.start_core.dimensional_finder.target", "§7Target: §b%s");
+        provider.add("ui.start_core.dimensional_finder.phase.shortest",
+                "§aPhase: Identifying the shortest address");
+        provider.add("ui.start_core.dimensional_finder.phase.navigating",
+                "§ePhase: Navigating the dimensional star map (Cycle %s)");
+        provider.add("ui.start_core.dimensional_finder.current_path", "§7Path: §f%s");
+      
+        provider.add("gtceu.heat_chamber", "Heat Chamber");
+        provider.add("start_core.recipe.min_temp", "Min Temperature: §e%s K§r");
+        provider.add("ui.start_core.heat_chamber.status", "Status: %s");
+        provider.add("ui.start_core.heat_chamber.temperature", "Temperature: %s");
+        provider.add("ui.start_core.heat_chamber.target_temperature", "Target Temperature: %s");
+        provider.add("ui.start_core.heat_chamber.rate", "Rate: %s");
+        provider.add("ui.start_core.heat_chamber.status.idle", "Idle");
+        provider.add("ui.start_core.heat_chamber.status.heating", "Heating");
+        provider.add("ui.start_core.heat_chamber.status.working", "Working");
+        provider.add("ui.start_core.heat_chamber.status.cooling", "Cooling");
+        provider.add("variadic.start_core.indicator.heat_chamber.temp_to_target",
+                "Percentage to Target Temperature");
+        provider.add("variadic.start_core.description.heat_chamber.temp_to_target",
+                "A clamped value between 0-15 of the progress from base temperature to target recipe temperature");
+
         provider.add("item.start_core.claw_of_law.mode.none", "None");
         provider.add("item.start_core.claw_of_law.mode.pickaxe", "Pickaxe");
         provider.add("item.start_core.claw_of_law.mode.axe", "Axe");
