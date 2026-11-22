@@ -284,8 +284,6 @@ public class LangHandler {
         provider.add("start_core.machine.dream_link.lucinducer.name", "Lucinducer§o Copied Network §6{0}");
         provider.add("start_core.machine.dream_link.copy_network", "Saved network to Lucinducer");
         provider.add("start_core.machine.dream_link.set_network", "Applied network from Lucinducer");
-        provider.add("config.jade.plugin_start_core.dream_link_network_info",
-                "[Star Technology] Dream-Link Network Info");
         provider.add("start_core.dream_link.cover.tooltip",
                 "§7Supplies §f2§eA §f%d (%s§f) §7from the Dream-Network as a cover");
         provider.add("start_core.machine.dream_link_tower.line", "§d§lDream-Link Node");
@@ -362,16 +360,11 @@ public class LangHandler {
                 "§7Provides §fPercentage to nMK §7indicators for each heating fluid temperature cap.");
         provider.add("block.start_core.hellforge_rm", "Has §eBatching");
         provider.add("ui.start_core.hellforge_crucible", "§6Crucible Temp: §c{0}MK");
-        provider.add("config.jade.plugin_start_core.hellforge_heat_info", "[Star Technology] Hell Forge Crucible Temp");
-        provider.add("config.jade.plugin_start_core.abyssal_harvester_info",
-                "[Star Technology] Abyssal Harvester Entropy");
 
         provider.add("start_core.redstone_hatch.d0",
                 "Provides access to redstone indicators for multiblock automation");
         provider.add("start_core.redstone_hatch.d1", "§6Functionality depends on the multiblock to interface with");
         provider.add("start_core.redstone_interface.select", "Select Redstone Indicator");
-        provider.add("config.jade.plugin_start_core.variadic_redstone_info",
-                "[Star Technology] Variadic Redstone Information");
         provider.add("ui.start_core.redstone_signal", "§6Redstone Level: §c{0}");
         provider.add("ui.start_core.indicator", "§dIndicator: §f%s");
 
@@ -411,8 +404,6 @@ public class LangHandler {
         provider.add("ui.start_core.vcrc.vacuum_status.full_vacuum", "Full Vacuum");
         provider.add("ui.start_core.vcrc.vacuum_status.pressure_loss", "Pressure Loss");
         provider.add("ui.start_core.vcrc.vacuum_status.idle", "Idle");
-        provider.add("config.jade.plugin_start_core.vacuum_chemical_reaction_chamber_info",
-                "[Star Technology] Vacuum Chemical Reaction Chamber Info");
         provider.add("start_core.multiblock.pattern.error.vacuumpump", "§cAll vacuum pumps must be the same§r");
 
         provider.add("start_core.machine.sterile_hatch.tooltip",
@@ -575,7 +566,6 @@ public class LangHandler {
                 "These are the available multiblock types which can be linked with this terminal to enable their functionality.");
         provider.add("config.jade.plugin_start_core.modular_interface_hatch_part_machine",
                 "[Star Technology] Modular Interface Information");
-        provider.add("config.jade.plugin_start_core.fusion_reactor_info", "[Star Technology] Fusion Reactor Info");
 
         provider.add("variadic.start_core.indicator.default", "Click here to select (if any)");
         provider.add("variadic.start_core.description.default",
@@ -649,11 +639,6 @@ public class LangHandler {
         provider.add("variadic.start_core.description.komaru.fae_scaling",
                 "A clamped value between 0-15 of (current Fae Scaling / %s) * 15");
 
-        provider.add("start_core.parallel_hatch.max_parallel", "Maximum Allowed Parallels");
-        provider.add("start_core.parallel_hatch.min_parallel", "Minimum Allowed Parallels");
-        provider.add("start_core.parallel_hatch.jade_min_parallel", "Requires at least %d Recipes in Parallel");
-        provider.add("config.jade.plugin_start_core.min_parallel", "[Star Technology] Minimum Parallel Info");
-
         provider.add("variadic.start_core.indicator.vcrc.vac_to_capacity", "Percentage to Vac%% Capacity");
         provider.add("variadic.start_core.description.vcrc.vac_to_capacity",
                 "A clamped value between 0-15 of the (current vac%% / %s%%) * 15");
@@ -726,7 +711,6 @@ public class LangHandler {
         provider.add("solar.start_core.solar_machine.avg_dura_tooltip", "§dAverage Durability:§f %s");
         provider.add("solar.start_core.solar_machine.is_cooled_tooltip", "§3Actively cooled");
         provider.add("solar.start_core.solar_machine.is_not_cooled_tooltip", "§1Not actively cooled");
-        provider.add("config.jade.plugin_start_core.solar_machine_info", "[Star Technology] Solar Panel/Array Entropy");
 
         provider.add("variadic.start_core.indicator.solar_machine.temp", "Percentage to %s K");
         provider.add("variadic.start_core.description.solar_machine.temp",
@@ -748,8 +732,7 @@ public class LangHandler {
         provider.add("start_core.bulking.forced", "Forced bulking: ");
         provider.add("start_core.bulking.type", "Bulking type: ");
         provider.add("ui.start_core.bulking.type", "Bulking type: %s");
-        provider.add("config.jade.plugin_start_core.bulking_info", "[Star Technology] Bulking Info");
-        provider.add("config.jade.plugin_start_core.forced_bulking", "Forced Bulking %s");
+        provider.add("ui.start_core.bulking.forced_bulking", "Forced Bulking %s");
 
         provider.add("start_core.util.enabled", "§aEnabled§r");
         provider.add("start_core.util.disabled", "§4Disabled§r");
@@ -858,7 +841,6 @@ public class LangHandler {
         provider.add("start_core.machine.dreeam.state.linked", "§dLinked");
         provider.add("start_core.machine.dreeam.state.same_role", "§cPartner has the same role");
         provider.add("start_core.machine.dreeam.state.too_many", "§cMore than two machines share this link");
-        provider.add("config.jade.plugin_start_core.dreeam_link_info", "[Star Technology] DREEAM Link Info");
         provider.add("start_core.machine.dreeam.buffer", "§7Energy Buffer: %s §7EU");
         provider.add("start_core.machine.dreeam.role.hover",
                 "The laser hatches decide the role. Target hatches transmit and source hatches receive.");
@@ -873,6 +855,8 @@ public class LangHandler {
                 "Pause the machine with a soft mallet or break the structure to change the singularity.");
         provider.add("start_core.machine.dreeam.slot.hover",
                 "Holds one Quantum Entangled Singularity. Put its partner in the linked machine.");
+
+        provider.add("config.jade.plugin_start_core.machine_display", "[Star Technology] Machine Diagnostic Display");
     }
 
     /**

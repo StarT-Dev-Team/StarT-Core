@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.StarTCore;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCell;
@@ -22,6 +23,7 @@ import com.startechnology.start_core.machine.solar.cell.StarTSolarCellBlockEntit
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCellType;
 import com.startechnology.start_core.machine.solar.cell.StarTSolarCells;
 import com.startechnology.start_core.materials.StarTMaterials;
+import com.startechnology.start_core.utils.StarTTooltipUtils;
 
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import lombok.Getter;
@@ -40,10 +42,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.function.Consumer;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class StarTSolarMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+public class StarTSolarMachine extends WorkableElectricMultiblockMachine
+                               implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     private final int tier;
     @Getter
@@ -423,6 +427,34 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine impleme
         @Override
         public int getMaxProgress() {
             return BASE_UPDATE_INTERVAL;
+        }
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("euT", getEuT());
+        data.putBoolean("formed", isFormed());
+        data.putInt("totalCells", getCellAmount());
+        data.putInt("brokenCells", getBrokenCells());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("euT") && data.contains("formed") && data.contains("totalCells") &&
+                data.contains("brokenCells")) {
+            if (!data.getBoolean("formed")) return;
+
+            int euT = data.getInt("euT");
+            int totalCells = data.getInt("totalCells");
+
+            if (euT > 0) {
+                tooltip.accept(Component.translatable("gtceu.top.energy_production")
+                        .append(" ")
+                        .append(StarTTooltipUtils.euTDisplay(euT, null)));
+            }
+
+            tooltip.accept(Component.translatable("solar.start_core.solar_machine.cell_tooltip",
+                    totalCells - data.getInt("brokenCells"), totalCells));
         }
     }
 }
