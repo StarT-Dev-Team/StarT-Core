@@ -452,6 +452,7 @@ public class LangHandler {
         provider.add("item.start_core.mechanical_memory_card.tooltip.supported", " - §b%s");
 
         provider.add("gui.start_core.tooltips.fluid_output_hatches", "Fluid Output Hatches");
+        provider.add("gui.start_core.tooltips.me_pattern_buffers", "ME Pattern Buffers");
 
         provider.add("start_core.mechanical_memory_card.copy_settings", "Saved settings to Mechanical Memory Card");
         provider.add("start_core.mechanical_memory_card.paste_settings",
@@ -598,9 +599,9 @@ public class LangHandler {
                 "§7Each §6K.O.M.A.R.U§7 has the ability to store 4 Advanced Modules and 20 Basic Modules. Each Basic Module is overclocked to 1/64th of the amperage input up to §f64§eA§7. Each Advanced Module is overclocked to 1/16th of the amperage input up to §f256§eA§7. To achieve this §6K.O.M.A.R.U§7 accepts §dLaser Hatches§7.");
         provider.add("block.start_core.komaru.paginated2.3", "§d§lFaetic Scaling");
         provider.add("block.start_core.komaru.paginated2.4",
-                "§7Compromised of the product of §dFaetic Scaling§7 and §9Modular Efficiency§7 where:");
+                "§7Comprised of the product of §dFaetic Power§7 and §9Modular Efficiency§7 where:");
         provider.add("block.start_core.komaru.paginated2.5",
-                "    §dFaetic Scaling§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
+                "    §dFaetic Power§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
         provider.add("block.start_core.komaru.paginated2.6",
                 "    §9Modular Efficiency§7 = 0.99 ^ ([Number of Basic Modules]) * 0.98 ^ ([Number of Advanced Modules])");
 
@@ -862,7 +863,7 @@ public class LangHandler {
                 "§7Press %2$s§7 + %1$s§7 for the previous one.",
                 "§7Hold %1$s§7 to open the selection menu.");
         provider.add("key.start_core.claw_cycle", "Cycle Claw Mode");
-      
+
         provider.add("start.multiblock_contest.1M.top_5",
                 "§7Made by Multiblock Genius %s§7 for the 1 million downloads Multiblock Contest");
         provider.add("start.multiblock_contest.1M.top_10",
