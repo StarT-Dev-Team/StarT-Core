@@ -782,7 +782,7 @@ public class LangHandler {
                 "Percentage to Target Temperature");
         provider.add("variadic.start_core.description.heat_chamber.temp_to_target",
                 "A clamped value between 0-15 of the progress from base temperature to target recipe temperature");
-      
+
         provider.add("item.start_core.claw_of_law.mode.none", "None");
         provider.add("item.start_core.claw_of_law.mode.pickaxe", "Pickaxe");
         provider.add("item.start_core.claw_of_law.mode.axe", "Axe");

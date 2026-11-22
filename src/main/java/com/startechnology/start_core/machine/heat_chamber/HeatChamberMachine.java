@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.mixin.ParallelHatchPartMachineAccessor;
@@ -23,12 +24,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-public class HeatChamberMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
+public class HeatChamberMachine extends WorkableElectricMultiblockMachine
+                                implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     public static final int DEFAULT_BASE_TEMPERATURE = 298;
     public static final int COOLING_RATE = 1;
@@ -379,5 +383,44 @@ public class HeatChamberMachine extends WorkableElectricMultiblockMachine implem
             }
             return values[ordinal];
         }
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("hc_temperature", this.getTemperature());
+        data.putInt("hc_target_temperature", this.getTargetTemperature());
+        data.putInt("hc_heating_rate", this.getHeatingRate());
+        data.putInt("hc_status", this.getHeatStatus().ordinal());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (!data.contains("hc_temperature") || !data.contains("hc_target_temperature") ||
+                !data.contains("hc_heating_rate") || !data.contains("hc_status")) {
+            return;
+        }
+
+        int temperature = data.getInt("hc_temperature");
+        int targetTemperature = data.getInt("hc_target_temperature");
+        int rate = data.getInt("hc_heating_rate");
+        var status = HeatChamberMachine.Status.of(data.getInt("hc_status"));
+
+        tooltip.accept(Component.empty()
+                .append(Component.translatable("ui.start_core.heat_chamber.status",
+                        formatHeatStatus(status)))
+                .append(", ")
+                .append(Component.translatable("ui.start_core.heat_chamber.temperature",
+                        formatTemperature(temperature, status))));
+
+        var rateLine = Component.empty();
+        if (targetTemperature > HeatChamberMachine.DEFAULT_BASE_TEMPERATURE) {
+            rateLine.append(Component.translatable("ui.start_core.heat_chamber.target_temperature",
+                    Component.literal(FormattingUtil.formatNumbers(targetTemperature) + " K")
+                            .withStyle(ChatFormatting.GOLD)))
+                    .append(", ");
+        }
+        rateLine.append(Component.translatable("ui.start_core.heat_chamber.rate",
+                formatHeatingRate(rate)));
+        tooltip.accept(rateLine);
     }
 }
