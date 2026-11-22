@@ -776,8 +776,6 @@ public class LangHandler {
         provider.add("ui.start_core.heat_chamber.status.heating", "Heating");
         provider.add("ui.start_core.heat_chamber.status.working", "Working");
         provider.add("ui.start_core.heat_chamber.status.cooling", "Cooling");
-        provider.add("config.jade.plugin_start_core.heat_chamber_info",
-                "[Star Technology] Heat Chamber Info");
         provider.add("variadic.start_core.indicator.heat_chamber.temp_to_target",
                 "Percentage to Target Temperature");
         provider.add("variadic.start_core.description.heat_chamber.temp_to_target",
