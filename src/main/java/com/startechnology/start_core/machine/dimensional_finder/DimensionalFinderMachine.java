@@ -11,11 +11,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.api.dimensional_finder.DimensionalFinderDimension;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.data.dimensional_finder.StarTDimensionalFinderData;
 import com.startechnology.start_core.item.components.StarTCoordinateCrystalBehaviour;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
@@ -25,8 +27,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class DimensionalFinderMachine extends OpticalComputationMachine {
+public class DimensionalFinderMachine extends OpticalComputationMachine implements IStarTJadeDisplayable {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             DimensionalFinderMachine.class,
@@ -254,6 +257,59 @@ public class DimensionalFinderMachine extends OpticalComputationMachine {
                 this.rewindInvalid = false;
                 this.getRecipeLogic().markLastRecipeDirty();
             }
+        }
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        if (!isFormed()) return;
+
+        data.putInt("rewindSteps", this.rewindSteps);
+        data.putBoolean("activeRun", this.activeRun);
+
+        if (this.activeRun) {
+            data.putString("activeDimensionId", this.activeDimensionId);
+            data.putBoolean("identifyingShortest", this.identifyingShortest);
+            data.putInt("currentCycle", this.currentCycle);
+            data.putIntArray("currentPath", this.currentPath);
+        } else if (this.rewindInvalid) {
+            data.putBoolean("rewindInvalid", true);
+            data.putInt("rewindInvalidPathLen", this.rewindInvalidPathLen);
+        }
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("rewindSteps")) {
+            tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.rewind")
+                    .append(Component.literal(Integer.toString(data.getInt("rewindSteps")))
+                            .withStyle(ChatFormatting.AQUA)));
+        }
+
+        if (data.getBoolean("activeRun")) {
+            String dimId = data.getString("activeDimensionId");
+            tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.target",
+                    StarTCoordinateCrystalBehaviour.getDimensionDisplayName(dimId)
+                            .withStyle(ChatFormatting.GOLD)));
+
+            if (data.getBoolean("identifyingShortest")) {
+                tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.phase.shortest")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE));
+            } else {
+                tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.phase.navigating",
+                        data.getInt("currentCycle")).withStyle(ChatFormatting.GREEN));
+            }
+
+            int[] path = data.getIntArray("currentPath");
+            if (path.length > 0) {
+                tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.current_path",
+                        Component.literal(StarTCoordinateCrystalBehaviour.formatCoordinates(path))
+                                .withStyle(ChatFormatting.AQUA)));
+            }
+        } else if (data.getBoolean("rewindInvalid")) {
+            tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.rewind_error",
+                    data.getInt("rewindSteps"), data.getInt("rewindInvalidPathLen"))
+                    .withStyle(ChatFormatting.RED));
         }
     }
 

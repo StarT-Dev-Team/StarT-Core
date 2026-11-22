@@ -137,7 +137,8 @@ public class StarTItems {
                         .override().predicate(prop, 5.0f).model(cavumModel).end()
                         .override().predicate(prop, 6.0f).model(seaModel).end()
                         .override().predicate(prop, 7.0f).model(voidModel).end();
-            })
+            }).register();
+
     public static final ItemEntry<StarTClawOfLawItem> CLAW_OF_LAW = START_REGISTRATE
             .item("claw_of_law",
                     properties -> new StarTClawOfLawItem(properties, GTValues.IV,

@@ -800,7 +800,7 @@ public class LangHandler {
         provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_ref_info1",
                 "§7Select the number of rewind steps (k) in the Dimensional Finder GUI");
         provider.add("behaviour.start_core.coordinate_crystal.jei.rewind_ref_info2",
-                "§7Starts k coordinates back on this crystal's path and excludes the failed branch");
+                "§7Starts k coordinates back on this crystal's path and excludes the failed path");
 
         provider.add("dimension.start_core.abydos", "Abydos");
         provider.add("dimension.start_core.the_nether", "The Nether");
@@ -816,9 +816,9 @@ public class LangHandler {
         provider.add("ui.start_core.dimensional_finder.phase.shortest",
                 "§aPhase: Identifying the shortest address");
         provider.add("ui.start_core.dimensional_finder.phase.navigating",
-                "§ePhase: Navigating coordinate tree (Cycle %s)");
+                "§ePhase: Navigating the dimensional star map (Cycle %s)");
         provider.add("ui.start_core.dimensional_finder.current_path", "§7Path: §f%s");
-      
+
         provider.add("item.start_core.claw_of_law.mode.none", "None");
         provider.add("item.start_core.claw_of_law.mode.pickaxe", "Pickaxe");
         provider.add("item.start_core.claw_of_law.mode.axe", "Axe");
