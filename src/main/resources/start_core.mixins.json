@@ -21,6 +21,7 @@
     "ParallelHatchPartMachineMixin",
     "ResearchManagerDataItemMixin",
     "WireRecipeHandlerMixin",
+    "WorkableBlockProviderMixin",
     "compat.FakeSlotDropTargetMixin",
     "eb.CommonEventsMixin",
     "claw.ToolHelperMixin",

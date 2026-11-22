@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.startechnology.start_core.api.StarTCreativeTab;
 import com.startechnology.start_core.data.StarTDimensionMarkers;
+import com.startechnology.start_core.data.dimensional_finder.StarTDimensionalFinderData;
 import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
@@ -73,6 +74,7 @@ public class StarTCore {
 
         StarTTraitData.init();
         StarTGCropData.init();
+        StarTDimensionalFinderData.init();
 
         StarTCreativeTab.init();
         StarTClawKeyMappings.init();
@@ -125,7 +127,10 @@ public class StarTCore {
         CuriosApi.registerCurio(StarTItems.TOOL_DREAM_COPY_ITEM.asItem(), new LucinducerCurioItem());
     }
 
-    private void clientSetup(final FMLClientSetupEvent event) {}
+    private void clientSetup(final FMLClientSetupEvent event) {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> event.enqueueWork(StarTCoreClient::registerItemProperties));
+    }
 
     // You MUST have this for custom materials.
     // Remember to register them not to GT's namespace, but your own.

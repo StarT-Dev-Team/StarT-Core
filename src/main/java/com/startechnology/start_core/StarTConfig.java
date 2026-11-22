@@ -28,6 +28,48 @@ public class StarTConfig {
     @Configurable
     public AE2Configs ae2 = new AE2Configs();
 
+    @Configurable
+    public DimensionalFinderConfigs dimensionalFinder = new DimensionalFinderConfigs();
+
+    public enum DifficultyPreset {
+
+        EASY(1, 2, false, 0.60, 0.45, 0.20, 2, 60),
+        NORMAL(2, 2, true, 0.60, 0.50, 0.35, 3, 90),
+        HARD(2, 2, true, 0.80, 0.60, 0.45, 3, 110);
+
+        public final int altMin;
+        public final int altSpread;
+        public final boolean forceAddrBranch;
+        public final double pAddr;
+        public final double pOther;
+        public final double pSub;
+        public final int passes;
+        public final int maxNodes;
+
+        DifficultyPreset(int altMin, int altSpread, boolean forceAddrBranch, double pAddr, double pOther, double pSub,
+                         int passes, int maxNodes) {
+            this.altMin = altMin;
+            this.altSpread = altSpread;
+            this.forceAddrBranch = forceAddrBranch;
+            this.pAddr = pAddr;
+            this.pOther = pOther;
+            this.pSub = pSub;
+            this.passes = passes;
+            this.maxNodes = maxNodes;
+        }
+    }
+
+    public static class DimensionalFinderConfigs {
+
+        @Configurable
+        @Configurable.Comment({
+                "Difficulty preset for the Dimensional Finder coordinate tree generation.",
+                "Options: EASY, NORMAL, HARD",
+                "Default: NORMAL"
+        })
+        public DifficultyPreset difficulty = DifficultyPreset.NORMAL;
+    }
+
     public static class AE2Configs {
 
         @Configurable
