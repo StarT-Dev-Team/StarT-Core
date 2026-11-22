@@ -1779,6 +1779,7 @@
   "ui.start_core.dimensional_finder.phase.shortest": "ssǝɹppɐ ʇsǝʇɹoɥs ǝɥʇ buıʎɟıʇuǝpI :ǝsɐɥԀɐ§",
   "ui.start_core.dimensional_finder.rewind": " :sǝʇɐuıpɹooƆ puıʍǝᴚㄥ§",
   "ui.start_core.dimensional_finder.rewind.hover": "ןɐʇsʎɹɔ pǝןıɐɟ ɐ uo ʞɔɐq ob oʇ sǝʇɐuıpɹooɔ ʎuɐɯ ʍoɥ ʇsnظpⱯ",
+  "ui.start_core.dimensional_finder.rewind_dead_end": "puǝ pɐǝp ɐ oʇ spɐǝן sǝʇɐuıpɹooɔ %s buıpuıʍǝᴚɔ§",
   "ui.start_core.dimensional_finder.rewind_error": ")%s( ɥʇbuǝן ɥʇɐd ןɐʇsʎɹɔ spǝǝɔxǝ %s ɟo puıʍǝᴚɔ§",
   "ui.start_core.dimensional_finder.target": "%sq§ :ʇǝbɹɐ⟘ㄥ§",
   "ui.start_core.fornaxs_crucible": "ʞW}0{q§ :dɯǝ⟘ ǝןqıɔnɹƆp§",

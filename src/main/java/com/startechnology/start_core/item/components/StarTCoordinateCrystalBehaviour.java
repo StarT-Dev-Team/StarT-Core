@@ -194,8 +194,9 @@ public class StarTCoordinateCrystalBehaviour extends StarTNBTTooltipsBehaviour {
             tooltipComponents.add(Component.translatable("behaviour.start_core.coordinate_crystal.not_engraved"));
         } else {
             int[] coords = getCoordinates(stack);
+            String address = (coords.length == 0) ? "???" : formatCoordinates(coords);
             tooltipComponents.add(Component.translatable("behaviour.start_core.coordinate_crystal.address",
-                    Component.literal(formatCoordinates(coords)).withStyle(ChatFormatting.AQUA)));
+                    Component.literal(address).withStyle(ChatFormatting.AQUA)));
 
             String dimId = getTargetDimensionId(stack);
             if (isDimensionCrystal(stack)) {

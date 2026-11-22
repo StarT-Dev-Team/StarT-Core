@@ -812,13 +812,15 @@ public class LangHandler {
                 "Adjust how many coordinates to go back on a failed crystal");
         provider.add("ui.start_core.dimensional_finder.rewind_error",
                 "§cRewind of %s exceeds crystal path length (%s)");
+        provider.add("ui.start_core.dimensional_finder.rewind_dead_end",
+                "§cRewinding %s coordinates leads to a dead end");
         provider.add("ui.start_core.dimensional_finder.target", "§7Target: §b%s");
         provider.add("ui.start_core.dimensional_finder.phase.shortest",
                 "§aPhase: Identifying the shortest address");
         provider.add("ui.start_core.dimensional_finder.phase.navigating",
                 "§ePhase: Navigating the dimensional star map (Cycle %s)");
         provider.add("ui.start_core.dimensional_finder.current_path", "§7Path: §f%s");
-      
+
         provider.add("gtceu.heat_chamber", "Heat Chamber");
         provider.add("start_core.recipe.min_temp", "Min Temperature: §e%s K§r");
         provider.add("ui.start_core.heat_chamber.status", "Status: %s");
