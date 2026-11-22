@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.api.reflector.FusionReflectorType;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
@@ -24,9 +25,13 @@ import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 
-public class ReflectorFusionReactorMachine extends FusionReactorMachine {
+import java.util.function.Consumer;
+
+public class ReflectorFusionReactorMachine extends FusionReactorMachine implements IStarTJadeDisplayable {
 
     public static final OverclockingLogic FUSION_OC = OverclockingLogic.create(
             OverclockingLogic.PERFECT_HALF_DURATION_FACTOR, OverclockingLogic.PERFECT_HALF_VOLTAGE_FACTOR, true);
@@ -188,5 +193,18 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine {
         last.setSelfPositionY(group.getSizeHeight() - 8);
 
         if (group instanceof GTRecipeWidget recipeWidget) last.setSelfPositionX(3 - recipeWidget.getXOffset());
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("reflector_tier", reflectorType != null ? reflectorType.getTier() : 0);
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (!data.contains("reflector_tier")) return;
+        int tier = data.getInt("reflector_tier");
+        if (tier <= 0) return;
+        tooltip.accept(Component.translatable("ui.start_core.fusion_reactor.reflector_tier_info", tier));
     }
 }

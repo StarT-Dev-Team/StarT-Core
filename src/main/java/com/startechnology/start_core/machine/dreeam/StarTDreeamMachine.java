@@ -22,10 +22,12 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.mixin.LaserHatchPartMachineAccessor;
 import lombok.Getter;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.Containers;
@@ -38,11 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import static com.startechnology.start_core.utils.StarTTooltipUtils.withHover;
 
-public class StarTDreeamMachine extends WorkableMultiblockMachine implements
-                                IFancyUIMachine, IDisplayUIMachine, IMachineLife {
+public class StarTDreeamMachine extends WorkableMultiblockMachine
+                                implements IFancyUIMachine, IDisplayUIMachine, IMachineLife, IStarTJadeDisplayable {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTDreeamMachine.class,
@@ -325,5 +328,22 @@ public class StarTDreeamMachine extends WorkableMultiblockMachine implements
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putBoolean("formed", this.isFormed());
+        data.putString("role", this.getRole().name());
+        data.putString("state", this.getLinkState().name());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("formed") && data.contains("role") && data.contains("state") && data.getBoolean("formed")) {
+            tooltip.accept(Component.translatable(
+                    "start_core.machine.dreeam.role." + data.getString("role").toLowerCase(Locale.ROOT)));
+            tooltip.accept(Component.translatable(
+                    "start_core.machine.dreeam.state." + data.getString("state").toLowerCase(Locale.ROOT)));
+        }
     }
 }

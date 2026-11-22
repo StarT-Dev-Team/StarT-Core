@@ -250,7 +250,6 @@
   "start_core.machine.dream_link.lucinducer.name": "루신듀서§o 복사된 네트워크 §6{0}",
   "start_core.machine.dream_link.copy_network": "네트워크가 루신듀서에 저장됨",
   "start_core.machine.dream_link.set_network": "루신듀서에 있는 네트워크 적용됨",
-  "config.jade.plugin_start_core.dream_link_network_info": "[Star Technology] 드림 링크 네트워크 정보",
   "start_core.dream_link.cover.tooltip": "§7드림 링크 네트워크에서 §f2§eA §f%d (%s§f) §7을 끌어옵니다. 커버처럼 작동합니다.",
   "item.start_core.max_2a_dream_link_cover_item": "§c§lMAX§r 2§eA§r 드림 링크 전력 커버",
   "item.start_core.opv_2a_dream_link_cover_item": "§9§lOpV§r 2§eA§r 드림 링크 전력 커버",
@@ -324,14 +323,11 @@
   "block.start_core.hellforge_d8": "§7액체 연료의 최대 온도인 §fnMK의 백분율§7에 기반해 레드스톤 신호를 제공합니다.",
   "block.start_core.hellforge_rm": "§e배치 처리§r를 가지고 있습니다.",
   "ui.start_core.hellforge_crucible": "§6용광로 온도: §c{0}MK",
-  "config.jade.plugin_start_core.hellforge_heat_info": "[Star Technology] 지옥 용광로 온도",
-  "config.jade.plugin_start_core.abyssal_harvester_info": "[Star Technology] 심연 수집기 엔트로피",
 
   "block.start_core.redstone_variadic_interface": "§c레드스톤§r 가변 인자 인터페이스",
   "start_core.redstone_hatch.d0": "멀티블록 자동화를 위한 레드스톤 인디케이터 접속을 제공합니다.",
   "start_core.redstone_hatch.d1": "§6멀티블록에 따라 작동 방식이 달라집니다.",
   "start_core.redstone_interface.select": "레드스톤 인디케이터 선택",
-  "config.jade.plugin_start_core.variadic_redstone_info": "[Star Technology] 다양한 레드스톤 정보",
   "ui.start_core.redstone_signal": "§6레드스톤 단계: §c{0}",
   "ui.start_core.indicator": "§d인디케이터: §f{0}",
 
@@ -371,7 +367,6 @@
   "ui.start_core.vcrc.vacuum_status.full_vacuum": "완전 징공",
   "ui.start_core.vcrc.vacuum_status.pressure_loss": "압력 손실",
   "ui.start_core.vcrc.vacuum_status.idle": "대기",
-  "config.jade.plugin_start_core.vacuum_chemical_reaction_chamber_info": "[Star Technology] 진공 화학 챔버 정보",
   "start_core.multiblock.pattern.error.vacuumpump": "§c모든 진공펌프는 동일해야 합니다!§r",
 
   "block.start_core.abydos_marker": "아비도스",
@@ -694,7 +689,6 @@
   "modular.start_core.not_formed_description": "멀티블록이 연결되기 위해서는 완성되어야 합니다.",
   "modular.start_core.supported_list_description": "이 터미널에 연결하여 사용 가능한 멀티블록 유형입니다.",
   "config.jade.plugin_start_core.modular_interface_hatch_part_machine": "[Star Technology] 모듈식 인터페이스 정보",
-  "config.jade.plugin_start_core.fusion_reactor_info": "[Star Technology] 융합 반응로 컴퓨터 정보",
 
   "variadic.start_core.indicator.default": "여기를 클릭해 선택",
   "variadic.start_core.description.default": "만약 멀티블록의 일부분이 되었으며 이 해치가 출력 가능한 정보가 있다면, 멀티블록의 특정 정보에 따라 레드스톤 신호를 방출합니다.",
@@ -748,11 +742,6 @@
   "variadic.start_core.description.komaru.c": "(현재 소모량 / %s) * 15을 0 ~ 15로 고정한 뒤 신호를 방출합니다.",
   "variadic.start_core.indicator.komaru.fae_scaling": "§d페틱 스케일링§r에서 §e%s§7의 비율",
   "variadic.start_core.description.komaru.fae_scaling": "(현재 페틱 스케일링 / %s) * 15을 0 ~ 15로 고정한 뒤 신호를 방출합니다.",
-
-  "start_core.parallel_hatch.max_parallel": "최대 병렬 처리",
-  "start_core.parallel_hatch.min_parallel": "최소 병렬 처리",
-  "start_core.parallel_hatch.jade_min_parallel": "최소 %d 병렬 처리를 요구합니다.",
-  "config.jade.plugin_start_core.min_parallel": "[Star Technology] 최소 병렬 처리 정보",
 
   "variadic.start_core.indicator.vcrc.vac_to_capacity": "Vac%% 용량의 백분율",
   "variadic.start_core.description.vcrc.vac_to_capacity": "(현재 vac%% / vac%%) * 15을 0 ~ 15로 고정한 뒤 신호를 방출합니다.",
@@ -821,7 +810,6 @@
   "solar.start_core.solar_machine.avg_dura_tooltip": "§d평균 내구도:§f %s",
   "solar.start_core.solar_machine.is_cooled_tooltip": "§3냉각 켜짐",
   "solar.start_core.solar_machine.is_not_cooled_tooltip": "§1냉각 꺼짐",
-  "config.jade.plugin_start_core.solar_machine_info": "[Star Technology] 태양광 패널/배열 정보",
 
   "block.start_core.zpm_fluid_drilling_rig": "§c엘리트 액체 시추기 III§r",
   
@@ -848,7 +836,6 @@
   "start_core.tree_type.resin": "수지",
   "start_core.tree_type.sap": "수액",
 
-  "config.jade.plugin_start_core.bulking_info": "[Star Technology] 벌크 정보",
   "start_core.bulking.duration_multiplier": "제작법 처리 시간 배수: %dx",
   "start_core.bulking.forced": "강제 벌크: ",
   "start_core.bulking.throughput_multiplier": "처리량 배수: %dx",
@@ -856,7 +843,7 @@
   "ui.start_core.bulking.type": "벌크 종류: %s",
   "start_core.recipe_modifier.cannot_bulk": "강제 벌크를 위한 재료가 부족합니다!",
 
-  "config.jade.plugin_start_core.forced_bulking": "강제 벌크 %s",
+  "ui.start_core.bulking.forced_bulking": "강제 벌크 %s",
   "gtceu.parallel_type.abyssal_harvester": "- %dx 심연 안정화로 획득",
   "gtceu.parallel_type.bulk_processing": "- %dx 벌크 처리로 획득",
   "gtceu.parallel_type.compound_generator": "- %dx 복합 전력 생산으로 획득",
