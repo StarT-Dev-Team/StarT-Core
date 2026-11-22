@@ -2,6 +2,7 @@ package com.startechnology.start_core.api.capability;
 
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.bulking.IBulking;
+import com.startechnology.start_core.machine.dreeam.StarTDreeamMachine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.heat_chamber.HeatChamberMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
@@ -56,6 +57,8 @@ public class StarTCapability {
 
     public static final Capability<HeatChamberMachine> HEAT_CHAMBER = register(
             new CapabilityToken<>() {}, HeatChamberMachine.class);
+    public static final Capability<StarTDreeamMachine> CAPABILITY_DREEAM = register(
+            new CapabilityToken<>() {}, StarTDreeamMachine.class);
 
     private static <T> Capability<T> register(CapabilityToken<T> token, Class<T> requiredType) {
         var capability = CapabilityManager.get(token);

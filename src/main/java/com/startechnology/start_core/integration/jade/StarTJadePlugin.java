@@ -26,6 +26,7 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new StarTModularInterfaceHatchPartMachineProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTBulkingProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new StarTHeatChamberProvider(), BlockEntity.class);
+        registration.registerBlockDataProvider(new StarTDreeamProvider(), BlockEntity.class);
     }
 
     @Override
@@ -43,5 +44,6 @@ public class StarTJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new StarTModularInterfaceHatchPartMachineProvider(), Block.class);
         registration.registerBlockComponent(new StarTBulkingProvider(), Block.class);
         registration.registerBlockComponent(new StarTHeatChamberProvider(), Block.class);
+        registration.registerBlockComponent(new StarTDreeamProvider(), Block.class);
     }
 }

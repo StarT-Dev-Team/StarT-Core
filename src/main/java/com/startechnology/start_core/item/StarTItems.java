@@ -13,10 +13,10 @@ import com.gregtechceu.gtceu.api.item.component.ThermalFluidStats;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.startechnology.start_core.item.claw.StarTClawOfLawItem;
 import com.startechnology.start_core.item.components.CopyBehavior;
 import com.startechnology.start_core.item.components.StarTDreamCopyBehaviour;
 import com.startechnology.start_core.item.gcrops.*;
@@ -26,6 +26,7 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fluids.FluidType;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.cellName;
@@ -79,8 +80,27 @@ public class StarTItems {
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
                         GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.getBlock().getName()));
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
-                        GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
+                        Component.translatable("gui.start_core.tooltips.me_pattern_buffers")));
             })))
+            .register();
+
+    public static final ItemEntry<StarTClawOfLawItem> CLAW_OF_LAW = START_REGISTRATE
+            .item("claw_of_law",
+                    properties -> new StarTClawOfLawItem(properties, GTValues.IV,
+                            GTValues.V[GTValues.IV] * 16, GTValues.V[GTValues.HV], false, GTMaterials.BlueSteel,
+                            GTMaterials.SiliconeRubber))
+            .lang("Claw of Law")
+            .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
+            .properties(p -> p.stacksTo(1).rarity(Rarity.RARE))
+            .register();
+
+    public static final ItemEntry<StarTClawOfLawItem> CLAW_OF_LAW_UHV = START_REGISTRATE
+            .item("claw_of_law_uhv", properties -> new StarTClawOfLawItem(properties, GTValues.UHV, Long.MAX_VALUE,
+                    GTValues.V[GTValues.ZPM], true, GTMaterials.Neutronium,
+                    GTMaterials.Polybenzimidazole))
+            .lang("Claw of Law")
+            .setData(ProviderType.ITEM_MODEL, NonNullBiConsumer.noop())
+            .properties(p -> p.stacksTo(1).rarity(Rarity.EPIC))
             .register();
 
     public static ItemEntry<ComponentItem> FLUID_CELL_LARGE_ENRICHED_NAQUADAH = createFluidCell(

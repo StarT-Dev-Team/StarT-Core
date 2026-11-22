@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.startechnology.start_core.machine.abyssal_harvester.StarTAbyssalHarvesterMachine;
 import com.startechnology.start_core.machine.bulking.IBulking;
+import com.startechnology.start_core.machine.dreeam.StarTDreeamMachine;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
 import com.startechnology.start_core.machine.heat_chamber.HeatChamberMachine;
 import com.startechnology.start_core.machine.hellforge.StarTHellForgeMachine;
@@ -119,5 +120,9 @@ public class StarTCapabilityHelper {
     @Nullable
     public static HeatChamberMachine getHeatChamberMachine(Level level, BlockPos pos, @Nullable Direction side) {
         return getCapability(StarTCapability.HEAT_CHAMBER, level, pos, side);
+    
+    @Nullable
+    public static StarTDreeamMachine getDreeamMachine(Level level, BlockPos pos, @Nullable Direction side) {
+        return getCapability(StarTCapability.CAPABILITY_DREEAM, level, pos, side);
     }
 }

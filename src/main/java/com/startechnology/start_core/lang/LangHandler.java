@@ -452,6 +452,7 @@ public class LangHandler {
         provider.add("item.start_core.mechanical_memory_card.tooltip.supported", " - §b%s");
 
         provider.add("gui.start_core.tooltips.fluid_output_hatches", "Fluid Output Hatches");
+        provider.add("gui.start_core.tooltips.me_pattern_buffers", "ME Pattern Buffers");
 
         provider.add("start_core.mechanical_memory_card.copy_settings", "Saved settings to Mechanical Memory Card");
         provider.add("start_core.mechanical_memory_card.paste_settings",
@@ -598,9 +599,9 @@ public class LangHandler {
                 "§7Each §6K.O.M.A.R.U§7 has the ability to store 4 Advanced Modules and 20 Basic Modules. Each Basic Module is overclocked to 1/64th of the amperage input up to §f64§eA§7. Each Advanced Module is overclocked to 1/16th of the amperage input up to §f256§eA§7. To achieve this §6K.O.M.A.R.U§7 accepts §dLaser Hatches§7.");
         provider.add("block.start_core.komaru.paginated2.3", "§d§lFaetic Scaling");
         provider.add("block.start_core.komaru.paginated2.4",
-                "§7Compromised of the product of §dFaetic Scaling§7 and §9Modular Efficiency§7 where:");
+                "§7Comprised of the product of §dFaetic Power§7 and §9Modular Efficiency§7 where:");
         provider.add("block.start_core.komaru.paginated2.5",
-                "    §dFaetic Scaling§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
+                "    §dFaetic Power§7 = 1.025 ^ ([Number of Basic Modules] + 3 * [Number of Advanced Modules])");
         provider.add("block.start_core.komaru.paginated2.6",
                 "    §9Modular Efficiency§7 = 0.99 ^ ([Number of Basic Modules]) * 0.98 ^ ([Number of Advanced Modules])");
 
@@ -798,6 +799,80 @@ public class LangHandler {
                 "Percentage to Target Temperature");
         provider.add("variadic.start_core.description.heat_chamber.temp_to_target",
                 "A clamped value between 0-15 of the progress from base temperature to target recipe temperature");
+      
+        provider.add("item.start_core.claw_of_law.mode.none", "None");
+        provider.add("item.start_core.claw_of_law.mode.pickaxe", "Pickaxe");
+        provider.add("item.start_core.claw_of_law.mode.axe", "Axe");
+        provider.add("item.start_core.claw_of_law.mode.shovel", "Shovel");
+        provider.add("item.start_core.claw_of_law.mode.hoe", "Hoe");
+        provider.add("item.start_core.claw_of_law.mode.saw", "Saw");
+        provider.add("item.start_core.claw_of_law.mode.screwdriver", "Screwdriver");
+        provider.add("item.start_core.claw_of_law.mode.wrench", "Wrench");
+        provider.add("item.start_core.claw_of_law.mode.soft_mallet", "Soft Mallet");
+        provider.add("item.start_core.claw_of_law.mode.hard_hammer", "Hammer");
+        provider.add("item.start_core.claw_of_law.mode.crowbar", "Crowbar");
+        provider.add("item.start_core.claw_of_law.mode.wire_cutter", "Wire Cutter");
+        provider.add("item.start_core.claw_of_law.mode.knife", "Knife");
+        provider.add("item.start_core.claw_of_law.mode.sword", "Sword");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.description",
+                "§6§lOne Claw to Rule Them All",
+                "§7One Claw to dig them, one Claw to bash them all",
+                "§7and in your pocket bind them.",
+                "§7The §dLaw§7 came later, from the first block that argued.");
+        provider.add("item.start_core.claw_of_law.tooltip.mode", "Mode: %s");
+        provider.add("item.start_core.claw_of_law.tooltip.action_cost",
+                "§aCost per Action: §f%s EU (%s§f)");
+        multiLang(provider, "item.start_core.claw_of_law.tooltip.hotkey",
+                "§7Press %1$s§7 for the fitting or next tool.",
+                "§7Press %2$s§7 + %1$s§7 for the previous one.",
+                "§7Hold %1$s§7 to open the selection menu.");
+        provider.add("key.start_core.claw_cycle", "Cycle Claw Mode");
+
+        provider.add("start.multiblock_contest.1M.top_5",
+                "§7Made by Multiblock Genius %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_10",
+                "§7Made by Multiblock Architect %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_15",
+                "§7Made by Multiblock Engineer %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_20",
+                "§7Made by Multiblock Designer %s§7 for the 1 million downloads Multiblock Contest");
+        provider.add("start.multiblock_contest.1M.top_25",
+                "§7Made by Multiblock Specialist %s§7 for the 1 million downloads Multiblock Contest");
+
+        multiLang(provider, "start_core.machine.dreeam.tooltip",
+                "§7Carries energy between dimensions along a runic channel to a linked partner machine.",
+                "§bTransfer Information:",
+                "§7Laser Target Hatches make it a transmitter. Laser Source Hatches make it a receiver. Use one hatch type per machine.",
+                "§7The machine sends energy one way at §d1:1 §7and consumes §d1% §7of it.",
+                "§eLink Information:",
+                "§7Place one Quantum Entangled Singularity from a pair in each DREEAM to link them.",
+                "§7The singularity stays locked while the machine runs.",
+                "§7Both machines must be loaded to transfer energy.");
+        provider.add("start_core.machine.dreeam.role.none", "§cNo laser hatches");
+        provider.add("start_core.machine.dreeam.role.transmitter", "§bTransmitter");
+        provider.add("start_core.machine.dreeam.role.receiver", "§aReceiver");
+        provider.add("start_core.machine.dreeam.role.mixed", "§cSource and target hatches cannot share a machine");
+        provider.add("start_core.machine.dreeam.slot_locked", "§7The singularity stays locked while the machine runs");
+        provider.add("start_core.machine.dreeam.state.unlinked", "§6Singularity slot empty");
+        provider.add("start_core.machine.dreeam.state.waiting", "§6Waiting for partner");
+        provider.add("start_core.machine.dreeam.state.linked", "§dLinked");
+        provider.add("start_core.machine.dreeam.state.same_role", "§cPartner has the same role");
+        provider.add("start_core.machine.dreeam.state.too_many", "§cMore than two machines share this link");
+        provider.add("config.jade.plugin_start_core.dreeam_link_info", "[Star Technology] DREEAM Link Info");
+        provider.add("start_core.machine.dreeam.buffer", "§7Energy Buffer: %s §7EU");
+        provider.add("start_core.machine.dreeam.role.hover",
+                "The laser hatches decide the role. Target hatches transmit and source hatches receive.");
+        provider.add("start_core.machine.dreeam.state.hover",
+                "Shows whether a machine with the matching singularity is linked to this one.");
+        provider.add("start_core.machine.dreeam.output_per_sec.hover",
+                "EU sent to the linked machine in the last second, shown per tick.");
+        provider.add("start_core.machine.dreeam.input_per_sec.hover",
+                "EU received from the linked machine in the last second, shown per tick.");
+        provider.add("start_core.machine.dreeam.buffer.hover", "EU stored in the laser hatches of this machine.");
+        provider.add("start_core.machine.dreeam.slot_locked.hover",
+                "Pause the machine with a soft mallet or break the structure to change the singularity.");
+        provider.add("start_core.machine.dreeam.slot.hover",
+                "Holds one Quantum Entangled Singularity. Put its partner in the linked machine.");
     }
 
     /**
