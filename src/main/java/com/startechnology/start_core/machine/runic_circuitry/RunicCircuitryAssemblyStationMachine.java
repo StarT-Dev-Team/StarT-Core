@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.recipe.RecipeFailureReason;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import lombok.Getter;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -39,7 +41,7 @@ import java.util.function.Consumer;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultiblockMachine
-                                                  implements IRedstoneIndicatorMachine {
+                                                  implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             RunicCircuitryAssemblyStationMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -103,10 +105,6 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
     private LensValidationStatus validationStatus = LensValidationStatus.READY;
 
     private boolean pendingLookaheadRoll = false;
-
-    public RunicCircuitryAssemblyStationMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
-    }
 
     public RunicCircuitryAssemblyStationMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -248,39 +246,23 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if (!isFormed()) {
-            return;
-        }
-        appendLensDisplayLines(textList::add, requiredLensIndex, activeLensIndex, getRecipeLogic().isWorking(),
-                validationStatus);
-    }
+        if (!isFormed()) return;
 
-    public static void appendLensDisplayLines(Consumer<Component> lineConsumer, int requiredLensIndex,
-                                              int activeLensIndex, boolean working,
-                                              LensValidationStatus validationStatus) {
         LensColorEntry requiredEntry = LENS_COLORS.get(requiredLensIndex - 1);
 
-        if (working) {
+        if (this.getRecipeLogic().isWorking()) {
             LensColorEntry activeEntry = LENS_COLORS.get(activeLensIndex - 1);
             if (activeEntry != null) {
-                lineConsumer.accept(Component.translatable("ui.start_core.runic_circuitry.active_lens",
+                textList.add(Component.translatable("ui.start_core.runic_circuitry.active_lens",
                         activeEntry.getColoredName()).withStyle(ChatFormatting.GRAY));
             }
-            lineConsumer.accept(Component.translatable("ui.start_core.runic_circuitry.next_lens",
+            textList.add(Component.translatable("ui.start_core.runic_circuitry.next_lens",
                     requiredEntry.getColoredName(),
                     requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
         } else {
-            lineConsumer.accept(Component.translatable("ui.start_core.runic_circuitry.required_lens",
+            textList.add(Component.translatable("ui.start_core.runic_circuitry.required_lens",
                     requiredEntry.getColoredName(),
                     requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
-        }
-
-        if (validationStatus == LensValidationStatus.MISSING_REQUIRED_LENS) {
-            lineConsumer.accept(Component.translatable("ui.start_core.runic_circuitry.status.missing_lens",
-                    requiredEntry.getColoredName()));
-        } else if (validationStatus == LensValidationStatus.WRONG_LENS_PRESENT) {
-            lineConsumer.accept(Component.translatable("ui.start_core.runic_circuitry.status.wrong_lens",
-                    requiredEntry.getColoredName()));
         }
     }
 
@@ -333,5 +315,39 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
             next++;
         }
         return next;
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putBoolean("formed", this.isFormed());
+        data.putInt("requiredLensIndex", this.getRequiredLensIndex());
+        data.putInt("activeLensIndex", this.getActiveLensIndex());
+        data.putBoolean("working", this.getRecipeLogic().isWorking());
+        data.putInt("validationStatus", this.getValidationStatus().ordinal());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (!data.contains("formed") || !data.getBoolean("formed") || !data.contains("requiredLensIndex") ||
+                !data.contains("activeLensIndex") || !data.contains("working") || !data.contains("validationStatus")) {
+            return;
+        }
+
+        LensColorEntry requiredEntry = LENS_COLORS.get(requiredLensIndex - 1);
+
+        if (this.getRecipeLogic().isWorking()) {
+            LensColorEntry activeEntry = LENS_COLORS.get(activeLensIndex - 1);
+            if (activeEntry != null) {
+                tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.active_lens",
+                        activeEntry.getColoredName()).withStyle(ChatFormatting.GRAY));
+            }
+            tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.next_lens",
+                    requiredEntry.getColoredName(),
+                    requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
+        } else {
+            tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.required_lens",
+                    requiredEntry.getColoredName(),
+                    requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
+        }
     }
 }

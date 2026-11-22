@@ -845,15 +845,10 @@ public class LangHandler {
         provider.add("ui.start_core.runic_circuitry.required_lens", "Required Lens: %s §7(Signal: §f%s§7)");
         provider.add("ui.start_core.runic_circuitry.next_lens", "Next Required Lens: %s §7(Signal: §f%s§7)");
         provider.add("ui.start_core.runic_circuitry.active_lens", "Active Craft Lens: %s");
-        provider.add("ui.start_core.runic_circuitry.status.missing_lens", "§cMissing required %s §clens");
-        provider.add("ui.start_core.runic_circuitry.status.wrong_lens",
-                "§cConflicting lens in input bus (requires %s§c)");
         provider.add("start_core.machine.runic_circuitry.error.missing_lens", "Missing required %s lens");
         provider.add("start_core.machine.runic_circuitry.error.wrong_lens",
                 "Wrong or extra lens in input bus (requires %s)");
-        provider.add("config.jade.plugin_start_core.runic_circuitry_info",
-                "[Star Technology] Runic Circuitry Lens Info");
-                
+
         provider.add("config.jade.plugin_start_core.machine_display", "[Star Technology] Machine Diagnostic Display");
     }
 
