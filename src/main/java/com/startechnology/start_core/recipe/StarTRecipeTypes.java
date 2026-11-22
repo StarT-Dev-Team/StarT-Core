@@ -248,5 +248,22 @@ public class StarTRecipeTypes {
             .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
             .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
 
+    public static final GTRecipeType HEAT_CHAMBER_RECIPES = GTRecipeTypes
+            .register("heat_chamber", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(4, 4, 4, 4)
+            .setEUIO(IO.IN)
+            .setOffsetVoltageText(true)
+            .setVoltageTextOffset(19)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> {
+                int minTemp = data.getInt("min_temp");
+                if (minTemp > 0) {
+                    return LocalizationUtils.format("start_core.recipe.min_temp",
+                            FormattingUtil.formatNumbers(minTemp));
+                }
+                return "";
+            })
+            .setSound(GTSoundEntries.FURNACE);
+
     public static void init() {}
 }
