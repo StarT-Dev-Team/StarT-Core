@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.item.component.ThermalFluidStats;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.ItemFluidContainer;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
@@ -81,7 +80,7 @@ public class StarTItems {
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
                         GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.getBlock().getName()));
                 lines.add(Component.translatable("item.start_core.mechanical_memory_card.tooltip.supported",
-                        GTAEMachines.ME_PATTERN_BUFFER.getBlock().getName()));
+                        Component.translatable("gui.start_core.tooltips.me_pattern_buffers")));
             })))
             .register();
 
