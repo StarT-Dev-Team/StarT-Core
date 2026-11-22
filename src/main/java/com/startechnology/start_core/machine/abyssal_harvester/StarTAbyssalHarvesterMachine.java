@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
@@ -19,14 +20,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine
-                                          implements IRedstoneIndicatorMachine {
+                                          implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StarTAbyssalHarvesterMachine.class,
@@ -189,5 +192,20 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
                             (int) Math.floor(calculatePercentageSaturation(marker)),
                             marker);
                 }).toList();
+    }
+
+    @Override
+    public void writeJadeData(CompoundTag data) {
+        data.putInt("saturation", getSaturation());
+    }
+
+    @Override
+    public void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("saturation")) {
+            int saturation = data.getInt("saturation");
+            double percent = saturation / 100.0;
+            tooltip.accept(Component.translatable("ui.start_core.abyssal_harvester",
+                    String.format("%.2f", percent)));
+        }
     }
 }

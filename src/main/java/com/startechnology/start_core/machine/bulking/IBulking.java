@@ -2,20 +2,23 @@ package com.startechnology.start_core.machine.bulking;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public interface IBulking {
+public interface IBulking extends IStarTJadeDisplayable {
 
     public BulkingType getBulkingType();
 
@@ -65,6 +68,25 @@ public interface IBulking {
             if (componentData.equals("forced")) {
                 this.setForcedBulking(!this.isForcedBulking());
             }
+        }
+    }
+
+    @Override
+    default void writeJadeData(CompoundTag data) {
+        if (this.getBulkingType() != null) {
+            data.putString("bulking_type", this.getBulkingType().name);
+        }
+        data.putBoolean("forced_bulking", this.isForcedBulking());
+    }
+
+    @Override
+    default void appendJadeTooltip(CompoundTag data, Consumer<Component> tooltip) {
+        if (data.contains("bulking_type") && data.contains("forced_bulking")) {
+            String bulkingType = data.getString("bulking_type");
+            tooltip.accept(Component.translatable("ui.start_core.bulking.type", bulkingType));
+            boolean forcedBulking = data.getBoolean("forced_bulking");
+            tooltip.accept(Component.translatable("ui.start_core.bulking.forced_bulking",
+                    Component.translatable((forcedBulking) ? "start_core.util.enabled" : "start_core.util.disabled")));
         }
     }
 }

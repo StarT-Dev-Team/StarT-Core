@@ -2,9 +2,8 @@ package com.startechnology.start_core.integration.jade.provider;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.startechnology.start_core.StarTCore;
-import com.startechnology.start_core.api.capability.StarTCapabilityHelper;
+import com.startechnology.start_core.integration.jade.MachineJadeProvider;
 import com.startechnology.start_core.machine.modular.StarTModularConduitAutoScalingHatchPartMachine;
 import com.startechnology.start_core.machine.modular.StarTModularInterfaceHatchPartMachine;
 import org.jetbrains.annotations.Nullable;
@@ -14,31 +13,28 @@ import snownee.jade.api.config.IPluginConfig;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class StarTModularInterfaceHatchPartMachineProvider extends
-                                                           CapabilityBlockProvider<StarTModularInterfaceHatchPartMachine> {
+                                                           MachineJadeProvider<StarTModularInterfaceHatchPartMachine> {
 
     public StarTModularInterfaceHatchPartMachineProvider() {
-        super(StarTCore.resourceLocation("modular_interface_hatch_part_machine"));
+        super(StarTCore.resourceLocation("modular_interface_hatch_part_machine"),
+                StarTModularInterfaceHatchPartMachine.class);
     }
 
     @Override
-    protected @Nullable StarTModularInterfaceHatchPartMachine getCapability(Level level, BlockPos pos,
-                                                                            @Nullable Direction side) {
-        var capability = StarTCapabilityHelper.getModularInterfaceHatchPartMachine(level, pos, side);
-
-        if (capability != null)
-            return capability;
+    protected @Nullable StarTModularInterfaceHatchPartMachine getMachine(Level level, BlockPos pos) {
+        MetaMachine machine = MetaMachine.getMachine(level, pos);
+        if (machine instanceof StarTModularInterfaceHatchPartMachine modularHatch) {
+            return modularHatch;
+        }
 
         /* Duplicate node interface display onto the multi controller */
-        if (MetaMachine.getMachine(level, pos) instanceof IMultiController controller) {
+        if (machine instanceof IMultiController controller) {
             for (var part : controller.getParts()) {
                 if (part instanceof StarTModularInterfaceHatchPartMachine modularHatch) {
                     if (!modularHatch.isTerminal()) {
@@ -52,26 +48,25 @@ public class StarTModularInterfaceHatchPartMachineProvider extends
     }
 
     @Override
-    protected void write(CompoundTag data, StarTModularInterfaceHatchPartMachine capability) {
-        boolean isTerminal = capability.isTerminal();
+    protected void write(CompoundTag data, StarTModularInterfaceHatchPartMachine machine) {
+        boolean isTerminal = machine.isTerminal();
         data.putBoolean("is_terminal", isTerminal);
-        data.putBoolean("is_linked", capability.isCurrentlyLinked());
+        data.putBoolean("is_linked", machine.isCurrentlyLinked());
 
-        ResourceLocation linkedModule = capability.getLastSupportedModuleName();
+        ResourceLocation linkedModule = machine.getLastSupportedModuleName();
         if (isTerminal && linkedModule != null) {
             data.putString("linked_module_namespace", linkedModule.getNamespace());
             data.putString("linked_module_path", linkedModule.getPath());
         }
 
-        if (capability instanceof StarTModularConduitAutoScalingHatchPartMachine autoScalingHatch) {
+        if (machine instanceof StarTModularConduitAutoScalingHatchPartMachine autoScalingHatch) {
             data.putLong("scaled_voltage", autoScalingHatch.getScaledVoltage());
             data.putLong("scaled_amperage", autoScalingHatch.getScaledAmperage());
         }
     }
 
     @Override
-    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-                              BlockEntity blockEntity, IPluginConfig config) {
+    protected void addTooltip(CompoundTag capData, ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         if (capData.contains("is_terminal")) {
             boolean isTerminal = capData.getBoolean("is_terminal");
             boolean isLinked = capData.getBoolean("is_linked");
@@ -81,7 +76,7 @@ public class StarTModularInterfaceHatchPartMachineProvider extends
                 long scaledAmperage = capData.getLong("scaled_amperage");
 
                 StarTModularConduitAutoScalingHatchPartMachine
-                        .addDisplayTextToList((component) -> tooltip.add(component), scaledVoltage, scaledAmperage);
+                        .addDisplayTextToList(tooltip::add, scaledVoltage, scaledAmperage);
             }
 
             if (isLinked) {
@@ -99,7 +94,6 @@ public class StarTModularInterfaceHatchPartMachineProvider extends
             } else {
                 tooltip.add(Component.translatable("modular.start_core.no_link").withStyle(ChatFormatting.RED));
             }
-
         }
     }
 }
