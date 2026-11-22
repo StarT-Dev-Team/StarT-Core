@@ -160,6 +160,5 @@ public class StarTRecipeModifiers {
 
     public static final RecipeModifier COMPOUND_GENERATOR = CompoundGeneratorMachine::recipeModifier;
 
-    public static final RecipeModifier HEAT_CHAMBER = new IdentifiedRecipeModifier("heat_chamber",
-            HeatChamberMachine::recipeModifier);
+    public static final RecipeModifier HEAT_CHAMBER = new HeatChamberMachine::recipeModifier;
 }
