@@ -103,6 +103,11 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
     @Setter
     private int rewindInvalidPathLen = 0;
 
+    @DescSynced
+    @Getter
+    @Setter
+    private boolean rewindDeadEnd = false;
+
     public DimensionalFinderMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -152,6 +157,7 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
 
         if (recipe != null && recipe.data != null && recipe.data.getBoolean("df_custom")) {
             this.rewindInvalid = false;
+            this.rewindDeadEnd = false;
             if (!this.activeRun) {
                 this.activeRun = true;
                 this.activeDimensionId = recipe.data.getString("df_dim");
@@ -222,6 +228,9 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
         if (!this.activeRun && this.rewindInvalid) {
             textList.add(Component.translatable("ui.start_core.dimensional_finder.rewind_error",
                     this.rewindSteps, this.rewindInvalidPathLen).withStyle(ChatFormatting.RED));
+        } else if (!this.activeRun && this.rewindDeadEnd) {
+            textList.add(Component.translatable("ui.start_core.dimensional_finder.rewind_dead_end",
+                    this.rewindSteps).withStyle(ChatFormatting.RED));
         }
 
         if (this.activeRun) {
@@ -251,10 +260,12 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
             if ("rewind_dec".equals(componentData)) {
                 this.rewindSteps = Math.max(1, this.rewindSteps - 1);
                 this.rewindInvalid = false;
+                this.rewindDeadEnd = false;
                 this.getRecipeLogic().markLastRecipeDirty();
             } else if ("rewind_inc".equals(componentData)) {
                 this.rewindSteps = Math.min(64, this.rewindSteps + 1);
                 this.rewindInvalid = false;
+                this.rewindDeadEnd = false;
                 this.getRecipeLogic().markLastRecipeDirty();
             }
         }
@@ -275,6 +286,8 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
         } else if (this.rewindInvalid) {
             data.putBoolean("rewindInvalid", true);
             data.putInt("rewindInvalidPathLen", this.rewindInvalidPathLen);
+        } else if (this.rewindDeadEnd) {
+            data.putBoolean("rewindDeadEnd", true);
         }
     }
 
@@ -310,6 +323,9 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
             tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.rewind_error",
                     data.getInt("rewindSteps"), data.getInt("rewindInvalidPathLen"))
                     .withStyle(ChatFormatting.RED));
+        } else if (data.getBoolean("rewindDeadEnd")) {
+            tooltip.accept(Component.translatable("ui.start_core.dimensional_finder.rewind_dead_end",
+                    data.getInt("rewindSteps")).withStyle(ChatFormatting.RED));
         }
     }
 
@@ -317,6 +333,22 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
 
         public DimensionalFinderRecipeLogic(DimensionalFinderMachine machine) {
             super(machine);
+        }
+
+        @Override
+        public void setupRecipe(GTRecipe recipe) {
+            if (!(getMachine() instanceof DimensionalFinderMachine finder)) {
+                super.setupRecipe(recipe);
+                return;
+            }
+
+            boolean wasActive = finder.isActiveRun();
+            super.setupRecipe(recipe);
+
+            // if we failed to consume the inputs because the recipe was not set up, just drop the run
+            if (!wasActive && finder.isActiveRun() && this.lastRecipe != recipe) {
+                finder.resetRunState();
+            }
         }
 
         @Override

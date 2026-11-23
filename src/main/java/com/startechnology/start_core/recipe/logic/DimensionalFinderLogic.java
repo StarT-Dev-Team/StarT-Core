@@ -51,6 +51,10 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
 
     private @Nullable GTRecipe createInitialCycleRecipe(DimensionalFinderMachine machine, List<ItemStack> allItems,
                                                         List<FluidStack> allFluids) {
+        ResourceLocation currentDim = machine.getLevel().dimension().location();
+        List<DimensionalFinderDimension> candidates = StarTDimensionalFinderData.getDimensionsForSource(currentDim);
+        if (candidates.isEmpty()) return null;
+
         ItemStack emptyCrystal = null;
         ItemStack failedCrystal = null;
 
@@ -61,7 +65,8 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
                     emptyCrystal = stack;
                 }
             } else if (StarTCoordinateCrystalBehaviour.isFailedCrystal(stack)) {
-                if (failedCrystal == null) {
+                if (failedCrystal == null &&
+                        isTargetingAny(StarTCoordinateCrystalBehaviour.getTargetDimensionId(stack), candidates)) {
                     failedCrystal = stack;
                 }
             }
@@ -69,12 +74,9 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
 
         if (emptyCrystal == null) {
             machine.setRewindInvalid(false);
+            machine.setRewindDeadEnd(false);
             return null;
         }
-
-        ResourceLocation currentDim = machine.getLevel().dimension().location();
-        List<DimensionalFinderDimension> candidates = StarTDimensionalFinderData.getDimensionsForSource(currentDim);
-        if (candidates.isEmpty()) return null;
 
         DimensionalFinderDimension matchedDim = null;
         String failedCrystalDimId = (failedCrystal != null) ?
@@ -111,16 +113,27 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
 
             if (idx < 0 || idx + 1 >= refPath.length || tree.getNode(refPath[idx]) == null) {
                 machine.setRewindInvalid(true);
+                machine.setRewindDeadEnd(false);
                 machine.setRewindInvalidPathLen(refPath.length);
                 return null;
             }
 
-            machine.setRewindInvalid(false);
             initialPath = Arrays.copyOfRange(refPath, 0, idx + 1);
             initialPrev = idx > 0 ? refPath[idx - 1] : -1;
             initialExcl = refPath[idx + 1];
+
+            Node rewindNode = tree.getNode(refPath[idx]);
+            if (tree.getAvailableNeighbors(rewindNode, initialPrev, initialExcl).isEmpty()) {
+                machine.setRewindInvalid(false);
+                machine.setRewindDeadEnd(true);
+                return null;
+            }
+
+            machine.setRewindInvalid(false);
+            machine.setRewindDeadEnd(false);
         } else {
             machine.setRewindInvalid(false);
+            machine.setRewindDeadEnd(false);
             Node start = tree.pickRandomLeaf(StarTCore.RNG);
             initialPath = new int[] { start.getCoord() };
             initialPrev = -1;
@@ -275,6 +288,16 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
         return new StepOutcome(next.getCoord(), false, nextPath, null);
     }
 
+    private static boolean isTargetingAny(@Nullable String dimensionId, List<DimensionalFinderDimension> dimensions) {
+        if (dimensionId == null) return false;
+        for (DimensionalFinderDimension dimension : dimensions) {
+            if (dimension.getDimensionId().toString().equals(dimensionId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean matchesAdditionalInputs(DimensionalFinderDimension dim, List<ItemStack> allItems,
                                             List<FluidStack> allFluids) {
         for (ItemStack reqItem : dim.getAdditionalItems()) {
@@ -316,7 +339,8 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
                     "behaviour.start_core.coordinate_crystal.jei.fresh_start_info");
 
             ItemStack engravedOutput = StarTItems.COORDINATE_CRYSTAL.asStack(1);
-            StarTCoordinateCrystalBehaviour.engraveDimension(engravedOutput, dim.getDimensionId(), dim.getAddress());
+            // dont show the actual address in xei
+            StarTCoordinateCrystalBehaviour.engraveDimension(engravedOutput, dim.getDimensionId(), new int[0]);
             StarTCustomTooltipsManager.writeCustomTooltipsToItem(engravedOutput.getOrCreateTag(),
                     "behaviour.start_core.coordinate_crystal.jei.output_header",
                     "behaviour.start_core.coordinate_crystal.jei.output_cycle_info",
@@ -357,7 +381,7 @@ public class DimensionalFinderLogic implements ICustomRecipeLogic {
                     "behaviour.start_core.coordinate_crystal.jei.rewind_ref_info2");
 
             ItemStack rewindOutput = StarTItems.COORDINATE_CRYSTAL.asStack(1);
-            StarTCoordinateCrystalBehaviour.engraveDimension(rewindOutput, dim.getDimensionId(), dim.getAddress());
+            StarTCoordinateCrystalBehaviour.engraveDimension(rewindOutput, dim.getDimensionId(), new int[0]);
             StarTCustomTooltipsManager.writeCustomTooltipsToItem(rewindOutput.getOrCreateTag(),
                     "behaviour.start_core.coordinate_crystal.jei.output_header",
                     "behaviour.start_core.coordinate_crystal.jei.output_cycle_info",
