@@ -134,6 +134,9 @@ public class HeatChamberMachine extends WorkableElectricMultiblockMachine
         int achievableParallels = getAchievableParallels(rawRecipe, modifiedRecipe);
         if (achievableParallels <= 0) return 0;
 
+        // without a pch the ratio would just be 1 for the max rate, so just return the worst one
+        if (getParallelHatch().isEmpty()) return 2;
+
         int maxParallels = getMaxHatchParallels();
         double ratio = (double) achievableParallels / (double) maxParallels;
 

@@ -1779,6 +1779,7 @@
   "ui.start_core.dimensional_finder.phase.shortest": "§aPhase: Identifying the shortest address",
   "ui.start_core.dimensional_finder.rewind": "§7Rewind Coordinates: ",
   "ui.start_core.dimensional_finder.rewind.hover": "Adjust how many coordinates to go back on a failed crystal",
+  "ui.start_core.dimensional_finder.rewind_dead_end": "§cRewinding %s coordinates leads to a dead end",
   "ui.start_core.dimensional_finder.rewind_error": "§cRewind of %s exceeds crystal path length (%s)",
   "ui.start_core.dimensional_finder.target": "§7Target: §b%s",
   "ui.start_core.fornaxs_crucible": "§dCrucible Temp: §b{0}MK",
