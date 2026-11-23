@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeFailureReason;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -32,8 +33,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -140,7 +143,7 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
         if (!isRemote() && !isValidLensIndex(this.requiredLensIndex)) {
             this.requiredLensIndex = this.rollNextLensIndex(-1);
         }
-        this.activeLensIndex = -1;
+
         this.pendingLookaheadRoll = false;
         this.validationStatus = LensValidationStatus.READY;
 
@@ -174,6 +177,11 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
 
         LensColorEntry requiredEntry = LENS_COLORS.get(requiredLensIndex - 1);
 
+        List<Ingredient> recipeItemInputs = new ArrayList<>();
+        for (Content content : recipe.getInputContents(ItemRecipeCapability.CAP)) {
+            recipeItemInputs.add(ItemRecipeCapability.CAP.of(content.content));
+        }
+
         boolean hasRequiredLens = false;
         boolean hasWrongLens = false;
 
@@ -189,7 +197,7 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
                 if (!(content instanceof ItemStack stack) || stack.isEmpty()) {
                     continue;
                 }
-                if (isConflictingLens(stack, requiredEntry)) {
+                if (isConflictingLens(stack, requiredEntry) && !matchesAny(stack, recipeItemInputs)) {
                     hasWrongLens = true;
                     break;
                 }
@@ -248,21 +256,45 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
         super.addDisplayText(textList);
         if (!isFormed()) return;
 
-        LensColorEntry requiredEntry = LENS_COLORS.get(requiredLensIndex - 1);
+        appendLensLines(this.requiredLensIndex, this.activeLensIndex, isCrafting(), this.validationStatus,
+                textList::add);
+    }
 
-        if (this.getRecipeLogic().isWorking()) {
-            LensColorEntry activeEntry = LENS_COLORS.get(activeLensIndex - 1);
+    private boolean isCrafting() {
+        return this.getRecipeLogic().isWorking() || this.getRecipeLogic().isWaiting();
+    }
+
+    private static @Nullable LensColorEntry getLensEntry(int lensIndex) {
+        return isValidLensIndex(lensIndex) ? LENS_COLORS.get(lensIndex - 1) : null;
+    }
+
+    private static void appendLensLines(int requiredIndex, int activeIndex, boolean crafting,
+                                        LensValidationStatus status, Consumer<Component> out) {
+        LensColorEntry requiredEntry = getLensEntry(requiredIndex);
+        if (requiredEntry == null) return;
+
+        if (crafting) {
+            LensColorEntry activeEntry = getLensEntry(activeIndex);
             if (activeEntry != null) {
-                textList.add(Component.translatable("ui.start_core.runic_circuitry.active_lens",
+                out.accept(Component.translatable("ui.start_core.runic_circuitry.active_lens",
                         activeEntry.getColoredName()).withStyle(ChatFormatting.GRAY));
             }
-            textList.add(Component.translatable("ui.start_core.runic_circuitry.next_lens",
+            out.accept(Component.translatable("ui.start_core.runic_circuitry.next_lens",
                     requiredEntry.getColoredName(),
                     requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
-        } else {
-            textList.add(Component.translatable("ui.start_core.runic_circuitry.required_lens",
-                    requiredEntry.getColoredName(),
-                    requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
+            return;
+        }
+
+        out.accept(Component.translatable("ui.start_core.runic_circuitry.required_lens",
+                requiredEntry.getColoredName(),
+                requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
+
+        if (status == LensValidationStatus.MISSING_REQUIRED_LENS) {
+            out.accept(Component.translatable("start_core.machine.runic_circuitry.error.missing_lens",
+                    requiredEntry.getColoredName()).withStyle(ChatFormatting.RED));
+        } else if (status == LensValidationStatus.WRONG_LENS_PRESENT) {
+            out.accept(Component.translatable("start_core.machine.runic_circuitry.error.wrong_lens",
+                    requiredEntry.getColoredName()).withStyle(ChatFormatting.RED));
         }
     }
 
@@ -290,6 +322,15 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
 
     private static boolean isValidLensIndex(int index) {
         return index >= 1 && index <= 15;
+    }
+
+    private static boolean matchesAny(ItemStack stack, List<Ingredient> ingredients) {
+        for (Ingredient ingredient : ingredients) {
+            if (ingredient.test(stack)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean isConflictingLens(ItemStack stack, LensColorEntry requiredEntry) {
@@ -322,7 +363,7 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
         data.putBoolean("formed", this.isFormed());
         data.putInt("requiredLensIndex", this.getRequiredLensIndex());
         data.putInt("activeLensIndex", this.getActiveLensIndex());
-        data.putBoolean("working", this.getRecipeLogic().isWorking());
+        data.putBoolean("working", isCrafting());
         data.putInt("validationStatus", this.getValidationStatus().ordinal());
     }
 
@@ -333,21 +374,7 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
             return;
         }
 
-        LensColorEntry requiredEntry = LENS_COLORS.get(requiredLensIndex - 1);
-
-        if (this.getRecipeLogic().isWorking()) {
-            LensColorEntry activeEntry = LENS_COLORS.get(activeLensIndex - 1);
-            if (activeEntry != null) {
-                tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.active_lens",
-                        activeEntry.getColoredName()).withStyle(ChatFormatting.GRAY));
-            }
-            tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.next_lens",
-                    requiredEntry.getColoredName(),
-                    requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
-        } else {
-            tooltip.accept(Component.translatable("ui.start_core.runic_circuitry.required_lens",
-                    requiredEntry.getColoredName(),
-                    requiredEntry.signalLevel()).withStyle(ChatFormatting.GRAY));
-        }
+        appendLensLines(data.getInt("requiredLensIndex"), data.getInt("activeLensIndex"),
+                data.getBoolean("working"), LensValidationStatus.of(data.getInt("validationStatus")), tooltip);
     }
 }
