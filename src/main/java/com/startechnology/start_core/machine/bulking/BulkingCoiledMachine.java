@@ -6,8 +6,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -10,8 +10,8 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
-import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
+import com.lowdragmc.lowdraglib2.gui.ui.data.FillDirection;
+import com.lowdragmc.lowdraglib2.utils.LocalizationUtils;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import com.startechnology.start_core.integration.xei.StarTFusionRecipeWidget;
 import com.startechnology.start_core.machine.fusion.ReflectorFusionReactorMachine;
@@ -29,7 +29,7 @@ public class StarTRecipeTypes {
             .register("reflector_fusion_reactor", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 2, 1)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
@@ -51,7 +51,7 @@ public class StarTRecipeTypes {
             .setMaxIOSize(1, 2, 2, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new BacteriaVatLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType ABYSSAL_CONTAINMENT_RECIPE_TYPE = GTRecipeTypes
             .register("abyssal_containment", GTRecipeTypes.MULTIBLOCK)
@@ -64,14 +64,14 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new BacterialRunicMutatorLogic())
             .addCustomRecipeLogic(new BacterialDormantAwakeningLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType BACTERIAL_HYDROCARBON_HARVESTER_RECIPES = GTRecipeTypes
             .register("bacterial_hydrocarbon_harvester", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(2, 0, 2, 5)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new BacterialHydrocarbonHarvesterLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GCROP_MUTATOR_RECIPES = GTRecipeTypes
             .register("gcrop_mutator", GTRecipeTypes.MULTIBLOCK)
@@ -79,33 +79,33 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GCropMutatorLogic())
             .addCustomRecipeLogic(new GCropSeedDiscoveryLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GCROP_BREEDER_RECIPES = GTRecipeTypes
             .register("gcrop_breeder", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 1, 2, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GCropBreederLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GCROP_HARVESTER_RECIPES = GTRecipeTypes
             .register("gcrop_harvester", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 1, 2, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GCropHarvesterLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType VOID_MESH = GTRecipeTypes
             .register("void_mesh", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType VOID_GAS_COLLECTOR = GTRecipeTypes
             .register("void_gas_collector", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1, 0, 0, 1)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GENOME_GATHERING = GTRecipeTypes
             .register("genome_gathering", GTRecipeTypes.MULTIBLOCK)
@@ -113,28 +113,28 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GenomeDuplicationLogic())
             .addCustomRecipeLogic(new GenomeHarvestingLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GENOME_MIXING = GTRecipeTypes
             .register("genome_mixing", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GenomeMixingLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GENOME_SEPARATING = GTRecipeTypes
             .register("genome_separating", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GenomeSeparatingLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType GENOME_INSERTION = GTRecipeTypes
             .register("genome_insertion", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3, 2, 3, 0)
             .setEUIO(IO.IN)
             .addCustomRecipeLogic(new GenomeInsertionLogic())
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType VACUUM_CHEMICAL_REACTION_CHAMBER_RECIPES = GTRecipeTypes
             .register("vacuum_chemical_reaction_chamber", GTRecipeTypes.MULTIBLOCK)
@@ -142,7 +142,7 @@ public class StarTRecipeTypes {
             .setEUIO(IO.IN)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> {
                 var vacuumLevel = data.getInt("vacuum_level");
                 if (vacuumLevel >= 100)
@@ -166,7 +166,7 @@ public class StarTRecipeTypes {
             GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(2, 1, 7, 1)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, FillDirection.LEFT_TO_RIGHT)
             .addCustomRecipeLogic(new HellForgeHeatingLogic())
             .addDataInfo(data -> {
                 int temp = data.getInt("ebf_temp");
@@ -195,7 +195,7 @@ public class StarTRecipeTypes {
             .register("abyssal_harvester", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1, 0, 1, 4)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> {
                 int minSaturation = data.getInt("min_saturation");
                 if (minSaturation > 0) {
@@ -228,7 +228,7 @@ public class StarTRecipeTypes {
             .register("titan_forge", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(4, 1, 0, 0)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT);
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, FillDirection.LEFT_TO_RIGHT);
 
     public static final GTRecipeType MODULAR_ROCKET_MODULE_RECIPES = GTRecipeTypes
             .register("modular_rocket_module", GTRecipeTypes.ELECTRIC)
@@ -243,7 +243,7 @@ public class StarTRecipeTypes {
     public static final GTRecipeType ARBOREAL_EXTRACTION_RECIPES = GTRecipeTypes
             .register("arboreal_extraction", "primitive")
             .setMaxIOSize(3, 0, 0, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .addDataInfoFull(ArborealExtractionRecipeLogic::getDataInfo)
             .addCustomRecipeLogic(new ArborealExtractionRecipeLogic())
             .setUiBuilder(ArborealExtractionRecipeLogic::uiBuilder);
@@ -253,17 +253,17 @@ public class StarTRecipeTypes {
             .setMaxIOSize(3, 1, 1, 0)
             .setMaxTooltips(4)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_REPLICATOR, FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COMPUTATION)
             .addCustomRecipeLogic(new DimensionalFinderLogic());
-  
+
     public static final GTRecipeType HEAT_CHAMBER_RECIPES = GTRecipeTypes
             .register("heat_chamber", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(4, 4, 4, 4)
             .setEUIO(IO.IN)
             .setOffsetVoltageText(true)
             .setVoltageTextOffset(19)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> {
                 int minTemp = data.getInt("min_temp");
                 if (minTemp > 0) {

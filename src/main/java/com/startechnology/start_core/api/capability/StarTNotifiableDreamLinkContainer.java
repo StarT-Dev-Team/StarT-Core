@@ -3,8 +3,6 @@ package com.startechnology.start_core.api.capability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkHatchPartMachine;
 import com.startechnology.start_core.machine.dreamlink.StarTDreamLinkManager;
 
@@ -13,9 +11,6 @@ import net.minecraft.core.Direction;
 import java.util.UUID;
 
 public class StarTNotifiableDreamLinkContainer extends NotifiableEnergyContainer {
-
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTNotifiableDreamLinkContainer.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
 
     private TickableSubscription addTickSubscription;
 

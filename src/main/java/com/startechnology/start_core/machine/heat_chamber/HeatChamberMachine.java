@@ -12,9 +12,8 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -37,10 +36,6 @@ public class HeatChamberMachine extends WorkableElectricMultiblockMachine
     public static final int DEFAULT_BASE_TEMPERATURE = 298;
     public static final int COOLING_RATE = 1;
     public static final String REDSTONE_INDICATOR_KEY = "variadic.start_core.indicator.heat_chamber.temp_to_target";
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            HeatChamberMachine.class,
-            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced
@@ -80,11 +75,6 @@ public class HeatChamberMachine extends WorkableElectricMultiblockMachine
     @Override
     public @NotNull HeatChamberRecipeLogic getRecipeLogic() {
         return (HeatChamberRecipeLogic) super.getRecipeLogic();
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

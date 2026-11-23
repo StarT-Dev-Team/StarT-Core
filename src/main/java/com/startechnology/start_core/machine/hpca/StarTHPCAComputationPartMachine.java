@@ -3,7 +3,7 @@ package com.startechnology.start_core.machine.hpca;
 import com.gregtechceu.gtceu.api.capability.IHPCAComputationProvider;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
@@ -13,8 +13,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class StarTHPCAComputationPartMachine extends HPCAComponentPartMachine implements IHPCAComputationProvider {
 
-    private final ResourceTexture componentIcon;
-    private final ResourceTexture brokenComponentIcon;
+    private final SpriteTexture componentIcon;
+    private final SpriteTexture brokenComponentIcon;
     private final int upkeepEUt;
     private final int maxEUt;
     private final int cwuT;
@@ -23,8 +23,8 @@ public class StarTHPCAComputationPartMachine extends HPCAComponentPartMachine im
     @Getter
     private final boolean advanced;
 
-    public StarTHPCAComputationPartMachine(IMachineBlockEntity holder, ResourceTexture componentIcon,
-                                           ResourceTexture brokenComponentIcon, int upkeepEUt, int maxEUt, int cwuT,
+    public StarTHPCAComputationPartMachine(IMachineBlockEntity holder, SpriteTexture componentIcon,
+                                           SpriteTexture brokenComponentIcon, int upkeepEUt, int maxEUt, int cwuT,
                                            int coolingT) {
         super(holder);
 
@@ -39,7 +39,7 @@ public class StarTHPCAComputationPartMachine extends HPCAComponentPartMachine im
     }
 
     @Override
-    public ResourceTexture getComponentIcon() {
+    public SpriteTexture getComponentIcon() {
         if (isDamaged()) {
             return brokenComponentIcon;
         } else {

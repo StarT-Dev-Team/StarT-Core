@@ -6,8 +6,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDataInfoProvider;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.common.item.PortableScannerBehavior;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,10 +18,6 @@ import java.util.List;
 
 public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHatchPartMachine
                                                  implements IDataInfoProvider {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTModularConduitHatchPartMachine.class,
-            StarTModularInterfaceHatchPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @Nullable
@@ -54,11 +49,6 @@ public class StarTModularConduitHatchPartMachine extends StarTModularInterfaceHa
                     String.format("%d/%d EU", energyContainer.getEnergyStored(), energyContainer.getEnergyCapacity())));
         }
         return new ArrayList<>();
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

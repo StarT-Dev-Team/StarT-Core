@@ -1,13 +1,9 @@
 package com.startechnology.start_core.machine.redstone;
 
-import com.lowdragmc.lowdraglib.syncdata.payload.ObjectTypedPayload;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.experimental.Accessors;
-import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ExtraCodecs;
 
@@ -66,18 +62,5 @@ public record RedstoneIndicatorRecord(String indicatorKey, Component indicatorCo
     public RedstoneIndicatorRecord withRedstoneLevel(int newLevel) {
         return new RedstoneIndicatorRecord(indicatorKey, indicatorComponent, descriptionComponent, newLevel,
                 ordering);
-    }
-
-    public static class Payload extends ObjectTypedPayload<RedstoneIndicatorRecord> {
-
-        @Override
-        public @Nullable Tag serializeNBT() {
-            return RedstoneIndicatorRecord.CODEC.encodeStart(NbtOps.INSTANCE, payload).result().orElseThrow();
-        }
-
-        @Override
-        public void deserializeNBT(Tag tag) {
-            payload = RedstoneIndicatorRecord.CODEC.parse(NbtOps.INSTANCE, tag).result().orElseThrow();
-        }
     }
 }

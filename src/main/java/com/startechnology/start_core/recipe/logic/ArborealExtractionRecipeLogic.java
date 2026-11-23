@@ -4,13 +4,14 @@ import com.google.common.collect.Streams;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
+import com.lowdragmc.lowdraglib2.gui.slot.ItemHandlerSlot;
+import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
 import com.mojang.datafixers.util.Function3;
 import com.startechnology.start_core.block.arboreal_extractor.ArborealBlocks;
 import com.startechnology.start_core.block.arboreal_extractor.TreeType;
@@ -23,6 +24,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import dev.vfyjxf.taffy.style.TaffyPosition;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -129,11 +131,13 @@ public class ArborealExtractionRecipeLogic implements GTRecipeType.ICustomRecipe
                 treeType.getTranslatedName().copy().withStyle(ChatFormatting.GOLD));
 
         return new GTRecipeType.CustomDataInfoResult(info, (label, widget) -> {
-            label.setHoverTooltips(tooltips);
+            GTRecipeWidget.setTooltips(label, tooltips);
         });
     }
 
-    public static void uiBuilder(GTRecipe recipe, WidgetGroup widgetGroup) {
+    public static void uiBuilder(GTRecipe recipe, UIElement widgetGroup) {
+        if (!(widgetGroup instanceof GTRecipeWidget recipeWidget)) return;
+
         var rawTreeType = recipe.data.getString("treeType");
         var treeType = TreeType.of(rawTreeType);
         if (treeType == null) return;
@@ -144,25 +148,27 @@ public class ArborealExtractionRecipeLogic implements GTRecipeType.ICustomRecipe
                 treeTypes.stream().map(tree -> new ItemStack(tree.getLog().get())).toList(),
                 treeTypes.stream().map(tree -> new ItemStack(tree.getLeaves().get())).toList()));
 
-        var centerX = widgetGroup.getSize().width - 25;
-        var centerY = widgetGroup.getSize().height - 40;
+        int centerX = recipeWidget.getWidgetWidth() - 25;
+        int centerY = recipeWidget.getWidgetHeight() - 40;
 
-        Function3<Integer, Integer, Integer, Widget> makeSlot = (slot, x,
-                                                                 y) -> {
-            var slotWidget = new SlotWidget(stackHandler, slot, centerX + x,
-                    centerY + y, false, false);
-            slotWidget.setDrawHoverOverlay(false);
-            slotWidget.setBackground(IGuiTexture.EMPTY);
+        Function3<Integer, Integer, Integer, UIElement> makeSlot = (slot, x, y) -> {
+            var slotWidget = new ItemSlot();
+            slotWidget.bind(new ItemHandlerSlot(stackHandler, slot).setCanTake(player -> false)
+                    .setCanPlace(stack -> false));
+            slotWidget.style(style -> style.backgroundTexture(IGuiTexture.EMPTY));
+            slotWidget.slotStyle(style -> style.hoverOverlay(IGuiTexture.EMPTY));
+            slotWidget.layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE).left(centerX + x)
+                    .top(centerY + y));
             return slotWidget;
         };
 
-        widgetGroup.addWidget(makeSlot.apply(1, -6, -3));
-        widgetGroup.addWidget(makeSlot.apply(1, 6, -3));
-        widgetGroup.addWidget(makeSlot.apply(0, 0, 16));
-        widgetGroup.addWidget(makeSlot.apply(0, 0, 8));
-        widgetGroup.addWidget(makeSlot.apply(0, 0, 0));
-        widgetGroup.addWidget(makeSlot.apply(1, 0, -8));
-        widgetGroup.addWidget(makeSlot.apply(1, -6, 3));
-        widgetGroup.addWidget(makeSlot.apply(1, 6, 3));
+        widgetGroup.addChild(makeSlot.apply(1, -6, -3));
+        widgetGroup.addChild(makeSlot.apply(1, 6, -3));
+        widgetGroup.addChild(makeSlot.apply(0, 0, 16));
+        widgetGroup.addChild(makeSlot.apply(0, 0, 8));
+        widgetGroup.addChild(makeSlot.apply(0, 0, 0));
+        widgetGroup.addChild(makeSlot.apply(1, 0, -8));
+        widgetGroup.addChild(makeSlot.apply(1, -6, 3));
+        widgetGroup.addChild(makeSlot.apply(1, 6, 3));
     }
 }

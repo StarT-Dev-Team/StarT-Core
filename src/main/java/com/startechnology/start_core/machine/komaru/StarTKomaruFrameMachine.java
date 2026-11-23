@@ -17,9 +17,8 @@ import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.machine.modular.StarTModularConduitAutoScalingHatchPartMachine;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
@@ -44,10 +43,6 @@ import java.util.regex.Pattern;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine implements IRedstoneIndicatorMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTKomaruFrameMachine.class,
-            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private static final List<ResourceLocation> BASIC_MODULE_ID = new ArrayList<>();
     private static final List<ResourceLocation> ADVANCED_MODULE_ID = new ArrayList<>();
@@ -693,11 +688,6 @@ public class StarTKomaruFrameMachine extends WorkableElectricMultiblockMachine i
         }
 
         return indicators;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private boolean checkOffset(int ticks) {

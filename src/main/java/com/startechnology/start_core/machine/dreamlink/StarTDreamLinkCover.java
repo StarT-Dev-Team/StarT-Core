@@ -13,9 +13,11 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
@@ -39,9 +41,6 @@ import java.util.UUID;
 
 public class StarTDreamLinkCover extends CoverBehavior
                                  implements IStarTDreamLinkNetworkReceiveEnergy, IStarTDreamCopyInteractable, IUICover {
-
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(StarTDreamLinkCover.class,
-            CoverBehavior.MANAGED_FIELD_HOLDER);
 
     private final int tier;
     private final int amperage;
@@ -230,11 +229,6 @@ public class StarTDreamLinkCover extends CoverBehavior
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
     public InteractionResult onDreamCopyShiftUse(Player player, ItemStack copyItem) {
         if (!isRemote()) {
             CompoundTag tag = new CompoundTag();
@@ -263,23 +257,27 @@ public class StarTDreamLinkCover extends CoverBehavior
     }
 
     @Override
-    public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117)
-                        .addWidget(new LabelWidget(4, 5, "Dream-Link Cover"))
-                        .addWidget(new LabelWidget(4, 20, "Dream-Network Identifier"))
-                        .addWidget(
-                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getNetwork, this::setNetwork)
-                                        .setMaxStringLength(64)
-                                        .setValidator(input -> {
-                                            if (input == null || input.isBlank())
-                                                return IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK;
-                                            return input;
-                                        })
-                                        .setHoverTooltips(Component
-                                                .translatable("start_core.machine.dream_link.network_set_hover"))));
+    public UIElement createUIWidget() {
+        var title = new Label();
+        title.setText(Component.literal("Dream-Link Cover"));
 
+        var subtitle = new Label();
+        subtitle.setText(Component.literal("Dream-Network Identifier"));
+
+        var networkField = new TextField().setAnyString();
+        networkField.setTextValidator(text -> text.length() <= 64);
+        networkField.style(style -> style
+                .tooltips(Component.translatable("start_core.machine.dream_link.network_set_hover")));
+        networkField.bind(DataBindingBuilder.string(this::getNetwork, input -> {
+            if (input == null || input.isBlank())
+                setNetwork(IStarTDreamLinkNetworkMachine.DEFAULT_NETWORK);
+            else
+                setNetwork(input);
+        }).build());
+
+        var group = new UIElement();
+        group.layout(layout -> layout.width(182).height(117).paddingAll(4).gapAll(3));
+        group.addChildren(title, subtitle, networkField);
         return group;
     }
 }

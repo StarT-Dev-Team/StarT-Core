@@ -9,8 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -30,10 +29,6 @@ import java.util.function.Consumer;
 
 public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMachine
                                           implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTAbyssalHarvesterMachine.class,
-            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
@@ -84,11 +79,6 @@ public class StarTAbyssalHarvesterMachine extends WorkableElectricMultiblockMach
         super.addDisplayText(textList);
         textList.add(Component.translatable("ui.start_core.abyssal_harvester",
                 String.format("%.2f", this.getSaturation() / 100.0)));
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

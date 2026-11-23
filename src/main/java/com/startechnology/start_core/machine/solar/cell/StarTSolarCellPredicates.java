@@ -1,7 +1,7 @@
 package com.startechnology.start_core.machine.solar.cell;
 
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.startechnology.start_core.block.solar.StarTSolarCellBlocks;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 

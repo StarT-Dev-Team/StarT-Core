@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -14,10 +15,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.capability.IStarTModularSupportedModules;
 import com.startechnology.start_core.api.gui.StarTGuiTextures;
 import lombok.Getter;
@@ -39,10 +41,6 @@ import java.util.function.Predicate;
 
 public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
                                                    implements IStarTModularSupportedModules {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTModularInterfaceHatchPartMachine.class,
-            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     private List<ResourceLocation> supportedModules;
 
@@ -224,11 +222,6 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
     public int tintColor(int index) {
         if (index == 2) {
             return GTValues.VC[getTier()];
@@ -296,14 +289,23 @@ public class StarTModularInterfaceHatchPartMachine extends TieredIOPartMachine
     }
 
     @Override
-    public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                        .addWidget(new LabelWidget(4, 5, this.getTitle()))
-                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText)));
+    public UIElement createUIWidget() {
+        var title = new Label();
+        title.setText(this.getTitle());
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        var content = new UIElement();
+        content.layout(layout -> layout.paddingAll(4).gapAll(3));
+        content.addChildren(title, new ComponentPanel(this::addComponentPanelText).setMaxWidthLimit(174));
+
+        var screen = new ScrollerView();
+        screen.layout(layout -> layout.width(182).height(117));
+        screen.style(style -> style.background(GuiTextures.DISPLAY));
+        screen.addScrollViewChild(content);
+
+        var group = new UIElement();
+        group.layout(layout -> layout.paddingAll(4));
+        group.style(style -> style.background(GuiTextures.BACKGROUND_INVERSE));
+        group.addChild(screen);
         return group;
     }
 

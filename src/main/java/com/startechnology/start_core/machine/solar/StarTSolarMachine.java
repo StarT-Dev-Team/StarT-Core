@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.StarTCore;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
@@ -276,8 +276,10 @@ public class StarTSolarMachine extends WorkableElectricMultiblockMachine
 
     public GTRecipe getSolarPanelRecipe(Item solarCellItem) {
         var brokenCell = new ItemStack(solarCellItem);
-        CompoundTag tag = new CompoundTag();
-        tag.putBoolean("broken", true);
+        var managed = new CompoundTag();
+        managed.putBoolean("broken", true);
+        var tag = new CompoundTag();
+        tag.put("managed", managed);
         brokenCell.getOrCreateTag().put("BlockEntityTag", tag);
 
         return repairRecipeCache.computeIfAbsent(solarCellItem,

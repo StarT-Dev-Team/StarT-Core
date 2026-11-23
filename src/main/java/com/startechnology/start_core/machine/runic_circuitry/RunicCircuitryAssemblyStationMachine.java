@@ -14,9 +14,8 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeFailureReason;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.machine.redstone.IRedstoneIndicatorMachine;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorRecord;
@@ -42,9 +41,6 @@ import java.util.function.Consumer;
 @MethodsReturnNonnullByDefault
 public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultiblockMachine
                                                   implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            RunicCircuitryAssemblyStationMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private static final TagKey<Item> PARENT_LENS_TAG = TagUtil.createItemTag("lenses");
 
@@ -120,11 +116,6 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
                 () -> "Missing lens tag for marker material " + markerMaterial.getName());
         return new LensColorEntry(signalLevel, markerMaterial, colorTag, displayColor,
                 "color.minecraft." + dyeColor.getName());
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

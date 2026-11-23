@@ -15,13 +15,13 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.api.reflector.FusionReflectorType;
 import com.startechnology.start_core.block.fusion.StarTFusionBlocks;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.machine.parallel.StarTParallelHatches;
+import dev.vfyjxf.taffy.style.TaffyPosition;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -185,14 +185,14 @@ public class ReflectorFusionReactorMachine extends FusionReactorMachine implemen
         };
     }
 
-    public static void addEUToStartLabel(GTRecipe recipe, @NotNull WidgetGroup group) {
+    public static void addEUToStartLabel(GTRecipe recipe, @NotNull UIElement group) {
         var euToStart = recipe.data.getLong("eu_to_start");
         if (euToStart <= 0) return;
         FusionReactorMachine.addEUToStartLabel(recipe, group);
-        var last = (LabelWidget) group.widgets.get(group.widgets.size() - 1);
-        last.setSelfPositionY(group.getSizeHeight() - 8);
-
-        if (group instanceof GTRecipeWidget recipeWidget) last.setSelfPositionX(3 - recipeWidget.getXOffset());
+        var children = group.getChildren();
+        var last = children.get(children.size() - 1);
+        int left = group instanceof GTRecipeWidget recipeWidget ? 3 - recipeWidget.getXOffset() : -8;
+        last.layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE).left(left).topPercent(100).marginTop(-8));
     }
 
     @Override

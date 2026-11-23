@@ -6,22 +6,17 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.lowdragmc.lowdraglib.LDLib;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModularConduitHatchPartMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTModularConduitAutoScalingHatchPartMachine.class,
-            StarTModularConduitHatchPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private long persistedVoltage = 0L;
@@ -47,8 +42,8 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
     public void onLoad() {
         super.onLoad();
 
-        if (!LDLib.isRemote()) {
-            getLevel().getServer().tell(new TickTask(0, this::restoreEnergyContainer));
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().tell(new TickTask(0, this::restoreEnergyContainer));
         }
     }
 
@@ -138,10 +133,5 @@ public class StarTModularConduitAutoScalingHatchPartMachine extends StarTModular
 
     public long getScaledAmperage() {
         return this.io == IO.IN ? this.energyContainer.getInputAmperage() : this.energyContainer.getOutputAmperage();
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

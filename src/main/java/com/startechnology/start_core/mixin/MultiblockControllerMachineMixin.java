@@ -2,8 +2,8 @@ package com.startechnology.start_core.mixin;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.redstone.IMultiblockControllerMachineRedstoneIndicators;
 import com.startechnology.start_core.machine.redstone.RedstoneIndicatorsLogic;
 import org.spongepowered.asm.mixin.Mixin;

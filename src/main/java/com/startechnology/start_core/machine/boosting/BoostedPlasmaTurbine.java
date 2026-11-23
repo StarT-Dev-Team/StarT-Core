@@ -14,8 +14,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMac
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.integration.kjs.helpers.MachineModifiers;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.materials.StarTMaterials;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,9 +26,6 @@ import net.minecraft.network.chat.MutableComponent;
 import java.util.List;
 
 public class BoostedPlasmaTurbine extends LargeTurbineMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            BoostedPlasmaTurbine.class, LargeTurbineMachine.MANAGED_FIELD_HOLDER);
 
     private static final int SUPREME_TURBINE_TIER = GTValues.UHV;
     private static final int NYINSANE_TURBINE_TIER = GTValues.UIV;
@@ -221,10 +217,5 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
                 textList.add(getActiveBoostingComponent());
             }
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }

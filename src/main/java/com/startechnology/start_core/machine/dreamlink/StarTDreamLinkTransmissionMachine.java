@@ -6,9 +6,12 @@ import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
+import com.gregtechceu.gtceu.api.gui.util.UICloseHandler;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
@@ -18,11 +21,14 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
@@ -56,9 +62,7 @@ import java.util.UUID;
 public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine implements
                                                IStarTDreamLinkNetworkMachine, IFancyUIMachine, IDisplayUIMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTDreamLinkTransmissionMachine.class,
-            WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+    private static final String RANGE_TOGGLE_MESSAGE = "start_core:dream_link_range_toggle";
 
     private EnergyContainerList inputHatches;
     protected ConditionalSubscriptionHandler tickSubscription;
@@ -332,7 +336,7 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
 
             /* Button for showing the range of the dream-link, no need on unlimited range stuff. */
             textList.add(
-                    ComponentPanelWidget.withButton(
+                    ComponentPanel.withButton(
                             Component.translatable("start_core.machine.dream_link.tower.range_show")
                                     .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                             Component.translatable(
@@ -372,35 +376,50 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     }
 
     /* Triggered by clicking on anything that is a button in the component panel. */
-    public void onDreamLinkComponentPanelClicked(String componentData, ClickData clickData) {
-        if (clickData.isRemote) {
-            if (Objects.equals(componentData, "range")) {
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> StarTDreamLinkRangeRenderer
-                        .toggleBoxAtPositionWithRange(this.getPos(), this.range));
-            }
+    public void onDreamLinkComponentPanelClicked(ComponentPanel panel, String componentData, ClickData clickData) {
+        if (Objects.equals(componentData, "range")) {
+            panel.sendMessage(RANGE_TOGGLE_MESSAGE);
         }
     }
 
-    @Override
-    public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                        .addWidget(new LabelWidget(4, 5, "Dream-link Transmission Node"))
-                        .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
-                        .addWidget(
-                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
-                                        .setMaxStringLength(64)
-                                        .setValidator(input -> {
-                                            if (input == null) return "";
-                                            return input;
-                                        })
-                                        .setHoverTooltips(Component
-                                                .translatable("start_core.machine.dream_link.network_set_hover")))
-                        .addWidget(new ComponentPanelWidget(4, 50, this::addDisplayText)
-                                .clickHandler(this::onDreamLinkComponentPanelClicked)));
+    private void toggleRangeBox() {
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT,
+                () -> () -> StarTDreamLinkRangeRenderer.toggleBoxAtPositionWithRange(this.getPos(), this.range));
+    }
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+    @Override
+    public UIElement createUIWidget() {
+        var title = new Label();
+        title.setText(Component.literal("Dream-link Transmission Node"));
+
+        var subtitle = new Label();
+        subtitle.setText(Component.literal("§7Dream-Network Identifier"));
+
+        var networkField = new TextField().setAnyString();
+        networkField.setTextValidator(text -> text.length() <= 64);
+        networkField.style(style -> style
+                .tooltips(Component.translatable("start_core.machine.dream_link.network_set_hover")));
+        networkField.bind(DataBindingBuilder
+                .string(this::getTempNetwork, input -> setTempNetwork(input == null ? "" : input)).build());
+
+        var panel = new ComponentPanel(this::addDisplayText).setMaxWidthLimit(174);
+        panel.clickHandler((componentData, clickData) -> onDreamLinkComponentPanelClicked(panel, componentData,
+                clickData));
+        panel.onMessage(RANGE_TOGGLE_MESSAGE, tag -> toggleRangeBox());
+
+        var content = new UIElement();
+        content.layout(layout -> layout.paddingAll(4).gapAll(3));
+        content.addChildren(title, subtitle, networkField, panel);
+
+        var screen = new ScrollerView();
+        screen.layout(layout -> layout.width(182).height(117));
+        screen.style(style -> style.background(GuiTextures.DISPLAY));
+        screen.addScrollViewChild(content);
+
+        var group = new UIElement();
+        group.layout(layout -> layout.paddingAll(4));
+        group.style(style -> style.background(GuiTextures.BACKGROUND_INVERSE));
+        group.addChild(screen);
         return group;
     }
 
@@ -417,9 +436,9 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Override
     public ModularUI createUI(Player entityPlayer) {
         this.tempNetwork = network;
-        ModularUI ui = new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
-        ui.registerCloseListener(this::closeUI);
-        return ui;
+        var widget = new FancyMachineUIWidget(this, 198, 208);
+        UICloseHandler.onClose(widget, this::closeUI);
+        return UITemplate.modularUI(widget, entityPlayer);
     }
 
     @Override
@@ -476,10 +495,5 @@ public class StarTDreamLinkTransmissionMachine extends WorkableMultiblockMachine
     @Override
     public boolean isDreaming() {
         return this.inputHatches.getOutputPerSec() > 0;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 }
