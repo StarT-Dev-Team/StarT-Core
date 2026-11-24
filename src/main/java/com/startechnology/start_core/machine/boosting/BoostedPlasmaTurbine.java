@@ -208,7 +208,8 @@ public class BoostedPlasmaTurbine extends LargeTurbineMachine {
                 // glglglblglblgblgblglblgblglblgblgb
                 textList.remove(3);
                 textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick",
-                        FormattingUtil.formatNumbers(currentProduction), FormattingUtil.formatNumbers(maxProduction)));
+                        FormattingUtil.formatNumberCompact(currentProduction, "gtceu.unit.eu_per_tick"),
+                        FormattingUtil.formatNumberCompact(maxProduction, "gtceu.unit.eu_per_tick")));
             }
 
             if (isPassiveBoosting) {

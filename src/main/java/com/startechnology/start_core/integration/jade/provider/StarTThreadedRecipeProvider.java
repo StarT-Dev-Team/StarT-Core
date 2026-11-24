@@ -175,14 +175,10 @@ public class StarTThreadedRecipeProvider extends MachineJadeProvider<StarTThread
             // WORKABLE PROVIDER
             int currentProgress = capData.getInt(threadPrefix + "Progress");
             int maxProgress = capData.getInt(threadPrefix + "MaxProgress");
-            MutableComponent text;
-
-            if (maxProgress < 20) {
-                text = Component.translatable("gtceu.jade.progress_tick", currentProgress, maxProgress);
-            } else {
-                text = Component.translatable("gtceu.jade.progress_sec", Math.round(currentProgress / 20.0F),
-                        Math.round(maxProgress / 20.0F));
-            }
+            MutableComponent text = Component.empty()
+                    .append(FormattingUtil.formatDurationShort(currentProgress, maxProgress))
+                    .append(" / ")
+                    .append(FormattingUtil.formatDurationShort(maxProgress));
 
             if (maxProgress > 0) {
                 int color = StarTColorUtils.generateThreadColor(threadIndex);
