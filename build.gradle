@@ -120,7 +120,6 @@ repositories {
             includeGroup 'com.tterrag.registrate'
             includeGroup 'appeng'
             includeGroup 'com.lowdragmc.ldlib2'
-            includeGroup 'org.appliedenergistics.yoga'
         }
     }
     maven {
@@ -240,7 +239,6 @@ dependencies {
     modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$gtceuVersion") { transitive = false }
     modImplementation("com.lowdragmc.ldlib2:ldlib2-forge-$project.minecraft_version:$project.ldlib2_version") { transitive = false }
     compileOnly("dev.vfyjxf:taffy:1.1.5")
-    compileOnly("org.appliedenergistics.yoga:yoga:0.1.0")
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("curse.maven:architectury-api-419699:5137938")
