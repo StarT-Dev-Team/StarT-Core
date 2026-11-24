@@ -162,12 +162,17 @@ public class StarTCoordinateCrystalBehaviour extends StarTNBTTooltipsBehaviour {
     }
 
     public static int getCrystalVariant(ItemStack stack) {
-        if (!isDimensionCrystal(stack)) {
+        if (!isCoordinateCrystal(stack) || !stack.hasTag()) {
             return StarTDimensionalFinderData.VARIANT_BLANK;
         }
 
-        String dimId = getTargetDimensionId(stack);
-        if (dimId == null) {
+        CompoundTag tag = stack.getTag();
+        if (tag == null || !tag.getBoolean("is_dimension") || !tag.contains("dimension")) {
+            return StarTDimensionalFinderData.VARIANT_BLANK;
+        }
+
+        String dimId = tag.getString("dimension");
+        if (dimId.isEmpty()) {
             return StarTDimensionalFinderData.VARIANT_BLANK;
         }
 
