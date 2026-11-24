@@ -106,22 +106,22 @@ public class GCropRecipes {
 
         VOID_MESH.recipeBuilder("mystical_essence_harvesting")
                 .circuitMeta(0)
-                .outputItems(ChemicalHelper.get(dust, getMaterial("start_core:mystical_essence")))
+                .outputItems(ChemicalHelper.get(dust, StarTMaterials.MysticalEssence))
                 .duration(200)
                 .EUtVA(GTValues.LV)
                 .save(provider);
 
         VOID_GAS_COLLECTOR.recipeBuilder("mystical_air_harvesting")
                 .circuitMeta(0)
-                .outputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
+                .outputFluids(StarTMaterials.MysticalAir.getFluid(1000))
                 .duration(200)
                 .EUtVA(GTValues.EV)
                 .save(provider);
 
         MIXER_RECIPES.recipeBuilder("mystical_air_mixing")
-                .inputItems(ChemicalHelper.get(dust, getMaterial("start_core:mystical_essence")))
+                .inputItems(ChemicalHelper.get(dust, StarTMaterials.MysticalEssence))
                 .inputFluids(Air.getFluid(10000))
-                .outputFluids(getMaterial("start_core:mystical_air").getFluid(10000))
+                .outputFluids(StarTMaterials.MysticalAir.getFluid(10000))
                 .EUtVA(GTValues.LV)
                 .duration(200)
                 .save(provider);
@@ -301,7 +301,7 @@ public class GCropRecipes {
             if (materialType.equals(StarTGCropItemType.LIQUID)) {
                 MIXER_RECIPES.recipeBuilder(String.format("liquefied_%s_sublimation", id))
                         .inputFluids(getMaterial(String.format("start_core:liquefied_%s", id)).getFluid(400))
-                        .inputFluids(getMaterial("start_core:mystical_air").getFluid(1000))
+                        .inputFluids(StarTMaterials.MysticalAir.getFluid(1000))
                         .outputFluids(new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0),
                                 1000 * yield))
                         .EUtVA(EUtV)
@@ -310,7 +310,7 @@ public class GCropRecipes {
 
                 CHEMICAL_RECIPES.recipeBuilder(String.format("%s_fruit_reaction", id))
                         .inputItems(fruit.asStack())
-                        .inputFluids(getMaterial("start_core:mystical_air").getFluid(12000))
+                        .inputFluids(StarTMaterials.MysticalAir.getFluid(12000))
                         .outputFluids(new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0),
                                 10000 * yield))
                         .EUtVA(EUtV + 2)
@@ -392,7 +392,7 @@ public class GCropRecipes {
                 BREWING_RECIPES.recipeBuilder(String.format("%s_brewing", id))
                         .inputItems(ChemicalHelper.get(dust,
                                 getMaterial(String.format("start_core:demystified_%s_essence", id))))
-                        .inputFluids(getMaterial("start_core:mystical_air").getFluid(10000))
+                        .inputFluids(StarTMaterials.MysticalAir.getFluid(10000))
                         .outputFluids(
                                 new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0), 10000))
                         .EUtVA(EUtV)
@@ -401,7 +401,7 @@ public class GCropRecipes {
 
                 CHEMICAL_RECIPES.recipeBuilder(String.format("%s_fruit_reaction", id))
                         .inputItems(fruit.asStack())
-                        .inputFluids(getMaterial("start_core:mystical_air").getFluid(10000))
+                        .inputFluids(StarTMaterials.MysticalAir.getFluid(10000))
                         .outputFluids(
                                 new FluidStack((Fluid) getFruitLineResult(resultMaterial, materialType).get(0), 10000))
                         .outputFluids(Lava.getFluid(1000))

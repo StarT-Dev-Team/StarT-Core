@@ -19,6 +19,12 @@ import static com.startechnology.start_core.item.gcrops.StarTGCropItems.*;
 
 public class GenomeHarvestingLogic implements ICustomRecipeLogic {
 
+    /**
+     * Scans item handlers for a GCrop and an empty genome holder to create a genome extraction recipe.
+     *
+     * @param holder the recipe capability holder representing the machine
+     * @return the constructed {@link GTRecipe}, or {@code null} if matching items are not present
+     */
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
         var itemHandlers = StarTCustomLogicUtils.getItemHandlers(holder);
@@ -29,30 +35,47 @@ public class GenomeHarvestingLogic implements ICustomRecipeLogic {
         return createGenomeHarvestRecipe(allItems);
     }
 
+    /**
+     * Extracts the complete genome from a GCrop item into an empty genome holder item.
+     *
+     * @param itemSet the list of available input items
+     * @return the constructed genome harvesting {@link GTRecipe}, or {@code null} if inputs are invalid
+     */
     private GTRecipe createGenomeHarvestRecipe(List<ItemStack> itemSet) {
         ItemStack foundHolder = null;
         ItemStack foundGCrop = null;
+        StarTGCropBehaviour cropBehaviour = null;
+        StarTGCropGenome gCropGenome = null;
 
         for (ItemStack item : itemSet) {
-            if (StarTGCropBehaviour.getGCropBehaviour(item) != null) {
-                foundGCrop = item;
-            } else if (item.getItem().equals(EMPTY_GENOME_HOLDER.asItem())) {
+            if (item.isEmpty()) continue;
+
+            if (foundGCrop == null) {
+                StarTGCropBehaviour behaviour = StarTGCropBehaviour.getGCropBehaviour(item);
+                if (behaviour != null) {
+                    StarTGCropGenome genome = StarTGCropManager.gcropGenomeFromTag(item);
+                    if (genome != null) {
+                        foundGCrop = item;
+                        cropBehaviour = behaviour;
+                        gCropGenome = genome;
+                        if (foundHolder != null) break;
+                        continue;
+                    }
+                }
+            }
+
+            if (foundHolder == null && item.is(EMPTY_GENOME_HOLDER.get())) {
                 foundHolder = item;
+                if (foundGCrop != null) break;
             }
         }
 
-        if (foundHolder == null || foundGCrop == null) return null;
-
-        StarTGCropGenome gCropGenome = StarTGCropManager.gcropGenomeFromTag(foundGCrop);
-        if (gCropGenome == null) return null;
-
-        StarTGCropBehaviour cropBehaviour = StarTGCropBehaviour.getGCropBehaviour(foundGCrop);
-        if (cropBehaviour == null) return null;
+        if (foundHolder == null || foundGCrop == null || cropBehaviour == null || gCropGenome == null) {
+            return null;
+        }
 
         int cropTier = cropBehaviour.getCropTier();
-
-        ItemStack newHolder = new ItemStack(FILLED_GENOME_HOLDER);
-
+        ItemStack newHolder = FILLED_GENOME_HOLDER.asStack();
         StarTGCropManager.writeGCRopGenomeToItem(newHolder.getOrCreateTag(), gCropGenome);
 
         return StarTRecipeTypes.GENOME_GATHERING
@@ -66,9 +89,9 @@ public class GenomeHarvestingLogic implements ICustomRecipeLogic {
 
     @Override
     public void buildRepresentativeRecipes() {
-        ItemStack genomeHolderEmpty = new ItemStack(EMPTY_GENOME_HOLDER.asItem());
-        ItemStack genomeHolderFilled = new ItemStack(FILLED_GENOME_HOLDER.asItem());
-        ItemStack gCrop = new ItemStack(GCROP_MALFORMED.asItem());
+        ItemStack genomeHolderEmpty = EMPTY_GENOME_HOLDER.asStack();
+        ItemStack genomeHolderFilled = FILLED_GENOME_HOLDER.asStack();
+        ItemStack gCrop = GCROP_MALFORMED.asStack();
 
         StarTCustomTooltipsManager.writeCustomTooltipsToItem(gCrop.getOrCreateTag(),
                 "behaviour.start_core.gcrop.random_crop");
