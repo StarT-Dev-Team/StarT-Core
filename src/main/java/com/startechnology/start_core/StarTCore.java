@@ -18,6 +18,7 @@ import com.startechnology.start_core.data.gcrops.StarTGCropData;
 import com.startechnology.start_core.data.gcrops.StarTTraitData;
 import com.startechnology.start_core.integration.ultimine.UltimineCreatePlugin;
 import com.startechnology.start_core.integration.ultimine.UltimineFramedBlocksPlugin;
+import com.startechnology.start_core.integration.xei.StarTMaterialInfoWidget;
 import com.startechnology.start_core.item.StarTItems;
 import com.startechnology.start_core.item.claw.StarTClawKeyMappings;
 import com.startechnology.start_core.item.claw.StarTClawRecipes;
@@ -142,6 +143,8 @@ public class StarTCore {
     private void addMaterials(MaterialEvent event) {
         StarTMaterialModifications.register();
         StarTMaterials.register();
+
+        StarTMaterialInfoWidget.init();
     }
 
     // This is optional, though.
