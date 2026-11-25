@@ -3,10 +3,12 @@ package com.startechnology.start_core.machine.dreeam;
 import appeng.blockentity.qnb.QuantumBridgeBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
-import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
+import com.gregtechceu.gtceu.api.gui.widget.BlockableItemSlot;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
@@ -18,10 +20,11 @@ import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 import com.startechnology.start_core.mixin.LaserHatchPartMachineAccessor;
 import lombok.Getter;
@@ -46,10 +49,6 @@ import static com.startechnology.start_core.utils.StarTTooltipUtils.withHover;
 
 public class StarTDreeamMachine extends WorkableMultiblockMachine
                                 implements IFancyUIMachine, IDisplayUIMachine, IMachineLife, IStarTJadeDisplayable {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTDreeamMachine.class,
-            WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public enum Role {
         NONE,
@@ -285,21 +284,32 @@ public class StarTDreeamMachine extends WorkableMultiblockMachine
     }
 
     @Override
-    public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
+    public UIElement createUIWidget() {
+        var title = new Label();
+        title.setText(Component.literal("DREEAM"));
 
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                        .addWidget(new LabelWidget(4, 5, "DREEAM"))
-                        .addWidget(new LabelWidget(4, 20, "§7Entangled Singularity"))
-                        .addWidget(new BlockableSlotWidget(singularitySlot, 0, 4, 32, true, true)
-                                .setIsBlocked(this::isSlotLocked)
-                                .setBackgroundTexture(GuiTextures.SLOT)
-                                .setHoverTooltips(Component.translatable("start_core.machine.dreeam.slot.hover")))
-                        .addWidget(new ComponentPanelWidget(4, 54, this::addDisplayText)));
+        var subtitle = new Label();
+        subtitle.setText(Component.literal("§7Entangled Singularity"));
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        var slot = new BlockableItemSlot();
+        slot.setIsBlocked(this::isSlotLocked);
+        slot.bind(singularitySlot, 0);
+        slot.style(style -> style.tooltips(Component.translatable("start_core.machine.dreeam.slot.hover")));
 
+        var content = new UIElement();
+        content.layout(layout -> layout.paddingAll(4).gapAll(3));
+        content.addChildren(title, subtitle, slot,
+                new ComponentPanel(this::addDisplayText).setMaxWidthLimit(174));
+
+        var screen = new ScrollerView();
+        screen.layout(layout -> layout.width(182).height(117));
+        screen.style(style -> style.background(GuiTextures.DISPLAY));
+        screen.addScrollViewChild(content);
+
+        var group = new UIElement();
+        group.layout(layout -> layout.paddingAll(4));
+        group.style(style -> style.background(GuiTextures.BACKGROUND_INVERSE));
+        group.addChild(screen);
         return group;
     }
 
@@ -310,7 +320,7 @@ public class StarTDreeamMachine extends WorkableMultiblockMachine
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+        return UITemplate.modularUI(new FancyMachineUIWidget(this, 198, 208), entityPlayer);
     }
 
     @Override
@@ -323,11 +333,6 @@ public class StarTDreeamMachine extends WorkableMultiblockMachine
         for (IMultiPart part : getParts()) {
             part.attachFancyTooltipsToController(this, tooltipsPanel);
         }
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

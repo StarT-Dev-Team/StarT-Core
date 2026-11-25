@@ -1,21 +1,17 @@
 package com.startechnology.start_core.machine.redstone;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.UpdateListener;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
+import dev.vfyjxf.taffy.style.AlignItems;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,9 +30,6 @@ import java.util.function.Consumer;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class RedstoneInterfacePartMachine extends TieredIOPartMachine implements IStarTJadeDisplayable {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            RedstoneInterfacePartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced
@@ -89,13 +82,8 @@ public class RedstoneInterfacePartMachine extends TieredIOPartMachine implements
                 .findFirst().orElse(null);
     }
 
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
     @SuppressWarnings("unused")
-    private void onRedstoneValueSet(int newValue, int oldValue) {
+    private void onRedstoneValueSet(int oldValue, int newValue) {
         if (newValue == oldValue) return;
         holder.scheduleRenderUpdate();
     }
@@ -133,25 +121,22 @@ public class RedstoneInterfacePartMachine extends TieredIOPartMachine implements
         }
     }
 
-    @Override
-    public Widget createMainPage(FancyMachineUIWidget widget) {
-        return super.createMainPage(widget);
+    private String getSelectedIndicatorKey() {
+        return indicatorKey != null ? indicatorKey : RedstoneIndicatorRecord.DEFAULT.indicatorKey();
     }
 
     @Override
-    public Widget createUIWidget() {
-        var group = new WidgetGroup(0, 0, 182 + 58, 127 + 8);
+    public UIElement createUIWidget() {
+        var group = new UIElement();
+        group.layout(l -> l.width(240).alignItems(AlignItems.CENTER).gapAll(6).paddingAll(8));
 
-        group.addWidget(new LabelWidget(55, 15, "start_core.redstone_interface.select"));
-        group.addWidget(new RedstoneIndicatorSelectorWidget(20, 30, 200, 20, this::getSortedIndicators)
-                .setOnChanged(this::setIndicatorKey)
-                .setSupplier(() -> indicatorKey != null ? indicatorKey : "variadic.start_core.default")
-                .setButtonBackground(ResourceBorderTexture.BUTTON_COMMON)
-                .setBackground(ColorPattern.BLACK.rectTexture())
-                .setValue(indicatorKey != null ? indicatorKey : "variadic.start_core.default"));
+        var label = new Label().setText(Component.translatable("start_core.redstone_interface.select"));
+        var selector = new RedstoneIndicatorSelectorWidget(this::getSortedIndicators);
+        selector.layout(l -> l.width(200).height(20));
+        selector.setValue(getSelectedIndicatorKey(), false);
+        selector.bind(DataBindingBuilder.string(this::getSelectedIndicatorKey, this::setIndicatorKey).build());
 
-        group.setBackground(GuiTextures.BACKGROUND);
-
+        group.addChildren(label, selector);
         return group;
     }
 

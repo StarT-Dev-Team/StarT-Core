@@ -3,15 +3,15 @@ package com.startechnology.start_core.machine.hpca;
 import com.gregtechceu.gtceu.api.capability.IHPCACoolantProvider;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
+import com.lowdragmc.lowdraglib2.gui.texture.SpriteTexture;
 
 public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implements IHPCACoolantProvider {
 
-    private final ResourceTexture componentIcon;
+    private final SpriteTexture componentIcon;
     private final int upkeepEUt;
     private final int coolingAmount;
 
-    public StarTHPCAPassiveCoolingPart(IMachineBlockEntity holder, ResourceTexture componentIcon, int upkeepEUt,
+    public StarTHPCAPassiveCoolingPart(IMachineBlockEntity holder, SpriteTexture componentIcon, int upkeepEUt,
                                        int coolingAmount) {
         super(holder);
         this.componentIcon = componentIcon;
@@ -30,7 +30,7 @@ public class StarTHPCAPassiveCoolingPart extends HPCAComponentPartMachine implem
     }
 
     @Override
-    public ResourceTexture getComponentIcon() {
+    public SpriteTexture getComponentIcon() {
         return componentIcon;
     }
 

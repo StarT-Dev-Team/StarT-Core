@@ -5,8 +5,8 @@ import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.machine.threading.StarTThreadingCapableMachine;
 
 import lombok.Getter;

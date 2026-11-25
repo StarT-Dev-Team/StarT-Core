@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
 
 import net.minecraft.ChatFormatting;
@@ -42,18 +42,18 @@ public interface IBulking extends IStarTJadeDisplayable {
                 df.format(this.getBulkingType().durationModifier)));
 
         MutableComponent forcedBulkingText = Component.translatable("start_core.bulking.forced");
-        forcedBulkingText.append(ComponentPanelWidget.withButton(Component
+        forcedBulkingText.append(ComponentPanel.withButton(Component
                 .translatable((this.isForcedBulking()) ? "start_core.util.enabled" : "start_core.util.disabled")
                 .withStyle(ChatFormatting.UNDERLINE), "forced"));
         textList.add(forcedBulkingText);
 
         MutableComponent buttonText = Component.translatable("start_core.bulking.type");
         buttonText.append(" ");
-        buttonText.append(ComponentPanelWidget.withButton(Component.literal("[<<]"), "prev"));
+        buttonText.append(ComponentPanel.withButton(Component.literal("[<<]"), "prev"));
         buttonText.append(" ");
         buttonText.append(Component.literal(this.getBulkingType().name));
         buttonText.append(" ");
-        buttonText.append(ComponentPanelWidget.withButton(Component.literal("[>>]"), "next"));
+        buttonText.append(ComponentPanel.withButton(Component.literal("[>>]"), "next"));
         textList.add(buttonText);
         return textList;
     }

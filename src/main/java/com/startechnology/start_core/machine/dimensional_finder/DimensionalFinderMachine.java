@@ -4,11 +4,10 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.research.OpticalComputationMachine;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.StarTConfig;
 import com.startechnology.start_core.api.dimensional_finder.DimensionalFinderDimension;
 import com.startechnology.start_core.api.machine.IStarTJadeDisplayable;
@@ -30,10 +29,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class DimensionalFinderMachine extends OpticalComputationMachine implements IStarTJadeDisplayable {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            DimensionalFinderMachine.class,
-            OpticalComputationMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     @DescSynced
@@ -110,11 +105,6 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
 
     public DimensionalFinderMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -216,12 +206,12 @@ public class DimensionalFinderMachine extends OpticalComputationMachine implemen
         MutableComponent rewindLine = Component.translatable("ui.start_core.dimensional_finder.rewind")
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         Component.translatable("ui.start_core.dimensional_finder.rewind.hover"))));
-        rewindLine.append(ComponentPanelWidget.withButton(
+        rewindLine.append(ComponentPanel.withButton(
                 Component.literal("[-]").withStyle(ChatFormatting.YELLOW), "rewind_dec"));
         rewindLine.append(" ");
         rewindLine.append(Component.literal(Integer.toString(this.rewindSteps)).withStyle(ChatFormatting.AQUA));
         rewindLine.append(" ");
-        rewindLine.append(ComponentPanelWidget.withButton(
+        rewindLine.append(ComponentPanel.withButton(
                 Component.literal("[+]").withStyle(ChatFormatting.YELLOW), "rewind_inc"));
         textList.add(rewindLine);
 

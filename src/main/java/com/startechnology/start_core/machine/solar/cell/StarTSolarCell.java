@@ -55,8 +55,9 @@ public class StarTSolarCell extends Block implements EntityBlock {
             ItemStack stack = new ItemStack(this);
             CompoundTag tag = solarBlockEntity.saveWithoutMetadata().copy();
 
-            if (tag.contains("broken") && tag.getBoolean("broken")) {
-                tag.putDouble("temperature", 273); // reset temp for broken cells on breaking
+            var managed = tag.getCompound("managed");
+            if (managed.getBoolean("broken")) {
+                managed.putDouble("temperature", 273); // reset temp for broken cells on breaking
             }
 
             stack.getOrCreateTag().put("BlockEntityTag", tag);
@@ -120,6 +121,9 @@ public class StarTSolarCell extends Block implements EntityBlock {
 
         if (tag != null && tag.contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
             CompoundTag beTag = tag.getCompound("BlockEntityTag");
+            if (beTag.contains("managed", Tag.TAG_COMPOUND)) {
+                beTag = beTag.getCompound("managed");
+            }
 
             if (beTag.getBoolean("broken")) {
                 tooltip.add(Component.translatable("solar.start_core.solar_cell.is_broken"));

@@ -3,15 +3,20 @@ package com.startechnology.start_core.machine.dreamlink;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.sync.bindings.impl.DataBindingBuilder;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.TextField;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkMachine;
 import com.startechnology.start_core.api.capability.IStarTDreamLinkNetworkReceiveEnergy;
 import com.startechnology.start_core.api.capability.StarTGetMachineUUIDSafe;
@@ -45,10 +50,6 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
      * As far as i can understand, the Managed Field Holder allows this class
      * to persist/save data onto the world using NBT with the @Persisted field annotation
      */
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTDreamLinkHatchPartMachine.class,
-            TieredIOPartMachine.MANAGED_FIELD_HOLDER);
-
     /* This will persist the NotifiableDreamLinkContainer using nbt. */
     @Persisted
     protected StarTNotifiableDreamLinkContainer container;
@@ -74,11 +75,6 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         return true;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -120,25 +116,36 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
     }
 
     @Override
-    public Widget createUIWidget() {
+    public UIElement createUIWidget() {
         this.tempNetwork = network;
-        StarTDreamWidgetGroup group = new StarTDreamWidgetGroup(0, 0, 182 + 8, 117 + 8, this::closeUI);
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setBackground(GuiTextures.DISPLAY)
-                        .addWidget(new LabelWidget(4, 5, "Dream-Link Hatch"))
-                        .addWidget(new LabelWidget(4, 20, "§7Dream-Network Identifier"))
-                        .addWidget(
-                                new TextFieldWidget(4, 32, 182 - 8, 12, this::getTempNetwork, this::setTempNetwork)
-                                        .setMaxStringLength(64)
-                                        .setValidator(input -> {
-                                            if (input == null) return "";
-                                            return input;
-                                        })
-                                        .setHoverTooltips(Component
-                                                .translatable("start_core.machine.dream_link.network_set_hover")))
-                        .addWidget(new ComponentPanelWidget(4, 52, this::addComponentPanelText)));
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        var title = new Label();
+        title.setText(Component.literal("Dream-Link Hatch"));
+
+        var subtitle = new Label();
+        subtitle.setText(Component.literal("§7Dream-Network Identifier"));
+
+        var networkField = new TextField().setAnyString();
+        networkField.setTextValidator(text -> text.length() <= 64);
+        networkField.style(style -> style
+                .tooltips(Component.translatable("start_core.machine.dream_link.network_set_hover")));
+        networkField.bind(DataBindingBuilder
+                .string(this::getTempNetwork, input -> setTempNetwork(input == null ? "" : input)).build());
+
+        var content = new UIElement();
+        content.layout(layout -> layout.paddingAll(4).gapAll(3));
+        content.addChildren(title, subtitle, networkField,
+                new ComponentPanel(this::addComponentPanelText).setMaxWidthLimit(174));
+
+        var screen = new ScrollerView();
+        screen.layout(layout -> layout.width(182).height(117));
+        screen.style(style -> style.background(GuiTextures.DISPLAY));
+        screen.addScrollViewChild(content);
+
+        var group = new StarTDreamWidgetGroup(this::closeUI);
+        group.layout(layout -> layout.paddingAll(4));
+        group.style(style -> style.background(GuiTextures.BACKGROUND_INVERSE));
+        group.addChild(screen);
         return group;
     }
 
@@ -149,7 +156,7 @@ public class StarTDreamLinkHatchPartMachine extends TieredIOPartMachine implemen
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        return new ModularUI(198, 208, this, entityPlayer).widget(new FancyMachineUIWidget(this, 198, 208));
+        return UITemplate.modularUI(new FancyMachineUIWidget(this, 198, 208), entityPlayer);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.startechnology.start_core.machine.solar.cell;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.gregtechceu.gtceu.syncdata.LegacyManagedData;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.syncdata.holder.blockentity.ISyncPersistRPCBlockEntity;
+import com.lowdragmc.lowdraglib2.syncdata.storage.FieldManagedStorage;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -9,7 +12,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class StarTSolarCellBlockEntity extends BlockEntity {
+public class StarTSolarCellBlockEntity extends BlockEntity implements ISyncPersistRPCBlockEntity {
+
+    @Getter
+    private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
 
     @Getter
     @Setter
@@ -34,20 +40,8 @@ public class StarTSolarCellBlockEntity extends BlockEntity {
     public static void onBlockEntityRegister(BlockEntityType<? extends BlockEntity> solarCellBlockEntityBlockEntityType) {}
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-
-        tag.putDouble("temperature", temperature);
-        tag.putInt("durability", durability);
-        tag.putBoolean("broken", broken);
-    }
-
-    @Override
     public void load(CompoundTag tag) {
+        LegacyManagedData.upgradeBlockEntityTag(getRootStorage(), tag, getSyncTag());
         super.load(tag);
-
-        this.temperature = tag.getDouble("temperature");
-        this.durability = tag.getInt("durability");
-        this.broken = tag.getBoolean("broken");
     }
 }

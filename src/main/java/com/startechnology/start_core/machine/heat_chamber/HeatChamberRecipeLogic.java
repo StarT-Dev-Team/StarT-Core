@@ -4,27 +4,16 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
 public class HeatChamberRecipeLogic extends RecipeLogic {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            HeatChamberRecipeLogic.class,
-            RecipeLogic.MANAGED_FIELD_HOLDER);
 
     private final HeatChamberMachine heatChamberMachine;
 
     public HeatChamberRecipeLogic(HeatChamberMachine machine) {
         super(machine);
         this.heatChamberMachine = machine;
-    }
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     public static boolean isHeatingRecipe(GTRecipe recipe) {

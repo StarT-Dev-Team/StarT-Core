@@ -1,26 +1,21 @@
 package com.startechnology.start_core.machine.dreamlink;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.gregtechceu.gtceu.api.gui.util.UICloseHandler;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 
-import java.util.Objects;
+public class StarTDreamWidgetGroup extends UIElement {
 
-public class StarTDreamWidgetGroup extends WidgetGroup {
+    private boolean closeHandlerRegistered;
 
-    private final Runnable removedCallback;
+    public StarTDreamWidgetGroup(Runnable removedCallback) {
+        addEventListener(UIEvents.MUI_CHANGED, event -> {
+            var modularUI = getModularUI();
 
-    public StarTDreamWidgetGroup(int x, int y, int width, int height, Runnable removedCallback) {
-        super(x, y, width, height);
-        this.removedCallback = removedCallback;
-    }
-
-    @Override
-    protected void onPositionUpdate() {
-        ModularUI ui = getGui();
-
-        if (!Objects.isNull(ui))
-            ui.registerCloseListener(removedCallback);
-
-        super.onPositionUpdate();
+            if (!closeHandlerRegistered && modularUI != null) {
+                closeHandlerRegistered = true;
+                UICloseHandler.onClose(modularUI.ui.rootElement, removedCallback);
+            }
+        });
     }
 }

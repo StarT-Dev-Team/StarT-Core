@@ -3,7 +3,7 @@ package com.startechnology.start_core.machine.vacuum_pump;
 import com.gregtechceu.gtceu.api.block.IMachineBlock;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.startechnology.start_core.machine.StarTPartAbility;
 import net.minecraft.network.chat.Component;
 

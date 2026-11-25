@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
-import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.lowdragmc.lowdraglib2.utils.data.BlockInfo;
 import com.startechnology.start_core.block.arboreal_extractor.ArborealBlocks;
 
 import com.startechnology.start_core.block.arboreal_extractor.TreeDefinition;

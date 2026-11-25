@@ -1,12 +1,11 @@
 package com.startechnology.start_core.machine.redstone;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.lowdragmc.lowdraglib.syncdata.IEnhancedManaged;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.annotation.UpdateListener;
-import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.syncdata.IManaged;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.UpdateListener;
+import com.lowdragmc.lowdraglib2.syncdata.storage.FieldManagedStorage;
 import lombok.Getter;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
@@ -17,12 +16,10 @@ import java.util.stream.Collectors;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class RedstoneIndicatorsLogic implements IEnhancedManaged {
+public class RedstoneIndicatorsLogic implements IManaged {
 
     @Getter
     private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
-
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RedstoneIndicatorsLogic.class);
 
     @Getter
     @Persisted
@@ -41,24 +38,13 @@ public class RedstoneIndicatorsLogic implements IEnhancedManaged {
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public void onChanged() {
+    public void notifyPersistence() {
         if (machine == null) return;
-        machine.self().onChanged();
-    }
-
-    @Override
-    public void scheduleRenderUpdate() {
-        if (machine == null) return;
-        machine.self().scheduleRenderUpdate();
+        machine.self().notifyPersistence();
     }
 
     @SuppressWarnings("unused")
-    private void onIndicatorRecordsSet(List<RedstoneIndicatorRecord> newValue, List<RedstoneIndicatorRecord> oldValue) {
+    private void onIndicatorRecordsSet(List<RedstoneIndicatorRecord> oldValue, List<RedstoneIndicatorRecord> newValue) {
         updateRecordsMap(newValue);
     }
 

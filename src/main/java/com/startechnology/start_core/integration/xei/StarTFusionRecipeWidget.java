@@ -5,9 +5,9 @@ import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.data.lang.LangHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
-import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
-import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.startechnology.start_core.api.StarTAPI;
 import com.startechnology.start_core.block.FusionReflectorBlock;
 import org.lwjgl.glfw.GLFW;
@@ -17,6 +17,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
+import dev.vfyjxf.taffy.style.TaffyPosition;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,8 +27,8 @@ public class StarTFusionRecipeWidget extends GTRecipeWidget {
 
     private final List<FusionReflectorBlock> validReflectors;
     private int reflectorIndex = 0;
-    private ButtonWidget reflectorButton;
-    private LabelWidget recipeReflectorText;
+    private Button reflectorButton;
+    private Label recipeReflectorText;
 
     public StarTFusionRecipeWidget(GTRecipe recipe) {
         super(recipe);
@@ -38,16 +40,18 @@ public class StarTFusionRecipeWidget extends GTRecipeWidget {
                 .toList() : List.of();
 
         if (voltageTextWidget != null && !validReflectors.isEmpty()) {
-            reflectorButton = new ButtonWidget(getReflectorXOffset(), voltageTextWidget.getSelfPositionY() - 6, 16, 16,
-                    cd -> setRecipeReflector(cd.button));
+            reflectorButton = new Button().noText();
+            reflectorButton.layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE).left(getReflectorXOffset())
+                    .top(getVoltageTextY() - 6).width(16).height(16).paddingAll(0));
+            reflectorButton.setOnClick(event -> setRecipeReflector(event.button));
 
-            addWidget(reflectorButton);
+            addChild(reflectorButton);
             updateOC(false);
         }
     }
 
     private int getReflectorXOffset() {
-        return getVoltageXOffset(getTier(), getSize().width) - getXOffset() - 24;
+        return getVoltageXOffset(getTier(), getWidgetWidth()) - getXOffset() - 24;
     }
 
     private void setRecipeReflector(int button) {
@@ -114,8 +118,11 @@ public class StarTFusionRecipeWidget extends GTRecipeWidget {
 
         var reflector = validReflectors.get(reflectorIndex);
 
-        reflectorButton.setSelfPositionX(getReflectorXOffset());
-        reflectorButton.setButtonTexture(new ItemStackTexture(new ItemStack(reflector)));
+        var reflectorX = getReflectorXOffset();
+        var reflectorTexture = new ItemStackTexture(new ItemStack(reflector));
+        reflectorButton.layout(layout -> layout.left(reflectorX));
+        reflectorButton.buttonStyle(style -> style.baseTexture(reflectorTexture).hoverTexture(reflectorTexture)
+                .pressedTexture(reflectorTexture));
 
         var minReflector = validReflectors.get(0);
 
@@ -123,14 +130,14 @@ public class StarTFusionRecipeWidget extends GTRecipeWidget {
                 minReflector.getName(), getTierText(minReflector), reflector.getName(), getTierText(reflector)));
 
         tooltips.addAll(LangHandler.getMultiLang("start_core.recipe.reflector.tooltip"));
-        reflectorButton.setHoverTooltips(tooltips.toArray(Component[]::new));
+        setTooltips(reflectorButton, tooltips);
     }
 
     private static Component getTierText(FusionReflectorBlock reflector) {
         return Component.literal("T" + reflector.reflectorType.getTier()).withStyle(ChatFormatting.AQUA);
     }
 
-    public void setRecipeReflectorText(LabelWidget text) {
+    public void setRecipeReflectorText(Label text) {
         recipeReflectorText = text;
 
         updateRecipeReflectorText();
@@ -139,7 +146,7 @@ public class StarTFusionRecipeWidget extends GTRecipeWidget {
     private void updateRecipeReflectorText() {
         if (recipeReflectorText == null || validReflectors == null || validReflectors.isEmpty()) return;
 
-        recipeReflectorText.setComponent(Component.translatable("start_core.recipe.reflector.tier",
+        recipeReflectorText.setText(Component.translatable("start_core.recipe.reflector.tier",
                 Component.literal("T" + validReflectors.get(reflectorIndex).reflectorType.getTier())
                         .withStyle(ChatFormatting.AQUA),
                 Component.literal("T" + recipe.data.getInt("reflector_tier")).withStyle(ChatFormatting.AQUA)));

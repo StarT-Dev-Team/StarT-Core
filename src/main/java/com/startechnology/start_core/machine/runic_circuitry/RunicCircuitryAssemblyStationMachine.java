@@ -46,9 +46,6 @@ import java.util.function.Consumer;
 public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultiblockMachine
                                                   implements IRedstoneIndicatorMachine, IStarTJadeDisplayable {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            RunicCircuitryAssemblyStationMachine.class, WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
     private static final TagKey<Item> PARENT_LENS_TAG = TagUtil.createItemTag("lenses");
 
     public record LensColorEntry(int signalLevel, MarkerMaterial markerMaterial, TagKey<Item> colorTag,
@@ -123,11 +120,6 @@ public class RunicCircuitryAssemblyStationMachine extends WorkableElectricMultib
                 () -> "Missing lens tag for marker material " + markerMaterial.getName());
         return new LensColorEntry(signalLevel, markerMaterial, colorTag, displayColor,
                 "color.minecraft." + dyeColor.getName());
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     @Override

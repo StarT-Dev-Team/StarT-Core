@@ -1,12 +1,14 @@
 package com.startechnology.start_core.machine.threading;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.widget.ComponentPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
+import com.lowdragmc.lowdraglib2.gui.util.ClickData;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -20,10 +22,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTThreadingControllerPartMachine.class,
-            MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
     /* Track controller for updating, screw demeter */
     private Supplier<StarTThreadingCapableMachine> machineSupplier;
@@ -48,11 +46,6 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
     @Override
     public boolean canShared() {
         return false;
-    }
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
     }
 
     private void addComponentPanelText(List<Component> componentList) {
@@ -93,7 +86,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
 
             /* Stat add/remove buttons */
             statPointLine.append(" ");
-            statPointLine.append(ComponentPanelWidget.withButton(
+            statPointLine.append(ComponentPanel.withButton(
                     Component.translatable("start_core.machine.threading_controller.stat.assign")
                             .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                     Component.translatable(
@@ -101,7 +94,7 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
                     "add_" + stat));
 
             statPointLine.append(" ");
-            statPointLine.append(ComponentPanelWidget.withButton(
+            statPointLine.append(ComponentPanel.withButton(
                     Component.translatable("start_core.machine.threading_controller.stat.remove")
                             .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                     Component.translatable(
@@ -167,17 +160,25 @@ public class StarTThreadingControllerPartMachine extends MultiblockPartMachine {
     }
 
     @Override
-    public Widget createUIWidget() {
-        WidgetGroup group = new WidgetGroup(0, 0, 242 + 8, 117 + 8);
-        group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 242, 117).setBackground(GuiTextures.DISPLAY)
-                        .addWidget(
-                                new LabelWidget(4, 5,
-                                        Component.translatable("block.start_core.threading_controller").getString()))
-                        .addWidget(new ComponentPanelWidget(4, 20, this::addComponentPanelText)
-                                .clickHandler(this::onThreadingControllerPanelClick)));
+    public UIElement createUIWidget() {
+        var title = new Label();
+        title.setText(Component.translatable("block.start_core.threading_controller"));
 
-        group.setBackground(GuiTextures.BACKGROUND_INVERSE);
+        var content = new UIElement();
+        content.layout(layout -> layout.paddingAll(4).gapAll(3));
+        content.addChildren(title, new ComponentPanel(this::addComponentPanelText)
+                .setMaxWidthLimit(234)
+                .clickHandler(this::onThreadingControllerPanelClick));
+
+        var screen = new ScrollerView();
+        screen.layout(layout -> layout.width(242).height(117));
+        screen.style(style -> style.background(GuiTextures.DISPLAY));
+        screen.addScrollViewChild(content);
+
+        var group = new UIElement();
+        group.layout(layout -> layout.paddingAll(4));
+        group.style(style -> style.background(GuiTextures.BACKGROUND_INVERSE));
+        group.addChild(screen);
         return group;
     }
 }

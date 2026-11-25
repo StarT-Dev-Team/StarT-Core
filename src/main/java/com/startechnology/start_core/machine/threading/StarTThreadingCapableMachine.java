@@ -16,18 +16,22 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.lowdragmc.lowdraglib.syncdata.AccessorOp;
-import com.lowdragmc.lowdraglib.syncdata.accessor.CustomObjectAccessor;
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.lowdragmc.lowdraglib.syncdata.payload.FriendlyBufPayload;
-import com.lowdragmc.lowdraglib.syncdata.payload.ITypedPayload;
+import com.gregtechceu.gtceu.syncdata.GTRecipePayload;
+import com.lowdragmc.lowdraglib2.compat.network.StreamCodec;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib2.syncdata.annotation.Persisted;
 import com.startechnology.start_core.recipe.StarTParallelTypes;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.Dynamic;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.ByteArrayTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,15 +41,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMachine {
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTThreadingCapableMachine.class,
-            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public @NotNull ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     @Getter
     private final HashMap<String, StarTThreadingStatsPredicate.ThreadingStatsBlockTracker> stats;
@@ -116,7 +111,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
-    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull ... args) {
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new ThreadingRecipeLogic(this);
     }
 
@@ -301,7 +296,7 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
     }
 
     public String[] getStatTypes() {
-        return new String[]{"speed", "efficiency", "parallels", "threading"};
+        return new String[] { "speed", "efficiency", "parallels", "threading" };
     }
 
     public void increaseStats(StarTThreadingStatsPredicate.ThreadingStatsBlockTracker stats) {
@@ -611,6 +606,13 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
 
     public static class ThreadedRecipeExecution {
 
+        public static final Codec<ThreadedRecipeExecution> CODEC = Codec.PASSTHROUGH.flatXmap(
+                dynamic -> readTag(dynamic.convert(NbtOps.INSTANCE).getValue()),
+                execution -> DataResult.success(new Dynamic<>(NbtOps.INSTANCE, writeTag(execution))));
+
+        public static final StreamCodec<FriendlyByteBuf, ThreadedRecipeExecution> STREAM_CODEC = StreamCodec.of(
+                ThreadedRecipeExecution::writeBuf, ThreadedRecipeExecution::readBuf);
+
         public GTRecipe recipe;
         public int ticksRemaining;
         public int totalDuration;
@@ -630,39 +632,64 @@ public class StarTThreadingCapableMachine extends WorkableElectricMultiblockMach
             this.totalDuration = duration;
             this.isWorking = isWorking;
         }
-    }
 
-    public static class ThreadedRecipeExecutionAccessor extends CustomObjectAccessor<ThreadedRecipeExecution> {
-
-        public ThreadedRecipeExecutionAccessor() {
-            super(ThreadedRecipeExecution.class, true);
+        public Mark toMark() {
+            return new Mark(recipe, ticksRemaining, totalDuration, isWorking);
         }
 
-        @Override
-        public ITypedPayload<?> serialize(AccessorOp accessorOp, ThreadedRecipeExecution threadedRecipeExecution) {
-            FriendlyByteBuf serializedHolder = new FriendlyByteBuf(Unpooled.buffer());
-
-            serializedHolder.writeInt(threadedRecipeExecution.ticksRemaining);
-            serializedHolder.writeInt(threadedRecipeExecution.totalDuration);
-            serializedHolder.writeBoolean(threadedRecipeExecution.isWorking);
-            serializedHolder.writeUtf(threadedRecipeExecution.recipe.id.toString());
-            GTRecipeSerializer.SERIALIZER.toNetwork(serializedHolder, threadedRecipeExecution.recipe);
-
-            return FriendlyBufPayload.of(serializedHolder);
+        public boolean matches(Mark mark) {
+            return mark.recipe == recipe && mark.ticksRemaining == ticksRemaining &&
+                    mark.totalDuration == totalDuration && mark.isWorking == isWorking;
         }
 
-        @Override
-        public ThreadedRecipeExecution deserialize(AccessorOp accessorOp, ITypedPayload<?> payload) {
-            if (payload instanceof FriendlyBufPayload buffer) {
-                int ticksRemaining = buffer.getPayload().readInt();
-                int totalDuration = buffer.getPayload().readInt();
-                boolean isWorking = buffer.getPayload().readBoolean();
+        public record Mark(GTRecipe recipe, int ticksRemaining, int totalDuration, boolean isWorking) {}
 
-                var id = new ResourceLocation(buffer.getPayload().readUtf());
-                GTRecipe innerRecipe = GTRecipeSerializer.SERIALIZER.fromNetwork(id, buffer.getPayload());
-                return new ThreadedRecipeExecution(innerRecipe, totalDuration, ticksRemaining, isWorking);
+        private static Tag writeTag(ThreadedRecipeExecution execution) {
+            var tag = new CompoundTag();
+            tag.putInt("ticksRemaining", execution.ticksRemaining);
+            tag.putInt("totalDuration", execution.totalDuration);
+            tag.putBoolean("isWorking", execution.isWorking);
+            tag.put("recipe", GTRecipePayload.write(execution.recipe));
+            return tag;
+        }
+
+        private static DataResult<ThreadedRecipeExecution> readTag(Tag tag) {
+            if (tag instanceof ByteArrayTag bytes) {
+                var buf = new FriendlyByteBuf(Unpooled.copiedBuffer(bytes.getAsByteArray()));
+                try {
+                    return DataResult.success(readBuf(buf));
+                } catch (Exception e) {
+                    return DataResult.error(() -> "Invalid legacy threaded recipe: " + e.getMessage());
+                } finally {
+                    buf.release();
+                }
             }
-            return null;
+            if (!(tag instanceof CompoundTag compound) || !compound.contains("recipe")) {
+                return DataResult.error(() -> "Invalid threaded recipe execution");
+            }
+            var recipe = GTRecipePayload.read(compound.get("recipe"));
+            if (recipe == null) {
+                return DataResult.error(() -> "Unknown threaded recipe");
+            }
+            return DataResult.success(new ThreadedRecipeExecution(recipe, compound.getInt("totalDuration"),
+                    compound.getInt("ticksRemaining"), compound.getBoolean("isWorking")));
+        }
+
+        private static void writeBuf(FriendlyByteBuf buf, ThreadedRecipeExecution execution) {
+            buf.writeInt(execution.ticksRemaining);
+            buf.writeInt(execution.totalDuration);
+            buf.writeBoolean(execution.isWorking);
+            buf.writeUtf(execution.recipe.id.toString());
+            GTRecipeSerializer.SERIALIZER.toNetwork(buf, execution.recipe);
+        }
+
+        private static ThreadedRecipeExecution readBuf(FriendlyByteBuf buf) {
+            int ticksRemaining = buf.readInt();
+            int totalDuration = buf.readInt();
+            boolean isWorking = buf.readBoolean();
+            var id = new ResourceLocation(buf.readUtf());
+            var recipe = GTRecipeSerializer.SERIALIZER.fromNetwork(id, buf);
+            return new ThreadedRecipeExecution(recipe, totalDuration, ticksRemaining, isWorking);
         }
     }
 

@@ -119,6 +119,14 @@ repositories {
             includeGroup 'com.gregtechceu.gtceu'
             includeGroup 'com.tterrag.registrate'
             includeGroup 'appeng'
+            includeGroup 'com.lowdragmc.ldlib2'
+        }
+    }
+    maven {
+        name "expandiumSnapshots"
+        url "https://repo.expandium.net/snapshots"
+        content {
+            includeGroup 'com.lowdragmc.ldlib2'
         }
     }
     maven {
@@ -230,7 +238,8 @@ dependencies {
     modImplementation("dev.ftb.mods:ftb-chunks-forge:2001.3.8")
     modImplementation("dev.ftb.mods:ftb-ultimine-forge:2001.1.8")
     modImplementation("com.gregtechceu.gtceu:gtceu-st-$project.minecraft_version:$gtceuVersion") { transitive = false }
-    modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive = false }
+    modImplementation("com.lowdragmc.ldlib2:ldlib2-forge-$project.minecraft_version:$project.ldlib2_version") { transitive = false }
+    compileOnly("dev.vfyjxf:taffy:1.1.5")
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
     modImplementation("dev.latvian.mods:kubejs-forge:$project.kubejs_version")
     modImplementation("curse.maven:architectury-api-419699:5137938")

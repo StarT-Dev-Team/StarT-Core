@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.startechnology.start_core.machine.StarTMachineUtils;
 import com.startechnology.start_core.materials.StarTMaterials;
 import com.startechnology.start_core.recipe.logic.AbyssalContainmentRoomLogic;
@@ -50,10 +49,6 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
 
     private Material END_AIR = GTMaterials.EnderAir;
     private Material DRAGON_BREATH = StarTMaterials.DragonBreath;
-
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            StarTAbyssalContainmentMachine.class,
-            CleanroomMachine.MANAGED_FIELD_HOLDER);
 
     public static final CleanroomType ABYSSAL_CONTAINMENT_ROOM = new CleanroomType("abyssal_containment_room",
             "start_core.abyssal_containment_room.display_name");
@@ -295,11 +290,6 @@ public class StarTAbyssalContainmentMachine extends CleanroomMachine {
 
     /////////////////////////////////
     /// Initialization
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     // gui stuff
     @Override
