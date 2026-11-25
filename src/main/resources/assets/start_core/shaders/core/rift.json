@@ -1,0 +1,33 @@
+{
+  "blend": { "func": "add", "srcrgb": "1", "dstrgb": "1-srcalpha" },
+  "vertex": "start_core:rift",
+  "fragment": "start_core:rift",
+  "attributes": ["Position"],
+  "samplers": [
+    { "name": "SceneColor" },
+    { "name": "SceneDepth" }
+  ],
+  "uniforms": [
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "InvProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "BoxMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "ScreenSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
+    { "name": "CenterOffset", "type": "float", "count": 3, "values": [ 0.0, 0.0, 0.0 ] },
+    { "name": "Basis", "type": "matrix3x3", "count": 9, "values": [ 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0 ] },
+    { "name": "Bounds", "type": "float", "count": 2, "values": [ 2.5, 4.5 ] },
+    { "name": "Shape", "type": "float", "count": 2, "values": [ 3.5, 2.2 ] },
+    { "name": "Width", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Glow", "type": "float", "count": 1, "values": [ 0.25 ] },
+    { "name": "Lens", "type": "float", "count": 1, "values": [ 0.15 ] },
+    { "name": "Turbulence", "type": "float", "count": 1, "values": [ 0.3 ] },
+    { "name": "Zip", "type": "float", "count": 2, "values": [ -1.0, 1.0 ] },
+    { "name": "Flash", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "EdgeColour", "type": "float", "count": 3, "values": [ 0.75, 0.95, 1.0 ] },
+    { "name": "HaloColour", "type": "float", "count": 3, "values": [ 0.55, 0.25, 1.0 ] },
+    { "name": "VoidColour", "type": "float", "count": 3, "values": [ 0.03, 0.0, 0.07 ] },
+    { "name": "RiftTime", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Seed", "type": "float", "count": 1, "values": [ 0.0 ] },
+    { "name": "Detail", "type": "int", "count": 1, "values": [ 2 ] }
+  ]
+}

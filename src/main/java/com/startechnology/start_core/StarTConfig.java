@@ -85,6 +85,33 @@ public class StarTConfig {
         @Configurable
         @Configurable.Comment({ "Whether or not to enable the render for the Komaru Frame.", "Default: true" })
         public boolean komaruRenderer = true;
+
+        @Configurable
+        public RenderTierMode riftRenderMode = RenderTierMode.AUTO;
+
+        @Configurable
+        public DetailLevel riftDetail = DetailLevel.HIGH;
+
+        @Configurable
+        @Configurable.Range(min = 1, max = 32)
+        public int riftMaxInstances = 8;
+
+        @Configurable
+        @Configurable.Range(min = 32, max = 512)
+        public int riftViewDistance = 128;
+    }
+
+    public enum RenderTierMode {
+        AUTO,
+        FULL,
+        FALLBACK,
+        OFF
+    }
+
+    public enum DetailLevel {
+        LOW,
+        MEDIUM,
+        HIGH
     }
 
     public static class SolarConfigs {

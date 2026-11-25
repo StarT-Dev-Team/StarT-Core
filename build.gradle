@@ -223,6 +223,7 @@ dependencies {
     modCompileOnly("mezz.jei:jei-$project.minecraft_version-common-api:$project.jei_version") { transitive = false }
     modCompileOnly("dev.emi:emi-forge:$project.emi_version+$project.minecraft_version")
     modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-1.20.1:$project.flywheel_version")
+    modCompileOnly("curse.maven:oculus-581495:6020952")
 
     modImplementation("dev.ftb.mods:ftb-library-forge:2001.2.9")
     modImplementation("dev.ftb.mods:ftb-teams-forge:2001.3.1")
